@@ -1,6 +1,6 @@
 /*
 Scott Peters
-www.AdvancedSQLPuzzles.com
+https://AdvancedSQLPuzzles.com
 Creating a Calendar Table
 */
 
