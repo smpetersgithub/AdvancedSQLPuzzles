@@ -4,9 +4,6 @@ https://AdvancedSQLPuzzles.com
 Creating a Calendar Table
 */
 
---Example usages
---DROP TABLE CalendarDays;
-
 CREATE TABLE CalendarDays
 (
 DateKey INT NOT NULL PRIMARY KEY,
@@ -27,8 +24,6 @@ WHILE @vStartDate <> '2021-01-01'
 		);
 	SET @vStartDate = DATEADD(DAY,1,@vStartDate);
 	END;
-
-
 
 --Basic usage with CROSS APPLY
 SELECT	ct.*
