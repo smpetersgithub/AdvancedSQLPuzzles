@@ -1,7 +1,6 @@
 /***********************************************************************
 Scott Peters
-
-www.AdvancedSQLPuzzles.com
+https://advancedsqlpuzzles.com
 
 The following code simulates the Monty Hall problem
 and determines if switching doors is the correct action.
