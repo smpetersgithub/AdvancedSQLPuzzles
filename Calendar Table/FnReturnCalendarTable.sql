@@ -2,9 +2,8 @@ CREATE FUNCTION FnReturnCalendarTable
 /*
 #####################################################################################################
 
--- Date: April 2020
--- Author: Scott Peters
--- www.AdvancedSQLPuzzles.com
+Scott Peters
+https://AdvancedSQLPuzzles.com
 
 --Basic usage with CROSS APPLY
 SELECT	*
