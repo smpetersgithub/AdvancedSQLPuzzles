@@ -1,7 +1,7 @@
 /*********************************************************************
 Answer to Puzzle #4
 Non-Adjacent Numbers
-https://AdvancedSQLPuzzles.com
+https://advancedsqlpuzzles.com
 
 Developer Notes:
 
