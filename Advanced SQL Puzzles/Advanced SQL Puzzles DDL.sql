@@ -1,8 +1,7 @@
-/*
-Answer to Puzzle #1
+/*----------------------------------------------------
+DDL for Puzzle #1
 Dance Partners
-*/
-
+*/----------------------------------------------------
 
 IF OBJECT_ID('tempdb.dbo.#DancePartners','U') IS NOT NULL
 	DROP TABLE #DancePartners;
@@ -28,10 +27,10 @@ INSERT INTO #DancePartners VALUES
 GO
 
 
-/*
-Answer to Puzzle #2
+/*----------------------------------------------------
+DDL for Puzzle #2
 Managers and Employees
-*/
+*/----------------------------------------------------
 
 IF OBJECT_ID('tempdb.dbo.#Employees','U') IS NOT NULL
 	DROP TABLE #Employees;
@@ -56,10 +55,10 @@ INSERT INTO #Employees VALUES
 GO
 
 
-/*
-Answer to Puzzle #3
+/*----------------------------------------------------
+DDL for Puzzle #3
 Fiscal Year Table Constraints
-*/
+*/----------------------------------------------------
 
 IF OBJECT_ID('tempdb.dbo.#EmployeePayRecord','U') IS NOT NULL
 	DROP TABLE #EmployeePayRecord;
@@ -76,10 +75,10 @@ PayRate		MONEY
 GO
 
 
-/*
-Answer to Puzzle #4
+/*----------------------------------------------------
+DDL for Puzzle #4
 Two Predicates
-*/
+*/----------------------------------------------------
 
 IF OBJECT_ID('tempdb.dbo.#Orders','U')IS NOT NULL
 	DROP TABLE #Orders;
@@ -106,10 +105,10 @@ INSERT INTO #Orders VALUES
 GO
 
 
-/*
-Answer to Puzzle #5
+/*----------------------------------------------------
+DDL for Puzzle #5
 Phone Directory
-*/
+*/----------------------------------------------------
 
 IF OBJECT_ID('tempdb.dbo.#PhoneDirectory','U') IS NOT NULL
 	DROP TABLE #PhoneDirectory;
@@ -133,10 +132,10 @@ INSERT INTO #PhoneDirectory VALUES
 GO
 
 
-/*
-Answer to Puzzle #6
+/*----------------------------------------------------
+DDL for Puzzle #6
 Workflow Steps
-*/
+*/----------------------------------------------------
 
 IF OBJECT_ID('tempdb.dbo.#WorkflowSteps','U') IS NOT NULL
 	DROP TABLE #WorkflowSteps;
@@ -162,10 +161,10 @@ INSERT INTO #WorkflowSteps VALUES
 GO
 
 
-/*
-Answer to Puzzle #7
+/*----------------------------------------------------
+DDL for Puzzle #7
 Mission to Mars
-*/
+*/----------------------------------------------------
 
 IF OBJECT_ID('tempdb.dbo.#Candidates','U') IS NOT NULL
 	DROP TABLE #Candidates;
@@ -204,10 +203,10 @@ INSERT INTO #Requirements VALUES
 GO
 
 
-/*
-Answer to Puzzle #8
+/*----------------------------------------------------
+DDL for Puzzle #8
 Workflow Cases
-*/
+*/----------------------------------------------------
 
 IF OBJECT_ID('tempdb.dbo.#WorkflowCases','U') IS NOT NULL
 	DROP TABLE #WorkflowCases;
@@ -230,10 +229,10 @@ INSERT INTO #WorkflowCases VALUES
 GO
 
 
-/*
-Answer to Puzzle #9
+/*----------------------------------------------------
+DDL for Puzzle #9
 Matching Sets
-*/
+*/----------------------------------------------------
 
 IF OBJECT_ID('tempdb.dbo.#Employees','U') IS NOT NULL
 	DROP TABLE #Employees;
@@ -258,10 +257,10 @@ INSERT INTO #Employees VALUES
 GO
 
 
-/*
-Answer to Puzzle #10
+/*----------------------------------------------------
+DDL for Puzzle #10
 Mean, Median, Mode and Range
-*/
+*/----------------------------------------------------
 
 IF OBJECT_ID('tempdb.dbo.#SampleData','U') IS NOT NULL
 	DROP TABLE #SampleData;
@@ -278,10 +277,10 @@ INSERT INTO #SampleData VALUES
 GO
 
 
-/*
-Answer to Puzzle #11
+/*----------------------------------------------------
+DDL for Puzzle #11
 Permutations
-*/
+*/----------------------------------------------------
 
 IF OBJECT_ID('tempdb.dbo.#TestCases','U') IS NOT NULL
 	DROP TABLE #TestCases;
@@ -299,10 +298,10 @@ INSERT INTO #TestCases VALUES
 GO
 
 
-/*
-Answer to Puzzle #12
+/*----------------------------------------------------
+DDL for Puzzle #12
 Average Days
-*/
+*/----------------------------------------------------
 
 IF OBJECT_ID('tempdb.dbo.#ProcessLog','U') IS NOT NULL
 	DROP TABLE #ProcessLog;
@@ -328,10 +327,10 @@ INSERT INTO #ProcessLog VALUES
 GO
 
 
-/*
-Answer to Puzzle #13
+/*----------------------------------------------------
+DDL for Puzzle #13
 Inventory Tracking
-*/
+*/----------------------------------------------------
 
 IF OBJECT_ID('tempdb.dbo.#Inventory','U') IS NOT NULL
 	DROP TABLE #Inventory;
@@ -353,10 +352,10 @@ INSERT INTO #Inventory VALUES
 GO
 
 
-/*
-Answer to Puzzle #14
+/*----------------------------------------------------
+DDL for Puzzle #14
 Indeterminate Process Log
-*/
+*/----------------------------------------------------
 
 IF OBJECT_ID('tempdb.dbo.#ProcessLog','U') IS NOT NULL
 	DROP TABLE #ProcessLog;
@@ -404,10 +403,10 @@ INSERT INTO #StatusRank VALUES
 GO
 
 
-/*
-Answer to Puzzle #15
+/*----------------------------------------------------
+DDL for Puzzle #15
 Group Concatenation
-*/
+*/----------------------------------------------------
 
 IF OBJECT_ID('tempdb.dbo.#DMLTable','U') IS NOT NULL
 	DROP TABLE #DMLTable;
@@ -433,10 +432,10 @@ INSERT INTO #DMLTable VALUES
 GO
 
 
-/*
-Answer to Puzzle #16
+/*----------------------------------------------------
+DDL for Puzzle #16
 Reciprocals
-*/
+*/----------------------------------------------------
 
 IF OBJECT_ID('tempdb.dbo.#PlayerScores','U') IS NOT NULL
 	DROP TABLE #PlayerScores;
@@ -458,10 +457,10 @@ INSERT INTO #PlayerScores VALUES
 GO
 
 
-/*
-Answer to Puzzle #17
+/*----------------------------------------------------
+DDL for Puzzle #17
 De-Grouping
-*/
+*/----------------------------------------------------
 
 IF OBJECT_ID('tempdb.dbo.#Ungroup','U') IS NOT NULL
 	DROP TABLE #Ungroup;
@@ -481,10 +480,10 @@ INSERT INTO #Ungroup VALUES
 GO
 
 
-/*
-Answer to Puzzle #18
+/*----------------------------------------------------
+DDL for Puzzle #18
 Seating Chart
-*/
+*/----------------------------------------------------
 
 IF OBJECT_ID('tempdb.dbo.#SeatingChart','U') IS NOT NULL
 	DROP TABLE #SeatingChart;
@@ -501,10 +500,10 @@ INSERT INTO #SeatingChart VALUES
 GO
 
 
-/*
-Answer to Puzzle #19
+/*----------------------------------------------------
+DDL for Puzzle #19
 Back to the Future
-*/
+*/----------------------------------------------------
 
 IF OBJECT_ID('tempdb.dbo.#TimePeriods','U') IS NOT NULL
   DROP TABLE #TimePeriods;
@@ -526,10 +525,10 @@ INSERT INTO #TimePeriods VALUES
 GO
 
 
-/*
-Answer to Puzzle #20
+/*----------------------------------------------------
+DDL for Puzzle #20
 Price Points
-*/
+*/----------------------------------------------------
 
 IF OBJECT_ID('tempdb.dbo.#ValidPrices','U') IS NOT NULL
   DROP TABLE #ValidPrices;
@@ -552,10 +551,10 @@ INSERT INTO #ValidPrices VALUES
 GO
 
 
-/*
-Answer to Puzzle #21
+/*----------------------------------------------------
+DDL for Puzzle #21
 Average Monthly Sales
-*/
+*/----------------------------------------------------
 
 IF OBJECT_ID('tempdb.dbo.#Orders','U') IS NOT NULL
   DROP TABLE #Orders;
@@ -588,10 +587,10 @@ INSERT INTO #Orders VALUES
 GO
 
 
-/*
-Answer to Puzzle #22
+/*----------------------------------------------------
+DDL for Puzzle #22
 Occurrences
-*/
+*/----------------------------------------------------
 
 IF OBJECT_ID('tempdb.dbo.#ProcessLog','U') IS NOT NULL
   DROP TABLE #ProcessLog;
@@ -617,10 +616,10 @@ INSERT INTO #ProcessLog VALUES
 GO
 
 
-/*
-Answer to Puzzle #23
+/*----------------------------------------------------
+DDL for Puzzle #23
 Divide in Half
-*/
+*/----------------------------------------------------
 
 IF OBJECT_ID('tempdb.dbo.#PlayerScores','U') IS NOT NULL
 	DROP TABLE #PlayerScores;
@@ -642,10 +641,10 @@ INSERT INTO #PlayerScores VALUES
 GO
 
 
-/*
-Answer to Puzzle #24
+/*----------------------------------------------------
+DDL for Puzzle #24
 Page Views
-*/
+*/----------------------------------------------------
 
 IF OBJECT_ID('tempdb.dbo.#SampleData','U') IS NOT NULL
 	DROP TABLE #SampleData;
@@ -665,10 +664,10 @@ INSERT INTO #SampleData VALUES (NEWID());
 GO 1000
 
 
-/*
-Answer to Puzzle #25
+/*----------------------------------------------------
+DDL for Puzzle #25
 Top Vendors
-*/
+*/----------------------------------------------------
 
 IF OBJECT_ID('tempdb.dbo.#Orders','U') IS NOT NULL
 	DROP TABLE #Orders;
@@ -693,10 +692,10 @@ INSERT INTO #Orders VALUES
 GO
 
 
-/*
-Answer to Puzzle #26
+/*----------------------------------------------------
+DDL for Puzzle #26
 Previous Years Sales
-*/
+*/----------------------------------------------------
 
 IF OBJECT_ID('tempdb.dbo.#Sales','U') IS NOT NULL
 	DROP TABLE #Sales;
@@ -719,10 +718,10 @@ INSERT INTO #Sales VALUES
 GO
 
 
-/*
-Answer to Puzzle #27
+/*----------------------------------------------------
+DDL for Puzzle #27
 Delete the Duplicates
-*/
+*/----------------------------------------------------
 
 IF OBJECT_ID('tempdb.dbo.#SampleData','U') IS NOT NULL
 	DROP TABLE #SampleData;
@@ -744,10 +743,10 @@ INSERT INTO #SampleData VALUES
 GO
 
 
-/*
-Answer to Puzzle #28
+/*----------------------------------------------------
+DDL for Puzzle #28
 Fill the Gaps
-*/
+*/----------------------------------------------------
 
 IF OBJECT_ID('tempdb.dbo.#Gaps','U') IS NOT NULL
 	DROP TABLE #Gaps;
@@ -773,10 +772,10 @@ INSERT INTO #Gaps VALUES
 GO
 
 
-/*
-Answer to Puzzle #29
+/*----------------------------------------------------
+DDL for Puzzle #29
 Count the Groupings
-*/
+*/----------------------------------------------------
 
 IF OBJECT_ID('tempdb.dbo.#Groupings','U') IS NOT NULL
   DROP TABLE #Groupings;
@@ -806,10 +805,10 @@ INSERT INTO #Groupings VALUES
 GO
 
 
-/*
-Answer to Puzzle #30
+/*----------------------------------------------------
+DDL for Puzzle #30
 Select Star
-*/
+*/----------------------------------------------------
 
 IF OBJECT_ID('tempdb.dbo.#Products','U') IS NOT NULL
   DROP TABLE #Products;
@@ -823,10 +822,10 @@ ProductName	VARCHAR(MAX)
 GO
 
 
-/*
-Answer to Puzzle #31
+/*----------------------------------------------------
+DDL for Puzzle #31
 Second Highest
-*/
+*/----------------------------------------------------
 
 IF OBJECT_ID('tempdb.dbo.#SampleData','U') IS NOT NULL
 	DROP TABLE #SampleData;
@@ -843,10 +842,10 @@ INSERT INTO #SampleData VALUES
 GO
 
 
-/*
-Answer to Puzzle #32
+/*----------------------------------------------------
+DDL for Puzzle #32
 First and Last
-*/
+*/----------------------------------------------------
 
 IF OBJECT_ID('tempdb.dbo.#Personel','U') IS NOT NULL
 	DROP TABLE #Personel;
@@ -873,10 +872,10 @@ INSERT INTO #Personel VALUES
 GO
 
 
-/*
-Answer to Puzzle #33
+/*----------------------------------------------------
+DDL for Puzzle #33
 Deadlines
-*/
+*/----------------------------------------------------
 
 IF OBJECT_ID('tempdb.dbo.#OrderFullfillment','U') IS NOT NULL
 	DROP TABLE #OrderFullfillment;
@@ -920,10 +919,10 @@ INSERT INTO #ManufactoringTime VALUES
 GO
 
 
-/*
-Answer to Puzzle #34
+/*----------------------------------------------------
+DDL for Puzzle #34
 Specific Exclusion
-*/
+*/----------------------------------------------------
 
 IF OBJECT_ID('tempdb.dbo.#Orders','U') IS NOT NULL
 	DROP TABLE #Orders;
@@ -945,10 +944,10 @@ INSERT INTO #Orders VALUES
 GO
 
 
-/*
-Answer to Puzzle #35
+/*----------------------------------------------------
+DDL for Puzzle #35
 International vs Domestic Sales
-*/
+*/----------------------------------------------------
 
 IF OBJECT_ID('tempdb.dbo.#Orders','U') IS NOT NULL
 	DROP TABLE #Orders;
@@ -977,10 +976,10 @@ INSERT INTO #Orders VALUES
 GO
 
 
-/*
-Answer to Puzzle #36
+/*----------------------------------------------------
+DDL for Puzzle #36
 Traveling Salesman
-*/
+*/----------------------------------------------------
 
 IF OBJECT_ID('tempdb.dbo.#Graph','U') IS NOT NULL
   DROP TABLE #Graph;
@@ -1003,10 +1002,10 @@ INSERT INTO #Graph VALUES
 GO
 
 
-/*
-Answer to Puzzle #37
+/*----------------------------------------------------
+DDL for Puzzle #37
 Group Criteria Keys
-*/
+*/----------------------------------------------------
 
 IF OBJECT_ID('tempdb.dbo.#GroupCriteria','U') IS NOT NULL
 	DROP TABLE #GroupCriteria;
@@ -1030,10 +1029,10 @@ INSERT INTO #GroupCriteria VALUES
 GO
 
 
-/*
-Answer to Puzzle #38
+/*----------------------------------------------------
+DDL for Puzzle #38
 Reporting Elements
-*/
+*/----------------------------------------------------
 
 IF OBJECT_ID('tempdb.dbo.#RegionSales','U') IS NOT NULL
 	DROP TABLE #RegionSales;
@@ -1061,10 +1060,10 @@ INSERT INTO #RegionSales VALUES
 GO
 
 
-/*
-Answer to Puzzle #39
+/*----------------------------------------------------
+DDL for Puzzle #39
 Prime Numbers
-*/
+*/----------------------------------------------------
 
 IF OBJECT_ID('tempdb.dbo.#SampleData ','U') IS NOT NULL
 	DROP TABLE #SampleData;
@@ -1081,10 +1080,10 @@ INSERT INTO #SampleData VALUES
 GO
 
 
-/*
-Answer to Puzzle #40
+/*----------------------------------------------------
+DDL for Puzzle #40
 Sort Order
-*/
+*/----------------------------------------------------
 
 IF OBJECT_ID('tempdb.dbo.#SortOrder','U') IS NOT NULL
 	DROP TABLE #SortOrder;
@@ -1096,7 +1095,5 @@ City VARCHAR(MAX)
 );
 GO
 
+--End
 
-/*
-End
-*/
