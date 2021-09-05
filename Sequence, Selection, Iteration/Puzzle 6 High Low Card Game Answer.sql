@@ -1,7 +1,7 @@
 /*********************************************************************
 Answer to Puzzle #6
 High Low Card Game
-https://AdvancedSQLPuzzles.com
+https://advancedsqlpuzzles.com
 
 Developer Notes:
 
