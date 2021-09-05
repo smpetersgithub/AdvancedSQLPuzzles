@@ -4,7 +4,7 @@ RETURNS VARCHAR(1000)
 #####################################################################################################
 
 Scott Peters
-www.advancedsqlpuzzles.com
+https://advancedsqlpuzzles.com
 
 -- Test function
 SELECT dbo.FnDateDiffPartsChar('20110619 00:00:00.0000001', '20110619 00:00:00.0000000');
