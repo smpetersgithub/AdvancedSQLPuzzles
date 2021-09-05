@@ -12,7 +12,7 @@ NanoDifference INT
 #####################################################################################################
 
 Scott Peters
-www.advancedsqlpuzzles.com
+https://advancedsqlpuzzles.com
 
 -- Test function
 SELECT * FROM dbo.FnDateDiffPartsTable('20110619 00:00:00.0000001', '20110619 00:00:00.0000000');
