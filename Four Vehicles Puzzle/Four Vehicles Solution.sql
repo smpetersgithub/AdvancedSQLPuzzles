@@ -1,6 +1,6 @@
 /*--------------------------------------------------------------------------------------------------------------------
 Scott Peters
-www.advancedsqlpuzzles.com
+https://advancedsqlpuzzles.com
 
 You have a group of 10 people, 5 adults and 5 children, that need to travel somewhere.
 
