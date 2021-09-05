@@ -1,7 +1,7 @@
 /*********************************************************************
 Answer to Puzzle #5
 Add The Numbers Up
-https://AdvancedSQLPuzzles.com
+https://advancedsqlpuzzles.com
 
 Runs in approximately 2 minutes.
 19,683 different permutations.
