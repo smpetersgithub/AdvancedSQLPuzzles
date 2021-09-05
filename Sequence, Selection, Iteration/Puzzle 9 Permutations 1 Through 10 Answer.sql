@@ -1,7 +1,7 @@
 /*********************************************************************
 Answer to Puzzle #9
 Permutations 1 Through 10
-https://AdvancedSQLPuzzles.com
+https://advancedsqlpuzzles.com
 
 This may be able to be solved via a single declarative statement using recursion.
 However, it is very simple to solve with a single loop.
