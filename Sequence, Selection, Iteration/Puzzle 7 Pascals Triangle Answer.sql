@@ -1,7 +1,7 @@
 /*********************************************************************
 Answer to Puzzle #7
-Pascal’s Triangle
-https://AdvancedSQLPuzzles.com
+Pascalâ€™s Triangle
+https://advancedsqlpuzzles.com
 
 Developer Notes:
 
