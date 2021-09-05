@@ -1,7 +1,7 @@
 /*********************************************************************
 Answer to Puzzle #8
 Permutations of 0 and 1
-https://AdvancedSQLPuzzles.com
+https://advancedsqlpuzzles.com
 
 Developer Notes:
 
