@@ -1,7 +1,7 @@
 /****************************************************************************************
 Answer to Puzzle #3
 Josephus Problem
-https://AdvancedSQLPuzzles.com
+https://advancedsqlpuzzles.com
 
 https://en.wikipedia.org/wiki/Josephus_problem
 
