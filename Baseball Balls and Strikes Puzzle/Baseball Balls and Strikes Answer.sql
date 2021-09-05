@@ -1,6 +1,8 @@
 /***********************************************************************
 Scott Peters
 https://advancedsqlpuzzles.com
+
+Baseball Balls and Strikes Answer
 ***********************************************************************/
 IF OBJECT_ID('tempdb.dbo.#Pitches') IS NOT NULL
 DROP TABLE #Pitches;
