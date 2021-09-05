@@ -1,22 +1,19 @@
 /*
 #####################################################################################################
--- Date: April 2020
--- Author: Scott Peters
--- https://advancedsqlpuzzles.com
+Author: Scott Peters
+https://advancedsqlpuzzles.com
+Following code was written in T-SQL
 
--- Developer Notes
+Modify any variables as needed.
+You will need to input a schema name and table name see comments in the code
 
---Modify any variables as needed.
---You will need to input a schema name and table name
---see comments in the code
-
---The profile can take several minutes to run, even on small tables.
---For large tables, limit the dataset via 
+The profile can take several minutes to run, even on small tables.
+For large tables, limit the dataset via 
 1) the @vWhereClause variable.
 2) the @vColumnsToProfiles variable
 3) comment out unneeded output columns (for example 'SapleValue', or 'PercentInteger'
 
---Rule of thumb, limit the data first to a small set and check performance.
+Rule of thumb, limit the data first to a small set and check performance.
 
 ----------------------------------------------------------------------------------------------------
 */
