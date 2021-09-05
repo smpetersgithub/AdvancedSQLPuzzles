@@ -1,7 +1,7 @@
 /*********************************************************************
 Answer to Puzzle #2
 Dice Throw Game
-https://AdvancedSQLPuzzles.com
+https://advancedsqlpuzzles.com
 
 Modify the following variable to change the number of trials
 @vNumberOfTrials
