@@ -1,9 +1,9 @@
-/*
+/*-------------------------------------------
 Scott Peters
 https://advancedsqlpuzzles.com
-*/
+*/-------------------------------------------
 
-/*
+/*----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 Mutual Friends Answer
 This puzzle is best solved by thinking in sets and not code.  Before I divulge the answer, lets first breakdown the sets that are created to obtain the desired outcome.
 
@@ -169,7 +169,7 @@ Jason, Susan, 1
 John, Mary, 0
 Mary, Mike, 1
 Mary, Susan, 1
-*/
+*/----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 --Here is the SQL code that I used to generate the result set.
 
