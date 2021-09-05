@@ -1,7 +1,7 @@
 /*********************************************************************
 Answer to Puzzle #1
 Double Or Add One
-https://AdvancedSQLPuzzles.com
+https://advancedsqlpuzzles.com
 
 **********************************************************************/
 
