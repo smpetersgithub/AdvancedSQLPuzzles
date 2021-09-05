@@ -1,8 +1,8 @@
-/*
+/*----------------------------------------
 Scott Peters
-https://AdvancedSQLPuzzles.com
-Creating a Calendar Table
-*/
+https://advancedsqlpuzzles.com
+Creating a Calendar Table Example Usage
+*/----------------------------------------
 
 CREATE TABLE CalendarDays
 (
