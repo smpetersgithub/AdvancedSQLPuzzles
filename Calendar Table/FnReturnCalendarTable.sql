@@ -3,7 +3,7 @@ CREATE FUNCTION FnReturnCalendarTable
 #####################################################################################################
 
 Scott Peters
-https://AdvancedSQLPuzzles.com
+https://advancedsqlpuzzles.com
 
 --Basic usage with CROSS APPLY
 SELECT	*
