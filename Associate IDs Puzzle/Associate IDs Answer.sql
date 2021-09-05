@@ -1,7 +1,7 @@
-/*
+/*----------------------------------------------------
 Scott Peters
 https://advancedsqlpuzzles.com
-*/
+*/----------------------------------------------------
 
 IF OBJECT_ID('tempdb.dbo.#Sequences','U') IS NOT NULL
 DROP TABLE #Sequences;
