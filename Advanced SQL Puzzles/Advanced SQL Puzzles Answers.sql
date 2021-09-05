@@ -1,8 +1,7 @@
-/*
+/*----------------------------------------------------
 Answer to Puzzle #1
 Dance Partners
-*/
-
+*/----------------------------------------------------
 
 IF OBJECT_ID('tempdb.dbo.#DancePartners','U') IS NOT NULL
 	DROP TABLE #DancePartners;
@@ -48,10 +47,10 @@ FROM	cte_Males a FULL OUTER JOIN
 		cte_Females b ON a.RowNumber = B.RowNumber;
 
 
-/*
+/*----------------------------------------------------
 Answer to Puzzle #2
 Managers and Employees
-*/
+*/----------------------------------------------------
 
 IF OBJECT_ID('tempdb.dbo.#Employees','U') IS NOT NULL
 	DROP TABLE #Employees;
@@ -89,10 +88,10 @@ SELECT	EmployeeID, ManagerID, JobTitle, Salary, Depth
 FROM	cte_Recursion;
 
 
-/*
+/*----------------------------------------------------
 Answer to Puzzle #3
 Fiscal Year Table Constraints
-*/
+*/----------------------------------------------------
 
 IF OBJECT_ID('tempdb.dbo.#EmployeePayRecord','U') IS NOT NULL
 	DROP TABLE #EmployeePayRecord;
@@ -132,10 +131,10 @@ GO
 ALTER TABLE #EmployeePayRecord ADD CHECK (PayRate > 0);
 GO
 
-/*
+/*----------------------------------------------------
 Answer to Puzzle #4
 Two Predicates
-*/
+*/----------------------------------------------------
 
 IF OBJECT_ID('tempdb.dbo.#Orders','U')IS NOT NULL
   DROP TABLE #Orders;
@@ -199,10 +198,10 @@ WHERE	DeliveryState = 'TX' AND
 		EXISTS(SELECT CustomerID FROM cte_CA b WHERE a.CustomerID = b.CustomerID);
 
 
-/*
+/*----------------------------------------------------
 Answer to Puzzle #5
 Phone Directory
-*/
+*/----------------------------------------------------
 
 IF OBJECT_ID('tempdb.dbo.#PhoneDirectory','U') IS NOT NULL
 	DROP TABLE #PhoneDirectory;
@@ -289,10 +288,10 @@ FROM	cte_PhoneNumbers
 GROUP BY CustomerID;
 
 
-/*
+/*----------------------------------------------------
 Answer to Puzzle #6
 Workflow Steps
-*/
+*/----------------------------------------------------
 
 IF OBJECT_ID('tempdb.dbo.#WorkflowSteps','U') IS NOT NULL
 	DROP TABLE #WorkflowSteps;
@@ -323,10 +322,10 @@ GROUP BY Workflow
 HAVING	COUNT(*) <> COUNT(CompletionDate);
 
 
-/*
+/*----------------------------------------------------
 Answer to Puzzle #7
 Mission to Mars
-*/
+*/----------------------------------------------------
 
 IF OBJECT_ID('tempdb.dbo.#Candidates','U') IS NOT NULL
 	DROP TABLE #Candidates;
@@ -376,10 +375,10 @@ GROUP BY CandidateID
 HAVING COUNT(*) = (SELECT RequirementCount FROM cte_RequirementsCount);
 
 
-/*
+/*----------------------------------------------------
 Answer to Puzzle #8
 Workflow Cases
-*/
+*/----------------------------------------------------
 
 IF OBJECT_ID('tempdb.dbo.#WorkflowCases','U') IS NOT NULL
   DROP TABLE #WorkflowCases;
@@ -416,10 +415,10 @@ GROUP BY Workflow
 ORDER BY 1;
 
 
-/*
+/*----------------------------------------------------
 Answer to Puzzle #9
 Matching Sets
-*/
+*/----------------------------------------------------
 
 IF OBJECT_ID('tempdb.dbo.#Employees','U') IS NOT NULL
   DROP TABLE #Employees;
@@ -466,10 +465,10 @@ FROM	cte_EmployeeCountCombined a INNER JOIN
 							   a.EmployeeID <> b.EmployeeID; 
 
 
-/*
+/*----------------------------------------------------
 Answer to Puzzle #10
 Mean, Median, Mode and Range
-*/
+*/----------------------------------------------------
 
 IF OBJECT_ID('tempdb.dbo.#SampleData','U') IS NOT NULL
   DROP TABLE #SampleData;
@@ -521,10 +520,10 @@ ORDER BY ModeCount DESC
 SELECT	Mean, Median, Mode , MaxMinRange AS [Range]
 FROM	cte_Median CROSS JOIN cte_MeanAndRange CROSS JOIN cte_Mode;
 
-/*
+/*----------------------------------------------------
 Answer to Puzzle #11
 Permutations
-*/
+*/----------------------------------------------------
 
 IF OBJECT_ID('tempdb.dbo.#TestCases','U') IS NOT NULL
 	DROP TABLE #TestCases;
@@ -564,10 +563,10 @@ FROM	cte_Permutations
 WHERE	Depth = @vTotalElements;
 
 
-/*
+/*----------------------------------------------------
 Answer to Puzzle #12
 Average Days
-*/
+*/----------------------------------------------------
 
 IF OBJECT_ID('tempdb.dbo.#ProcessLog','U') IS NOT NULL
 	DROP TABLE #ProcessLog;
@@ -605,10 +604,10 @@ WHERE	DateDifference IS NOT NULL
 GROUP BY Workflow;
 
 
-/*
+/*----------------------------------------------------
 Answer to Puzzle #13
 Inventory Tracking
-*/
+*/----------------------------------------------------
 
 IF OBJECT_ID('tempdb.dbo.#Inventory','U') IS NOT NULL
   DROP TABLE #Inventory;
@@ -635,10 +634,10 @@ SELECT	InventoryDate,
 FROM	#Inventory;
 
 
-/*
+/*----------------------------------------------------
 Answer to Puzzle #14
 Indeterminate Process Log
-*/
+*/----------------------------------------------------
 
 IF OBJECT_ID('tempdb.dbo.#ProcessLog','U') IS NOT NULL
   DROP TABLE #ProcessLog;
@@ -714,10 +713,10 @@ FROM	cte_ErrorWorkflows
 ORDER BY a.Workflow;
 
 
-/*
+/*----------------------------------------------------
 Answer to Puzzle #15
 Group Concatenation
-*/
+*/----------------------------------------------------
 
 IF OBJECT_ID('tempdb.dbo.#DMLTable','U') IS NOT NULL
   DROP TABLE #DMLTable;
@@ -769,10 +768,10 @@ SELECT DISTINCT
 FROM	#DMLTable;
 
 
-/*
+/*----------------------------------------------------
 Answer to Puzzle #16
 Reciprocals
-*/
+*/----------------------------------------------------
 
 IF OBJECT_ID('tempdb.dbo.#PlayerScores','U') IS NOT NULL
 	DROP TABLE #PlayerScores;
@@ -804,10 +803,10 @@ FROM	(
 GROUP BY PlayerA, PlayerB;
 
 
-/*
+/*----------------------------------------------------
 Answer to Puzzle #17
 De-Grouping
-*/
+*/----------------------------------------------------
 
 IF OBJECT_ID('tempdb.dbo.#Ungroup','U') IS NOT NULL
 	DROP TABLE #Ungroup;
@@ -847,10 +846,10 @@ FROM	#Ungroup a CROSS JOIN
 WHERE	a.Quantity >= b. IntegerValue;
 
 
-/*
+/*----------------------------------------------------
 Answer to Puzzle #18
 Seating Chart
-*/
+*/----------------------------------------------------
 
 IF OBJECT_ID('tempdb.dbo.#SeatingChart','U') IS NOT NULL
 	DROP TABLE #SeatingChart;
@@ -897,10 +896,10 @@ FROM	#SeatingChart
 GROUP BY (CASE SeatNumber%2 WHEN 1 THEN 'Odd' WHEN 0 THEN 'Even' END);
 
 
-/*
+/*----------------------------------------------------
 Answer to Puzzle #19
 Back to the Future
-*/
+*/----------------------------------------------------
 
 IF OBJECT_ID('tempdb.dbo.#TimePeriods','U') IS NOT NULL
   DROP TABLE #TimePeriods;
@@ -947,10 +946,10 @@ FROM	cte_TimePeriod_Merge
 GROUP BY EndDate;
 
 
-/*
+/*----------------------------------------------------
 Answer to Puzzle #20
 Price Points
-*/
+*/----------------------------------------------------
 
 IF OBJECT_ID('tempdb.dbo.#ValidPrices','U') IS NOT NULL
   DROP TABLE #ValidPrices;
@@ -996,10 +995,10 @@ FROM	cte_ValidPrices
 WHERE	Rnk = 1;
 
 
-/*
+/*----------------------------------------------------
 Answer to Puzzle #21
 Average Monthly Sales
-*/
+*/----------------------------------------------------
 
 IF OBJECT_ID('tempdb.dbo.#Orders','U') IS NOT NULL
   DROP TABLE #Orders;
@@ -1050,10 +1049,10 @@ SELECT	State
 FROM	cte_MinAverageValueState;
 
 
-/*
+/*----------------------------------------------------
 Answer to Puzzle #22
 Occurrences
-*/
+*/----------------------------------------------------
 
 IF OBJECT_ID('tempdb.dbo.#ProcessLog','U') IS NOT NULL
   DROP TABLE #ProcessLog;
@@ -1101,10 +1100,10 @@ WHERE Occurrences > ALL(SELECT	e2.Occurrences
 								e2.WorkFlow <> e1.WorkFlow);
 
 
-/*
+/*----------------------------------------------------
 Answer to Puzzle #23
 Divide in Half
-*/
+*/----------------------------------------------------
 
 IF OBJECT_ID('tempdb.dbo.#PlayerScores','U') IS NOT NULL
 	DROP TABLE #PlayerScores;
@@ -1132,10 +1131,10 @@ FROM	#PlayerScores a
 ORDER BY Score DESC;
 
 
-/*
+/*----------------------------------------------------
 Answer to Puzzle #24
 Page Views
-*/
+*/----------------------------------------------------
 
 IF OBJECT_ID('tempdb.dbo.#SampleData','U') IS NOT NULL
 	DROP TABLE #SampleData;
@@ -1160,10 +1159,10 @@ ORDER BY RowID
 OFFSET 10 ROWS FETCH NEXT 10 ROWS ONLY;
 
 
-/*
+/*----------------------------------------------------
 Answer to Puzzle #25
 Top Vendors
-*/
+*/----------------------------------------------------
 
 IF OBJECT_ID('tempdb.dbo.#Orders','U') IS NOT NULL
 	DROP TABLE #Orders;
@@ -1201,10 +1200,10 @@ FROM	#Orders a INNER JOIN
 WHERE	Rnk = 1;
 
 
-/*
+/*----------------------------------------------------
 Answer to Puzzle #26
 Previous Years Sales
-*/
+*/----------------------------------------------------
 
 IF OBJECT_ID('tempdb.dbo.#Sales','U') IS NOT NULL
   DROP TABLE #Sales;
@@ -1279,10 +1278,10 @@ BEGIN
 END;
 
 
-/*
+/*----------------------------------------------------
 Answer to Puzzle #27
 Delete the Duplicates
-*/
+*/----------------------------------------------------
 
 IF OBJECT_ID('tempdb.dbo.#SampleData','U') IS NOT NULL
 	DROP TABLE #SampleData;
@@ -1312,10 +1311,10 @@ DELETE FROM cte_Duplicates WHERE Rnk > 1
 GO
 
 
-/*
+/*----------------------------------------------------
 Answer to Puzzle #28
 Fill the Gaps
-*/
+*/----------------------------------------------------
 
 IF OBJECT_ID('tempdb.dbo.#Gaps','U') IS NOT NULL
 	DROP TABLE #Gaps;
@@ -1368,10 +1367,10 @@ FROM	(SELECT	RowNumber,
 ORDER BY RowNumber;
 
 
-/*
+/*----------------------------------------------------
 Answer to Puzzle #29
 Count the Groupings
-*/
+*/----------------------------------------------------
 
 IF OBJECT_ID('tempdb.dbo.#Groupings','U') IS NOT NULL
   DROP TABLE #Groupings;
@@ -1416,10 +1415,10 @@ GROUP BY Rnk, Status
 ORDER BY Rnk, Status;
 
 
-/*
+/*----------------------------------------------------
 Answer to Puzzle #30
 Select Star
-*/
+*/----------------------------------------------------
 
 IF OBJECT_ID('tempdb.dbo.#Products','U') IS NOT NULL
   DROP TABLE #Products;
@@ -1436,10 +1435,10 @@ GO
 ALTER TABLE #Products ADD ComputedColumn AS (0/0);
 
 
-/*
+/*----------------------------------------------------
 Answer to Puzzle #31
 Second Highest
-*/
+*/----------------------------------------------------
 
 IF OBJECT_ID('tempdb.dbo.#SampleData','U') IS NOT NULL
 	DROP TABLE #SampleData;
@@ -1483,10 +1482,10 @@ ORDER BY IntegerValue DESC
 SELECT	MIN(IntegerValue) FROM cte_Top2;
 
 
-/*
+/*----------------------------------------------------
 Answer to Puzzle #32
 First and Last
-*/
+*/----------------------------------------------------
 
 IF OBJECT_ID('tempdb.dbo.#Personel','U') IS NOT NULL
 	DROP TABLE #Personel;
@@ -1523,10 +1522,10 @@ FROM	#Personel
 ORDER BY 1,2,3;
 
 
-/*
+/*----------------------------------------------------
 Answer to Puzzle #33
 Deadlines
-*/
+*/----------------------------------------------------
 
 IF OBJECT_ID('tempdb.dbo.#OrderFullfillment','U') IS NOT NULL
 	DROP TABLE #OrderFullfillment;
@@ -1576,10 +1575,10 @@ WHERE	DaysToBuild >= ALL(SELECT	DaysToManufacture
 						   WHERE	a.ProductID = b.ProductID);
 
 
-/*
+/*----------------------------------------------------
 Answer to Puzzle #34
 Specific Exclusion
-*/
+*/----------------------------------------------------
 
 IF OBJECT_ID('tempdb.dbo.#Orders','U') IS NOT NULL
 	DROP TABLE #Orders;
@@ -1605,10 +1604,10 @@ FROM	#Orders
 WHERE	NOT(CustomerID = 1001 AND OrderID = 'Ord789765');
 
 
-/*
+/*----------------------------------------------------
 Answer to Puzzle #35
 International vs Domestic Sales
-*/
+*/----------------------------------------------------
 
 IF OBJECT_ID('tempdb.dbo.#Orders','U') IS NOT NULL
 	DROP TABLE #Orders;
@@ -1654,10 +1653,10 @@ FROM	cte_Domestic a FULL OUTER JOIN
 WHERE	a.InvoiceID IS NULL OR b.InvoiceID IS NULL;
 
 
-/*
+/*----------------------------------------------------
 Answer to Puzzle #36
 Traveling Salesman
-*/
+*/----------------------------------------------------
 
 IF OBJECT_ID('tempdb.dbo.#Graph','U') IS NOT NULL
   DROP TABLE #Graph;
@@ -1706,10 +1705,10 @@ WHERE	g1.DepartureCity = 'Austin' AND
 ORDER BY 6,1,2,3,4;
 
 
-/*
+/*----------------------------------------------------
 Answer to Puzzle #37
 Group Criteria Keys
-*/
+*/----------------------------------------------------
 
 IF OBJECT_ID('tempdb.dbo.#GroupCriteria','U') IS NOT NULL
 	DROP TABLE #GroupCriteria;
@@ -1741,10 +1740,10 @@ SELECT	DENSE_RANK() OVER (ORDER BY Distributor, Facility, Zone) as CriteriaID,
 FROM	#GroupCriteria;
 
 
-/*
+/*----------------------------------------------------
 Answer to Puzzle #38
 Reporting Elements
-*/
+*/----------------------------------------------------
 
 IF OBJECT_ID('tempdb.dbo.#RegionSales','U') IS NOT NULL
 	DROP TABLE #RegionSales;
@@ -1797,10 +1796,10 @@ ORDER BY a.Distributor,
 						WHEN 'West'	 THEN 4 END);
 
 
-/*
+/*----------------------------------------------------
 Answer to Puzzle #39
 Prime Numbers
-*/
+*/----------------------------------------------------
 
 IF OBJECT_ID('tempdb.dbo.#SampleData ','U') IS NOT NULL
 	DROP TABLE #SampleData;
@@ -1822,10 +1821,10 @@ SELECT	IntegerValue,
 FROM	#SampleData;
 
 
-/*
+/*----------------------------------------------------
 Answer to Puzzle #40
 Sort Order
-*/
+*/----------------------------------------------------
 
 IF OBJECT_ID('tempdb.dbo.#SortOrder','U') IS NOT NULL
 	DROP TABLE #SortOrder;
@@ -1845,7 +1844,5 @@ SELECT	City
 FROM	#SortOrder
 ORDER BY (CASE City WHEN  'Atlanta' THEN 2 WHEN 'Baltimore' THEN 1 WHEN 'Chicago' THEN 4 WHEN 'Denver' THEN 1 END);
 
+--End
 
-/*
-End
-*/
