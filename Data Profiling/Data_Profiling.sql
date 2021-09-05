@@ -2,7 +2,7 @@
 #####################################################################################################
 -- Date: April 2020
 -- Author: Scott Peters
--- www.AdvanceSQLPuzzles.com
+-- https://advancedsqlpuzzles.com
 
 -- Developer Notes
 
