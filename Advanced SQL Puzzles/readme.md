@@ -1,6 +1,6 @@
 # Advanced SQL PUzzles
 
-## Welcome,
+### Welcome,
 
 #### In this directory you will find the following:
 
