@@ -8,6 +8,6 @@
 
 #### Advanced SQL Puzzles Answers.sql contains the answers to the puzzles.
 
-#### Advanced SQL Puzzles DDL.sql has the code to create the temp tables and populate with sample data if you do not wish to view the answers.
+#### Advanced SQL Puzzles DDL.sql contains the create table statements and sample data only.  No answers are provided in this file.
 
 #### Happy coding!
