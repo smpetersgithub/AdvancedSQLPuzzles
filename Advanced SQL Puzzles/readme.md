@@ -10,4 +10,4 @@
 
 #### Advanced SQL Puzzles DDL.sql has the code to create the temp tables and populate with sample data if you do not wish to view the answers.
 
-#### Happy Coding!
+#### Happy coding!
