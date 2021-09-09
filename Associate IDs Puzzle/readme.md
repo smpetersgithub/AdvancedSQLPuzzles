@@ -1,11 +1,11 @@
 # Advanced SQL Puzzles
 
-### Welcome,
-
 #### In this directory you will find the following:
+----
 
-#### Associate IDs.pdf describes the puzzle.  
+#### Associate IDs.pdf
+Contains a description of the puzzle to solve.
 
-#### Associate IDs Answer.sql contains the answer to the puzzle.
+#### Associate IDs Solution.sql
+Contains the solutions to the puzzles.
 
-#### Happy coding!
