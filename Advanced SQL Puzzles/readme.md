@@ -1,13 +1,13 @@
 # Advanced SQL Puzzles
 
-### Welcome,
-
 #### In this directory you will find the following:
+----
 
-#### Advanced SQL Puzzles.pdf has 40 of the most difficult set based puzzles I could write.  
+#### Advanced SQL Puzzles.pdf
+Contains a description of the puzzles to solve.
 
-#### Advanced SQL Puzzles Answers.sql contains the answers to the puzzles.
+#### Advanced SQL Puzzles Solutions.sql
+Contains the solutions to the puzzles.
 
-#### Advanced SQL Puzzles DDL.sql contains the create table statements and sample data only.  No answers are provided in this file.
-
-#### Happy coding!
+### Advanced SQL Puzzles DDL.sql
+Contains the create table statements and sample data only.  No solutions are provided in this file.
