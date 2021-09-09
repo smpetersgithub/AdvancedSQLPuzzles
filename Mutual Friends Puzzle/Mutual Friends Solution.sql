@@ -1,10 +1,10 @@
 /*-------------------------------------------
 Scott Peters
 https://advancedsqlpuzzles.com
+Mutual Friends Solution
 */-------------------------------------------
 
 /*----------------------------------------------------------------------------------------------------------------------------------------------------------------------
-Mutual Friends Answer
 This puzzle is best solved by thinking in sets and not code.  Before I divulge the answer, lets first breakdown the sets that are created to obtain the desired outcome.
 
 Here is our original dataset.
