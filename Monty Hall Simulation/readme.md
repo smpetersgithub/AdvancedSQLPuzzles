@@ -1,8 +1,10 @@
-# Simulating the Monty Hall Problem
+# Advanced SQL Puzzles
 
-### Welcome,
+#### In this directory you will find the following:
+----
 
-Review the PDF file for information on the puzzle.
-Also in the directory is the SQL I used to create the simulation.
+#### Monty Hall Simulation.pdf
+Contains a description of the puzzle to solve.
 
-Happy coding!
+#### Monty Hall Simulation Solution.sql
+Contains the solution to the puzzle.
