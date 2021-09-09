@@ -2,7 +2,7 @@
 Scott Peters
 https://advancedsqlpuzzles.com
 
-Baseball Balls and Strikes Answer
+Baseball Balls and Strikes Solution
 ***********************************************************************/
 IF OBJECT_ID('tempdb.dbo.#Pitches') IS NOT NULL
 DROP TABLE #Pitches;
