@@ -1,17 +1,7 @@
 /*--------------------------------------------------------------------------------------------------------------------
 Scott Peters
 https://advancedsqlpuzzles.com
-
-You have a group of 10 people, 5 adults and 5 children, that need to travel somewhere.
-
-You have the following vehicles
-
-1 seat motorcycle
-2 seat sidecar
-3 seat golf cart
-4 seat car
-
-Assuming only an adult can operate a vehicle, how many arrangments are there if seat order is not important?
+Four Vehicles Puzzle
 
 */--------------------------------------------------------------------------------------------------------------------
 
