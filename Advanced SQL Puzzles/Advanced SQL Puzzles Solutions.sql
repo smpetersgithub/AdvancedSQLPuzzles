@@ -1662,6 +1662,17 @@ WHERE	a.InvoiceID IS NULL OR b.InvoiceID IS NULL;
 /*----------------------------------------------------
 Answer to Puzzle #36
 Traveling Salesman
+
+The Traveling Salesman is a popular puzzle in optimization.
+https://en.wikipedia.org/wiki/Travelling_salesman_problem
+
+For this puzzle, I solve it by hardcoding the number of connections to 4.
+You may wish to use recursion and set a maximum number of recursions, as
+their is the possibility of the traveling salesman traveling back and forth 
+between the same cities.
+
+Alternatively, you could try and solve it with the rule that the traveling
+salesman cannot visit each city twice.
 */----------------------------------------------------
 
 IF OBJECT_ID('tempdb.dbo.#Graph','U') IS NOT NULL
