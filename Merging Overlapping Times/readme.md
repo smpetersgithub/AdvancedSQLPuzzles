@@ -7,7 +7,7 @@
 Contains a description of the puzzle to solve.
 
 #### Merging Overlapping Times Solutions.sql
-Contains the solution to the puzzles.
+Contains the solution to the puzzle.
 
 #### Merging Overlapping Times DDL.sql
 Contains the create table statement and sample data only.  No solutions are provided in this file.
