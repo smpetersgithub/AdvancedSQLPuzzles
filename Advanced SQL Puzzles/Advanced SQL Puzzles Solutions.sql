@@ -5,53 +5,51 @@ https://advancedsqlpuzzles.com
 
 
 /*----------------------------------------------------
-Answer to Puzzle #1
-Dance Partners
+DDL for Puzzle #1
+Shopping Carts
 */----------------------------------------------------
 
-IF OBJECT_ID('tempdb.dbo.#DancePartners','U') IS NOT NULL
-	DROP TABLE #DancePartners;
+IF OBJECT_ID('tempdb.dbo.#Cart1','U') IS NOT NULL
+	DROP TABLE #Cart1;
 GO
 
-CREATE TABLE #DancePartners
+IF OBJECT_ID('tempdb.dbo.#Cart2','U') IS NOT NULL
+	DROP TABLE #Cart2;
+GO
+
+CREATE TABLE #Cart1
 (
-StudentID	INTEGER,
-Gender		VARCHAR(1)
+Item		VARCHAR(100)
 );
 GO
 
-INSERT INTO #DancePartners VALUES
-(1001,'M'),
-(2002,'M'),
-(3003,'M'),
-(4004,'M'),
-(5005,'M'),
-(6006,'F'),
-(7007,'F'),
-(8008,'F'),
-(9009,'F');
+CREATE TABLE #Cart2
+(
+Item		VARCHAR(100)
+);
 GO
 
-WITH cte_Males AS
-(
-SELECT	ROW_NUMBER () OVER (ORDER BY StudentID) AS RowNumber,
-		StudentID,
-		Gender
-FROM	#DancePartners
-WHERE	Gender = 'M'
-),
-cte_Females AS
-(
-SELECT	ROW_NUMBER () OVER (ORDER BY StudentID) AS RowNumber,
-		StudentID,
-		Gender
-FROM	#DancePartners
-WHERE	Gender = 'F'
-)
-SELECT	a.StudentID, a.Gender, b.StudentID, b.Gender
-FROM	cte_Males a FULL OUTER JOIN
-		cte_Females b ON a.RowNumber = B.RowNumber;
+INSERT INTO #Cart1 (Item) VALUES
+('Sugar'),
+('Bread'),
+('Juice'),
+('Soda'),
+('Flour');
+GO
 
+INSERT INTO #Cart2 VALUES
+('Sugar'),
+('Bread'),
+('Butter'),
+('Cheese'),
+('Fruit');
+GO
+
+SELECT	a.Item AS ItemCart1,
+		b.Item AS ItemCart2
+FROM	#Cart1 a FULL OUTER JOIN
+		#Cart2 b ON a.Item = b.Item;
+GO
 
 /*----------------------------------------------------
 Answer to Puzzle #2

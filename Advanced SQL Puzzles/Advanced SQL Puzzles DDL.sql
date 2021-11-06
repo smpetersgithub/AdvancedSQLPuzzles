@@ -6,30 +6,43 @@ https://advancedsqlpuzzles.com
 
 /*----------------------------------------------------
 DDL for Puzzle #1
-Dance Partners
+Shopping Carts
 */----------------------------------------------------
 
-IF OBJECT_ID('tempdb.dbo.#DancePartners','U') IS NOT NULL
-	DROP TABLE #DancePartners;
+IF OBJECT_ID('tempdb.dbo.#Cart1','U') IS NOT NULL
+	DROP TABLE #Cart1;
 GO
 
-CREATE TABLE #DancePartners
+IF OBJECT_ID('tempdb.dbo.#Cart2','U') IS NOT NULL
+	DROP TABLE #Cart2;
+GO
+
+CREATE TABLE #Cart1
 (
-StudentID	INTEGER,
-Gender		VARCHAR(1)
+Item		VARCHAR(100)
 );
 GO
 
-INSERT INTO #DancePartners VALUES
-(1001,'M'),
-(2002,'M'),
-(3003,'M'),
-(4004,'M'),
-(5005,'M'),
-(6006,'F'),
-(7007,'F'),
-(8008,'F'),
-(9009,'F');
+CREATE TABLE #Cart2
+(
+Item		VARCHAR(100)
+);
+GO
+
+INSERT INTO #Cart1 (Item) VALUES
+('Sugar'),
+('Bread'),
+('Juice'),
+('Soda'),
+('Flour');
+GO
+
+INSERT INTO #Cart2 VALUES
+('Sugar'),
+('Bread'),
+('Butter'),
+('Cheese'),
+('Fruit');
 GO
 
 
