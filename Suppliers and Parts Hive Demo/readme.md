@@ -3,7 +3,7 @@
 #### In this directory you will find the following:
 ----
 
-#### Databricks Spark Hive Demo.pdf
+#### Azure Databricks Spark Hive Demo pdf.pdf
 PDF version of the PowerPoint presentation
 
 #### Parts.csv | Shipments.csv | Suppliers.csv
