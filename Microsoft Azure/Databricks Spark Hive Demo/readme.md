@@ -1,4 +1,4 @@
-# Suppliers and Parts Hive Demo
+# Databricks Spark Hive Demo
 
 #### In this directory you will find the following:
 ----
