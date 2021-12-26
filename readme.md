@@ -1,7 +1,7 @@
 # Advanced SQL Puzzles
 ### Welcome to the GitHub repository. Here you will find numerous SQL puzzles to test your level of SQL knowledge. I hope you enjoy solving these puzzles as much as I have enjoyed creating them.
 
-You can also interact with my puzzles by visiting my website at https://advancedsqlpuzzles.com.
+https://advancedsqlpuzzles.com.
 
 All solutions are written in SQL Server T-SQL, but can be easily modified to fit your flavor of SQL.
 
