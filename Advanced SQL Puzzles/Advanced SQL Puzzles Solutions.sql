@@ -481,6 +481,7 @@ GO
 
 DECLARE @vTotalElements INTEGER = (SELECT COUNT(*) FROM #TestCases);
 
+--Recursion
 WITH cte_Permutations (Permutation, Ids, Depth)
 AS
 (
