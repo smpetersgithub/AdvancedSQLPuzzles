@@ -1300,8 +1300,8 @@ SELECT * FROM #Gaps2;
 Answer to Puzzle #29
 Count the Groupings
 */----------------------------------------------------
-
 DROP TABLE IF EXISTS #Groupings;
+DROP TABLE IF EXISTS #Groupings2;
 GO
 
 CREATE TABLE #Groupings
@@ -1327,20 +1327,22 @@ INSERT INTO #Groupings VALUES
 (12,'Test Case 12','Passed');
 GO
 
-WITH cte_RowNumber AS
-(
-SELECT	[Status],
-		StepNumber,
-		ROW_NUMBER() OVER (PARTITION BY [Status] ORDER BY StepNumber) AS RowNumber,
+SELECT	StepNumber,
+		[Status],
 		StepNumber - ROW_NUMBER() OVER (PARTITION BY [Status] ORDER BY StepNumber) AS Rnk
+INTO	#Groupings2
 FROM	#Groupings
-)
-SELECT	ROW_NUMBER() OVER (ORDER BY Rnk) AS StepOrder,
+ORDER BY 2;
+GO
+
+SELECT	MIN(StepNumber) AS MinStepNumber,
+		MAX(StepNumber) as MaxStepNumber,
 		[Status],
 		MAX(StepNumber) - MIN(StepNumber) + 1 AS ConsecutiveCount
-FROM	cte_RowNumber
-GROUP BY Rnk, [Status]
-ORDER BY Rnk, [Status];
+FROM	#Groupings2
+GROUP BY Rnk,
+		[Status]
+ORDER BY 1, 2;
 
 /*----------------------------------------------------
 Answer to Puzzle #30
