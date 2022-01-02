@@ -660,6 +660,12 @@ INSERT INTO #DMLTable VALUES
 GO
 
 --Solution 1
+--STRING_AGG
+SELECT	
+		STRING_AGG(CONVERT(NVARCHAR(max),String), ' ')
+FROM	#DMLTable;
+
+--Solution 2
 --Recursion
 WITH
 cte_DMLGroupConcat(String2,Depth) AS
@@ -676,7 +682,7 @@ SELECT	String2
 FROM	cte_DMLGroupConcat
 WHERE	Depth = 0;
 
---Solution 2
+--Solution 3
 --XML Path
 SELECT DISTINCT
 		STUFF((
