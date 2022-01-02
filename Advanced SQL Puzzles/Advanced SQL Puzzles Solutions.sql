@@ -2349,6 +2349,7 @@ ORDER BY Running_Total DESC;
 Answer to Puzzle #50
 Baseball Balls and Strikes
 */----------------------------------------------------
+
 DROP TABLE IF EXISTS #Pitches;
 DROP TABLE IF EXISTS #BallsStrikes;
 DROP TABLE IF EXISTS #BallsStrikesSumWidow;
@@ -2621,7 +2622,7 @@ SELECT	ProductName
 FROM	#ProductsA;
 GO
 
---Quantity is table A and table B do not match
+--Quantity in Table A and Table B do not match
 SELECT	*
 INTO	#Results4
 FROM	#ProductsA
@@ -2635,15 +2636,15 @@ SELECT	'Matches In both tables' AS [Type],
 		ProductName
 FROM	#Results1
 UNION
-SELECT	'Product does not exist in table B' AS [Type],
+SELECT	'Product does not exist in Table B' AS [Type],
 		ProductName
 FROM	#Results2
 UNION
-SELECT	'Product does not exist in table A' AS [Type],
+SELECT	'Product does not exist in Table A' AS [Type],
 		ProductName
 FROM	#Results3
 UNION
-SELECT	'Quantities in table A and table B do not match' AS [Type],
+SELECT	'Quantities in Table A and Table B do not match' AS [Type],
 		ProductName
 FROM	#Results4;
 
