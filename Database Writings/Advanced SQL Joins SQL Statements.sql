@@ -1,6 +1,6 @@
 /*
 Scott Peters
-01/16/2022
+01/23/2022
 
 The SQL statements from this document can be found in following Git repository.
 https://github.com/smpetersgithub/AdvancedSQLPuzzles/tree/main/Database%20Writings
@@ -21,17 +21,17 @@ GO
 
 CREATE TABLE ##TableA
 (
-ID			TINYINT,
-Fruit		VARCHAR(10),
-Quantity	TINYINT
+ID          TINYINT,
+Fruit       VARCHAR(10),
+Quantity    TINYINT
 );
 GO
 
 CREATE TABLE ##TableB
 (
-ID			TINYINT,
-Fruit		VARCHAR(10),
-Quantity	TINYINT
+ID          TINYINT,
+Fruit       VARCHAR(10),
+Quantity    TINYINT
 );
 GO
 
@@ -48,171 +48,167 @@ GO
 ---------------------------
 
 --1.1
-SELECT	a.Fruit,
-		b.Fruit
-FROM	##TableA a INNER JOIN
-		##TableB b ON a.Fruit = b.Fruit;
+SELECT  a.Fruit,
+        b.Fruit
+FROM    ##TableA a INNER JOIN
+        ##TableB b ON a.Fruit = b.Fruit;
 
 --1.2
-SELECT	a.Fruit,
-		b.Fruit
-FROM	##TableA a,
-		##TableB b
-WHERE	a.Fruit = b.Fruit;
+SELECT  a.Fruit,
+        b.Fruit
+FROM    ##TableA a,
+        ##TableB b
+WHERE   a.Fruit = b.Fruit;
 
 --1.3
-SELECT	a.Fruit,
-		b.Fruit
-FROM	##TableA a CROSS JOIN
-		##TableB b
-WHERE	a.Fruit = b.Fruit;
+SELECT  a.Fruit,
+        b.Fruit
+FROM    ##TableA a CROSS JOIN
+        ##TableB b
+WHERE   a.Fruit = b.Fruit;
 
 --1.4
-SELECT	a.Fruit,
-		b.Fruit
-FROM	##TableA a INNER JOIN
-		##TableB b ON a.Fruit = b.Fruit AND a.Quantity <> b.Quantity;
+SELECT  a.Fruit,
+        b.Fruit
+FROM    ##TableA a INNER JOIN
+        ##TableB b ON a.Fruit = b.Fruit AND a.Quantity <> b.Quantity;
 
 --1.5
-SELECT	a.Fruit,
-		b.Fruit
-FROM	##TableA a INNER JOIN
-		##TableB b ON a.Fruit <> b.Fruit OR a.Fruit = b.Fruit;
+SELECT  a.Fruit,
+        b.Fruit
+FROM    ##TableA a INNER JOIN
+        ##TableB b ON a.Fruit <> b.Fruit OR a.Fruit = b.Fruit;
 
 --1.6
-SELECT	a.Fruit,
-		b.Fruit
-FROM	##TableA a CROSS JOIN
-		##TableB b;
+SELECT  a.Fruit,
+        b.Fruit
+FROM    ##TableA a CROSS JOIN
+        ##TableB b;
 
 --1.7
-SELECT	*
-FROM	##TableA a INNER JOIN
-		##TableB b ON a.Quantity >= b.Quantity;
+SELECT  *
+FROM    ##TableA a INNER JOIN
+        ##TableB b ON a.Quantity >= b.Quantity;
 
 --1.8
-SELECT	*
-FROM	##TableA a INNER JOIN
-		##TableB b ON a.Fruit = b.Fruit AND a.Quantity BETWEEN 10 AND 20;
+SELECT  *
+FROM    ##TableA a INNER JOIN
+        ##TableB b ON a.Fruit = b.Fruit AND a.Quantity BETWEEN 10 AND 20;
 
 --1.9
-SELECT	a.Fruit,
-		b.Fruit
-FROM	##TableA a INNER JOIN
-		##TableB b ON ISNULL(a.Fruit,'') = ISNULL(b.Fruit,'');
+SELECT  a.Fruit,
+        b.Fruit
+FROM    ##TableA a INNER JOIN
+        ##TableB b ON ISNULL(a.Fruit,'') = ISNULL(b.Fruit,'');
 
 -------------------
 --LEFT OUTER JOIN--
 -------------------
 
 --2.1
-SELECT	a.Fruit,
-		b.Fruit
-FROM	##TableA a LEFT OUTER JOIN
-		##TableB b ON a.Fruit = b.Fruit;
+SELECT  a.Fruit,
+        b.Fruit
+FROM    ##TableA a LEFT OUTER JOIN
+        ##TableB b ON a.Fruit = b.Fruit;
 
 --2.2
-SELECT	a.Fruit
-FROM	##TableA a LEFT OUTER JOIN
-		##TableB b ON a.Fruit = b.Fruit
-WHERE	b.Fruit IS NULL;
+SELECT  a.Fruit
+FROM    ##TableA a LEFT OUTER JOIN
+        ##TableB b ON a.Fruit = b.Fruit
+WHERE   b.Fruit IS NULL;
 
 --2.3
-SELECT	a.Fruit,
-		b.Fruit
-FROM	##TableA a LEFT OUTER JOIN
-		##TableB b ON a.Fruit = b.Fruit AND b.Fruit = 'Apple';
+SELECT  a.Fruit,
+        b.Fruit
+FROM    ##TableA a LEFT OUTER JOIN
+        ##TableB b ON a.Fruit = b.Fruit AND b.Fruit = 'Apple';
 
 --2.4
-SELECT	a.Fruit,
-		b.Fruit
-FROM	##TableA a LEFT OUTER JOIN
-		##TableB b ON a.Fruit = b.Fruit
-WHERE	b.Fruit = 'Apple';
+SELECT  a.Fruit,
+        b.Fruit
+FROM    ##TableA a LEFT OUTER JOIN
+        ##TableB b ON a.Fruit = b.Fruit
+WHERE   b.Fruit = 'Apple';
 
 -------------------
 --FULL OUTER JOIN--
 -------------------
 
 --3.1
-SELECT	a.Fruit,
-		b.Fruit
-FROM	##TableA a FULL OUTER JOIN
-		##TableB b ON a.Fruit = b.Fruit;
+SELECT  a.Fruit,
+        b.Fruit
+FROM    ##TableA a FULL OUTER JOIN
+        ##TableB b ON a.Fruit = b.Fruit;
 
 --3.2
-SELECT	a.Fruit,
-		b.Fruit
-FROM	##TableA a FULL OUTER JOIN
-		##TableB b ON a.Fruit = b.Fruit
-WHERE	a.Fruit IS NULL OR b.Fruit IS NULL;
-
------------------
---NATURAL JOINS--
------------------
+SELECT  a.Fruit,
+        b.Fruit
+FROM    ##TableA a FULL OUTER JOIN
+        ##TableB b ON a.Fruit = b.Fruit
+WHERE   a.Fruit IS NULL OR b.Fruit IS NULL;
 
 ---------------
 --CROSS JOINS--
 ---------------
 
 --5.1
-SELECT	a.Fruit,
-		b.Fruit
-FROM	##TableA a CROSS JOIN
-		##TableB b;
+SELECT  a.Fruit,
+        b.Fruit
+FROM    ##TableA a CROSS JOIN
+        ##TableB b;
 
 --5.2
-SELECT	a.Fruit,
-		b.Fruit
-FROM	##TableA a CROSS JOIN
-		##TableB b
-WHERE	(CASE a.Fruit WHEN 'Orange' THEN 'Tangerine' ELSE a.Fruit END) = b.Fruit;
+SELECT  a.Fruit,
+        b.Fruit
+FROM    ##TableA a CROSS JOIN
+        ##TableB b
+WHERE   (CASE a.Fruit WHEN 'Orange' THEN 'Tangerine' ELSE a.Fruit END) = b.Fruit;
 
 --5.3
-SELECT	a.Fruit,
-		b.Fruit
-FROM	##TableA a,
-		##TableB b
-WHERE	(CASE WHEN a.Quantity > 15 THEN a.Quantity ELSE a.ID END) = b.Quantity;
+SELECT  a.Fruit,
+        b.Fruit
+FROM    ##TableA a,
+        ##TableB b
+WHERE   (CASE WHEN a.Quantity > 15 THEN a.Quantity ELSE a.ID END) = b.Quantity;
 
 -----------------------
 --SEMI AND ANTI JOINS--
 -----------------------
 
 --6.1
-SELECT	Fruit
-FROM	##TableA
-WHERE	Fruit NOT IN (SELECT Fruit FROM ##TableB);
+SELECT  Fruit
+FROM    ##TableA
+WHERE   Fruit NOT IN (SELECT Fruit FROM ##TableB);
 
 --6.2
-SELECT	Fruit
-FROM	##TableA
-WHERE	Fruit NOT IN (SELECT ISNULL(Fruit,'') FROM ##TableB);
+SELECT  Fruit
+FROM    ##TableA
+WHERE   Fruit NOT IN (SELECT ISNULL(Fruit,'') FROM ##TableB);
 
 --6.3
-SELECT	Fruit
-FROM	##TableA
-WHERE	Fruit NOT IN (SELECT Fruit FROM ##TableB WHERE Fruit IS NOT NULL);
+SELECT  Fruit
+FROM    ##TableA
+WHERE   Fruit NOT IN (SELECT Fruit FROM ##TableB WHERE Fruit IS NOT NULL);
 
 --6.4
-SELECT	Fruit
-FROM	##TableA
-WHERE	Fruit IN (SELECT Fruit FROM ##TableB);
+SELECT  Fruit
+FROM    ##TableA
+WHERE   Fruit IN (SELECT Fruit FROM ##TableB);
 
 --6.5
 SELECT Fruit
-FROM	##TableA
-WHERE	Fruit IN ('Apple','Kiwi',NULL);
+FROM    ##TableA
+WHERE   Fruit IN ('Apple','Kiwi',NULL);
 
 --6.6
-SELECT	Fruit
-FROM	##TableA a
-WHERE	EXISTS (SELECT 1 FROM ##TableB b WHERE a.Fruit = b.Fruit AND a.Quantity = b.Quantity);
+SELECT  Fruit
+FROM    ##TableA a
+WHERE   EXISTS (SELECT 1 FROM ##TableB b WHERE a.Fruit = b.Fruit AND a.Quantity = b.Quantity);
 
 --6.7
-SELECT	Fruit
-FROM	##TableA a
-WHERE	NOT EXISTS (SELECT 1 FROM ##TableB b WHERE a.Fruit = b.Fruit AND a.Quantity = b.Quantity);
+SELECT  Fruit
+FROM    ##TableA a
+WHERE   NOT EXISTS (SELECT 1 FROM ##TableB b WHERE a.Fruit = b.Fruit AND a.Quantity = b.Quantity);
 
 ---------------------
 --BEHAVIOR OF NULLS--
@@ -239,25 +235,24 @@ SELECT 1 WHERE 1 IS NULL;
 SELECT 1 WHERE NULL IS NOT NULL;
 SELECT 1 WHERE 1 <> 1;
 
-
 -------------------
 -- VALUES KEYWORD--
 -------------------
 
 --8.1
 SELECT a, b
-FROM	(VALUES (1, 2), (3, 4), (5, 6), (7, 8), (9, 10)) AS MyTable(a, b);
+FROM    (VALUES (1, 2), (3, 4), (5, 6), (7, 8), (9, 10)) AS MyTable(a, b);
 
 --8.2
-SELECT	a.Fruit
-FROM	##TableA a INNER JOIN
-		(VALUES ('Kiwi'), ('Apple')) AS b(Fruit) ON a.Fruit = b.Fruit;
+SELECT  a.Fruit
+FROM    ##TableA a INNER JOIN
+        (VALUES ('Kiwi'), ('Apple')) AS b(Fruit) ON a.Fruit = b.Fruit;
 
 --8.3
-SELECT	a.Fruit,
-		b.New_ID
-FROM	##TableA a CROSS JOIN
-		(VALUES (NEWID())) AS b(New_ID)
+SELECT  a.Fruit,
+        b.New_ID
+FROM    ##TableA a CROSS JOIN
+        (VALUES (NEWID())) AS b(New_ID)
 
 -----------------
 --SET OPERATORS--
@@ -309,42 +304,42 @@ INSERT INTO #Employees VALUES
 (5,'Mercer','Director',3)
 
 --10.1
-SELECT	a.EmployeeID,
-		a.[Name],
-		a.Title,
-		a.ManagerID,
-		b.[Name] AS ManagerName,
-		b.Title
-FROM	#Employees a INNER JOIN
-		#Employees b ON a.ManagerID = b.EmployeeID;
+SELECT  a.EmployeeID,
+        a.[Name],
+        a.Title,
+        a.ManagerID,
+        b.[Name] AS ManagerName,
+        b.Title
+FROM    #Employees a INNER JOIN
+        #Employees b ON a.ManagerID = b.EmployeeID;
 
 --10.2
 WITH cte_Recursion AS
 (
-SELECT	EmployeeID,
-		[Name],
-		Title,
-		ManagerID, 0 AS Depth
-FROM	#Employees
-WHERE	ManagerID IS NULL
+SELECT  EmployeeID,
+        [Name],
+        Title,
+        ManagerID, 0 AS Depth
+FROM    #Employees
+WHERE   ManagerID IS NULL
 UNION ALL
-SELECT	b.EmployeeID,
-		b.[Name],
-		b.Title,
-		b.ManagerID,
-		a.Depth + 1 AS Depth
-FROM	cte_Recursion a INNER JOIN
-		#Employees b on a.EmployeeID = b.ManagerID
+SELECT  b.EmployeeID,
+        b.[Name],
+        b.Title,
+        b.ManagerID,
+        a.Depth + 1 AS Depth
+FROM    cte_Recursion a INNER JOIN
+        #Employees b on a.EmployeeID = b.ManagerID
 )
-SELECT	a.EmployeeID,
-		a.[Name],
-		a.Title,
-		a.ManagerID,
-		b.[Name] AS ManagerName,
-		b.Title AS ManagerTitle,
-		a.Depth
-FROM	cte_Recursion a LEFT JOIN
-		#Employees b ON a.ManagerID = b.EmployeeID
+SELECT  a.EmployeeID,
+        a.[Name],
+        a.Title,
+        a.ManagerID,
+        b.[Name] AS ManagerName,
+        b.Title AS ManagerTitle,
+        a.Depth
+FROM    cte_Recursion a LEFT JOIN
+        #Employees b ON a.ManagerID = b.EmployeeID
 ORDER BY 1;
 
 -------------
@@ -356,9 +351,9 @@ GO
 
 CREATE TABLE #Customers
 (
-ID		TINYINT NOT NULL,
-[Name]	VARCHAR(10) NOT NULL,
-City	VARCHAR(10) NOT NULL
+ID      TINYINT NOT NULL,
+[Name]  VARCHAR(10) NOT NULL,
+City    VARCHAR(10) NOT NULL
 );
 GO
 
@@ -370,11 +365,11 @@ INSERT INTO #Customers VALUES
 GO
 
 --10.3
-SELECT	a.ID,
-		a.[Name],
-		a.City
-FROM	#Customers a INNER JOIN
-		#Customers b ON a.City = b.City AND a.[Name] <> b.[Name];
+SELECT  a.ID,
+        a.[Name],
+        a.City
+FROM    #Customers a INNER JOIN
+        #Customers b ON a.City = b.City AND a.[Name] <> b.[Name];
 
 -------------
 --Example 3--
@@ -385,9 +380,9 @@ GO
 
 CREATE TABLE #Animals
 (
-ID			TINYINT,
-Animal		VARCHAR(20),
-[Weight]	INTEGER
+ID          TINYINT,
+Animal      VARCHAR(20),
+[Weight]    INTEGER
 );
 GO
 
@@ -400,19 +395,19 @@ INSERT INTO #Animals VALUES
 GO
 
 --10.5
-SELECT	a.ID,
-		a.Animal,
-		SUM(b.[Weight]) AS Cummulative_Weight
-FROM	#Animals a CROSS JOIN
-		#Animals b
-WHERE	a.ID >= b.ID
+SELECT  a.ID,
+        a.Animal,
+        SUM(b.[Weight]) AS Cummulative_Weight
+FROM    #Animals a CROSS JOIN
+        #Animals b
+WHERE   a.ID >= b.ID
 GROUP BY a.ID, a.Animal;
 
 --10.6
-SELECT	ID,
-		Animal,
-		SUM(Weight) OVER(ORDER BY ID ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS Cummulative_Weight
-FROM	#Animals;
+SELECT  ID,
+        Animal,
+        SUM(Weight) OVER(ORDER BY ID ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS Cummulative_Weight
+FROM    #Animals;
 
 ---------------------
 --Positive Balances--
@@ -423,8 +418,8 @@ GO
 
 CREATE TABLE #AccountBalances
 (
-ID		INTEGER NOT NULL,
-Balance	MONEY NOT NULL
+ID      INTEGER NOT NULL,
+Balance MONEY NOT NULL
 );
 GO
 
@@ -439,28 +434,28 @@ EXCEPT
 SELECT DISTINCT ID FROM #AccountBalances WHERE Balance > 0;
 
 --11.2
-SELECT	ID
-FROM	#AccountBalances
+SELECT  ID
+FROM    #AccountBalances
 GROUP BY ID
-HAVING	MAX(Balance) < 0;
+HAVING  MAX(Balance) < 0;
 
 --11.3
-SELECT	DISTINCT
-		ID
-FROM	#AccountBalances
-WHERE	ID NOT IN (SELECT ID FROM #AccountBalances WHERE Balance > 0);
+SELECT  DISTINCT
+        ID
+FROM    #AccountBalances
+WHERE   ID NOT IN (SELECT ID FROM #AccountBalances WHERE Balance > 0);
 
 --11.4
-SELECT	DISTINCT ID
-FROM	#AccountBalances a
-WHERE	NOT EXISTS (SELECT 1 FROM #AccountBalances b WHERE Balance > 0 AND a.ID = b.ID);
+SELECT  DISTINCT ID
+FROM    #AccountBalances a
+WHERE   NOT EXISTS (SELECT 1 FROM #AccountBalances b WHERE Balance > 0 AND a.ID = b.ID);
 
 --11.5
-SELECT	DISTINCT
-		a.ID
-FROM	#AccountBalances a LEFT OUTER JOIN
-		#AccountBalances b ON a.ID = b.ID AND b.Balance > 0
-WHERE	b.ID IS NULL;
+SELECT  DISTINCT
+        a.ID
+FROM    #AccountBalances a LEFT OUTER JOIN
+        #AccountBalances b ON a.ID = b.ID AND b.Balance > 0
+WHERE   b.ID IS NULL;
 
 -------------------------
 -------------------------
@@ -491,58 +486,58 @@ GO
 --12.1
 WITH cte_Reciprocal_Friends AS
 (
-SELECT	Friend1,
-		Friend2
-FROM	#Friends
+SELECT  Friend1,
+        Friend2
+FROM    #Friends
 UNION
-SELECT	Friend2,
-		Friend1
-FROM	#Friends
+SELECT  Friend2,
+        Friend1
+FROM    #Friends
 )
-SELECT	*
-INTO	#Distinct_Friends_Full_1
-FROM	cte_Reciprocal_Friends;
+SELECT  *
+INTO    #Distinct_Friends_Full_1
+FROM    cte_Reciprocal_Friends;
 
 --Step 2
 --12.2
-SELECT	a.*
-	,b.Friend2 AS Mutual_Friend_Check
-INTO	#Mutual_Friend_Check_2
-FROM	#Distinct_Friends_Full_1 a INNER JOIN
-	#Distinct_Friends_Full_1 b ON a.Friend2 = b.Friend1
-WHERE	a.Friend1 <> b.Friend2;
+SELECT  a.*
+        ,b.Friend2 AS Mutual_Friend_Check
+INTO    #Mutual_Friend_Check_2
+FROM    #Distinct_Friends_Full_1 a INNER JOIN
+        #Distinct_Friends_Full_1 b ON a.Friend2 = b.Friend1
+WHERE   a.Friend1 <> b.Friend2;
 
 --Step 3
 --12.3
-SELECT	(CASE WHEN Friend1 < Friend2 THEN Friend1 ELSE Friend2 END) AS Friend1
-	,(CASE WHEN Friend1 < Friend2 THEN Friend2 ELSE Friend1 END) AS Friend2
-	,Mutual_Friend_Check
-INTO	#Reciprocal_Mutual_Friend_Check_3
-FROM	#Mutual_Friend_Check_2;
+SELECT  (CASE WHEN Friend1 < Friend2 THEN Friend1 ELSE Friend2 END) AS Friend1
+        ,(CASE WHEN Friend1 < Friend2 THEN Friend2 ELSE Friend1 END) AS Friend2
+        ,Mutual_Friend_Check
+INTO    #Reciprocal_Mutual_Friend_Check_3
+FROM    #Mutual_Friend_Check_2;
 
 --Step 4
 --12.4
-SELECT	Friend1
-	,Friend2
-	,Mutual_Friend_Check
-	,COUNT(*) AS Grouping_Count
-INTO	#Reciprocal_Mutual_Friend_Check_Count_4
-FROM	#Reciprocal_Mutual_Friend_Check_3
+SELECT  Friend1
+        ,Friend2
+        ,Mutual_Friend_Check
+        ,COUNT(*) AS Grouping_Count
+INTO    #Reciprocal_Mutual_Friend_Check_Count_4
+FROM    #Reciprocal_Mutual_Friend_Check_3
 GROUP BY Friend1, Friend2, Mutual_Friend_Check;
 
 --Step 5
 --12.5
-SELECT	Friend1
-	,Friend2
-	,Mutual_Friend_Check
-	,(CASE Grouping_Count WHEN 1 THEN 0 WHEN 2 THEN 1 END) AS Friend_Count
-INTO	#Reciprocal_Mutual_Friend_Check_Count_Modified_5
-FROM	#Reciprocal_Mutual_Friend_Check_Count_4;
+SELECT  Friend1
+        ,Friend2
+        ,Mutual_Friend_Check
+        ,(CASE Grouping_Count WHEN 1 THEN 0 WHEN 2 THEN 1 END) AS Friend_Count
+INTO    #Reciprocal_Mutual_Friend_Check_Count_Modified_5
+FROM    #Reciprocal_Mutual_Friend_Check_Count_4;
 
 --Step 6
 --12.6
-SELECT	Friend1
-	,Friend2
-	,SUM(Friend_Count) AS Total_Mutual_Friends 
-FROM	#Reciprocal_Mutual_Friend_Check_Count_Modified_5
+SELECT  Friend1
+        ,Friend2
+        ,SUM(Friend_Count) AS Total_Mutual_Friends 
+FROM    #Reciprocal_Mutual_Friend_Check_Count_Modified_5
 GROUP BY Friend1, Friend2;
