@@ -23,7 +23,6 @@ SELECT 1 WHERE ((1=1) OR (NULL=1));
 --FALSE OR UNKNOWN = UNKNOWN
 SELECT 1 WHERE ((1=2) OR (NULL=1));
 
-
 --------------------------
 -- IS NULL | IS NOT NULL--
 --------------------------
@@ -60,17 +59,17 @@ GO
 
 CREATE TABLE ##TableA
 (
-ID			TINYINT,
-Fruit		VARCHAR(10),
-Quantity	TINYINT
+ID          TINYINT,
+Fruit       VARCHAR(10),
+Quantity    TINYINT
 );
 GO
 
 CREATE TABLE ##TableB
 (
-ID			TINYINT,
-Fruit		VARCHAR(10),
-Quantity	TINYINT
+ID          TINYINT,
+Fruit       VARCHAR(10),
+Quantity    TINYINT
 );
 GO
 
@@ -95,53 +94,53 @@ GO
 ----------------
 
 --3.1
-SELECT	DISTINCT
-		a.Fruit,
-		b.Fruit
-FROM	##TableA a INNER JOIN
-		##TableB b ON a.Fruit = b.Fruit OR a.Fruit <> b.Fruit;
+SELECT  DISTINCT
+        a.Fruit,
+        b.Fruit
+FROM    ##TableA a INNER JOIN
+        ##TableB b ON a.Fruit = b.Fruit OR a.Fruit <> b.Fruit;
 
 ------------------------
 -- SEMI AND ANTI JOINS--
 ------------------------
 
 --4.1
-SELECT	Fruit
-FROM	##TableA
-WHERE	Fruit NOT IN (SELECT Fruit FROM ##TableB);
+SELECT  Fruit
+FROM    ##TableA
+WHERE   Fruit NOT IN (SELECT Fruit FROM ##TableB);
 
 --4.2
-SELECT	DISTINCT
-		Fruit
-FROM	##TableA
-WHERE	Fruit NOT IN (SELECT ISNULL(Fruit,'') FROM ##TableB);
+SELECT  DISTINCT
+        Fruit
+FROM    ##TableA
+WHERE   Fruit NOT IN (SELECT ISNULL(Fruit,'') FROM ##TableB);
 
 --4.3
-SELECT	DISTINCT
-		Fruit
-FROM	##TableA
-WHERE	Fruit NOT IN (SELECT Fruit FROM ##TableB WHERE Fruit IS NOT NULL);
+SELECT  DISTINCT
+        Fruit
+FROM    ##TableA
+WHERE   Fruit NOT IN (SELECT Fruit FROM ##TableB WHERE Fruit IS NOT NULL);
 
 --4.4
-SELECT	DISTINCT
-		Fruit
-FROM	##TableA
-WHERE	Fruit IN (SELECT Fruit FROM ##TableB);
+SELECT  DISTINCT
+        Fruit
+FROM    ##TableA
+WHERE   Fruit IN (SELECT Fruit FROM ##TableB);
 
 --4.5
-SELECT	Fruit
-FROM	##TableA
-WHERE	Fruit IN ('Apple','Kiwi',NULL);
+SELECT  Fruit
+FROM    ##TableA
+WHERE   Fruit IN ('Apple','Kiwi',NULL);
 
 --4.6
-SELECT	Fruit
-FROM	##TableA a
+SELECT  Fruit
+FROM    ##TableA a
 WHERE  EXISTS (SELECT 1 FROM ##TableB b WHERE a.Fruit = b.Fruit);
 
 --4.7
-SELECT	Fruit
-FROM	##TableA a
-WHERE	NOT EXISTS (SELECT 1 FROM ##TableB b WHERE a.Fruit = b.Fruit);
+SELECT  Fruit
+FROM    ##TableA a
+WHERE   NOT EXISTS (SELECT 1 FROM ##TableB b WHERE a.Fruit = b.Fruit);
 
 ------------------
 -- SET OPERATORS--
@@ -172,23 +171,21 @@ SELECT DISTINCT Fruit FROM ##TableB;
 ------------
 
 --6.1
-SELECT	Fruit,
-		COUNT(*) AS Count_Star,
-		COUNT(Fruit) AS Count_Fruit
-FROM	##TableA
+SELECT  Fruit,
+        COUNT(*) AS Count_Star,
+        COUNT(Fruit) AS Count_Fruit
+FROM    ##TableA
 GROUP BY Fruit;
-
 
 ------------------
 --COUNT FUNCTION--
 ------------------
 --7.1
-SELECT	Fruit,
-		COUNT(*) AS Count_Star,
-		COUNT(Fruit) AS Count_Fruit
-FROM	##TableA
+SELECT  Fruit,
+        COUNT(*) AS Count_Star,
+        COUNT(Fruit) AS Count_Fruit
+FROM    ##TableA
 GROUP BY Fruit;
-
 
 ---------------
 --CONSTRAINTS--
@@ -215,7 +212,7 @@ DROP TABLE IF EXISTS ##CheckConstraints;
 
 CREATE TABLE ##CheckConstraints
 (
-MyField	INTEGER,
+MyField INTEGER,
 CONSTRAINT Check_NULLConstraints CHECK (MyField > 0)
 );
 
@@ -259,24 +256,24 @@ SELECT * FROM dbo.Child;
 -------------------
 
 --10.1
-SELECT	Fruit,
-		Quantity + 2 AS QuantityPlus2
-FROM	##TableB;
+SELECT  Fruit,
+        Quantity + 2 AS QuantityPlus2
+FROM    ##TableB;
 
 ------------------
 --NULL FUNCTIONS--
 ------------------
 
 --11.1
-DECLARE	@test VARCHAR(3);
-SELECT	'IsNull' AS Type,
-		ISNULL(@test, 'ABCD') AS Result
+DECLARE @test VARCHAR(3);
+SELECT  'IsNull' AS Type,
+        ISNULL(@test, 'ABCD') AS Result
 UNION
-SELECT	'Coalesce' AS Type,
-		COALESCE(@test, 'ABCD') AS Result
+SELECT  'Coalesce' AS Type,
+        COALESCE(@test, 'ABCD') AS Result
 UNION
-SELECT	'NullIf' AS Type,
-		NULLIF('ABCD', @test) AS Result;
+SELECT  'NullIf' AS Type,
+        NULLIF('ABCD', @test) AS Result;
 
 ----------------
 --EMPTY STRING--
@@ -286,8 +283,8 @@ SELECT	'NullIf' AS Type,
 SELECT ASCII('') AS ASCII;
 
 --12.2
-SELECT	DISTINCT
-		a.Fruit,
-		b.Fruit
-FROM	##TableA a INNER JOIN
-		##TableB b ON ISNULL(a.Fruit,'') = ISNULL(b.Fruit,'');
+SELECT  DISTINCT
+        a.Fruit,
+        b.Fruit
+FROM    ##TableA a INNER JOIN
+        ##TableB b ON ISNULL(a.Fruit,'') = ISNULL(b.Fruit,'');
