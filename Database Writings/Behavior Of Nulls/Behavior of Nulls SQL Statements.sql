@@ -288,3 +288,18 @@ SELECT  DISTINCT
         b.Fruit
 FROM    ##TableA a INNER JOIN
         ##TableB b ON ISNULL(a.Fruit,'') = ISNULL(b.Fruit,'');
+
+----------
+--CONCAT--
+----------
+
+--13.1
+SELECT CONCAT(NULL,NULL,NULL) AS ConcatFunc;
+
+--13.2
+WITH
+CTE_NULL AS (SELECT 'NULL' AS MyType, NULL AS A, NULL AS B, NULL AS C),
+CTE_EmptyString AS (SELECT 'EmptyString' AS MyType, '' AS A, '' AS B, '' AS C)
+SELECT  *
+FROM    CTE_NULL a INNER JOIN 
+		CTE_EmptyString b ON CONCAT(a.A, a.B, a.C) = CONCAT(b.A, b.B, b.C);
