@@ -1,6 +1,14 @@
+
+create database BehaviorNulls;
+GO
+
+USE BehaviorNulls
+GO
+
+
 /*
 Scott Peters
-01/16/2022
+Last Updated: 05/09/2022
 
 The SQL statements from this document can be found in following Git repository.
 https://github.com/smpetersgithub/AdvancedSQLPuzzles/tree/main/Database%20Writings
@@ -135,7 +143,7 @@ WHERE   Fruit IN ('Apple','Kiwi',NULL);
 --4.6
 SELECT  Fruit
 FROM    ##TableA a
-WHERE  EXISTS (SELECT 1 FROM ##TableB b WHERE a.Fruit = b.Fruit);
+WHERE   EXISTS (SELECT 1 FROM ##TableB b WHERE a.Fruit = b.Fruit);
 
 --4.7
 SELECT  Fruit
@@ -177,29 +185,56 @@ SELECT  Fruit,
 FROM    ##TableA
 GROUP BY Fruit;
 
-------------------
---COUNT FUNCTION--
-------------------
+------------------------------
+--COUNT AND AVERAGE FUNCTION--
+------------------------------
 --7.1
 SELECT  Fruit,
-        COUNT(*) AS Count_Star,
-        COUNT(Fruit) AS Count_Fruit
+        COUNT(*) AS Count_Star
 FROM    ##TableA
 GROUP BY Fruit;
+
+--7.2
+WITH cte_Average AS
+(
+SELECT 1 AS Id, 150 AS MyValue
+UNION 
+SELECT 2 AS Id, 150 AS MyValue
+UNION 
+SELECT 3 AS Id, NULL AS MyValue
+UNION 
+SELECT NULL AS Id, 150 AS MyValue
+)
+SELECT SUM(MyValue) / CAST(COUNT(*) AS NUMERIC(5,2)) AS Average_CountStar,
+       SUM(MyValue) / CAST(COUNT(Id) AS NUMERIC(5,2)) AS Average_CountId,
+       AVG(CAST(MyValue AS NUMERIC(5,2))) AS Average_AvgFunction
+FROM   cte_Average;
 
 ---------------
 --CONSTRAINTS--
 ---------------
 
 --8.1
+--Msg 8111, Level 16, State 1, Line nnn
+--Cannot define PRIMARY KEY constraint on nullable column in table '##TableA'.
+--Msg 1750, Level 16, State 0, Line nnn
+--Could not create constraint or index. See previous errors.
 ALTER TABLE ##TableA
 ADD CONSTRAINT PK_NULLConstraints PRIMARY KEY NONCLUSTERED (Fruit);
 
 --8.2
+--Msg 8111, Level 16, State 1, Line nnn
+--Cannot define PRIMARY KEY constraint on nullable column in table '##TableA'.
+--Msg 1750, Level 16, State 0, Line nnn
+--Could not create constraint or index. See previous errors.
 ALTER TABLE ##TableA
 ADD CONSTRAINT PK_NULLConstraints PRIMARY KEY CLUSTERED (Fruit);
 
 --8.3
+--Msg 1505, Level 16, State 1, Line 205
+--The CREATE UNIQUE INDEX statement terminated because a duplicate key was found for the object name 'dbo.##TableB' and the index name 'UNIQUE_NULLConstraints'. The duplicate key value is (<NULL>).
+--Msg 1750, Level 16, State 1, Line 205
+--Could not create constraint or index. See previous errors.
 ALTER TABLE ##TableB
 ADD CONSTRAINT UNIQUE_NULLConstraints UNIQUE (Fruit);
 GO
@@ -226,8 +261,8 @@ SELECT * FROM ##CheckConstraints;
 -------------------------
 
 --9.1
-DROP TABLE IF EXISTS dbo.Parent;
 DROP TABLE IF EXISTS dbo.Child;
+DROP TABLE IF EXISTS dbo.Parent;
 GO
 
 CREATE TABLE dbo.Parent
@@ -260,27 +295,59 @@ SELECT  Fruit,
         Quantity + 2 AS QuantityPlus2
 FROM    ##TableB;
 
+--10.2
+DROP TABLE IF EXISTS MyComputed;
+GO
+
+CREATE TABLE MyComputed
+(
+Int1 INTEGER NOT NULL,
+Int2 INTEGER NOT NULL,
+Int3 AS MyInt1 + MyInt2 PERSISTED NOT NULL
+);
+
+ALTER TABLE MyComputed ADD PRIMARY KEY CLUSTERED (Int3);
+
+DROP TABLE IF EXISTS MyComputed;
+GO
+
+
 ------------------
 --NULL FUNCTIONS--
 ------------------
 
---11.1
 DECLARE @test VARCHAR(3);
-SELECT  'IsNull' AS Type,
-        ISNULL(@test, 'ABCD') AS Result
+
+--11.1
+WITH cte_functions AS
+(
+SELECT  1 AS Id,
+        'IsNull' AS Type,
+        ISNULL(@test, 'ABCD') AS Result--truncates ABCD to ABC.
 UNION
-SELECT  'Coalesce' AS Type,
-        COALESCE(@test, 'ABCD') AS Result
+SELECT  2 AS Id,
+        'Coalesce_3Parameters' AS Type,
+        COALESCE(@test, 'ABCD', 'EFGH') AS Result1--accepts three parameters, does not truncate ABCD
 UNION
-SELECT  'NullIf' AS Type,
-        NULLIF('ABCD', @test) AS Result;
+SELECT  3 AS Id,
+        'Coalesce_NULL' AS Type,
+        COALESCE(@test, NULL, NULL) AS Result1--Returns a NULL
+UNION
+SELECT  4 AS Id,
+       'NullIf' AS Type,
+        NULLIF('ABCD', @test) AS Result--The first argument needs to be a NON-NULL
+)
+SELECT   *
+FROM     cte_functions
+ORDER BY 1;
 
 ----------------
 --EMPTY STRING--
 ----------------
 
 --12.1
-SELECT ASCII('') AS ASCII;
+SELECT ASCII('') AS ASCII_EmptyString,
+       ASCII(NULL) AS ASCII_NULL;
 
 --12.2
 SELECT  DISTINCT
@@ -298,8 +365,96 @@ SELECT CONCAT(NULL,NULL,NULL) AS ConcatFunc;
 
 --13.2
 WITH
-CTE_NULL AS (SELECT 'NULL' AS MyType, NULL AS A, NULL AS B, NULL AS C),
-CTE_EmptyString AS (SELECT 'EmptyString' AS MyType, '' AS A, '' AS B, '' AS C)
+cte_NULL AS 
+(
+SELECT 'NULL' AS MyType,
+		NULL AS A,
+		NULL AS B,
+		NULL AS C
+)
+,
+cte_EmptyString AS 
+(
+SELECT 'EmptyString' AS MyType,
+       '' AS A,
+       '' AS B,
+       '' AS C
+)
 SELECT  *
-FROM    CTE_NULL a INNER JOIN 
-		CTE_EmptyString b ON CONCAT(a.A, a.B, a.C) = CONCAT(b.A, b.B, b.C);
+FROM    cte_NULL a INNER JOIN 
+        cte_EmptyString b ON CONCAT(a.A, a.B, a.C) = CONCAT(b.A, b.B, b.C);
+
+----------
+--VIEWS---
+----------
+
+--14.1
+DROP TABLE IF EXISTS MyTable;
+GO
+
+CREATE TABLE MyTable
+(
+MyInteger INT NOT NULL,
+MyVarchar Varchar(100) NOT NULL,
+MyDate Date NOT NULL
+);
+GO
+
+CREATE OR ALTER VIEW vwMyTable AS
+SELECT MyInteger,
+       MyVarchar,
+       MyDate,
+       CAST(MyInteger AS INT) AS MyInteger_Cast,
+       CAST(MyVarchar AS VARCHAR(100)) AS MyVarchar_Cast,
+       CAST(MyDate AS DATETIME) AS MyDate_Cast,
+       MyInteger * 10 AS MyInteger_Computed
+FROM   MyTable;
+GO
+
+DROP TABLE IF EXISTS MyTable;
+DROP VIEW IF EXISTS vwMyTable;
+GO
+
+---------------
+----BOOLEAN----
+---------------
+
+--15.1
+SELECT CAST(NULL AS BIT) AS MyBit
+UNION
+SELECT CAST(3 AS BIT);
+
+--15.2
+SELECT  *
+FROM    ##TableA
+WHERE   NOT(FRUIT = 'Mango');
+
+--------------
+----RETURN----
+--------------
+--16.1
+GO
+CREATE OR ALTER PROCEDURE SpReturnStatement
+AS
+IF 1=2
+    RETURN 1
+ELSE
+    RETURN NULL;
+GO
+
+DECLARE @return_status INT;
+
+EXEC @return_status = SpReturnStatement;
+SELECT 'Return Status' = @return_status;
+GO
+
+DROP PROCEDURE SpReturnStatement;
+GO
+
+
+
+
+---------------
+----THE END----
+---------------
+
