@@ -130,6 +130,11 @@ FROM    ##TableA a LEFT OUTER JOIN
         ##TableB b ON a.Fruit = b.Fruit
 WHERE   b.Fruit = 'Apple';
 
+--2.5
+SELECT  a.Fruit,
+        (SELECT b.Fruit FROM ##TableB b WHERE a.Fruit = b.Fruit) AS Fruit
+FROM    ##TableA a;
+
 -------------------
 --FULL OUTER JOIN--
 -------------------
