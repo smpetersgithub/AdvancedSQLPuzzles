@@ -1,10 +1,10 @@
-
-create database BehaviorNulls;
+/*
+CREATE DATABASE BehaviorNulls;
 GO
 
 USE BehaviorNulls
 GO
-
+*/
 
 /*
 Scott Peters
@@ -130,8 +130,7 @@ FROM    ##TableA
 WHERE   Fruit NOT IN (SELECT Fruit FROM ##TableB WHERE Fruit IS NOT NULL);
 
 --4.4
-SELECT  DISTINCT
-        Fruit
+SELECT  Fruit
 FROM    ##TableA
 WHERE   Fruit IN (SELECT Fruit FROM ##TableB);
 
@@ -143,12 +142,14 @@ WHERE   Fruit IN ('Apple','Kiwi',NULL);
 --4.6
 SELECT  Fruit
 FROM    ##TableA a
-WHERE   EXISTS (SELECT 1 FROM ##TableB b WHERE a.Fruit = b.Fruit);
+WHERE   EXISTS (SELECT 1 FROM ##TableB b WHERE a.Fruit = b.Fruit AND a.Quantity = b.Quantity);
 
 --4.7
-SELECT  Fruit
+SELECT  DISTINCT
+        Fruit
 FROM    ##TableA a
-WHERE   NOT EXISTS (SELECT 1 FROM ##TableB b WHERE a.Fruit = b.Fruit);
+WHERE  NOT EXISTS (SELECT 1 FROM ##TableB b WHERE a.Fruit = b.Fruit AND a.Quantity = b.Quantity);
+
 
 ------------------
 -- SET OPERATORS--
@@ -303,7 +304,7 @@ CREATE TABLE MyComputed
 (
 Int1 INTEGER NOT NULL,
 Int2 INTEGER NOT NULL,
-Int3 AS MyInt1 + MyInt2 PERSISTED NOT NULL
+Int3 AS Int1 + Int2 PERSISTED NOT NULL
 );
 
 ALTER TABLE MyComputed ADD PRIMARY KEY CLUSTERED (Int3);
@@ -436,7 +437,7 @@ WHERE   NOT(FRUIT = 'Mango');
 GO
 CREATE OR ALTER PROCEDURE SpReturnStatement
 AS
-IF 1=2
+IF  1=2
     RETURN 1
 ELSE
     RETURN NULL;
@@ -457,4 +458,3 @@ GO
 ---------------
 ----THE END----
 ---------------
-
