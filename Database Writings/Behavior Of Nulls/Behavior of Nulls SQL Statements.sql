@@ -6,18 +6,24 @@ USE BehaviorNulls
 GO
 */
 
-/*
+
+/*----------------------------------------------------------------------------------------*/
+/*-----------------------------------------------------------------------------------------
+
 Scott Peters
-Last Updated: 05/09/2022
+Last Updated: 07/01/2022
 
 The SQL statements from this document can be found in following Git repository.
 https://github.com/smpetersgithub/AdvancedSQLPuzzles/tree/main/Database%20Writings
 
-The following examples are presented using SQL Servers TSQL.  You can easily modify the SQL statements to fit your flavor of SQL.
+The following examples are presented using SQL Servers TSQL.
+You can easily modify the SQL statements to fit your flavor of SQL.
 
 Please check out my website at:
 https://advancedsqlpuzzles.com
-*/
+
+------------------------------------------------------------------------------------------*/
+/*----------------------------------------------------------------------------------------*/
 
 --------------------
 -- PREDICATE LOGIC--
@@ -98,15 +104,24 @@ INSERT INTO ##TableB VALUES
 GO
 
 ----------------
--- INNER JOINS--
+-- JOIN SYNTAX--
 ----------------
 
+--INNER JOIN
 --3.1
 SELECT  DISTINCT
         a.Fruit,
         b.Fruit
 FROM    ##TableA a INNER JOIN
         ##TableB b ON a.Fruit = b.Fruit OR a.Fruit <> b.Fruit;
+
+--FULL OUTER JOIN
+--3.2
+SELECT  a.Fruit,
+        b.Fruit
+FROM    ##TableA a FULL OUTER JOIN
+        ##TableB b ON a.Fruit = b.Fruit
+ORDER BY 1,2;
 
 ------------------------
 -- SEMI AND ANTI JOINS--
@@ -396,8 +411,8 @@ GO
 CREATE TABLE MyTable
 (
 MyInteger INT NOT NULL,
-MyVarchar Varchar(100) NOT NULL,
-MyDate Date NOT NULL
+MyVarchar VARCHAR(100) NOT NULL,
+MyDate DATE NOT NULL
 );
 GO
 
