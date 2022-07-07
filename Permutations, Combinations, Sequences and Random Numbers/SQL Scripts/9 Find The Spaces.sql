@@ -23,7 +23,7 @@ GO
 --Create table #Quotes
 SELECT *
 INTO #Strings
-FROM (VALUES(1,'SELECT EmpID, MngrID FROM Employees;'),(2,'SELECT * FROM Transactions')) n(Id,String);
+FROM (VALUES(1,'SELECT EmpID, MngrID FROM Employees;'),(2,'SELECT * FROM Transactions;')) n(Id,String);
 GO
 
 -------------------------------
@@ -53,4 +53,4 @@ SELECT  ROW_NUMBER() OVER (PARTITION BY Id ORDER BY Starts) AS RowNumber,
         SUBSTRING(String, Starts, CASE WHEN Position > 0 THEN Position - Starts ELSE LEN(String) END) Word,
         LEN(String) - LEN(REPLACE(String,' ','')) AS TotalSpaces
 FROM   cte_Anchor
-ORDER BY String, Starts; 
+ORDER BY Id, Starts;
