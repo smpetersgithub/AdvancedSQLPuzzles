@@ -2649,5 +2649,124 @@ SELECT  'Quantities in Table A and Table B do not match' AS [Type],
 FROM    #Results4;
 
 /*----------------------------------------------------
+Answer to Puzzle #56
+Numbers Using Recursion
+*/----------------------------------------------------
+
+DROP TABLE IF EXISTS #Numbers;
+DECLARE @vTotalNumbers INTEGER = 10;
+
+WITH cte_Number (Number)
+AS (
+    SELECT 1 AS Number
+    UNION ALL
+    SELECT  Number + 1
+    FROM   cte_Number
+    WHERE  Number < @vTotalNumbers
+    )
+SELECT Number
+INTO   #Numbers
+FROM   cte_Number
+OPTION (MAXRECURSION 0)--A value of 0 means no limit to the recursion level
+
+SELECT * FROM #Numbers;
+GO
+
+/*----------------------------------------------------
+Answer to Puzzle #57
+Find The Spaces
+*/----------------------------------------------------
+
+DROP TABLE IF EXISTS #Strings
+GO
+
+CREATE TABLE #Strings
+(
+QuoteId INTEGER IDENTITY(1,1) PRIMARY KEY,
+String  VARCHAR(100) NOT NULL
+);
+GO
+
+INSERT INTO #Strings
+VALUES('SELECT EmpID, MngrID FROM Employees;'),('SELECT * FROM Transactions;');
+GO
+
+--Dispaly the results using recursion
+;WITH cte_CAST AS
+(
+SELECT QuoteID, CAST(String AS VARCHAR(200)) AS String FROM #Strings
+),
+cte_Anchor AS
+(
+SELECT QuoteID,
+       String,
+       1 AS Starts,
+       CHARINDEX(' ', String) AS Position
+FROM   cte_CAST
+UNION ALL
+SELECT QuoteID,
+       String,
+       Position + 1,
+       CHARINDEX(' ', String, Position + 1)
+FROM   cte_Anchor
+WHERE  Position > 0
+)
+SELECT  ROW_NUMBER() OVER (PARTITION BY QuoteID ORDER BY Starts) AS RowNumber,
+        *,
+        SUBSTRING(String, Starts, CASE WHEN Position > 0 THEN Position - Starts ELSE LEN(String) END) Word,
+        LEN(String) - LEN(REPLACE(String,' ','')) AS TotalSpaces
+FROM   cte_Anchor
+ORDER BY QuoteID, Starts;
+
+/*----------------------------------------------------
+Answer to Puzzle #58
+Add Them Up
+*/----------------------------------------------------
+
+DROP TABLE IF EXISTS #Equations;
+GO
+
+CREATE TABLE #Equations
+(
+Equation VARCHAR(200) NOT NULL,
+TotalSum    INT NULL
+);
+GO
+
+INSERT INTO #Equations (Equation) VALUES
+('123'),('1+2+3'),('1+2-3'),('1+23'),('1-2+3'),('1-2-3'),('1-23'),('12+3'),('12-3');
+
+--Uses a cursor and dynamic SQL to update the TotalSum column
+DECLARE @vSQLStatement NVARCHAR(1000);
+DECLARE c_cursor CURSOR FOR (SELECT Equation FROM #Equations);
+DECLARE @vEquation NVARCHAR(1000);
+DECLARE @vSum BIGINT;
+
+OPEN c_cursor;
+
+FETCH NEXT FROM c_cursor INTO @vEquation;
+
+WHILE @@FETCH_STATUS = 0
+    BEGIN
+
+    SELECT  @vSQLStatement = CONCAT('SELECT @var = ',@vEquation);
+        
+    EXECUTE sp_executesql @vSQLStatement, N'@var BIGINT OUTPUT', @var = @vSum OUTPUT;
+        
+    UPDATE  #Equations
+    SET     TotalSum = @vSum
+    WHERE   Equation = @vEquation;
+
+    FETCH NEXT FROM c_cursor INTO @vEquation;
+    END
+
+CLOSE c_cursor;
+DEALLOCATE c_cursor;
+
+SELECT  * 
+FROM    #Equations;
+GO
+
+/*----------------------------------------------------
 The End
 */----------------------------------------------------
