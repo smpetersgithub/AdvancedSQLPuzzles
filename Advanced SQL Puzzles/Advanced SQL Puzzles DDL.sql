@@ -1350,5 +1350,46 @@ INSERT INTO #ProductsB VALUES
 GO
 
 /*----------------------------------------------------
+DDL for Puzzle #56
+Numbers Using Recursion
+*/----------------------------------------------------
+--No DDL create table statements to provide.
+
+/*----------------------------------------------------
+DDL for Puzzle #57
+Find The Spaces
+*/----------------------------------------------------
+DROP TABLE IF EXISTS #Strings
+GO
+
+CREATE TABLE #Strings
+(
+QuoteId INTEGER IDENTITY(1,1) PRIMARY KEY,
+String  VARCHAR(100) NOT NULL
+);
+GO
+
+INSERT INTO #Strings
+VALUES('SELECT EmpID, MngrID FROM Employees;'),('SELECT * FROM Transactions;');
+GO
+
+/*----------------------------------------------------
+DDL for Puzzle #58
+Add Them Up
+*/----------------------------------------------------
+DROP TABLE IF EXISTS #Equations;
+GO
+
+CREATE TABLE #Equations
+(
+Equation VARCHAR(200) NOT NULL,
+TotalSum INTEGER NULL
+);
+GO
+
+INSERT INTO #Equations (Equation) VALUES
+('123'),('1+2+3'),('1+2-3'),('1+23'),('1-2+3'),('1-2-3'),('1-23'),('12+3'),('12-3');
+
+/*----------------------------------------------------
 The End
 */----------------------------------------------------
