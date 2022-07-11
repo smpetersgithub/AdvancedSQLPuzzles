@@ -1,14 +1,19 @@
-CREATE FUNCTION FnReturnCalendarTable
-/*
+CREATE OR ALTER FUNCTION dbo.FnReturnCalendarTable
+/*********************************************************************
 Scott Peters
+Creating a Calendar Table
 https://advancedsqlpuzzles.com
-*/
+Last Updated: 07/11/2022
 
-(
-@vInputDate DATE
-)
-RETURNS TABLE
-AS
+This script is written in Microsoft SQL Server's T-SQL
+
+This script create the function FnReturnCalendarTable.
+See full instructions in PDF format at the following GitHub repository:
+https://github.com/smpetersgithub/AdvancedSQLPuzzles/tree/main/Database%20Tips%20and%20Tricks
+
+
+**********************************************************************/
+(@vInputDate DATE) RETURNS TABLE AS
 RETURN
 SELECT
          CONVERT(INT,CONVERT(VARCHAR, @vInputDate, 112)) AS DateKey
@@ -95,5 +100,5 @@ SELECT
             ,(CASE  WHEN DATEPART(ISO_WEEK, @vInputDate) > 50 AND MONTH(@vInputDate) = 1 THEN YEAR(@vInputDate) - 1
                     WHEN DATEPART(ISO_WEEK, @vInputDate) = 1 AND MONTH(@vInputDate) = 12 THEN YEAR(@vInputDate) + 1
                     ELSE YEAR(@vInputDate) END) AS ISOYear
-            ,DATEPART(ISO_WEEK, @vInputDate) AS ISOWeekNumber
+            ,DATEPART(ISO_WEEK, @vInputDate) AS ISOWeekNumber;
 GO
