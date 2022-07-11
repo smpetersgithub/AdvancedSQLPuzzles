@@ -49,14 +49,13 @@ GO
 -------------------------------------------------------------
 -------------------------------------------------------------
 --Create a data dictionary using the pivot
-SELECT	c.Name AS SchemaName, b.Name AS TableName, a.Name AS ColumnName, d.Name AS DataType
-INTO	##DataDictionary
-FROM	sys.Columns a INNER JOIN 
-		sys.Tables b on a.object_id = b.object_id INNER JOIN 
-		sys.Schemas c on b.schema_id = c.schema_id INNER JOIN 
-		sys.Types d on a.user_type_id = d.user_type_id
+SELECT  c.[Name] AS SchemaName, b.[Name] AS TableName, a.[Name] AS ColumnName, d.[Name] AS DataType
+INTO    ##DataDictionary
+FROM    sys.Columns a INNER JOIN
+        sys.Tables b on a.object_id = b.object_id INNER JOIN
+        sys.Schemas c on b.schema_id = c.schema_id INNER JOIN
+        sys.Types d on a.user_type_id = d.user_type_id
 WHERE b.[Name] = 'TestPivot';
-
 
 --Pivot the data by [SchemaName, TableName, ColumnName]
 --Count the number of data types [date, int, varchar, etc..]
@@ -66,7 +65,6 @@ EXEC dbo.SpPivotData
   @vOnColumns  = 'DataType',
   @vAggFunction = 'COUNT',
   @vAggColumns  = '*';
-
 
 --Number of datatypes [date, int, varchar, etc...] by table name [TestPivot]
 EXEC dbo.SpPivotData
@@ -104,6 +102,3 @@ EXEC dbo.SpPivotData
   @vAggFunction = 'MAX',
   @vAggColumns  = 'SumTransactions/TotalTransactions';
 GO
-
-
-
