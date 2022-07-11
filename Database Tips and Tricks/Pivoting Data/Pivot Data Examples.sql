@@ -1,7 +1,17 @@
---Create test data
-IF OBJECT_ID('dbo.TestPivot') IS NOT NULL
-	DROP TABLE dbo.TestPivot
+/*********************************************************************
+Scott Peters
+Example usage of the SpPivotData function
+https://advancedsqlpuzzles.com
+Last Updated: 07/11/2022
 
+This script is written in Microsoft SQL Server's T-SQL
+
+See full instructions in PDF format at the following GitHub repository:
+https://github.com/smpetersgithub/AdvancedSQLPuzzles/tree/main/Database%20Tips%20and%20Tricks
+
+**********************************************************************/
+DROP TABLE IF EXISTS dbo.TestPivot
+GO
 
 CREATE TABLE dbo.TestPivot
 (
@@ -33,8 +43,7 @@ INSERT INTO dbo.TestPivot VALUES
 ('IniTech','2019-01-01','Signature',5,5),
 ('IniTech','2019-01-03','Signature',6,6),
 ('IniTech','2019-01-04','Signature',7,7),
-('IniTech','2019-01-05','Signature',8,8)
-
+('IniTech','2019-01-05','Signature',8,8);
 GO
 
 
@@ -69,7 +78,6 @@ EXEC dbo.SpPivotData
   @vAggFunction = 'SUM',
   @vAggColumns  = 'NumberOfDataTypes';
 
-
 -------------------------------------------------------------
 -------------------------------------------------------------
 -------------------------------------------------------------
@@ -89,7 +97,6 @@ EXEC dbo.SpPivotData
   @vAggFunction = 'SUM',
   @vAggColumns  = 'TotalTransactions';
 
-
 --Maximum Avg per day
 EXEC dbo.SpPivotData
   @vQuery    = 'dbo.TestPivot',
@@ -97,5 +104,5 @@ EXEC dbo.SpPivotData
   @vOnColumns  = 'TransactionDate',
   @vAggFunction = 'MAX',
   @vAggColumns  = 'SumTransactions/TotalTransactions';
-
+GO
 
