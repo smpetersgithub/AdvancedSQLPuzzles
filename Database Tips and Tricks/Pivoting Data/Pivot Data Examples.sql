@@ -23,7 +23,6 @@ SumTransactions INTEGER
 );
 GO
 
-
 INSERT INTO dbo.TestPivot VALUES
 ('ACE','2019-01-01','ATM',1,1),
 ('ACE','2019-01-02','ATM',2,2),
@@ -46,8 +45,6 @@ INSERT INTO dbo.TestPivot VALUES
 ('IniTech','2019-01-05','Signature',8,8);
 GO
 
-
- 
 -------------------------------------------------------------
 -------------------------------------------------------------
 -------------------------------------------------------------
@@ -61,7 +58,8 @@ FROM	sys.Columns a INNER JOIN
 WHERE b.[Name] = 'TestPivot';
 
 
---Pivot the data
+--Pivot the data by [SchemaName, TableName, ColumnName]
+--Count the number of data types [date, int, varchar, etc..]
 EXEC dbo.SpPivotData
   @vQuery    = 'SELECT SchemaName, TableName, ColumnName, DataType FROM ##DataDictionary',
   @vOnRows  =  'SchemaName, TableName, ColumnName',
@@ -70,7 +68,7 @@ EXEC dbo.SpPivotData
   @vAggColumns  = '*';
 
 
---Number of datatypes by table
+--Number of datatypes [date, int, varchar, etc...] by table name [TestPivot]
 EXEC dbo.SpPivotData
   @vQuery    = 'SELECT TableName, DataType, COUNT(*) AS NumberOfDataTypes FROM ##DataDictionary GROUP BY TableName, DataType',
   @vOnRows  = 'TableName',
@@ -81,7 +79,8 @@ EXEC dbo.SpPivotData
 -------------------------------------------------------------
 -------------------------------------------------------------
 -------------------------------------------------------------
---Pivot by TransactionType
+--Show each [TransactionType] in the [dbo.TestPivot] table and pivot by [TransactionDate]
+--SUM the [TotalTransactions] column
 EXEC dbo.SpPivotData
   @vQuery    = 'dbo.TestPivot',
   @vOnRows  = 'TransactionType',
@@ -89,7 +88,7 @@ EXEC dbo.SpPivotData
   @vAggFunction = 'SUM',
   @vAggColumns  = 'TotalTransactions';
 
---Pivot by Distributor and TransactionType
+--Same as above, but now add [Distributor] to the row variable
 EXEC dbo.SpPivotData
   @vQuery    = 'dbo.TestPivot',
   @vOnRows  = 'Distributor, TransactionType',
@@ -97,7 +96,7 @@ EXEC dbo.SpPivotData
   @vAggFunction = 'SUM',
   @vAggColumns  = 'TotalTransactions';
 
---Maximum Avg per day
+--This example uses the MAX function
 EXEC dbo.SpPivotData
   @vQuery    = 'dbo.TestPivot',
   @vOnRows  = 'TransactionType',
@@ -105,4 +104,6 @@ EXEC dbo.SpPivotData
   @vAggFunction = 'MAX',
   @vAggColumns  = 'SumTransactions/TotalTransactions';
 GO
+
+
 
