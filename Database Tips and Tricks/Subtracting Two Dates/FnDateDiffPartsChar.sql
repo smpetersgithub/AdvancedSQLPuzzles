@@ -11,6 +11,11 @@ This script is written in Microsoft SQL Server's T-SQL
 See full instructions in PDF format at the following GitHub repository:
 https://github.com/smpetersgithub/AdvancedSQLPuzzles/tree/main/Database%20Tips%20and%20Tricks
 
+-- Test function
+SELECT dbo.FnDateDiffPartsChar('20110619 00:00:00.0000001', '20110619 00:00:00.0000000');
+SELECT dbo.FnDateDiffPartsChar('20171231', '20160101 00:00:00.0000000');
+SELECT dbo.FnDateDiffPartsChar('20170518 00:00:00.0000001','20110619 00:00:00.1110000') AS;
+
 **********************************************************************/
 AS
 BEGIN
