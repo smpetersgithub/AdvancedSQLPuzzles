@@ -1,4 +1,4 @@
-CREATE FUNCTION dbo.FnDateDiffPartsTable(@DateTime1 AS DATETIME2, @DateTime2 AS DATETIME2) 
+CREATE OR ALTER FUNCTION dbo.FnDateDiffPartsTable(@DateTime1 AS DATETIME2, @DateTime2 AS DATETIME2) 
 RETURNS @DateDifference TABLE (
 YearDifference INT,
 MonthDifference INT,
@@ -8,25 +8,26 @@ MinuteDifference INT,
 SecondDifference INT,
 NanoDifference INT
 )
-/*
-#####################################################################################################
-
+/*********************************************************************
 Scott Peters
+Creates the FnDateDiffPartsTable table valued function
 https://advancedsqlpuzzles.com
+Last Updated: 07/11/2022
+
+This script is written in Microsoft SQL Server's T-SQL
+
+See full instructions in PDF format at the following GitHub repository:
+https://github.com/smpetersgithub/AdvancedSQLPuzzles/tree/main/Database%20Tips%20and%20Tricks
 
 -- Test function
 SELECT * FROM dbo.FnDateDiffPartsTable('20110619 00:00:00.0000001', '20110619 00:00:00.0000000');
-
 SELECT * FROM dbo.FnDateDiffPartsTable('20171231', '20160101 00:00:00.0000000');
-
 SELECT * FROM dbo.FnDateDiffPartsTable('20170518 00:00:00.0000001','20110619 00:00:00.1110000');
 
-
-#####################################################################################################
-*/
+**********************************************************************/
 AS
 BEGIN
-        
+
         DECLARE @DateTime1_Low DATETIME2;
         DECLARE @DateTime2_High DATETIME2;
 
@@ -58,7 +59,6 @@ BEGIN
                         DATEDIFF(mm, @DateTime1_Low, @DateTime2_High),
                         DATEDIFF(dd, @DateTime1_Low, @DateTime2_High)
                 )) AS D(DateTime1, [DateTime2], Time1, Time2, YearDifference, MonthDifference, DateDifference)
-                
                 CROSS APPLY
                 (VALUES(CASE WHEN DATEADD(yy, YearDifference, DateTime1)  > [DateTime2] THEN 1 ELSE 0 END,
                         CASE WHEN DATEADD(mm, MonthDifference, DateTime1) > [DateTime2] THEN 1 ELSE 0 END,
