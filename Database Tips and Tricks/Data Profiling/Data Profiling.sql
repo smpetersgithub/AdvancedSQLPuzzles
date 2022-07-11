@@ -1,47 +1,43 @@
-/*
-#####################################################################################################
+/*********************************************************************
 Author: Scott Peters
+Data Profiling
 https://advancedsqlpuzzles.com
-Following code was written in T-SQL
+
+Following code was written in Microsofts SQL Server T-SQL
 
 Modify any variables as needed.
 You will need to input a schema name and table name see comments in the code
 
 The profile can take several minutes to run, even on small tables.
 For large tables, limit the dataset via 
-1) the @vWhereClause variable.
-2) the @vColumnsToProfiles variable
-3) comment out unneeded output columns (for example 'SapleValue', or 'PercentInteger'
+  1) The @vWhereClause variable.
+  2) The @vColumnsToProfiles variable
+  3) Comment out unneeded output columns (for example 'SapleValue', or 'PercentInteger'
 
 Rule of thumb, limit the data first to a small set and check performance.
 
-----------------------------------------------------------------------------------------------------
-*/
+**********************************************************************/
 
-
-IF OBJECT_ID('tempdb.dbo.#ColumnsToProfile') IS NOT NULL
-DROP TABLE #ColumnsToProfile
-
-IF OBJECT_ID('tempdb.dbo.#ProfileResults') IS NOT NULL
-DROP TABLE #ProfileResults
-
-IF OBJECT_ID('tempdb.dbo.#NumericColumns') IS NOT NULL
-DROP TABLE #NumericColumns
+SET NOCOUNT ON;
+DROP TABLE IF EXISTS #ColumnsToProfile;
+DROP TABLE IF EXISTS #ProfileResults;
+DROP TABLE IF EXISTS #NumericColumns;
+GO
 
 --------------------------------------------------------------------------------------------
 --------------------------------------------------------------------------------------------
 --Step 1 - Define variables
 
 --User Defined Varibles
-DECLARE @vSchema VARCHAR(10) = 'sys'----------------------------------UserDefined, insert your schema name here
-DECLARE @vTableName VARCHAR(255) = 'columns'--------------------------UserDefined, insert your table name here  
+DECLARE @vSchema VARCHAR(10) = 'dbo';----------------------------------UserDefined, insert your schema name here
+DECLARE @vTableName VARCHAR(255) = 'MyTable1';-------------------------UserDefined, insert your table name here
 
 --Limit the data with a WHERE clause
 --Use "WHERE 1=1" IF you do not want to limit the data
 DECLARE @vWhereClause VARCHAR(MAX) = 'WHERE 1=1';------------------------UserDefined, limit your data via a WHERE clause.
 
 --ColumnsToProfile
-DECLARE @vColumnsToProfile TABLE (ColumnName VARCHAR(MAX))---------------UserDefined, limit to speicific columns in your table (See INSERT statement below)
+DECLARE @vColumnsToProfile TABLE (ColumnName VARCHAR(MAX));--------------UserDefined, limit to speicific columns in your table (See INSERT statement below)
 
 --To profile all columns, set the @vColumnsToProfile variable to NULL/empty.
 --To profile a selected list of columns, then use the following INSERT statement.
@@ -53,12 +49,12 @@ INSERT INTO @vColumnsToProfile values
 
 
 --Variables
-DECLARE @vDataType NVARCHAR(MAX)
+DECLARE @vDataType NVARCHAR(MAX);
 DECLARE @vColumnName VARCHAR(MAX) = '';
 DECLARE @vQuery NVARCHAR(MAX) = '';
-DECLARE @vCount INTEGER
-DECLARE @vStandardCharacters VARCHAR(MAX) = ''
-DECLARE @vIterator INTEGER
+DECLARE @vCount INTEGER;
+DECLARE @vStandardCharacters VARCHAR(MAX) = '';
+DECLARE @vIterator INTEGER;
 
 --------------------------------------------------------------------------------------------
 --------------------------------------------------------------------------------------------
@@ -75,14 +71,13 @@ SELECT
         COLUMN_NAME,
         DATA_TYPE
 FROM Information_Schema.Columns AS col_info
-WHERE 
+WHERE
         TABLE_NAME = @vTableName AND 
         TABLE_SCHEMA = @vSchema AND 
         1 = CASE    WHEN (SELECT COUNT(*) FROM @vColumnsToProfile) = 0 THEN 1 -- all columns
                     WHEN Column_Name IN (SELECT ColumnName FROM @vColumnsToProfile) THEN 1 -- included column
                     ELSE 0
-            END
-
+            END;
 
 --------------------------------------------------------------------------------------------
 --------------------------------------------------------------------------------------------
@@ -115,7 +110,7 @@ CREATE TABLE #ProfileResults (
     PercentDate NUMERIC(4,2),
     PercentInteger NUMERIC(4,2),
     PercentNumeric NUMERIC(4,2)
-)
+);
 
 CREATE TABLE #NumericColumns (
     ColumnName VARCHAR(MAX),
@@ -124,27 +119,27 @@ CREATE TABLE #NumericColumns (
     Average NUMERIC(30,4),
     StandardDeviation NUMERIC(30,4),
     TotalSum NUMERIC(36,4)
-    )
+    );
 
 --------------------------------------------------------------------------------------------
 --------------------------------------------------------------------------------------------
 --Step 4 - Populate the @vStandardCharacters variable.  Used for column [ContainsNonStandardCharacters]
 
 --@vStandardCharacters
---Ascii character set 32 through 127.  See http://www.asciitable.com/
-SET @vIterator = 32
+--ASCII character set 32 through 127.  See http://www.asciitable.com/
+SET @vIterator = 32;
 WHILE @vIterator <= 127
     BEGIN
         --Uses | to escape, could be any character
-        SET @vStandardCharacters = @vStandardCharacters + '|' + CHAR(@vIterator)
+        SET @vStandardCharacters = @vStandardCharacters + '|' + CHAR(@vIterator);
         IF CHAR(@vIterator) = ''''
-            SET @vStandardCharacters = @vStandardCharacters + CHAR(@vIterator)
-        SET @vIterator = @vIterator + 1
+            SET @vStandardCharacters = @vStandardCharacters + CHAR(@vIterator);
+        SET @vIterator = @vIterator + 1;
     END
 
 --The value of @vStandardCharacters is 
 --| |!|"|#|$|%|&|''|(|)|*|+|,|-|.|/|0|1|2|3|4|5|6|7|8|9|:|;|<|=|>|?|@|A|B|C|D|E|F|G|H|I|J|K|L|M|N|O|P|Q|R|S|T|U|V|W|X|Y|Z|[|\|]|^|_|`|a|b|c|d|e|f|g|h|i|j|k|l|m|n|o|p|q|r|s|t|u|v|w|x|y|z|{|||}|~|
-PRINT 'The value of @vStandardCharacters is '
+PRINT 'The value of @vStandardCharacters is ';
 PRINT @vStandardCharacters;
 
 --------------------------------------------------------------------------------------------
@@ -152,16 +147,16 @@ PRINT @vStandardCharacters;
 --Step 5 - INSERT into #ProfileResults and #NumericColumns
 
 DECLARE c CURSOR READ_ONLY FAST_FORWARD FOR
-    SELECT ColumnName FROM #ColumnsToProfile
+    SELECT ColumnName FROM #ColumnsToProfile;
 
-OPEN c
+OPEN c;
 
-FETCH NEXT FROM c INTO @vColumnName
+FETCH NEXT FROM c INTO @vColumnName;
 WHILE (@@FETCH_STATUS = 0)
 BEGIN
     SELECT @vDataType = DataType
     FROM #ColumnsToProfile
-    WHERE ColumnName = @vColumnName
+    WHERE ColumnName = @vColumnName;
 
     SELECT @vQuery = 
     'SELECT
@@ -184,18 +179,18 @@ BEGIN
         CAST(SUM(CASE WHEN TRY_CAST(TRY_CAST(['+@vColumnName+'] AS VARCHAR(8000)) AS FLOAT) IS NOT NULL AND LEN(RTRIM(CAST(['+@vColumnName+'] AS VARCHAR(MAX)))) > 0 THEN 1 ELSE 0 END) AS NUMERIC(25,2))/(CAST(SUM(CASE WHEN ['+@vColumnName+'] IS NOT NULL AND LOWER(LTRIM(RTRIM(CAST(['+@vColumnName+'] AS VARCHAR(MAX))))) not IN (''null'', ''n/a'') AND LEN(LTRIM(RTRIM(CAST(['+@vColumnName+'] AS VARCHAR(MAX))))) > 0 THEN 1 ELSE 0 END) AS NUMERIC(25,2))+0.00000001) AS PercentNumeric,
         CAST(SUM(CASE WHEN TRY_CAST(TRY_CAST(['+@vColumnName+'] AS VARCHAR(8000)) AS BIGINT) IS NOT NULL AND LEN(RTRIM(CAST(['+@vColumnName+'] AS VARCHAR(MAX)))) > 0 THEN 1 ELSE 0 END) AS NUMERIC(25,2))/(CAST(SUM(CASE WHEN ['+@vColumnName+'] IS NOT NULL AND LOWER(LTRIM(RTRIM(CAST(['+@vColumnName+'] AS VARCHAR(MAX))))) not IN (''null'', ''n/a'') AND LEN(LTRIM(RTRIM(CAST(['+@vColumnName+'] AS VARCHAR(MAX))))) > 0 THEN 1 ELSE 0 END) AS NUMERIC(25,2))+0.00000001) AS PercentInteger,
         CAST(SUM(CASE WHEN LOWER(TRY_CAST(['+@vColumnName+'] AS VARCHAR(MAX))) IN (''1'', ''0'', ''t'', ''f'', ''y'', ''n'', ''true'', ''false'', ''yes'', ''no'') THEN 1 ELSE 0 END) AS NUMERIC(25,2))/(CAST(SUM(CASE WHEN ['+@vColumnName+'] IS NOT NULL AND LOWER(LTRIM(RTRIM(CAST(['+@vColumnName+'] AS VARCHAR(MAX))))) not IN (''null'', ''n/a'') AND LEN(LTRIM(RTRIM(CAST(['+@vColumnName+'] AS VARCHAR(MAX))))) > 0 THEN 1 ELSE 0 END) AS NUMERIC(25,2))+0.00000001) AS PercentBit
-    FROM '+@vSchema+'.['+@vTableName+'] (NOLOCK) ' + @vWhereClause
+    FROM '+@vSchema+'.['+@vTableName+'] (NOLOCK) ' + @vWhereClause;
 
     BEGIN TRY
-        --INSERT INTO #ProfileResults
         INSERT INTO #ProfileResults (ColumnName, DataType, Nulls, ZerosAndBlanks, DistinctValues, MinLength, MaxLength, AverageLength, ContainsCommaOrTab, 
                                 ContainsNewLine, NeedsTrimmed, ContainsOtherWhitespace, ContainsNonStandardCharacters, SampleValue,
                                 PercentDate, PercentNumeric, PercentInteger, PercentBit)
-        EXECUTE sp_executesql @vQuery
+        EXECUTE SP_EXECUTESQL @vQuery;
+
     END TRY
     BEGIN CATCH
-        PRINT 'The following query resulted in an error:'
-        PRINT @vQuery
+        PRINT 'The following query resulted in an error:';
+        PRINT @vQuery;
     END CATCH
 
 
@@ -209,20 +204,20 @@ BEGIN
                 AVG(TRY_CAST(TRY_CAST(['+@vColumnName+'] AS VARCHAR(MAX)) AS NUMERIC(30,4))) AS AvgValue,
                 STDEV(TRY_CAST(TRY_CAST(['+@vColumnName+'] AS VARCHAR(MAX)) AS NUMERIC(30,4))) AS StandardDeviation,
                 SUM(TRY_CAST(TRY_CAST(['+@vColumnName+'] AS VARCHAR(MAX)) AS NUMERIC(30,4))) AS TotalSum
-            FROM '+@vSchema+'.['+@vTableName+'] (NOLOCK) ' + @vWhereClause
+            FROM '+@vSchema+'.['+@vTableName+'] (NOLOCK) ' + @vWhereClause;
 
         --INSERT into #NumericColumns
         INSERT INTO #NumericColumns
-        EXECUTE sp_executesql @vQuery
+        EXECUTE SP_EXECUTESQL @vQuery;
     END TRY
     BEGIN CATCH
-        PRINT 'The following query resulted in an error:'
-        PRINT @vQuery
+        PRINT 'The following query resulted in an error:';
+        PRINT @vQuery;
     END CATCH
 
-FETCH NEXT FROM c INTO @vColumnName
+FETCH NEXT FROM c INTO @vColumnName;
 END
-CLOSE c
+CLOSE c;
 DEALLOCATE c;
 
 --------------------------------------------------------------------------------------------
@@ -237,9 +232,9 @@ SET
         StandardDeviation = subset.StandardDeviation,
         TotalSum = subset.TotalSum
 FROM    #ProfileResults AS results inner join 
-        #NumericColumns AS subset ON subset.ColumnName = results.ColumnName
+        #NumericColumns AS subset ON subset.ColumnName = results.ColumnName;
 
-UPDATE #ProfileResults
+UPDATE  #ProfileResults
 SET     IsNullable = CASE WHEN c.Is_Nullable = 1 THEN 'Yes' ELSE 'No' END,
         IsCalculated = CASE WHEN c.Is_Computed = 1 THEN 'Yes' ELSE 'No' END,
         DefinedLength = c.Max_Length
@@ -248,12 +243,11 @@ FROM    sys.columns AS c inner join
         sys.schemas AS s ON s.Schema_id = t.Schema_id inner join
         #ProfileResults AS r ON r.ColumnName = c.[Name]
 WHERE   s.[Name] = @vSchema AND
-        t.[Name] = @vTableName
+        t.[Name] = @vTableName;
 
 
 --Print the results to the results window
-SELECT * FROM #ProfileResults
-
+SELECT * FROM #ProfileResults;
 
 --------------------------------------------------------------------------------------------
 --------------------------------------------------------------------------------------------
@@ -261,43 +255,46 @@ SELECT * FROM #ProfileResults
 --Determine record count of the table (given the provided @vWhere variable)
 --Print the results to the results window
 SELECT @vQuery = 'SELECT COUNT(*) AS TableRowCount FROM '+@vSchema+'.['+@vTableName+'] (NOLOCK) ' + @vWhereClause
-EXECUTE sp_executesql @vQuery
-
+EXECUTE SP_EXECUTESQL @vQuery;
+PRINT @vQuery;
 
 --------------------------------------------------------------------------------------------
 --------------------------------------------------------------------------------------------
 --------------------------------------------------------------------------------------------
 --Determine the occurences of the date fields
 DECLARE c CURSOR READ_ONLY FAST_FORWARD FOR
-SELECT ColumnName FROM #ColumnsToProfile
+SELECT ColumnName FROM #ColumnsToProfile;
 
-OPEN c
+OPEN c;
 
-FETCH NEXT FROM c INTO @vColumnName
+FETCH NEXT FROM c INTO @vColumnName;
 WHILE (@@FETCH_STATUS = 0)
 BEGIN
-    SELECT @vDataType = DataType FROM #ColumnsToProfile WHERE ColumnName = @vColumnName
+    SELECT @vDataType = DataType FROM #ColumnsToProfile WHERE ColumnName = @vColumnName;
 
     IF  @vDataType IN ('DATE', 'DATETIME', 'DATETIME2', 'SMALLDATETIME')
     BEGIN TRY
-        
+
         PRINT 'The date column being profiled for number of occurences is' + @vColumnName
         SELECT @vQuery = 'SELECT TRY_CAST(CASE WHEN LEN(RTRIM(CAST(['+@vColumnName+'] AS VARCHAR))) = 0 OR LOWER(LTRIM(RTRIM(CAST(['+@vColumnName+'] AS VARCHAR)))) IN (''null'', ''n/a'') OR TRY_CAST(TRY_CAST(['+@vColumnName+'] AS VARCHAR(MAX)) AS NUMERIC) = 0 THEN null ELSE LTRIM(RTRIM(CAST(['+@vColumnName+'] AS VARCHAR))) END AS DATE) AS ['+@vColumnName+'], 
         COUNT(*) AS OccurencesCount
         FROM '+@vSchema+'.['+@vTableName+'] (NOLOCK) 
         ' + @vWhereClause + ' 
         GROUP BY TRY_CAST(CASE WHEN LEN(RTRIM(CAST(['+@vColumnName+'] AS VARCHAR))) = 0 OR LOWER(LTRIM(RTRIM(CAST(['+@vColumnName+'] AS VARCHAR)))) IN (''null'', ''n/a'') OR TRY_CAST(TRY_CAST(['+@vColumnName+'] AS VARCHAR(MAX)) AS NUMERIC) = 0 THEN null ELSE LTRIM(RTRIM(CAST(['+@vColumnName+'] AS VARCHAR))) END AS date) 
-        ORDER BY TRY_CAST(CASE WHEN LEN(RTRIM(CAST(['+@vColumnName+'] AS VARCHAR))) = 0 OR LOWER(LTRIM(RTRIM(CAST(['+@vColumnName+'] AS VARCHAR)))) IN (''null'', ''n/a'') OR TRY_CAST(TRY_CAST(['+@vColumnName+'] AS VARCHAR(MAX)) AS NUMERIC) = 0 THEN null ELSE LTRIM(RTRIM(CAST(['+@vColumnName+'] AS VARCHAR))) END AS date)'
+        ORDER BY TRY_CAST(CASE WHEN LEN(RTRIM(CAST(['+@vColumnName+'] AS VARCHAR))) = 0 OR LOWER(LTRIM(RTRIM(CAST(['+@vColumnName+'] AS VARCHAR)))) IN (''null'', ''n/a'') OR TRY_CAST(TRY_CAST(['+@vColumnName+'] AS VARCHAR(MAX)) AS NUMERIC) = 0 THEN null ELSE LTRIM(RTRIM(CAST(['+@vColumnName+'] AS VARCHAR))) END AS date)';
+
 
         --Print the results to the results window
-        EXECUTE sp_executesql @vQuery
+        EXECUTE SP_EXECUTESQL @vQuery;
+        PRINT('Query 2 is: ');
+        PRINT @vQuery;
     END TRY
     BEGIN CATCH
-        PRINT 'The following query resulted in an error:'
-        PRINT @vQuery
+        PRINT 'The following query resulted in an error:';
+        PRINT @vQuery;
     END CATCH
 
-    FETCH NEXT FROM c INTO @vColumnName
+    FETCH NEXT FROM c INTO @vColumnName;
 END
-CLOSE c
+CLOSE c;
 DEALLOCATE c;
