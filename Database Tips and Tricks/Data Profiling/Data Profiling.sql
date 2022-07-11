@@ -5,6 +5,9 @@ https://advancedsqlpuzzles.com
 
 Following code was written in Microsofts SQL Server T-SQL
 
+See full instructions in PDF format at the following GitHub repository:
+https://github.com/smpetersgithub/AdvancedSQLPuzzles/tree/main/Database%20Tips%20and%20Tricks
+
 Modify any variables as needed.
 You will need to input a schema name and table name see comments in the code
 
