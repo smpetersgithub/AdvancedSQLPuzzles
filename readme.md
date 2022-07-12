@@ -4,7 +4,7 @@
 
 #### Welcome to the GitHub repository. 
 
-Here you will find numerous SQL puzzles to test your level of SQL knowledge. I hope you enjoy solving these puzzles as much as I have enjoyed creating them.
+Here you will find numerous SQL puzzles to test your level of knowledge. I hope you enjoy solving these puzzles as much as I have enjoyed creating them.
 
 ----
 
