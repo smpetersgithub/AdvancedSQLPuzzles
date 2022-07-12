@@ -12,6 +12,6 @@ A great resource to understand the different behaviors of the SQL joins.
 ----
 
 #### Advanced SQL Joins SQL Statements.sql
-Contains the SQL statements for the document Advanced SQL Joins.pdf.
+Contains the corresponding SQL statements.
 
 ----
