@@ -2,9 +2,9 @@
 
 ----
 
-#### Welcome to the GitHub repository. 
+#### Welcome to my GitHub repository. 
 
-Here you will find numerous SQL puzzles to test your level of knowledge. I hope you enjoy solving these puzzles as much as I have enjoyed creating them.
+I hope you enjoy solving these puzzles as much as I have enjoyed creating them.
 
 ----
 
