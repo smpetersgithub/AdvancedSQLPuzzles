@@ -40,22 +40,27 @@ AwardStatus  VARCHAR(100)
 GO
 
 INSERT INTO dbo.MyTable1 (CustID, Region, City, Sales, ManagerID, AwardStatus) VALUES 
-(453,'Central','Chicago','2323.99',1324,'Gold'),
-(532,'Central','Des Moines','35232.42',6453,'Gold'),
-(643,'West','Spokane','34232.23',7542,'Silver'),
-(643,'West','Spokane','34232.23',7542,'Silver'),--Duplicate Data
-(732,'West','Helena','75232.23',8123,'Bronze'),
-(732,'West','Helena','75232.23',8123,'Bronze');--Duplicate Data
+(453,'Central','Chicago','71967.99',1324,'Gold'),
+(532,'Central','Des Moines','65232.42',6453,'Gold'),
+(643,'West','Spokane','44981.23',7542,'Silver'),
+(643,'West','Spokane','44981.23',7542,'Silver'),--Duplicate Data
+(732,'West','Helena','15232.19',8123,'Bronze'),
+(732,'West','Helena','15232.19',8123,'Bronze');--Duplicate Data
 GO
 
 INSERT INTO dbo.MyTable2 (CustID, Region, City, Sales, ManagerID, AwardStatus) VALUES 
-(453,'Central','Chicago','2323.99',1324,'Gold'),
-(532,'Central','Des Moines','35232.42',6453,'Gold'),
-(643,'West','Spokane','34232.23',7542,'Bronze'),
-(643,'West','Spokane','34232.23',7542,'Bronze'),--Duplicate Data
-(898,'East','Toledo','23432.23',9242,'Silver');
+(453,'Central','Chicago','71967.99',1324,'Gold'),
+(532,'Central','Des Moines','65232.00',6453,'Gold'),
+(643,'West','Spokane','44981.23',7542,'Bronze'),
+(643,'West','Spokane','44981.23',7542,'Bronze'),--Duplicate Data
+(898,'East','Toledo','53432.78',9242,'Silver');
 GO
 
 SELECT 'Table1' AS ID, * FROM dbo.MyTable1
 UNION ALL
 SELECT 'Table2' AS ID, * FROM dbo.MyTable2;
+
+
+SELECT * FROM dbo.MyTable1
+UNION ALL
+SELECT * FROM dbo.MyTable2;
