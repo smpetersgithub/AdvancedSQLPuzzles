@@ -9,7 +9,6 @@ This script is written in Microsoft SQL Server's T-SQL
 See full instructions in PDF format at the following GitHub repository:
 https://github.com/smpetersgithub/AdvancedSQLPuzzles/tree/main/Database%20Writings
 
-
 **********************************************************************/
 SET NOCOUNT ON
 
