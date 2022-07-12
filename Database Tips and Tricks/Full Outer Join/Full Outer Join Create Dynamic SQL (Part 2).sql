@@ -51,7 +51,7 @@ DECLARE @Exists2 AS VARCHAR(MAX) = (SELECT Exists2 FROM ##TableInformation WHERE
 DECLARE @JoinSyntax AS VARCHAR(MAX) = (SELECT CONCAT(Exists1, ' = ', Exists2) FROM ##TableInformation WHERE LookupID = @LookupID);
 DECLARE @RowNumberSyntax AS VARCHAR(MAX) = (SELECT Exists1 FROM ##TableInformation WHERE LookupID = @LookupID);
 
---Drop the 
+--Drop the temporary table
 EXECUTE(@DropTable);
 
 -----------------------------
