@@ -1,3 +1,17 @@
-### Advanced SQL Joins
+# Advanced SQL Joins
 
-A summarization of the different SQL joins and how they interact with NULL markers.
+----
+
+#### In this directory you will find the following:
+
+----
+
+#### Advanced SQL Joins.pdf
+A great resource to understand the different behaviors of the SQL joins.
+
+----
+
+#### Advanced SQL Joins SQL Statements.sql
+Contains the SQL statements for the document Advanced SQL Joins.pdf.
+
+----
