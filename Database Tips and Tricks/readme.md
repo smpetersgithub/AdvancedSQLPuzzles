@@ -4,7 +4,7 @@
 
 Here are some additional resources for finding new tips, tricks and insights that will help you in your journey. 
 
-For documentation please read **Database Tips and Tricks.pdf**.
+For documentation please read **Database Tips and Tricks.pdf** located in this directory.
 
 ----
 
