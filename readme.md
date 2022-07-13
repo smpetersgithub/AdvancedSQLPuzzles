@@ -8,7 +8,8 @@ I hope you enjoy solving these puzzles as much as I have enjoyed creating them.
 
 ----
 
-https://advancedsqlpuzzles.com.
+Please visit my website at:
+## https://advancedsqlpuzzles.com ##
 
 ----
 
