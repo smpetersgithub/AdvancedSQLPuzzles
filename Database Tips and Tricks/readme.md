@@ -9,12 +9,12 @@ For documentation please read **Database Tips and Tricks.pdf** located in this d
 ----
 
 #### Creating a Calendar Table
-My code for creating a table valued function for generating a calendar table. Once understood, I hope you find the table valued function to be more beneficial than the usual static calendar table.
+My code for creating a table-valued function for generating a calendar table. Once understood, I hope you find the table-valued function to be more beneficial than the usual static calendar table.
 
 ----
 
 #### Pivoting Data
-If you find the pivot table syntax to be a little frustrating, here you can implement a function to parameterize the pivot syntax. Very useful if you find yourself having to write a lot of pivot statements.
+If you find the pivot table syntax to be a little frustrating, here you can implement a stored procedure to parameterize the pivot syntax. Very useful if you find yourself having to write a lot of pivot statements.
 
 ----
 
