@@ -7,9 +7,9 @@ Last Updated: 07/05/2022
 This script is written in SQL Server's T-SQL
 
 
-• For this puzzle a SEQUENCE object is created, which is harcoded with the number of soldiers
-• Once a sequence table is created, simply loop through the table to find the surviving soldier
-• This solution uses a set based solution where I populate a #Numbers table in excess of the cycles needed
+â€¢ For this puzzle a SEQUENCE object is created, which is harcoded with the number of soldiers
+â€¢ Once a sequence table is created, simply loop through the table to find the surviving soldier
+â€¢ This solution uses a set based solution where I populate a #Numbers table in excess of the cycles needed
      1) An assumption is made to how many records are inserted into the #Numbers table
      2) The #Numbers table must be populated with more rows needed than the number of cycles through the count of soldiers
 
