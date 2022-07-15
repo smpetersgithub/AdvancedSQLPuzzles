@@ -7,8 +7,8 @@ Last Updated: 07/05/2022
 This script is written in SQL Server's T-SQL
 
 
-• The following code uses recursion and determines start and position points of a specified character
-• A #Strings table is the only table needed to solve this puzzle
+â€¢ The following code uses recursion and determines start and position points of a specified character
+â€¢ A #Strings table is the only table needed to solve this puzzle
 
 **********************************************************************/
 
