@@ -7,13 +7,13 @@ Last Updated: 07/05/2022
 This script is written in SQL Server's T-SQL
 
 
-• For this puzzle, the solution deals with combinations rather than permutations, as the seating order is not important
-• The solution is hard coded to the requirements of 4 vehicles and 5 children and 5 adults.
-• The table #Passengers is created and populated with 5 children and 5 adults
-• The tables #Motorcycle, #Sidecar, #Golfcart, #Car are created and populated.  The number of joins is hard coded to the number of seats in each vehicle.
-• CASE statements are used to treat reciprocals; the passengers are sorted in alphabetical order.
-• To save time in building the final query, I create a one-time query to produce the predicate logic needed.  This portion is commented out in the code
-• The final query uses a CROSS JOIN between the #Motorcycle, #Sidecar, #Golfcart, and #Car table
+â€¢ For this puzzle, the solution deals with combinations rather than permutations, as the seating order is not important
+â€¢ The solution is hard coded to the requirements of 4 vehicles and 5 children and 5 adults.
+â€¢ The table #Passengers is created and populated with 5 children and 5 adults
+â€¢ The tables #Motorcycle, #Sidecar, #Golfcart, #Car are created and populated.  The number of joins is hard coded to the number of seats in each vehicle.
+â€¢ CASE statements are used to treat reciprocals; the passengers are sorted in alphabetical order.
+â€¢ To save time in building the final query, I create a one-time query to produce the predicate logic needed.  This portion is commented out in the code
+â€¢ The final query uses a CROSS JOIN between the #Motorcycle, #Sidecar, #Golfcart, and #Car table
 
 **********************************************************************/
 
