@@ -7,12 +7,12 @@ Last Updated: 07/05/2022
 This script is written in SQL Server's T-SQL
 
 
-• Determining permutations can be performed with a recursive CTE; this solution uses a WHILE loop
-• This solution uses an initial numbers table (#Numbers) that must be populated
-• The #Permutations table is initially seeded from the #Numbers table
-• The #Numbers table could be eliminated and simply just seed the #Permutations table  
-• To keep the record count manageable, a DELETE is performed on the #Permutations within the WHILE loop
-• Output is saved in the temporary table #Permutations
+â€¢ Determining permutations can be performed with a recursive CTE; this solution uses a WHILE loop
+â€¢ This solution uses an initial numbers table (#Numbers) that must be populated
+â€¢ The #Permutations table is initially seeded from the #Numbers table
+â€¢ The #Numbers table could be eliminated and simply just seed the #Permutations table  
+â€¢ To keep the record count manageable, a DELETE is performed on the #Permutations within the WHILE loop
+â€¢ Output is saved in the temporary table #Permutations
 
 **********************************************************************/
 
@@ -31,18 +31,18 @@ DECLARE @vTotalNumbers BIGINT = 3;
 ---------------------
 ---------------------
 --Create a #Numbers table using recursion
-WITH cte_Factorial (Number)
+WITH cte_Numbers (Number)
 AS (
     SELECT 1 AS Number
     UNION ALL
     SELECT  Number + 1
-    FROM   cte_Factorial
+    FROM   cte_Numbers
     WHERE  Number < @vTotalNumbers
 )
 SELECT
        Number
 INTO    #Numbers
-FROM   cte_Factorial
+FROM   cte_Numbers
 OPTION (MAXRECURSION 0);--A value of 0 means no limit to the recursion level
 
 ---------------------
