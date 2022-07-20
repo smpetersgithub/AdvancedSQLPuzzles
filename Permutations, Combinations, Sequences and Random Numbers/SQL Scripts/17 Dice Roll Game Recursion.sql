@@ -9,7 +9,6 @@ Last Updated: 07/05/2022
 This script is written in SQL Server's T-SQL
 
 
-* Because you cannot go below 0, a WHILE loop is created to account for this scenario
 * You will need to make an assumption how many possible numbers you need in the #Numbers table, as this solution uses windowing
 * This script performs 1 iteration of the Dice Roll Game
 
