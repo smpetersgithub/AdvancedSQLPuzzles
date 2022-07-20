@@ -7,12 +7,12 @@ Last Updated: 07/05/2022
 This script is written in SQL Server's T-SQL
 
 
-• This solution uses the following concepts:
+â€¢ This solution uses the following concepts:
      1) A sequence generator to create a deck of cards, as we only care about the number value on the card and not its suite (Hearts, Diamonds, Clubs, Spades) 
      2) This solution also uses the UNIQUEIDENTIFIER data type to shuffle a deck of cards
      3) A random generator (0 or 1) to randomly choose a higher or lower prediction if both have the same probability 
 
-• I use several temp tables for my solution rather than running UPDATE statements
+â€¢ I use several temp tables for my solution rather than running UPDATE statements
      1) A #Numbers table is populated with 52 records, the size of a deck of cards
      2) The sequence CardDeckSequence is created that cycles every 13 numbers
      3) The #CardShuffle table is created using the UNIQUEIDENTIFIER data type to randomize the deck of cards and then populated using the CardDeckSequence
