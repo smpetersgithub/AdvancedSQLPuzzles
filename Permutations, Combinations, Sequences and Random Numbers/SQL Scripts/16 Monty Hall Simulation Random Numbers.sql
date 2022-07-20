@@ -7,9 +7,9 @@ Last Updated: 07/05/2022
 This script is written in SQL Server's T-SQL
 
 
-• This script creates a simulation of the Monty Hall Problem
-• It uses NEWID() to randomize the doors
-• Determining valid inputs into the variables is the most difficult part of this puzzle
+â€¢ This script creates a simulation of the Monty Hall Problem
+â€¢ It uses NEWID() to randomize the doors
+â€¢ Determining valid inputs into the variables is the most difficult part of this puzzle
 
 **********************************************************************/
 
