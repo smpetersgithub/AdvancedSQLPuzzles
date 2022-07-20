@@ -7,12 +7,12 @@ Last Updated: 07/07/2022
 This script is written in SQL Server's T-SQL
 
 
-• Relational division is used to divide the #Birthday table and determine nearest matches
-• A non-equi self join is used to match birthdays
-• 50% is reached around the 23rd/24th person, 100% is reached around the 90th person
-• #BirthDaysHistory is not guaranteed to have each day, only days where there was a match
-• #BirthDaysHistory will never have day 1 as a match can never occur on this day
-• I have added the code to flash fill any missing dates at the end
+â€¢ Relational division is used to divide the #Birthday table and determine nearest matches
+â€¢ A non-equi self join is used to match birthdays
+â€¢ 50% is reached around the 23rd/24th person, 100% is reached around the 90th person
+â€¢ #BirthDaysHistory is not guaranteed to have each day, only days where there was a match
+â€¢ #BirthDaysHistory will never have day 1 as a match can never occur on this day
+â€¢ I have added the code to flash fill any missing dates at the end
 
 **********************************************************************/
 
