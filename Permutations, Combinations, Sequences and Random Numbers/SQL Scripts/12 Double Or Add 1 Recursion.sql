@@ -68,5 +68,5 @@ FROM    cte_Recursion cte
 )
 SELECT   *
 FROM     cte_Recursion
-WHERE    RunningSum = 100
-ORDER BY Number;
+WHERE    RunningSum <= 100
+ORDER BY Number DESC;
