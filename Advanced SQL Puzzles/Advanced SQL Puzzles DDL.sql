@@ -247,6 +247,7 @@ GO
 
 /*----------------------------------------------------
 DDL for Puzzle #11
+Permutations
 */----------------------------------------------------
 
 DROP TABLE IF EXISTS #TestCases;
@@ -852,12 +853,7 @@ The Traveling Salesman is a popular puzzle in optimization.
 https://en.wikipedia.org/wiki/Travelling_salesman_problem
 
 For this puzzle, I solve it by hardcoding the number of connections to 4.
-You may wish to use recursion and set a maximum number of recursions, as
-their is the possibility of the traveling salesman traveling back and forth 
-between the same cities.
 
-Alternatively, you could try and solve it with the rule that the traveling
-salesman cannot visit each city twice.
 ----
 Tags:
 Recursion
@@ -1208,6 +1204,7 @@ GO
 DDL for Puzzle #50
 Baseball Balls and Strikes
 */----------------------------------------------------
+
 DROP TABLE IF EXISTS #Pitches;
 GO
 
@@ -1359,6 +1356,7 @@ Numbers Using Recursion
 DDL for Puzzle #57
 Find The Spaces
 */----------------------------------------------------
+
 DROP TABLE IF EXISTS #Strings
 GO
 
@@ -1377,6 +1375,7 @@ GO
 DDL for Puzzle #58
 Add Them Up
 */----------------------------------------------------
+
 DROP TABLE IF EXISTS #Equations;
 GO
 
