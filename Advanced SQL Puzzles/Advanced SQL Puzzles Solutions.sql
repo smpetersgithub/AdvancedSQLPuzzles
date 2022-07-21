@@ -462,6 +462,7 @@ ORDER BY ModeCount DESC;
 
 /*----------------------------------------------------
 Answer to Puzzle #11
+Permutations
 */----------------------------------------------------
 
 DROP TABLE IF EXISTS #TestCases;
