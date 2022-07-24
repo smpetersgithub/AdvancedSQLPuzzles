@@ -10,3 +10,6 @@ Contains a description of the puzzles to solve.
 
 #### /SQL Scripts/
 Folder containing the solutions to the puzzles.
+
+#### /Recursion Examples/
+Folder containing examples of recursive SQL statements.
