@@ -16,9 +16,9 @@ On average, how many rainy days are there in Probability Land?
 -------------------------------
 -------------------------------
 
-DROP TABLE if EXISTS #Probabilities;
-DROP TABLE if EXISTS #Numbers;
-DROP TABLE if EXISTS #RandomNumbers;
+DROP TABLE IF EXISTS #Probabilities;
+DROP TABLE IF EXISTS #Numbers;
+DROP TABLE IF EXISTS #RandomNumbers;
 DROP TABLE IF EXISTS #ProbabilitesFinal;
 GO
 
@@ -43,17 +43,17 @@ GO
 DECLARE @vTotalNumbers INTEGER = 10000;
 -------------------------------
 -------------------------------
-WITH cte_Number (Number)
+WITH cte_Recursion (Number)
 AS  (
     SELECT 1 AS Number
     UNION ALL
     SELECT  Number + 1
-    FROM   cte_Number
+    FROM   cte_Recursion
     WHERE  Number < @vTotalNumbers
     )
 SELECT Number AS StepNumber
 INTO   #Numbers
-FROM   cte_Number
+FROM   cte_Recursion
 OPTION (MAXRECURSION 0);
 
 -------------------------------
