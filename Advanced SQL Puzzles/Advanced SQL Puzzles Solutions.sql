@@ -1758,10 +1758,7 @@ INSERT INTO #SampleData VALUES
 (1),(2),(3),(4),(5),(6),(7),(8),(9),(10);
 GO
 
-SELECT  IntegerValue,
-        IntegerValue%2,
-        (CASE WHEN IntegerValue%2 > 0 OR IntegerValue <= 2 THEN 'Prime Number' ELSE NULL END) AS PrimeNumber
-FROM    #SampleData;
+--Answer coming soon!
 
 /*----------------------------------------------------
 Answer to Puzzle #40
