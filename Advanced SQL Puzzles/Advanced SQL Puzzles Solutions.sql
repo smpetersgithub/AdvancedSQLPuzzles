@@ -789,15 +789,16 @@ INSERT INTO #SeatingChart VALUES (0);
 GO
 
 --Gap start and gap end
-SELECT  GapStart + 1 AS GapStart,
-        GapEnd - 1 AS GapEnd
-FROM
-    (
-    SELECT  SeatNumber AS GapStart,
+WITH cte_Gaps AS 
+(
+SELECT  SeatNumber AS GapStart,
         LEAD(SeatNumber,1,0) OVER (ORDER BY SeatNumber) AS GapEnd,
         LEAD(SeatNumber,1,0) OVER (ORDER BY SeatNumber) - SeatNumber AS Gap
-    FROM #SeatingChart
-    ) a
+FROM    #SeatingChart
+)
+SELECT  GapStart + 1 AS GapStart,
+        GapEnd - 1 AS GapEnd
+FROM    cte_Gaps
 WHERE Gap > 1;
 
 --Missing Numbers
