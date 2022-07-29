@@ -2105,47 +2105,10 @@ Answer to Puzzle #47
 Work Schedule
 */----------------------------------------------------
 
-DROP TABLE IF EXISTS #CalendarTable;
 DROP TABLE IF EXISTS #Schedule;
 DROP TABLE IF EXISTS #Activity;
-DROP TABLE IF EXISTS #ActivityDetail;
-DROP TABLE IF EXISTS #ActivityGroupings1;
-DROP TABLE IF EXISTS #ActivityGroupings2
-DROP TABLE IF EXISTS #ActivityGroupings3;
-DROP TABLE IF EXISTS #ActivityGroupings4;
-GO
-
-CREATE TABLE #CalendarTable
-(
-MyDateTime DATETIME PRIMARY KEY
-);
-GO
-
-INSERT INTO #CalendarTable
-VALUES
-(CAST('10/01/2021 09:45 AM' AS DATETIME)),
-(CAST('10/01/2021 10:00 AM' AS DATETIME)),
-(CAST('10/01/2021 10:15 AM' AS DATETIME)),
-(CAST('10/01/2021 10:30 AM' AS DATETIME)),
-(CAST('10/01/2021 10:45 AM' AS DATETIME)),
-(CAST('10/01/2021 11:00 AM' AS DATETIME)),
-(CAST('10/01/2021 11:15 AM' AS DATETIME)),
-(CAST('10/01/2021 11:30 AM' AS DATETIME)),
-(CAST('10/01/2021 11:45 AM' AS DATETIME)),
-(CAST('10/01/2021 12:00 PM' AS DATETIME)),
-(CAST('10/01/2021 12:15 PM' AS DATETIME)),
-(CAST('10/01/2021 12:30 PM' AS DATETIME)),
-(CAST('10/01/2021 12:45 PM' AS DATETIME)),
-(CAST('10/01/2021 1:00 PM' AS DATETIME)),
-(CAST('10/01/2021 1:15 PM' AS DATETIME)),
-(CAST('10/01/2021 1:30 PM' AS DATETIME)),
-(CAST('10/01/2021 1:45 PM' AS DATETIME)),
-(CAST('10/01/2021 2:00 PM' AS DATETIME)),
-(CAST('10/01/2021 2:15 PM' AS DATETIME)),
-(CAST('10/01/2021 2:30 PM' AS DATETIME)),
-(CAST('10/01/2021 2:45 PM' AS DATETIME)),
-(CAST('10/01/2021 3:00 PM' AS DATETIME)),
-(CAST('10/01/2021 3:15 PM' AS DATETIME));
+DROP TABLE IF EXISTS #ScheduleTimes;
+DROP TABLE IF EXISTS #ActivityCoalesce
 GO
 
 CREATE TABLE #Schedule
@@ -2180,91 +2143,39 @@ VALUES
 ('B','Break',CAST('2021-10-01 11:00:00'AS DATETIME),CAST('2021-10-01 11:15:00' AS DATETIME));
 GO
 
---Step 1
-WITH cte_Work AS
+
+SELECT ScheduleID, StartTime AS ScheduleTime INTO #ScheduleTimes FROM #Schedule
+UNION
+SELECT ScheduleID, EndTime FROM #Schedule
+UNION
+SELECT ScheduleID, StartTime FROM #Activity
+UNION
+SELECT ScheduleID, EndTime FROM #Activity;
+GO
+
+SELECT  a.ScheduleID
+        ,a.ScheduleTime
+        ,COALESCE(b.ActivityName, c.ActivityName, 'Work') AS ActivityName
+INTO    #ActivityCoalesce
+FROM    #ScheduleTimes a LEFT OUTER JOIN
+        #Activity b ON a.ScheduleTime = b.StartTime and a.ScheduleId = b.ScheduleID LEFT OUTER JOIN
+        #Activity c ON a.ScheduleTime = c.EndTime  and a.ScheduleId = b.ScheduleID LEFT OUTER JOIN
+        #Schedule d ON a.ScheduleTime = d.StartTime  and a.ScheduleId = b.ScheduleID LEFT OUTER JOIN
+        #Schedule e ON a.ScheduleTime = e.EndTime  and a.ScheduleId = b.ScheduleID 
+ORDER BY a.ScheduleID, a.ScheduleTime;
+GO
+
+WITH cte_Lead AS
 (
-SELECT  ScheduleID
-        ,'Work' AS ActivityName
-        ,MyDateTime
-FROM    #Schedule s INNER JOIN
-        #CalendarTable c ON c.MyDateTime >= s.StartTime AND c.MyDateTime <= s.EndTime
+SELECT  ScheduleID, 
+        ActivityName, 
+        ScheduleTime as StartTime, 
+        LEAD(ScheduleTime) OVER (PARTITION BY ScheduleID ORDER BY ScheduleTime) AS EndTime
+FROM    #ActivityCoalesce
 )
-,cte_Activity AS
-(
-SELECT  c.ScheduleID
-        ,COALESCE(s.ActivityName, c.ActivityName) AS ActivityName
-        ,c.MyDateTime
-FROM    cte_Work c LEFT OUTER JOIN
-        #Activity s ON c.MyDateTime >= s.StartTime AND c.MyDateTime <= s.EndTime
-                        AND s.ScheduleID = c.ScheduleID
-)
-SELECT  ROW_NUMBER() OVER (PARTITION BY ScheduleID ORDER BY ScheduleID, MyDateTime ASC) AS StepNumber
-        ,*
-INTO    #ActivityDetail
-FROM    cte_Activity;
-GO
-
---Step 2
-SELECT  ScheduleID
-        ,ActivityName
-        ,StepNumber
-        ,ROW_NUMBER() OVER (PARTITION BY ScheduleID, ActivityName ORDER BY StepNumber) AS RowNumber
-        ,StepNumber - ROW_NUMBER() OVER (PARTITION BY ScheduleId, ActivityName ORDER BY StepNumber) AS Rnk
-INTO    #ActivityGroupings1
-FROM    #ActivityDetail
-ORDER BY StepNumber;
-GO
-
---Step 3
-SELECT  ROW_NUMBER() OVER (ORDER BY ScheduleId, Rnk) AS StepOrder
-        ,ScheduleID
-        ,ActivityName
-        ,MAX(StepNumber) - MIN(StepNumber) + 1 AS ConsecutiveCount
-        ,MIN(StepNumber) AS MinStepNumber
-        ,MAX(StepNumber) AS MaxStepNumber
-INTO    #ActivityGroupings2
-FROM    #ActivityGroupings1
-GROUP BY
-        Rnk,
-        ScheduleID,
-        ActivityName;
-GO
-
---Step 4
-SELECT  a.*,
-        b.StepOrder AS DistinctGroupingSet
-INTO    #ActivityGroupings3
-FROM    #ActivityDetail a INNER JOIN
-        #ActivityGroupings2 b ON a.StepNumber BETWEEN b.MinStepNumber AND b.MaxStepNumber
-                                    AND A.ScheduleID = b.ScheduleID
-ORDER BY 1;
-GO
-
---Step 5
-SELECT  MIN(StepNumber) AS MinStepNumber
-        ,MAX(StepNumber) AS MaxStepNumber
-        ,ScheduleID
-        ,ActivityName
-        ,DistinctGroupingSet
-        ,MIN(MyDateTime) AS StartTime
-        ,MAX(MyDateTime) AS EndTime
-INTO    #ActivityGroupings4
-FROM    #ActivityGroupings3
-GROUP BY ScheduleId
-        ,ActivityName
-        ,DistinctGroupingSet
-ORDER BY 1;
-GO
-
---Results
-SELECT  ScheduleID
-        ,ActivityName
-        ,(CASE  WHEN ActivityName = 'Work' 
-                THEN LAG(EndTime,1,StartTime) OVER (PARTITION BY ScheduleID ORDER BY MinStepNumber) ELSE StartTime END) StartTime2
-        ,(CASE  WHEN ActivityName = 'Work' 
-                THEN LEAD(StartTime,1,EndTime) OVER (PARTITION BY ScheduleID ORDER BY MinStepNumber) ELSE EndTime END) EndTime2
-FROM    #ActivityGroupings4
-ORDER BY ScheduleID, MinStepNumber;
+SELECT  *
+FROM    cte_Lead
+WHERE   EndTime IS NOT NULL;
 
 /*----------------------------------------------------
 Answer to Puzzle #48
