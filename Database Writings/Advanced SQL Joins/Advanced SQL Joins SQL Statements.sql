@@ -259,6 +259,12 @@ SELECT  a.Fruit,
 FROM    ##TableA a CROSS JOIN
         (VALUES (NEWID())) AS b(New_ID)
 
+--8.4
+SELECT *
+FROM   ##TableA INNER JOIN 
+       (VALUES('Apple'),('Kiwi')) AS Fruits(myFruit) ON EXISTS 
+                                (SELECT 1 FROM ##TableA b WHERE myFruit = Fruit);
+
 -----------------
 --SET OPERATORS--
 -----------------
