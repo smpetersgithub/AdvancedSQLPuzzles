@@ -101,6 +101,13 @@ SELECT  a.Fruit,
 FROM    ##TableA a INNER JOIN
         ##TableB b ON ISNULL(a.Fruit,'') = ISNULL(b.Fruit,'');
 
+--1.10
+SELECT a.Fruit
+FROM ##TableA a INNER JOIN
+     ##TableA b INNER JOIN
+     ##TableA c INNER JOIN
+     ##TableA d ON c.Fruit = d.Fruit ON b.Fruit = c.Fruit ON a.Fruit = b.Fruit;
+
 -------------------
 --LEFT OUTER JOIN--
 -------------------
@@ -134,6 +141,14 @@ WHERE   b.Fruit = 'Apple';
 SELECT  a.Fruit,
         (SELECT b.Fruit FROM ##TableB b WHERE a.Fruit = b.Fruit) AS Fruit
 FROM    ##TableA a;
+
+--2.6
+SELECT  a.Fruit,
+        b.Fruit,
+        c.Fruit
+FROM    ##TableA a RIGHT OUTER JOIN
+        ##TableB b ON a.Fruit = b.Fruit LEFT OUTER JOIN
+        ##TableA c ON b.Fruit = c.Fruit;
 
 -------------------
 --FULL OUTER JOIN--
