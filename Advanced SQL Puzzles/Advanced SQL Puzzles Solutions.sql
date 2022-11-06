@@ -233,7 +233,7 @@ SELECT  CustomerID,
         NULL AS work,
         NULL AS home
 FROM    #PhoneDirectory
-WHERE   [Type] = 'CellPhone'
+WHERE   [Type] = 'Cellular'
 UNION
 SELECT  CustomerID,
         NULL Cellular,
