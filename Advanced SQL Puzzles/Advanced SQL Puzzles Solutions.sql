@@ -317,6 +317,8 @@ INSERT INTO #Requirements VALUES
 ('Geologist'),('Astrogator'),('Technician');
 GO
 
+-- Solution 1
+-- Inner Join
 WITH cte_RequirementsCount
 AS
 (
@@ -328,6 +330,17 @@ FROM    #Candidates a INNER JOIN
 GROUP BY CandidateID
 HAVING COUNT(*) = (SELECT RequirementCount FROM cte_RequirementsCount);
 
+-- Solution 2
+-- Non Join 
+
+SELECT CandidateID
+FROM #Candidates 
+WHERE 1 = 1 
+  AND Occupation in (SELECT Requirement
+                     FROM #Requirements )
+GROUP by CandidateID
+Having COUNT(*) = (SELECT COUNT(*)
+                    FROM #Requirements )
 /*----------------------------------------------------
 Answer to Puzzle #8
 Workflow Cases
