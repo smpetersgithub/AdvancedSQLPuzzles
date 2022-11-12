@@ -504,6 +504,19 @@ SELECT  Permutation
 FROM    cte_Permutations
 WHERE   Depth = @vTotalElements;
 
+-- CROSS JOIN
+
+SELECT   tc1.TestCase
+       , tc3.TestCase
+       , tc2.TestCase
+FROM       #TestCases as tc1
+CROSS JOIN #TestCases as tc2
+CROSS JOIN #TestCases as tc3
+WHERE 1 = 1 
+  AND tc1.TestCase <> tc2.TestCase 
+  AND tc2.TestCase <> tc3.TestCase 
+  AND tc1.TestCase <> tc3.TestCase 
+
 /*----------------------------------------------------
 Answer to Puzzle #12
 Average Days
