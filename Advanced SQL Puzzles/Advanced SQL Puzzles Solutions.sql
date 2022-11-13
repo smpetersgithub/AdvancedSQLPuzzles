@@ -663,9 +663,12 @@ GO
 
 --Solution 1
 --STRING_AGG
-SELECT  
-        STRING_AGG(CONVERT(NVARCHAR(max),String), ' ')
-FROM    #DMLTable;
+with cte as ( SELECT *, CASE WHEN SequenceNumber = 2 THEN String + ',' 
+                             WHEN SequenceNumber = 3 THEN String + ',' 
+                             WHEN SequenceNumber = 4 THEN String     ELSE String END as string2
+              FROM  DMLTable ) 
+SELECT STRING_AGG(string2, ' ')
+FROM  cte
 
 --Solution 2
 --Recursion
