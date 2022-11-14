@@ -348,14 +348,14 @@ GO
 
 INSERT INTO #DMLTable VALUES
 (1,'SELECT'),
-(5,'FROM'),
-(7,'WHERE'),
 (2,'Product'),
-(6,'Products'),
 (3,'UnitPrice'),
-(9,'> 100'),
 (4,'EffectiveDate'),
-(8,'UnitPrice');
+(5,'FROM'),
+(6,'Products'),
+(7,'WHERE'),
+(8,'UnitPrice'),
+(9,'> 100');
 GO
 
 /*----------------------------------------------------
@@ -1010,7 +1010,7 @@ GO
 
 INSERT INTO #Friends VALUES 
 ('Jason','Mary'),('Mike','Mary'),('Mike','Jason'),
-('Susan','Jason'),('John','Mary'),('Susan','Mary')
+('Susan','Jason'),('John','Mary'),('Susan','Mary');
 GO
 
 /*----------------------------------------------------
@@ -1276,7 +1276,7 @@ GO
 INSERT INTO #Spouses VALUES
 ('Pat','Charlie'),('Jordan','Casey'),
 ('Ashley','Dee'),('Charlie','Pat'),
-('Casey','Jordan'),('Dee','Ashley')
+('Casey','Jordan'),('Dee','Ashley');
 GO
 
 /*----------------------------------------------------
@@ -1357,7 +1357,7 @@ DDL for Puzzle #57
 Find The Spaces
 */----------------------------------------------------
 
-DROP TABLE IF EXISTS #Strings
+DROP TABLE IF EXISTS #Strings;
 GO
 
 CREATE TABLE #Strings
