@@ -2651,7 +2651,7 @@ Answer to Puzzle #57
 Find The Spaces
 */----------------------------------------------------
 
-DROP TABLE IF EXISTS #Strings
+DROP TABLE IF EXISTS #Strings;
 GO
 
 CREATE TABLE #Strings
