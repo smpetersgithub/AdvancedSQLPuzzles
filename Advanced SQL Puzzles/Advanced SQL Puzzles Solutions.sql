@@ -37,6 +37,7 @@ SELECT  a.Item AS ItemCart1,
         b.Item AS ItemCart2
 FROM    #Cart1 a FULL OUTER JOIN
         #Cart2 b ON a.Item = b.Item;
+GO
 
 /*----------------------------------------------------
 Answer to Puzzle #2
@@ -74,6 +75,7 @@ FROM    cte_Recursion a INNER JOIN
 )
 SELECT  EmployeeID, ManagerID, JobTitle, Salary, Depth
 FROM    cte_Recursion;
+GO
 
 /*----------------------------------------------------
 Answer to Puzzle #3
@@ -153,6 +155,7 @@ SELECT  b.CustomerID, b.OrderID, b.DeliveryState, b.Amount
 FROM    cte_CA a INNER JOIN
         #Orders b ON a.CustomerID = B.CustomerID
 WHERE   b.DeliveryState = 'TX';
+GO
 
 --Solution 2
 --IN
@@ -166,6 +169,7 @@ SELECT  CustomerID, OrderID, DeliveryState, Amount
 FROM    #Orders
 WHERE   DeliveryState = 'TX' AND
         CustomerID IN (SELECT b.CustomerID FROM cte_CA b);
+GO
 
 /*----------------------------------------------------
 Answer to Puzzle #5
@@ -197,6 +201,7 @@ GO
 --PIVOT
 SELECT CustomerID,[Cellular],[Work],[Home] FROM #PhoneDirectory
 PIVOT (MAX(PhoneNumber) FOR [Type] IN ([Cellular],[Work],[Home])) AS PivotClause;
+GO
 
 --Solution 2
 --OUTER JOIN
@@ -223,6 +228,7 @@ FROM    (SELECT DISTINCT CustomerID FROM #Phonedirectory) a LEFT OUTER JOIN
         cte_Cellular b ON a.CustomerID = b.CustomerID LEFT OUTER JOIN
         cte_Work c ON a.CustomerID = c.CustomerID LEFT OUTER JOIN
         cte_Home d ON a.CustomerID = d.CustomerID;
+GO
 
 --Solution 3
 --MAX
@@ -255,6 +261,7 @@ SELECT  CustomerID,
         MAX(Home)
 FROM    cte_PhoneNumbers
 GROUP BY CustomerID;
+GO
 
 /*----------------------------------------------------
 Answer to Puzzle #6
@@ -283,6 +290,7 @@ SELECT  Workflow
 FROM    #WorkflowSteps
 GROUP BY Workflow
 HAVING  COUNT(*) <> COUNT(CompletionDate);
+GO
 
 /*----------------------------------------------------
 Answer to Puzzle #7
@@ -317,16 +325,12 @@ INSERT INTO #Requirements VALUES
 ('Geologist'),('Astrogator'),('Technician');
 GO
 
-WITH cte_RequirementsCount
-AS
-(
-SELECT COUNT(*) AS RequirementCount FROM #Requirements
-)
 SELECT  CandidateID
-FROM    #Candidates a INNER JOIN
-        #Requirements b ON a.Occupation = b.Requirement
+FROM    #Candidates
+WHERE   Occupation IN (SELECT Requirement FROM #Requirements)
 GROUP BY CandidateID
-HAVING COUNT(*) = (SELECT RequirementCount FROM cte_RequirementsCount);
+HAVING COUNT(*) = (SELECT COUNT(*) FROM #Requirements);
+GO
 
 /*----------------------------------------------------
 Answer to Puzzle #8
@@ -362,6 +366,7 @@ SELECT  Workflow, SUM(PassFail) AS PassFail
 FROM    cte_PassFail
 GROUP BY Workflow
 ORDER BY 1;
+GO
 
 /*----------------------------------------------------
 Answer to Puzzle #9
@@ -411,6 +416,7 @@ SELECT  a.EmployeeID, a.EmployeeID2, a.LicenseCountCombo
 FROM    cte_EmployeeCountCombined a INNER JOIN
         cte_EmployeeCount b ON  a.LicenseCountCombo = b.LicenseCount AND
                                 a.EmployeeID <> b.EmployeeID;
+GO
 
 /*----------------------------------------------------
 Answer to Puzzle #10
@@ -446,12 +452,14 @@ SELECT
             ORDER BY IntegerValue DESC
             ) a
         ORDER BY IntegerValue ASC)
-        ) * 1.0 /2 AS Median
+        ) * 1.0 /2 AS Median;
+GO
 
 --Mean and Range
 SELECT  AVG(IntegerValue) AS Mean,
         MAX(IntegerValue) - MIN(IntegerValue) AS [Range]
 FROM    #SampleData;
+GO
 
 --Mode
 SELECT  TOP 1
@@ -460,6 +468,7 @@ SELECT  TOP 1
 FROM    #SampleData
 GROUP BY IntegerValue
 ORDER BY ModeCount DESC;
+GO
 
 /*----------------------------------------------------
 Answer to Puzzle #11
@@ -503,6 +512,7 @@ WHERE   a.Depth < @vTotalElements AND
 SELECT  Permutation
 FROM    cte_Permutations
 WHERE   Depth = @vTotalElements;
+GO
 
 /*----------------------------------------------------
 Answer to Puzzle #12
@@ -537,6 +547,7 @@ SELECT  WorkFlow, AVG(DateDifference)
 FROM    cte_DayDiff
 WHERE   DateDifference IS NOT NULL
 GROUP BY Workflow;
+GO
 
 /*----------------------------------------------------
 Answer to Puzzle #13
@@ -562,7 +573,7 @@ SELECT  InventoryDate,
         QuantityAdjustment,
         SUM(QuantityAdjustment) OVER (ORDER BY InventoryDate)
 FROM    #Inventory;
-
+GO
 
 /*----------------------------------------------------
 Answer to Puzzle #14
@@ -633,6 +644,7 @@ SELECT  Workflow,
         [Status]
 FROM    cte_ErrorWorkflows
 ORDER BY a.Workflow;
+GO
 
 /*----------------------------------------------------
 Answer to Puzzle #15
@@ -651,14 +663,14 @@ GO
 
 INSERT INTO #DMLTable VALUES
 (1,'SELECT'),
-(5,'FROM'),
-(7,'WHERE'),
-(2,'Product'),
-(6,'Products'),
-(3,'UnitPrice'),
-(9,'> 100'),
+(2,'Product,'),
+(3,'UnitPrice,'),
 (4,'EffectiveDate'),
-(8,'UnitPrice');
+(5,'FROM'),
+(6,'Products'),
+(7,'WHERE'),
+(8,'UnitPrice'),
+(9,'> 100');
 GO
 
 --Solution 1
@@ -666,6 +678,7 @@ GO
 SELECT  
         STRING_AGG(CONVERT(NVARCHAR(max),String), ' ')
 FROM    #DMLTable;
+GO
 
 --Solution 2
 --Recursion
@@ -683,6 +696,7 @@ FROM    cte_DMLGroupConcat cte_Concat INNER JOIN
 SELECT  String2
 FROM    cte_DMLGroupConcat
 WHERE   Depth = 0;
+GO
 
 --Solution 3
 --XML Path
@@ -693,6 +707,7 @@ SELECT DISTINCT
             ORDER BY SequenceNumber
         FOR XML PATH('')), 1, 1, '') AS DML_String
 FROM    #DMLTable;
+GO
 
 /*----------------------------------------------------
 Answer to Puzzle #16
@@ -727,6 +742,7 @@ FROM    (
         FROM    #PlayerScores 
         ) a
 GROUP BY PlayerA, PlayerB;
+GO
 
 /*----------------------------------------------------
 Answer to Puzzle #17
@@ -765,6 +781,7 @@ SELECT  a.ProductDescription, 1 AS Quantity
 FROM    #Ungroup a CROSS JOIN
         #Numbers b
 WHERE   a.Quantity >= b. IntegerValue;
+GO
 
 /*----------------------------------------------------
 Answer to Puzzle #18
@@ -800,6 +817,7 @@ SELECT  GapStart + 1 AS GapStart,
         GapEnd - 1 AS GapEnd
 FROM    cte_Gaps
 WHERE Gap > 1;
+GO
 
 --Missing Numbers
 WITH cte_Rank
@@ -812,12 +830,14 @@ FROM    #SeatingChart
 WHERE   SeatNumber > 0
 )
 SELECT MAX(Rnk) AS MissingNumbers FROM cte_Rank;
+GO
 
 --Odd and even number count
 SELECT  (CASE SeatNumber%2 WHEN 1 THEN 'Odd' WHEN 0 THEN 'Even' END) AS Modulus,
         COUNT(*) AS [Count]
 FROM    #SeatingChart
 GROUP BY (CASE SeatNumber%2 WHEN 1 THEN 'Odd' WHEN 0 THEN 'Even' END);
+GO
 
 /*----------------------------------------------------
 Answer to Puzzle #19
@@ -884,6 +904,7 @@ SELECT  MIN(StartDate) AS StartDate,
         MAX(MinEndDate_A) AS EndDate
 FROM    #DetermineValidEndDates2
 GROUP BY MinEndDate_A;
+GO
 
 /*----------------------------------------------------
 Answer to Puzzle #20
@@ -920,6 +941,7 @@ WHERE NOT EXISTS (SELECT    1
                   FROM      #Validprices AS ppl
                   WHERE     ppl.ProductID = pp.ProductID AND
                             ppl.EffectiveDate > pp.EffectiveDate);
+GO
 
 --Solution 2
 --RANK
@@ -934,6 +956,7 @@ FROM    #ValidPrices
 SELECT  Rnk, ProductID, EffectiveDate, UnitPrice
 FROM    cte_ValidPrices
 WHERE   Rnk = 1;
+GO
 
 /*----------------------------------------------------
 Answer to Puzzle #21
@@ -986,6 +1009,7 @@ HAVING  MIN(AverageValue) >= 100
 )
 SELECT  [State]
 FROM    cte_MinAverageValueState;
+GO
 
 /*----------------------------------------------------
 Answer to Puzzle #22
@@ -1031,6 +1055,7 @@ FROM    #ProcessLog a INNER JOIN
         cte_LogMessageCount b ON a.LogMessage = b.LogMessage AND
                                  a.Occurrences = b.MaxOccurrences
 ORDER BY 1;
+GO
 
 --Solution 2
 --ALL
@@ -1042,6 +1067,7 @@ WHERE   Occurrences > ALL(SELECT    e2.Occurrences
                             FROM    #ProcessLog AS e2
                             WHERE   e2.LogMessage = e1.LogMessage AND
                                     e2.WorkFlow <> e1.WorkFlow);
+GO
 
 /*----------------------------------------------------
 Answer to Puzzle #23
@@ -1069,6 +1095,7 @@ SELECT  NTILE(2) OVER (ORDER BY Score DESC) as Quartile,
         Score
 FROM    #PlayerScores a
 ORDER BY Score DESC;
+GO
 
 /*----------------------------------------------------
 Answer to Puzzle #24
@@ -1095,6 +1122,7 @@ SELECT  RowID
 FROM    #SampleData
 ORDER BY RowID
 OFFSET 10 ROWS FETCH NEXT 10 ROWS ONLY;
+GO
 
 /*----------------------------------------------------
 Answer to Puzzle #25
@@ -1134,6 +1162,7 @@ SELECT  DISTINCT b.CustomerID, b.Vendor
 FROM    #Orders a INNER JOIN
         cte_Rank b ON a.CustomerID = b.CustomerID AND a.Vendor = b.Vendor
 WHERE   Rnk = 1;
+GO
 
 /*----------------------------------------------------
 Answer to Puzzle #26
@@ -1163,6 +1192,7 @@ GO
 --PIVOT
 SELECT [2018],[2017],[2016] FROM #Sales
 PIVOT (SUM(Amount) FOR [Year] IN ([2018],[2017],[2016])) AS PivotClause;
+GO
 
 --Solution 2
 --LAG
@@ -1186,6 +1216,7 @@ SELECT  Amount AS '2018',
         Lag2 AS '2016'
 FROM    cte_Lag
 WHERE   [Year] = 2018;
+GO
 
 --Solution 3
 --Dynamic SQL without hardcoded dates
@@ -1280,6 +1311,7 @@ SELECT  a.RowNumber,
                     FROM #Gaps c
                     WHERE c.RowNumber <= a.RowNumber AND c.TestCase != '')) TestCase
 FROM #Gaps a;
+GO
 
 --Solution 2
 --MAX
@@ -1290,6 +1322,7 @@ FROM    (SELECT RowNumber,
                 COUNT(TestCase) OVER (ORDER BY RowNumber) AS DistinctCount
         FROM #Gaps) a
 ORDER BY RowNumber;
+GO
 
 --Solution 3
 --This type of update is called a "quirky update"
@@ -1304,6 +1337,7 @@ END
 GO
 
 SELECT * FROM #Gaps2;
+GO
 
 /*----------------------------------------------------
 Answer to Puzzle #29
@@ -1397,6 +1431,7 @@ FROM    #SampleData a
 WHERE   2 = (SELECT COUNT(IntegerValue)
             FROM    #SampleData b
             WHERE   a.IntegerValue <= b.IntegerValue);
+GO
 
 --Solution 2
 --OFFSET
@@ -1404,12 +1439,14 @@ SELECT  IntegerValue
 FROM    #SampleData a
 ORDER BY IntegerValue DESC
 OFFSET 1 ROWS FETCH NEXT 1 ROWS ONLY;
+GO
 
 --Solution 3
 --MAX
 SELECT  MAX(IntegerValue)
 FROM    #SampleData
 WHERE   IntegerValue < (SELECT MAX(IntegerValue) FROM #SampleData);
+GO
 
 --Solution 4
 --TOP
@@ -1420,6 +1457,7 @@ FROM    #SampleData
 ORDER BY IntegerValue DESC
 )
 SELECT  MIN(IntegerValue) FROM cte_Top2;
+GO
 
 /*----------------------------------------------------
 Answer to Puzzle #32
@@ -1452,6 +1490,7 @@ SELECT  DISTINCT
             RANGE BETWEEN CURRENT ROW AND UNBOUNDED FOLLOWING) AS LeastExperienced
 FROM    #Personel
 ORDER BY 1,2,3;
+GO
 
 /*----------------------------------------------------
 Answer to Puzzle #33
@@ -1506,7 +1545,8 @@ GROUP BY ProductID
 )
 SELECT  a.*
 FROM    #OrderFulfillments a INNER JOIN
-        cte_Max b ON a.ProductID = b.ProductID AND a.DaysToBuild >= b.MaxDaysToManufacture
+        cte_Max b ON a.ProductID = b.ProductID AND a.DaysToBuild >= b.MaxDaysToManufacture;
+GO
 
 --Solution 2
 --ALL
@@ -1515,6 +1555,7 @@ FROM    #OrderFulfillments a
 WHERE   DaysToBuild >= ALL( SELECT  DaysToManufacture 
                             FROM    #ManufacturingTimes b 
                             WHERE   a.ProductID = b.ProductID);
+GO
 
 /*----------------------------------------------------
 Answer to Puzzle #34
@@ -1540,6 +1581,7 @@ GO
 SELECT  OrderID,CustomerID, Amount
 FROM    #Orders
 WHERE   NOT(CustomerID = 1001 AND OrderID = 'Ord789765');
+GO
 
 /*----------------------------------------------------
 Answer to Puzzle #35
@@ -1589,6 +1631,7 @@ SELECT  ISNULL(a.SalesRepID,b.SalesRepID)
 FROM    cte_Domestic a FULL OUTER JOIN
         cte_International b ON a.SalesRepID = b.SalesRepID
 WHERE   a.InvoiceID IS NULL OR b.InvoiceID IS NULL;
+GO
 
 /*----------------------------------------------------
 Answer to Puzzle #36
@@ -1652,6 +1695,7 @@ FROM    cte_Graph AS g1 INNER JOIN
 WHERE   g1.DepartureCity = 'Austin' AND
         g4.ArrivalCity = 'Des Moines'
 ORDER BY 6,1,2,3,4;
+GO
 
 /*----------------------------------------------------
 Answer to Puzzle #37
@@ -1685,6 +1729,7 @@ SELECT  DENSE_RANK() OVER (ORDER BY Distributor, Facility, [Zone]) AS CriteriaID
         [Zone],
         Amount
 FROM    #GroupCriteria;
+GO
 
 /*----------------------------------------------------
 Answer to Puzzle #38
@@ -1740,6 +1785,7 @@ ORDER BY a.Distributor,
                         WHEN 'South' THEN 2
                         WHEN 'East'  THEN 3
                         WHEN 'West'  THEN 4 END);
+GO
 
 /*----------------------------------------------------
 Answer to Puzzle #39
@@ -1782,6 +1828,7 @@ GO
 SELECT  City
 FROM    #SortOrder
 ORDER BY (CASE City WHEN 'Atlanta' THEN 2 WHEN 'Baltimore' THEN 1 WHEN 'Chicago' THEN 4 WHEN 'Denver' THEN 1 END);
+GO
 
 /*----------------------------------------------------
 Answer to Puzzle #41
@@ -1840,6 +1887,7 @@ GO
 SELECT  DENSE_RANK() OVER (ORDER BY Associate1) AS GroupingNumber,
         Associate2 AS Associate
 FROM    #Associates3;
+GO
 
 /*----------------------------------------------------
 Answer to Puzzle #42
@@ -1864,7 +1912,7 @@ GO
 
 INSERT INTO #Friends VALUES 
 ('Jason','Mary'),('Mike','Mary'),('Mike','Jason'),
-('Susan','Jason'),('John','Mary'),('Susan','Mary')
+('Susan','Jason'),('John','Mary'),('Susan','Mary');
 GO
 
 --Step 1
@@ -1918,7 +1966,7 @@ SELECT  Friend1,
         Mutual_Friend_Check,
         (CASE Grouping_Count WHEN 1 THEN 0 WHEN 2 THEN 1 END) AS Friend_Count
 INTO    #Reciprocal_Mutual_Friend_Check_Count_Modified_5
-FROM    #Reciprocal_Mutual_Friend_Check_Count_4
+FROM    #Reciprocal_Mutual_Friend_Check_Count_4;
 GO
 
 --Results
@@ -1928,6 +1976,7 @@ SELECT  Friend1,
 FROM    #Reciprocal_Mutual_Friend_Check_Count_Modified_5
 GROUP BY Friend1, Friend2
 ORDER BY 1,2;
+GO
 
 /*----------------------------------------------------
 Answer to Puzzle #43
@@ -1960,6 +2009,7 @@ SELECT  [Order],
         MIN(Quantity) OVER (PARTITION by CustomerID ORDER BY [Order]
                 ROWS UNBOUNDED PRECEDING) AS MinQuantity
 FROM    #CustomerOrders;
+GO
 
 /*----------------------------------------------------
 Answer to Puzzle #44
@@ -2007,6 +2057,7 @@ SELECT  CustomerID,
         Amount
 FROM    cte_Customers
 ORDER BY CustomerID, BalanceDate DESC;
+GO
 
 /*----------------------------------------------------
 Answer to Puzzle #45
@@ -2045,6 +2096,7 @@ SELECT  *
 FROM    cte_Lag
 WHERE   EndDate >= StartDate_Lag
 ORDER BY CustomerID, StartDate DESC;
+GO
 
 /*----------------------------------------------------
 Answer to Puzzle #46
@@ -2072,6 +2124,7 @@ GO
 SELECT DISTINCT AccountID FROM #AccountBalances WHERE Balance < 0
 EXCEPT
 SELECT DISTINCT AccountID FROM #AccountBalances WHERE Balance > 0;
+GO
 
 --Solution 2
 --MAX
@@ -2079,18 +2132,21 @@ SELECT  AccountID
 FROM    #AccountBalances
 GROUP BY AccountID
 HAVING  MAX(Balance) < 0;
+GO
 
 --Solution 3
 --NOT IN
 SELECT  DISTINCT AccountID
 FROM    #AccountBalances
 WHERE   AccountID NOT IN (SELECT AccountID FROM #AccountBalances WHERE Balance > 0);
+GO
 
 --Solution 4
 --NOT EXISTS
 SELECT  DISTINCT AccountID
 FROM    #AccountBalances a
 WHERE   NOT EXISTS (SELECT AccountID FROM #AccountBalances b WHERE Balance > 0 AND a.AccountID = b.AccountID);
+GO
 
 --Solution 5
 --LEFT OUTER JOIN
@@ -2098,6 +2154,7 @@ SELECT  DISTINCT a.AccountID
 FROM    #AccountBalances a LEFT OUTER JOIN
         #AccountBalances b ON a.AccountID = b.AccountID AND b.Balance > 0
 WHERE   b.AccountID IS NULL;
+GO
 
 /*----------------------------------------------------
 Answer to Puzzle #47
@@ -2142,7 +2199,6 @@ VALUES
 ('B','Break',CAST('2021-10-01 11:00:00'AS DATETIME),CAST('2021-10-01 11:15:00' AS DATETIME));
 GO
 
-
 SELECT ScheduleID, StartTime AS ScheduleTime INTO #ScheduleTimes FROM #Schedule
 UNION
 SELECT ScheduleID, EndTime FROM #Schedule
@@ -2175,6 +2231,7 @@ FROM    #ActivityCoalesce
 SELECT  *
 FROM    cte_Lead
 WHERE   EndTime IS NOT NULL;
+GO
 
 /*----------------------------------------------------
 Answer to Puzzle #48
@@ -2218,6 +2275,7 @@ FROM    cte_Current_Year a INNER JOIN
 WHERE   b.[Year] = DATEPART(YY,GETDATE()) - 2
 )
 SELECT DISTINCT SalesID FROM cte_Determine_Lag;
+GO
 
 /*----------------------------------------------------
 Answer to Puzzle #49
@@ -2252,6 +2310,7 @@ SELECT  TOP 1
 FROM    cte_Running_Total
 WHERE   Running_Total <= 2000
 ORDER BY Running_Total DESC;
+GO
 
 /*----------------------------------------------------
 Answer to Puzzle #50
@@ -2319,6 +2378,7 @@ SELECT  BatterID,
         END) AS EndOfPitchCount
 FROM    #BallsStrikesLag
 ORDER BY 1,2;
+GO
 
 /*----------------------------------------------------
 Answer to Puzzle #51
@@ -2345,6 +2405,7 @@ SELECT  HASHBYTES('SHA2_512',CONCAT(AssemblyID, Part)) AS ExampleUniqueID1,
         CHECKSUM(CONCAT(AssemblyID, Part)) AS ExampleUniqueID1,
         *
 FROM    #Assembly;
+GO
 
 /*----------------------------------------------------
 Answer to Puzzle #52
@@ -2371,6 +2432,7 @@ INSERT INTO #CustomerInfo VALUES
 GO
 
 SELECT * FROM #CustomerInfo;
+GO
 
 /*----------------------------------------------------
 Answer to Puzzle #53
@@ -2412,7 +2474,8 @@ SELECT  GroupID,
         b.PrimaryID,
         b.SpouseID
 FROM    cte_DenseRank a INNER JOIN
-        #Spouses b ON a.PrimaryID = b.PrimaryID AND a.SpouseID = b.SpouseID
+        #Spouses b ON a.PrimaryID = b.PrimaryID AND a.SpouseID = b.SpouseID;
+GO
 
 /*----------------------------------------------------
 Answer to Puzzle #54
@@ -2461,6 +2524,7 @@ FROM    cte_Ticket
 )
 SELECT  SUM(Payout) AS TotalPayout
 FROM    cte_Payout;
+GO
 
 /*----------------------------------------------------
 Answer to Puzzle #55
@@ -2555,6 +2619,7 @@ UNION
 SELECT  'Quantities in Table A and Table B do not match' AS [Type],
         ProductName
 FROM    #Results4;
+GO
 
 /*----------------------------------------------------
 Answer to Puzzle #56
@@ -2576,6 +2641,7 @@ SELECT Number
 INTO   #Numbers
 FROM   cte_Number
 OPTION (MAXRECURSION 0)--A value of 0 means no limit to the recursion level
+GO
 
 SELECT * FROM #Numbers;
 GO
@@ -2625,6 +2691,7 @@ SELECT  ROW_NUMBER() OVER (PARTITION BY QuoteID ORDER BY Starts) AS RowNumber,
         LEN(String) - LEN(REPLACE(String,' ','')) AS TotalSpaces
 FROM   cte_Anchor
 ORDER BY QuoteID, Starts;
+GO
 
 /*----------------------------------------------------
 Answer to Puzzle #58
@@ -2643,6 +2710,7 @@ GO
 
 INSERT INTO #Equations (Equation) VALUES
 ('123'),('1+2+3'),('1+2-3'),('1+23'),('1-2+3'),('1-2-3'),('1-23'),('12+3'),('12-3');
+GO
 
 --Uses a cursor and dynamic SQL to update the TotalSum column
 DECLARE @vSQLStatement NVARCHAR(1000);
