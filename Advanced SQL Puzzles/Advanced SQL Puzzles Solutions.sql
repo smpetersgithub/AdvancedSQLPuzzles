@@ -610,41 +610,14 @@ PRIMARY KEY ([Status], [Rank])
 );
 GO
 
-INSERT INTO #StatusRank VALUES
-('Error',1),
-('Running',2),
-('Complete',3);
-GO
-
-WITH cte_CountExistsError AS
-(
-SELECT  Workflow, COUNT(DISTINCT [Status]) AS DistinctCount
-FROM    #ProcessLog a
-WHERE   EXISTS  (SELECT 1
-                FROM    #ProcessLog b
-                WHERE   [Status] = 'Error' AND a.Workflow = b.Workflow)
-GROUP BY Workflow
-),
-cte_ErrorWorkflows AS
-(
-SELECT  a.Workflow,
-        (CASE WHEN DistinctCount > 1 THEN 'Indeterminate' ELSE a.[Status] END) AS [Status]
-FROM    #ProcessLog a INNER JOIN
-        cte_CountExistsError b ON a.WorkFlow = b.WorkFlow
-GROUP BY a.WorkFlow, (CASE WHEN DistinctCount > 1 THEN 'Indeterminate' ELSE a.[Status] END)
-)
-SELECT  DISTINCT
-        a.Workflow,
-        FIRST_VALUE(a.[Status]) OVER (PARTITION  BY a.Workflow ORDER BY b.[Rank]) AS [Status]
-FROM    #ProcessLog a INNER JOIN
-        #StatusRank b ON a.[Status] = b.[Status]
-WHERE   a.Workflow NOT IN (SELECT Workflow FROM cte_ErrorWorkflows)
-UNION
-SELECT  Workflow,
-        [Status]
-FROM    cte_ErrorWorkflows
-ORDER BY a.Workflow;
-GO
+-- Solution
+SELECT 
+    workflow
+  , case when min(status) = max(status) THEN min(status)                               -- if same, set to status
+            when min(case when status = 'Error' then 0 end) = 0 then 'Intederminate'   -- if is error then intedermined
+            else 'Running' end
+FROM #ProcessLog
+GROUP by workflow
 
 /*----------------------------------------------------
 Answer to Puzzle #15
