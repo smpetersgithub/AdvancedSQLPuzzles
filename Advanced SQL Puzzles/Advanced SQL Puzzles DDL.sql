@@ -942,16 +942,16 @@ DDL for Puzzle #39
 Prime Numbers
 */----------------------------------------------------
 
-DROP TABLE IF EXISTS #SampleData;
+DROP TABLE IF EXISTS #PrimeNumbers;
 GO
 
-CREATE TABLE #SampleData
+CREATE TABLE #PrimeNumbers
 (
 IntegerValue INTEGER PRIMARY KEY
 );
 GO
 
-INSERT INTO #SampleData VALUES
+INSERT INTO #PrimeNumbers VALUES
 (1),(2),(3),(4),(5),(6),(7),(8),(9),(10);
 GO
 
