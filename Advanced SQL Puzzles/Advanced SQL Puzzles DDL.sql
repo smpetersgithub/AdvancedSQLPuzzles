@@ -320,12 +320,12 @@ CREATE TABLE #ProcessLog
 (
 Workflow    VARCHAR(100),
 StepNumber  INTEGER,
-[Status]    VARCHAR(100),
+RunStatus    VARCHAR(100),
 PRIMARY KEY (Workflow, StepNumber)
 );
 GO
 
-INSERT INTO ##ProcessLog VALUES
+INSERT INTO #ProcessLog VALUES
 ('Alpha',1,'Error'),('Alpha',2,'Complete'),('Alpha',3,'Running'),
 ('Bravo',1,'Complete'),('Bravo',2,'Complete'),
 ('Charlie',1,'Running'),('Charlie',2,'Running'),
