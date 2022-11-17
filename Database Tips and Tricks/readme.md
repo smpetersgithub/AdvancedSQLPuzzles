@@ -19,7 +19,7 @@ If you find the pivot table syntax to be a little frustrating, here you can impl
 ----
 
 #### Data Profiling
-A robust SQL script to perform data profiling on a table using dynamic sql. The script can be used to quickly find minimum and maximum values, if NULLs or empty strings appear in the data, etc… I wouldn’t recommend this script on large tables, but its simple to us; just change the table name variable in the script.
+Comming Soon....
 
 ----
 
