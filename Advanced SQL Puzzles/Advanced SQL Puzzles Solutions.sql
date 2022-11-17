@@ -587,63 +587,71 @@ CREATE TABLE #ProcessLog
 (
 Workflow    VARCHAR(100),
 StepNumber  INTEGER,
-[Status]    VARCHAR(100),
+RunStatus    VARCHAR(100),
 PRIMARY KEY (Workflow, StepNumber)
 );
 GO
 
-INSERT INTO #ProcessLog VALUES
-('Alpha',1,'Error'),('Alpha',2,'Complete'),('Bravo',1,'Complete'),('Bravo',2,'Complete'),
-('Charlie',1,'Complete'),('Charlie',2,'Error'),('Delta',1,'Complete'),('Delta',2,'Running'),
-('Echo',1,'Running'),('Echo',2,'Error'),('Foxtrot',1,'Error'),('Foxtrot',2,'Error');
+INSERT INTO ##ProcessLog VALUES
+('Alpha',1,'Error'),('Alpha',2,'Complete'),('Alpha',3,'Running'),
+('Bravo',1,'Complete'),('Bravo',2,'Complete'),
+('Charlie',1,'Running'),('Charlie',2,'Running'),
+('Delta',1,'Error'),('Delta',2,'Error'),
+('Echo',1,'Running'),('Echo',2,'Complete');
 GO
 
---Create a StatusRank table to solve the problem
-DROP TABLE IF EXISTS #StatusRank;
-GO
-
-CREATE TABLE #StatusRank
+--Solution 1
+--MIN and MAX
+WITH cte_MinMax AS
 (
-[Status]    VARCHAR(100),
-[Rank]      INTEGER,
-PRIMARY KEY ([Status], [Rank])
-);
-GO
-
-INSERT INTO #StatusRank VALUES
-('Error',1),
-('Running',2),
-('Complete',3);
-GO
-
-WITH cte_CountExistsError AS
-(
-SELECT  Workflow, COUNT(DISTINCT [Status]) AS DistinctCount
-FROM    #ProcessLog a
-WHERE   EXISTS  (SELECT 1
-                FROM    #ProcessLog b
-                WHERE   [Status] = 'Error' AND a.Workflow = b.Workflow)
+SELECT  Workflow,
+        MIN(RunStatus) AS MinStatus,
+        MAX(RunStatus) AS MaxStatus
+FROM    ##ProcessLog
 GROUP BY Workflow
 ),
-cte_ErrorWorkflows AS
+cte_Error AS
 (
-SELECT  a.Workflow,
-        (CASE WHEN DistinctCount > 1 THEN 'Indeterminate' ELSE a.[Status] END) AS [Status]
-FROM    #ProcessLog a INNER JOIN
-        cte_CountExistsError b ON a.WorkFlow = b.WorkFlow
-GROUP BY a.WorkFlow, (CASE WHEN DistinctCount > 1 THEN 'Indeterminate' ELSE a.[Status] END)
+SELECT 
+        Workflow,
+        MAX(CASE RunStatus WHEN 'Error' THEN RunStatus END) AS ErrorState,
+        MAX(CASE RunStatus WHEN 'Running' THEN RunStatus END) AS RunningState
+FROM    ##ProcessLog
+WHERE   RunStatus IN ('Error','Running')
+GROUP BY Workflow
 )
-SELECT  DISTINCT
-        a.Workflow,
-        FIRST_VALUE(a.[Status]) OVER (PARTITION  BY a.Workflow ORDER BY b.[Rank]) AS [Status]
-FROM    #ProcessLog a INNER JOIN
-        #StatusRank b ON a.[Status] = b.[Status]
-WHERE   a.Workflow NOT IN (SELECT Workflow FROM cte_ErrorWorkflows)
-UNION
+SELECT  a.Workflow,
+        CASE WHEN a.MinStatus = a.MaxStatus THEN a.MinStatus
+             WHEN b.ErrorState = 'Error' THEN 'Indeterminate'
+             WHEN b.RunningState = 'Running' THEN b.RunningState END AS RunStatus
+FROM    cte_MinMax a LEFT OUTER JOIN
+        cte_Error b on a.WorkFlow = b.WorkFlow
+ORDER BY 1;
+GO
+
+--Solution 2
+--COUNT and STRING_AGG
+WITH cte_Distinct AS
+(
+SELECT DISTINCT
+       Workflow,
+       RunStatus
+FROM   ##ProcessLog
+),
+cte_StringAgg AS
+(
 SELECT  Workflow,
-        [Status]
-FROM    cte_ErrorWorkflows
-ORDER BY a.Workflow;
+        STRING_AGG(RunStatus,', ') as RunStatus_Agg,
+        COUNT(DISTINCT RunStatus) AS DistinctCount
+FROM	cte_Distinct
+GROUP BY Workflow
+)
+SELECT  Workflow,
+        CASE WHEN DistinctCount = 1 THEN RunStatus_Agg
+             WHEN RunStatus_Agg LIKE '%Error%' THEN 'Indeterminate'
+             WHEN RunStatus_Agg LIKE '%Running%' THEN 'Running' END AS RunStatus
+FROM    cte_StringAgg
+ORDER BY 1;
 GO
 
 /*----------------------------------------------------
