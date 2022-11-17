@@ -325,10 +325,12 @@ PRIMARY KEY (Workflow, StepNumber)
 );
 GO
 
-INSERT INTO #ProcessLog VALUES
-('Alpha',1,'Error'),('Alpha',2,'Complete'),('Bravo',1,'Complete'),('Bravo',2,'Complete'),
-('Charlie',1,'Complete'),('Charlie',2,'Error'),('Delta',1,'Complete'),('Delta',2,'Running'),
-('Echo',1,'Running'),('Echo',2,'Error'),('Foxtrot',1,'Error'),('Foxtrot',2,'Error');
+INSERT INTO ##ProcessLog VALUES
+('Alpha',1,'Error'),('Alpha',2,'Complete'),('Alpha',3,'Running'),
+('Bravo',1,'Complete'),('Bravo',2,'Complete'),
+('Charlie',1,'Running'),('Charlie',2,'Running'),
+('Delta',1,'Error'),('Delta',2,'Error'),
+('Echo',1,'Running'),('Echo',2,'Complete');
 GO
 
 /*----------------------------------------------------
