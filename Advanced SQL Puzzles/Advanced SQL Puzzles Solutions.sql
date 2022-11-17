@@ -592,7 +592,7 @@ PRIMARY KEY (Workflow, StepNumber)
 );
 GO
 
-INSERT INTO ##ProcessLog VALUES
+INSERT INTO #ProcessLog VALUES
 ('Alpha',1,'Error'),('Alpha',2,'Complete'),('Alpha',3,'Running'),
 ('Bravo',1,'Complete'),('Bravo',2,'Complete'),
 ('Charlie',1,'Running'),('Charlie',2,'Running'),
@@ -607,16 +607,15 @@ WITH cte_MinMax AS
 SELECT  Workflow,
         MIN(RunStatus) AS MinStatus,
         MAX(RunStatus) AS MaxStatus
-FROM    ##ProcessLog
+FROM    #ProcessLog
 GROUP BY Workflow
 ),
 cte_Error AS
 (
-SELECT 
-        Workflow,
+SELECT  Workflow,
         MAX(CASE RunStatus WHEN 'Error' THEN RunStatus END) AS ErrorState,
         MAX(CASE RunStatus WHEN 'Running' THEN RunStatus END) AS RunningState
-FROM    ##ProcessLog
+FROM    #ProcessLog
 WHERE   RunStatus IN ('Error','Running')
 GROUP BY Workflow
 )
@@ -636,12 +635,12 @@ WITH cte_Distinct AS
 SELECT DISTINCT
        Workflow,
        RunStatus
-FROM   ##ProcessLog
+FROM   #ProcessLog
 ),
 cte_StringAgg AS
 (
 SELECT  Workflow,
-        STRING_AGG(RunStatus,', ') as RunStatus_Agg,
+        STRING_AGG(RunStatus,', ') AS RunStatus_Agg,
         COUNT(DISTINCT RunStatus) AS DistinctCount
 FROM	cte_Distinct
 GROUP BY Workflow
