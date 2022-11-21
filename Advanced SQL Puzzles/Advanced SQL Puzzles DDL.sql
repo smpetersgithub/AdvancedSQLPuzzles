@@ -397,7 +397,7 @@ Quantity            INTEGER
 GO
 
 INSERT INTO #Ungroup VALUES
-('Eraser',3),('Pencil',4),('Sharpener',2);
+('Pencil',3),('Eraser',4),('Notebook',2);
 GO
 
 /*----------------------------------------------------
