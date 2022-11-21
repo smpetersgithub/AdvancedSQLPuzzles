@@ -734,8 +734,7 @@ PRIMARY KEY (PlayerA, PlayerB)
 GO
 
 INSERT INTO #PlayerScores VALUES
-(1001,2002,150),(3003,4004,15),
-(4004,3003,125),(4004,1001,125);
+(1001,2002,150),(3003,4004,15),(4004,3003,125);
 GO
 
 --The functions LEAST and GREATEST are available if using and Azure SQL Database, Azure SQL Managed Instance,
