@@ -826,17 +826,9 @@ WHERE Gap > 1;
 GO
 
 --Missing Numbers
-WITH cte_Rank
-AS
-(
-SELECT  SeatNumber,
-        ROW_NUMBER() OVER (ORDER BY SeatNumber) AS RowNumber,
-        SeatNumber - ROW_NUMBER() OVER (ORDER BY SeatNumber) AS Rnk
-FROM    #SeatingChart
-WHERE   SeatNumber > 0
-)
-SELECT MAX(Rnk) AS MissingNumbers FROM cte_Rank;
-GO
+SELECT  max(SeatNumber) - count(SeatNumber)  as missingnumbers
+  FROM #SeatingChart
+WHERE SeatNumber <> 0
 
 --Odd and even number count
 SELECT  (CASE SeatNumber%2 WHEN 1 THEN 'Odd' WHEN 0 THEN 'Even' END) AS Modulus,
