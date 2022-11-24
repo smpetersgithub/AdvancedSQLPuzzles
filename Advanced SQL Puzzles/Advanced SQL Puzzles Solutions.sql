@@ -811,6 +811,7 @@ GO
 INSERT INTO #SeatingChart VALUES (0);
 GO
 
+-------------------
 --Gap start and gap end
 WITH cte_Gaps AS 
 (
@@ -825,8 +826,10 @@ FROM    cte_Gaps
 WHERE Gap > 1;
 GO
 
+-------------------
 --Missing Numbers
-WITH cte_Rank
+--Solution 1
+--This solution provideds a method if you need to window/partitition the recordsWITH cte_Rank
 AS
 (
 SELECT  SeatNumber,
@@ -838,6 +841,13 @@ WHERE   SeatNumber > 0
 SELECT MAX(Rnk) AS MissingNumbers FROM cte_Rank;
 GO
 
+--Solution 2
+SELECT  MAX(SeatNumber) - COUNT(SeatNumber) AS MissingNumbers
+FROM   #SeatingChart
+WHERE  SeatNumber <> 0;
+GO
+
+-------------------
 --Odd and even number count
 SELECT  (CASE SeatNumber%2 WHEN 1 THEN 'Odd' WHEN 0 THEN 'Even' END) AS Modulus,
         COUNT(*) AS [Count]
