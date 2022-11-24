@@ -1010,7 +1010,7 @@ INSERT INTO #Orders VALUES
 GO
 
 ;WITH cte as ( SELECT CustomerID, State, AVG(AMOUNT) as avg1
-               FROM Orders 
+               FROM #Orders 
                GROUP BY CustomerID, State )
 SELECT state
 FROM cte 
