@@ -829,7 +829,8 @@ GO
 -------------------
 --Missing Numbers
 --Solution 1
---This solution provideds a method if you need to window/partitition the recordsWITH cte_Rank
+--This solution provides a method if you need to window/partition the records
+WITH cte_Rank
 AS
 (
 SELECT  SeatNumber,
