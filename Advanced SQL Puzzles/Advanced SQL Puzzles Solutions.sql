@@ -975,6 +975,20 @@ FROM    cte_ValidPrices
 WHERE   Rnk = 1;
 GO
 
+--Solution 3
+--MAX
+WITH cte_MaxEffectiveDate AS
+(
+SELECT  ProductID,
+        MAX(EffectiveDate) AS MaxEffectiveDate
+FROM    #ValidPrices
+GROUP BY ProductID
+)
+SELECT  a.*
+FROM    #ValidPrices a INNER JOIN
+        cte_MaxEffectiveDate b on a.EffectiveDate = b.MaxEffectiveDate AND a.ProductID = b.ProductID;
+GO
+
 /*----------------------------------------------------
 Answer to Puzzle #21
 Average Monthly Sales
