@@ -1009,24 +1009,13 @@ INSERT INTO #Orders VALUES
 ('Ord987654',4004,'5/1/2018',100,'IA');
 GO
 
-WITH cte_AvgMonthlySalesCustomer AS
-(
-SELECT  CustomerID,
-        AVG(b.Amount) AS AverageValue,
-        [State]
-FROM    #Orders b
-GROUP BY CustomerID,OrderDate,[State]
-),
-cte_MinAverageValueState AS
-(
-SELECT  [State]
-FROM    cte_AvgMonthlySalesCustomer
-GROUP BY [State]
-HAVING  MIN(AverageValue) >= 100
-)
-SELECT  [State]
-FROM    cte_MinAverageValueState;
-GO
+;WITH cte as ( SELECT CustomerID, State, AVG(AMOUNT) as avg1
+               FROM Orders 
+               GROUP BY CustomerID, State )
+SELECT state
+FROM cte 
+GROUP BY state
+HAVING MIN(avg1) >= 100
 
 /*----------------------------------------------------
 Answer to Puzzle #22
