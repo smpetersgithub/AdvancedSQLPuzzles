@@ -1181,19 +1181,12 @@ INSERT INTO #Orders VALUES
 ('Ord645363',2002,5,'Direct Parts');
 GO
 
-WITH cte_Rank AS
-(
-SELECT  CustomerID,
-        Vendor,
-        RANK() OVER (PARTITION BY CustomerID ORDER BY COUNT(OrderCount) DESC) AS Rnk
-FROM    #Orders
-GROUP BY CustomerID, Vendor
-)
-SELECT  DISTINCT b.CustomerID, b.Vendor
-FROM    #Orders a INNER JOIN
-        cte_Rank b ON a.CustomerID = b.CustomerID AND a.Vendor = b.Vendor
-WHERE   Rnk = 1;
-GO
+;WITH cte as ( SELECT *, MAX(Ordercount) OVER (Partition by CustomerID ORDER by CustomerID) as maxx
+              FROM #Orders  )
+
+SELECT CustomerID, vendor
+FROM cte
+WHERE OrderCount = maxx
 
 /*----------------------------------------------------
 Answer to Puzzle #26
