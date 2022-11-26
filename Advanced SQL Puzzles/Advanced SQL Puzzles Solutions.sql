@@ -683,7 +683,7 @@ GO
 --Solution 1
 --STRING_AGG
 SELECT  
-        STRING_AGG(CONVERT(NVARCHAR(max),String), ' ')
+        STRING_AGG(CONVERT(NVARCHAR(MAX),String), ' ')
 FROM    #DMLTable;
 GO
 
