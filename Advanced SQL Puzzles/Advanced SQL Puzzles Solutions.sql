@@ -1181,6 +1181,8 @@ INSERT INTO #Orders VALUES
 ('Ord645363',2002,5,'Direct Parts');
 GO
 
+--Solution 1
+--RANK function
 WITH cte_Rank AS
 (
 SELECT  CustomerID,
@@ -1193,6 +1195,33 @@ SELECT  DISTINCT b.CustomerID, b.Vendor
 FROM    #Orders a INNER JOIN
         cte_Rank b ON a.CustomerID = b.CustomerID AND a.Vendor = b.Vendor
 WHERE   Rnk = 1;
+GO
+
+--Solution 2
+--MAX Function
+WITH cte_Max AS
+(
+SELECT  *,
+        MAX(Ordercount) OVER (PARTITION BY CustomerID ORDER BY CustomerID) AS MaxOrderCount
+FROM    #Orders
+)
+SELECT  CustomerID, Vendor
+FROM    cte_Max
+WHERE   OrderCount = MaxOrderCount;
+GO
+
+--Solution 3
+--MAX with Correlated SubQuery
+WITH cte_Max AS
+(
+SELECT  CustomerID,
+        MAX(OrderCount) AS MaxOrderCount
+FROM    #Orders
+GROUP BY CustomerID
+)
+SELECT  *
+FROM    #Orders a
+WHERE EXISTS (SELECT 1 FROM cte_Max b WHERE a.CustomerID = b.CustomerID and a.OrderCount = MaxOrderCount);
 GO
 
 /*----------------------------------------------------
