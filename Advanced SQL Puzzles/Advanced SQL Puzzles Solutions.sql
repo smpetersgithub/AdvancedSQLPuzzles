@@ -1565,9 +1565,9 @@ GO
 
 CREATE TABLE #OrderFulfillments
 (
-OrderID     VARCHAR(100) PRIMARY KEY,
-ProductID   VARCHAR(100),
-DaysToBuild INTEGER
+OrderID       VARCHAR(100) PRIMARY KEY,
+ProductID     VARCHAR(100),
+DaysToDeliver INTEGER
 );
 GO
 
@@ -1607,16 +1607,16 @@ GROUP BY ProductID
 )
 SELECT  a.*
 FROM    #OrderFulfillments a INNER JOIN
-        cte_Max b ON a.ProductID = b.ProductID AND a.DaysToBuild >= b.MaxDaysToManufacture;
+        cte_Max b ON a.ProductID = b.ProductID AND a.DaysToDeliver >= b.MaxDaysToManufacture;
 GO
 
 --Solution 2
 --ALL
 SELECT  a.*
 FROM    #OrderFulfillments a
-WHERE   DaysToBuild >= ALL( SELECT  DaysToManufacture 
-                            FROM    #ManufacturingTimes b 
-                            WHERE   a.ProductID = b.ProductID);
+WHERE   DaysToDeliver >= ALL( SELECT  DaysToManufacture 
+                              FROM    #ManufacturingTimes b 
+                              WHERE   a.ProductID = b.ProductID);
 GO
 
 /*----------------------------------------------------
