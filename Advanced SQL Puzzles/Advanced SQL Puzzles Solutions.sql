@@ -1639,11 +1639,16 @@ INSERT INTO #Orders VALUES
 ('Ord143937',1001,25),('Ord789765',1001,50),
 ('Ord345434',2002,65),('Ord465633',3003,50);
 GO
-
-SELECT  OrderID,CustomerID, Amount
+-- Solution 1 with NOT
+SELECT  OrderID, CustomerID, Amount
 FROM    #Orders
-WHERE   NOT(CustomerID = 1001 AND OrderID = 'Ord789765');
+WHERE   NOT(CustomerID = 1001 AND Amount = 50);
 GO
+-- Solution 2 with CONCAT
+SELECT  OrderID, CustomerID, Amount 
+FROM    #Orders 
+WHERE   concat(CustomerID, Amount)  <> '100150.00'
+ORDER by 2
 
 /*----------------------------------------------------
 Answer to Puzzle #35
