@@ -1441,11 +1441,13 @@ GO
 SELECT  MIN(StepNumber) AS MinStepNumber,
         MAX(StepNumber) as MaxStepNumber,
         [Status],
-        MAX(StepNumber) - MIN(StepNumber) + 1 AS ConsecutiveCount
+        COUNT(*) AS ConsecutiveCount,
+        MAX(StepNumber) - MIN(StepNumber) + 1 AS ConsecutiveCount_MinMax
 FROM    #Groupings2
 GROUP BY Rnk,
         [Status]
 ORDER BY 1, 2;
+
 
 /*----------------------------------------------------
 Answer to Puzzle #30
