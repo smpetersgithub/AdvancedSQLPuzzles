@@ -1559,15 +1559,15 @@ Answer to Puzzle #33
 Deadlines
 */----------------------------------------------------
 
-DROP TABLE IF EXISTS #OrderFulfillments;
+DROP TABLE IF EXISTS #Orders;
 DROP TABLE IF EXISTS #ManufacturingTimes;
 GO
 
-CREATE TABLE #OrderFulfillments
+CREATE TABLE #Orders
 (
 OrderID     VARCHAR(100) PRIMARY KEY,
 ProductID   VARCHAR(100),
-DaysToBuild INTEGER
+DaysToDelivery INTEGER
 );
 GO
 
@@ -1580,7 +1580,7 @@ PRIMARY KEY (PartID, ProductID)
 );
 GO
 
-INSERT INTO #OrderFulfillments VALUES
+INSERT INTO #Orders VALUES
 ('Ord893456','Widget',7),
 ('Ord923654','Gizmo',3),
 ('Ord187239','Doodad',9);
@@ -1606,17 +1606,17 @@ FROM    #ManufacturingTimes b
 GROUP BY ProductID
 )
 SELECT  a.*
-FROM    #OrderFulfillments a INNER JOIN
-        cte_Max b ON a.ProductID = b.ProductID AND a.DaysToBuild >= b.MaxDaysToManufacture;
+FROM    #Orders a INNER JOIN
+        cte_Max b ON a.ProductID = b.ProductID AND a.DaysToDelivery >= b.MaxDaysToManufacture;
 GO
 
 --Solution 2
 --ALL
 SELECT  a.*
-FROM    #OrderFulfillments a
-WHERE   DaysToBuild >= ALL( SELECT  DaysToManufacture 
-                            FROM    #ManufacturingTimes b 
-                            WHERE   a.ProductID = b.ProductID);
+FROM    #Orders a
+WHERE   DaysToDelivery >= ALL(SELECT  DaysToManufacture 
+                              FROM    #ManufacturingTimes b 
+                              WHERE   a.ProductID = b.ProductID);
 GO
 
 /*----------------------------------------------------
@@ -1636,13 +1636,22 @@ Amount      MONEY
 GO
 
 INSERT INTO #Orders VALUES
-('Ord143937',1001,25),('Ord789765',1001,50),
-('Ord345434',2002,65),('Ord465633',3003,50);
+('Ord143937',1001,25),('Ord789765',1001,50),('Ord345434',2002,65),('Ord465633',3003,50);
 GO
 
-SELECT  OrderID,CustomerID, Amount
+SELECT  OrderID,
+        CustomerID,
+        Amount
 FROM    #Orders
-WHERE   NOT(CustomerID = 1001 AND OrderID = 'Ord789765');
+WHERE   NOT(CustomerID = 1001 AND Amount = 50);
+GO
+
+SELECT  OrderID,
+        CustomerID,
+        Amount
+FROM    #Orders
+WHERE   CONCAT(CustomerID, Amount)  <> '100150.00'
+ORDER BY 2
 GO
 
 /*----------------------------------------------------
