@@ -15,13 +15,13 @@ DROP TABLE IF EXISTS #Cart2;
 GO
 
 CREATE TABLE #Cart1
-(Item VARCHAR(100) PRIMARY KEY
+(Item  VARCHAR(100) PRIMARY KEY
 );
 GO
 
 CREATE TABLE #Cart2
 (
-Item VARCHAR(100) PRIMARY KEY
+Item  VARCHAR(100) PRIMARY KEY
 );
 GO
 
@@ -73,7 +73,11 @@ SELECT  b.EmployeeID, b.ManagerID, b.JobTitle, b.Salary, a.Depth + 1 AS Depth
 FROM    cte_Recursion a INNER JOIN 
         #Employees b ON a.EmployeeID = b.ManagerID
 )
-SELECT  EmployeeID, ManagerID, JobTitle, Salary, Depth
+SELECT  EmployeeID,
+        ManagerID,
+        JobTitle,
+        Salary,
+        Depth
 FROM    cte_Recursion;
 GO
 
@@ -129,10 +133,10 @@ GO
 
 CREATE TABLE #Orders
 (
-CustomerID      INTEGER,
-OrderID         VARCHAR(100),
-DeliveryState   VARCHAR(100),
-Amount          MONEY,
+CustomerID     INTEGER,
+OrderID        VARCHAR(100),
+DeliveryState  VARCHAR(100),
+Amount         MONEY,
 PRIMARY KEY (CustomerID, OrderID)
 );
 GO
@@ -165,7 +169,10 @@ SELECT  CustomerID
 FROM    #Orders
 WHERE   DeliveryState = 'CA'
 )
-SELECT  CustomerID, OrderID, DeliveryState, Amount
+SELECT  CustomerID,
+        OrderID,
+        DeliveryState,
+        Amount
 FROM    #Orders
 WHERE   DeliveryState = 'TX' AND
         CustomerID IN (SELECT b.CustomerID FROM cte_CA b);
@@ -223,7 +230,10 @@ SELECT  CustomerID, PhoneNumber AS Home
 FROM    #PhoneDirectory
 WHERE   [Type] = 'Home'
 )
-SELECT  a.CustomerID,b.Cellular,c.Work,d.Home
+SELECT  a.CustomerID,
+        b.Cellular,
+        c.Work,
+        d.Home
 FROM    (SELECT DISTINCT CustomerID FROM #Phonedirectory) a LEFT OUTER JOIN
         cte_Cellular b ON a.CustomerID = b.CustomerID LEFT OUTER JOIN
         cte_Work c ON a.CustomerID = c.CustomerID LEFT OUTER JOIN
@@ -342,10 +352,10 @@ GO
 
 CREATE TABLE #WorkflowCases
 (
-Workflow    VARCHAR(100) PRIMARY KEY,
-Case1       INTEGER,
-Case2       INTEGER,
-Case3       INTEGER
+Workflow  VARCHAR(100) PRIMARY KEY,
+Case1     INTEGER,
+Case2     INTEGER,
+Case3     INTEGER
 );
 GO
 
@@ -362,7 +372,8 @@ FROM    (
         ) p
 UNPIVOT (PassFail FOR CaseNumber IN (Case1,Case2,Case3)) AS UNPVT
 )
-SELECT  Workflow, SUM(PassFail) AS PassFail
+SELECT  Workflow,
+        SUM(PassFail) AS PassFail
 FROM    cte_PassFail
 GROUP BY Workflow
 ORDER BY 1;
@@ -412,7 +423,9 @@ FROM    #Employees a INNER JOIN
 WHERE   a.EmployeeID <> b.EmployeeID
 GROUP BY a.EmployeeID, b.EmployeeID
 )
-SELECT  a.EmployeeID, a.EmployeeID2, a.LicenseCountCombo
+SELECT  a.EmployeeID,
+        a.EmployeeID2,
+        a.LicenseCountCombo
 FROM    cte_EmployeeCountCombined a INNER JOIN
         cte_EmployeeCount b ON  a.LicenseCountCombo = b.LicenseCount AND
                                 a.EmployeeID <> b.EmployeeID;
@@ -428,7 +441,7 @@ GO
 
 CREATE TABLE #SampleData
 (
-IntegerValue INTEGER
+IntegerValue  INTEGER
 );
 GO
 
@@ -443,7 +456,7 @@ SELECT
                 SELECT  TOP 50 PERCENT IntegerValue
                 FROM    #SampleData
                 ORDER BY IntegerValue
-             ) a
+                ) a
         ORDER BY IntegerValue DESC) +  --Add the Two Together
         (SELECT TOP 1 IntegerValue
         FROM (
@@ -480,8 +493,8 @@ GO
 
 CREATE TABLE #TestCases
 (
-RowNumber INTEGER,
-TestCase VARCHAR(1),
+RowNumber  INTEGER,
+TestCase   VARCHAR(1),
 PRIMARY KEY (RowNumber, TestCase)
 );
 GO
@@ -524,8 +537,8 @@ GO
 
 CREATE TABLE #ProcessLog
 (
-WorkFlow        VARCHAR(100),
-ExecutionDate   DATE,
+WorkFlow       VARCHAR(100),
+ExecutionDate  DATE,
 PRIMARY KEY (WorkFlow, ExecutionDate)
 );
 GO
@@ -543,7 +556,8 @@ SELECT  WorkFlow,
                 (PARTITION BY WorkFlow ORDER BY ExecutionDate),ExecutionDate)) AS DateDifference
 FROM    #ProcessLog
 )
-SELECT  WorkFlow, AVG(DateDifference)
+SELECT  WorkFlow,
+        AVG(DateDifference)
 FROM    cte_DayDiff
 WHERE   DateDifference IS NOT NULL
 GROUP BY Workflow;
@@ -587,7 +601,7 @@ CREATE TABLE #ProcessLog
 (
 Workflow    VARCHAR(100),
 StepNumber  INTEGER,
-RunStatus    VARCHAR(100),
+RunStatus   VARCHAR(100),
 PRIMARY KEY (Workflow, StepNumber)
 );
 GO
@@ -707,7 +721,7 @@ GO
 
 --Solution 3
 --XML Path
-SELECT DISTINCT
+SELECT  DISTINCT
         STUFF((
             SELECT  CAST(' ' AS VARCHAR(MAX)) + String
             FROM    #DMLTable U
@@ -726,9 +740,9 @@ GO
 
 CREATE TABLE #PlayerScores
 (
-PlayerA INTEGER,
-PlayerB INTEGER,
-Score   INTEGER,
+PlayerA  INTEGER,
+PlayerB  INTEGER,
+Score    INTEGER,
 PRIMARY KEY (PlayerA, PlayerB)
 );
 GO
@@ -783,7 +797,8 @@ GO
 INSERT INTO #Numbers VALUES (NEWID());
 GO 1000
 
-SELECT  a.ProductDescription, 1 AS Quantity
+SELECT  a.ProductDescription,
+        1 AS Quantity
 FROM    #Ungroup a CROSS JOIN
         #Numbers b
 WHERE   a.Quantity >= b. IntegerValue;
@@ -799,7 +814,7 @@ GO
 
 CREATE TABLE #SeatingChart
 (
-SeatNumber INTEGER PRIMARY KEY
+SeatNumber  INTEGER PRIMARY KEY
 );
 GO
 
@@ -839,13 +854,14 @@ SELECT  SeatNumber,
 FROM    #SeatingChart
 WHERE   SeatNumber > 0
 )
-SELECT MAX(Rnk) AS MissingNumbers FROM cte_Rank;
+SELECT  MAX(Rnk) AS MissingNumbers 
+FROM    cte_Rank;
 GO
 
 --Solution 2
 SELECT  MAX(SeatNumber) - COUNT(SeatNumber) AS MissingNumbers
-FROM   #SeatingChart
-WHERE  SeatNumber <> 0;
+FROM    #SeatingChart
+WHERE   SeatNumber <> 0;
 GO
 
 -------------------
@@ -870,8 +886,8 @@ GO
 
 CREATE TABLE #TimePeriods
 (
-StartDate   DATE,
-EndDate     DATE
+StartDate  DATE,
+EndDate    DATE
 );
 GO
 
@@ -933,9 +949,9 @@ GO
 
 CREATE TABLE #ValidPrices
 (
-ProductID       INTEGER,
-UnitPrice       MONEY,
-EffectiveDate   DATE,
+ProductID      INTEGER,
+UnitPrice      MONEY,
+EffectiveDate  DATE,
 PRIMARY KEY (ProductID, UnitPrice, EffectiveDate)
 );
 GO
@@ -1052,9 +1068,9 @@ GO
 
 CREATE TABLE #ProcessLog
 (
-Workflow    VARCHAR(100),
-LogMessage  VARCHAR(100),
-Occurrences INTEGER,
+Workflow     VARCHAR(100),
+LogMessage   VARCHAR(100),
+Occurrences  INTEGER,
 PRIMARY KEY (Workflow, LogMessage)
 );
 GO
@@ -1110,8 +1126,8 @@ GO
 
 CREATE TABLE #PlayerScores
 (
-PlayerID    INTEGER PRIMARY KEY,
-Score       INTEGER
+PlayerID  INTEGER PRIMARY KEY,
+Score     INTEGER
 );
 GO
 
@@ -1138,8 +1154,8 @@ GO
 
 CREATE TABLE #SampleData
 (
-IntegerValue    INTEGER IDENTITY(1,1),
-RowID           UNIQUEIDENTIFIER
+IntegerValue  INTEGER IDENTITY(1,1),
+RowID         UNIQUEIDENTIFIER
 );
 GO
 
@@ -1316,7 +1332,7 @@ GO
 
 CREATE TABLE #SampleData
 (
-IntegerValue INTEGER,
+IntegerValue  INTEGER,
 );
 GO
 
@@ -1459,8 +1475,8 @@ GO
 
 CREATE TABLE #Products
 (
-ProductID   INTEGER PRIMARY KEY,
-ProductName VARCHAR(100)
+ProductID    INTEGER PRIMARY KEY,
+ProductName  VARCHAR(100)
 );
 GO
 
@@ -1478,7 +1494,7 @@ GO
 
 CREATE TABLE #SampleData
 (
-IntegerValue INTEGER PRIMARY KEY
+IntegerValue  INTEGER PRIMARY KEY
 );
 GO
 
@@ -1565,17 +1581,17 @@ GO
 
 CREATE TABLE #Orders
 (
-OrderID     VARCHAR(100) PRIMARY KEY,
-ProductID   VARCHAR(100),
+OrderID    VARCHAR(100) PRIMARY KEY,
+ProductID  VARCHAR(100),
 DaysToDelivery INTEGER
 );
 GO
 
 CREATE TABLE #ManufacturingTimes
 (
-PartID              VARCHAR(100),
-ProductID           VARCHAR(100),
-DaysToManufacture   INTEGER,
+PartID             VARCHAR(100),
+ProductID          VARCHAR(100),
+DaysToManufacture  INTEGER,
 PRIMARY KEY (PartID, ProductID)
 );
 GO
@@ -1601,7 +1617,8 @@ GO
 --MAX
 WITH cte_Max AS
 (
-SELECT  ProductID, MAX(DaysToManufacture) AS MaxDaysToManufacture
+SELECT  ProductID,
+        MAX(DaysToManufacture) AS MaxDaysToManufacture
 FROM    #ManufacturingTimes b
 GROUP BY ProductID
 )
@@ -1726,9 +1743,9 @@ GO
 
 CREATE TABLE #Graph
 (
-DepartureCity   VARCHAR(100),
-ArrivalCity     VARCHAR(100),
-Cost            INTEGER,
+DepartureCity  VARCHAR(100),
+ArrivalCity    VARCHAR(100),
+Cost           INTEGER,
 PRIMARY KEY (DepartureCity, ArrivalCity)
 );
 GO
@@ -1778,11 +1795,11 @@ GO
 
 CREATE TABLE #GroupCriteria
 (
-OrderID     VARCHAR(100) PRIMARY KEY,
-Distributor VARCHAR(100),
-Facility    INTEGER,
-[Zone]      VARCHAR(100),
-Amount      MONEY
+OrderID      VARCHAR(100) PRIMARY KEY,
+Distributor  VARCHAR(100),
+Facility     INTEGER,
+[Zone]       VARCHAR(100),
+Amount       MONEY
 );
 GO
 
@@ -1812,9 +1829,9 @@ GO
 
 CREATE TABLE #RegionSales
 (
-Region      VARCHAR(100),
-Distributor VARCHAR(100),
-Sales       INTEGER,
+Region       VARCHAR(100),
+Distributor  VARCHAR(100),
+Sales        INTEGER,
 PRIMARY KEY (Region, Distributor)
 );
 GO
@@ -1848,7 +1865,9 @@ SELECT  Region, Distributor
 FROM    cte_DistinctRegion a CROSS JOIN
         cte_DistinctDistributor b
 )
-SELECT  a.Region, a.Distributor, ISNULL(b.Sales,0) AS Sales
+SELECT  a.Region,
+        a.Distributor,
+        ISNULL(b.Sales,0) AS Sales
 FROM    cte_CrossJoin a LEFT OUTER JOIN
         #RegionSales b ON a.Region = b.Region and a.Distributor = b.Distributor
 ORDER BY a.Distributor,
@@ -1868,7 +1887,7 @@ GO
 
 CREATE TABLE #PrimeNumbers
 (
-IntegerValue INTEGER PRIMARY KEY
+IntegerValue  INTEGER PRIMARY KEY
 );
 GO
 
@@ -1924,8 +1943,8 @@ GO
 
 CREATE TABLE #Associates
 (
-Associate1 VARCHAR(100),
-Associate2 VARCHAR(100),
+Associate1  VARCHAR(100),
+Associate2  VARCHAR(100),
 PRIMARY KEY (Associate1, Associate2)
 );
 GO
@@ -1986,8 +2005,8 @@ GO
 
 CREATE TABLE #Friends
 (
-Friend1 VARCHAR(100),
-Friend2 VARCHAR(100),
+Friend1  VARCHAR(100),
+Friend2  VARCHAR(100),
 PRIMARY KEY (Friend1, Friend2)
 );
 GO
@@ -2070,9 +2089,9 @@ GO
 
 CREATE TABLE #CustomerOrders
 (
-[Order] INTEGER,
-CustomerID INTEGER,
-Quantity INTEGER,
+[Order]     INTEGER,
+CustomerID  INTEGER,
+Quantity    INTEGER,
 PRIMARY KEY ([Order], CustomerID)
 );
 GO
@@ -2103,9 +2122,9 @@ GO
 
 CREATE TABLE #Balances
 (
-CustomerID INTEGER,
-BalanceDate DATE,
-Amount MONEY,
+CustomerID   INTEGER,
+BalanceDate  DATE,
+Amount       MONEY,
 PRIMARY KEY (CustomerID, BalanceDate)
 );
 GO
@@ -2151,10 +2170,10 @@ GO
 
 CREATE TABLE #Balances
 (
-CustomerID INTEGER,
-StartDate DATE,
-EndDate DATE,
-Amount MONEY
+CustomerID  INTEGER,
+StartDate   DATE,
+EndDate     DATE,
+Amount      MONEY
 );
 GO
 
@@ -2190,8 +2209,8 @@ GO
 
 CREATE TABLE #AccountBalances
 (
-AccountID   INTEGER,
-Balance     MONEY,
+AccountID  INTEGER,
+Balance    MONEY,
 PRIMARY KEY (AccountID, Balance)
 );
 GO
@@ -2251,18 +2270,18 @@ GO
 
 CREATE TABLE #Schedule
 (
-ScheduleId CHAR(1) PRIMARY KEY,
-StartTime DATETIME,
-EndTime DATETIME
+ScheduleId  CHAR(1) PRIMARY KEY,
+StartTime   DATETIME,
+EndTime     DATETIME
 );
 GO
 
 CREATE TABLE #Activity
 (
-ScheduleID CHAR(1),
+ScheduleID   CHAR(1),
 ActivityName VARCHAR(100),
-StartTime DATETIME,
-EndTime DATETIME,
+StartTime    DATETIME,
+EndTime      DATETIME,
 PRIMARY KEY (ScheduleID, ActivityName, StartTime, EndTime)
 );
 GO
@@ -2325,8 +2344,8 @@ GO
 
 CREATE TABLE #Sales
 (
-SalesID INTEGER,
-[Year]  INTEGER,
+SalesID  INTEGER,
+[Year]   INTEGER,
 PRIMARY KEY (SalesID, [Year])
 );
 GO
@@ -2349,14 +2368,15 @@ GROUP BY SalesID, [Year]
 --Previous Years
 ,cte_Determine_Lag AS
 (
-SELECT  a.SalesID
-        ,b.[Year]
-        ,DATEPART(YY,GETDATE()) - 2 AS Year_Start
+SELECT  a.SalesID,
+        b.[Year],
+        DATEPART(YY,GETDATE()) - 2 AS Year_Start
 FROM    cte_Current_Year a INNER JOIN
         #Sales b on a.SalesID = b.SalesID
 WHERE   b.[Year] = DATEPART(YY,GETDATE()) - 2
 )
-SELECT DISTINCT SalesID FROM cte_Determine_Lag;
+SELECT  DISTINCT SalesID
+FROM    cte_Determine_Lag;
 GO
 
 /*----------------------------------------------------
@@ -2369,9 +2389,9 @@ GO
 
 CREATE TABLE #ElevatorOrder
 (
-[Name] VARCHAR(100) PRIMARY KEY,
-[Weight] INTEGER,
-LineOrder INTEGER
+[Name]     VARCHAR(100) PRIMARY KEY,
+[Weight]   INTEGER,
+LineOrder  INTEGER
 );
 GO
 
@@ -2407,9 +2427,9 @@ GO
 
 CREATE TABLE #Pitches
 (
-BatterID INTEGER,
-PitchNumber INTEGER,
-Result VARCHAR(100),
+BatterID     INTEGER,
+PitchNumber  INTEGER,
+Result       VARCHAR(100),
 PRIMARY KEY (BatterID, PitchNumber)
 );
 GO
@@ -2499,8 +2519,8 @@ GO
 
 CREATE TABLE #CustomerInfo
 (
-CustomerID INTEGER PRIMARY KEY,
-PhoneNumber VARCHAR(14),
+CustomerID   INTEGER PRIMARY KEY,
+PhoneNumber  VARCHAR(14),
 CONSTRAINT ckPhoneNumber CHECK (LEN(PhoneNumber) = 14
                             AND SUBSTRING(PhoneNumber,1,1)= '('
                             AND SUBSTRING(PhoneNumber,5,1)= ')'
@@ -2513,7 +2533,8 @@ INSERT INTO #CustomerInfo VALUES
 (1001,'(555)-555-5555'),(2002,'(555)-555-5555'), (3003,'(555)-555-5555');
 GO
 
-SELECT * FROM #CustomerInfo;
+SELECT  *
+FROM    #CustomerInfo;
 GO
 
 /*----------------------------------------------------
@@ -2526,8 +2547,8 @@ GO
 
 CREATE TABLE #Spouses
 (
-PrimaryID VARCHAR(100) PRIMARY KEY,
-SpouseID  VARCHAR(100) UNIQUE NOT NULL
+PrimaryID  VARCHAR(100) PRIMARY KEY,
+SpouseID   VARCHAR(100) UNIQUE NOT NULL
 );
 GO
 
@@ -2570,7 +2591,7 @@ GO
 
 CREATE TABLE #WinningNumbers
 (
-Number INTEGER
+Number  INTEGER
 );
 GO
 
@@ -2623,15 +2644,15 @@ GO
 
 CREATE TABLE #ProductsA
 (
-ProductName VARCHAR(100),
-Quantity    INTEGER
+ProductName  VARCHAR(100),
+Quantity     INTEGER
 );
 GO
 
 CREATE TABLE #ProductsB
 (
-ProductName VARCHAR(100),
-Quantity    INTEGER
+ProductName  VARCHAR(100),
+Quantity     INTEGER
 );
 GO
 
@@ -2716,16 +2737,17 @@ AS (
     SELECT 1 AS Number
     UNION ALL
     SELECT  Number + 1
-    FROM   cte_Number
-    WHERE  Number < @vTotalNumbers
+    FROM    cte_Number
+    WHERE   Number < @vTotalNumbers
     )
-SELECT Number
-INTO   #Numbers
-FROM   cte_Number
+SELECT  Number
+INTO    #Numbers
+FROM    cte_Number
 OPTION (MAXRECURSION 0)--A value of 0 means no limit to the recursion level
 GO
 
-SELECT * FROM #Numbers;
+SELECT *
+FROM   #Numbers;
 GO
 
 /*----------------------------------------------------
@@ -2738,8 +2760,8 @@ GO
 
 CREATE TABLE #Strings
 (
-QuoteId INTEGER IDENTITY(1,1) PRIMARY KEY,
-String  VARCHAR(100) NOT NULL
+QuoteId  INTEGER IDENTITY(1,1) PRIMARY KEY,
+String   VARCHAR(100) NOT NULL
 );
 GO
 
@@ -2771,7 +2793,7 @@ SELECT  ROW_NUMBER() OVER (PARTITION BY QuoteID ORDER BY Starts) AS RowNumber,
         *,
         SUBSTRING(String, Starts, CASE WHEN Position > 0 THEN Position - Starts ELSE LEN(String) END) Word,
         LEN(String) - LEN(REPLACE(String,' ','')) AS TotalSpaces
-FROM   cte_Anchor
+FROM    cte_Anchor
 ORDER BY QuoteID, Starts;
 GO
 
@@ -2785,8 +2807,8 @@ GO
 
 CREATE TABLE #Equations
 (
-Equation VARCHAR(200) NOT NULL,
-TotalSum    INT NULL
+Equation  VARCHAR(200) NOT NULL,
+TotalSum  INT NULL
 );
 GO
 
