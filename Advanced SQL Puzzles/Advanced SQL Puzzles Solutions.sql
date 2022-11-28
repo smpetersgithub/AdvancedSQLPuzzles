@@ -1614,11 +1614,10 @@ INSERT INTO #ManufacturingTimes VALUES
 GO
 
 --Solution 1
---MAX
+--MAX with INNER JOIN
 WITH cte_Max AS
 (
-SELECT  ProductID,
-        MAX(DaysToManufacture) AS MaxDaysToManufacture
+SELECT  ProductID, MAX(DaysToManufacture) AS MaxDaysToManufacture
 FROM    #ManufacturingTimes b
 GROUP BY ProductID
 )
@@ -1628,6 +1627,22 @@ FROM    #Orders a INNER JOIN
 GO
 
 --Solution 2
+--MAX with correlated subquery
+WITH cte_Max AS
+(
+SELECT  ProductID, MAX(DaysToManufacture) AS MaxDaysToManufacture
+FROM    #ManufacturingTimes b
+GROUP BY ProductID
+)
+SELECT  *
+FROM    #Orders a
+WHERE   EXISTS (SELECT  *
+                FROM    cte_Max b 
+                WHERE   a.ProductID = b.ProductID AND
+                        a.DaysToDelivery >= b.MaxDaysToManufacture);
+GO
+
+--Solution 3
 --ALL
 SELECT  a.*
 FROM    #Orders a
