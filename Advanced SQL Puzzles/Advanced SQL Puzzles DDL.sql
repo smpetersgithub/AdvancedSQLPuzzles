@@ -14,13 +14,13 @@ DROP TABLE IF EXISTS #Cart2;
 GO
 
 CREATE TABLE #Cart1
-(Item VARCHAR(100) PRIMARY KEY
+(Item  VARCHAR(100) PRIMARY KEY
 );
 GO
 
 CREATE TABLE #Cart2
 (
-Item VARCHAR(100) PRIMARY KEY
+Item  VARCHAR(100) PRIMARY KEY
 );
 GO
 
@@ -83,10 +83,10 @@ GO
 
 CREATE TABLE #Orders
 (
-CustomerID      INTEGER,
-OrderID         VARCHAR(100),
-DeliveryState   VARCHAR(100),
-Amount          MONEY,
+CustomerID     INTEGER,
+OrderID        VARCHAR(100),
+DeliveryState  VARCHAR(100),
+Amount         MONEY,
 PRIMARY KEY (CustomerID, OrderID)
 );
 GO
@@ -107,9 +107,9 @@ GO
 
 CREATE TABLE #PhoneDirectory
 (
-CustomerID  INTEGER,
-[Type]      VARCHAR(100),
-PhoneNumber VARCHAR(12),
+CustomerID   INTEGER,
+[Type]       VARCHAR(100),
+PhoneNumber  VARCHAR(12),
 PRIMARY KEY (CustomerID, [Type])
 );
 GO
@@ -157,8 +157,8 @@ GO
 
 CREATE TABLE #Candidates
 (
-CandidateID INTEGER,
-Occupation  VARCHAR(100),
+CandidateID  INTEGER,
+Occupation   VARCHAR(100),
 PRIMARY KEY (CandidateID, Occupation)
 );
 GO
@@ -189,10 +189,10 @@ GO
 
 CREATE TABLE #WorkflowCases
 (
-Workflow    VARCHAR(100) PRIMARY KEY,
-Case1       INTEGER,
-Case2       INTEGER,
-Case3       INTEGER
+Workflow  VARCHAR(100) PRIMARY KEY,
+Case1     INTEGER,
+Case2     INTEGER,
+Case3     INTEGER
 );
 GO
 
@@ -237,7 +237,7 @@ GO
 
 CREATE TABLE #SampleData
 (
-IntegerValue INTEGER
+IntegerValue  INTEGER
 );
 GO
 
@@ -255,8 +255,8 @@ GO
 
 CREATE TABLE #TestCases
 (
-RowNumber INTEGER,
-TestCase VARCHAR(1),
+RowNumber  INTEGER,
+TestCase   VARCHAR(1),
 PRIMARY KEY (RowNumber, TestCase)
 );
 GO
@@ -275,8 +275,8 @@ GO
 
 CREATE TABLE #ProcessLog
 (
-WorkFlow        VARCHAR(100),
-ExecutionDate   DATE,
+WorkFlow       VARCHAR(100),
+ExecutionDate  DATE,
 PRIMARY KEY (WorkFlow, ExecutionDate)
 );
 GO
@@ -320,7 +320,7 @@ CREATE TABLE #ProcessLog
 (
 Workflow    VARCHAR(100),
 StepNumber  INTEGER,
-RunStatus    VARCHAR(100),
+RunStatus   VARCHAR(100),
 PRIMARY KEY (Workflow, StepNumber)
 );
 GO
@@ -370,9 +370,9 @@ GO
 
 CREATE TABLE #PlayerScores
 (
-PlayerA INTEGER,
-PlayerB INTEGER,
-Score   INTEGER,
+PlayerA  INTEGER,
+PlayerB  INTEGER,
+Score    INTEGER,
 PRIMARY KEY (PlayerA, PlayerB)
 );
 GO
@@ -428,8 +428,8 @@ GO
 
 CREATE TABLE #TimePeriods
 (
-StartDate   DATE,
-EndDate     DATE
+StartDate  DATE,
+EndDate    DATE
 );
 GO
 
@@ -450,9 +450,9 @@ GO
 
 CREATE TABLE #ValidPrices
 (
-ProductID       INTEGER,
-UnitPrice       MONEY,
-EffectiveDate   DATE,
+ProductID      INTEGER,
+UnitPrice      MONEY,
+EffectiveDate  DATE,
 PRIMARY KEY (ProductID, UnitPrice, EffectiveDate)
 );
 GO
@@ -537,8 +537,8 @@ GO
 
 CREATE TABLE #PlayerScores
 (
-PlayerID    INTEGER PRIMARY KEY,
-Score       INTEGER
+PlayerID  INTEGER PRIMARY KEY,
+Score     INTEGER
 );
 GO
 
@@ -558,8 +558,8 @@ GO
 
 CREATE TABLE #SampleData
 (
-IntegerValue    INTEGER IDENTITY(1,1),
-RowID           UNIQUEIDENTIFIER
+IntegerValue  INTEGER IDENTITY(1,1),
+RowID         UNIQUEIDENTIFIER
 );
 GO
 
@@ -629,7 +629,7 @@ GO
 
 CREATE TABLE #SampleData
 (
-IntegerValue INTEGER,
+IntegerValue  INTEGER,
 );
 GO
 
@@ -652,8 +652,8 @@ GO
 
 CREATE TABLE #Gaps
 (
-RowNumber   INTEGER PRIMARY KEY,
-TestCase    VARCHAR(100)
+RowNumber  INTEGER PRIMARY KEY,
+TestCase   VARCHAR(100)
 );
 GO
 
@@ -703,8 +703,8 @@ GO
 
 CREATE TABLE #Products
 (
-ProductID   INTEGER PRIMARY KEY,
-ProductName VARCHAR(100)
+ProductID    INTEGER PRIMARY KEY,
+ProductName  VARCHAR(100)
 );
 GO
 
@@ -722,7 +722,7 @@ GO
 
 CREATE TABLE #SampleData
 (
-IntegerValue INTEGER PRIMARY KEY
+IntegerValue  INTEGER PRIMARY KEY
 );
 GO
 
@@ -763,17 +763,17 @@ GO
 
 CREATE TABLE #OrderFulfillments
 (
-OrderID     VARCHAR(100) PRIMARY KEY,
-ProductID   VARCHAR(100),
-DaysToBuild INTEGER
+OrderID         VARCHAR(100) PRIMARY KEY,
+ProductID       VARCHAR(100),
+DaysToDelivery  INTEGER
 );
 GO
 
 CREATE TABLE #ManufacturingTimes
 (
-PartID              VARCHAR(100),
-ProductID           VARCHAR(100),
-DaysToManufacture   INTEGER,
+PartID             VARCHAR(100),
+ProductID          VARCHAR(100),
+DaysToManufacture  INTEGER,
 PRIMARY KEY (PartID, ProductID)
 );
 GO
@@ -866,9 +866,9 @@ GO
 
 CREATE TABLE #Graph
 (
-DepartureCity   VARCHAR(100),
-ArrivalCity     VARCHAR(100),
-Cost            INTEGER,
+DepartureCity  VARCHAR(100),
+ArrivalCity    VARCHAR(100),
+Cost           INTEGER,
 PRIMARY KEY (DepartureCity, ArrivalCity)
 );
 GO
@@ -891,11 +891,11 @@ GO
 
 CREATE TABLE #GroupCriteria
 (
-OrderID     VARCHAR(100) PRIMARY KEY,
-Distributor VARCHAR(100),
-Facility    INTEGER,
-[Zone]      VARCHAR(100),
-Amount      MONEY
+OrderID      VARCHAR(100) PRIMARY KEY,
+Distributor  VARCHAR(100),
+Facility     INTEGER,
+[Zone]       VARCHAR(100),
+Amount       MONEY
 );
 GO
 
@@ -916,9 +916,9 @@ GO
 
 CREATE TABLE #RegionSales
 (
-Region      VARCHAR(100),
-Distributor VARCHAR(100),
-Sales       INTEGER,
+Region       VARCHAR(100),
+Distributor  VARCHAR(100),
+Sales        INTEGER,
 PRIMARY KEY (Region, Distributor)
 );
 GO
@@ -946,7 +946,7 @@ GO
 
 CREATE TABLE #PrimeNumbers
 (
-IntegerValue INTEGER PRIMARY KEY
+IntegerValue  INTEGER PRIMARY KEY
 );
 GO
 
@@ -964,7 +964,7 @@ GO
 
 CREATE TABLE #SortOrder
 (
-City VARCHAR(100) PRIMARY KEY
+City  VARCHAR(100) PRIMARY KEY
 );
 GO
 
@@ -982,8 +982,8 @@ GO
  
 CREATE TABLE #Associates
 (
-Associate1 VARCHAR(100),
-Associate2 VARCHAR(100),
+Associate1  VARCHAR(100),
+Associate2  VARCHAR(100),
 PRIMARY KEY (Associate1, Associate2)
 );
 GO
@@ -1003,8 +1003,8 @@ GO
 
 CREATE TABLE #Friends
 (
-Friend1 VARCHAR(100),
-Friend2 VARCHAR(100),
+Friend1  VARCHAR(100),
+Friend2  VARCHAR(100),
 PRIMARY KEY (Friend1, Friend2)
 );
 GO
@@ -1024,9 +1024,9 @@ GO
 
 CREATE TABLE #CustomerOrders
 (
-[Order] INTEGER,
-CustomerID INTEGER,
-Quantity INTEGER,
+[Order]     INTEGER,
+CustomerID  INTEGER,
+Quantity    INTEGER,
 PRIMARY KEY ([Order], CustomerID)
 );
 GO
@@ -1049,9 +1049,9 @@ GO
 
 CREATE TABLE #Balances
 (
-CustomerID INTEGER,
-BalanceDate DATE,
-Amount MONEY,
+CustomerID   INTEGER,
+BalanceDate  DATE,
+Amount       MONEY,
 PRIMARY KEY (CustomerID, BalanceDate)
 );
 GO
@@ -1079,10 +1079,10 @@ GO
 
 CREATE TABLE #Balances
 (
-CustomerID INTEGER,
-StartDate DATE,
-EndDate DATE,
-Amount MONEY
+CustomerID  INTEGER,
+StartDate   DATE,
+EndDate     DATE,
+Amount      MONEY
 );
 GO
 
@@ -1105,8 +1105,8 @@ GO
 
 CREATE TABLE #AccountBalances
 (
-AccountID   INTEGER,
-Balance     MONEY,
+AccountID  INTEGER,
+Balance    MONEY,
 PRIMARY KEY (AccountID, Balance)
 );
 GO
@@ -1127,18 +1127,18 @@ GO
 
 CREATE TABLE #Schedule
 (
-ScheduleId CHAR(1) PRIMARY KEY,
-StartTime DATETIME,
-EndTime DATETIME
+ScheduleId  CHAR(1) PRIMARY KEY,
+StartTime   DATETIME,
+EndTime     DATETIME
 );
 GO
 
 CREATE TABLE #Activity
 (
-ScheduleID CHAR(1),
-ActivityName VARCHAR(100),
-StartTime DATETIME,
-EndTime DATETIME,
+ScheduleID    CHAR(1),
+ActivityName  VARCHAR(100),
+StartTime     DATETIME,
+EndTime       DATETIME,
 PRIMARY KEY (ScheduleID, ActivityName, StartTime, EndTime)
 );
 GO
@@ -1167,8 +1167,8 @@ GO
 
 CREATE TABLE #Sales
 (
-SalesID INTEGER,
-[Year]  INTEGER,
+SalesID  INTEGER,
+[Year]   INTEGER,
 PRIMARY KEY (SalesID, [Year])
 );
 GO
@@ -1189,9 +1189,9 @@ GO
 
 CREATE TABLE #ElevatorOrder
 (
-[Name] VARCHAR(100) PRIMARY KEY,
-[Weight] INTEGER,
-LineOrder INTEGER
+[Name]     VARCHAR(100) PRIMARY KEY,
+[Weight]   INTEGER,
+LineOrder  INTEGER
 );
 GO
 
@@ -1211,9 +1211,9 @@ GO
 
 CREATE TABLE #Pitches
 (
-BatterID INTEGER,
-PitchNumber INTEGER,
-Result VARCHAR(100),
+BatterID     INTEGER,
+PitchNumber  INTEGER,
+Result       VARCHAR(100),
 PRIMARY KEY (BatterID, PitchNumber)
 );
 GO
@@ -1269,8 +1269,8 @@ GO
 
 CREATE TABLE #Spouses
 (
-PrimaryID VARCHAR(100) PRIMARY KEY,
-SpouseID  VARCHAR(100) UNIQUE NOT NULL
+PrimaryID  VARCHAR(100) PRIMARY KEY,
+SpouseID   VARCHAR(100) UNIQUE NOT NULL
 );
 GO
 
@@ -1291,14 +1291,14 @@ GO
 
 CREATE TABLE #WinningNumbers
 (
-Number INTEGER
+Number  INTEGER
 );
 GO
 
 CREATE TABLE #LotteryTickets
 (
-TicketID    VARCHAR(100),
-Number      INTEGER,
+TicketID  VARCHAR(100),
+Number    INTEGER,
 PRIMARY KEY (TicketID, Number)
 );
 GO
@@ -1323,15 +1323,15 @@ GO
 
 CREATE TABLE #ProductsA
 (
-ProductName VARCHAR(100),
-Quantity    INTEGER
+ProductName  VARCHAR(100),
+Quantity     INTEGER
 );
 GO
 
 CREATE TABLE #ProductsB
 (
-ProductName VARCHAR(100),
-Quantity    INTEGER
+ProductName  VARCHAR(100),
+Quantity     INTEGER
 );
 GO
 
@@ -1363,8 +1363,8 @@ GO
 
 CREATE TABLE #Strings
 (
-QuoteId INTEGER IDENTITY(1,1) PRIMARY KEY,
-String  VARCHAR(100) NOT NULL
+QuoteId  INTEGER IDENTITY(1,1) PRIMARY KEY,
+String   VARCHAR(100) NOT NULL
 );
 GO
 
@@ -1382,8 +1382,8 @@ GO
 
 CREATE TABLE #Equations
 (
-Equation VARCHAR(200) NOT NULL,
-TotalSum INTEGER NULL
+Equation  VARCHAR(200) NOT NULL,
+TotalSum  INTEGER NULL
 );
 GO
 
