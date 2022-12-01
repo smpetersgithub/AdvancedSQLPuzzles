@@ -1943,7 +1943,9 @@ GO
 
 SELECT  City
 FROM    #SortOrder
-ORDER BY (CASE City WHEN 'Atlanta' THEN 2 WHEN 'Baltimore' THEN 1 WHEN 'Chicago' THEN 4 WHEN 'Denver' THEN 1 END);
+ORDER by (CASE WHEN CITY = 'Baltimore' THEN 1 
+               WHEN CITY = 'Denver'    THEN 2 
+               WHEN CITY = 'Atlanta'   THEN 3 ELSE 4 END)
 GO
 
 /*----------------------------------------------------
