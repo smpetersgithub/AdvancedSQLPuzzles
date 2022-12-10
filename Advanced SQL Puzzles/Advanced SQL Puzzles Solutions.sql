@@ -1559,6 +1559,10 @@ INSERT INTO #Personel VALUES
 (7007,'Technician',13),(8008,'Technician',2),(9009,'Technician',7);
 GO
 
+
+--Solution 1
+--FIRST_VALUE and LAST_VALUE
+--This solution will not account for multiple SpacemanIDs that fit the criteria
 SELECT  DISTINCT
         JobDescription,
         FIRST_VALUE(SpacemanID) OVER
@@ -1568,6 +1572,27 @@ SELECT  DISTINCT
             RANGE BETWEEN CURRENT ROW AND UNBOUNDED FOLLOWING) AS LeastExperienced
 FROM    #Personel
 ORDER BY 1,2,3;
+GO
+
+--Soluion 2
+--MIN and MAX
+--This solution will account for multiple SpacemanIDs that fit the criteria
+WITH cte_MinMax AS
+(
+SELECT  JobDescription,
+        MAX(MissionCount) AS MaxMissionCount,
+        MIN(MissionCount) AS MinMissionCount
+FROM    #Personel
+GROUP BY JobDescription
+)
+SELECT  a.JobDescription,
+        b.SpacemanID AS MostExperienced,
+        c.SpacemanID AS LeastExperienced
+FROM    cte_MinMax a INNER JOIN
+        #Personel b ON a.JobDescription = b.JobDescription AND
+                       a.MaxMissionCount = b.MissionCount  INNER JOIN
+        #Personel c ON a.JobDescription = c.JobDescription AND
+                       a.MinMissionCount = c.MissionCount;
 GO
 
 /*----------------------------------------------------
