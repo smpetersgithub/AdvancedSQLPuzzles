@@ -2711,6 +2711,7 @@ INSERT INTO #ProductsB VALUES
 ('Dingbat',9);
 GO
 
+--Solution 1 with INTERSECT
 --Matches In both tables
 SELECT  *
 INTO    #Results1
@@ -2766,6 +2767,49 @@ SELECT  'Quantities in Table A and Table B do not match' AS [Type],
         ProductName
 FROM    #Results4;
 GO
+
+-- Solution 2 with CASE
+
+; WITH cte as (
+
+SELECT  a.ProductName as ProductNameA
+      , b.ProductName as ProductNameB,
+     CASE  WHEN b.ProductName is NULL AND a.ProductName not in (SELECT ProductName FROM ProductsB) THEN 'Product does not exist in table B' 
+           WHEN b.ProductName is NULL AND a.ProductName in (SELECT ProductName FROM ProductsB) THEN 'Quantity is table A and table B do not match' 
+           WHEN a.ProductName is NULL AND b.ProductName in (SELECT ProductName FROM Productsa) THEN 'Quantity is table A and table B do not match' 
+           WHEN a.ProductName is NULL AND b.ProductName not in (SELECT ProductName FROM Productsa) THEN 'Product does not exist in table A' ELSE 'Matches In both tables ' END as Type
+FROM       #ProductsA as a
+FULL JOIN  #ProductsB as b  ON a.ProductName = b.ProductName AND a.Quantity = b.Quantity 
+)
+SELECT distinct Type, ISNULL(ProductNameA, ProductNameB) as ProductName
+FROM cte
+
+-- Solution 3 with Join
+
+SELECT 'Matches In both tables' as typ, a.ProductName
+FROM       #ProductsA as a
+INNER JOIN #ProductsB as b  ON a.ProductName = b.ProductName AND a.Quantity = b.Quantity
+
+UNION 
+
+SELECT 'Quantity is table A and table B do not match ' as typ, a.ProductName
+FROM      #ProductsA as a
+LEFT JOIN #ProductsB as b  ON a.ProductName = b.ProductName AND a.Quantity = b.Quantity
+WHERE a.ProductName in (SELECT ProductName FROM ProductsB) AND b.ProductName is null
+
+UNION 
+
+SELECT 'Product does not exist in table B  ' as typ, a.ProductName
+FROM      #ProductsA as a
+LEFT JOIN #ProductsB as b  ON a.ProductName = b.ProductName AND a.Quantity = b.Quantity
+WHERE a.ProductName not in (SELECT ProductName FROM ProductsB) AND b.ProductName is null
+
+UNION 
+
+SELECT 'Product does not exist in table A  ' as typ, a.ProductName
+FROM      #ProductsB as a
+LEFT JOIN #ProductsA as b  ON a.ProductName = b.ProductName AND a.Quantity = b.Quantity
+WHERE a.ProductName not in (SELECT ProductName FROM ProductsA) AND b.ProductName is null
 
 /*----------------------------------------------------
 Answer to Puzzle #56
