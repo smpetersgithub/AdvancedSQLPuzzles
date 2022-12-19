@@ -1323,14 +1323,14 @@ GO
 
 CREATE TABLE #ProductsA
 (
-ProductName  VARCHAR(100),
+ProductName  VARCHAR(100) PRIMARY KEY,
 Quantity     INTEGER
 );
 GO
 
 CREATE TABLE #ProductsB
 (
-ProductName  VARCHAR(100),
+ProductName  VARCHAR(100) PRIMARY KEY,
 Quantity     INTEGER
 );
 GO
@@ -1382,7 +1382,7 @@ GO
 
 CREATE TABLE #Equations
 (
-Equation  VARCHAR(200) NOT NULL,
+Equation  VARCHAR(200) PRIMARY KEY,
 TotalSum  INTEGER NULL
 );
 GO
