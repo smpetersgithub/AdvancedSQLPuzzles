@@ -2687,14 +2687,14 @@ GO
 
 CREATE TABLE #ProductsA
 (
-ProductName  VARCHAR(100),
+ProductName  VARCHAR(100) PRIMARY KEY,
 Quantity     INTEGER
 );
 GO
 
 CREATE TABLE #ProductsB
 (
-ProductName  VARCHAR(100),
+ProductName  VARCHAR(100) PRIMARY KEY,
 Quantity     INTEGER
 );
 GO
@@ -2710,61 +2710,34 @@ INSERT INTO #ProductsB VALUES
 ('Doodad',6),
 ('Dingbat',9);
 GO
-
---Matches In both tables
-SELECT  *
-INTO    #Results1
-FROM    #ProductsA
-INTERSECT
-SELECT  *
-FROM    #ProductsB;
-GO
-
---Product does not exist in Table B
-SELECT  ProductName,
-        NULL AS Quantity
-INTO    #Results2
-FROM    #ProductsA
-EXCEPT
-SELECT  ProductName,
-        NULL AS Quantity
-FROM    #ProductsB;
-GO
-
---Product does not exist in Table A
-SELECT  ProductName
-INTO    #Results3
-FROM    #ProductsB
-EXCEPT
-SELECT  ProductName
-FROM    #ProductsA;
-GO
-
---Quantity in Table A and Table B do not match
-SELECT  *
-INTO    #Results4
-FROM    #ProductsA
-WHERE   ProductName IN (SELECT ProductName FROM #ProductsB)
-EXCEPT
-SELECT  *
-FROM    #ProductsB;
-GO
-
+WITH cte_FullOuter AS
+(
+SELECT  a.ProductName AS ProductNameA,
+        b.ProductName AS ProductNameB,
+        a.Quantity AS QuantityA,
+        b.Quantity AS QuantityB
+FROM    #ProductsA a FULL OUTER JOIN
+        #ProductsB b ON a.ProductName = b.ProductName
+)
 SELECT  'Matches In both tables' AS [Type],
-        ProductName
-FROM    #Results1
+        ProductNameA
+FROM    cte_FullOuter
+WHERE   ProductNameA = ProductNameB
 UNION
 SELECT  'Product does not exist in Table B' AS [Type],
-        ProductName
-FROM    #Results2
+        ProductNameA
+FROM    cte_FullOuter
+WHERE   ProductNameB IS NULL
 UNION
 SELECT  'Product does not exist in Table A' AS [Type],
-        ProductName
-FROM    #Results3
+        ProductNameB
+FROM   cte_FullOuter
+WHERE  ProductNameA IS NULL
 UNION
 SELECT  'Quantities in Table A and Table B do not match' AS [Type],
-        ProductName
-FROM    #Results4;
+        ProductNameA
+FROM    cte_FullOuter
+WHERE   QuantityA <> QuantityB;
 GO
 
 /*----------------------------------------------------
