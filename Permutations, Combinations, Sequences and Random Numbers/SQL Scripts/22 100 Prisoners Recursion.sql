@@ -1,10 +1,22 @@
-DROP TABLE IF EXISTS ##Results;
-DROP TABLE IF EXISTS ##Drawers;
-DROP TABLE IF EXISTS ##Drawers2;
-DROP TABLE IF EXISTS ##Drawers3;
+/*********************************************************************
+Scott Peters
+100 Prisoners Problem
+https://advancedsqlpuzzles.com
+Last Updated: 12/20/2022
+
+This script is written in SQL Server's T-SQL
+
+• Run n iterations of the 100 Prisoners Problem
+• https://en.wikipedia.org/wiki/100_prisoners_problem
+**********************************************************************/
+
+DROP TABLE IF EXISTS #Drawers;
+DROP TABLE IF EXISTS #Drawers2;
+DROP TABLE IF EXISTS #Drawers3;
+DROP TABLE IF EXISTS #Results;
 GO
 
-CREATE TABLE ##Results
+CREATE TABLE #Results
 (
 Iteration     INT NOT NULL,
 Drawer        INT NOT NULL,
@@ -19,7 +31,7 @@ GO
 --------------------------------------------------------------
 --------------------------------------------------------------
 
-DECLARE @vIterator INTEGER = 10000;
+DECLARE @vIterator INTEGER = 10;--This will do n iterations of the simulation
 DECLARE @vStartNumber INTEGER = 1;
 DECLARE @vEndNumber INTEGER = 100;
 
@@ -30,7 +42,7 @@ WHILE @vIterator <> 0
 BEGIN
 PRINT CONCAT('@vIterator ',@vIterator);
 
-    DROP TABLE IF EXISTS ##Drawers;
+    DROP TABLE IF EXISTS #Drawers;
     WITH cte_Recursion (Number)
     AS 
     (
@@ -40,10 +52,9 @@ PRINT CONCAT('@vIterator ',@vIterator);
     FROM   cte_Recursion
     WHERE  Number < @vEndNumber
     )
-    --INSERT INTO ##Drawers (Drawer, Prisoner)
     SELECT ROW_NUMBER() OVER (ORDER BY NEWID() ASC) as Drawer,
            Number AS Prisoner
-    INTO   ##Drawers
+    INTO   #Drawers
     FROM   cte_Recursion
     OPTION (MAXRECURSION 100);
 
@@ -55,13 +66,13 @@ PRINT CONCAT('@vIterator ',@vIterator);
     BEGIN
     PRINT CONCAT('@vPrisoner ', @vPrisoner);
 
-        DROP TABLE IF EXISTS ##Drawers2;
-        DROP TABLE IF EXISTS ##Drawers3;
+        DROP TABLE IF EXISTS #Drawers2;
+        DROP TABLE IF EXISTS #Drawers3;
 
         SELECT  (CASE WHEN Drawer = @vPrisoner THEN NULL ELSE Drawer end) as Drawer,
                 Prisoner
-        INTO    ##Drawers2
-        FROM    ##Drawers;
+        INTO    #Drawers2
+        FROM    #Drawers;
 
         WITH
         cte_Recursion AS
@@ -69,31 +80,31 @@ PRINT CONCAT('@vIterator ',@vIterator);
         SELECT  Drawer,
                 Prisoner,
                 1 AS Depth
-        FROM    ##Drawers2 a
+        FROM    #Drawers2 a
         WHERE   Drawer IS NULL
         UNION ALL
         SELECT  b.Drawer,
                 b.Prisoner,
                 a.Depth + 1 AS Depth
         FROM    cte_Recursion a INNER JOIN
-                ##Drawers2 b ON a.Prisoner = b.Drawer
+                #Drawers2 b ON a.Prisoner = b.Drawer
         )
         SELECT  *
-        INTO    ##Drawers3
+        INTO    #Drawers3
         FROM    cte_Recursion;
 
-        INSERT INTO ##Results
+        INSERT INTO #Results
         SELECT  @vIterator
                 ,(CASE WHEN Drawer IS NULL THEN @vPrisoner ELSE Drawer END) AS Drawer
                 ,Prisoner
                 ,Depth
                 ,MAX(Depth) OVER (ORDER BY Depth DESC) AS MaxDepth
                 ,@vPrisoner AS GroupNumber 
-        FROM    ##Drawers3
+        FROM    #Drawers3
 
         SELECT  @vPrisoner = MIN(Prisoner) 
-        FROM    ##Drawers 
-        WHERE   Prisoner NOT IN (SELECT Prisoner FROM ##Results WHERE Iteration = @vIterator);
+        FROM    #Drawers 
+        WHERE   Prisoner NOT IN (SELECT Prisoner FROM #Results WHERE Iteration = @vIterator);
 
     END;
 
@@ -112,7 +123,7 @@ SELECT  DISTINCT
         Iteration,
         GroupNumber,
         MaxDepth
-FROM    ##Results
+FROM    #Results
 )
 SELECT MaxDepth AS LengthLoopCycle,
        COUNT(DISTINCT Iteration) AS CountLoops
@@ -127,7 +138,7 @@ WITH cte_MaxDepth AS
 (
 SELECT Iteration,
        MAX(MaxDepth) AS LargestLoop
-FROM   ##Results
+FROM   #Results
 GROUP BY Iteration
 )
 SELECT LargestLoop,
@@ -143,11 +154,11 @@ WITH cte_Iterations_Under50 AS
 (
 SELECT  Iteration,
         MAX(MaxDepth) AS LargestLoop
-FROM    ##Results
+FROM    #Results
 GROUP BY Iteration
 HAVING  MAX(MaxDepth) <= 50
 )
-SELECT CONCAT((COUNT(*)/ CAST((SELECT COUNT(DISTINCT Iteration) FROM ##Results) AS NUMERIC(10,2)) * 100), '%') AS WinPercentage 
+SELECT CONCAT((COUNT(*)/ CAST((SELECT COUNT(DISTINCT Iteration) FROM #Results) AS NUMERIC(10,2)) * 100), '%') AS WinPercentage 
 FROM   cte_Iterations_Under50;
 
 ----------------------------
@@ -157,7 +168,7 @@ WITH cte_CountLoops AS
 (
 SELECT  Iteration,
         COUNT(DISTINCT GroupNumber) AS CountLoops
-FROM    ##Results
+FROM    #Results
 GROUP BY Iteration
 ),
 cte_CountIterations AS
@@ -172,8 +183,6 @@ SELECT  *
         ,CONCAT((CountIterations/ CAST((SELECT SUM(CountIterations) FROM cte_CountIterations) AS NUMERIC(10,2)) * 100), '%') AS Percentage
 FROM    cte_CountIterations
 ORDER BY 1 DESC;
-
-
 
 ----------------------------
 ----------------------------
@@ -184,7 +193,7 @@ SELECT  DISTINCT
         Iteration,
         GroupNumber,
         MaxDepth
-FROM    ##Results
+FROM    #Results
 )
 SELECT MaxDepth AS LengthLoopCycle,
        COUNT(DISTINCT Iteration) AS CountLoops
@@ -199,7 +208,7 @@ WITH cte_MaxDepth AS
 (
 SELECT Iteration,
        MAX(MaxDepth) AS LargestLoop
-FROM   ##Results
+FROM   #Results
 GROUP BY Iteration
 )
 SELECT LargestLoop,
@@ -210,20 +219,16 @@ ORDER BY 1 DESC;
 
 ----------------------------
 ----------------------------
-----------------------------
-----------------------------
-----------------------------
-----------------------------
 --% of iterations that have a loop less thant 50
 WITH cte_Iterations_Under50 AS
 (
 SELECT  Iteration,
         MAX(MaxDepth) AS LargestLoop
-FROM    ##Results
+FROM    #Results
 GROUP BY Iteration
 HAVING  MAX(MaxDepth) <= 50
 )
-SELECT CONCAT((COUNT(*)/ CAST((SELECT COUNT(DISTINCT Iteration) FROM ##Results) AS NUMERIC(10,2)) * 100), '%') AS WinPercentage 
+SELECT CONCAT((COUNT(*)/ CAST((SELECT COUNT(DISTINCT Iteration) FROM #Results) AS NUMERIC(10,2)) * 100), '%') AS WinPercentage 
 FROM   cte_Iterations_Under50;
 
 ----------------------------
@@ -233,7 +238,7 @@ WITH cte_CountLoops AS
 (
 SELECT  Iteration,
         COUNT(DISTINCT GroupNumber) AS CountLoops
-FROM    ##Results
+FROM    #Results
 GROUP BY Iteration
 ),
 cte_CountIterations AS
@@ -248,4 +253,3 @@ SELECT  *
         ,CONCAT((CountIterations/ CAST((SELECT SUM(CountIterations) FROM cte_CountIterations) AS NUMERIC(10,2)) * 100), '%') AS Percentage
 FROM    cte_CountIterations
 ORDER BY 1 DESC;
-
