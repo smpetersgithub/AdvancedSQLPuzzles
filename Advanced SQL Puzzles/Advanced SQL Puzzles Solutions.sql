@@ -2039,11 +2039,9 @@ Mutual Friends
 */----------------------------------------------------
 
 DROP TABLE IF EXISTS #Friends;
-DROP TABLE IF EXISTS #Distinct_Friends_Full_1;
-DROP TABLE IF EXISTS #Mutual_Friend_Check_2;
-DROP TABLE IF EXISTS #Reciprocal_Mutual_Friend_Check_3;
-DROP TABLE IF EXISTS #Reciprocal_Mutual_Friend_Check_Count_4;
-DROP TABLE IF EXISTS #Reciprocal_Mutual_Friend_Check_Count_Modified_5;
+DROP TABLE IF EXISTS #Nodes;
+DROP TABLE IF EXISTS #Edges;
+DROP TABLE IF EXISTS Nodes_Edges_To_Evaluate;
 GO
 
 CREATE TABLE #Friends
@@ -2054,71 +2052,65 @@ PRIMARY KEY (Friend1, Friend2)
 );
 GO
 
-INSERT INTO #Friends VALUES 
+INSERT INTO #Friends VALUES
 ('Jason','Mary'),('Mike','Mary'),('Mike','Jason'),
 ('Susan','Jason'),('John','Mary'),('Susan','Mary');
 GO
 
---Step 1
-WITH cte_Reciprocal_Friends AS
-(
-SELECT  Friend1,
-        Friend2
+--Create reciprocals (Edges)
+SELECT  Friend1, Friend2
+INTO    #Edges
 FROM    #Friends
 UNION
-SELECT  Friend2,
-        Friend1
-FROM    #Friends
-)
+SELECT  Friend2, Friend1
+FROM #Friends;
+GO
+
+--Created Nodes
+SELECT Friend1 AS Person INTO #Nodes FROM #Friends
+UNION
+SELECT Friend2 FROM #Friends;
+GO
+
+--Cross join all Edges and Nodes
 SELECT  *
-INTO    #Distinct_Friends_Full_1
-FROM    cte_Reciprocal_Friends
-ORDER BY 1,2;
+INTO    Nodes_Edges_To_Evaluate
+FROM    #Edges a CROSS JOIN
+        #Nodes b
+ORDER BY 1,2,3;
 GO
 
---Step 2
-SELECT  a.*,
-        b.Friend2 AS Mutual_Friend_Check
-INTO    #Mutual_Friend_Check_2
-FROM    #Distinct_Friends_Full_1 a INNER JOIN
-        #Distinct_Friends_Full_1 b ON a.Friend2 = b.Friend1
-WHERE   a.Friend1 <> b.Friend2
-ORDER BY 1,2;
-GO
-
---Step 3
-SELECT  (CASE WHEN Friend1 < Friend2 THEN Friend1 ELSE Friend2 END) AS Friend1,
-        (CASE WHEN Friend1 < Friend2 THEN Friend2 ELSE Friend1 END) AS Friend2,
-        a.Mutual_Friend_Check
-INTO    #Reciprocal_Mutual_Friend_Check_3
-FROM    #Mutual_Friend_Check_2 a;
-GO
-
---Step 4
-SELECT  Friend1,
-        Friend2,
-        Mutual_Friend_Check,
-        COUNT(*) AS Grouping_Count
-INTO    #Reciprocal_Mutual_Friend_Check_Count_4
-FROM    #Reciprocal_Mutual_Friend_Check_3
-GROUP BY Friend1, Friend2, Mutual_Friend_Check;
-GO
-
---Step 5
-SELECT  Friend1,
-        Friend2,
-        Mutual_Friend_Check,
-        (CASE Grouping_Count WHEN 1 THEN 0 WHEN 2 THEN 1 END) AS Friend_Count
-INTO    #Reciprocal_Mutual_Friend_Check_Count_Modified_5
-FROM    #Reciprocal_Mutual_Friend_Check_Count_4;
-GO
-
---Results
-SELECT  Friend1,
-        Friend2,
-        SUM(Friend_Count) AS Total_Mutual_Friends
-FROM    #Reciprocal_Mutual_Friend_Check_Count_Modified_5
+--Evalues the cross join to the edges
+WITH cte_JoinLogic AS
+(
+SELECT  a.Friend1
+        ,a.Friend2
+        ,'---' AS Id1
+        ,b.Friend2 AS MutualFriend1
+        ,'----' AS Id2
+        ,c.Friend2 AS MutualFriend2
+from   Nodes_Edges_To_Evaluate a LEFT OUTER JOIN
+       #Edges b ON a.Friend1 = b.Friend1 and a.Person = b.Friend2 LEFT OUTER JOIN
+       #Edges c ON a.Friend2 = c.Friend1 and a.Person = c.Friend2
+),
+cte_Predicate AS
+(
+--Apply predicate logic
+SELECT  Friend1, Friend2, MutualFriend1 AS MutualFriend
+FROM    cte_JoinLogic
+WHERE   MutualFriend1 = MutualFriend2 AND MutualFriend1 IS NOT NULL AND MutualFriend2 IS NOT NULL
+),
+cte_Count AS
+(
+SELECT  Friend1, Friend2, COUNT(*) AS CountMutualFriends
+FROM    cte_Predicate
 GROUP BY Friend1, Friend2
+)
+SELECT  DISTINCT
+        (CASE WHEN Friend1 < Friend2 THEN Friend1 ELSE Friend2 END) AS Friend1,
+        (CASE WHEN Friend1 < Friend2 THEN Friend2 ELSE Friend1 END) AS Friend2,
+        CountMutualFriends
+FROM    cte_Count
 ORDER BY 1,2;
 GO
 
