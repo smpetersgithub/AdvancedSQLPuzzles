@@ -2,7 +2,7 @@
 Scott Peters
 Monty Hall Simulation
 https://advancedsqlpuzzles.com
-Last Updated: 07/05/2022
+Last Updated: 12/28/2022
 
 This script is written in SQL Server's T-SQL
 
@@ -32,47 +32,80 @@ AfterSwitchPrizeDoors INT NOT NULL
 );
 GO
 
----------------
----------------
+---------------------
+---------------------
 --Declare and set variables
+
+--Number of simulations
 DECLARE @vNumberOfSimulations INTEGER = 100 --Number of simulations to run
-DECLARE @vNumberDoors INTEGER = 10;--The number of doors needs to be greater than or equal to the sum of the 1) host doors 2) contestant doors 3) door switches
-DECLARE @vNumberGoats INTEGER = 8;
+---------------------
+--Number of doors in the simulation
+DECLARE @vNumberDoors INTEGER = 3;
+
+--Number of doors that have goats
+DECLARE @vNumberGoats INTEGER = 2;
+
+--Number of doors that have prizes
 DECLARE @vNumberCars INTEGER = @vNumberDoors - @vNumberGoats;
-DECLARE @vNumberHostDoors INTEGER = 2; --The number of doors the host will reveal to be goats
-DECLARE @vNumberContestantDoors INTEGER = 2; -- The number of doors the contestant will choose
-DECLARE @vNumberOfDoorsSwitch INTEGER = @vNumberContestantDoors;  --When the contestant switches doors, they will switch ALL currently selected doors for new doors
 
-DECLARE @vNumberofPrizeDoorsSelectedNeededToWin INTEGER = 1; --Determines the number of doors needed to be selected with prizes behind them for the contestant to be considered an overall winner
+--The number of doors the host will reveal to be goats
+DECLARE @vNumberHostDoors INTEGER = 1;
 
------------------------------------------------------------
------------------------------------------------------------
+--The number of doors the contestant will choose
+DECLARE @vNumberContestantDoors INTEGER = 1; 
+
+--The number of doors the contestant will switch
+--When the contestant switches doors, they will switch ALL currently selected doors for new doors
+DECLARE @vNumberOfDoorsSwitch INTEGER = @vNumberContestantDoors;
+
+--The number of prize doors in final selection for the contestant to be considered a winner
+DECLARE @vNumberofPrizeDoorsSelectedNeededToWin INTEGER = 1; 
+---------------------
+---------------------
+
 --Validation checks
 --The number of doors needs to be greater than or equal to the sum of the 
---1) host doors 2) contestant doors 3) door switches
+--1) the number of the doors the host will reveal plus 
+--2) the number of doors the contestant will choose 
+--3) the number of doors the contestant will switch
 IF  NOT(@vNumberDoors >= @vNumberHostDoors + @vNumberContestantDoors + @vNumberOfDoorsSwitch)
     BEGIN
     PRINT 'Fail 1'
     RETURN
     END
 
---The number of goats needs to be greater than or equal to the sum of the 
---1) host doors 2) contestant doors AND less than the total number of doors
---There has to be enough goats in order to ensure the host can reveal the needed number of goats
-IF  NOT(@vNumberGoats >=  @vNumberHostDoors + @vNumberContestantDoors) OR NOT(@vNumberGoats <  @vNumberDoors)
+--The number of goats needs to be less than 
+--1) the number of the doors in the simulation
+IF  NOT(@vNumberGoats <  @vNumberDoors)
     BEGIN
     PRINT 'Fail 2'
     RETURN
     END
 
---The number of selected prize doors needed to win must be less than or equal to 
---1) the number of doors the contestant can choose
---Also, to ensure the simulation can be won, the number of prize doors needed to win must be less 
---than the difference of 1) number of doors 2) number of goats
-IF  NOT(@vNumberofPrizeDoorsSelectedNeededToWin <= @vNumberContestantDoors) AND 
-    NOT(@vNumberofPrizeDoorsSelectedNeededToWin <= @vNumberDoors - @vNumberGoats)
+--There has to be enough goats in order to ensure the host can reveal the needed number of goats
+--The number of goats needs to be greater than or equal to the sum of 
+--1) the number of the doors the host will reveal plus 
+--2) the number of doors the contestant will choose 
+IF  NOT(@vNumberGoats >=  @vNumberHostDoors + @vNumberContestantDoors)
     BEGIN
     PRINT 'Fail 3'
+    RETURN
+    END
+
+--The number of prize doors needed to win must be less than or equal to 
+--1) the number of doors the contestant can choose
+IF  NOT(@vNumberofPrizeDoorsSelectedNeededToWin <= @vNumberContestantDoors)
+    BEGIN
+    PRINT 'Fail 4'
+    RETURN
+    END
+
+--To ensure the simulation can be won, the number of prize doors needed to win must be less than the difference of 
+--1) the number of doors in the simulation 
+--2) the number of goats in the simulation
+IF  NOT(@vNumberofPrizeDoorsSelectedNeededToWin <= @vNumberDoors - @vNumberGoats)
+    BEGIN
+    PRINT 'Fail 5'
     RETURN
     END
 
@@ -178,4 +211,3 @@ UNION
 SELECT  'After Switch' as Type,
         SUM(CASE WHEN NumberOfDoorsNeededToWin <= AfterSwitchPrizeDoors THEN 1 END) / cast(@vNumberOfSimulations AS FLOAT)
 FROM    #WinningProbability;
-
