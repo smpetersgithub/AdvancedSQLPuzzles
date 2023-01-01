@@ -41,17 +41,13 @@ SELECT  2 AS Nodes,
         ToNode,
         CAST('\' + FromNode + '\' + ToNode + '\' AS VARCHAR(MAX)) AS NodeMap
 FROM    #Routes
---WHERE   FromNode = 'Austin'
-
 UNION ALL
-
 SELECT  m.Nodes + 1 AS Nodes,
         r.ToNode AS LastNode,
         CAST(m.NodeMap + r.ToNode + '\' AS VARCHAR(MAX)) AS NodeMap
 FROM    cteMap AS m INNER JOIN
         #Routes AS r ON r.FromNode = m.LastNode
 WHERE   m.NodeMap NOT LIKE '\%' + r.ToNode + '%\'
-        --AND m.NodeMap NOT LIKE '%Des Moines%'
 )
 SELECT  NodeMap
 INTO    #TravelingSalesman
