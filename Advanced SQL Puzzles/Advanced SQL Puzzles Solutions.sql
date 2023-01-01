@@ -1764,65 +1764,123 @@ GO
 /*----------------------------------------------------
 Answer to Puzzle #36
 Traveling Salesman
-
-The Traveling Salesman is a popular puzzle in optimization.
-https://en.wikipedia.org/wiki/Travelling_salesman_problem
-
-For this puzzle, I solve it by hardcoding the number of connections to 4.
-
-Alternatively, you could try and solve it with the rule that the traveling
-salesman cannot visit each city twice.
-----
-Tags:
-Recursion
-UNION ALL
 */----------------------------------------------------
 
-DROP TABLE IF EXISTS #Graph;
+DROP TABLE IF EXISTS #TravelingSalesman;
+DROP TABLE IF EXISTS #Routes;
 GO
 
-CREATE TABLE #Graph
+CREATE TABLE #Routes
 (
-DepartureCity  VARCHAR(100),
-ArrivalCity    VARCHAR(100),
-Cost           INTEGER,
+RouteID  INTEGER NOT NULL,
+DepartureCity VARCHAR(30) NOT NULL,
+ArrivalCity   VARCHAR(30) NOT NULL,
+Cost     MONEY NOT NULL,
 PRIMARY KEY (DepartureCity, ArrivalCity)
 );
 GO
 
-INSERT INTO #Graph VALUES
-('Austin','Dallas',100),
-('Dallas','Austin',150),
-('Dallas','Memphis',200),
-('Memphis','Des Moines',300),
-('Dallas','Des Moines',400);
+INSERT #Routes (RouteID, DepartureCity, ArrivalCity, Cost)
+OUTPUT INSERTED.RouteID AS RouteID,
+       INSERTED.ArrivalCity AS DepartureCity,
+       INSERTED.DepartureCity AS ArrivalCity,
+       INSERTED.Cost
+INTO   #Routes (RouteID, DepartureCity, ArrivalCity, Cost)
+VALUES
+(1,'Austin','Dallas',100),
+(2,'Dallas','Memphis',200),
+(3,'Memphis','Des Moines',300),
+(4,'Dallas','Des Moines',400);
 GO
 
---Making the assumption the maximum number of layovers is four
-WITH cte_Graph AS
-(
-SELECT DepartureCity, ArrivalCity, Cost FROM #Graph
+--Solution 1
+--Recursion
+WITH cteMap(Nodes, LastNode, NodeMap, Cost)
+AS (
+SELECT  2 AS Nodes,
+        ArrivalCity,
+        CAST('\' + DepartureCity + '\' + ArrivalCity + '\' AS VARCHAR(MAX)) AS NodeMap,
+        Cost
+FROM    #Routes
+WHERE   DepartureCity = 'Austin'
 UNION ALL
-SELECT ArrivalCity, DepartureCity, Cost FROM #Graph
-UNION ALL
-SELECT ArrivalCity, ArrivalCity, 0 FROM #Graph
-UNION ALL
-SELECT DepartureCity, DepartureCity, 0 FROM #Graph
+SELECT  m.Nodes + 1 AS Nodes,
+        r.ArrivalCity AS LastNode,
+        CAST(m.NodeMap + r.ArrivalCity + '\' AS VARCHAR(MAX)) AS NodeMap,
+		m.Cost + r.Cost AS Cost
+FROM    cteMap AS m INNER JOIN
+        #Routes AS r ON r.DepartureCity = m.LastNode
+WHERE   m.NodeMap NOT LIKE '\%' + r.ArrivalCity + '%\'
 )
-SELECT  DISTINCT
-        g1.DepartureCity,
-        g2.DepartureCity,
-        g3.DepartureCity,
-        g4.DepartureCity,
-        g4.ArrivalCity,
-        (g1.Cost + g2.Cost + g3.Cost + g4.Cost) AS TotalCost
-FROM    cte_Graph AS g1 INNER JOIN
-        cte_Graph AS g2 ON g1.ArrivalCity = g2.DepartureCity INNER JOIN
-        cte_Graph AS g3 ON g2.ArrivalCity = g3.DepartureCity INNER JOIN
-        cte_Graph AS g4 ON g3.ArrivalCity = g4.DepartureCity
-WHERE   g1.DepartureCity = 'Austin' AND
-        g4.ArrivalCity = 'Des Moines'
-ORDER BY 6,1,2,3,4;
+SELECT  NodeMap, Cost
+INTO    #TravelingSalesman
+FROM    cteMap
+OPTION (MAXRECURSION 0);
+
+SELECT  *
+FROM    #TravelingSalesman
+WHERE   RIGHT(NodeMap,11) = 'Des Moines\';
+
+--Solution 2
+--WHILE Loop
+DROP TABLE IF EXISTS #RoutesList;
+GO
+
+CREATE TABLE #RoutesList
+(
+InsertDate      DATETIME DEFAULT GETDATE() NOT NULL,
+RouteInsertID   INTEGER NOT NULL,
+RoutePath       VARCHAR(8000) NOT NULL,
+TotalCost       MONEY NOT NULL,
+LastArrival     VARCHAR(100)
+);
+GO
+
+INSERT INTO #RoutesList (RouteInsertID, RoutePath, TotalCost, LastArrival)
+SELECT  1,
+        CONCAT(DepartureCity,',',ArrivalCity),
+        Cost,
+        ArrivalCity
+FROM    #Routes
+WHERE   DepartureCity = 'Austin';
+GO
+
+DECLARE @vRowCount INTEGER = 1;
+DECLARE @vRouteInsertID INTEGER = 2;
+
+WHILE @vRowCount >= 1
+BEGIN
+
+     WITH cte_LastArrival AS
+     (
+     SELECT   RoutePath
+             ,TotalCost
+             ,REVERSE(SUBSTRING(REVERSE(RoutePath),0,CHARINDEX(',',REVERSE(RoutePath)))) AS LastArrival
+     FROM    #RoutesList
+     WHERE   LastArrival <> 'Des Moines'
+     )
+     INSERT INTO #RoutesList  (RouteInsertID, RoutePath, TotalCost, LastArrival)
+     SELECT  @vRouteInsertID
+             ,CONCAT(a.RoutePath,',',b.ArrivalCity)
+             ,a.TotalCost + b.Cost
+             ,b.ArrivalCity
+     FROM    cte_LastArrival a INNER JOIN
+             #Routes b ON a.LastArrival = b.DepartureCity AND CHARINDEX(b.ArrivalCity,RoutePath) = 0;
+
+     SET @vRowCount = @@ROWCOUNT;
+
+     DELETE  #RoutesList
+     WHERE   RouteInsertID < @vRouteInsertID
+             AND LastArrival <> 'Des Moines';
+
+     SET @vRouteInsertID = @vRouteInsertID + 1;
+END;
+GO
+
+SELECT  REPLACE(RoutePath,',',' --> ') AS RoutePath,
+        TotalCost
+FROM    #RoutesList
+ORDER BY 1;
 GO
 
 /*----------------------------------------------------
