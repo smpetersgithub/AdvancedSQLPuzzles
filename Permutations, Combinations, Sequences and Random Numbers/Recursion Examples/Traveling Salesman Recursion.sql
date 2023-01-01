@@ -19,7 +19,7 @@ CREATE TABLE #Routes
 (
 FromNode VARCHAR(30) NOT NULL,
 ToNode   VARCHAR(30) NOT NULL,
-Cost     INTEGER NOT NULL,
+Cost     MONEY NOT NULL,
 PRIMARY KEY (FromNode, ToNode)
 );
 GO
