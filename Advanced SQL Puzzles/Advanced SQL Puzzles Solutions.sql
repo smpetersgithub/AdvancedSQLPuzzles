@@ -1770,9 +1770,6 @@ DROP TABLE IF EXISTS #TravelingSalesman;
 DROP TABLE IF EXISTS #Routes;
 GO
 
-----------------------
-----------------------
-----------------------
 CREATE TABLE #Routes
 (
 RouteID  INTEGER NOT NULL,
@@ -1781,6 +1778,7 @@ ArrivalCity   VARCHAR(30) NOT NULL,
 Cost     MONEY NOT NULL,
 PRIMARY KEY (DepartureCity, ArrivalCity)
 );
+GO
 
 INSERT #Routes (RouteID, DepartureCity, ArrivalCity, Cost)
 OUTPUT INSERTED.RouteID AS RouteID,
@@ -1793,7 +1791,7 @@ VALUES
 (2,'Dallas','Memphis',200),
 (3,'Memphis','Des Moines',300),
 (4,'Dallas','Des Moines',400);
-
+GO
 
 --Solution 1
 --Recursion
@@ -1818,6 +1816,7 @@ SELECT  NodeMap, Cost
 INTO    #TravelingSalesman
 FROM    cteMap
 OPTION (MAXRECURSION 0);
+GO
 
 WITH cte_LeftReplace AS
 (
@@ -1835,6 +1834,7 @@ FROM    cte_LeftReplace
 SELECT  REPLACE(RoutePath,'\', ' -->') AS RoutePath,
         Cost AS TotalCost
 FROM    cte_RightReplace;
+GO
 
 --Solution 2
 --WHILE Loop
