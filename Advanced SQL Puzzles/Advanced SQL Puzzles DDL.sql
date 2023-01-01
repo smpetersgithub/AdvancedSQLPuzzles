@@ -849,36 +849,29 @@ GO
 /*----------------------------------------------------
 DDL for Puzzle #36
 Traveling Salesman
-
-The Traveling Salesman is a popular puzzle in optimization.
-https://en.wikipedia.org/wiki/Travelling_salesman_problem
-
-For this puzzle, I solve it by hardcoding the number of connections to 4.
-
-----
-Tags:
-Recursion
-UNION ALL
 */----------------------------------------------------
 
-DROP TABLE IF EXISTS #Graph;
-GO
-
-CREATE TABLE #Graph
+CREATE TABLE #Routes
 (
-DepartureCity  VARCHAR(100),
-ArrivalCity    VARCHAR(100),
-Cost           INTEGER,
+RouteID  INTEGER NOT NULL,
+DepartureCity VARCHAR(30) NOT NULL,
+ArrivalCity   VARCHAR(30) NOT NULL,
+Cost     MONEY NOT NULL,
 PRIMARY KEY (DepartureCity, ArrivalCity)
 );
 GO
 
-INSERT INTO #Graph VALUES
-('Austin','Dallas',100),
-('Dallas','Austin',150),
-('Dallas','Memphis',200),
-('Memphis','Des Moines',300),
-('Dallas','Des Moines',400);
+INSERT #Routes (RouteID, DepartureCity, ArrivalCity, Cost)
+OUTPUT INSERTED.RouteID AS RouteID,
+       INSERTED.ArrivalCity AS DepartureCity,
+       INSERTED.DepartureCity AS ArrivalCity,
+       INSERTED.Cost
+INTO   #Routes (RouteID, DepartureCity, ArrivalCity, Cost)
+VALUES
+(1,'Austin','Dallas',100),
+(2,'Dallas','Memphis',200),
+(3,'Memphis','Des Moines',300),
+(4,'Dallas','Des Moines',400);
 GO
 
 /*----------------------------------------------------
