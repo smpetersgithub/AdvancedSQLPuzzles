@@ -2820,7 +2820,9 @@ INSERT INTO #Equations (Equation) VALUES
 ('123'),('1+2+3'),('1+2-3'),('1+23'),('1-2+3'),('1-2-3'),('1-23'),('12+3'),('12-3');
 GO
 
---Uses a cursor and dynamic SQL to update the TotalSum column
+--Solution 1
+--CURSOR and DYNAMIC SQL
+--This solution if you have to multiple and divide
 DECLARE @vSQLStatement NVARCHAR(1000);
 DECLARE c_cursor CURSOR FOR (SELECT Equation FROM #Equations);
 DECLARE @vEquation NVARCHAR(1000);
@@ -2849,6 +2851,32 @@ DEALLOCATE c_cursor;
 
 SELECT  * 
 FROM    #Equations;
+GO
+
+--Solution 2
+--STRING_SPLIT
+--This solution will work if you need to only add and subtract
+WITH cte_ReplacePositive AS
+(
+SELECT  Equation,
+        REPLACE(Equation,'+',',') AS EquationReplace
+FROM    #Equations
+),
+cte_ReplaceNegative AS
+(
+SELECT  Equation,
+        REPLACE(EquationReplace,'-',',-') AS EquationReplace
+FROM    cte_ReplacePositive
+),
+cte_StringSplit AS
+(
+SELECT  a.Equation, CAST([Value] AS INTEGER) AS [Value]
+FROM    cte_ReplaceNegative a CROSS APPLY
+        STRING_SPLIT(EquationReplace,',')
+)
+SELECT Equation, SUM([Value]) AS EquationSum
+FROM   cte_StringSplit
+GROUP BY Equation;
 GO
 
 /*----------------------------------------------------
