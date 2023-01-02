@@ -29,7 +29,7 @@ INSERT INTO #Cart1 (Item) VALUES
 ('Sugar'),('Bread'),('Juice'),('Soda'),('Flour');
 GO
 
-INSERT INTO #Cart2 VALUES
+INSERT INTO #Cart2 (Item) VALUES
 ('Sugar'),('Bread'),('Butter'),('Cheese'),('Fruit');
 GO
 
