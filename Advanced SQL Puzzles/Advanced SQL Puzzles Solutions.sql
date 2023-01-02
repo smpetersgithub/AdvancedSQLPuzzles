@@ -293,12 +293,28 @@ PRIMARY KEY (Workflow, StepNumber)
 );
 GO
 
-INSERT INTO #WorkflowSteps VALUES
-('Alpha',1,'7/2/2018'),('Alpha',2,'7/2/2018'),('Alpha',3,'7/1/2018'),
-('Bravo',1,'6/25/2018'),('Bravo',2,NULL),('Bravo',3,'6/27/2018'),
-('Charlie',1,NULL),('Charlie',2,'7/1/2018');
+--Solution 1
+--NULL operators
+WITH cte_NotNull AS
+(
+SELECT Distinct
+       Workflow
+FROM   #WorkflowSteps
+WHERE  CompletionDate IS NOT NULL
+),
+cte_Null AS
+(
+SELECT *
+FROM   #WorkflowSteps
+WHERE  CompletionDate IS NULL
+)
+SELECT Workflow
+FROM   cte_NotNull
+WHERE  Workflow IN (SELECT Workflow FROM cte_Null);
 GO
 
+--Solution 2
+--HAVING clause and COUNT functions
 SELECT  Workflow
 FROM    #WorkflowSteps
 GROUP BY Workflow
