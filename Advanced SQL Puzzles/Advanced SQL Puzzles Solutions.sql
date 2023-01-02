@@ -1149,26 +1149,54 @@ Answer to Puzzle #24
 Page Views
 */----------------------------------------------------
 
-DROP TABLE IF EXISTS #SampleData;
+DROP TABLE IF EXISTS #Orders;
 GO
 
-CREATE TABLE #SampleData
+CREATE TABLE #Orders
 (
-IntegerValue  INTEGER IDENTITY(1,1),
-RowID         UNIQUEIDENTIFIER
+OrderID     VARCHAR(100) PRIMARY KEY,
+CustomerID  INTEGER,
+OrderDate   DATE,
+Amount      MONEY,
+[State]     VARCHAR(2)
 );
 GO
 
-ALTER TABLE #SampleData DROP COLUMN IntegerValue;
+INSERT INTO #Orders VALUES
+('Ord145332',1001,'1/1/2018',100,'TX'),
+('Ord657895',1001,'1/1/2018',150,'TX'),
+('Ord887612',1001,'1/1/2018',75,'TX'),
+('Ord654374',1001,'2/1/2018',100,'TX'),
+('Ord345362',1001,'3/1/2018',100,'TX'),
+('Ord912376',2002,'2/1/2018',75,'TX'),
+('Ord543219',2002,'2/1/2018',150,'TX'),
+('Ord156357',3003,'1/1/2018',100,'IA'),
+('Ord956541',3003,'2/1/2018',100,'IA'),
+('Ord856993',3003,'3/1/2018',100,'IA'),
+('Ord864573',4004,'4/1/2018',100,'IA'),
+('Ord654525',4004,'5/1/2018',50,'IA'),
+('Ord987654',4004,'5/1/2018',100,'IA');
 GO
 
-INSERT INTO #SampleData VALUES (NEWID());
-GO 1000
+--Solution 1
+--OFFSET FETCH NEXT
+SELECT  *
+FROM    #Orders
+ORDER BY OrderID
+OFFSET 4 ROWS FETCH NEXT 5 ROWS ONLY;
+GO
 
-SELECT  RowID
-FROM    #SampleData
-ORDER BY RowID
-OFFSET 10 ROWS FETCH NEXT 10 ROWS ONLY;
+--Solution 2
+--RowNumber
+WITH cte_RowNumber AS
+(
+SELECT  ROW_NUMBER() OVER (ORDER BY OrderID) AS RowNumber,
+        *
+FROM    #Orders
+)
+SELECT  *
+FROM    cte_RowNumber
+WHERE   RowNumber BETWEEN 5 AND 10;
 GO
 
 /*----------------------------------------------------
