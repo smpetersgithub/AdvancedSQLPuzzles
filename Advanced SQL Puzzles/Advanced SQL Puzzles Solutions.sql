@@ -99,14 +99,17 @@ PayRate     MONEY
 );
 GO
 
+--NOT NULL
 ALTER TABLE #EmployeePayRecords ALTER COLUMN EmployeeID INTEGER NOT NULL;
 ALTER TABLE #EmployeePayRecords ALTER COLUMN FiscalYear INTEGER NOT NULL;
 ALTER TABLE #EmployeePayRecords ALTER COLUMN StartDate DATE NOT NULL;
 ALTER TABLE #EmployeePayRecords ALTER COLUMN EndDate DATE NOT NULL;
 ALTER TABLE #EmployeePayRecords ALTER COLUMN PayRate MONEY NOT NULL;
 GO
+--PRIMARY KEY
 ALTER TABLE #EmployeePayRecords ADD CONSTRAINT PK_FiscalYearCalendar
                                     PRIMARY KEY (EmployeeID,FiscalYear);
+--CHECK CONSTRAINTS
 ALTER TABLE #EmployeePayRecords ADD CONSTRAINT Check_Year_StartDate
                                     CHECK (FiscalYear = DATEPART(YYYY,StartDate));
 ALTER TABLE #EmployeePayRecords ADD CONSTRAINT Check_Month_StartDate 
@@ -119,8 +122,8 @@ ALTER TABLE #EmployeePayRecords ADD CONSTRAINT Check_Month_EndDate
                                     CHECK (DATEPART(MM,EndDate) = 12);
 ALTER TABLE #EmployeePayRecords ADD CONSTRAINT Check_Day_EndDate 
                                     CHECK (DATEPART(DD,EndDate) = 31);
-GO
-ALTER TABLE #EmployeePayRecords ADD CHECK (PayRate > 0);
+ALTER TABLE #EmployeePayRecords ADD CONSTRAINT Check_Payrate
+                                    CHECK (PayRate > 0);
 GO
 
 /*----------------------------------------------------
