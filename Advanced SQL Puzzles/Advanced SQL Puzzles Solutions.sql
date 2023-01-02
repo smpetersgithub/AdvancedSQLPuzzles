@@ -297,20 +297,20 @@ GO
 --NULL operators
 WITH cte_NotNull AS
 (
-SELECT Distinct
-       Workflow
-FROM   #WorkflowSteps
-WHERE  CompletionDate IS NOT NULL
+SELECT  DISTINCT
+        Workflow
+FROM    #WorkflowSteps
+WHERE   CompletionDate IS NOT NULL
 ),
 cte_Null AS
 (
-SELECT *
-FROM   #WorkflowSteps
-WHERE  CompletionDate IS NULL
+SELECT  Workflow
+FROM    #WorkflowSteps
+WHERE   CompletionDate IS NULL
 )
-SELECT Workflow
-FROM   cte_NotNull
-WHERE  Workflow IN (SELECT Workflow FROM cte_Null);
+SELECT  Workflow
+FROM    cte_NotNull
+WHERE   Workflow IN (SELECT Workflow FROM cte_Null);
 GO
 
 --Solution 2
@@ -319,6 +319,14 @@ SELECT  Workflow
 FROM    #WorkflowSteps
 GROUP BY Workflow
 HAVING  COUNT(*) <> COUNT(CompletionDate);
+GO
+
+--Solution 3
+--HAVING clause with MAX function
+SELECT  Workflow
+FROM    #WorkflowSteps
+GROUP BY Workflow
+HAVING  MAX(CASE WHEN CompletionDate IS NULL THEN 1 ELSE 0 END) = 1;
 GO
 
 /*----------------------------------------------------
