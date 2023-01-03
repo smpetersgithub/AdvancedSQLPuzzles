@@ -390,6 +390,16 @@ INSERT INTO #WorkflowCases VALUES
 ('Alpha',0,0,0),('Bravo',0,1,1),('Charlie',1,0,0),('Delta',0,0,0);
 GO
 
+
+--Solution 1
+--Add each column
+SELECT  Workflow,
+        Case1 + Case2 + Case3 AS PassFail
+FROM    #WorkflowCases;
+GO
+
+--Solution 2
+--UNPIVOT operator
 WITH cte_PassFail AS
 (
 SELECT  Workflow, CaseNumber, PassFail
