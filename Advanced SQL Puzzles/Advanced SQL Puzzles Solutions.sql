@@ -33,10 +33,30 @@ INSERT INTO #Cart2 (Item) VALUES
 ('Sugar'),('Bread'),('Butter'),('Cheese'),('Fruit');
 GO
 
+--Solution 1
+--FULL OUTER JOIN
 SELECT  a.Item AS ItemCart1,
         b.Item AS ItemCart2
 FROM    #Cart1 a FULL OUTER JOIN
         #Cart2 b ON a.Item = b.Item;
+GO
+
+--Solution 2
+--This is how you would solve not using any outer joins
+SELECT  a.Item AS Item1, b.Item AS Item2
+FROM    #Cart1 a INNER JOIN 
+        #Cart2 b ON a.Item = b.Item
+UNION
+SELECT  a.Item AS Item1, 
+        NULL AS Item2
+FROM    #Cart1 a
+WHERE   a.Item NOT IN (SELECT b.Item FROM #Cart2 b)
+UNION
+SELECT  NULL AS Item1, 
+        b.Item AS Item2
+FROM    #Cart2 b
+WHERE b.Item NOT IN (SELECT a.Item FROM #Cart1 a)
+ORDER BY 1,2
 GO
 
 /*----------------------------------------------------
