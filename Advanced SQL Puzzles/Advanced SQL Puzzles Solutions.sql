@@ -1463,7 +1463,6 @@ SELECT * INTO #Gaps2 FROM #Gaps;
 GO
 
 --Solution 1
---SELECT within a SELECT with a Correlated Subquery
 SELECT  a.RowNumber,
         (SELECT b.TestCase
         FROM    #Gaps b
