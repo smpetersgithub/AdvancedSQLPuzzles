@@ -1,7 +1,7 @@
 /*----------------------------------------------------
 Scott Peters
 https://advancedsqlpuzzles.com
-Last Updated 01/01/2023
+Last Updated 01/06/2023
 */----------------------------------------------------
 
 
@@ -1463,15 +1463,11 @@ SELECT * INTO #Gaps2 FROM #Gaps;
 GO
 
 --Solution 1
-SELECT  a.RowNumber,
-        (SELECT b.TestCase
-        FROM    #Gaps b
-        WHERE   b.RowNumber =
-                    (SELECT MAX(c.RowNumber)
-                    FROM #Gaps c
-                    WHERE c.RowNumber <= a.RowNumber AND c.TestCase != '')) TestCase
-FROM #Gaps a;
-GO
+SELECT  RowNumber, 
+        MAX(TestCase) OVER (ORDER BY RowNumber) AS TestCase
+FROM    #Gaps;
+
+--Here are some other solutions that are not as efficient and more convoluted then the above solution
 
 --Solution 2
 --MAX
@@ -1485,6 +1481,18 @@ ORDER BY RowNumber;
 GO
 
 --Solution 3
+SELECT  a.RowNumber,
+        (SELECT b.TestCase
+        FROM    #Gaps b
+        WHERE   b.RowNumber =
+                    (SELECT MAX(c.RowNumber)
+                    FROM #Gaps c
+                    WHERE c.RowNumber <= a.RowNumber AND c.TestCase != '')) TestCase
+FROM #Gaps a;
+GO
+
+
+--Solution 4
 --This type of update is called a "quirky update"
 --https://ask.sqlservercentral.com/questions/5150/please-can-somebody-explain-how-quirky-updates-wor.html
 --There is no guarantee that this UPDATE will always produce the correct result.  You must have another 
