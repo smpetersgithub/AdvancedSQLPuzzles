@@ -806,15 +806,15 @@ INSERT INTO #PlayerScores VALUES
 (1001,2002,150),(3003,4004,15),(4004,3003,125);
 GO
 
---The functions LEAST and GREATEST are available if using and Azure SQL Database, Azure SQL Managed Instance,
---or Azure Synapse Analytics (serverless SQL pool only)
-SELECT  a.PlayerA, a.PlayerB, SUM(Score)
+SELECT  PlayerA,
+        PlayerB,
+        SUM(Score) AS Score
 FROM    (
         SELECT
                 (CASE WHEN PlayerA <= PlayerB THEN PlayerA ELSE PlayerB END) PlayerA,
                 (CASE WHEN PlayerA <= PlayerB THEN PlayerB ELSE PlayerA END) PlayerB,
                 Score
-        FROM    #PlayerScores 
+        FROM    #PlayerScores
         ) a
 GROUP BY PlayerA, PlayerB;
 GO
