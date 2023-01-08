@@ -44,15 +44,14 @@ CREATE TABLE #Employees
 (
 EmployeeID  INTEGER PRIMARY KEY,
 ManagerID   INTEGER,
-JobTitle    VARCHAR(100),
-Salary      INTEGER
+JobTitle    VARCHAR(100)
 );
 GO
 
 INSERT INTO #Employees VALUES
-(1001,NULL,'President',185000),(2002,1001,'Director',120000),
-(3003,1001,'Office Manager',97000),(4004,2002,'Engineer',110000),
-(5005,2002,'Engineer',142000),(6006,2002,'Engineer',160000);
+(1001,NULL,'President'),(2002,1001,'Director'),
+(3003,1001,'Office Manager'),(4004,2002,'Engineer'),
+(5005,2002,'Engineer'),(6006,2002,'Engineer');
 GO
 
 /*----------------------------------------------------
