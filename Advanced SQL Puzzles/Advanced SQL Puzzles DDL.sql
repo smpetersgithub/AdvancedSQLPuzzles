@@ -1,12 +1,12 @@
 /*----------------------------------------------------
 Scott Peters
 https://advancedsqlpuzzles.com
-Last Updated 01/08/2022
+Last Updated 01/09/2023
 */----------------------------------------------------
 
 
 /*----------------------------------------------------
-DDL for Puzzle #1
+Answer to Puzzle #1
 Shopping Carts
 */----------------------------------------------------
 
@@ -15,7 +15,8 @@ DROP TABLE IF EXISTS #Cart2;
 GO
 
 CREATE TABLE #Cart1
-(Item  VARCHAR(100) PRIMARY KEY
+(
+Item  VARCHAR(100) PRIMARY KEY
 );
 GO
 
@@ -34,7 +35,7 @@ INSERT INTO #Cart2 (Item) VALUES
 GO
 
 /*----------------------------------------------------
-DDL for Puzzle #2
+Answer to Puzzle #2
 Managers and Employees
 */----------------------------------------------------
 
@@ -44,19 +45,20 @@ GO
 CREATE TABLE #Employees
 (
 EmployeeID  INTEGER PRIMARY KEY,
-ManagerID   INTEGER,
-JobTitle    VARCHAR(100)
+ManagerID   INTEGER NULL,
+JobTitle    VARCHAR(100) NOT NULL
 );
 GO
 
-INSERT INTO #Employees VALUES
+INSERT INTO #Employees (EmployeeID, ManagerID, JobTitle) VALUES
 (1001,NULL,'President'),(2002,1001,'Director'),
 (3003,1001,'Office Manager'),(4004,2002,'Engineer'),
 (5005,2002,'Engineer'),(6006,2002,'Engineer');
 GO
 
+
 /*----------------------------------------------------
-DDL for Puzzle #3
+Answer to Puzzle #3
 Fiscal Year Table Constraints
 */----------------------------------------------------
 
@@ -85,20 +87,20 @@ CREATE TABLE #Orders
 (
 CustomerID     INTEGER,
 OrderID        INTEGER,
-DeliveryState  VARCHAR(100),
-Amount         MONEY,
+DeliveryState  VARCHAR(100) NOT NULL,
+Amount         MONEY NOT NULL,
 PRIMARY KEY (CustomerID, OrderID)
 );
 GO
 
-INSERT INTO #Orders VALUES
+INSERT INTO #Orders (CustomerID, OrderID, DeliveryState, Amount) VALUES
 (1001,1,'CA',340),(1001,2,'TX',950),(1001,3,'TX',670),
 (1001,4,'TX',860),(2002,5,'WA',320),(3003,6,'CA',650),
 (3003,7,'CA',830),(4004,8,'TX',120);
 GO
 
 /*----------------------------------------------------
-DDL for Puzzle #5
+Answer to Puzzle #5
 Phone Directory
 */----------------------------------------------------
 
@@ -107,14 +109,14 @@ GO
 
 CREATE TABLE #PhoneDirectory
 (
-CustomerID   INTEGER,
-[Type]       VARCHAR(100),
-PhoneNumber  VARCHAR(12),
+CustomerID  INTEGER,
+[Type]      VARCHAR(100),
+PhoneNumber VARCHAR(12) NOT NULL,
 PRIMARY KEY (CustomerID, [Type])
 );
 GO
 
-INSERT INTO #PhoneDirectory VALUES
+INSERT INTO #PhoneDirectory (CustomerID, [Type], PhoneNumber) VALUES
 (1001,'Cellular','555-897-5421'),
 (1001,'Work','555-897-6542'),
 (1001,'Home','555-698-9874'),
@@ -124,7 +126,7 @@ INSERT INTO #PhoneDirectory VALUES
 GO
 
 /*----------------------------------------------------
-DDL for Puzzle #6
+Answer to Puzzle #6
 Workflow Steps
 */----------------------------------------------------
 
@@ -135,19 +137,19 @@ CREATE TABLE #WorkflowSteps
 (
 Workflow        VARCHAR(100),
 StepNumber      INTEGER,
-CompletionDate  DATE,
+CompletionDate  DATE NULL,
 PRIMARY KEY (Workflow, StepNumber)
 );
 GO
 
-INSERT INTO #WorkflowSteps VALUES
+INSERT INTO #WorkflowSteps (Workflow, StepNumber, CompletionDate) VALUES
 ('Alpha',1,'7/2/2018'),('Alpha',2,'7/2/2018'),('Alpha',3,'7/1/2018'),
 ('Bravo',1,'6/25/2018'),('Bravo',2,NULL),('Bravo',3,'6/27/2018'),
 ('Charlie',1,NULL),('Charlie',2,'7/1/2018');
 GO
 
 /*----------------------------------------------------
-DDL for Puzzle #7
+Answer to Puzzle #7
 Mission to Mars
 */----------------------------------------------------
 
@@ -157,13 +159,13 @@ GO
 
 CREATE TABLE #Candidates
 (
-CandidateID  INTEGER,
-Occupation   VARCHAR(100),
+CandidateID INTEGER,
+Occupation  VARCHAR(100),
 PRIMARY KEY (CandidateID, Occupation)
 );
 GO
 
-INSERT INTO #Candidates VALUES
+INSERT INTO #Candidates (CandidateID, Occupation) VALUES
 (1001,'Geologist'),(1001,'Astrogator'),(1001,'Biochemist'),
 (1001,'Technician'),(2002,'Surgeon'),(2002,'Machinist'),
 (3003,'Cryologist'),(4004,'Selenologist');
@@ -180,7 +182,7 @@ INSERT INTO #Requirements VALUES
 GO
 
 /*----------------------------------------------------
-DDL for Puzzle #8
+Answer to Puzzle #8
 Workflow Cases
 */----------------------------------------------------
 
@@ -190,18 +192,18 @@ GO
 CREATE TABLE #WorkflowCases
 (
 Workflow  VARCHAR(100) PRIMARY KEY,
-Case1     INTEGER,
-Case2     INTEGER,
-Case3     INTEGER
+Case1     INTEGER NOT NULL DEFAULT 0,
+Case2     INTEGER NOT NULL DEFAULT 0,
+Case3     INTEGER NOT NULL DEFAULT 0
 );
 GO
 
-INSERT INTO #WorkflowCases VALUES
+INSERT INTO #WorkflowCases (Workflow, Case1, Case2, Case3) VALUES
 ('Alpha',0,0,0),('Bravo',0,1,1),('Charlie',1,0,0),('Delta',0,0,0);
 GO
 
 /*----------------------------------------------------
-DDL for Puzzle #9
+Answer to Puzzle #9
 Matching Sets
 */----------------------------------------------------
 
@@ -216,19 +218,14 @@ PRIMARY KEY (EmployeeID, License)
 );
 GO
 
-INSERT INTO #Employees VALUES
-(1001,'Class A'),
-(1001,'Class B'),
-(1001,'Class C'),
-(2002,'Class A'),
-(2002,'Class B'),
-(2002,'Class C'),
-(3003,'Class A'),
-(3003,'Class D');
+INSERT INTO #Employees (EmployeeID, License) VALUES
+(1001,'Class A'),(1001,'Class B'),(1001,'Class C'),
+(2002,'Class A'),(2002,'Class B'),(2002,'Class C'),
+(3003,'Class A'),(3003,'Class D');
 GO
 
 /*----------------------------------------------------
-DDL for Puzzle #10
+Answer to Puzzle #10
 Mean, Median, Mode and Range
 */----------------------------------------------------
 
@@ -237,7 +234,7 @@ GO
 
 CREATE TABLE #SampleData
 (
-IntegerValue  INTEGER
+IntegerValue  INTEGER NOT NULL
 );
 GO
 
@@ -246,7 +243,7 @@ INSERT INTO #SampleData VALUES
 GO
 
 /*----------------------------------------------------
-DDL for Puzzle #11
+Answer to Puzzle #11
 Permutations
 */----------------------------------------------------
 
@@ -255,18 +252,16 @@ GO
 
 CREATE TABLE #TestCases
 (
-RowNumber  INTEGER,
-TestCase   VARCHAR(1),
-PRIMARY KEY (RowNumber, TestCase)
+TestCase   VARCHAR(1) PRIMARY KEY
 );
 GO
 
-INSERT INTO #TestCases VALUES
-(1,'A'),(2,'B'),(3,'C');
+INSERT INTO #TestCases (TestCase) VALUES
+('A'),('B'),('C');
 GO
 
 /*----------------------------------------------------
-DDL for Puzzle #12
+Answer to Puzzle #12
 Average Days
 */----------------------------------------------------
 
@@ -281,14 +276,14 @@ PRIMARY KEY (WorkFlow, ExecutionDate)
 );
 GO
 
-INSERT INTO #ProcessLog VALUES
+INSERT INTO #ProcessLog (Workflow, ExecutionDate) VALUES
 ('Alpha','6/01/2018'),('Alpha','6/14/2018'),('Alpha','6/15/2018'),
 ('Bravo','6/1/2018'),('Bravo','6/2/2018'),('Bravo','6/19/2018'),
 ('Charlie','6/1/2018'),('Charlie','6/15/2018'),('Charlie','6/30/2018');
 GO
 
 /*----------------------------------------------------
-DDL for Puzzle #13
+Answer to Puzzle #13
 Inventory Tracking
 */----------------------------------------------------
 
@@ -298,18 +293,17 @@ GO
 CREATE TABLE #Inventory
 (
 InventoryDate       DATE PRIMARY KEY,
-QuantityAdjustment  INTEGER
+QuantityAdjustment  INTEGER NOT NULL
 );
 GO
 
-INSERT INTO #Inventory VALUES
+INSERT INTO #Inventory (InventoryDate, QuantityAdjustment) VALUES
 ('7/1/2018',100),('7/2/2018',75),('7/3/2018',-150),
 ('7/4/2018',50),('7/5/2018',-75);
 GO
 
-
 /*----------------------------------------------------
-DDL for Puzzle #14
+Answer to Puzzle #14
 Indeterminate Process Log
 */----------------------------------------------------
 
@@ -320,21 +314,21 @@ CREATE TABLE #ProcessLog
 (
 Workflow    VARCHAR(100),
 StepNumber  INTEGER,
-RunStatus   VARCHAR(100),
+RunStatus   VARCHAR(100) NOT NULL,
 PRIMARY KEY (Workflow, StepNumber)
 );
 GO
 
-INSERT INTO #ProcessLog VALUES
+INSERT INTO #ProcessLog (Workflow, StepNumber, RunStatus) VALUES
 ('Alpha',1,'Error'),('Alpha',2,'Complete'),('Alpha',3,'Running'),
 ('Bravo',1,'Complete'),('Bravo',2,'Complete'),
 ('Charlie',1,'Running'),('Charlie',2,'Running'),
 ('Delta',1,'Error'),('Delta',2,'Error'),
 ('Echo',1,'Running'),('Echo',2,'Complete');
 GO
-
-/*----------------------------------------------------
-DDL for Puzzle #15
+/
+*----------------------------------------------------
+Answer to Puzzle #15
 Group Concatenation
 */----------------------------------------------------
 
@@ -344,14 +338,14 @@ GO
 CREATE TABLE #DMLTable
 (
 SequenceNumber  INTEGER PRIMARY KEY,
-String          VARCHAR(100)
+String          VARCHAR(100) NOT NULL
 );
 GO
 
-INSERT INTO #DMLTable VALUES
+INSERT INTO #DMLTable (SequenceNumber, String) VALUES
 (1,'SELECT'),
-(2,'Product'),
-(3,'UnitPrice'),
+(2,'Product,'),
+(3,'UnitPrice,'),
 (4,'EffectiveDate'),
 (5,'FROM'),
 (6,'Products'),
@@ -361,7 +355,7 @@ INSERT INTO #DMLTable VALUES
 GO
 
 /*----------------------------------------------------
-DDL for Puzzle #16
+Answer to Puzzle #16
 Reciprocals
 */----------------------------------------------------
 
@@ -372,17 +366,17 @@ CREATE TABLE #PlayerScores
 (
 PlayerA  INTEGER,
 PlayerB  INTEGER,
-Score    INTEGER,
+Score    INTEGER NOT NULL,
 PRIMARY KEY (PlayerA, PlayerB)
 );
 GO
 
-INSERT INTO #PlayerScores VALUES
+INSERT INTO #PlayerScores (PlayerA, PlayerB, Score) VALUES
 (1001,2002,150),(3003,4004,15),(4004,3003,125);
 GO
 
 /*----------------------------------------------------
-DDL for Puzzle #17
+Answer to Puzzle #17
 De-Grouping
 */----------------------------------------------------
 
@@ -392,16 +386,16 @@ GO
 CREATE TABLE #Ungroup
 (
 ProductDescription  VARCHAR(100) PRIMARY KEY,
-Quantity            INTEGER
+Quantity            INTEGER NOT NULL
 );
 GO
 
-INSERT INTO #Ungroup VALUES
+INSERT INTO #Ungroup (ProductDescription, Quantity) VALUES
 ('Pencil',3),('Eraser',4),('Notebook',2);
 GO
 
 /*----------------------------------------------------
-DDL for Puzzle #18
+Answer to Puzzle #18
 Seating Chart
 */----------------------------------------------------
 
@@ -410,16 +404,16 @@ GO
 
 CREATE TABLE #SeatingChart
 (
-SeatNumber INTEGER PRIMARY KEY
+SeatNumber  INTEGER PRIMARY KEY
 );
 GO
 
-INSERT INTO #SeatingChart VALUES
+INSERT INTO #SeatingChart (SeatNumber) VALUES
 (7),(13),(14),(15),(27),(28),(29),(30),(31),(32),(33),(34),(35),(52),(53),(54);
 GO
 
 /*----------------------------------------------------
-DDL for Puzzle #19
+Answer to Puzzle #19
 Back to the Future
 */----------------------------------------------------
 
@@ -429,19 +423,21 @@ GO
 CREATE TABLE #TimePeriods
 (
 StartDate  DATE,
-EndDate    DATE
+EndDate    DATE,
+PRIMARY KEY (StartDate, EndDate)
 );
 GO
 
-INSERT INTO #TimePeriods VALUES
-('1/1/2018','1/5/2018'),('1/1/2018','1/3/2018'),
-('1/1/2018','1/2/2018'),('1/3/2018','1/9/2018'),
-('1/10/2018','1/11/2018'),('1/12/2018','1/16/2018'),
+INSERT INTO #TimePeriods (StartDate, EndDate) VALUES
+('1/1/2018','1/5/2018'),
+('1/3/2018','1/9/2018'),
+('1/10/2018','1/11/2018'),
+('1/12/2018','1/16/2018'),
 ('1/15/2018','1/19/2018');
 GO
 
 /*----------------------------------------------------
-DDL for Puzzle #20
+Answer to Puzzle #20
 Price Points
 */----------------------------------------------------
 
@@ -457,7 +453,7 @@ PRIMARY KEY (ProductID, UnitPrice, EffectiveDate)
 );
 GO
 
-INSERT INTO #ValidPrices VALUES
+INSERT INTO #ValidPrices (ProductID, UnitPrice, EffectiveDate) VALUES
 (1001,1.99,'1/01/2018'),
 (1001,2.99,'4/15/2018'),
 (1001,3.99,'6/8/2018'),
@@ -466,7 +462,7 @@ INSERT INTO #ValidPrices VALUES
 GO
 
 /*----------------------------------------------------
-DDL for Puzzle #21
+Answer to Puzzle #21
 Average Monthly Sales
 */----------------------------------------------------
 
@@ -475,32 +471,32 @@ GO
 
 CREATE TABLE #Orders
 (
-OrderID     VARCHAR(100) PRIMARY KEY,
-CustomerID  INTEGER,
-OrderDate   DATE,
-Amount      MONEY,
-[State]     VARCHAR(2)
+OrderID     INTEGER PRIMARY KEY,
+CustomerID  INTEGER NOT NULL,
+OrderDate   DATE NOT NULL,
+Amount      MONEY NOT NULL,
+[State]     VARCHAR(2) NOT NULL
 );
 GO
 
-INSERT INTO #Orders VALUES
-('Ord145332',1001,'1/1/2018',100,'TX'),
-('Ord657895',1001,'1/1/2018',150,'TX'),
-('Ord887612',1001,'1/1/2018',75,'TX'),
-('Ord654374',1001,'2/1/2018',100,'TX'),
-('Ord345362',1001,'3/1/2018',100,'TX'),
-('Ord912376',2002,'2/1/2018',75,'TX'),
-('Ord543219',2002,'2/1/2018',150,'TX'),
-('Ord156357',3003,'1/1/2018',100,'IA'),
-('Ord956541',3003,'2/1/2018',100,'IA'),
-('Ord856993',3003,'3/1/2018',100,'IA'),
-('Ord864573',4004,'4/1/2018',100,'IA'),
-('Ord654525',4004,'5/1/2018',50,'IA'),
-('Ord987654',4004,'5/1/2018',100,'IA');
+INSERT INTO #Orders (OrderID, CustomerID, OrderDate, Amount, [State]) VALUES
+(1,1001,'1/1/2018',100,'TX'),
+(2,1001,'1/1/2018',150,'TX'),
+(3,1001,'1/1/2018',75,'TX'),
+(4,1001,'2/1/2018',100,'TX'),
+(5,1001,'3/1/2018',100,'TX'),
+(6,2002,'2/1/2018',75,'TX'),
+(7,2002,'2/1/2018',150,'TX'),
+(8,3003,'1/1/2018',100,'IA'),
+(9,3003,'2/1/2018',100,'IA'),
+(10,3003,'3/1/2018',100,'IA'),
+(11,4004,'4/1/2018',100,'IA'),
+(12,4004,'5/1/2018',50,'IA'),
+(13,4004,'5/1/2018',100,'IA');
 GO
 
 /*----------------------------------------------------
-DDL for Puzzle #22
+Answer to Puzzle #22
 Occurrences
 */----------------------------------------------------
 
@@ -509,14 +505,14 @@ GO
 
 CREATE TABLE #ProcessLog
 (
-Workflow    VARCHAR(100),
-LogMessage  VARCHAR(100),
-Occurrences INTEGER,
+Workflow     VARCHAR(100),
+LogMessage   VARCHAR(100),
+Occurrences  INTEGER NOT NULL,
 PRIMARY KEY (Workflow, LogMessage)
 );
 GO
 
-INSERT INTO #ProcessLog VALUES
+INSERT INTO #ProcessLog (Workflow, LogMessage, Occurrences) VALUES
 ('Alpha','Error: Conversion Failed',5),
 ('Alpha','Status Complete',8),
 ('Alpha','Error: Unidentified error occurred',9),
@@ -528,7 +524,7 @@ INSERT INTO #ProcessLog VALUES
 GO
 
 /*----------------------------------------------------
-DDL for Puzzle #23
+Answer to Puzzle #23
 Divide in Half
 */----------------------------------------------------
 
@@ -538,18 +534,18 @@ GO
 CREATE TABLE #PlayerScores
 (
 PlayerID  INTEGER PRIMARY KEY,
-Score     INTEGER
+Score     INTEGER NOT NULL
 );
 GO
 
-INSERT INTO #PlayerScores VALUES
+INSERT INTO #PlayerScores (PlayerID, Score) VALUES
 (1001,2343),(2002,9432),
 (3003,6548),(4004,1054),
 (5005,6832);
 GO
 
 /*----------------------------------------------------
-DDL for Puzzle #24
+Answer to Puzzle #24
 Page Views
 */----------------------------------------------------
 
@@ -558,32 +554,32 @@ GO
 
 CREATE TABLE #Orders
 (
-OrderID     VARCHAR(100) PRIMARY KEY,
-CustomerID  INTEGER,
-OrderDate   DATE,
-Amount      MONEY,
-[State]     VARCHAR(2)
+OrderID     VARCHAR(3) PRIMARY KEY,
+CustomerID  INTEGER NOT NULL,
+OrderDate   DATE NOT NULL,
+Amount      MONEY NOT NULL,
+[State]     VARCHAR(2) NOT NULL
 );
 GO
 
-INSERT INTO #Orders VALUES
-('Ord145332',1001,'1/1/2018',100,'TX'),
-('Ord657895',1001,'1/1/2018',150,'TX'),
-('Ord887612',1001,'1/1/2018',75,'TX'),
-('Ord654374',1001,'2/1/2018',100,'TX'),
-('Ord345362',1001,'3/1/2018',100,'TX'),
-('Ord912376',2002,'2/1/2018',75,'TX'),
-('Ord543219',2002,'2/1/2018',150,'TX'),
-('Ord156357',3003,'1/1/2018',100,'IA'),
-('Ord956541',3003,'2/1/2018',100,'IA'),
-('Ord856993',3003,'3/1/2018',100,'IA'),
-('Ord864573',4004,'4/1/2018',100,'IA'),
-('Ord654525',4004,'5/1/2018',50,'IA'),
-('Ord987654',4004,'5/1/2018',100,'IA');
+INSERT INTO #Orders (OrderID, CustomerID, OrderDate, Amount, [State]) VALUES
+('AAA',1001,'1/1/2018',100,'TX'),
+('BBB',1001,'1/1/2018',150,'TX'),
+('CCC',1001,'1/1/2018',75,'TX'),
+('DDD',1001,'2/1/2018',100,'TX'),
+('EEE',1001,'3/1/2018',100,'TX'),
+('FFF',2002,'2/1/2018',75,'TX'),
+('GGG',2002,'2/1/2018',150,'TX'),
+('HHH',3003,'1/1/2018',100,'IA'),
+('III',3003,'2/1/2018',100,'IA'),
+('JJJ',3003,'3/1/2018',100,'IA'),
+('KKK',4004,'4/1/2018',100,'IA'),
+('LLL',4004,'5/1/2018',50,'IA'),
+('MMM',4004,'5/1/2018',100,'IA');
 GO
 
 /*----------------------------------------------------
-DDL for Puzzle #25
+Answer to Puzzle #25
 Top Vendors
 */----------------------------------------------------
 
@@ -592,24 +588,24 @@ GO
 
 CREATE TABLE #Orders
 (
-OrderID     VARCHAR(100) PRIMARY KEY,
-CustomerID  INTEGER,
-OrderCount  MONEY,
-Vendor      VARCHAR(100)
+OrderID     INTEGER PRIMARY KEY,
+CustomerID  INTEGER NOT NULL,
+OrderCount  MONEY NOT NULL,
+Vendor      VARCHAR(100) NOT NULL
 );
 GO
 
-INSERT INTO #Orders VALUES
-('Ord195342',1001,12,'Direct Parts'),
-('Ord245532',1001,54,'Direct Parts'),
-('Ord344394',1001,32,'ACME'),
-('Ord442423',2002,7,'ACME'),
-('Ord524232',2002,16,'ACME'),
-('Ord645363',2002,5,'Direct Parts');
+INSERT INTO #Orders (OrderID, CustomerID, OrderCount, Vendor) VALUES
+(1,1001,12,'Direct Parts'),
+(2,1001,54,'Direct Parts'),
+(3,1001,32,'ACME'),
+(4,2002,7,'ACME'),
+(5,2002,16,'ACME'),
+(6,2002,5,'Direct Parts');
 GO
 
 /*----------------------------------------------------
-DDL for Puzzle #26
+Answer to Puzzle #26
 Previous Years Sales
 */----------------------------------------------------
 
@@ -618,12 +614,12 @@ GO
 
 CREATE TABLE #Sales
 (
-[Year]  INTEGER,
-Amount  INTEGER
+[Year]  INTEGER NOT NULL,
+Amount  INTEGER NOT NULL
 );
 GO
 
-INSERT INTO #Sales VALUES
+INSERT INTO #Sales ([Year], Amount) VALUES
 (YEAR(GETDATE()),352645),
 (YEAR(DATEADD(YEAR,-1,GETDATE())),165565),
 (YEAR(DATEADD(YEAR,-1,GETDATE())),254654),
@@ -633,7 +629,7 @@ INSERT INTO #Sales VALUES
 GO
 
 /*----------------------------------------------------
-DDL for Puzzle #27
+Answer to Puzzle #27
 Delete the Duplicates
 */----------------------------------------------------
 
@@ -642,7 +638,7 @@ GO
 
 CREATE TABLE #SampleData
 (
-IntegerValue  INTEGER,
+IntegerValue  INTEGER NOT NULL,
 );
 GO
 
@@ -651,47 +647,41 @@ INSERT INTO #SampleData VALUES
 GO
 
 /*----------------------------------------------------
-DDL for Puzzle #28
+Answer to Puzzle #28
 Fill the Gaps
 */----------------------------------------------------
-
-/*
-Here is an excellent post about this problem.
-https://www.red-gate.com/simple-talk/sql/t-sql-programming/filling-in-missing-values-using-the-t-sql-window-frame/
-*/
 
 DROP TABLE IF EXISTS #Gaps;
 GO
 
 CREATE TABLE #Gaps
 (
-RowNumber  INTEGER PRIMARY KEY,
-TestCase   VARCHAR(100)
+RowNumber   INTEGER PRIMARY KEY,
+TestCase    VARCHAR(100) NULL
 );
 GO
 
-INSERT INTO #Gaps VALUES
+INSERT INTO #Gaps (RowNumber, TestCase) VALUES
 (1,'Alpha'),(2,NULL),(3,NULL),(4,NULL),
 (5,'Bravo'),(6,NULL),(7,'Charlie'),(8,NULL),(9,NULL);
 GO
 
 /*----------------------------------------------------
-DDL for Puzzle #29
+Answer to Puzzle #29
 Count the Groupings
 */----------------------------------------------------
-
 DROP TABLE IF EXISTS #Groupings;
 GO
 
 CREATE TABLE #Groupings
 (
 StepNumber  INTEGER PRIMARY KEY,
-TestCase    VARCHAR(100),
-[Status]    VARCHAR(100)
+TestCase    VARCHAR(100) NOT NULL,
+[Status]    VARCHAR(100) NOT NULL
 );
 GO
 
-INSERT INTO #Groupings VALUES
+INSERT INTO #Groupings (StepNumber, TestCase, [Status]) VALUES
 (1,'Test Case 1','Passed'),
 (2,'Test Case 2','Passed'),
 (3,'Test Case 3','Passed'),
@@ -707,7 +697,7 @@ INSERT INTO #Groupings VALUES
 GO
 
 /*----------------------------------------------------
-DDL for Puzzle #30
+Answer to Puzzle #30
 Select Star
 */----------------------------------------------------
 
@@ -717,16 +707,12 @@ GO
 CREATE TABLE #Products
 (
 ProductID    INTEGER PRIMARY KEY,
-ProductName  VARCHAR(100)
+ProductName  VARCHAR(100) NOT NULL
 );
 GO
 
---Add the following constraint
-ALTER TABLE #Products ADD ComputedColumn AS (0/0);
-GO
-
 /*----------------------------------------------------
-DDL for Puzzle #31
+Answer to Puzzle #31
 Second Highest
 */----------------------------------------------------
 
@@ -739,12 +725,12 @@ IntegerValue  INTEGER PRIMARY KEY
 );
 GO
 
-INSERT INTO #SampleData VALUES
+INSERT INTO #SampleData (IntegerValue) VALUES
 (3759),(3760),(3761),(3762),(3763);
 GO
 
 /*----------------------------------------------------
-DDL for Puzzle #32
+Answer to Puzzle #32
 First and Last
 */----------------------------------------------------
 
@@ -754,50 +740,44 @@ GO
 CREATE TABLE #Personel
 (
 SpacemanID      INTEGER PRIMARY KEY,
-JobDescription  VARCHAR(100),
-MissionCount    INTEGER
+JobDescription  VARCHAR(100) NOT NULL,
+MissionCount    INTEGER NOT NULL
 );
 GO
 
-INSERT INTO #Personel VALUES
+INSERT INTO #Personel (SpacemanID, JobDescription, MissionCount) VALUES
 (1001,'Astrogator',6),(2002,'Astrogator',12),(3003,'Astrogator',17),
 (4004,'Geologist',21),(5005,'Geologist',9),(6006,'Geologist',8),
 (7007,'Technician',13),(8008,'Technician',2),(9009,'Technician',7);
 GO
 
 /*----------------------------------------------------
-DDL for Puzzle #33
+Answer to Puzzle #33
 Deadlines
 */----------------------------------------------------
 
-DROP TABLE IF EXISTS #OrderFulfillments;
 DROP TABLE IF EXISTS #ManufacturingTimes;
-GO
-
-CREATE TABLE #OrderFulfillments
-(
-OrderID         VARCHAR(100) PRIMARY KEY,
-ProductID       VARCHAR(100),
-DaysToDelivery  INTEGER
-);
+DROP TABLE IF EXISTS #Orders;
 GO
 
 CREATE TABLE #ManufacturingTimes
 (
 PartID             VARCHAR(100),
-ProductID          VARCHAR(100),
-DaysToManufacture  INTEGER,
-PRIMARY KEY (PartID, ProductID)
+Product            VARCHAR(100),
+DaysToManufacture  INTEGER NOT NULL,
+PRIMARY KEY (PartID, Product)
 );
 GO
 
-INSERT INTO #OrderFulfillments VALUES
-('Ord893456','Widget',7),
-('Ord923654','Gizmo',3),
-('Ord187239','Doodad',9);
+CREATE TABLE #Orders
+(
+OrderID    INTEGER PRIMARY KEY,
+Product    VARCHAR(100) NOT NULL REFERENCES #ManufacturingTimes (Product),
+DaysToDeliver INTEGER NOT NULL
+);
 GO
 
-INSERT INTO #ManufacturingTimes VALUES
+INSERT INTO #ManufacturingTimes (PartID, Product, DaysToManufacture) VALUES
 ('AA-111','Widget',7),
 ('BB-222','Widget',2),
 ('CC-333','Widget',3),
@@ -808,8 +788,14 @@ INSERT INTO #ManufacturingTimes VALUES
 ('DD-444','Doodad',1);
 GO
 
+INSERT INTO #Orders (OrderID, Product, DaysToDeliver) VALUES
+(1,'Widget',7),
+(2,'Gizmo',3),
+(3,'Doodad',9);
+GO
+
 /*----------------------------------------------------
-DDL for Puzzle #34
+Answer to Puzzle #34
 Specific Exclusion
 */----------------------------------------------------
 
@@ -818,19 +804,18 @@ GO
 
 CREATE TABLE #Orders
 (
-OrderID     VARCHAR(100) PRIMARY KEY,
-CustomerID  INTEGER,
-Amount      MONEY
+OrderID     INTEGER PRIMARY KEY,
+CustomerID  INTEGER NOT NULL,
+Amount      MONEY NOT NULL
 );
 GO
 
-INSERT INTO #Orders VALUES
-('Ord143937',1001,25),('Ord789765',1001,50),
-('Ord345434',2002,65),('Ord465633',3003,50);
+INSERT INTO #Orders (OrderID, CustomerID, Amount) VALUES
+(1,1001,25),(2,1001,50),(3,2002,65),(4,3003,50);
 GO
 
 /*----------------------------------------------------
-DDL for Puzzle #35
+Answer to Puzzle #35
 International vs Domestic Sales
 */----------------------------------------------------
 
@@ -839,37 +824,28 @@ GO
 
 CREATE TABLE #Orders
 (
-InvoiceID   VARCHAR(100) PRIMARY KEY,
-SalesRepID  INTEGER,
-Amount      MONEY,
-SalesType   VARCHAR(100)
+InvoiceID   INTEGER PRIMARY KEY,
+SalesRepID  INTEGER NOT NULL,
+Amount      MONEY NOT NULL,
+SalesType   VARCHAR(100) NOT NULL
 );
 GO
 
-INSERT INTO #Orders VALUES
-('Inv345756',1001,13454,'International'),
-('Inv546744',2002,3434,'International'),
-('Inv234745',4004,54645,'International'),
-('Inv895745',5005,234345,'International'),
-('Inv006321',7007,776,'International'),
-('Inv734534',1001,4564,'Domestic'),
-('Inv600213',2002,34534,'Domestic'),
-('Inv757853',3003,345,'Domestic'),
-('Inv198632',6006,6543,'Domestic'),
-('Inv977654',8008,67,'Domestic');
-GO
-
 /*----------------------------------------------------
-DDL for Puzzle #36
+Answer to Puzzle #36
 Traveling Salesman
 */----------------------------------------------------
 
+DROP TABLE IF EXISTS #TravelingSalesman;
+DROP TABLE IF EXISTS #Routes;
+GO
+
 CREATE TABLE #Routes
 (
-RouteID  INTEGER NOT NULL,
-DepartureCity VARCHAR(30) NOT NULL,
-ArrivalCity   VARCHAR(30) NOT NULL,
-Cost     MONEY NOT NULL,
+RouteID        INTEGER NOT NULL,
+DepartureCity  VARCHAR(30) NOT NULL,
+ArrivalCity    VARCHAR(30) NOT NULL,
+Cost           MONEY NOT NULL,
 PRIMARY KEY (DepartureCity, ArrivalCity)
 );
 GO
@@ -888,7 +864,7 @@ VALUES
 GO
 
 /*----------------------------------------------------
-DDL for Puzzle #37
+Answer to Puzzle #37
 Group Criteria Keys
 */----------------------------------------------------
 
@@ -897,23 +873,23 @@ GO
 
 CREATE TABLE #GroupCriteria
 (
-OrderID      VARCHAR(100) PRIMARY KEY,
-Distributor  VARCHAR(100),
-Facility     INTEGER,
-[Zone]       VARCHAR(100),
-Amount       MONEY
+OrderID      INTEGER PRIMARY KEY,
+Distributor  VARCHAR(100) NOT NULL,
+Facility     INTEGER NOT NULL,
+[Zone]       VARCHAR(100) NOT NULL,
+Amount       MONEY NOT NULL
 );
 GO
 
-INSERT INTO #GroupCriteria VALUES
-('Ord156795','ACME',123,'ABC',100),
-('Ord826109','ACME',123,'ABC',75),
-('Ord342876','Direct Parts',789,'XYZ',150),
-('Ord994981','Direct Parts',789,'XYZ',125);
+INSERT INTO #GroupCriteria (OrderID, Distributor, Facility, [Zone], Amount) VALUES
+(1,'ACME',123,'ABC',100),
+(2,'ACME',123,'ABC',75),
+(3,'Direct Parts',789,'XYZ',150),
+(4,'Direct Parts',789,'XYZ',125);
 GO
 
 /*----------------------------------------------------
-DDL for Puzzle #38
+Answer to Puzzle #38
 Reporting Elements
 */----------------------------------------------------
 
@@ -924,12 +900,12 @@ CREATE TABLE #RegionSales
 (
 Region       VARCHAR(100),
 Distributor  VARCHAR(100),
-Sales        INTEGER,
+Sales        INTEGER NOT NULL,
 PRIMARY KEY (Region, Distributor)
 );
 GO
 
-INSERT INTO #RegionSales VALUES
+INSERT INTO #RegionSales (Region, Distributor, Sales) VALUES
 ('North','ACE',10),
 ('South','ACE',67),
 ('East','ACE',54),
@@ -943,7 +919,7 @@ INSERT INTO #RegionSales VALUES
 GO
 
 /*----------------------------------------------------
-DDL for Puzzle #39
+Answer to Puzzle #39
 Prime Numbers
 */----------------------------------------------------
 
@@ -961,7 +937,7 @@ INSERT INTO #PrimeNumbers VALUES
 GO
 
 /*----------------------------------------------------
-DDL for Puzzle #40
+Answer to Puzzle #40
 Sort Order
 */----------------------------------------------------
 
@@ -970,22 +946,24 @@ GO
 
 CREATE TABLE #SortOrder
 (
-City  VARCHAR(100) PRIMARY KEY
+City VARCHAR(100) PRIMARY KEY
 );
 GO
 
-INSERT INTO #SortOrder VALUES
+INSERT INTO #SortOrder (City) VALUES
 ('Atlanta'),('Baltimore'),('Chicago'),('Denver');
 GO
 
 /*----------------------------------------------------
-DDL for Puzzle #41
+Answer to Puzzle #41
 Associate IDs
 */----------------------------------------------------
 
 DROP TABLE IF EXISTS #Associates;
+DROP TABLE IF EXISTS #Associates2;
+DROP TABLE IF EXISTS #Associates3;
 GO
- 
+
 CREATE TABLE #Associates
 (
 Associate1  VARCHAR(100),
@@ -1000,7 +978,7 @@ INSERT INTO #Associates (Associate1, Associate2) VALUES
 GO
 
 /*----------------------------------------------------
-DDL for Puzzle #42
+Answer to Puzzle #42
 Mutual Friends
 */----------------------------------------------------
 
@@ -1015,13 +993,13 @@ PRIMARY KEY (Friend1, Friend2)
 );
 GO
 
-INSERT INTO #Friends VALUES 
+INSERT INTO #Friends VALUES
 ('Jason','Mary'),('Mike','Mary'),('Mike','Jason'),
 ('Susan','Jason'),('John','Mary'),('Susan','Mary');
 GO
 
 /*----------------------------------------------------
-DDL for Puzzle #43
+Answer to Puzzle #43
 Unbounded Preceding
 */----------------------------------------------------
 
@@ -1032,21 +1010,18 @@ CREATE TABLE #CustomerOrders
 (
 [Order]     INTEGER,
 CustomerID  INTEGER,
-Quantity    INTEGER,
+Quantity    INTEGER NOT NULL,
 PRIMARY KEY ([Order], CustomerID)
 );
 GO
 
-INSERT INTO #CustomerOrders VALUES (1,1001,5);
-INSERT INTO #CustomerOrders VALUES (2,1001,8);
-INSERT INTO #CustomerOrders VALUES (3,1001,3);
-INSERT INTO #CustomerOrders VALUES (4,1001,7);
-INSERT INTO #CustomerOrders VALUES (1,2002,4);
-INSERT INTO #CustomerOrders VALUES (2,2002,9);
+INSERT INTO #CustomerOrders VALUES 
+(1,1001,5),(2,1001,8),(3,1001,3),(4,1001,7),
+(1,2002,4),(2,2002,9);
 GO
 
 /*----------------------------------------------------
-DDL for Puzzle #44
+Answer to Puzzle #44
 Slowly Changing Dimension Part I
 */----------------------------------------------------
 
@@ -1057,12 +1032,12 @@ CREATE TABLE #Balances
 (
 CustomerID   INTEGER,
 BalanceDate  DATE,
-Amount       MONEY,
+Amount       MONEY NOT NULL,
 PRIMARY KEY (CustomerID, BalanceDate)
 );
 GO
 
-INSERT INTO #Balances VALUES
+INSERT INTO #Balances (CustomerID, BalanceDate, Amount) VALUES
 (1001,'10/11/2021',54.32),
 (1001,'10/10/2021',17.65),
 (1001,'9/18/2021',65.56),
@@ -1076,7 +1051,7 @@ INSERT INTO #Balances VALUES
 GO
 
 /*----------------------------------------------------
-DDL for Puzzle #45
+Answer to Puzzle #45
 Slowly Changing Dimension Part 2
 */----------------------------------------------------
 
@@ -1088,11 +1063,12 @@ CREATE TABLE #Balances
 CustomerID  INTEGER,
 StartDate   DATE,
 EndDate     DATE,
-Amount      MONEY
+Amount      MONEY,
+PRIMARY KEY (CustomerID, StartDate)
 );
 GO
 
-INSERT INTO #Balances VALUES
+INSERT INTO #Balances (CustomerID, StartDAte, EndDate, Amount) VALUES
 (1001,'10/11/2021','12/31/9999',54.32),
 (1001,'10/10/2021','10/10/2021',17.65),
 (1001,'9/18/2021','10/12/2021',65.56),
@@ -1102,7 +1078,7 @@ INSERT INTO #Balances VALUES
 GO
 
 /*----------------------------------------------------
-DDL for Puzzle #46
+Answer to Puzzle #46
 Positive Account Balances
 */----------------------------------------------------
 
@@ -1117,46 +1093,46 @@ PRIMARY KEY (AccountID, Balance)
 );
 GO
 
-INSERT INTO #AccountBalances VALUES
+INSERT INTO #AccountBalances (AccountID, Balance) VALUES
 (1001,234.45),(1001,-23.12),(2002,-93.01),(2002,-120.19),
 (3003,186.76), (3003,90.23), (3003,10.11);
 GO
 
 /*----------------------------------------------------
-DDL for Puzzle #47
+Answer to Puzzle #47
 Work Schedule
 */----------------------------------------------------
 
 DROP TABLE IF EXISTS #Schedule;
 DROP TABLE IF EXISTS #Activity;
+DROP TABLE IF EXISTS #ScheduleTimes;
+DROP TABLE IF EXISTS #ActivityCoalesce
 GO
 
 CREATE TABLE #Schedule
 (
 ScheduleId  CHAR(1) PRIMARY KEY,
-StartTime   DATETIME,
-EndTime     DATETIME
+StartTime   DATETIME NOT NULL,
+EndTime     DATETIME NOT NULL
 );
 GO
 
 CREATE TABLE #Activity
 (
-ScheduleID    CHAR(1),
-ActivityName  VARCHAR(100),
-StartTime     DATETIME,
-EndTime       DATETIME,
+ScheduleID   CHAR(1) REFERENCES #Schedule (ScheduleID),
+ActivityName VARCHAR(100),
+StartTime    DATETIME,
+EndTime      DATETIME,
 PRIMARY KEY (ScheduleID, ActivityName, StartTime, EndTime)
 );
 GO
 
-INSERT INTO #Schedule
-VALUES
+INSERT INTO #Schedule (ScheduleID, StartTIme, EndTime) VALUES
 ('A',CAST('2021-10-01 10:00:00' AS DATETIME),CAST('2021-10-01 15:00:00' AS DATETIME)),
 ('B',CAST('2021-10-01 10:15:00' AS DATETIME),CAST('2021-10-01 12:15:00' AS DATETIME));
 GO
 
-INSERT INTO #Activity
-VALUES
+INSERT INTO #Activity (ScheduleID, ActivityName, StartTime, EndTime) VALUES
 ('A','Meeting',CAST('2021-10-01 10:00:00' AS DATETIME),CAST('2021-10-01 10:30:00' AS DATETIME)),
 ('A','Break',CAST('2021-10-01 12:00:00' AS DATETIME),CAST('2021-10-01 12:30:00' AS DATETIME)),
 ('A','Meeting',CAST('2021-10-01 13:00:00' AS DATETIME),CAST('2021-10-01 13:30:00' AS DATETIME)),
@@ -1164,7 +1140,7 @@ VALUES
 GO
 
 /*----------------------------------------------------
-DDL for Puzzle #48
+Answer to Puzzle #48
 Consecutive Sales
 */----------------------------------------------------
 
@@ -1179,14 +1155,13 @@ PRIMARY KEY (SalesID, [Year])
 );
 GO
 
-INSERT INTO #Sales
-VALUES
+INSERT INTO #Sales (SalesID, [Year]) VALUES
 (1001,2018),(1001,2019),(1001,2020),(2002,2020),(2002,2021),
 (3003,2018),(3003,2020),(3003,2021),(4004,2019),(4004,2020),(4004,2021);
 GO
 
 /*----------------------------------------------------
-DDL for Puzzle #49
+Answer to Puzzle #49
 Sumo Wrestlers
 */----------------------------------------------------
 
@@ -1196,19 +1171,19 @@ GO
 CREATE TABLE #ElevatorOrder
 (
 [Name]     VARCHAR(100) PRIMARY KEY,
-[Weight]   INTEGER,
-LineOrder  INTEGER
+[Weight]   INTEGER NOT NULL,
+LineOrder  INTEGER NOT NULL
 );
 GO
 
-INSERT INTO #ElevatorOrder
+INSERT INTO #ElevatorOrder ([Name], [Weight], LineOrder)
 VALUES
 ('Haruto',611,1),('Minato',533,2),('Haruki',623,3),
 ('Sota',569,4),('Aoto',610,5),('Hinata',525,6);
 GO
 
 /*----------------------------------------------------
-DDL for Puzzle #50
+Answer to Puzzle #50
 Baseball Balls and Strikes
 */----------------------------------------------------
 
@@ -1219,12 +1194,12 @@ CREATE TABLE #Pitches
 (
 BatterID     INTEGER,
 PitchNumber  INTEGER,
-Result       VARCHAR(100),
+Result       VARCHAR(100) NOT NULL,
 PRIMARY KEY (BatterID, PitchNumber)
 );
 GO
 
-INSERT INTO #Pitches VALUES
+INSERT INTO #Pitches (BatterID, PitchNumber, Result) VALUES
 (1001,1,'Foul'), (1001,2,'Foul'),(1001,3,'Ball'),(1001,4,'Ball'),(1001,5,'Strike'),
 (2002,1,'Ball'),(2002,2,'Strike'),(2002,3,'Foul'),(2002,4,'Foul'),(2002,5,'Foul'),
 (2002,6,'In Play'),(3003,1,'Ball'),(3003,2,'Ball'),(3003,3,'Ball'),
@@ -1233,7 +1208,7 @@ INSERT INTO #Pitches VALUES
 GO
 
 /*----------------------------------------------------
-DDL for Puzzle #51
+Answer to Puzzle #51
 Primary Key Creation
 */----------------------------------------------------
 
@@ -1248,17 +1223,18 @@ PRIMARY KEY (AssemblyID, Part)
 );
 GO
 
-INSERT INTO #Assembly VALUES
+INSERT INTO #Assembly (AssemblyID, Part) VALUES
 (1001,'Bolt'),(1001,'Screw'),(2002,'Nut'),
 (2002,'Washer'),(3003,'Toggle'),(3003,'Bolt');
 GO
 
 /*----------------------------------------------------
-DDL for Puzzle #52
+Answer to Puzzle #52
 Phone Numbers Table
 */----------------------------------------------------
+
 /*
---No DDL
+No DDL provided
 
 You are creating a table that customer agents will use to enter customer information and their phone numbers.
 Create a table with the fields Customer ID and Phone Number, where the Phone Number field must be inserted with the format (999)-999-9999.
@@ -1266,7 +1242,7 @@ Agents will enter phone numbers into this table via a form, and it is imperative
 */
 
 /*----------------------------------------------------
-DDL for Puzzle #53
+Answer to Puzzle #53
 Spouse IDs
 */----------------------------------------------------
 
@@ -1275,8 +1251,9 @@ GO
 
 CREATE TABLE #Spouses
 (
-PrimaryID  VARCHAR(100) PRIMARY KEY,
-SpouseID   VARCHAR(100) UNIQUE NOT NULL
+PrimaryID  VARCHAR(100),
+SpouseID   VARCHAR(100),
+PRIMARY KEY (PrimaryID, SpouseID)
 );
 GO
 
@@ -1287,7 +1264,7 @@ INSERT INTO #Spouses VALUES
 GO
 
 /*----------------------------------------------------
-DDL for Puzzle #54
+Answer to Puzzle #54
 Winning Numbers
 */----------------------------------------------------
 
@@ -1297,29 +1274,30 @@ GO
 
 CREATE TABLE #WinningNumbers
 (
-Number  INTEGER
+Number  INTEGER PRIMARY KEY
 );
+GO
+
+INSERT INTO #WinningNumbers (Number) VALUES
+(25),(45),(78);
 GO
 
 CREATE TABLE #LotteryTickets
 (
-TicketID  VARCHAR(100),
-Number    INTEGER,
+TicketID    VARCHAR(3),
+Number      INTEGER,
 PRIMARY KEY (TicketID, Number)
 );
 GO
 
-INSERT INTO #WinningNumbers VALUES(25),(45),(78);
-GO
-
-INSERT INTO #LotteryTickets VALUES
-('A23423',25),('A23423',45),('A23423',78),
-('B35643',25),('B35643',45),('B35643',98),
-('C98787',67),('C98787',86),('C98787',91);
+INSERT INTO #LotteryTickets (TicketID, Number) VALUES
+('AAA',25),('AAA',45),('AAA',78),
+('BBB',25),('BBB',45),('BBB',98),
+('CCC',67),('CCC',86),('CCC',91);
 GO
 
 /*----------------------------------------------------
-DDL for Puzzle #55
+Answer to Puzzle #55
 Table Audit
 */----------------------------------------------------
 
@@ -1330,37 +1308,42 @@ GO
 CREATE TABLE #ProductsA
 (
 ProductName  VARCHAR(100) PRIMARY KEY,
-Quantity     INTEGER
+Quantity     INTEGER NOT NULL
 );
 GO
 
 CREATE TABLE #ProductsB
 (
 ProductName  VARCHAR(100) PRIMARY KEY,
-Quantity     INTEGER
+Quantity     INTEGER NOT NULL
 );
 GO
 
-INSERT INTO #ProductsA VALUES
+INSERT INTO #ProductsA (ProductName, Quantity) VALUES
 ('Widget',7),
 ('Doodad',9),
 ('Gizmo',3);
 GO
 
-INSERT INTO #ProductsB VALUES
+INSERT INTO #ProductsB (ProductName, Quantity) VALUES
 ('Widget',7),
 ('Doodad',6),
 ('Dingbat',9);
 GO
 
 /*----------------------------------------------------
-DDL for Puzzle #56
+Answer to Puzzle #56
 Numbers Using Recursion
 */----------------------------------------------------
---No DDL create table statements to provide.
+
+/*
+No DDL provided
+
+Create a numbers table using recursion
+*/
 
 /*----------------------------------------------------
-DDL for Puzzle #57
+Answer to Puzzle #57
 Find The Spaces
 */----------------------------------------------------
 
@@ -1374,12 +1357,12 @@ String   VARCHAR(100) NOT NULL
 );
 GO
 
-INSERT INTO #Strings
-VALUES('SELECT EmpID, MngrID FROM Employees;'),('SELECT * FROM Transactions;');
+INSERT INTO #Strings (String) VALUES
+('SELECT EmpID, MngrID FROM Employees;'),('SELECT * FROM Transactions;');
 GO
 
 /*----------------------------------------------------
-DDL for Puzzle #58
+Answer to Puzzle #58
 Add Them Up
 */----------------------------------------------------
 
@@ -1389,12 +1372,13 @@ GO
 CREATE TABLE #Equations
 (
 Equation  VARCHAR(200) PRIMARY KEY,
-TotalSum  INTEGER NULL
+TotalSum  INT NULL
 );
 GO
 
 INSERT INTO #Equations (Equation) VALUES
 ('123'),('1+2+3'),('1+2-3'),('1+23'),('1-2+3'),('1-2-3'),('1-23'),('12+3'),('12-3');
+GO
 
 /*----------------------------------------------------
 The End
