@@ -31,12 +31,9 @@ FROM    cte_Recursion INNER JOIN (VALUES('1'),('2'),('3'),('4'),('5'),('6'),('7'
                                         )
 WHERE IndexValue > 0
 )
-SELECT 'One long line:' AS Type, Sodoku FROM cte_Recursion WHERE IndexValue = 0
-UNION
-SELECT '1' AS Line, SUBSTRING(Sodoku,1,9) AS Line FROM cte_Recursion WHERE IndexValue = 0
-UNION
-SELECT '2' AS Type, SUBSTRING(Sodoku,10,9) AS Line FROM cte_Recursion WHERE IndexValue = 0
-UNION
+SELECT 'One long line:' AS Type, Sodoku FROM cte_Recursion WHERE IndexValue = 0 UNION
+SELECT '1' AS Line, SUBSTRING(Sodoku,1,9) AS Line FROM cte_Recursion WHERE IndexValue = 0 UNION
+SELECT '2' AS Type, SUBSTRING(Sodoku,10,9) AS Line FROM cte_Recursion WHERE IndexValue = 0 UNION
 SELECT '3' AS Type, SUBSTRING(Sodoku,19,9) AS Line FROM cte_Recursion WHERE IndexValue = 0 UNION
 SELECT '4' AS Type, SUBSTRING(Sodoku,29,9) AS Line FROM cte_Recursion WHERE IndexValue = 0 UNION
 SELECT '5' AS Type, SUBSTRING(Sodoku,37,9) AS Line FROM cte_Recursion WHERE IndexValue = 0 UNION
