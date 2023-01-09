@@ -1,7 +1,7 @@
 /*----------------------------------------------------
 Scott Peters
 https://advancedsqlpuzzles.com
-Last Updated 01/08/2023
+Last Updated 01/09/2023
 */----------------------------------------------------
 
 
@@ -15,7 +15,8 @@ DROP TABLE IF EXISTS #Cart2;
 GO
 
 CREATE TABLE #Cart1
-(Item  VARCHAR(100) PRIMARY KEY
+(
+Item  VARCHAR(100) PRIMARY KEY
 );
 GO
 
@@ -42,12 +43,13 @@ FROM    #Cart1 a FULL OUTER JOIN
 GO
 
 --Solution 2
---This is how you would solve not using any outer joins
-SELECT  a.Item AS Item1, b.Item AS Item2
-FROM    #Cart1 a INNER JOIN 
+--This solution does not use a FULL OUTER JOIN
+SELECT  a.Item AS Item1,
+        b.Item AS Item2
+FROM    #Cart1 a INNER JOIN
         #Cart2 b ON a.Item = b.Item
 UNION
-SELECT  a.Item AS Item1, 
+SELECT  a.Item AS Item1,
         NULL AS Item2
 FROM    #Cart1 a
 WHERE   a.Item NOT IN (SELECT b.Item FROM #Cart2 b)
@@ -56,7 +58,7 @@ SELECT  NULL AS Item1,
         b.Item AS Item2
 FROM    #Cart2 b
 WHERE b.Item NOT IN (SELECT a.Item FROM #Cart1 a)
-ORDER BY 1,2
+ORDER BY 1,2;
 GO
 
 /*----------------------------------------------------
@@ -70,12 +72,12 @@ GO
 CREATE TABLE #Employees
 (
 EmployeeID  INTEGER PRIMARY KEY,
-ManagerID   INTEGER,
-JobTitle    VARCHAR(100)
+ManagerID   INTEGER NULL,
+JobTitle    VARCHAR(100) NOT NULL
 );
 GO
 
-INSERT INTO #Employees VALUES
+INSERT INTO #Employees (EmployeeID, ManagerID, JobTitle) VALUES
 (1001,NULL,'President'),(2002,1001,'Director'),
 (3003,1001,'Office Manager'),(4004,2002,'Engineer'),
 (5005,2002,'Engineer'),(6006,2002,'Engineer');
@@ -156,13 +158,13 @@ CREATE TABLE #Orders
 (
 CustomerID     INTEGER,
 OrderID        INTEGER,
-DeliveryState  VARCHAR(100),
-Amount         MONEY,
+DeliveryState  VARCHAR(100) NOT NULL,
+Amount         MONEY NOT NULL,
 PRIMARY KEY (CustomerID, OrderID)
 );
 GO
 
-INSERT INTO #Orders VALUES
+INSERT INTO #Orders (CustomerID, OrderID, DeliveryState, Amount) VALUES
 (1001,1,'CA',340),(1001,2,'TX',950),(1001,3,'TX',670),
 (1001,4,'TX',860),(2002,5,'WA',320),(3003,6,'CA',650),
 (3003,7,'CA',830),(4004,8,'TX',120);
@@ -211,12 +213,12 @@ CREATE TABLE #PhoneDirectory
 (
 CustomerID  INTEGER,
 [Type]      VARCHAR(100),
-PhoneNumber VARCHAR(12),
+PhoneNumber VARCHAR(12) NOT NULL,
 PRIMARY KEY (CustomerID, [Type])
 );
 GO
 
-INSERT INTO #PhoneDirectory VALUES
+INSERT INTO #PhoneDirectory (CustomerID, [Type], PhoneNumber) VALUES
 (1001,'Cellular','555-897-5421'),
 (1001,'Work','555-897-6542'),
 (1001,'Home','555-698-9874'),
@@ -227,8 +229,9 @@ GO
 
 --Solution 1
 --PIVOT
-SELECT CustomerID,[Cellular],[Work],[Home] FROM #PhoneDirectory
-PIVOT (MAX(PhoneNumber) FOR [Type] IN ([Cellular],[Work],[Home])) AS PivotClause;
+SELECT  CustomerID,[Cellular],[Work],[Home]
+FROM    #PhoneDirectory PIVOT
+       (MAX(PhoneNumber) FOR [Type] IN ([Cellular],[Work],[Home])) AS PivotClause;
 GO
 
 --Solution 2
@@ -306,9 +309,15 @@ CREATE TABLE #WorkflowSteps
 (
 Workflow        VARCHAR(100),
 StepNumber      INTEGER,
-CompletionDate  DATE,
+CompletionDate  DATE NULL,
 PRIMARY KEY (Workflow, StepNumber)
 );
+GO
+
+INSERT INTO #WorkflowSteps (Workflow, StepNumber, CompletionDate) VALUES
+('Alpha',1,'7/2/2018'),('Alpha',2,'7/2/2018'),('Alpha',3,'7/1/2018'),
+('Bravo',1,'6/25/2018'),('Bravo',2,NULL),('Bravo',3,'6/27/2018'),
+('Charlie',1,NULL),('Charlie',2,'7/1/2018');
 GO
 
 --Solution 1
@@ -364,7 +373,7 @@ PRIMARY KEY (CandidateID, Occupation)
 );
 GO
 
-INSERT INTO #Candidates VALUES
+INSERT INTO #Candidates (CandidateID, Occupation) VALUES
 (1001,'Geologist'),(1001,'Astrogator'),(1001,'Biochemist'),
 (1001,'Technician'),(2002,'Surgeon'),(2002,'Machinist'),
 (3003,'Cryologist'),(4004,'Selenologist');
@@ -398,13 +407,13 @@ GO
 CREATE TABLE #WorkflowCases
 (
 Workflow  VARCHAR(100) PRIMARY KEY,
-Case1     INTEGER,
-Case2     INTEGER,
-Case3     INTEGER
+Case1     INTEGER NOT NULL DEFAULT 0,
+Case2     INTEGER NOT NULL DEFAULT 0,
+Case3     INTEGER NOT NULL DEFAULT 0
 );
 GO
 
-INSERT INTO #WorkflowCases VALUES
+INSERT INTO #WorkflowCases (Workflow, Case1, Case2, Case3) VALUES
 ('Alpha',0,0,0),('Bravo',0,1,1),('Charlie',1,0,0),('Delta',0,0,0);
 GO
 
@@ -424,8 +433,7 @@ SELECT  Workflow, CaseNumber, PassFail
 FROM    (
         SELECT Workflow,Case1,Case2,Case3
         FROM #WorkflowCases
-        ) p
-UNPIVOT (PassFail FOR CaseNumber IN (Case1,Case2,Case3)) AS UNPVT
+        ) p UNPIVOT (PassFail FOR CaseNumber IN (Case1,Case2,Case3)) AS UNPVT
 )
 SELECT  Workflow,
         SUM(PassFail) AS PassFail
@@ -450,15 +458,10 @@ PRIMARY KEY (EmployeeID, License)
 );
 GO
 
-INSERT INTO #Employees VALUES
-(1001,'Class A'),
-(1001,'Class B'),
-(1001,'Class C'),
-(2002,'Class A'),
-(2002,'Class B'),
-(2002,'Class C'),
-(3003,'Class A'),
-(3003,'Class D');
+INSERT INTO #Employees (EmployeeID, License) VALUES
+(1001,'Class A'),(1001,'Class B'),(1001,'Class C'),
+(2002,'Class A'),(2002,'Class B'),(2002,'Class C'),
+(3003,'Class A'),(3003,'Class D');
 GO
 
 WITH cte_EmployeeCount AS
@@ -496,7 +499,7 @@ GO
 
 CREATE TABLE #SampleData
 (
-IntegerValue  INTEGER
+IntegerValue  INTEGER NOT NULL
 );
 GO
 
@@ -548,34 +551,32 @@ GO
 
 CREATE TABLE #TestCases
 (
-RowNumber  INTEGER,
-TestCase   VARCHAR(1),
-PRIMARY KEY (RowNumber, TestCase)
+TestCase   VARCHAR(1) PRIMARY KEY
 );
 GO
 
-INSERT INTO #TestCases VALUES
-(1,'A'),(2,'B'),(3,'C');
+INSERT INTO #TestCases (TestCase) VALUES
+('A'),('B'),('C');
 GO
 
 DECLARE @vTotalElements INTEGER = (SELECT COUNT(*) FROM #TestCases);
 
 --Recursion
-WITH cte_Permutations (Permutation, Ids, Depth)
+WITH cte_Permutations (Permutation, Id, Depth)
 AS
 (
 SELECT  CAST(TestCase AS VARCHAR(MAX)),
-        CONCAT(CAST(RowNumber AS VARCHAR(MAX)),';'),
+        CONCAT(CAST(TestCase AS VARCHAR(MAX)),';'),
         1 AS Depth
 FROM    #TestCases
 UNION ALL
 SELECT  CONCAT(a.Permutation,',',b.TestCase),
-        CONCAT(a.Ids,b.RowNumber,';'),
+        CONCAT(a.Id,b.TestCase,';'),
         a.Depth + 1
 FROM    cte_Permutations a,
         #TestCases b
 WHERE   a.Depth < @vTotalElements AND
-        a.Ids NOT LIKE CONCAT('%',b.RowNumber,';%')
+        a.Id NOT LIKE CONCAT('%',b.TestCase,';%')
 )
 SELECT  Permutation
 FROM    cte_Permutations
@@ -598,7 +599,7 @@ PRIMARY KEY (WorkFlow, ExecutionDate)
 );
 GO
 
-INSERT INTO #ProcessLog VALUES
+INSERT INTO #ProcessLog (Workflow, ExecutionDate) VALUES
 ('Alpha','6/01/2018'),('Alpha','6/14/2018'),('Alpha','6/15/2018'),
 ('Bravo','6/1/2018'),('Bravo','6/2/2018'),('Bravo','6/19/2018'),
 ('Charlie','6/1/2018'),('Charlie','6/15/2018'),('Charlie','6/30/2018');
@@ -629,11 +630,11 @@ GO
 CREATE TABLE #Inventory
 (
 InventoryDate       DATE PRIMARY KEY,
-QuantityAdjustment  INTEGER
+QuantityAdjustment  INTEGER NOT NULL
 );
 GO
 
-INSERT INTO #Inventory VALUES
+INSERT INTO #Inventory (InventoryDate, QuantityAdjustment) VALUES
 ('7/1/2018',100),('7/2/2018',75),('7/3/2018',-150),
 ('7/4/2018',50),('7/5/2018',-75);
 GO
@@ -656,12 +657,12 @@ CREATE TABLE #ProcessLog
 (
 Workflow    VARCHAR(100),
 StepNumber  INTEGER,
-RunStatus   VARCHAR(100),
+RunStatus   VARCHAR(100) NOT NULL,
 PRIMARY KEY (Workflow, StepNumber)
 );
 GO
 
-INSERT INTO #ProcessLog VALUES
+INSERT INTO #ProcessLog (Workflow, StepNumber, RunStatus) VALUES
 ('Alpha',1,'Error'),('Alpha',2,'Complete'),('Alpha',3,'Running'),
 ('Bravo',1,'Complete'),('Bravo',2,'Complete'),
 ('Charlie',1,'Running'),('Charlie',2,'Running'),
@@ -733,11 +734,11 @@ GO
 CREATE TABLE #DMLTable
 (
 SequenceNumber  INTEGER PRIMARY KEY,
-String          VARCHAR(100)
+String          VARCHAR(100) NOT NULL
 );
 GO
 
-INSERT INTO #DMLTable VALUES
+INSERT INTO #DMLTable (SequenceNumber, String) VALUES
 (1,'SELECT'),
 (2,'Product,'),
 (3,'UnitPrice,'),
@@ -751,8 +752,7 @@ GO
 
 --Solution 1
 --STRING_AGG
-SELECT  
-        STRING_AGG(CONVERT(NVARCHAR(MAX),String), ' ')
+SELECT  STRING_AGG(CONVERT(NVARCHAR(MAX),String), ' ')
 FROM    #DMLTable;
 GO
 
@@ -797,12 +797,12 @@ CREATE TABLE #PlayerScores
 (
 PlayerA  INTEGER,
 PlayerB  INTEGER,
-Score    INTEGER,
+Score    INTEGER NOT NULL,
 PRIMARY KEY (PlayerA, PlayerB)
 );
 GO
 
-INSERT INTO #PlayerScores VALUES
+INSERT INTO #PlayerScores (PlayerA, PlayerB, Score) VALUES
 (1001,2002,150),(3003,4004,15),(4004,3003,125);
 GO
 
@@ -830,11 +830,11 @@ GO
 CREATE TABLE #Ungroup
 (
 ProductDescription  VARCHAR(100) PRIMARY KEY,
-Quantity            INTEGER
+Quantity            INTEGER NOT NULL
 );
 GO
 
-INSERT INTO #Ungroup VALUES
+INSERT INTO #Ungroup (ProductDescription, Quantity) VALUES
 ('Pencil',3),('Eraser',4),('Notebook',2);
 GO
 
@@ -844,13 +844,16 @@ GO
 
 CREATE TABLE #Numbers
 (
-IntegerValue    INTEGER IDENTITY(1,1),
+IntegerValue    INTEGER IDENTITY(1,1) PRIMARY KEY,
 RowID           UNIQUEIDENTIFIER
 );
 GO
 
 INSERT INTO #Numbers VALUES (NEWID());
 GO 1000
+
+ALTER TABLE #Ungroup ADD FOREIGN KEY (Quantity) REFERENCES #Numbers(IntegerValue);
+GO
 
 SELECT  a.ProductDescription,
         1 AS Quantity
@@ -873,7 +876,7 @@ SeatNumber  INTEGER PRIMARY KEY
 );
 GO
 
-INSERT INTO #SeatingChart VALUES
+INSERT INTO #SeatingChart (SeatNumber) VALUES
 (7),(13),(14),(15),(27),(28),(29),(30),(31),(32),(33),(34),(35),(52),(53),(54);
 GO
 
@@ -942,14 +945,16 @@ GO
 CREATE TABLE #TimePeriods
 (
 StartDate  DATE,
-EndDate    DATE
+EndDate    DATE,
+PRIMARY KEY (StartDate, EndDate)
 );
 GO
 
-INSERT INTO #TimePeriods VALUES
-('1/1/2018','1/5/2018'),('1/1/2018','1/3/2018'),
-('1/1/2018','1/2/2018'),('1/3/2018','1/9/2018'),
-('1/10/2018','1/11/2018'),('1/12/2018','1/16/2018'),
+INSERT INTO #TimePeriods (StartDate, EndDate) VALUES
+('1/1/2018','1/5/2018'),
+('1/3/2018','1/9/2018'),
+('1/10/2018','1/11/2018'),
+('1/12/2018','1/16/2018'),
 ('1/15/2018','1/19/2018');
 GO
 
@@ -984,7 +989,7 @@ SELECT  a.StartDate, MIN(b.EndDate_A) AS MinEndDate_A
 INTO    #DetermineValidEndDates2
 FROM    #Distinct_StartDates a INNER JOIN
         #DetermineValidEndDates b ON a.StartDate <= b.EndDate_A
-GROUP BY a.StartDate
+GROUP BY a.StartDate;
 GO
 
 --Results
@@ -1011,7 +1016,7 @@ PRIMARY KEY (ProductID, UnitPrice, EffectiveDate)
 );
 GO
 
-INSERT INTO #ValidPrices VALUES
+INSERT INTO #ValidPrices (ProductID, UnitPrice, EffectiveDate) VALUES
 (1001,1.99,'1/01/2018'),
 (1001,2.99,'4/15/2018'),
 (1001,3.99,'6/8/2018'),
@@ -1025,15 +1030,15 @@ SELECT  ProductID,
         EffectiveDate,
         COALESCE(UnitPrice,0) AS UnitPrice
 FROM    #ValidPrices AS pp
-WHERE NOT EXISTS (SELECT    1
-                  FROM      #Validprices AS ppl
-                  WHERE     ppl.ProductID = pp.ProductID AND
-                            ppl.EffectiveDate > pp.EffectiveDate);
+WHERE   NOT EXISTS (SELECT    1
+                    FROM      #Validprices AS ppl
+                    WHERE     ppl.ProductID = pp.ProductID AND
+                              ppl.EffectiveDate > pp.EffectiveDate);
 GO
 
 --Solution 2
 --RANK
-WITH cte_validprices AS
+WITH cte_ValidPrices AS
 (
 SELECT  RANK() OVER (PARTITION BY ProductID ORDER BY EffectiveDate DESC) AS Rnk,
         ProductID,
@@ -1070,28 +1075,28 @@ GO
 
 CREATE TABLE #Orders
 (
-OrderID     VARCHAR(100) PRIMARY KEY,
-CustomerID  INTEGER,
-OrderDate   DATE,
-Amount      MONEY,
-[State]     VARCHAR(2)
+OrderID     INTEGER PRIMARY KEY,
+CustomerID  INTEGER NOT NULL,
+OrderDate   DATE NOT NULL,
+Amount      MONEY NOT NULL,
+[State]     VARCHAR(2) NOT NULL
 );
 GO
 
-INSERT INTO #Orders VALUES
-('Ord145332',1001,'1/1/2018',100,'TX'),
-('Ord657895',1001,'1/1/2018',150,'TX'),
-('Ord887612',1001,'1/1/2018',75,'TX'),
-('Ord654374',1001,'2/1/2018',100,'TX'),
-('Ord345362',1001,'3/1/2018',100,'TX'),
-('Ord912376',2002,'2/1/2018',75,'TX'),
-('Ord543219',2002,'2/1/2018',150,'TX'),
-('Ord156357',3003,'1/1/2018',100,'IA'),
-('Ord956541',3003,'2/1/2018',100,'IA'),
-('Ord856993',3003,'3/1/2018',100,'IA'),
-('Ord864573',4004,'4/1/2018',100,'IA'),
-('Ord654525',4004,'5/1/2018',50,'IA'),
-('Ord987654',4004,'5/1/2018',100,'IA');
+INSERT INTO #Orders (OrderID, CustomerID, OrderDate, Amount, [State]) VALUES
+(1,1001,'1/1/2018',100,'TX'),
+(2,1001,'1/1/2018',150,'TX'),
+(3,1001,'1/1/2018',75,'TX'),
+(4,1001,'2/1/2018',100,'TX'),
+(5,1001,'3/1/2018',100,'TX'),
+(6,2002,'2/1/2018',75,'TX'),
+(7,2002,'2/1/2018',150,'TX'),
+(8,3003,'1/1/2018',100,'IA'),
+(9,3003,'2/1/2018',100,'IA'),
+(10,3003,'3/1/2018',100,'IA'),
+(11,4004,'4/1/2018',100,'IA'),
+(12,4004,'5/1/2018',50,'IA'),
+(13,4004,'5/1/2018',100,'IA');
 GO
 
 WITH cte_AvgMonthlySalesCustomer AS
@@ -1125,12 +1130,12 @@ CREATE TABLE #ProcessLog
 (
 Workflow     VARCHAR(100),
 LogMessage   VARCHAR(100),
-Occurrences  INTEGER,
+Occurrences  INTEGER NOT NULL,
 PRIMARY KEY (Workflow, LogMessage)
 );
 GO
 
-INSERT INTO #ProcessLog VALUES
+INSERT INTO #ProcessLog (Workflow, LogMessage, Occurrences) VALUES
 ('Alpha','Error: Conversion Failed',5),
 ('Alpha','Status Complete',8),
 ('Alpha','Error: Unidentified error occurred',9),
@@ -1182,11 +1187,11 @@ GO
 CREATE TABLE #PlayerScores
 (
 PlayerID  INTEGER PRIMARY KEY,
-Score     INTEGER
+Score     INTEGER NOT NULL
 );
 GO
 
-INSERT INTO #PlayerScores VALUES
+INSERT INTO #PlayerScores (PlayerID, Score) VALUES
 (1001,2343),(2002,9432),
 (3003,6548),(4004,1054),
 (5005,6832);
@@ -1209,36 +1214,36 @@ GO
 
 CREATE TABLE #Orders
 (
-OrderID     VARCHAR(100) PRIMARY KEY,
-CustomerID  INTEGER,
-OrderDate   DATE,
-Amount      MONEY,
-[State]     VARCHAR(2)
+OrderID     VARCHAR(3) PRIMARY KEY,
+CustomerID  INTEGER NOT NULL,
+OrderDate   DATE NOT NULL,
+Amount      MONEY NOT NULL,
+[State]     VARCHAR(2) NOT NULL
 );
 GO
 
-INSERT INTO #Orders VALUES
-('Ord145332',1001,'1/1/2018',100,'TX'),
-('Ord657895',1001,'1/1/2018',150,'TX'),
-('Ord887612',1001,'1/1/2018',75,'TX'),
-('Ord654374',1001,'2/1/2018',100,'TX'),
-('Ord345362',1001,'3/1/2018',100,'TX'),
-('Ord912376',2002,'2/1/2018',75,'TX'),
-('Ord543219',2002,'2/1/2018',150,'TX'),
-('Ord156357',3003,'1/1/2018',100,'IA'),
-('Ord956541',3003,'2/1/2018',100,'IA'),
-('Ord856993',3003,'3/1/2018',100,'IA'),
-('Ord864573',4004,'4/1/2018',100,'IA'),
-('Ord654525',4004,'5/1/2018',50,'IA'),
-('Ord987654',4004,'5/1/2018',100,'IA');
+INSERT INTO #Orders (OrderID, CustomerID, OrderDate, Amount, [State]) VALUES
+('AAA',1001,'1/1/2018',100,'TX'),
+('BBB',1001,'1/1/2018',150,'TX'),
+('CCC',1001,'1/1/2018',75,'TX'),
+('DDD',1001,'2/1/2018',100,'TX'),
+('EEE',1001,'3/1/2018',100,'TX'),
+('FFF',2002,'2/1/2018',75,'TX'),
+('GGG',2002,'2/1/2018',150,'TX'),
+('HHH',3003,'1/1/2018',100,'IA'),
+('III',3003,'2/1/2018',100,'IA'),
+('JJJ',3003,'3/1/2018',100,'IA'),
+('KKK',4004,'4/1/2018',100,'IA'),
+('LLL',4004,'5/1/2018',50,'IA'),
+('MMM',4004,'5/1/2018',100,'IA');
 GO
 
 --Solution 1
 --OFFSET FETCH NEXT
-SELECT  *
+SELECT  OrderID, CustomerID, OrderDate, Amount, [State]
 FROM    #Orders
 ORDER BY OrderID
-OFFSET 4 ROWS FETCH NEXT 5 ROWS ONLY;
+OFFSET 4 ROWS FETCH NEXT 6 ROWS ONLY;
 GO
 
 --Solution 2
@@ -1246,10 +1251,10 @@ GO
 WITH cte_RowNumber AS
 (
 SELECT  ROW_NUMBER() OVER (ORDER BY OrderID) AS RowNumber,
-        *
+        OrderID, CustomerID, OrderDate, Amount, [State]
 FROM    #Orders
 )
-SELECT  *
+SELECT  OrderID, CustomerID, ORderDate, Amount, [State]
 FROM    cte_RowNumber
 WHERE   RowNumber BETWEEN 5 AND 10;
 GO
@@ -1264,20 +1269,20 @@ GO
 
 CREATE TABLE #Orders
 (
-OrderID     VARCHAR(100) PRIMARY KEY,
-CustomerID  INTEGER,
-OrderCount  MONEY,
-Vendor      VARCHAR(100)
+OrderID     INTEGER PRIMARY KEY,
+CustomerID  INTEGER NOT NULL,
+OrderCount  MONEY NOT NULL,
+Vendor      VARCHAR(100) NOT NULL
 );
 GO
 
-INSERT INTO #Orders VALUES
-('Ord195342',1001,12,'Direct Parts'),
-('Ord245532',1001,54,'Direct Parts'),
-('Ord344394',1001,32,'ACME'),
-('Ord442423',2002,7,'ACME'),
-('Ord524232',2002,16,'ACME'),
-('Ord645363',2002,5,'Direct Parts');
+INSERT INTO #Orders (OrderID, CustomerID, OrderCount, Vendor) VALUES
+(1,1001,12,'Direct Parts'),
+(2,1001,54,'Direct Parts'),
+(3,1001,32,'ACME'),
+(4,2002,7,'ACME'),
+(5,2002,16,'ACME'),
+(6,2002,5,'Direct Parts');
 GO
 
 --Solution 1
@@ -1286,27 +1291,29 @@ WITH cte_Rank AS
 (
 SELECT  CustomerID,
         Vendor,
-        RANK() OVER (PARTITION BY CustomerID ORDER BY COUNT(OrderCount) DESC) AS Rnk
+        RANK() OVER (PARTITION BY CustomerID ORDER BY OrderCount DESC) AS Rnk
 FROM    #Orders
-GROUP BY CustomerID, Vendor
+GROUP BY CustomerID, Vendor, OrderCount
 )
 SELECT  DISTINCT b.CustomerID, b.Vendor
 FROM    #Orders a INNER JOIN
         cte_Rank b ON a.CustomerID = b.CustomerID AND a.Vendor = b.Vendor
-WHERE   Rnk = 1;
+WHERE   Rnk = 1
+ORDER BY 1, 2;
 GO
 
 --Solution 2
 --MAX Function
 WITH cte_Max AS
 (
-SELECT  *,
+SELECT  OrderID, CustomerID, OrderCount, Vendor,
         MAX(Ordercount) OVER (PARTITION BY CustomerID ORDER BY CustomerID) AS MaxOrderCount
 FROM    #Orders
 )
 SELECT  CustomerID, Vendor
 FROM    cte_Max
-WHERE   OrderCount = MaxOrderCount;
+WHERE   OrderCount = MaxOrderCount
+ORDER BY 1, 2;
 GO
 
 --Solution 3
@@ -1318,9 +1325,10 @@ SELECT  CustomerID,
 FROM    #Orders
 GROUP BY CustomerID
 )
-SELECT  *
+SELECT  CustomerID, Vendor
 FROM    #Orders a
-WHERE EXISTS (SELECT 1 FROM cte_Max b WHERE a.CustomerID = b.CustomerID and a.OrderCount = MaxOrderCount);
+WHERE EXISTS (SELECT 1 FROM cte_Max b WHERE a.CustomerID = b.CustomerID and a.OrderCount = MaxOrderCount)
+ORDER BY 1, 2;
 GO
 
 /*----------------------------------------------------
@@ -1333,12 +1341,12 @@ GO
 
 CREATE TABLE #Sales
 (
-[Year]  INTEGER,
-Amount  INTEGER
+[Year]  INTEGER NOT NULL,
+Amount  INTEGER NOT NULL
 );
 GO
 
-INSERT INTO #Sales VALUES
+INSERT INTO #Sales ([Year], Amount) VALUES
 (YEAR(GETDATE()),352645),
 (YEAR(DATEADD(YEAR,-1,GETDATE())),165565),
 (YEAR(DATEADD(YEAR,-1,GETDATE())),254654),
@@ -1415,7 +1423,7 @@ GO
 
 CREATE TABLE #SampleData
 (
-IntegerValue  INTEGER,
+IntegerValue  INTEGER NOT NULL,
 );
 GO
 
@@ -1436,49 +1444,44 @@ Answer to Puzzle #28
 Fill the Gaps
 */----------------------------------------------------
 
-/*
-Here is an excellent post about this problem.
-https://www.red-gate.com/simple-talk/sql/t-sql-programming/filling-in-missing-values-using-the-t-sql-window-frame/
-*/
-
 DROP TABLE IF EXISTS #Gaps;
-DROP TABLE IF EXISTS #Gaps2;
 GO
 
 CREATE TABLE #Gaps
 (
 RowNumber   INTEGER PRIMARY KEY,
-TestCase    VARCHAR(100)
+TestCase    VARCHAR(100) NULL
 );
 GO
 
-INSERT INTO #Gaps VALUES
+INSERT INTO #Gaps (RowNumber, TestCase) VALUES
 (1,'Alpha'),(2,NULL),(3,NULL),(4,NULL),
 (5,'Bravo'),(6,NULL),(7,'Charlie'),(8,NULL),(9,NULL);
 GO
 
-SELECT * INTO #Gaps2 FROM #Gaps;
-GO
-
 --Solution 1
-SELECT  RowNumber, 
+--MAX function
+SELECT  RowNumber,
         MAX(TestCase) OVER (ORDER BY RowNumber) AS TestCase
 FROM    #Gaps;
 
---Here are some other solutions that are not as efficient and more convoluted then the above solution
-
 --Solution 2
---MAX
+--MAX and COUNT function
+WITH cte_Count AS
+(
+SELECT RowNumber,
+       TestCase,
+       COUNT(TestCase) OVER (ORDER BY RowNumber) AS DistinctCount
+FROM #Gaps
+)
 SELECT  RowNumber,
         MAX(TestCase) OVER (PARTITION BY DistinctCount) AS TestCase
-FROM    (SELECT RowNumber,
-                TestCase,
-                COUNT(TestCase) OVER (ORDER BY RowNumber) AS DistinctCount
-        FROM #Gaps) a
+FROM    cte_Count
 ORDER BY RowNumber;
 GO
 
 --Solution 3
+--MAX function without windowing
 SELECT  a.RowNumber,
         (SELECT b.TestCase
         FROM    #Gaps b
@@ -1489,39 +1492,22 @@ SELECT  a.RowNumber,
 FROM #Gaps a;
 GO
 
-
---Solution 4
---This type of update is called a "quirky update"
---https://ask.sqlservercentral.com/questions/5150/please-can-somebody-explain-how-quirky-updates-wor.html
---There is no guarantee that this UPDATE will always produce the correct result.  You must have another 
---method to validate the results.
-BEGIN
-    DECLARE @v VARCHAR(MAX);
-    UPDATE  #Gaps2
-    SET     @v = TestCase = (CASE WHEN TestCase IS NULL THEN @v ELSE TestCase END)
-END
-GO
-
-SELECT * FROM #Gaps2;
-GO
-
 /*----------------------------------------------------
 Answer to Puzzle #29
 Count the Groupings
 */----------------------------------------------------
 DROP TABLE IF EXISTS #Groupings;
-DROP TABLE IF EXISTS #Groupings2;
 GO
 
 CREATE TABLE #Groupings
 (
 StepNumber  INTEGER PRIMARY KEY,
-TestCase    VARCHAR(100),
-[Status]    VARCHAR(100)
+TestCase    VARCHAR(100) NOT NULL,
+[Status]    VARCHAR(100) NOT NULL
 );
 GO
 
-INSERT INTO #Groupings VALUES
+INSERT INTO #Groupings (StepNumber, TestCase, [Status]) VALUES
 (1,'Test Case 1','Passed'),
 (2,'Test Case 2','Passed'),
 (3,'Test Case 3','Passed'),
@@ -1536,24 +1522,23 @@ INSERT INTO #Groupings VALUES
 (12,'Test Case 12','Passed');
 GO
 
+WITH cte_Groupings AS
+(
 SELECT  StepNumber,
         [Status],
         StepNumber - ROW_NUMBER() OVER (PARTITION BY [Status] ORDER BY StepNumber) AS Rnk
-INTO    #Groupings2
 FROM    #Groupings
-ORDER BY 2;
-GO
-
+)
 SELECT  MIN(StepNumber) AS MinStepNumber,
         MAX(StepNumber) as MaxStepNumber,
         [Status],
         COUNT(*) AS ConsecutiveCount,
         MAX(StepNumber) - MIN(StepNumber) + 1 AS ConsecutiveCount_MinMax
-FROM    #Groupings2
+FROM    cte_Groupings
 GROUP BY Rnk,
         [Status]
 ORDER BY 1, 2;
-
+GO
 
 /*----------------------------------------------------
 Answer to Puzzle #30
@@ -1566,7 +1551,7 @@ GO
 CREATE TABLE #Products
 (
 ProductID    INTEGER PRIMARY KEY,
-ProductName  VARCHAR(100)
+ProductName  VARCHAR(100) NOT NULL
 );
 GO
 
@@ -1588,7 +1573,7 @@ IntegerValue  INTEGER PRIMARY KEY
 );
 GO
 
-INSERT INTO #SampleData VALUES
+INSERT INTO #SampleData (IntegerValue) VALUES
 (3759),(3760),(3761),(3762),(3763);
 GO
 
@@ -1638,35 +1623,18 @@ GO
 CREATE TABLE #Personel
 (
 SpacemanID      INTEGER PRIMARY KEY,
-JobDescription  VARCHAR(100),
-MissionCount    INTEGER
+JobDescription  VARCHAR(100) NOT NULL,
+MissionCount    INTEGER NOT NULL
 );
 GO
 
-INSERT INTO #Personel VALUES
+INSERT INTO #Personel (SpacemanID, JobDescription, MissionCount) VALUES
 (1001,'Astrogator',6),(2002,'Astrogator',12),(3003,'Astrogator',17),
 (4004,'Geologist',21),(5005,'Geologist',9),(6006,'Geologist',8),
 (7007,'Technician',13),(8008,'Technician',2),(9009,'Technician',7);
 GO
 
-
---Solution 1
---FIRST_VALUE and LAST_VALUE
---This solution will not account for multiple SpacemanIDs that fit the criteria
-SELECT  DISTINCT
-        JobDescription,
-        FIRST_VALUE(SpacemanID) OVER
-            (PARTITION  BY JobDescription ORDER BY MissionCount DESC) AS MostExperienced,
-        LAST_VALUE(SpacemanID)  OVER 
-            (PARTITION  BY JobDescription ORDER BY MissionCount DESC
-            RANGE BETWEEN CURRENT ROW AND UNBOUNDED FOLLOWING) AS LeastExperienced
-FROM    #Personel
-ORDER BY 1,2,3;
-GO
-
---Soluion 2
 --MIN and MAX
---This solution will account for multiple SpacemanIDs that fit the criteria
 WITH cte_MinMax AS
 (
 SELECT  JobDescription,
@@ -1690,34 +1658,28 @@ Answer to Puzzle #33
 Deadlines
 */----------------------------------------------------
 
-DROP TABLE IF EXISTS #Orders;
 DROP TABLE IF EXISTS #ManufacturingTimes;
-GO
-
-CREATE TABLE #Orders
-(
-OrderID    VARCHAR(100) PRIMARY KEY,
-ProductID  VARCHAR(100),
-DaysToDelivery INTEGER
-);
+DROP TABLE IF EXISTS #Orders;
 GO
 
 CREATE TABLE #ManufacturingTimes
 (
 PartID             VARCHAR(100),
-ProductID          VARCHAR(100),
-DaysToManufacture  INTEGER,
-PRIMARY KEY (PartID, ProductID)
+Product            VARCHAR(100),
+DaysToManufacture  INTEGER NOT NULL,
+PRIMARY KEY (PartID, Product)
 );
 GO
 
-INSERT INTO #Orders VALUES
-('Ord893456','Widget',7),
-('Ord923654','Gizmo',3),
-('Ord187239','Doodad',9);
+CREATE TABLE #Orders
+(
+OrderID    INTEGER PRIMARY KEY,
+Product    VARCHAR(100) NOT NULL REFERENCES #ManufacturingTimes (Product),
+DaysToDeliver INTEGER NOT NULL
+);
 GO
 
-INSERT INTO #ManufacturingTimes VALUES
+INSERT INTO #ManufacturingTimes (PartID, Product, DaysToManufacture) VALUES
 ('AA-111','Widget',7),
 ('BB-222','Widget',2),
 ('CC-333','Widget',3),
@@ -1728,42 +1690,52 @@ INSERT INTO #ManufacturingTimes VALUES
 ('DD-444','Doodad',1);
 GO
 
+INSERT INTO #Orders (OrderID, Product, DaysToDeliver) VALUES
+(1,'Widget',7),
+(2,'Gizmo',3),
+(3,'Doodad',9);
+GO
+
 --Solution 1
 --MAX with INNER JOIN
 WITH cte_Max AS
 (
-SELECT  ProductID, MAX(DaysToManufacture) AS MaxDaysToManufacture
+SELECT  Product,
+        MAX(DaysToManufacture) AS MaxDaysToManufacture
 FROM    #ManufacturingTimes b
-GROUP BY ProductID
+GROUP BY Product
 )
-SELECT  a.*
+SELECT  a.OrderID,
+        a.Product
 FROM    #Orders a INNER JOIN
-        cte_Max b ON a.ProductID = b.ProductID AND a.DaysToDelivery >= b.MaxDaysToManufacture;
+        cte_Max b ON a.Product = b.Product AND a.DaysToDeliver >= b.MaxDaysToManufacture;
 GO
 
 --Solution 2
 --MAX with correlated subquery
 WITH cte_Max AS
 (
-SELECT  ProductID, MAX(DaysToManufacture) AS MaxDaysToManufacture
+SELECT  Product, MAX(DaysToManufacture) AS MaxDaysToManufacture
 FROM    #ManufacturingTimes b
-GROUP BY ProductID
+GROUP BY Product
 )
-SELECT  *
+SELECT  OrderID,
+        Product
 FROM    #Orders a
-WHERE   EXISTS (SELECT  *
+WHERE   EXISTS (SELECT  1
                 FROM    cte_Max b 
-                WHERE   a.ProductID = b.ProductID AND
-                        a.DaysToDelivery >= b.MaxDaysToManufacture);
+                WHERE   a.Product = b.Product AND
+                        a.DaysToDeliver >= b.MaxDaysToManufacture);
 GO
 
 --Solution 3
 --ALL
-SELECT  a.*
+SELECT  OrderID,
+        Product
 FROM    #Orders a
-WHERE   DaysToDelivery >= ALL(SELECT  DaysToManufacture 
+WHERE   DaysToDeliver >= ALL(SELECT  DaysToManufacture 
                               FROM    #ManufacturingTimes b 
-                              WHERE   a.ProductID = b.ProductID);
+                              WHERE   a.Product = b.Product);
 GO
 
 /*----------------------------------------------------
@@ -1776,14 +1748,14 @@ GO
 
 CREATE TABLE #Orders
 (
-OrderID     VARCHAR(100) PRIMARY KEY,
-CustomerID  INTEGER,
-Amount      MONEY
+OrderID     INTEGER PRIMARY KEY,
+CustomerID  INTEGER NOT NULL,
+Amount      MONEY NOT NULL
 );
 GO
 
-INSERT INTO #Orders VALUES
-('Ord143937',1001,25),('Ord789765',1001,50),('Ord345434',2002,65),('Ord465633',3003,50);
+INSERT INTO #Orders (OrderID, CustomerID, Amount) VALUES
+(1,1001,25),(2,1001,50),(3,2002,65),(4,3003,50);
 GO
 
 SELECT  OrderID,
@@ -1811,24 +1783,24 @@ GO
 
 CREATE TABLE #Orders
 (
-InvoiceID   VARCHAR(100) PRIMARY KEY,
-SalesRepID  INTEGER,
-Amount      MONEY,
-SalesType   VARCHAR(100)
+InvoiceID   INTEGER PRIMARY KEY,
+SalesRepID  INTEGER NOT NULL,
+Amount      MONEY NOT NULL,
+SalesType   VARCHAR(100) NOT NULL
 );
 GO
 
 INSERT INTO #Orders VALUES
-('Inv345756',1001,13454,'International'),
-('Inv546744',2002,3434,'International'),
-('Inv234745',4004,54645,'International'),
-('Inv895745',5005,234345,'International'),
-('Inv006321',7007,776,'International'),
-('Inv734534',1001,4564,'Domestic'),
-('Inv600213',2002,34534,'Domestic'),
-('Inv757853',3003,345,'Domestic'),
-('Inv198632',6006,6543,'Domestic'),
-('Inv977654',8008,67,'Domestic');
+(1,1001,13454,'International'),
+(2,2002,3434,'International'),
+(3,4004,54645,'International'),
+(4,5005,234345,'International'),
+(5,7007,776,'International'),
+(6,1001,4564,'Domestic'),
+(7,2002,34534,'Domestic'),
+(8,3003,345,'Domestic'),
+(9,6006,6543,'Domestic'),
+(10,8008,67,'Domestic');
 GO
 
 WITH cte_Domestic AS
@@ -1862,10 +1834,10 @@ GO
 
 CREATE TABLE #Routes
 (
-RouteID  INTEGER NOT NULL,
-DepartureCity VARCHAR(30) NOT NULL,
-ArrivalCity   VARCHAR(30) NOT NULL,
-Cost     MONEY NOT NULL,
+RouteID        INTEGER NOT NULL,
+DepartureCity  VARCHAR(30) NOT NULL,
+ArrivalCity    VARCHAR(30) NOT NULL,
+Cost           MONEY NOT NULL,
 PRIMARY KEY (DepartureCity, ArrivalCity)
 );
 GO
@@ -1998,19 +1970,19 @@ GO
 
 CREATE TABLE #GroupCriteria
 (
-OrderID      VARCHAR(100) PRIMARY KEY,
-Distributor  VARCHAR(100),
-Facility     INTEGER,
-[Zone]       VARCHAR(100),
-Amount       MONEY
+OrderID      INTEGER PRIMARY KEY,
+Distributor  VARCHAR(100) NOT NULL,
+Facility     INTEGER NOT NULL,
+[Zone]       VARCHAR(100) NOT NULL,
+Amount       MONEY NOT NULL
 );
 GO
 
-INSERT INTO #GroupCriteria VALUES
-('Ord156795','ACME',123,'ABC',100),
-('Ord826109','ACME',123,'ABC',75),
-('Ord342876','Direct Parts',789,'XYZ',150),
-('Ord994981','Direct Parts',789,'XYZ',125);
+INSERT INTO #GroupCriteria (OrderID, Distributor, Facility, [Zone], Amount) VALUES
+(1,'ACME',123,'ABC',100),
+(2,'ACME',123,'ABC',75),
+(3,'Direct Parts',789,'XYZ',150),
+(4,'Direct Parts',789,'XYZ',125);
 GO
 
 SELECT  DENSE_RANK() OVER (ORDER BY Distributor, Facility, [Zone]) AS CriteriaID,
@@ -2034,12 +2006,12 @@ CREATE TABLE #RegionSales
 (
 Region       VARCHAR(100),
 Distributor  VARCHAR(100),
-Sales        INTEGER,
+Sales        INTEGER NOT NULL,
 PRIMARY KEY (Region, Distributor)
 );
 GO
 
-INSERT INTO #RegionSales VALUES
+INSERT INTO #RegionSales (Region, Distributor, Sales) VALUES
 ('North','ACE',10),
 ('South','ACE',67),
 ('East','ACE',54),
@@ -2125,7 +2097,7 @@ City VARCHAR(100) PRIMARY KEY
 );
 GO
 
-INSERT INTO #SortOrder VALUES
+INSERT INTO #SortOrder (City) VALUES
 ('Atlanta'),('Baltimore'),('Chicago'),('Denver');
 GO
 
@@ -2173,7 +2145,8 @@ SELECT  a.Associate1,
 FROM    #Associates a INNER JOIN
         cte_Recursive b ON a.Associate2 = b.Associate1
 )
-SELECT  *
+SELECT  Associate1,
+        Associate2
 INTO    #Associates2
 FROM    cte_Recursive
 UNION ALL
@@ -2230,13 +2203,16 @@ FROM #Friends;
 GO
 
 --Created Nodes
-SELECT Friend1 AS Person INTO #Nodes FROM #Friends
+SELECT Friend1 AS Person
+INTO   #Nodes
+FROM   #Friends
 UNION
-SELECT Friend2 FROM #Friends;
+SELECT  Friend2
+FROM    #Friends;
 GO
 
 --Cross join all Edges and Nodes
-SELECT  *
+SELECT  a.Friend1, a.Friend2, b.Person
 INTO    Nodes_Edges_To_Evaluate
 FROM    #Edges a CROSS JOIN
         #Nodes b
@@ -2252,7 +2228,7 @@ SELECT  a.Friend1
         ,b.Friend2 AS MutualFriend1
         ,'----' AS Id2
         ,c.Friend2 AS MutualFriend2
-from   Nodes_Edges_To_Evaluate a LEFT OUTER JOIN
+FROM   Nodes_Edges_To_Evaluate a LEFT OUTER JOIN
        #Edges b ON a.Friend1 = b.Friend1 and a.Person = b.Friend2 LEFT OUTER JOIN
        #Edges c ON a.Friend2 = c.Friend1 and a.Person = c.Friend2
 ),
@@ -2289,24 +2265,20 @@ CREATE TABLE #CustomerOrders
 (
 [Order]     INTEGER,
 CustomerID  INTEGER,
-Quantity    INTEGER,
+Quantity    INTEGER NOT NULL,
 PRIMARY KEY ([Order], CustomerID)
 );
 GO
 
-INSERT INTO #CustomerOrders VALUES (1,1001,5);
-INSERT INTO #CustomerOrders VALUES (2,1001,8);
-INSERT INTO #CustomerOrders VALUES (3,1001,3);
-INSERT INTO #CustomerOrders VALUES (4,1001,7);
-INSERT INTO #CustomerOrders VALUES (1,2002,4);
-INSERT INTO #CustomerOrders VALUES (2,2002,9);
+INSERT INTO #CustomerOrders VALUES 
+(1,1001,5),(2,1001,8),(3,1001,3),(4,1001,7),
+(1,2002,4),(2,2002,9);
 GO
 
 SELECT  [Order],
         CustomerID,
         Quantity,
-        MIN(Quantity) OVER (PARTITION by CustomerID ORDER BY [Order]
-                ROWS UNBOUNDED PRECEDING) AS MinQuantity
+        MIN(Quantity) OVER (PARTITION by CustomerID ORDER BY [Order]) AS MinQuantity
 FROM    #CustomerOrders;
 GO
 
@@ -2322,12 +2294,12 @@ CREATE TABLE #Balances
 (
 CustomerID   INTEGER,
 BalanceDate  DATE,
-Amount       MONEY,
+Amount       MONEY NOT NULL,
 PRIMARY KEY (CustomerID, BalanceDate)
 );
 GO
 
-INSERT INTO #Balances VALUES
+INSERT INTO #Balances (CustomerID, BalanceDate, Amount) VALUES
 (1001,'10/11/2021',54.32),
 (1001,'10/10/2021',17.65),
 (1001,'9/18/2021',65.56),
@@ -2371,11 +2343,12 @@ CREATE TABLE #Balances
 CustomerID  INTEGER,
 StartDate   DATE,
 EndDate     DATE,
-Amount      MONEY
+Amount      MONEY,
+PRIMARY KEY (CustomerID, StartDate)
 );
 GO
 
-INSERT INTO #Balances VALUES
+INSERT INTO #Balances (CustomerID, StartDAte, EndDate, Amount) VALUES
 (1001,'10/11/2021','12/31/9999',54.32),
 (1001,'10/10/2021','10/10/2021',17.65),
 (1001,'9/18/2021','10/12/2021',65.56),
@@ -2386,12 +2359,12 @@ GO
 
 WITH cte_Lag AS
 (
-SELECT  *,
+SELECT  CustomerID, StartDAte, EndDate, Amount,
         LAG(StartDate) OVER 
             (PARTITION BY CustomerID ORDER BY StartDate DESC) AS StartDate_Lag
 FROM    #Balances
 )
-SELECT  *
+SELECT  CustomerID, StartDAte, EndDate, Amount, StartDate_Lag
 FROM    cte_Lag
 WHERE   EndDate >= StartDate_Lag
 ORDER BY CustomerID, StartDate DESC;
@@ -2413,7 +2386,7 @@ PRIMARY KEY (AccountID, Balance)
 );
 GO
 
-INSERT INTO #AccountBalances VALUES
+INSERT INTO #AccountBalances (AccountID, Balance) VALUES
 (1001,234.45),(1001,-23.12),(2002,-93.01),(2002,-120.19),
 (3003,186.76), (3003,90.23), (3003,10.11);
 GO
@@ -2469,14 +2442,14 @@ GO
 CREATE TABLE #Schedule
 (
 ScheduleId  CHAR(1) PRIMARY KEY,
-StartTime   DATETIME,
-EndTime     DATETIME
+StartTime   DATETIME NOT NULL,
+EndTime     DATETIME NOT NULL
 );
 GO
 
 CREATE TABLE #Activity
 (
-ScheduleID   CHAR(1),
+ScheduleID   CHAR(1) REFERENCES #Schedule (ScheduleID),
 ActivityName VARCHAR(100),
 StartTime    DATETIME,
 EndTime      DATETIME,
@@ -2484,29 +2457,31 @@ PRIMARY KEY (ScheduleID, ActivityName, StartTime, EndTime)
 );
 GO
 
-INSERT INTO #Schedule
-VALUES
+INSERT INTO #Schedule (ScheduleID, StartTIme, EndTime) VALUES
 ('A',CAST('2021-10-01 10:00:00' AS DATETIME),CAST('2021-10-01 15:00:00' AS DATETIME)),
 ('B',CAST('2021-10-01 10:15:00' AS DATETIME),CAST('2021-10-01 12:15:00' AS DATETIME));
 GO
 
-INSERT INTO #Activity
-VALUES
+INSERT INTO #Activity (ScheduleID, ActivityName, StartTime, EndTime) VALUES
 ('A','Meeting',CAST('2021-10-01 10:00:00' AS DATETIME),CAST('2021-10-01 10:30:00' AS DATETIME)),
 ('A','Break',CAST('2021-10-01 12:00:00' AS DATETIME),CAST('2021-10-01 12:30:00' AS DATETIME)),
 ('A','Meeting',CAST('2021-10-01 13:00:00' AS DATETIME),CAST('2021-10-01 13:30:00' AS DATETIME)),
 ('B','Break',CAST('2021-10-01 11:00:00'AS DATETIME),CAST('2021-10-01 11:15:00' AS DATETIME));
 GO
 
-SELECT ScheduleID, StartTime AS ScheduleTime INTO #ScheduleTimes FROM #Schedule
+--Step 1
+SELECT  ScheduleID, StartTime AS ScheduleTime 
+INTO    #ScheduleTimes
+FROM    #Schedule
 UNION
-SELECT ScheduleID, EndTime FROM #Schedule
+SELECT  ScheduleID, EndTime FROM #Schedule
 UNION
-SELECT ScheduleID, StartTime FROM #Activity
+SELECT  ScheduleID, StartTime FROM #Activity
 UNION
-SELECT ScheduleID, EndTime FROM #Activity;
+SELECT  ScheduleID, EndTime FROM #Activity;
 GO
 
+--Step 2
 SELECT  a.ScheduleID
         ,a.ScheduleTime
         ,COALESCE(b.ActivityName, c.ActivityName, 'Work') AS ActivityName
@@ -2519,15 +2494,16 @@ FROM    #ScheduleTimes a LEFT OUTER JOIN
 ORDER BY a.ScheduleID, a.ScheduleTime;
 GO
 
+--Step 3
 WITH cte_Lead AS
 (
-SELECT  ScheduleID, 
-        ActivityName, 
-        ScheduleTime as StartTime, 
+SELECT  ScheduleID,
+        ActivityName,
+        ScheduleTime as StartTime,
         LEAD(ScheduleTime) OVER (PARTITION BY ScheduleID ORDER BY ScheduleTime) AS EndTime
 FROM    #ActivityCoalesce
 )
-SELECT  *
+SELECT  ScheduleID, ActivityName, StartTime, EndTime
 FROM    cte_Lead
 WHERE   EndTime IS NOT NULL;
 GO
@@ -2548,8 +2524,7 @@ PRIMARY KEY (SalesID, [Year])
 );
 GO
 
-INSERT INTO #Sales
-VALUES
+INSERT INTO #Sales (SalesID, [Year]) VALUES
 (1001,2018),(1001,2019),(1001,2020),(2002,2020),(2002,2021),
 (3003,2018),(3003,2020),(3003,2021),(4004,2019),(4004,2020),(4004,2021);
 GO
@@ -2588,12 +2563,12 @@ GO
 CREATE TABLE #ElevatorOrder
 (
 [Name]     VARCHAR(100) PRIMARY KEY,
-[Weight]   INTEGER,
-LineOrder  INTEGER
+[Weight]   INTEGER NOT NULL,
+LineOrder  INTEGER NOT NULL
 );
 GO
 
-INSERT INTO #ElevatorOrder
+INSERT INTO #ElevatorOrder ([Name], [Weight], LineOrder)
 VALUES
 ('Haruto',611,1),('Minato',533,2),('Haruki',623,3),
 ('Sota',569,4),('Aoto',610,5),('Hinata',525,6);
@@ -2601,12 +2576,12 @@ GO
 
 WITH cte_Running_Total AS
 (
-SELECT  *,
+SELECT  [Name], [Weight], LineOrder,
         SUM(Weight) OVER (ORDER BY LineOrder) AS Running_Total
 FROM    #ElevatorOrder
 )
 SELECT  TOP 1
-        *
+        [Name], [Weight], LineOrder, Running_Total
 FROM    cte_Running_Total
 WHERE   Running_Total <= 2000
 ORDER BY Running_Total DESC;
@@ -2627,12 +2602,12 @@ CREATE TABLE #Pitches
 (
 BatterID     INTEGER,
 PitchNumber  INTEGER,
-Result       VARCHAR(100),
+Result       VARCHAR(100) NOT NULL,
 PRIMARY KEY (BatterID, PitchNumber)
 );
 GO
 
-INSERT INTO #Pitches VALUES
+INSERT INTO #Pitches (BatterID, PitchNumber, Result) VALUES
 (1001,1,'Foul'), (1001,2,'Foul'),(1001,3,'Ball'),(1001,4,'Ball'),(1001,5,'Strike'),
 (2002,1,'Ball'),(2002,2,'Strike'),(2002,3,'Foul'),(2002,4,'Foul'),(2002,5,'Foul'),
 (2002,6,'In Play'),(3003,1,'Ball'),(3003,2,'Ball'),(3003,3,'Ball'),
@@ -2649,14 +2624,20 @@ INTO    #BallsStrikes
 FROM    #Pitches;
 GO
 
-SELECT  *,
+SELECT  BatterID,
+        PitchNumber,
+        Result,
         SUM(Ball) OVER (PARTITION BY BatterID ORDER BY PitchNumber) AS SumBall,
         SUM(Strike) OVER (PARTITION BY BatterID ORDER BY PitchNumber) AS SumStrike
 INTO    #BallsStrikesSumWidow
 FROM    #BallsStrikes;
 GO
 
-SELECT  *,
+SELECT  BatterID,
+        PitchNumber,
+        Result,
+        SumBall,
+        SumStrike,
         LAG(SumBall,1,0) OVER (PARTITION BY BatterID ORDER BY PitchNumber) AS SumBallLag,
         (CASE   WHEN    Result IN ('Foul','In Play') AND
                         LAG(SumStrike,1,0) OVER (PARTITION BY BatterID ORDER BY PitchNumber) >= 3 THEN 2
@@ -2696,14 +2677,15 @@ PRIMARY KEY (AssemblyID, Part)
 );
 GO
 
-INSERT INTO #Assembly VALUES
+INSERT INTO #Assembly (AssemblyID, Part) VALUES
 (1001,'Bolt'),(1001,'Screw'),(2002,'Nut'),
 (2002,'Washer'),(3003,'Toggle'),(3003,'Bolt');
 GO
 
-SELECT  HASHBYTES('SHA2_512',CONCAT(AssemblyID, Part)) AS ExampleUniqueID1, 
+SELECT  HASHBYTES('SHA2_512',CONCAT(AssemblyID, Part)) AS ExampleUniqueID1,
         CHECKSUM(CONCAT(AssemblyID, Part)) AS ExampleUniqueID1,
-        *
+        AssemblyID,
+        Part
 FROM    #Assembly;
 GO
 
@@ -2718,7 +2700,7 @@ GO
 CREATE TABLE #CustomerInfo
 (
 CustomerID   INTEGER PRIMARY KEY,
-PhoneNumber  VARCHAR(14),
+PhoneNumber  VARCHAR(14) NOT NULL,
 CONSTRAINT ckPhoneNumber CHECK (LEN(PhoneNumber) = 14
                             AND SUBSTRING(PhoneNumber,1,1)= '('
                             AND SUBSTRING(PhoneNumber,5,1)= ')'
@@ -2727,11 +2709,11 @@ CONSTRAINT ckPhoneNumber CHECK (LEN(PhoneNumber) = 14
 );
 GO
 
-INSERT INTO #CustomerInfo VALUES
+INSERT INTO #CustomerInfo (CustomerID, PhoneNumber) VALUES
 (1001,'(555)-555-5555'),(2002,'(555)-555-5555'), (3003,'(555)-555-5555');
 GO
 
-SELECT  *
+SELECT  CustomerID, PhoneNumber
 FROM    #CustomerInfo;
 GO
 
@@ -2745,15 +2727,16 @@ GO
 
 CREATE TABLE #Spouses
 (
-PrimaryID  VARCHAR(100) PRIMARY KEY,
-SpouseID   VARCHAR(100) UNIQUE NOT NULL
+PrimaryID  VARCHAR(100),
+SpouseID   VARCHAR(100),
+PRIMARY KEY (PrimaryID, SpouseID)
 );
 GO
 
 INSERT INTO #Spouses VALUES
 ('Pat','Charlie'),('Jordan','Casey'),
 ('Ashley','Dee'),('Charlie','Pat'),
-('Casey','Jordan'),('Dee','Ashley')
+('Casey','Jordan'),('Dee','Ashley');
 GO
 
 WITH cte_Reciprocals AS
@@ -2768,7 +2751,7 @@ FROM    #Spouses
 cte_DenseRank AS
 (
 SELECT  DENSE_RANK() OVER (ORDER BY ID1) AS GroupID,
-        *
+        ID1, ID2, PrimaryID, SpouseID
 FROM    cte_Reciprocals
 )
 SELECT  GroupID,
@@ -2789,25 +2772,26 @@ GO
 
 CREATE TABLE #WinningNumbers
 (
-Number  INTEGER
+Number  INTEGER PRIMARY KEY
 );
 GO
 
-INSERT INTO #WinningNumbers VALUES(25),(45),(78);
+INSERT INTO #WinningNumbers (Number) VALUES
+(25),(45),(78);
 GO
 
 CREATE TABLE #LotteryTickets
 (
-TicketID    VARCHAR(100),
+TicketID    VARCHAR(3),
 Number      INTEGER,
 PRIMARY KEY (TicketID, Number)
 );
 GO
 
-INSERT INTO #LotteryTickets VALUES
-('A23423',25),('A23423',45),('A23423',78),
-('B35643',25),('B35643',45),('B35643',98),
-('C98787',67),('C98787',86),('C98787',91);
+INSERT INTO #LotteryTickets (TicketID, Number) VALUES
+('AAA',25),('AAA',45),('AAA',78),
+('BBB',25),('BBB',45),('BBB',98),
+('CCC',67),('CCC',86),('CCC',91);
 GO
 
 WITH cte_Ticket AS
@@ -2839,28 +2823,29 @@ GO
 CREATE TABLE #ProductsA
 (
 ProductName  VARCHAR(100) PRIMARY KEY,
-Quantity     INTEGER
+Quantity     INTEGER NOT NULL
 );
 GO
 
 CREATE TABLE #ProductsB
 (
 ProductName  VARCHAR(100) PRIMARY KEY,
-Quantity     INTEGER
+Quantity     INTEGER NOT NULL
 );
 GO
 
-INSERT INTO #ProductsA VALUES
+INSERT INTO #ProductsA (ProductName, Quantity) VALUES
 ('Widget',7),
 ('Doodad',9),
 ('Gizmo',3);
 GO
 
-INSERT INTO #ProductsB VALUES
+INSERT INTO #ProductsB (ProductName, Quantity) VALUES
 ('Widget',7),
 ('Doodad',6),
 ('Dingbat',9);
 GO
+
 WITH cte_FullOuter AS
 (
 SELECT  a.ProductName AS ProductNameA,
@@ -2900,7 +2885,7 @@ DROP TABLE IF EXISTS #Numbers;
 DECLARE @vTotalNumbers INTEGER = 10;
 
 WITH cte_Number (Number)
-AS (
+AS  (
     SELECT 1 AS Number
     UNION ALL
     SELECT  Number + 1
@@ -2910,10 +2895,10 @@ AS (
 SELECT  Number
 INTO    #Numbers
 FROM    cte_Number
-OPTION (MAXRECURSION 0)--A value of 0 means no limit to the recursion level
+OPTION (MAXRECURSION 0);--A value of 0 means no limit to the recursion level
 GO
 
-SELECT *
+SELECT Number
 FROM   #Numbers;
 GO
 
@@ -2932,8 +2917,8 @@ String   VARCHAR(100) NOT NULL
 );
 GO
 
-INSERT INTO #Strings
-VALUES('SELECT EmpID, MngrID FROM Employees;'),('SELECT * FROM Transactions;');
+INSERT INTO #Strings (String) VALUES
+('SELECT EmpID, MngrID FROM Employees;'),('SELECT * FROM Transactions;');
 GO
 
 --Dispaly the results using recursion
@@ -2957,7 +2942,10 @@ FROM   cte_Anchor
 WHERE  Position > 0
 )
 SELECT  ROW_NUMBER() OVER (PARTITION BY QuoteID ORDER BY Starts) AS RowNumber,
-        *,
+        QuoteID,
+        String,
+        Starts,
+        Position,
         SUBSTRING(String, Starts, CASE WHEN Position > 0 THEN Position - Starts ELSE LEN(String) END) Word,
         LEN(String) - LEN(REPLACE(String,' ','')) AS TotalSpaces
 FROM    cte_Anchor
@@ -3012,7 +3000,7 @@ WHILE @@FETCH_STATUS = 0
 CLOSE c_cursor;
 DEALLOCATE c_cursor;
 
-SELECT  * 
+SELECT  Equation, TotalSum
 FROM    #Equations;
 GO
 
