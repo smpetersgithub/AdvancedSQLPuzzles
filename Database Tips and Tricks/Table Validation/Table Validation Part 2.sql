@@ -1,13 +1,17 @@
 /*********************************************************************
 Scott Peters
-Full Outer Join Create Dynamic SQL
+Full Outer Join Dynamic SQL Creation
 https://advancedsqlpuzzles.com
 Last Updated: 10/06/2022
 
-This script is written in Microsoft SQL Server's T-SQL
+This script is written in Microsoft SQL Server's T-SQL and creates a dynamic SQL statement for performing a full outer join between two tables, with the option to compare column counts, row counts, and distinct row counts between the two tables.
+The script also includes the ability to join on specific columns, with results sorted by level of validation (100-900).
 
-See full instructions in PDF format at the following GitHub repository:
-https://github.com/smpetersgithub/AdvancedSQLPuzzles/tree/main/Database%20Tips%20and%20Tricks/Table%20Validation
+Instructions:
+
+Set the LookupID variable to match the ID of the desired tables to compare in the ##TableInformation table
+Execute the script
+The final dynamic SQL statement will be located in the #SQLStatementFinal table
 
 **********************************************************************/
 SET NOCOUNT ON
