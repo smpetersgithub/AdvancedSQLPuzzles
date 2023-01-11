@@ -3,18 +3,32 @@ Scott Peters
 Create Constraints On A Temp Table
 
 https://advancedsqlpuzzles.com
-Last Updated: 01/10/2023
+Last Updated: 01/11/2023
 
-This script is written in Microsoft SQL Server's T-SQL
+This script creates several constraints on a temporary table, #EmployeePayRecords, that are 
+identical to the constraints on the persistent table EmployeePayRecords in the dbo schema.
 
-This script creates the constraints from a persistant table on a temp table.  
+It should be noted that the script uses the specific example table "EmployeePayRecords" and Schema "dbo", and the user should adjust 
+the variables @vschema_name and @vtable_name to the appropriate names of the desired table to use.
 
-This is userful for when you want to run any type of DELETE, INSERT or UPDATE on the persistant table but first
-want to ensure it will not violate any constraint.
+Also, temporary tables are only available while the SQL Server instance is running, and the data is not persisted across restarts, 
+therefore it should not be used for any type of permanent data storage or as a permanent solution.
 
-NOT NULL, CHECK, UNIQUE and PRIMARY KEY constraints are created, however, FOREIGN KEY constraints cannot be created on temp tables.
+The script creates several temporary tables to store the SQL statements that will create the different types of constraints on the temporary table.
+*  #DynamicSQL
+*  #PrimaryUniqueKeyConstraints
+*  #NULLConstraints 
+*  #CheckConstraints 
+*  #ForeignPrimaryUniqueKeyConstraints
 
-Instructions
+It then populates the #DynamicSQL table with a set of SQL statements generated from information 
+in the system tables of the SQL Server instance, such as sys.tables, sys.indexes and sys.key_constraints.
+
+The SQL statements in the #DynamicSQL table are then executed to create the NOT NULL, UNIQUE, PRIMARY KEY, and CHECK constraints 
+on the #EmployeePayRecords temporary table, though FOREIGN KEY constraints cannot be created on temp table, 
+due to the limitation of the temp table only being stored on the tempdb.
+
+Instructions:
 Step 1  Manually create the temp table from the persistant table using SELECT * INTO (you cannot create a temp table via dynamic sql).
 Step 2  Change the variables @vschema_name and @vtable_name to the appropriate names.
 
@@ -32,6 +46,7 @@ Storing temporary tables in tempdb allows SQL Server to more easily manage and m
 also improve performance as it is separate from other databases, helping reduce contention for resources. 
 Additionally, SQL Server uses tempdb to store various other internal objects such as temporary tables, 
 temporary stored procedures, and intermediate results of queries.
+
 **********************************************************************/
 
 -----------------------------------------------
