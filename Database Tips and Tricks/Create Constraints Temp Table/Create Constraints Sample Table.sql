@@ -3,11 +3,19 @@ Scott Peters
 Create Constraints On A Temp Table
 
 https://advancedsqlpuzzles.com
-Last Updated: 01/10/2023
+Last Updated: 01/11/2023
 
 This script is written in Microsoft SQL Server's T-SQL
 
-This script creates a persistant table with various constraints.
+This script creates two tables called EmployeePayRecords and Employees.
+
+It then sets various constraints on the EmployeePayRecords table:
+*  All columns are set to be NOT NULL
+*  EmployeeID_Unique_NotNull and (EmployeeID,FiscalYear) are set to be UNIQUE
+*  (EmployeeID,FiscalYear) is set to be a primary key
+*  There are several check constraints to ensure the FiscalYear is the same as the year of the StartDate and EndDate, StartDate and EndDate must be 
+   January 1 and December 31 respectively, and the pay rate must be greater than 0.
+*  A foreign key constraint is added between EmployeePayRecords.EmployeeID and Employees.EmployeeID to maintain referential intgrity.
 
 **********************************************************************/
 DROP TABLE IF EXISTS EmployeePayRecords;
