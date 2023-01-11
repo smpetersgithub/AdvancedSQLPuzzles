@@ -2,13 +2,11 @@
 Scott Peters
 Creating a Calendar Table
 https://advancedsqlpuzzles.com
-Last Updated: 07/11/2022
+Last Updated: 01/11/2023
 
 This script is written in Microsoft SQL Server's T-SQL
 
 This script shows example usage of the function FnReturnCalendarTable.
-See full instructions in PDF format at the following GitHub repository:
-https://github.com/smpetersgithub/AdvancedSQLPuzzles/tree/main/Database%20Tips%20and%20Tricks
 
 **********************************************************************/
 SET NOCOUNT ON;
@@ -39,7 +37,6 @@ WHILE @vStartDate <> '2021-01-01'
 
 -----------------------------------------------------
 -----------------------------------------------------
-
 
 --Basic usage with CROSS APPLY
 SELECT  ct.*
