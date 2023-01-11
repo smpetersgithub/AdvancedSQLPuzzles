@@ -3,16 +3,21 @@ Scott Peters
 Data Profiling
 
 https://advancedsqlpuzzles.com
-Last Updated: 01/10/2023
+Last Updated: 01/11/2023
 
 This script is written in Microsoft SQL Server's T-SQL
 
-This script is designed to update a temporary table called #DataProfiling with a user specified metric (COUNT, AVG, MAX, MIN, etc...).  
-The schema and table to be profiled are specified in the variables @vSchemaName and @vTableName. 
-The script then uses a cursor to iterate through the temporary table and execute the update statement for each column in the specified table.
+This script is intended to update a temporary table called #DataProfiling with a user supplied metric 
+(such as COUNT, AVG, MAX, MIN) for a user-specified schema and table name. 
+
+The script uses a cursor to iterate through each column in the specified table, 
+and execute an update statement for each column with a different metric specified. 
+
+This script creates a temporary table called #DataProfilingSQL, which contain the SQL statements that used to update the #DataProfiling table.
+
+It also provide examples for SQL statements such as determining the count of NULL markers, empty strings, keywords, etc in the columns. 
 
 Example SQL statements are provided to find NULL markers, empty strings, keywords, etc....
-
 
 **********************************************************************/
 
