@@ -1,14 +1,16 @@
-CREATE OR ALTER PROC dbo.SpPivotData
+CREATE OR ALTER PROC SpPivotData
 /*********************************************************************
 Scott Peters
-Creates the SpPivotData function
+Creates the procedure SpPivotData
 https://advancedsqlpuzzles.com
 Last Updated: 07/11/2022
 
 This script is written in Microsoft SQL Server's T-SQL
 
-See full instructions in PDF format at the following GitHub repository:
-https://github.com/smpetersgithub/AdvancedSQLPuzzles/tree/main/Database%20Tips%20and%20Tricks
+This script creates the stored procedure "SpPivotData" that can be used to
+automate the creation of pivoted data sets.
+
+See the script "Pivot Data Examples.sql" for example usage of this stored procedure. 
 
 **********************************************************************/
 @vQuery    AS NVARCHAR(MAX),
