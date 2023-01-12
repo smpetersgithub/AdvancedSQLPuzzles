@@ -8,9 +8,9 @@ The concept behind a Calendar table is that each entry is a date and additional 
 
 ## Installation
 
-Compile the "FnReturnCalendarTable.sql" script to create the function "FnReturnCalendarTable".  
+Compile the **FnReturnCalendarTable.sql** script to create the function **FnReturnCalendarTable**.  
 
-The "FnReturnCalendarTable Example Use.sql" script gives examples on how to use the function.
+The **FnReturnCalendarTable Example Use.sql** script gives examples on how to use the function.
 
 The basic usage is:
  
