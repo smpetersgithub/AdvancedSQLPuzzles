@@ -10,10 +10,10 @@ Same logic, one returns a table and the other returns a varchar. Passing two dat
 
 Inside this GitHub repository you will find the following SQL scripts:
 
-FnDateDiffPartsChar.sql  
+1) **FnDateDiffPartsChar.sql**   
 A script that creates the stored procedure FnDateDiffPartsChar
 
-FnDateDiffPartsTable.sql  
+2) **FnDateDiffPartsTable.sql**  
 A script that creates the stored procedure FnDateDiffPartsTable
 
 ## Usage
