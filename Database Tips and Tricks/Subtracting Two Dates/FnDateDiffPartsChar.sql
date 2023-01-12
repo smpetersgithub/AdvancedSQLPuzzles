@@ -1,20 +1,20 @@
-CREATE OR ALTER FUNCTION dbo.FnDateDiffPartsChar(@DateTime1 AS DATETIME2, @DateTime2 AS DATETIME2) 
+CREATE OR ALTER FUNCTION FnDateDiffPartsChar(@DateTime1 AS DATETIME2, @DateTime2 AS DATETIME2) 
 RETURNS VARCHAR(1000)
 /*********************************************************************
 Scott Peters
 Creates the FnDateDiffPartsChar function
 https://advancedsqlpuzzles.com
-Last Updated: 07/11/2022
+Last Updated: 01/12/2023
 
 This script is written in Microsoft SQL Server's T-SQL
 
-See full instructions in PDF format at the following GitHub repository:
-https://github.com/smpetersgithub/AdvancedSQLPuzzles/tree/main/Database%20Tips%20and%20Tricks
+This script creates a scalar valued function that returns the difference between two datetime values,
+broken down into year, month, day, hour, minute, second and nano second parts.
 
--- Test function
+Example usage:
 SELECT dbo.FnDateDiffPartsChar('20110619 00:00:00.0000001', '20110619 00:00:00.0000000');
 SELECT dbo.FnDateDiffPartsChar('20171231', '20160101 00:00:00.0000000');
-SELECT dbo.FnDateDiffPartsChar('20170518 00:00:00.0000001','20110619 00:00:00.1110000') AS;
+SELECT dbo.FnDateDiffPartsChar('20170518 00:00:00.0000001','20110619 00:00:00.1110000');
 
 **********************************************************************/
 AS
