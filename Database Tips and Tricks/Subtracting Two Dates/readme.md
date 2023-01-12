@@ -27,7 +27,7 @@ SELECT dbo.FnDateDiffPartsChar('20171231', '20160101 00:00:00.0000000');
 SELECT dbo.FnDateDiffPartsChar('20170518 00:00:00.0000001','20110619 00:00:00.1110000');
 ```
 Example usage of the table valued function FnDateDiffPartsTable.  
-This function is used with in the SELECT statement.
+This function is used with in the FROM statement.
 
 ```sql
 SELECT * FROM dbo.FnDateDiffPartsChar('20110619 00:00:00.0000001', '20110619 00:00:00.0000000');
