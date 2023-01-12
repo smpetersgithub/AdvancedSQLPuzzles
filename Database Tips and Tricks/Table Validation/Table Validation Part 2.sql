@@ -2,7 +2,7 @@
 Scott Peters
 Full Outer Join Dynamic SQL Creation
 https://advancedsqlpuzzles.com
-Last Updated: 10/06/2022
+Last Updated: 01/12/2022
 
 This script is written in Microsoft SQL Server's T-SQL and creates a dynamic SQL statement for performing a full outer join between two tables, with the option to compare column counts, row counts, and distinct row counts between the two tables.
 The script also includes the ability to join on specific columns, with results sorted by level of validation (100-900).
