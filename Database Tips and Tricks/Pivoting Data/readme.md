@@ -6,10 +6,10 @@ The pivot operator is a powerful feature in SQL, but often goes unused due to it
 
 Inside this GitHub repository you will find the following SQL scripts:
 
-1) SpPivotData.sql  
+1) **SpPivotData.sql**  
 A script that creates the stored procedure SpPivotData
 
-2) Pivot Data Examples.sql  
+2) **Pivot Data Examples.sql**  
 Example usages of the SpPivotData stored procedure.
 
 ## Usage
