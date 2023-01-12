@@ -6,14 +6,13 @@ Last Updated: 07/11/2022
 
 This script is written in Microsoft SQL Server's T-SQL
 
-See full instructions in PDF format at the following GitHub repository:
-https://github.com/smpetersgithub/AdvancedSQLPuzzles/tree/main/Database%20Tips%20and%20Tricks
+Example usage of the stored procedure SpPivotData 
 
 **********************************************************************/
-DROP TABLE IF EXISTS dbo.TestPivot
+DROP TABLE IF EXISTS TestPivot
 GO
 
-CREATE TABLE dbo.TestPivot
+CREATE TABLE TestPivot
 (
 Distributor VARCHAR(20),
 TransactionDate DATE,
@@ -23,7 +22,7 @@ SumTransactions INTEGER
 );
 GO
 
-INSERT INTO dbo.TestPivot VALUES
+INSERT INTO TestPivot VALUES
 ('ACE','2019-01-01','ATM',1,1),
 ('ACE','2019-01-02','ATM',2,2),
 ('ACE','2019-01-03','ATM',3,3),
@@ -59,7 +58,7 @@ WHERE b.[Name] = 'TestPivot';
 
 --Pivot the data by [SchemaName, TableName, ColumnName]
 --Count the number of data types [date, int, varchar, etc..]
-EXEC dbo.SpPivotData
+EXEC SpPivotData
   @vQuery    = 'SELECT SchemaName, TableName, ColumnName, DataType FROM ##DataDictionary',
   @vOnRows  =  'SchemaName, TableName, ColumnName',
   @vOnColumns  = 'DataType',
@@ -67,7 +66,7 @@ EXEC dbo.SpPivotData
   @vAggColumns  = '*';
 
 --Number of datatypes [date, int, varchar, etc...] by table name [TestPivot]
-EXEC dbo.SpPivotData
+EXEC SpPivotData
   @vQuery    = 'SELECT TableName, DataType, COUNT(*) AS NumberOfDataTypes FROM ##DataDictionary GROUP BY TableName, DataType',
   @vOnRows  = 'TableName',
   @vOnColumns  = 'DataType',
@@ -79,7 +78,7 @@ EXEC dbo.SpPivotData
 -------------------------------------------------------------
 --Show each [TransactionType] in the [dbo.TestPivot] table and pivot by [TransactionDate]
 --SUM the [TotalTransactions] column
-EXEC dbo.SpPivotData
+EXEC SpPivotData
   @vQuery    = 'dbo.TestPivot',
   @vOnRows  = 'TransactionType',
   @vOnColumns  = 'TransactionDate',
@@ -87,7 +86,7 @@ EXEC dbo.SpPivotData
   @vAggColumns  = 'TotalTransactions';
 
 --Same as above, but now add [Distributor] to the row variable
-EXEC dbo.SpPivotData
+EXEC SpPivotData
   @vQuery    = 'dbo.TestPivot',
   @vOnRows  = 'Distributor, TransactionType',
   @vOnColumns  = 'TransactionDate',
