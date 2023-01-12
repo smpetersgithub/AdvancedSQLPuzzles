@@ -1,4 +1,4 @@
-CREATE OR ALTER FUNCTION dbo.FnDateDiffPartsTable(@DateTime1 AS DATETIME2, @DateTime2 AS DATETIME2) 
+CREATE OR ALTER FUNCTION FnDateDiffPartsTable(@DateTime1 AS DATETIME2, @DateTime2 AS DATETIME2) 
 RETURNS @DateDifference TABLE (
 YearDifference INT,
 MonthDifference INT,
@@ -10,20 +10,17 @@ NanoDifference INT
 )
 /*********************************************************************
 Scott Peters
-Creating a Function to return Date Diff Parts
+Creates the FnDateDiffPartsTable function
 https://advancedsqlpuzzles.com
-Last Updated: 01/10/2023
+Last Updated: 01/12/2023
 
 This script is written in Microsoft SQL Server's T-SQL
 
 This script creates a table valued function that returns the difference between two datetime values,
 broken down into year, month, day, hour, minute, second and nano second parts.
 
-Instructions:
-Modify the input variables @DateTime1 and @DateTime2 to match your desired start and end dates.
-Execute the script.
-Example usage: SELECT * FROM dbo.FnDateDiffPartsTable('2022-01-01 00:00:00.0000000', '2022-02-01 00:00:00.0000000');
-The results will return a table with 7 columns YearDifference, MonthDifference, DayDifference, HourDifference, MinuteDifference, SecondDifference, and NanoDifference.
+Example usage:
+SELECT * FROM dbo.FnDateDiffPartsTable('20130518 00:00:00.0000001','20110619 00:00:00.1110000');
 
 **********************************************************************/
 AS
