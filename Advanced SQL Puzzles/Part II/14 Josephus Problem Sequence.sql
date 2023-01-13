@@ -3,8 +3,10 @@ Scott Peters
 Josephus Problem
 https://advancedsqlpuzzles.com
 Last Updated: 01/13/2023
+Microsoft SQL Server T-SQL
 
-This script is written in SQL Server's T-SQL.
+This script runs an iteration of the Josephus Problem.
+https://en.wikipedia.org/wiki/Josephus_problem
 
 This script creates and populates a table of soldiers using a sequence. 
 It then uses a while loop to determine which soldier is eliminated in each iteration, 
