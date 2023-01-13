@@ -1,11 +1,9 @@
 /*********************************************************************
 Scott Peters
 Create Constraints On A Temp Table
-
 https://advancedsqlpuzzles.com
 Last Updated: 01/11/2023
-
-This script is written in Microsoft SQL Server's T-SQL
+Microsoft SQL Server T-SQL
 
 This script creates two tables called EmployeePayRecords and Employees.
 
