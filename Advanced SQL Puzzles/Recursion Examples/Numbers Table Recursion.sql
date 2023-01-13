@@ -1,9 +1,11 @@
 /*----------------------------------------------------
 Scott Peters
-https://AdvancedSQLPuzzles.com
+Numbers Table
+https://advancedsqlpuzzles.com
+Last Updated: 01/13/2022
 
-Builds a numbers table using recursion
-Set the start and end numbers via the variables @vStartNumber and @vEndNumber
+This script uses recursion to build a numbers table.
+Set the start and end numbers via the variables @vStartNumber and @vEndNumber.
 
 */----------------------------------------------------
 
