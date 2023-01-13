@@ -2,20 +2,17 @@
 Scott Peters
 Add The Numbers Up
 https://advancedsqlpuzzles.com
-Last Updated: 07/05/2022
+Last Updated: 01/13/2023
 
 This script is written in SQL Server's T-SQL
 
-
-• This solution uses an initial numbers table (#Numbers) that must be populated
-• A table #Operators is created to store the plus and minus signs
-• Output is saved in the temporary table #Permutations where I then populate the #PermutationsString which uses a CROSS JOIN to the #Operators table
-• I then create the #PermutationsDynamicAdd as predicate logic needs to be applied to limit the output to the correct data
-• I then create a cursor to loop through each record and run a dynamic SQL statement to determine the sum of each permutation (i.e., the string 1+2+3 would be 6) and update the #PermutationsDynamicAdd table
-• The code will run properly if the following conditions are met:
-    1) The first number is a single digit
-    2) All digits are successive and there are no gaps in numbers
-    3) Two of the numbers cannot be two digits (i.e., 10 and 11)
+This script creates and populates several tables in order to generate all possible 
+permutations of a set of numbers and determine which permutations do not have adjacent 
+numbers. The script uses a combination of CTEs, a WHILE loop, and dynamic SQL to generate 
+and filter the permutations. The script also creates and populates a table of operators (+ and -) 
+which is used in conjunction with the permutations to determine the sum of each permutation using 
+a cursor. It's important to note that the script has some limitations and the numbers table must 
+meet certain criteria for the script to work correctly.
 
 **********************************************************************/
 
@@ -156,6 +153,7 @@ WHILE @@FETCH_STATUS = 0
 
 CLOSE perm_cursor;
 DEALLOCATE perm_cursor;
+GO
 
 ---------------------
 ---------------------
