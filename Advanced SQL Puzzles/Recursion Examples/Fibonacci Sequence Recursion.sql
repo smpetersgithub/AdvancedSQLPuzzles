@@ -3,6 +3,7 @@ Scott Peters
 Fibonacci Sequence
 https://advancedsqlpuzzles.com
 Last Updated: 01/13/2022
+Microsoft SQL Server T-SQL
 
 This script uses recursion to calculate Fibonacci numbers.
 
