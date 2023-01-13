@@ -1,11 +1,9 @@
 /*********************************************************************
 Scott Peters
 Creating an Excel Concatenation Formula
-
 https://advancedsqlpuzzles.com
-Last Updated: 01/10/2023
-
-This script is written in Microsoft SQL Server's T-SQL
+Last Updated: 01/13/2023
+Microsoft SQL Server T-SQL
 
 This script creates an Excel concatenation formula based on the number of user-inputted columns. 
 The formula uses the "&" operator to join together several strings of text and cell references. 
