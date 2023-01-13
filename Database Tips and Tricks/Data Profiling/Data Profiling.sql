@@ -5,15 +5,14 @@ https://advancedsqlpuzzles.com
 Last Updated: 01/13/2023
 Microsoft SQL Server T-SQL
 
-This script is intended to update a temporary table called #DataProfiling with a user supplied metric 
-(such as COUNT, AVG, MAX, MIN) for a user-specified schema and table name. 
+This script is intended to update a temporary table called #DataProfiling with a user 
+supplied metric (such as COUNT, AVG, MAX, MIN) for a user-specified schema and table name. 
 
-The script uses a cursor to iterate through each column in the specified table, 
-and execute an update statement for each column with a different metric specified. 
+The script uses a cursor to iterate through each column in the specified table, and 
+execute an update statement for each column with a different metric specified. 
 
-This script creates a temporary table called #DataProfilingSQL, which contain the SQL statements that used to update the #DataProfiling table.
-
-It also provide examples for SQL statements such as determining the count of NULL markers, empty strings, keywords, etc in the columns. 
+This script creates a temporary table called #DataProfilingSQL, which contain the 
+SQL statements that used to update the #DataProfiling table.
 
 Example SQL statements are provided to find NULL markers, empty strings, keywords, etc....
 
