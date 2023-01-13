@@ -3,8 +3,7 @@ Scott Peters
 All Permutations
 https://advancedsqlpuzzles.com
 Last Updated: 01/13/2023
-
-This script is written in SQL Server's T-SQL
+Microsoft SQL Server T-SQL
 
 This script generates all permutations of a given set of numbers using a while loop. 
 It starts by creating a #Numbers table with a specified number of integers using a recursive CTE. 
