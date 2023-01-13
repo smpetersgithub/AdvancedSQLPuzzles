@@ -2,15 +2,17 @@
 Scott Peters
 All Permutations
 https://advancedsqlpuzzles.com
-Last Updated: 07/05/2022
+Last Updated: 01/13/2023
 
-This script is written in SQL Server's T-SQL
+This script is written in SQL Server's T-SQL.
 
-
-• Determining permutations can be done with a recursive CTE
-• This solution uses an initial numbers table (#Numbers) that must be populated
-• Output is saved in the temporary table #Permutations
-• This script is sourced from the internet and uses bitwise operators to help speed up the calculation, with 10 digits taking roughly 15 minutes to complete
+The script generates all the permutations of numbers from 1 to @vTotalNumbers (inclusive). 
+It first creates a table called #Numbers which contains a column of numbers from 1 to @vTotalNumbers. 
+Then it uses a recursive CTE to generate all the permutations by iterating through the #Numbers 
+table and concatenating the numbers to form unique permutations. The output is saved in the temporary 
+table #Permutations and the results can be viewed by running a SELECT statement on it. The script 
+uses bitwise operators to speed up the calculation, but it can take a significant amount of time 
+to generate all permutations, especially with larger values of @vTotalNumbers.
 
 **********************************************************************/
 
@@ -84,3 +86,4 @@ SELECT @vTotalNumbers AS MaxNumber,
         Permutation
 FROM   #Permutations
 ORDER BY 2;
+GO
