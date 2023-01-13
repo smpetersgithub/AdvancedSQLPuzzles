@@ -1,11 +1,9 @@
 /*********************************************************************
 Scott Peters
 Data Profiling
-
 https://advancedsqlpuzzles.com
-Last Updated: 01/11/2023
-
-This script is written in Microsoft SQL Server's T-SQL
+Last Updated: 01/13/2023
+Microsoft SQL Server T-SQL
 
 This script is intended to update a temporary table called #DataProfiling with a user supplied metric 
 (such as COUNT, AVG, MAX, MIN) for a user-specified schema and table name. 
