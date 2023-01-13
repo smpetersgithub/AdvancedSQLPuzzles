@@ -2,15 +2,15 @@
 Scott Peters
 Permutations 1 Through 10
 https://advancedsqlpuzzles.com
-Last Updated: 07/05/2022
+Last Updated: 01/13/2023
 
 This script is written in SQL Server's T-SQL
 
 
-• This puzzle can more easily be solved using simple CROSS JOINS if the number of digits in the permutation is fixed.
-• This solution uses an initial numbers table (#Numbers) that must be populated
-• Output is saved in the temporary table #Permutations
-• This script is sourced from the internet and uses bitwise operators to help speed up the calculation, with 10 digits taking roughly 15 minutes to complete
+â€¢ This puzzle can more easily be solved using simple CROSS JOINS if the number of digits in the permutation is fixed.
+â€¢ This solution uses an initial numbers table (#Numbers) that must be populated
+â€¢ Output is saved in the temporary table #Permutations
+â€¢ This script is sourced from the internet and uses bitwise operators to help speed up the calculation, with 10 digits taking roughly 15 minutes to complete
 
 **********************************************************************/
 
@@ -110,3 +110,4 @@ SELECT DISTINCT
        LEFT(Permutation,Starts) AS Permutation
 FROM   #PermutationsPosition
 WHERE  RowNumber = @vLengthNumbers;
+GO
