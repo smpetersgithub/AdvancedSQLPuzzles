@@ -3,12 +3,12 @@ Scott Peters
 High-Low Card Game
 https://advancedsqlpuzzles.com
 Last Updated: 01/13/2023
+Microsoft SQL Server T-SQL
 
-This script is written in SQL Server's T-SQL.
+This script implements a card game called High-Low, where an initial card is
+dealt face up and the script predicts if the next card is higher or lower. 
 
-This script implements a card game called High-Low. 
-
-It uses various temporary tables, a sequence, and a while loop to simulate the 
+This script uses various temporary tables, a sequence, and a while loop to simulate the 
 game for a set number of iterations. The script starts by creating and populating
 a temporary table called #Numbers, then creates a sequence called dbo.CardDeckSequence, 
 and creates several other temporary tables such as #CardShuffle, #CardShuffle2, 
