@@ -2,16 +2,18 @@
 Scott Peters
 Josephus Problem
 https://advancedsqlpuzzles.com
-Last Updated: 07/05/2022
+Last Updated: 01/13/2023
 
-This script is written in SQL Server's T-SQL
+This script is written in SQL Server's T-SQL.
 
-
-• For this puzzle a SEQUENCE object is created, which is harcoded with the number of soldiers
-• Once a sequence table is created, simply loop through the table to find the surviving soldier
-• This solution uses a set based solution where I populate a #Numbers table in excess of the cycles needed
-     1) An assumption is made to how many records are inserted into the #Numbers table
-     2) The #Numbers table must be populated with more rows needed than the number of cycles through the count of soldiers
+This script creates and populates a table of soldiers using a sequence. 
+It then uses a while loop to determine which soldier is eliminated in each iteration, 
+based on a specified cycle value. The script keeps track of the soldiers who have 
+been eliminated and the order they were eliminated in and returns the soldier 
+who is the last one remaining as the winner. The number of soldiers and the cycle 
+value can be adjusted by changing the MAXVALUE of the sequence and the @vCycle 
+variable respectively. The script also displays the result in order of 
+elimination and indicates the winner.
 
 **********************************************************************/
 
