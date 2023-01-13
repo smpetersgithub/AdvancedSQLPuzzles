@@ -2,14 +2,26 @@
 Scott Peters
 Merge Overlapping Records
 https://advancedsqlpuzzles.com
-Last Updated: 07/25/2022
+Last Updated: 01/13/2023
 
-This script is written in SQL Server's T-SQL
+This script is written in SQL Server's T-SQL.
 
----------------------------------------------------------------------
-
-Script merges overlapping records
-I have broken the script into multiple steps to aid in understanding
+This script is used to merge overlapping records. The script creates and populates 
+several temporary tables to aid in the merging process. The script first creates 
+and populates a table called #Numbers which holds the start and end integers of 
+the records to be merged. It then uses a SELECT DISTINCT statement to create and 
+populate a table called #Distinct_StartIntegers with the distinct start integers 
+from #Numbers table. Next, it creates and populates a table called #OuterJoin by 
+performing a left outer join on the #Numbers table with itself, using the condition 
+that the end integer of one record is greater than or equal to the start integer of 
+another record, but less than its end integer. It then creates and populates a 
+table called #DetermineValidEndIntegers by selecting the end integers from #OuterJoin 
+where the start integer of the second record is null and grouping by end integer. 
+It then creates and populates a table called #DetermineValidEndIntegers2 by selecting 
+the start integers from #Distinct_StartIntegers and joining it with #DetermineValidEndIntegers, 
+and then grouping by start integer. Finally, it selects the minimum start integer 
+and maximum end integer from #DetermineValidEndIntegers2 and groups by the minimum 
+end integer to display the final merged results.
 
 **********************************************************************/
 ---------------------
