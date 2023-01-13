@@ -2,26 +2,21 @@
 Scott Peters
 High-Low Card Game
 https://advancedsqlpuzzles.com
-Last Updated: 07/05/2022
+Last Updated: 01/13/2023
 
-This script is written in SQL Server's T-SQL
+This script is written in SQL Server's T-SQL.
 
+This script implements a card game called High-Low. 
 
-• This solution uses the following concepts:
-     1) A sequence generator to create a deck of cards, as we only care about the number value on the card and not its suite (Hearts, Diamonds, Clubs, Spades) 
-     2) This solution also uses the UNIQUEIDENTIFIER data type to shuffle a deck of cards
-     3) A random generator (0 or 1) to randomly choose a higher or lower prediction if both have the same probability 
-
-• I use several temp tables for my solution rather than running UPDATE statements
-     1) A #Numbers table is populated with 52 records, the size of a deck of cards
-     2) The sequence CardDeckSequence is created that cycles every 13 numbers
-     3) The #CardShuffle table is created using the UNIQUEIDENTIFIER data type to randomize the deck of cards and then populated using the CardDeckSequence
-     4) I then use the following temp tables to create the solution, #CardShuffle2, #CardShuffle3, #CardShuffle4, and #CardShuffle5 
-     5) The #CardShuffle2 table is created from #CardShuffle2 table, which adds a RowNumber column and is ordered by the RandomNumber field
-     6) The #CardShuffle3 table is created from #CardShuffle2, where I determine the count of cards that are lower, higher or the same value that are ahead of it in the deck
-     7) The #CardShuffle4 table is created from #CardShuffle3 where I use two CASE statements to determine the prediction and the outcome
-     8) The #CardShuffle5 table is created from #CardShuffle4, where I determine if the prediction and the outcome are the same
-     9) The #CardShuffleResults is created from #CardShuffle5 where I sum the results of correct predictions
+It uses various temporary tables, a sequence, and a while loop to simulate the 
+game for a set number of iterations. The script starts by creating and populating
+a temporary table called #Numbers, then creates a sequence called dbo.CardDeckSequence, 
+and creates several other temporary tables such as #CardShuffle, #CardShuffle2, 
+#CardShuffle3, #CardShuffle4, #CardShuffle5, and #CardShuffleResults. The script then 
+uses various INSERT and SELECT statements to perform calculations and store the results 
+in the temporary tables, and uses a WHILE loop to perform the simulation for the 
+specified number of iterations.  The script also uses various control flow statements 
+such as IF and CASE to make predictions about the outcome of the game.
 
 **********************************************************************/
 
