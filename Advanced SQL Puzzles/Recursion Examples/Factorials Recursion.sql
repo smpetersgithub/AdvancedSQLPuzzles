@@ -1,8 +1,10 @@
 /*----------------------------------------------------
 Scott Peters
-https://AdvancedSQLPuzzles.com
+Factorials
+https://advancedsqlpuzzles.com
+Last Updated: 01/13/2022
 
-Calcualtes factorials
+This script uses recursion to calculate factorials.
 
 */----------------------------------------------------
 
