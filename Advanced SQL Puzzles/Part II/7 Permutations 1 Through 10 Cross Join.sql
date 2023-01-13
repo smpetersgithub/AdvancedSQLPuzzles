@@ -2,15 +2,18 @@
 Scott Peters
 Permutations 1 Through 10
 https://advancedsqlpuzzles.com
-Last Updated: 07/05/2022
+Last Updated: 01/13/2023
 
 This script is written in SQL Server's T-SQL
 
-
-• This puzzle can more easily be solved using simple CROSS JOINS if the number of digits in the permutation is fixed
-• This solution uses an initial numbers table (#Numbers) that must be populated
-• This solution uses hardcoded joins and does not lend itself to changing requirements
-• Although not recommended, you could modify this to use dynamic sql and build the query based upon the number of needed joins
+This script generates permutations of digits from 1 to 10. It uses a table called #Numbers 
+which is populated with the numbers 1 through 10. The script then uses CROSS JOINs to 
+join the #Numbers table multiple times to generate permutations of various lengths 
+(2 digits, 3 digits, 4 digits etc.) with the result set in the format of a concatenated 
+string (e.g. "1,2,3"). The final query in each block filters out the permutations where 
+the same number is repeated in the permutation. The script can be modified to generate 
+permutations of any desired length by adding or removing CROSS JOINs and adjusting the 
+number of columns in the SELECT statement's CONCAT function.
 
 **********************************************************************/
 
