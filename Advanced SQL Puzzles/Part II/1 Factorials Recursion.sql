@@ -2,14 +2,16 @@
 Scott Peters
 Factorials
 https://advancedsqlpuzzles.com
-Last Updated: 07/05/2022
+Last Updated: 01/13/2022
 
-This script is written in SQL Server's T-SQL
+This script is written in SQL Server's T-SQL.
 
-
-• Determining factorials can be done using a recursive common table expression
-• The total numbers/rows to create is set in the variable @vTotalNumbers
-• The #Numbers table is created dynamically in the recursive SQL statement
+The script creates a temporary table called #Numbers that contains the 
+factorials of a range of numbers, specified by the variable @vTotalNumbers. 
+The script uses a common table expression (CTE) with recursion to calculate the factorials, 
+starting with the number 1 and incrementing by 1 until the value of @vTotalNumbers is reached. 
+The results of the CTE are then inserted into the #Numbers table and displayed at the end. 
+The OPTION (MAXRECURSION 0) setting ensures that there is no limit to the recursion level.
 
 **********************************************************************/
 
@@ -42,6 +44,7 @@ SELECT Number,
 INTO   #Numbers
 FROM   cte_Factorial
 OPTION (MAXRECURSION 0);--A value of 0 means no limit to the recursion level;
+GO
 
 ---------------------
 ---------------------
