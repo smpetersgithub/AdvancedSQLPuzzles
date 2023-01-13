@@ -1,6 +1,9 @@
 /*----------------------------------------------------
 Scott Peters
-https://AdvancedSQLPuzzles.com
+Permutations
+https://advancedsqlpuzzles.com
+Last Updated: 01/13/2022
+Microsoft SQL Server T-SQL
 
 Displays all permutations for the numbers 1 through n.
 
@@ -51,3 +54,4 @@ WHERE   a.Depth < @vTotalNumbers AND
 )
 SELECT  Permutation
 FROM    cte_Recursion;
+GO
