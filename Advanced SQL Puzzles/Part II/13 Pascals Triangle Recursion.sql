@@ -1,21 +1,29 @@
 /*********************************************************************
 Scott Peters
-Pascal’s Triangle
+Pascalâ€™s Triangle
 https://advancedsqlpuzzles.com
-Last Updated: 07/05/2022
+Last Updated: 01/13/2023
 
-This script is written in SQL Server's T-SQL
+This script is written in SQL Server's T-SQL.
+
+The position is determined by the user-specified variables @vRowNumber and @vPositionNumber, 
+which correspond to the row and position of the value in the triangle, respectively. 
+The script uses zero-based indexing, so the first row is row 0, and the first position is position 0.
+
+The script first checks if the value of the position is 1, if the value is 1 then it returns 1. 
+If the value is not 1, the script uses common table expressions (CTEs) and the recursion to 
+calculate the factorials of the specified row, position, and row minus position. 
+Then the script calculates the final value of the position using the formula (Row! / (Position! * (Row-Position)!)). 
+Finally, the script prints the final result of the calculated value of the position in Pascal's Triangle.
 
 
--------
-• Pascal's Triangle uses 0 based indexing
-• The first row is row 0
-• The first position is position 0
-• The factorial of 0! is 1
+Pascal's Triangle uses 0 based indexing.
+The first row is row 0.
+The first position is position 0.
+The factorial of 0! is 1.
 ------
 
-• Here is the first eight rows
-• Remember Pascal's Triangle uses zero based indexing
+Here is the first eight rows.
 
 0   |   1  |
 1   |   1  |  1  |
@@ -29,11 +37,6 @@ This script is written in SQL Server's T-SQL
 Pos.    0  |  1  |  2  |  3  |  4  |  5  | 6  | 7  |
 -------------------------------------------
 
-• Modify the following variables to determine the row and position
-    1) @vRowInput
-    2) @vPositionInput
-
-• No tables are needed for this solution
 
 **********************************************************************/
 
