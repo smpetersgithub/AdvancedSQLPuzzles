@@ -3,8 +3,7 @@ Scott Peters
 Factorials
 https://advancedsqlpuzzles.com
 Last Updated: 01/13/2022
-
-This script is written in SQL Server's T-SQL.
+Microsoft SQL Server T-SQL
 
 The script creates a temporary table called #Numbers that contains the 
 factorials of a range of numbers, specified by the variable @vTotalNumbers. 
