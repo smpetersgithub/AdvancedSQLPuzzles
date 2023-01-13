@@ -1,10 +1,10 @@
 /*********************************************************************
 Scott Peters
-Permutations 1 Through 10
+Permutations 1 Through 10 (Bit Mask)
 https://advancedsqlpuzzles.com
 Last Updated: 01/13/2023
+Microsoft SQL Server T-SQL
 
-This script is written in SQL Server's T-SQL
 
 
 • This puzzle can more easily be solved using simple CROSS JOINS if the number of digits in the permutation is fixed.
