@@ -2,11 +2,7 @@
 Scott Peters
 https://advancedsqlpuzzles.com
 Last Updated: 10/06/2022
-
-This script is written in Microsoft SQL Server's T-SQL
-
-See full instructions in PDF format at the following GitHub repository:
-https://github.com/smpetersgithub/AdvancedSQLPuzzles/tree/main/Database%20Tips%20and%20Tricks/Table%20Validation
+Microsoft SQL Server T-SQL
 
 **********************************************************************/
 
