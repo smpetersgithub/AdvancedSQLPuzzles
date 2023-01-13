@@ -3,8 +3,7 @@ Scott Peters
 Random Walk
 https://advancedsqlpuzzles.com
 Last Updated: 01/13/2023
-
-This script is written in SQL Server's T-SQL.
+Microsoft SQL Server T-SQL
 
 In mathematics, a random walk is a random process that describes a path that consists of a succession of random steps on some mathematical space.
 https://en.wikipedia.org/wiki/Random_walk
