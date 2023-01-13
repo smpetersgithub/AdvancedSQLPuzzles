@@ -13,8 +13,7 @@ Scott Peters
 Creates the FnDateDiffPartsTable function
 https://advancedsqlpuzzles.com
 Last Updated: 01/12/2023
-
-This script is written in Microsoft SQL Server's T-SQL
+Microsoft SQL Server T-SQL
 
 This script creates a table valued function that returns the difference between two datetime values,
 broken down into year, month, day, hour, minute, second and nano second parts.
