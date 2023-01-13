@@ -2,7 +2,7 @@
 Scott Peters
 Pivoting Data
 https://advancedsqlpuzzles.com
-Last Updated: 07/11/2022
+Last Updated: 01/13/2023
 Microsoft SQL Server T-SQL
 
 Example usage of the stored procedure SpPivotData.
