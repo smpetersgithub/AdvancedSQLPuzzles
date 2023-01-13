@@ -3,8 +3,7 @@ Scott Peters
 Merge Overlapping Records
 https://advancedsqlpuzzles.com
 Last Updated: 01/13/2023
-
-This script is written in SQL Server's T-SQL.
+Microsoft SQL Server T-SQL
 
 This script is used to merge overlapping records. The script creates and populates 
 several temporary tables to aid in the merging process. The script first creates 
