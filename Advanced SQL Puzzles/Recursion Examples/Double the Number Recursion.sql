@@ -1,9 +1,11 @@
 /*----------------------------------------------------
 Scott Peters
-https://AdvancedSQLPuzzles.com
+Double the Number
+https://advancedsqlpuzzles.com
+Last Updated: 01/13/2022
 
-Begining at 1, this recursive statement will double 
-the number for each record... 1, 2, 4, 8. 16, 32.....
+Begining at 1, this recursive statement will double the number for each record.
+1, 2, 4, 8, 16, 32.....
 
 */----------------------------------------------------
 
