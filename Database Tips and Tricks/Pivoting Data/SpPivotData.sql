@@ -3,7 +3,8 @@ CREATE OR ALTER PROC SpPivotData
 Scott Peters
 Creates the procedure SpPivotData
 https://advancedsqlpuzzles.com
-Last Updated: 07/11/2022
+Last Updated: 01/13/2023
+Microsoft SQL Server T-SQL
 
 This script creates the stored procedure "SpPivotData" that can be used to
 automate the creation of pivoted data sets.
