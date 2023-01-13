@@ -1,8 +1,11 @@
 /*----------------------------------------------------
 Scott Peters
-https://AdvancedSQLPuzzles.com
+Floor and Ceiling Caps
+https://advancedsqlpuzzles.com
+Last Updated: 01/13/2022
 
-Displays a running total where the sum cannot go higher than 10 or lower than 0.
+This script uses recursion to display a running total where the sum 
+cannot go higher than 10 or lower than 0.
 
 */----------------------------------------------------
 
