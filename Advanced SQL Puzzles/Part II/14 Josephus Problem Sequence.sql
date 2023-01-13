@@ -127,6 +127,7 @@ WHILE (SELECT COUNT(DISTINCT SoldierNumber) FROM #Soldiers WHERE Iterator IS NUL
         END
 
         END;  --End Loop
+GO
 
 -------------------------------
 -------------------------------
@@ -141,6 +142,4 @@ GROUP BY SoldierNumber,
         UpdateDate,
         Iterator
 ORDER BY (CASE WHEN UpdateDate IS NULL THEN GETDATE() ELSE UpdateDate END);
-
-
-
+GO
