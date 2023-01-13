@@ -3,8 +3,7 @@ Scott Peters
 Non-Adjacent Numbers
 https://advancedsqlpuzzles.com
 Last Updated: 01/13/2023
-
-This script is written in SQL Server's T-SQL
+Microsoft SQL Server T-SQL
 
 This script is used to find all permutations of a set of integers in a specific range that do not have any adjacent numbers. 
 The script creates 3 temporary tables: #Numbers, #Permutations, and #PermutationsMaxCharIndex. It first populates the 
