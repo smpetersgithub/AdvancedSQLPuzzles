@@ -2,12 +2,27 @@
 Scott Peters
 100 Prisoners Problem
 https://advancedsqlpuzzles.com
-Last Updated: 12/20/2022
+Last Updated: 01/13/2023
 
-This script is written in SQL Server's T-SQL
+This script is written in SQL Server's T-SQL.
 
-• Run n iterations of the 100 Prisoners Problem
-• https://en.wikipedia.org/wiki/100_prisoners_problem
+This script runs a simulation of the 100 Prisoners Problem.
+https://en.wikipedia.org/wiki/100_prisoners_problem
+
+The script creates and uses several temporary tables to store the results of the simulation. 
+The script begins by initializing variables that control the number of iterations and the 
+range of numbers used in the simulation. It then enters a while loop that runs for a specified
+number of iterations. In each iteration, it creates and populates a temporary table called #Drawers 
+which assigns a random number between 1 and 100 to each of the 100 prisoners. It then enters another 
+while loop that runs until all prisoners have been processed. In each iteration of this loop, 
+it creates and populates two more temporary tables called #Drawers2 and #Drawers3 by selecting 
+specific columns from #Drawers and using a recursive common table expression (CTE) to traverse 
+the drawer numbers and prisoner numbers. It then inserts the results of this iteration into a 
+table called #Results. After all the iterations are completed, the script uses a CTE to group 
+the results by iteration and loop cycle length, and then selects the count of loops for each 
+cycle length. It also uses a second CTE to group the results by iteration and selects the largest 
+loop cycle for each iteration.
+
 **********************************************************************/
 
 DROP TABLE IF EXISTS #Drawers;
@@ -112,7 +127,7 @@ PRINT CONCAT('@vIterator ',@vIterator);
     SET @vIterator = @vIterator - 1;
 
 END;
-
+GO
 
 ----------------------------
 ----------------------------
@@ -130,6 +145,7 @@ SELECT MaxDepth AS LengthLoopCycle,
 FROM   cte_GroupCount
 GROUP BY MaxDepth
 ORDER BY 1 DESC;
+GO
 
 ----------------------------
 ----------------------------
@@ -146,6 +162,7 @@ SELECT LargestLoop,
 FROM   cte_MaxDepth
 GROUP BY LargestLoop
 ORDER BY 1 DESC;
+GO
 
 ----------------------------
 ----------------------------
@@ -160,6 +177,7 @@ HAVING  MAX(MaxDepth) <= 50
 )
 SELECT CONCAT((COUNT(*)/ CAST((SELECT COUNT(DISTINCT Iteration) FROM #Results) AS NUMERIC(10,2)) * 100), '%') AS WinPercentage 
 FROM   cte_Iterations_Under50;
+GO
 
 ----------------------------
 ----------------------------
@@ -183,6 +201,7 @@ SELECT  *
         ,CONCAT((CountIterations/ CAST((SELECT SUM(CountIterations) FROM cte_CountIterations) AS NUMERIC(10,2)) * 100), '%') AS Percentage
 FROM    cte_CountIterations
 ORDER BY 1 DESC;
+GO
 
 ----------------------------
 ----------------------------
@@ -200,6 +219,7 @@ SELECT MaxDepth AS LengthLoopCycle,
 FROM   cte_GroupCount
 GROUP BY MaxDepth
 ORDER BY 1 DESC;
+GO
 
 ----------------------------
 ----------------------------
@@ -216,7 +236,7 @@ SELECT LargestLoop,
 FROM   cte_MaxDepth
 GROUP BY LargestLoop
 ORDER BY 1 DESC;
-
+GO
 ----------------------------
 ----------------------------
 --% of iterations that have a loop less thant 50
@@ -230,7 +250,7 @@ HAVING  MAX(MaxDepth) <= 50
 )
 SELECT CONCAT((COUNT(*)/ CAST((SELECT COUNT(DISTINCT Iteration) FROM #Results) AS NUMERIC(10,2)) * 100), '%') AS WinPercentage 
 FROM   cte_Iterations_Under50;
-
+GO
 ----------------------------
 ----------------------------
 --Number of loops per iteration
@@ -253,3 +273,4 @@ SELECT  *
         ,CONCAT((CountIterations/ CAST((SELECT SUM(CountIterations) FROM cte_CountIterations) AS NUMERIC(10,2)) * 100), '%') AS Percentage
 FROM    cte_CountIterations
 ORDER BY 1 DESC;
+GO
