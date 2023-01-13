@@ -3,8 +3,7 @@ Scott Peters
 100 Prisoners Problem
 https://advancedsqlpuzzles.com
 Last Updated: 01/13/2023
-
-This script is written in SQL Server's T-SQL.
+Microsoft SQL Server T-SQL
 
 This script runs a simulation of the 100 Prisoners Problem.
 https://en.wikipedia.org/wiki/100_prisoners_problem
@@ -251,6 +250,7 @@ HAVING  MAX(MaxDepth) <= 50
 SELECT CONCAT((COUNT(*)/ CAST((SELECT COUNT(DISTINCT Iteration) FROM #Results) AS NUMERIC(10,2)) * 100), '%') AS WinPercentage 
 FROM   cte_Iterations_Under50;
 GO
+
 ----------------------------
 ----------------------------
 --Number of loops per iteration
