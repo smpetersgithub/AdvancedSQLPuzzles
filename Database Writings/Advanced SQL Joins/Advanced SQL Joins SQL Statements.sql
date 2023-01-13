@@ -1,15 +1,11 @@
-/*
+/*----------------------------------------------------
 Scott Peters
-01/23/2022
-
-The SQL statements from this document can be found in following Git repository.
-https://github.com/smpetersgithub/AdvancedSQLPuzzles/tree/main/Database%20Writings
-
-The following examples are presented using SQL Servers TSQL.  You can easily modify the SQL statements to fit your flavor of SQL.
-
-Please check out my website at:
+Advanced SQL Joins
 https://advancedsqlpuzzles.com
-*/
+Last Updated: 01/13/2022
+Microsoft SQL Server T-SQL
+
+*/----------------------------------------------------
 
 ------------------------
 --Create Sample Tables--
