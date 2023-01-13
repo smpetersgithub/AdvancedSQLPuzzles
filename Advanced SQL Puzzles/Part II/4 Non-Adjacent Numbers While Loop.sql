@@ -2,16 +2,19 @@
 Scott Peters
 Non-Adjacent Numbers
 https://advancedsqlpuzzles.com
-Last Updated: 07/05/2022
+Last Updated: 01/13/2023
 
 This script is written in SQL Server's T-SQL
 
-
-• This solution uses an initial numbers table (#Numbers) that must be populated
-• The #Permutations table is initially seeded from the #Numbers table.  Technically, the #Numbers table could be eliminated and simply just seed the #Permutations table  
-• To keep the record count manageable, a DELETE is performed on the #Permutations within the WHILE loop 
-• Output is saved in the temporary table #Permutations
-• Output displays only permutations with no adjacent numbers
+This script is used to find all permutations of a set of integers that are not 
+adjacent to each other. The script creates a temporary table called #Permutations, 
+which is initially seeded with the integers from a table called #Numbers. The script 
+then enters a WHILE loop that runs as long as there are still permutations to be generated. 
+In each iteration of the loop, it selects all permutations from the #Permutations table, 
+concatenates them with the current value of a number from the #Numbers table, and insert the 
+resulting value into the #Permutations table. It also checks to ensure that the new permutation 
+doesn't have any adjacent numbers. The script uses a SELECT statement to display the contents of 
+the #Permutations table after the loop has completed.
 
 **********************************************************************/
 
@@ -76,9 +79,10 @@ WHILE @@ROWCOUNT > 0
             AND
             CHARINDEX(CONCAT(b.Number,','),CONCAT(a.Permutation,',')) = 0;--479306
     END
-
+GO
 ---------------------
 ---------------------
 --Display the results
 SELECT  *
 FROM    #Permutations;
+GO
