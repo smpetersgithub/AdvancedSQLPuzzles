@@ -1,12 +1,15 @@
 /*----------------------------------------------------
 Scott Peters
+DDL for Advanced SQL Puzzles
 https://advancedsqlpuzzles.com
-Last Updated 01/09/2023
+Last Updated 01/13/2023
+Microsoft SQL Server T-SQL
+
 */----------------------------------------------------
 
 
 /*----------------------------------------------------
-Answer to Puzzle #1
+DDL for Puzzle #1
 Shopping Carts
 */----------------------------------------------------
 
@@ -35,7 +38,7 @@ INSERT INTO #Cart2 (Item) VALUES
 GO
 
 /*----------------------------------------------------
-Answer to Puzzle #2
+DDL for Puzzle #2
 Managers and Employees
 */----------------------------------------------------
 
@@ -58,7 +61,7 @@ GO
 
 
 /*----------------------------------------------------
-Answer to Puzzle #3
+DDL for Puzzle #3
 Fiscal Year Table Constraints
 */----------------------------------------------------
 
@@ -76,7 +79,7 @@ PayRate     MONEY
 GO
 
 /*----------------------------------------------------
-Answer to Puzzle #4
+DDL for Puzzle #4
 Two Predicates
 */----------------------------------------------------
 
@@ -100,7 +103,7 @@ INSERT INTO #Orders (CustomerID, OrderID, DeliveryState, Amount) VALUES
 GO
 
 /*----------------------------------------------------
-Answer to Puzzle #5
+DDL for Puzzle #5
 Phone Directory
 */----------------------------------------------------
 
@@ -126,7 +129,7 @@ INSERT INTO #PhoneDirectory (CustomerID, [Type], PhoneNumber) VALUES
 GO
 
 /*----------------------------------------------------
-Answer to Puzzle #6
+DDL for Puzzle #6
 Workflow Steps
 */----------------------------------------------------
 
@@ -149,7 +152,7 @@ INSERT INTO #WorkflowSteps (Workflow, StepNumber, CompletionDate) VALUES
 GO
 
 /*----------------------------------------------------
-Answer to Puzzle #7
+DDL for Puzzle #7
 Mission to Mars
 */----------------------------------------------------
 
@@ -182,7 +185,7 @@ INSERT INTO #Requirements VALUES
 GO
 
 /*----------------------------------------------------
-Answer to Puzzle #8
+DDL for Puzzle #8
 Workflow Cases
 */----------------------------------------------------
 
@@ -203,7 +206,7 @@ INSERT INTO #WorkflowCases (Workflow, Case1, Case2, Case3) VALUES
 GO
 
 /*----------------------------------------------------
-Answer to Puzzle #9
+DDL for Puzzle #9
 Matching Sets
 */----------------------------------------------------
 
@@ -225,7 +228,7 @@ INSERT INTO #Employees (EmployeeID, License) VALUES
 GO
 
 /*----------------------------------------------------
-Answer to Puzzle #10
+DDL for Puzzle #10
 Mean, Median, Mode and Range
 */----------------------------------------------------
 
@@ -243,7 +246,7 @@ INSERT INTO #SampleData VALUES
 GO
 
 /*----------------------------------------------------
-Answer to Puzzle #11
+DDL for Puzzle #11
 Permutations
 */----------------------------------------------------
 
@@ -261,7 +264,7 @@ INSERT INTO #TestCases (TestCase) VALUES
 GO
 
 /*----------------------------------------------------
-Answer to Puzzle #12
+DDL for Puzzle #12
 Average Days
 */----------------------------------------------------
 
@@ -283,7 +286,7 @@ INSERT INTO #ProcessLog (Workflow, ExecutionDate) VALUES
 GO
 
 /*----------------------------------------------------
-Answer to Puzzle #13
+DDL for Puzzle #13
 Inventory Tracking
 */----------------------------------------------------
 
@@ -303,7 +306,7 @@ INSERT INTO #Inventory (InventoryDate, QuantityAdjustment) VALUES
 GO
 
 /*----------------------------------------------------
-Answer to Puzzle #14
+DDL for Puzzle #14
 Indeterminate Process Log
 */----------------------------------------------------
 
@@ -328,7 +331,7 @@ INSERT INTO #ProcessLog (Workflow, StepNumber, RunStatus) VALUES
 GO
 /
 *----------------------------------------------------
-Answer to Puzzle #15
+DDL for Puzzle #15
 Group Concatenation
 */----------------------------------------------------
 
@@ -355,7 +358,7 @@ INSERT INTO #DMLTable (SequenceNumber, String) VALUES
 GO
 
 /*----------------------------------------------------
-Answer to Puzzle #16
+DDL for Puzzle #16
 Reciprocals
 */----------------------------------------------------
 
@@ -376,7 +379,7 @@ INSERT INTO #PlayerScores (PlayerA, PlayerB, Score) VALUES
 GO
 
 /*----------------------------------------------------
-Answer to Puzzle #17
+DDL for Puzzle #17
 De-Grouping
 */----------------------------------------------------
 
@@ -395,7 +398,7 @@ INSERT INTO #Ungroup (ProductDescription, Quantity) VALUES
 GO
 
 /*----------------------------------------------------
-Answer to Puzzle #18
+DDL for Puzzle #18
 Seating Chart
 */----------------------------------------------------
 
@@ -413,7 +416,7 @@ INSERT INTO #SeatingChart (SeatNumber) VALUES
 GO
 
 /*----------------------------------------------------
-Answer to Puzzle #19
+DDL for Puzzle #19
 Back to the Future
 */----------------------------------------------------
 
@@ -437,7 +440,7 @@ INSERT INTO #TimePeriods (StartDate, EndDate) VALUES
 GO
 
 /*----------------------------------------------------
-Answer to Puzzle #20
+DDL for Puzzle #20
 Price Points
 */----------------------------------------------------
 
@@ -462,7 +465,7 @@ INSERT INTO #ValidPrices (ProductID, UnitPrice, EffectiveDate) VALUES
 GO
 
 /*----------------------------------------------------
-Answer to Puzzle #21
+DDL for Puzzle #21
 Average Monthly Sales
 */----------------------------------------------------
 
@@ -496,7 +499,7 @@ INSERT INTO #Orders (OrderID, CustomerID, OrderDate, Amount, [State]) VALUES
 GO
 
 /*----------------------------------------------------
-Answer to Puzzle #22
+DDL for Puzzle #22
 Occurrences
 */----------------------------------------------------
 
@@ -524,7 +527,7 @@ INSERT INTO #ProcessLog (Workflow, LogMessage, Occurrences) VALUES
 GO
 
 /*----------------------------------------------------
-Answer to Puzzle #23
+DDL for Puzzle #23
 Divide in Half
 */----------------------------------------------------
 
@@ -545,7 +548,7 @@ INSERT INTO #PlayerScores (PlayerID, Score) VALUES
 GO
 
 /*----------------------------------------------------
-Answer to Puzzle #24
+DDL for Puzzle #24
 Page Views
 */----------------------------------------------------
 
@@ -579,7 +582,7 @@ INSERT INTO #Orders (OrderID, CustomerID, OrderDate, Amount, [State]) VALUES
 GO
 
 /*----------------------------------------------------
-Answer to Puzzle #25
+DDL for Puzzle #25
 Top Vendors
 */----------------------------------------------------
 
@@ -605,7 +608,7 @@ INSERT INTO #Orders (OrderID, CustomerID, OrderCount, Vendor) VALUES
 GO
 
 /*----------------------------------------------------
-Answer to Puzzle #26
+DDL for Puzzle #26
 Previous Years Sales
 */----------------------------------------------------
 
@@ -629,7 +632,7 @@ INSERT INTO #Sales ([Year], Amount) VALUES
 GO
 
 /*----------------------------------------------------
-Answer to Puzzle #27
+DDL for Puzzle #27
 Delete the Duplicates
 */----------------------------------------------------
 
@@ -647,7 +650,7 @@ INSERT INTO #SampleData VALUES
 GO
 
 /*----------------------------------------------------
-Answer to Puzzle #28
+DDL for Puzzle #28
 Fill the Gaps
 */----------------------------------------------------
 
@@ -667,7 +670,7 @@ INSERT INTO #Gaps (RowNumber, TestCase) VALUES
 GO
 
 /*----------------------------------------------------
-Answer to Puzzle #29
+DDL for Puzzle #29
 Count the Groupings
 */----------------------------------------------------
 DROP TABLE IF EXISTS #Groupings;
@@ -697,7 +700,7 @@ INSERT INTO #Groupings (StepNumber, TestCase, [Status]) VALUES
 GO
 
 /*----------------------------------------------------
-Answer to Puzzle #30
+DDL for Puzzle #30
 Select Star
 */----------------------------------------------------
 
@@ -712,7 +715,7 @@ ProductName  VARCHAR(100) NOT NULL
 GO
 
 /*----------------------------------------------------
-Answer to Puzzle #31
+DDL for Puzzle #31
 Second Highest
 */----------------------------------------------------
 
@@ -730,7 +733,7 @@ INSERT INTO #SampleData (IntegerValue) VALUES
 GO
 
 /*----------------------------------------------------
-Answer to Puzzle #32
+DDL for Puzzle #32
 First and Last
 */----------------------------------------------------
 
@@ -752,7 +755,7 @@ INSERT INTO #Personel (SpacemanID, JobDescription, MissionCount) VALUES
 GO
 
 /*----------------------------------------------------
-Answer to Puzzle #33
+DDL for Puzzle #33
 Deadlines
 */----------------------------------------------------
 
@@ -795,7 +798,7 @@ INSERT INTO #Orders (OrderID, Product, DaysToDeliver) VALUES
 GO
 
 /*----------------------------------------------------
-Answer to Puzzle #34
+DDL for Puzzle #34
 Specific Exclusion
 */----------------------------------------------------
 
@@ -815,7 +818,7 @@ INSERT INTO #Orders (OrderID, CustomerID, Amount) VALUES
 GO
 
 /*----------------------------------------------------
-Answer to Puzzle #35
+DDL for Puzzle #35
 International vs Domestic Sales
 */----------------------------------------------------
 
@@ -832,7 +835,7 @@ SalesType   VARCHAR(100) NOT NULL
 GO
 
 /*----------------------------------------------------
-Answer to Puzzle #36
+DDL for Puzzle #36
 Traveling Salesman
 */----------------------------------------------------
 
@@ -864,7 +867,7 @@ VALUES
 GO
 
 /*----------------------------------------------------
-Answer to Puzzle #37
+DDL for Puzzle #37
 Group Criteria Keys
 */----------------------------------------------------
 
@@ -889,7 +892,7 @@ INSERT INTO #GroupCriteria (OrderID, Distributor, Facility, [Zone], Amount) VALU
 GO
 
 /*----------------------------------------------------
-Answer to Puzzle #38
+DDL for Puzzle #38
 Reporting Elements
 */----------------------------------------------------
 
@@ -919,7 +922,7 @@ INSERT INTO #RegionSales (Region, Distributor, Sales) VALUES
 GO
 
 /*----------------------------------------------------
-Answer to Puzzle #39
+DDL for Puzzle #39
 Prime Numbers
 */----------------------------------------------------
 
@@ -937,7 +940,7 @@ INSERT INTO #PrimeNumbers VALUES
 GO
 
 /*----------------------------------------------------
-Answer to Puzzle #40
+DDL for Puzzle #40
 Sort Order
 */----------------------------------------------------
 
@@ -955,7 +958,7 @@ INSERT INTO #SortOrder (City) VALUES
 GO
 
 /*----------------------------------------------------
-Answer to Puzzle #41
+DDL for Puzzle #41
 Associate IDs
 */----------------------------------------------------
 
@@ -978,7 +981,7 @@ INSERT INTO #Associates (Associate1, Associate2) VALUES
 GO
 
 /*----------------------------------------------------
-Answer to Puzzle #42
+DDL for Puzzle #42
 Mutual Friends
 */----------------------------------------------------
 
@@ -999,7 +1002,7 @@ INSERT INTO #Friends VALUES
 GO
 
 /*----------------------------------------------------
-Answer to Puzzle #43
+DDL for Puzzle #43
 Unbounded Preceding
 */----------------------------------------------------
 
@@ -1021,7 +1024,7 @@ INSERT INTO #CustomerOrders VALUES
 GO
 
 /*----------------------------------------------------
-Answer to Puzzle #44
+DDL for Puzzle #44
 Slowly Changing Dimension Part I
 */----------------------------------------------------
 
@@ -1051,7 +1054,7 @@ INSERT INTO #Balances (CustomerID, BalanceDate, Amount) VALUES
 GO
 
 /*----------------------------------------------------
-Answer to Puzzle #45
+DDL for Puzzle #45
 Slowly Changing Dimension Part 2
 */----------------------------------------------------
 
@@ -1078,7 +1081,7 @@ INSERT INTO #Balances (CustomerID, StartDAte, EndDate, Amount) VALUES
 GO
 
 /*----------------------------------------------------
-Answer to Puzzle #46
+DDL for Puzzle #46
 Positive Account Balances
 */----------------------------------------------------
 
@@ -1099,7 +1102,7 @@ INSERT INTO #AccountBalances (AccountID, Balance) VALUES
 GO
 
 /*----------------------------------------------------
-Answer to Puzzle #47
+DDL for Puzzle #47
 Work Schedule
 */----------------------------------------------------
 
@@ -1140,7 +1143,7 @@ INSERT INTO #Activity (ScheduleID, ActivityName, StartTime, EndTime) VALUES
 GO
 
 /*----------------------------------------------------
-Answer to Puzzle #48
+DDL for Puzzle #48
 Consecutive Sales
 */----------------------------------------------------
 
@@ -1161,7 +1164,7 @@ INSERT INTO #Sales (SalesID, [Year]) VALUES
 GO
 
 /*----------------------------------------------------
-Answer to Puzzle #49
+DDL for Puzzle #49
 Sumo Wrestlers
 */----------------------------------------------------
 
@@ -1183,7 +1186,7 @@ VALUES
 GO
 
 /*----------------------------------------------------
-Answer to Puzzle #50
+DDL for Puzzle #50
 Baseball Balls and Strikes
 */----------------------------------------------------
 
@@ -1208,7 +1211,7 @@ INSERT INTO #Pitches (BatterID, PitchNumber, Result) VALUES
 GO
 
 /*----------------------------------------------------
-Answer to Puzzle #51
+DDL for Puzzle #51
 Primary Key Creation
 */----------------------------------------------------
 
@@ -1229,7 +1232,7 @@ INSERT INTO #Assembly (AssemblyID, Part) VALUES
 GO
 
 /*----------------------------------------------------
-Answer to Puzzle #52
+DDL for Puzzle #52
 Phone Numbers Table
 */----------------------------------------------------
 
@@ -1242,7 +1245,7 @@ Agents will enter phone numbers into this table via a form, and it is imperative
 */
 
 /*----------------------------------------------------
-Answer to Puzzle #53
+DDL for Puzzle #53
 Spouse IDs
 */----------------------------------------------------
 
@@ -1264,7 +1267,7 @@ INSERT INTO #Spouses VALUES
 GO
 
 /*----------------------------------------------------
-Answer to Puzzle #54
+DDL for Puzzle #54
 Winning Numbers
 */----------------------------------------------------
 
@@ -1297,7 +1300,7 @@ INSERT INTO #LotteryTickets (TicketID, Number) VALUES
 GO
 
 /*----------------------------------------------------
-Answer to Puzzle #55
+DDL for Puzzle #55
 Table Audit
 */----------------------------------------------------
 
@@ -1332,7 +1335,7 @@ INSERT INTO #ProductsB (ProductName, Quantity) VALUES
 GO
 
 /*----------------------------------------------------
-Answer to Puzzle #56
+DDL for Puzzle #56
 Numbers Using Recursion
 */----------------------------------------------------
 
@@ -1343,7 +1346,7 @@ Create a numbers table using recursion
 */
 
 /*----------------------------------------------------
-Answer to Puzzle #57
+DDL for Puzzle #57
 Find The Spaces
 */----------------------------------------------------
 
@@ -1362,7 +1365,7 @@ INSERT INTO #Strings (String) VALUES
 GO
 
 /*----------------------------------------------------
-Answer to Puzzle #58
+DDL for Puzzle #58
 Add Them Up
 */----------------------------------------------------
 
