@@ -2,19 +2,26 @@
 Scott Peters
 Growing Numbers
 https://advancedsqlpuzzles.com
-Last Updated: 07/05/2022
+Last Updated: 01/13/2023
 
-This script is written in SQL Server's T-SQL
+This script is written in SQL Server's T-SQL.
 
+This script is written in SQL Server's T-SQL and is used to find all permutations 
+of a set of integers that are in consecutive order with no gaps. The script creates 
+and uses two temporary tables, #Numbers and #Permutations. The #Numbers table must be 
+manually populated with the integers that the script will use to find permutations. 
+The script then uses a variable to store the total number of integers in the #Numbers table 
+and a recursive common table expression (CTE) to create and populate the #Permutations 
+table with all possible permutations of the integers in the #Numbers table. The CTE creates 
+a permutation by concatenating each integer from the #Numbers table to the previous permutation 
+and only including integers that are one greater than the previous integer. After the CTE is 
+executed, the script uses a SELECT statement with a WHERE clause to filter the #Permutations 
+table and only display permutations that start with the smallest integer in the #Numbers table.
 
-• This puzzle can also be solved using recursion
-• This solution uses an initial numbers table (#Numbers) that must be populated
-• Output is saved in the temporary table #Permutations
-• Predicate logic is placed on the #Permutations table to limit the output to the correct records
-• The code will run properly if the following conditions are met:
-    1) The first number is a single digit
-    2) All digits are successive and there are no gaps in numbers
-    3) Two of the numbers cannot be two digits (i.e., 10 and 11)
+The script will run properly if the following conditions are met:
+1) The first number is a single digit
+2) All digits are successive and there are no gaps in numbers
+3) Two of the numbers cannot be two digits (i.e., 10 and 11)
 
 **********************************************************************/
 
@@ -69,6 +76,7 @@ WHERE   a.Depth < @vTotalNumbers AND
 SELECT  Permutation
 INTO    #Permutations
 FROM    cte_Permutations;
+GO
 
 ---------------------
 ---------------------
@@ -76,3 +84,4 @@ FROM    cte_Permutations;
 SELECT  *
 FROM    #Permutations
 WHERE   LEFT(Permutation,1) = (SELECT MIN(Number) FROM #Numbers);
+GO
