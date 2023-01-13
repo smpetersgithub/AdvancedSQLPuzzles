@@ -56,8 +56,8 @@ This script will populate the table **##TableInformation** with the following va
 | LookupID    | 1                                         |
 | Schema1Name | dbo                                       | 
 | Schema2Name | dbo                                       |
-| Table1Name  | MyTable1                                  |
-| Table2Name  | MyTable2                                  |
+| Table1Name  | Sales_New                                 |
+| Table2Name  | Sales_Old                                 |
 | Exists1     | CONCAT(t1.CustID, t1.Region, t1.City)     |
 | Exists2     | CONCAT(t2.CustID, t2.Region, t2.City)     |
 
