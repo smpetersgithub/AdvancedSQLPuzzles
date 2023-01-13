@@ -2,18 +2,20 @@
 Scott Peters
 Four Vehicles Puzzle
 https://advancedsqlpuzzles.com
-Last Updated: 07/05/2022
+Last Updated: 01/13/2023
+Microsoft SQL Server T-SQL
 
-This script is written in SQL Server's T-SQL
-
-
-• For this puzzle, the solution deals with combinations rather than permutations, as the seating order is not important
-• The solution is hard coded to the requirements of 4 vehicles and 5 children and 5 adults.
-• The table #Passengers is created and populated with 5 children and 5 adults
-• The tables #Motorcycle, #Sidecar, #Golfcart, #Car are created and populated.  The number of joins is hard coded to the number of seats in each vehicle.
-• CASE statements are used to treat reciprocals; the passengers are sorted in alphabetical order.
-• To save time in building the final query, I create a one-time query to produce the predicate logic needed.  This portion is commented out in the code
-• The final query uses a CROSS JOIN between the #Motorcycle, #Sidecar, #Golfcart, and #Car table
+This script solves the "Four Vehicles Puzzle" which is about assigning 5 children and 5 adults to 4 
+different vehicles (Motorcycle, Sidecar, Golfcart, Car) with different seating capacities (1, 2, 3, 4).
+The script starts by dropping and creating several tables, one of which is the #Passengers table that 
+stores information about the passengers (name and type). The script then populates the #Passengers table 
+with 5 children and 5 adults.  The script then creates 4 additional tables (#Motorcycle, #Sidecar, #Golfcart, #Car) 
+that are used to store the permutations of the passengers assigned to each vehicle. The script uses common 
+table expressions (CTEs) and CROSS JOINs to generate all possible permutations of the passengers for each 
+vehicle and stores them in the appropriate table. The script also uses CASE statements to treat reciprocals 
+and sorts the passenger names alphabetically.  The final query uses a CROSS JOIN between the #Motorcycle, 
+#Sidecar, #Golfcart, and #Car table to produce the final set of permutations. Each table is hard coded 
+to the number of seats in each vehicle and the number of children and adults is also hard coded in the script.
 
 **********************************************************************/
 
