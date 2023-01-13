@@ -4,7 +4,7 @@ Associates
 https://advancedsqlpuzzles.com
 Last Updated: 01/13/2022
 
-This script groups hierarchies together.
+This script uses recursion to group hierarchies together.
 
 */----------------------------------------------------
 
