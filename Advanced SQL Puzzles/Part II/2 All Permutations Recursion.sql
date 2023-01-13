@@ -3,8 +3,7 @@ Scott Peters
 All Permutations
 https://advancedsqlpuzzles.com
 Last Updated: 01/13/2023
-
-This script is written in SQL Server's T-SQL
+Microsoft SQL Server T-SQL
 
 This script creates all the possible permutations of a set of numbers (from 1 to a user-specified value) 
 using a recursive CTE. It creates a #Numbers table using recursion, and then uses that table to populate 
@@ -64,7 +63,7 @@ WHERE   a.Depth < @vTotalNumbers AND
 SELECT  Permutation
 INTO    #Permutations
 FROM    cte_Permutations;
-
+GO
 ---------------------
 ---------------------
 --Display the results
@@ -72,3 +71,4 @@ SELECT  *
 FROM    #Permutations
 WHERE   LEN(Permutation) = (SELECT MAX(LEN(Permutation)) FROM #Permutations)
 ORDER BY 1;
+GO
