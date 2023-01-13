@@ -4,8 +4,7 @@ Scott Peters
 Creating a Calendar Table
 https://advancedsqlpuzzles.com
 Last Updated: 01/11/2023
-
-This script is written in Microsoft SQL Server's T-SQL
+Microsoft SQL Server T-SQL
 
 This script creates a table-valued function called "FnReturnCalendarTable" that takes a date as input, 
 and returns a table with various date-related information.
