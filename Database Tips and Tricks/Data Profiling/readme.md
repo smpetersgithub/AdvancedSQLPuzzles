@@ -6,7 +6,7 @@ To address these issues, I created a data profiling script that allows me to qui
 
 ## Overview  
 
-The script updates a temporary table called **#DataProfiling** with a user supplied metric (such as COUNT, AVG, MAX, MIN) for a user-specified schema and table name. The script uses a cursor to iterate through each column in the specified table and executes an update statement for each column with a different metric specified.   This script creates a temporary table called **#DataProfilingSQL**, which contain the SQL statements that are used to update the #DataProfiling table.
+The script updates a temporary table called **#DataProfiling** with a user supplied metric (such as COUNT, AVG, MAX, MIN) for a user-specified schema and table name. The script uses a cursor to iterate through each column in the specified table and executes an update statement for each column with a different metric specified.   This script creates a temporary table called **#DataProfilingSQL**, which contain the SQL statements that are used to update the **#DataProfiling** table.
 
 Example SQL statements are provided to find NULL markers, empty strings, keyword search, etc....
 
