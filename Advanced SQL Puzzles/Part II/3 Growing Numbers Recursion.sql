@@ -7,16 +7,15 @@ Last Updated: 01/13/2023
 This script is written in SQL Server's T-SQL.
 
 This script is used to find all possible growing numbers from a set of integers within a specified range. 
-The script creates a temporary table called #GrowingNumbers and uses a recursive CTE to populate it. 
-The script initializes a variable, @vTotalNumbers, with the count of integers in the set.
-
-Given the input 1, 2, 3, 4, and 5.  It will produce the output
+For example, given the input 1, 2, 3, 4, and 5.  It will produce the output:
 1
 12
 123
 1234
 12345
 
+The script creates a temporary table called #GrowingNumbers and uses a recursive CTE to populate it. 
+The script initializes a variable, @vTotalNumbers, with the count of integers in the set.
 The CTE, cte_GrowingNumbers, is used to generate all possible growing numbers from the set of integers. 
 The CTE starts by selecting the individual integers from the #Numbers table and concatenating them to 
 form a single growing number. Then, it recursively joins itself with the #Numbers table, adding one 
