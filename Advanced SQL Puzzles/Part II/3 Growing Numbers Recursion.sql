@@ -17,7 +17,7 @@ Given the input 1, 2, 3, 4, and 5.  It will produce the output
 1234
 12345
 
-The CTE, cte_Permutations, is used to generate all possible growing numbers from the set of integers. 
+The CTE, cte_GrowingNumbers, is used to generate all possible growing numbers from the set of integers. 
 The CTE starts by selecting the individual integers from the #Numbers table and concatenating them to 
 form a single growing number. Then, it recursively joins itself with the #Numbers table, adding one 
 integer at a time, while ensuring that the next integer added is a successive number.
@@ -64,8 +64,8 @@ DECLARE @vTotalNumbers INTEGER = (SELECT COUNT(*) FROM #Numbers);
 
 ---------------------
 ---------------------
---Create the #Permutations table using recursion
-WITH cte_Permutations (Number, Ids, Depth)
+--Create the #GrowingNumbers table using recursion
+WITH cte_GrowingNumbers (Number, Ids, Depth)
 AS
 (
 SELECT  CAST(Number AS VARCHAR(MAX)) AS Number,
@@ -76,14 +76,14 @@ UNION ALL
 SELECT  CONCAT(a.Number,b.Number),
         CONCAT(a.Ids,b.Number),
         a.Depth + 1
-FROM    cte_Permutations a,
+FROM    cte_GrowingNumbers a,
         #Numbers b
 WHERE   a.Depth < @vTotalNumbers AND
         CAST(RIGHT(a.Ids,1) AS INTEGER) + 1  = b.Number
 )
 SELECT  Number
 INTO    #GrowingNumbers
-FROM    cte_Permutations;
+FROM    cte_GrowingNumbers;
 GO
 
 ---------------------
