@@ -3,8 +3,10 @@ Scott Peters
 Pascal’s Triangle
 https://advancedsqlpuzzles.com
 Last Updated: 01/13/2023
+Microsoft SQL Server T-SQL
 
-This script is written in SQL Server's T-SQL.
+This script solves Pascal's Triangle.
+https://en.wikipedia.org/wiki/Pascal%27s_triangle
 
 The position is determined by the user-specified variables @vRowNumber and @vPositionNumber, 
 which correspond to the row and position of the value in the triangle, respectively. 
@@ -115,3 +117,4 @@ FROM   cte_Factorial;
 -------------------------------
 --Display the final results
 PRINT	CONCAT('The value for Row ',@vRowNumber,' and Position ',@vPositionNumber,' is ',(@vRowFactorial / (@vPositionFactorial * @vRowMinusPositionFactorial)));
+GO
