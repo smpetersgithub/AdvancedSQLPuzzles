@@ -1,9 +1,9 @@
 CREATE OR ALTER FUNCTION dbo.FnReturnCalendarTable
-/*********************************************************************
+/*----------------------------------------------------------------------------------------------------------------------------
 Scott Peters
 Creating a Calendar Table
 https://advancedsqlpuzzles.com
-Last Updated: 01/11/2023
+Last Updated: 01/13/2023
 Microsoft SQL Server T-SQL
 
 This script creates a table-valued function called "FnReturnCalendarTable" that takes a date as input, 
@@ -17,7 +17,7 @@ It also uses some date-related T-SQL functions such as MONTH, YEAR, DATEPART, DA
 to calculate the values of these columns.  It is important to note that the specific date style columns 
 may not be necessary for all use cases, feel free to remove any column you do not need and use the function that suits your needs.
 
-**********************************************************************/
+*/----------------------------------------------------------------------------------------------------------------------------
 (@vInputDate DATE) RETURNS TABLE AS
 RETURN
 SELECT
