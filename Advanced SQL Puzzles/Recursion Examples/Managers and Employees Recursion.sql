@@ -1,6 +1,6 @@
 /*----------------------------------------------------
 Scott Peters
-Group Concatentation
+Managers and Employees
 https://advancedsqlpuzzles.com
 Last Updated: 01/13/2022
 Microsoft SQL Server T-SQL
