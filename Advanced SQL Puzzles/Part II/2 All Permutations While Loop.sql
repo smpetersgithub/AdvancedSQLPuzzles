@@ -2,17 +2,19 @@
 Scott Peters
 All Permutations
 https://advancedsqlpuzzles.com
-Last Updated: 07/05/2022
+Last Updated: 01/13/2023
 
 This script is written in SQL Server's T-SQL
 
-
-• Determining permutations can be performed with a recursive CTE; this solution uses a WHILE loop
-• This solution uses an initial numbers table (#Numbers) that must be populated
-• The #Permutations table is initially seeded from the #Numbers table
-• The #Numbers table could be eliminated and simply just seed the #Permutations table  
-• To keep the record count manageable, a DELETE is performed on the #Permutations within the WHILE loop
-• Output is saved in the temporary table #Permutations
+This script generates all permutations of a given set of numbers using a while loop. 
+It starts by creating a #Numbers table with a specified number of integers using a recursive CTE. 
+Then it creates an empty #Permutations table and seeds it with the initial values from the #Numbers table. 
+Then it enters a while loop, in each iteration of the loop, it first performs a DELETE statement to 
+keep the number of records in the #Permutations table minimal, then it uses an INSERT statement 
+to add new permutations to the #Permutations table by combining the current permutations with the 
+remaining numbers from the #Numbers table. The while loop continues until the number of rows 
+affected by the DELETE statement is 0. Finally, it selects and displays the final 
+permutations from the #Permutations table.
 
 **********************************************************************/
 
@@ -79,3 +81,4 @@ SELECT  @vTotalNumbers AS MaxNumber,
         Permutation
 FROM    #Permutations
 ORDER BY Permutation;
+GO
