@@ -1,9 +1,9 @@
 /*********************************************************************
 Scott Peters
 Create Constraints On A Temp Table
-
 https://advancedsqlpuzzles.com
 Last Updated: 01/11/2023
+Microsoft SQL Server T-SQL
 
 This script creates several constraints on a temporary table, #EmployeePayRecords, that are 
 identical to the constraints on the persistent table EmployeePayRecords in the dbo schema.
@@ -15,11 +15,11 @@ Also, temporary tables are only available while the SQL Server instance is runni
 therefore it should not be used for any type of permanent data storage or as a permanent solution.
 
 The script creates several temporary tables to store the SQL statements that will create the different types of constraints on the temporary table.
-*  #DynamicSQL
-*  #PrimaryUniqueKeyConstraints
-*  #NULLConstraints 
-*  #CheckConstraints 
-*  #ForeignPrimaryUniqueKeyConstraints
+#DynamicSQL
+#PrimaryUniqueKeyConstraints
+#NULLConstraints 
+#CheckConstraints 
+#ForeignPrimaryUniqueKeyConstraints
 
 It then populates the #DynamicSQL table with a set of SQL statements generated from information 
 in the system tables of the SQL Server instance, such as sys.tables, sys.indexes and sys.key_constraints.
