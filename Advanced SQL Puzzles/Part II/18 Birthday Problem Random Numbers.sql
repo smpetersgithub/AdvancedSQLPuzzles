@@ -2,17 +2,23 @@
 Scott Peters
 Birthday Problem
 https://advancedsqlpuzzles.com
-Last Updated: 07/07/2022
+Last Updated: 01/13/2023
 
 This script is written in SQL Server's T-SQL
 
+This script runs a simulation of the Birthday Problem.
+https://en.wikipedia.org/wiki/Birthday_problem
 
-• Relational division is used to divide the #Birthday table and determine nearest matches
-• A non-equi self join is used to match birthdays
-• 50% is reached around the 23rd/24th person, 100% is reached around the 90th person
-• #BirthDaysHistory is not guaranteed to have each day, only days where there was a match
-• #BirthDaysHistory will never have day 1 as a match can never occur on this day
-• I have added the code to flash fill any missing dates at the end
+This script runs a simulation of the Birthday Problem. It uses several tables including #Birthdays, 
+#BirthDaysHistory, #BirthdaysPercentile, and #Numbers. The script uses variables to set the total 
+number of people in the simulation and the number of iterations to run the simulation. The script 
+uses a while loop to run the simulation and check if the number of iterations has been reached. 
+Within the while loop, the script uses recursion to create a table of random birthdays for a set 
+number of people. It then uses a join to find the first pair of people with the same birthday, 
+and saves that information in the #BirthDaysHistory table. After the loop is completed, it creates 
+a percentile table using the information from #BirthDaysHistory, and fills in any missing values
+with a percentile of 0 or 100. The final table shows the number of people needed for the first pair 
+to have the same birthday and the corresponding percentile for that number of people.
 
 **********************************************************************/
 
@@ -107,7 +113,7 @@ AS (
     UNION ALL
     SELECT  Number + 1
     FROM   cte_Number
-    WHERE  Number < 365 --@vTotalNumbers
+    WHERE  Number < 365
     )
 SELECT Number
 INTO   #Numbers
@@ -151,3 +157,4 @@ SELECT  a.PersonWhoMatchesFill,
 		) PercentileFill
 FROM #BirthdaysPercentile a
 ORDER BY 1;
+GO
