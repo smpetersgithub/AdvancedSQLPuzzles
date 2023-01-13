@@ -1,15 +1,17 @@
 /*----------------------------------------------------
 Scott Peters
-https://AdvancedSQLPuzzles.com
+Sudoku
+https://advancedsqlpuzzles.com
+Last Updated: 01/13/2022
+Microsoft SQL Server T-SQL
 
-Solves a Sodoku puzzle.
+This script uses recursion to solve a Sodoku puzzle.
 
 */----------------------------------------------------
 
 -------------------------------
 -------------------------------
 DECLARE @vBoard VARCHAR(81) = '86....3...2...1..7....74...27.9..1...8.....7...1..7.95...56....4..1...5...3....81';
-
 
 -------------------------------
 -------------------------------
@@ -41,7 +43,7 @@ SELECT '6' AS Type, SUBSTRING(Sodoku,46,9) AS Line FROM cte_Recursion WHERE Inde
 SELECT '7' AS Type, SUBSTRING(Sodoku,55,9) AS Line FROM cte_Recursion WHERE IndexValue = 0 UNION
 SELECT '8' AS Type, SUBSTRING(Sodoku,64,9) AS Line FROM cte_Recursion WHERE IndexValue = 0 UNION
 SELECT '9' AS Type, SUBSTRING(Sodoku,73,9) AS Line FROM cte_Recursion WHERE IndexValue = 0;
-
+GO
 
 /*
 Here is the answer:
