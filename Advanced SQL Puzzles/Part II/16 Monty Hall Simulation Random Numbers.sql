@@ -3,16 +3,10 @@ Scott Peters
 Monty Hall Simulation
 https://advancedsqlpuzzles.com
 Last Updated: 01/13/2023
+Microsoft SQL Server T-SQL
 
-This script is written in SQL Server's T-SQL.
-
-This script creates a simulation of the Monty Hall problem. 
-The Monty Hall problem is a probability puzzle based on a game show scenario in 
-which a contestant is presented with three doors, behind one of which is a valuable 
-prize and behind the others are goats. The contestant chooses one door, and the host, 
-who knows what is behind each door, opens one of the remaining doors to reveal a goat. 
-The contestant is then given the option to stick with their original choice or switch 
-to the remaining closed door.
+This script creates a simulation of the Monty Hall problem.
+https://en.wikipedia.org/wiki/Monty_Hall_problem
 
 The script creates a table called #WinningProbability and uses a while loop to simulate 
 the game for a set number of iterations. Before the loop, the script declares and sets 
