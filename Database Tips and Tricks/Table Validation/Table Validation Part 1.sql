@@ -1,14 +1,10 @@
-/*********************************************************************
+/*----------------------------------------------------
 Scott Peters
 https://advancedsqlpuzzles.com
 Last Updated: 10/06/2022
+Microsoft SQL Server T-SQL
 
-This script is written in Microsoft SQL Server's T-SQL
-
-See full instructions in PDF format at the following GitHub repository:
-https://github.com/smpetersgithub/AdvancedSQLPuzzles/tree/main/Database%20Tips%20and%20Tricks/Table%20Validation
-
-**********************************************************************/
+*/----------------------------------------------------
 
 DROP TABLE IF EXISTS ##TableInformation;
 GO
@@ -34,4 +30,3 @@ INSERT INTO ##TableInformation VALUES (
 ,'CONCAT(t2.CustID, t2.Region, t2.City)'--Exists2 (this must have the prefix "t2.")
 );
 GO
-
