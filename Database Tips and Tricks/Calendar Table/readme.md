@@ -12,10 +12,10 @@ Additionally, with a calendar table in place, it's easy to generate reports that
 
 ## Installation
 
-**Step 1**  
+**Step 1:**  
 Compile the **FnReturnCalendarTable.sql** script to create the function **FnReturnCalendarTable**.  
 
-**Step 2**  
+**Step 2:**  
 View the **FnReturnCalendarTable Example Use.sql** script for example uses of the **table-valued function**.
 
 The basic usage is:
