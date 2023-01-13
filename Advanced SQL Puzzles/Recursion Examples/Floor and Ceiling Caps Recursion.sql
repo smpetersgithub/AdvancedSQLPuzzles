@@ -3,6 +3,7 @@ Scott Peters
 Floor and Ceiling Caps
 https://advancedsqlpuzzles.com
 Last Updated: 01/13/2022
+Microsoft SQL Server T-SQL
 
 This script uses recursion to display a running total where the sum 
 cannot go higher than 10 or lower than 0.
