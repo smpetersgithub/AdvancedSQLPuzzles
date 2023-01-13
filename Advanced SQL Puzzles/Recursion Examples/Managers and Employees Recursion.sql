@@ -1,8 +1,11 @@
 /*----------------------------------------------------
 Scott Peters
-https://AdvancedSQLPuzzles.com
+Group Concatentation
+https://advancedsqlpuzzles.com
+Last Updated: 01/13/2022
+Microsoft SQL Server T-SQL
 
-Displays the depth given a managers and employees table.
+This script uses recurion to display the depth given a managers and employees table.
 
 */----------------------------------------------------
 
@@ -52,3 +55,4 @@ FROM    cte_Recursion a INNER JOIN
 )
 SELECT  EmployeeID, ManagerID, JobTitle, Salary, Depth
 FROM    cte_Recursion;
+GO
