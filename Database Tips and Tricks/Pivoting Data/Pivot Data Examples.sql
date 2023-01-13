@@ -1,14 +1,14 @@
-/*********************************************************************
+/*----------------------------------------------------
 Scott Peters
-Example usage of the SpPivotData function
+Pivoting Data
 https://advancedsqlpuzzles.com
 Last Updated: 07/11/2022
+Microsoft SQL Server T-SQL
 
-This script is written in Microsoft SQL Server's T-SQL
+Example usage of the stored procedure SpPivotData.
 
-Example usage of the stored procedure SpPivotData 
+*/----------------------------------------------------
 
-**********************************************************************/
 DROP TABLE IF EXISTS TestPivot
 GO
 
