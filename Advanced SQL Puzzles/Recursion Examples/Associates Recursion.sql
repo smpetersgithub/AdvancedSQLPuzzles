@@ -1,8 +1,10 @@
 /*----------------------------------------------------
 Scott Peters
-https://AdvancedSQLPuzzles.com
+Associates
+https://advancedsqlpuzzles.com
+Last Updated: 01/13/2022
 
-Groups hierarchies together.
+This script groups hierarchies together.
 
 */----------------------------------------------------
 
