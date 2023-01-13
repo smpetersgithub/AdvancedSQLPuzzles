@@ -1,9 +1,12 @@
 /*----------------------------------------------------
 Scott Peters
-https://AdvancedSQLPuzzles.com
+String Split
+https://advancedsqlpuzzles.com
+Last Updated: 01/13/2022
+Microsoft SQL Server T-SQL
 
-Same as the STRING_SPLIT function.
-Splits a string into rows of substrings, based on a specified separator character 
+This script uses recursion to split a string into rows of substrings, based on a specified separator character 
+This script provides the same functinoality of the STRING_SPLIT function.
 
 */----------------------------------------------------
 
