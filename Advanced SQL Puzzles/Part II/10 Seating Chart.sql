@@ -4,11 +4,16 @@ Seating Chart
 https://advancedsqlpuzzles.com
 Last Updated: 07/05/2022
 
-This script is written in SQL Server's T-SQL
+This script is written in SQL Server's T-SQL.
 
+The script then uses several SQL statements to analyze the data in the #SeatingChart table. 
+The first query uses the LEAD() window function to find the gaps in the seat numbers and 
+returns the gap start and gap end values. 
 
-• This puzzle can be solved by using window functions and LAG/LEAD
-• The table #SeatingChart should be considered a numbers table with missing numbers
+The second query uses a common table expression (CTE) and the ROW_NUMBER() function to find 
+the missing seat numbers by ranking the seat numbers and calculating the difference 
+between each seat number and its rank. The last query uses the COUNT() function and 
+a CASE statement to determine the number of odd and even seat numbers in the #SeatingChart table.
 
 **********************************************************************/
 
