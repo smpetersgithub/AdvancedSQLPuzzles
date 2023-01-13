@@ -1,6 +1,6 @@
-/*********************************************************************
+/*---------------------------------------------------------------------------------------------
 Scott Peters
-Permutations 1 Through 10
+Permutations 1 Through 10 (Cross Join)
 https://advancedsqlpuzzles.com
 Last Updated: 01/13/2023
 Microsoft SQL Server T-SQL
@@ -14,7 +14,7 @@ the same number is repeated in the permutation. The script can be modified to ge
 permutations of any desired length by adding or removing CROSS JOINs and adjusting the 
 number of columns in the SELECT statement's CONCAT function.
 
-**********************************************************************/
+*/---------------------------------------------------------------------------------------------
 
 -------------------------------
 -------------------------------
