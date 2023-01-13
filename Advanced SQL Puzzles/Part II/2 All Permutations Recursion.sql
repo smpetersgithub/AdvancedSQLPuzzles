@@ -2,15 +2,14 @@
 Scott Peters
 All Permutations
 https://advancedsqlpuzzles.com
-Last Updated: 07/05/2022
+Last Updated: 01/13/2023
 
 This script is written in SQL Server's T-SQL
 
-
-• Determining permutations can be done with a recursive CTE
-• This solution uses an initial numbers table (#Numbers) that must be populated
-• Output is saved in the temporary table #Permutations
-• Predicate logic is placed on the #Permutations table to limit the output to the correct records
+This script creates all the possible permutations of a set of numbers (from 1 to a user-specified value) 
+using a recursive CTE. It creates a #Numbers table using recursion, and then uses that table to populate 
+the #Permutations table with all possible permutations. It then uses a WHERE clause to limit the output 
+to only the permutations of the same length as the longest permutation. The results are then ordered by the permutation.
 
 **********************************************************************/
 
