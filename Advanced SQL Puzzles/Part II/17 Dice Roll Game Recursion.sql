@@ -3,8 +3,7 @@ Scott Peters
 Dice Roll Game
 https://advancedsqlpuzzles.com
 Last Updated: 01/13/2023
-
-This script is written in SQL Server's T-SQL.
+Microsoft SQL Server T-SQL
 
 The script simulateS a game in which the player rolls a dice repeatedly, and the 
 game ends when the player reaches a certain score, which is set by the @vDesiredScore variable.
