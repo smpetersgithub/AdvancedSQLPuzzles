@@ -1,16 +1,18 @@
-/*********************************************************************
+/*-----------------------------------------------------------------------
 Scott Peters
 https://advancedsqlpuzzles.com
-Last Updated: 10/06/2022
+Last Updated: 01/13/2023
 Microsoft SQL Server T-SQL
 
-**********************************************************************/
+Creates the demo tables Sales_New and Sales_Old.
 
-DROP TABLE IF EXISTS dbo.MyTable1;
-DROP TABLE IF EXISTS dbo.MyTable2;
+*/-----------------------------------------------------------------------
+
+DROP TABLE IF EXISTS dbo.Sales_New;
+DROP TABLE IF EXISTS dbo.Sales_Old;
 GO
 
-CREATE TABLE dbo.MyTable1
+CREATE TABLE dbo.Sales_New
 (
 TableID   INTEGER IDENTITY(1,1) PRIMARY KEY,
 CustID    INTEGER,
@@ -22,7 +24,7 @@ AwardStatus  VARCHAR(100)
 );
 GO
 
-CREATE TABLE dbo.MyTable2
+CREATE TABLE dbo.Sales_Old
 (
 TableID   INTEGER IDENTITY(1,1) PRIMARY KEY,
 CustID    INTEGER,
@@ -34,7 +36,7 @@ AwardStatus  VARCHAR(100)
 );
 GO
 
-INSERT INTO dbo.MyTable1 (CustID, Region, City, Sales, ManagerID, AwardStatus) VALUES 
+INSERT INTO dbo.Sales_New (CustID, Region, City, Sales, ManagerID, AwardStatus) VALUES 
 (453,'Central','Chicago','71967.99',1324,'Gold'),
 (532,'Central','Des Moines','65232.42',6453,'Gold'),
 (643,'West','Spokane','44981.23',7542,'Silver'),
@@ -43,7 +45,7 @@ INSERT INTO dbo.MyTable1 (CustID, Region, City, Sales, ManagerID, AwardStatus) V
 (732,'West','Helena','15232.19',8123,'Bronze');--Duplicate Data
 GO
 
-INSERT INTO dbo.MyTable2 (CustID, Region, City, Sales, ManagerID, AwardStatus) VALUES 
+INSERT INTO dbo.Sales_Old (CustID, Region, City, Sales, ManagerID, AwardStatus) VALUES 
 (453,'Central','Chicago','71967.99',1324,'Gold'),
 (532,'Central','Des Moines','65232.00',6453,'Gold'),
 (643,'West','Spokane','44981.23',7542,'Bronze'),
@@ -51,11 +53,9 @@ INSERT INTO dbo.MyTable2 (CustID, Region, City, Sales, ManagerID, AwardStatus) V
 (898,'East','Toledo','53432.78',9242,'Silver');
 GO
 
-SELECT 'Table1' AS ID, * FROM dbo.MyTable1
-UNION ALL
-SELECT 'Table2' AS ID, * FROM dbo.MyTable2;
+--Review the tables
+SELECT 'Sales_New' AS ID, * FROM dbo.Sales_New;
+GO
 
-
-SELECT * FROM dbo.MyTable1
-UNION ALL
-SELECT * FROM dbo.MyTable2;
+SELECT 'Sales_Old' AS ID, * FROM dbo.Sales_Old;
+GO
