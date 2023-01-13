@@ -1,11 +1,15 @@
 /*----------------------------------------------------
 Scott Peters
-https://AdvancedSQLPuzzles.com
+Traveling Salesman
+https://advancedsqlpuzzles.com
+Last Updated: 01/13/2022
+Microsoft SQL Server T-SQL
 
-Solves the traveling salesman problem
+This script uses recursion to solve the Traveling Salesman Problem
 https://en.wikipedia.org/wiki/Travelling_salesman_problem
 
 */----------------------------------------------------
+
 SET NOCOUNT ON;
 DROP TABLE IF EXISTS #TravelingSalesman;
 DROP TABLE IF EXISTS #Routes;
