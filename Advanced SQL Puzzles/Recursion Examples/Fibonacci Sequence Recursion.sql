@@ -1,8 +1,10 @@
 /*----------------------------------------------------
 Scott Peters
-https://AdvancedSQLPuzzles.com
+Fibonacci Sequence
+https://advancedsqlpuzzles.com
+Last Updated: 01/13/2022
 
-Calculates Fibonacci numbers
+This script uses recursion to calculate Fibonacci numbers.
 
 */----------------------------------------------------
 
@@ -17,3 +19,4 @@ WHERE   Number < 1000000000
 SELECT PrevNumber AS Fibonacci
 FROM   cte_Recursion
 OPTION (MAXRECURSION 0);
+GO
