@@ -14,14 +14,7 @@ equals the value of @vPermutationLength. Finally, it selects and displays distin
 of the desired length from the #Permutations table, ordered by the permutation values.
 
 Given the input of 0 and 1 and a @vPermutationLength of 3, it will produce the following output:
-000
-001
-010
-011
-100
-101
-110
-111
+000, 001, 010, 011, 100, 101, 110, 111
 
 **********************************************************************/
 
