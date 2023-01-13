@@ -2,14 +2,25 @@
 Scott Peters
 Growing Numbers
 https://advancedsqlpuzzles.com
-Last Updated: 07/05/2022
+Last Updated: 01/13/2023
 
-This script is written in SQL Server's T-SQL
+This script is written in SQL Server's T-SQL.
 
+This script is used to find all possible growing numbers from a set of integers within a specified range. 
+For example, given the input 1, 2, 3, 4, and 5.  It will produce the output:
+1
+12
+123
+1234
+12345
 
-• Determining permutations can be performed with a recursive CTE; this solution uses a WHILE loop
-• This solution simply initializes a start and end variable and uses a WHILE loop
-• Output is saved in the temporary table #Permutations
+The script creates a temporary table called #GrowingNumbers and uses a WHILE loop to populate it. 
+The script initializes two variables, @vStart and @vEnd, to represent the range of integers to be 
+used in the permutations. It then enters a WHILE loop that runs as long as @vStart is less than or 
+equal to @vEnd. In each iteration of the loop, it selects the maximum value from the #GrowingNumbers table, 
+concatenates it with the current value of @vStart, and inserts the resulting value into the #GrowingNumbers table. 
+It then increments @vStart by 1. After the loop has completed, the script uses a SELECT statement to display 
+the contents of the #GrowingNumbers table.
 
 **********************************************************************/
 
