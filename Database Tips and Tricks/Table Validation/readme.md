@@ -19,11 +19,12 @@ To execute a quick demo, execute the above scripts in order.
 
 **Note, the tables must have the exact same columns for this script to work.**
 
-### Step 1
+-------
 
-Run the script: **Table Validation Demo Tables.sql** 
+**Step 1:**   
+Run the script: **Table Validation Demo Tables.sql** to create the demo tables.
 
-The following tables will be created for our demo; dbo.Sales_Old and dbo.Sales_New. 
+The following tables will be created for our demo; **dbo.Sales_Old** and **dbo.Sales_New**. 
 
 **Sales_Old**
 | TableID  | CustID  | Region   | City       | Sales        | ManagerID  | AwardStatus  |
@@ -46,10 +47,9 @@ The following tables will be created for our demo; dbo.Sales_Old and dbo.Sales_N
 
 Looking at this data we can see several differences between the tables; some values are different, the tables have different records, and the tables have duplicate rows. The Full Outer Join script will account for these scenarios. 
 
-### Step 2
-
+**Step 2:**  
 Next, run the script **Table Validation Part 1.sql**
-This script will populate the table **##TableInformation** with the following values from our Test script.
+This script will populate the table **##TableInformation** with the following values.
 
 | ColumnName  | Value                                     |
 | ----------  | ----------------------------------------  |
@@ -69,7 +69,7 @@ The join between the two tables is created in the fields **Exists1** and **Exist
 
 You can store multiple reconciliation scenarios in this table, simply input the values and increment the LookupID value. 
 
-### Step 3
+**Step 3:**  
 
 Lastly, run the script **Table Validation Part 2.sql**
 
@@ -77,20 +77,20 @@ This script will generate an SQL statement that compares the tables using a FULL
 
 **Notes:**  
 
-     1)  Modify the **@vLookupID** variable appropriately. This variable is used to lookup the table information in **##TableInformation**.  
+1)  Modify the **@vLookupID** variable appropriately. This variable is used to lookup the table information in **##TableInformation**.  
 
-     2)  The dynamic SQL statement will be saved in the table **#SQLStatementFinal**. You can review this SQL statement and modify as needed.   
+2)  The dynamic SQL statement will be saved in the table **#SQLStatementFinal**. You can review this SQL statement and modify as needed.   
 
-     3)  The results from the dynamic SQL statement will be saved in the temporary table **##@vTableName1_TemporaryTemp** (which will be ##Sales_New_TemporaryTable in
-         our example).  
+3)  The results from the dynamic SQL statement will be saved in the temporary table **##@vTableName1_TemporaryTemp** (which will be **##Sales_New_TemporaryTable** in
+    our example).  
 
-     4)  For each column there is a **Compare** field created that will be populated with a 1 if the fields are unequal, and a 0 if they are equal.   
+4)  For each column there is a **Compare** field created that will be populated with a 1 if the fields are unequal, and a 0 if they are equal.   
 
-     5)  The field **Compare_Summary** in the first column of the result set and gives an overall summary if the record matches between the two tables.   
+5)  The field **Compare_Summary** in the first column of the result set and gives an overall summary if the record matches between the two tables.   
 
-     6)  The result set also has information on which fields do not exist in its partner table, distinct counts, etc….   
+6)  The result set also has information on which fields do not exist in its partner table, distinct counts, etc….   
 
-     7)  To best understand the SQL generated from the script, review the SQL statement in the table **#SQLStatementFinal**.   
+7)  To best understand the SQL generated from the script, review the SQL statement in the table **#SQLStatementFinal**.   
 
 ```sql
 WITH CTE_SQLStatement AS ( 
