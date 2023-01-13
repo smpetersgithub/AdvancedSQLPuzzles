@@ -3,8 +3,7 @@ Scott Peters
 Seating Chart
 https://advancedsqlpuzzles.com
 Last Updated: 01/13/2023
-
-This script is written in SQL Server's T-SQL.
+Microsoft SQL Server T-SQL
 
 The script then uses several SQL statements to analyze the data in the #SeatingChart table. 
 The first query uses the LEAD() window function to find the gaps in the seat numbers and 
