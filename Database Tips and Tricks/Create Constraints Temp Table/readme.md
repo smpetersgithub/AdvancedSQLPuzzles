@@ -1,10 +1,10 @@
 # Create Constraints on a Temp Table
 
-This script creates several constraints on a sample temporary table, #EmployeePayRecords, that are identical to the constraints on the persistent table EmployeePayRecords in the dbo schema.
+Often I find myself in an environment where I have permissions to create a temporary table, but not a persistant table.  In order to properly test and UPDATE, INSERT, DELETE or MERGE statements on a table, I use this script to create a temporary table with the same constraints as the persistant table.  This way I can check my SQL statements to ensure no check constraints are violated.
 
-The script uses the specific example table EmployeePayRecords and Schema dbo, and the user should adjust the variables @vschema_name and @vtable_name to the appropriate names of the desired table to use.
+Currently this script creates several constraints on a sample temporary table, **#EmployeePayRecords**, that are identical to the constraints on the persistent table **EmployeePayRecords** in the **dbo** schema.  The user should adjust the variables **@vschema_name** and **@vtable_name** to the appropriate names of the desired table to use.
 
-See the script "EmployeePayRecords Sample Table.sql" to create the sample data
+See the script **EmployeePayRecords Sample Table.sql** to create the sample data
 
 Also, temporary tables are only available while the SQL Server instance is running, and the data is not persisted across restarts, therefore it should not be used for any type of permanent data storage or as a permanent solution.
 
@@ -18,7 +18,15 @@ SELECT * INTO #<tablename> FROM <tablename>
 ```
 
 Step 2:  
-Change the variables @vschema_name and @vtable_name to the appropriate names.
+Modify the variables @vschema_name and @vtable_name to the appropriate names.
+ 
+```sql
+DECLARE @vschema_name VARCHAR(100) = 'dbo';
+DECLARE @vtable_name VARCHAR(100) = 'EmployeePayRecords';
+```
+
+Step 3:  
+Execute the script.
 
 ----
 
