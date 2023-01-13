@@ -1,8 +1,11 @@
 /*----------------------------------------------------
 Scott Peters
-https://AdvancedSQLPuzzles.com
+Permutations (using Bit Mask)
+https://advancedsqlpuzzles.com
+Last Updated: 01/13/2022
+Microsoft SQL Server T-SQL
 
-Displays all permutations for the numbers 1 through n.
+This script uses recursion to displays all permutations for the numbers 1 through n.
 
 */----------------------------------------------------
 
@@ -63,3 +66,4 @@ SELECT  ROW_NUMBER() OVER (ORDER BY GETDATE()) AS Id,
         Permutation
 FROM    cte_Recursion
 WHERE   Bitmask = POWER(2, (SELECT COUNT(*) FROM cte_Numbers)) - 1;
+GO
