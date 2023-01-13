@@ -1,16 +1,21 @@
-DROP TABLE IF EXISTS ##Sales;
-GO
 /*********************************************************************
 Scott Peters
 Dice Roll Game
 https://advancedsqlpuzzles.com
-Last Updated: 07/05/2022
+Last Updated: 01/13/2023
 
-This script is written in SQL Server's T-SQL
+This script is written in SQL Server's T-SQL.
 
+The script simulateS a game in which the player rolls a dice repeatedly, and the 
+game ends when the player reaches a certain score, which is set by the @vDesiredScore variable.
 
-* You will need to make an assumption how many possible numbers you need in the #Numbers table, as this solution uses windowing
-* This script performs 1 iteration of the Dice Roll Game
+The script starts by declaring and setting some variables, including the desired 
+score for the game, the number of iterations the game should run, and the assumption 
+of the total number of rolls needed to achieve the desired score. The script then uses 
+various temporary tables such as #Numbers, #DiceRolls, #DiceRolls_NotSixes, #DiceRolls_Modified 
+and #DiceRollsResults to simulate the game. It uses CTEs, WHILE loops, and various INSERT and 
+SELECT statements to perform calculations and store the results in the temporary tables. 
+The script also uses a recursion method to ensure the sum of the rolls does not go below zero. 
 
 **********************************************************************/
 
@@ -167,3 +172,4 @@ SELECT  *
 FROM    #DiceRollsResults
 WHERE   StepNumber <= (SELECT MIN(StepNumber) FROM #DiceRollsResults WHERE DiceRoll_Sum_Modified >= 100)
 ORDER BY StepNumber DESC;
+GO
