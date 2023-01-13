@@ -2,7 +2,7 @@
 Scott Peters
 Seating Chart
 https://advancedsqlpuzzles.com
-Last Updated: 07/05/2022
+Last Updated: 01/13/2023
 
 This script is written in SQL Server's T-SQL.
 
