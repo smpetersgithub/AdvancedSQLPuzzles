@@ -3,8 +3,7 @@ Scott Peters
 Double Or Add 1
 https://advancedsqlpuzzles.com
 Last Updated: 01/13/2023
-
-This script is written in SQL Server's T-SQL.
+Microsoft SQL Server T-SQL
 
 The script creates a temporary table called #Numbers and populates it 
 with a range of numbers, specified by the variable @vTotalNumbers. 
