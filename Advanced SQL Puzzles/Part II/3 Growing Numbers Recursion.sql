@@ -3,8 +3,7 @@ Scott Peters
 Growing Numbers
 https://advancedsqlpuzzles.com
 Last Updated: 01/13/2023
-
-This script is written in SQL Server's T-SQL.
+Microsoft SQL Server T-SQL
 
 This script is used to find all possible growing numbers from a set of integers within a specified range. 
 For example, given the input 1, 2, 3, 4, and 5.  It will produce the output:
