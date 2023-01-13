@@ -1,9 +1,15 @@
 /*----------------------------------------------------
 Scott Peters
-https://AdvancedSQLPuzzles.com
+Growing Numbers
+https://advancedsqlpuzzles.com
+Last Updated: 01/13/2022
+Microsoft SQL Server T-SQL
 
-This recursive statement grows numbers.
-1, 12, 123, 1234, 12345....
+This script uses recursion to create a growing number list.
+Given the input (1,2,3), this script will produce the following:
+1
+1,2
+1,2,3
 
 */----------------------------------------------------
 
