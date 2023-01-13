@@ -3,8 +3,7 @@ Scott Peters
 Count the Groupings
 https://advancedsqlpuzzles.com
 Last Updated: 01/13/2023
-
-This script is written in SQL Server's T-SQL.
+Microsoft SQL Server T-SQL
 
 The script creates two temporary tables: #Groupings and #Groupings2. 
 The #Groupings table is populated with test case information, including a step number, 
