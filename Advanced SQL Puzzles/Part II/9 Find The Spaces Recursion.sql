@@ -2,13 +2,17 @@
 Scott Peters
 Find The Spaces
 https://advancedsqlpuzzles.com
-Last Updated: 07/05/2022
+Last Updated: 01/13/2023
+Microsoft SQL Server T-SQL
 
-This script is written in SQL Server's T-SQL
-
-
-• The following code uses recursion and determines start and position points of a specified character
-• A #Strings table is the only table needed to solve this puzzle
+This script uses recursion to find the spaces in a given string and determine their start and position points. 
+The script starts by creating a table called #Strings that stores a set of strings.  The script then uses a common 
+table expression (CTE) called cte_CAST to cast the strings in the #Strings table to VARCHAR(200) and a CTE called 
+cte_Anchor to recursively find the spaces in the strings. The cte_Anchor CTE uses the CHARINDEX function to find 
+the position of the space character in the string and the Position column to recursively find the next space in the 
+string. The script also uses the SUBSTRING function to extract the word between spaces and the LEN function and REPLACE 
+function to find the total number of spaces in the string. The script then uses the ROW_NUMBER() function to assign 
+a unique row number to each space found and displays the results.
 
 **********************************************************************/
 
@@ -54,3 +58,4 @@ SELECT  ROW_NUMBER() OVER (PARTITION BY Id ORDER BY Starts) AS RowNumber,
         LEN(String) - LEN(REPLACE(String,' ','')) AS TotalSpaces
 FROM   cte_Anchor
 ORDER BY Id, Starts;
+GO
