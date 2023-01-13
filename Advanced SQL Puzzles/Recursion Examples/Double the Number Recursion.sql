@@ -3,9 +3,10 @@ Scott Peters
 Double the Number
 https://advancedsqlpuzzles.com
 Last Updated: 01/13/2022
+Microsoft SQL Server T-SQL
 
-Begining at 1, this recursive statement will double the number for each record.
-1, 2, 4, 8, 16, 32.....
+Begining at 1, this script uses a recursive statement to double the number for each record.
+1, 2, 4, 8, 16, 32, etc.....
 
 */----------------------------------------------------
 
@@ -48,3 +49,4 @@ FROM    cte_Recursion cte
 SELECT   *
 FROM     cte_Recursion
 ORDER BY Number;
+GO
