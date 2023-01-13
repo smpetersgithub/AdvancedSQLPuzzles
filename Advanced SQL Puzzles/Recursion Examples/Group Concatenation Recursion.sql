@@ -1,9 +1,12 @@
 /*----------------------------------------------------
 Scott Peters
-https://AdvancedSQLPuzzles.com
+Group Concatentation
+https://advancedsqlpuzzles.com
+Last Updated: 01/13/2022
+Microsoft SQL Server T-SQL
 
-Same as the STRING_AGG funtion.
-Concatenates the values of string expressions and places separator values between them.
+This script uses recursion to concatenate the values of string expressions and places separator values between them.
+Note, this provides the same functionality as the STRING_AGG funtion.
 
 */----------------------------------------------------
 
