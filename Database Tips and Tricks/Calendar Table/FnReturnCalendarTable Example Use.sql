@@ -1,4 +1,4 @@
-/*********************************************************************
+/*-----------------------------------------------------------------------
 Scott Peters
 Creating a Calendar Table
 https://advancedsqlpuzzles.com
@@ -7,7 +7,8 @@ Microsoft SQL Server T-SQL
 
 This script shows example usage of the function FnReturnCalendarTable.
 
-**********************************************************************/
+*/-----------------------------------------------------------------------
+
 SET NOCOUNT ON;
 DROP TABLE IF EXISTS dbo.CalendarDaysTemp;
 GO
