@@ -2,14 +2,22 @@
 Scott Peters
 Double Or Add 1
 https://advancedsqlpuzzles.com
-Last Updated: 07/05/2022
+Last Updated: 01/13/2023
 
-This script is written in SQL Server's T-SQL
+This script is written in SQL Server's T-SQL.
 
+The script creates a temporary table called #Numbers and populates it 
+with a range of numbers, specified by the variable @vTotalNumbers. 
+The script uses a common table expression (CTE) to generate the numbers.
 
-* I can make a safe assumption that less than the desired score (100) numbers are needed
-* Recursion can be used to solve this problem
-* The #Numbers table is the only table needed to solve this puzzle
+The script then defines a second CTE called cte_Recursion, which performs 
+the logic of either doubling or adding 1 to the previous number, depending 
+on the condition (number * 2 < 100) using a CASE statement. The cte_recursion is 
+joining the cte_number table and the number is incremented by 1 in the join clause.
+
+Finally, the script uses a SELECT statement to display the results of the cte_recursion. 
+The results are filtered by the running sum is less than or equal to 100 and ordered 
+by the number in descending order.
 
 **********************************************************************/
 
