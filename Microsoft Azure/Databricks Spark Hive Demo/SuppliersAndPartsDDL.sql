@@ -1,3 +1,12 @@
+/*----------------------------------------------------
+Scott Peters
+Databricks Spark Hive Demo
+https://advancedsqlpuzzles.com
+Last Updated: 01/13/2022
+Microsoft SQL Server T-SQL
+
+*/----------------------------------------------------
+
 CREATE SCHEMA supp_parts_hive;
 GO
 
@@ -17,7 +26,6 @@ InsertDate DATETIME DEFAULT GETDATE() NOT NULL
 );
 GO
 
-
 CREATE TABLE supp_parts_hive.Parts
 (
 PartId int NOT NULL PRIMARY KEY,
@@ -28,7 +36,6 @@ City varchar(20) NOT NULL,
 InsertDate DATETIME DEFAULT GETDATE() NOT NULL
 );
 GO
-
 
 CREATE TABLE supp_parts_hive.Shipments
 (
