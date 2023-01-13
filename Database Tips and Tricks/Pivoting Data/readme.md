@@ -1,18 +1,20 @@
 # Pivoting Data
 
-The pivot operator is a powerful feature in SQL, but often goes unused due to its complicated syntax.  Here we simplify the syntax by encapsulating the pivot into a stored procedure. Under the hood the stored procedure uses XML and dynamic SQL to accomplish its goal.
+The pivot operator is a powerful feature in SQL, but often goes unused due to its complicated syntax.  
+
+Here we simplify the syntax by encapsulating the pivot into a stored procedure allowing us to easy automate the creation of pivoted datasets. 
+
+Under the hood the stored procedure uses XML and dynamic SQL to accomplish its goal.
 
 ## Installation
 
-Inside this GitHub repository you will find the following SQL scripts:
+**Step 1:**   
+Create the stored procedure **SpPivotData** via the **SpPivotData.sql** script.
 
-1) **SpPivotData.sql**  
-A script that creates the stored procedure SpPivotData
+**Step 2:**   
+Review example usages of the SpPivotData stored procedure in teh **Pivot Data Examples.sql** script.
 
-2) **Pivot Data Examples.sql**  
-Example usages of the SpPivotData stored procedure.
-
-## Usage
+Here is a basic execution of the SpPivotData stored procedure.
 
 ```sql
 EXEC dbo.SpPivotData
