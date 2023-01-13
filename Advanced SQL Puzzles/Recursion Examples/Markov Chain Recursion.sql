@@ -1,10 +1,12 @@
 /*----------------------------------------------------
 Scott Peters
-https://AdvancedSQLPuzzles.com
+Markov Chains
+https://advancedsqlpuzzles.com
+Last Updated: 01/13/2022
+Microsoft SQL Server T-SQL
 
-Solves Markov Chains
-
-Below will solve for the following:
+This script uses recursion to solve a Markov Chain.
+https://en.wikipedia.org/wiki/Markov_chain
 
 In Probability Land, on a sunny day there is an equal probability of the next day being sunny or rainy. 
 On a rainy day, there is a 70% chance it will rain the next day, and a 30% chance it will be sunny the next day.
