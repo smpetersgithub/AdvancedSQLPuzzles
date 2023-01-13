@@ -2,8 +2,7 @@
 Scott Peters
 Markov Chains
 https://advancedsqlpuzzles.com
-
-This script is written in SQL Server's T-SQL.
+Microsoft SQL Server T-SQL
 
 This script solves for a Markov Chain.
 https://en.wikipedia.org/wiki/Markov_chain
