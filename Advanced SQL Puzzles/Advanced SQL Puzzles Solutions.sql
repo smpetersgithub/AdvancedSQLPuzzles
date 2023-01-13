@@ -1,9 +1,11 @@
 /*----------------------------------------------------
 Scott Peters
+Solutions for Advanced SQL Puzzles
 https://advancedsqlpuzzles.com
-Last Updated 01/09/2023
-*/----------------------------------------------------
+Last Updated: 01/13/2022
+Microsoft SQL Server T-SQL
 
+*/----------------------------------------------------
 
 /*----------------------------------------------------
 Answer to Puzzle #1
