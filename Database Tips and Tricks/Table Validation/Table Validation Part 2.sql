@@ -1,19 +1,20 @@
 /*----------------------------------------------------
 Scott Peters
-Full Outer Join Dynamic SQL Creation
+Dynamic Full Outer Join
 https://advancedsqlpuzzles.com
-Last Updated: 01/12/2022
+Last Updated: 01/13/2022
 Microsoft SQL Server T-SQL
 
 This script creates a dynamic SQL statement for performing a full outer join between two tables, 
-with the option to compare column counts, row counts, and distinct row counts between the two tables.
+with the ability to compare column counts, row counts, and distinct row counts between the two tables.
 The script also includes the ability to join on specific columns, with results sorted by level of validation (100-900).
 
 Instructions:
 
-1) Set the LookupID variable to match the ID of the desired tables to compare in the ##TableInformation table
-2) Execute the script
-3) The final dynamic SQL statement will be located in the #SQLStatementFinal table
+1) Set the LookupID variable to match the ID of the desired tables to compare in the ##TableInformation table.
+2) Execute the script.
+3) The final dynamic SQL statement will be located in the #SQLStatementFinal table.
+
 */----------------------------------------------------
 
 SET NOCOUNT ON;
@@ -272,8 +273,7 @@ FROM    #SQLStatementFinal;
 SELECT  * FROM #SQLStatementFinal;
 */
 
-
 EXECUTE(@MySQLStatement);
 EXECUTE('SELECT DISTINCT * FROM ' + @TempTable + ' ORDER BY 1 DESC, 2,3,4,5');      --The CONCAT function does not work for dynamic sql.
-
+GO
 -------------------------------
