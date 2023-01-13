@@ -1,8 +1,11 @@
 /*----------------------------------------------------
 Scott Peters
-https://AdvancedSQLPuzzles.com
+String Split Each Character
+https://advancedsqlpuzzles.com
+Last Updated: 01/13/2022
+Microsoft SQL Server T-SQL
 
-Splits a string into rows of substrings for each character in the string.
+This script uses recursion to split a string into rows of substrings for each character in the string.
 
 */----------------------------------------------------
 
@@ -48,3 +51,4 @@ SELECT
        ISNUMERIC(String_Left) AS [IsNumeric]
 FROM   cte_Recursion
 ORDER BY 1,2;
+GO
