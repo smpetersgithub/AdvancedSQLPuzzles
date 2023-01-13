@@ -1,18 +1,20 @@
-/*********************************************************************
+/*--------------------------------------------------------------------------------------------------------
 Scott Peters
 Permutations 1 Through 10 (Bit Mask)
 https://advancedsqlpuzzles.com
 Last Updated: 01/13/2023
 Microsoft SQL Server T-SQL
 
+This script generates permutations of a set of numbers using a bit mask. The script starts by 
+declaring a variable for the length of numbers that will be used in the permutations and then 
+creates a table called #Numbers that is populated with a set of numbers. The script then uses 
+common table expressions (CTEs) and bitwise operators to generate permutations of the numbers 
+in the #Numbers table and stores them in a table called #Permutations. The script also creates 
+another table called #PermutationsPosition that determines the position of commas in the permutations. 
+Finally, the script selects distinct permutations of a specific length, specified by the @vLengthNumbers 
+variable, and displays the results.
 
-
-• This puzzle can more easily be solved using simple CROSS JOINS if the number of digits in the permutation is fixed.
-• This solution uses an initial numbers table (#Numbers) that must be populated
-• Output is saved in the temporary table #Permutations
-• This script is sourced from the internet and uses bitwise operators to help speed up the calculation, with 10 digits taking roughly 15 minutes to complete
-
-**********************************************************************/
+*/--------------------------------------------------------------------------------------------------------
 
 -------------------------------
 -------------------------------
