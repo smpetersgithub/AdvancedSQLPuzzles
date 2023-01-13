@@ -3,8 +3,7 @@ Scott Peters
 All Permutations
 https://advancedsqlpuzzles.com
 Last Updated: 01/13/2023
-
-This script is written in SQL Server's T-SQL.
+Microsoft SQL Server T-SQL
 
 The script generates all the permutations of numbers from 1 to @vTotalNumbers (inclusive). 
 It first creates a table called #Numbers which contains a column of numbers from 1 to @vTotalNumbers. 
