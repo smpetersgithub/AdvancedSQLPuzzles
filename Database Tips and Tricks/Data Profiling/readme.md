@@ -1,15 +1,49 @@
-# Data Profiling
+# Data Profiling  
 
-This script is intended to update a temporary table called #DataProfiling with a user supplied metric (such as COUNT, AVG, MAX, MIN) for a user-specified schema and table name.
- 
-The script uses a cursor to iterate through each column in the specified table and executes an update statement for each column with a different metric specified. 
+When working with datasets, it's important to have a quick and easy way to understand the structure and quality of the data. One important aspect of this is identifying missing or null values in the dataset.
 
-This script creates a temporary table called #DataProfilingSQL, which contain the SQL statements that used to update the #DataProfiling table.
+To address these issues, I created a data profiling script that allows me to quickly and easily identify the number of null or empty string values in a given column (among other things). This script is designed to be simple and easy to use, allowing me to quickly get a sense of the quality of the data and identify any areas that may require further cleaning or processing.
 
-It also provides examples for SQL statements such as determining the count of NULL markers, empty strings, keywords, etc. in the columns. 
+## Overview  
 
-Example SQL statements are provided to find NULL markers, empty strings, keywords, etc....
+The script updates a temporary table called **#DataProfiling** with a user supplied metric (such as COUNT, AVG, MAX, MIN) for a user-specified schema and table name. The script uses a cursor to iterate through each column in the specified table and executes an update statement for each column with a different metric specified.   This script creates a temporary table called **#DataProfilingSQL**, which contain the SQL statements that are used to update the #DataProfiling table.
+
+Example SQL statements are provided to find NULL markers, empty strings, keyword search, etc....
 
 ## Installation
 
-Modify the script to the table and data types of your choosing.  Modify the SQL statement that is ran dynamically to pull the desired metric.
+**Step 1:**  
+Modify the script variables **@vSchemaName** and **@vTableName** to the shema and table name you wish to profile.  
+```sql
+DECLARE @vSchemaName NVARCHAR(100) = '';
+DECLARE @vTableName NVARCHAR(100) = '';
+```
+
+**Step 2:**  
+Locate the following in the script and modify as needed.  You may want to limit the columns to certain data types or names.
+```sql
+WHERE   1=1 AND 
+        s.[Name] = @vSchemaName AND 
+        t.[Name] = @vTableName
+        AND ty.Name NOT IN ('XML','uniqueidentifier')--Modify as needed
+```
+**Step 3:**  
+I have provided several SQL statments for NULL markers, empty strings, keyword searches, etc... You may need to create your own profiling query based upon your needs.
+Here is an example of a profiling where I count the non NULL values in the columns.
+
+```sql
+INSERT INTO #DataProfilingSQL (DataProfilingType, OrderID, SQLLine) VALUES
+(1,1,'UPDATE #DataProfiling SET RecordCount ='),
+(1,2,'('),
+(1,3,'SELECT  COUNT([ColumnName])'),
+(1,4,'FROM    SchemaName.TableName'),
+(1,5,')'),
+(1,6,'WHERE RowNumber = vRowNumber');
+```
+Modify **@vSQLStatement** variable to point to the desired profile in the **#DataProfilingSQL** table.
+```sql
+DECLARE @vSQLStatement NVARCHAR(1000) = (SELECT STRING_AGG(SQLLine,' ') FROM #DataProfilingSQL WHERE DataProfilingType = 1);
+```
+
+**Step 4:**  
+Execute the script.
