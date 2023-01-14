@@ -6,7 +6,7 @@ Because NULL markers represent the absence of a value, NULL markers can be a sou
 
 To best understand NULL markers, one must understand the three-valued logic of true, false, or unknown, and recognize how NULL markers are treated within the different constructs of the SQL language. The join syntax will treat NULL markers differently than set operators, and a unique constraint will treat a NULL marker differently than a primary key constraint. 
 
-Because NUL markers do not represent a value, SQL has two conditions specific to the SQL language: 
+Because NULL markers do not represent a value, SQL has two conditions specific to the SQL language: 
 * IS NULL 
 * IS NOT NULL 
 
