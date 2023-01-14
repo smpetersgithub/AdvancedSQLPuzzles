@@ -17,7 +17,7 @@ SQL also provides three functions to evaluate NULL markers:
 
 When working with predicate logic, it is important to understand SQL truth tables and how the NULL markers are treated different with AND, OR and NOT operators.  
 
-**And**
+**AND**
    A   |   B   | A AND B 
  ------|-------|--------- 
   TRUE  | TRUE  | TRUE    
