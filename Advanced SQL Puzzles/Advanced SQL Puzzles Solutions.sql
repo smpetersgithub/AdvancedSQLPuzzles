@@ -489,8 +489,8 @@ SELECT  DISTINCT
         a.EmployeeID_B,
         a.CountWindow AS LicenseCount
 FROM    cte_CountWindow a INNER JOIN
-        cte_Count b ON a.CountWindow = b.LicenseCount and a.EmployeeID_A = b.EmployeeID INNER JOIN
-        cte_Count c ON a.CountWindow = c.LicenseCount and a.EmployeeID_B = c.EmployeeID;
+        cte_Count b ON a.CountWindow = b.LicenseCount AND a.EmployeeID_A = b.EmployeeID INNER JOIN
+        cte_Count c ON a.CountWindow = c.LicenseCount AND a.EmployeeID_B = c.EmployeeID;
 GO
 
 /*----------------------------------------------------
