@@ -1290,6 +1290,20 @@ INSERT INTO #Orders (OrderID, CustomerID, OrderCount, Vendor) VALUES
 GO
 
 --Solution 1
+--MAX window function
+WITH cte_Max AS
+(
+SELECT  OrderID, CustomerID, OrderCount, Vendor,
+        MAX(Ordercount) OVER (PARTITION BY CustomerID ORDER BY CustomerID) AS MaxOrderCount
+FROM    #Orders
+)
+SELECT  CustomerID, Vendor
+FROM    cte_Max
+WHERE   OrderCount = MaxOrderCount
+ORDER BY 1, 2;
+GO
+
+--Solution 1
 --RANK function
 WITH cte_Rank AS
 (
@@ -1306,20 +1320,6 @@ WHERE   Rnk = 1
 ORDER BY 1, 2;
 GO
 
---Solution 2
---MAX Function
-WITH cte_Max AS
-(
-SELECT  OrderID, CustomerID, OrderCount, Vendor,
-        MAX(Ordercount) OVER (PARTITION BY CustomerID ORDER BY CustomerID) AS MaxOrderCount
-FROM    #Orders
-)
-SELECT  CustomerID, Vendor
-FROM    cte_Max
-WHERE   OrderCount = MaxOrderCount
-ORDER BY 1, 2;
-GO
-
 --Solution 3
 --MAX with Correlated SubQuery
 WITH cte_Max AS
@@ -1331,7 +1331,23 @@ GROUP BY CustomerID
 )
 SELECT  CustomerID, Vendor
 FROM    #Orders a
-WHERE EXISTS (SELECT 1 FROM cte_Max b WHERE a.CustomerID = b.CustomerID and a.OrderCount = MaxOrderCount)
+WHERE   EXISTS (SELECT 1 FROM cte_Max b WHERE a.CustomerID = b.CustomerID and a.OrderCount = MaxOrderCount)
+ORDER BY 1, 2;
+GO
+
+--Solution 4
+--ALL Operator
+SELECT  CustomerID, Vendor
+FROM    #Orders a
+WHERE   OrderCount >= ALL(SELECT OrderCount FROM #Orders b WHERE a.CustomerID = b.CustomerID)
+ORDER BY 1, 2;
+GO
+
+--Solution 5
+--MAX Function
+SELECT  CustomerID, Vendor
+FROM    #Orders a
+WHERE   OrderCount >= (SELECT MAX(OrderCount) FROM #Orders b WHERE a.CustomerID = b.CustomerID)
 ORDER BY 1, 2;
 GO
 
