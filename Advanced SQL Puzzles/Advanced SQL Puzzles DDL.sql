@@ -224,7 +224,9 @@ GO
 INSERT INTO #Employees (EmployeeID, License) VALUES
 (1001,'Class A'),(1001,'Class B'),(1001,'Class C'),
 (2002,'Class A'),(2002,'Class B'),(2002,'Class C'),
-(3003,'Class A'),(3003,'Class D');
+(3003,'Class A'),(3003,'Class D'),
+(4004,'Class A'),(4004,'Class B'),(4004,'Class D'),
+(5005,'Class A'),(5005,'Class B'),(5005,'Class D');
 GO
 
 /*----------------------------------------------------
