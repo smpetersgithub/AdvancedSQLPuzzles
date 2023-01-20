@@ -78,3 +78,4 @@ SELECT 2, 'Fly', LEN('fly')
 SELECT *, SUBSTRING(Word,MyInteger,1) AS Character
 FROM   cte_Length a LEFT OUTER JOIN
        #Numbers B ON b.MyInteger <= a.WordLength;
+GO
