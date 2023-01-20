@@ -52,3 +52,29 @@ SELECT
 FROM   cte_Recursion
 ORDER BY 1,2;
 GO
+
+----------------------------------------------------------------
+--String splitting can also be solved by using a Numbers table--
+----------------------------------------------------------------
+
+DROP TABLE IF EXISTS #Numbers;
+GO
+
+CREATE TABLE #Numbers
+(
+MyInteger INTEGER NOT NULL PRIMARY KEY
+);
+GO
+
+INSERT INTO #Numbers VALUES(1),(2),(3),(4),(5);
+GO
+
+WITH cte_Length AS
+(
+SELECT 1 AS id, 'Super' AS Word, LEN('Super') AS WordLength
+UNION
+SELECT 2, 'Fly', LEN('fly')
+)
+SELECT *, SUBSTRING(Word,MyInteger,1) AS Character
+FROM   cte_Length a LEFT OUTER JOIN
+       #Numbers B ON b.MyInteger <= a.WordLength;
