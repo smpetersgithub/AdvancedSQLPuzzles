@@ -1823,25 +1823,27 @@ INSERT INTO #Orders VALUES
 (10,8008,67,'Domestic');
 GO
 
-WITH cte_Domestic AS
-(
-SELECT  InvoiceID,
-        SalesRepID
+--Solution 1 
+--NOT
+SELECT  OrderID,
+        CustomerID,
+        Amount
 FROM    #Orders
-WHERE   SalesType = 'Domestic'
-),
-cte_International AS
-(
-SELECT  InvoiceID,
-        SalesRepID
-FROM    #Orders
-WHERE   SalesType = 'International'
-)
-SELECT  ISNULL(a.SalesRepID,b.SalesRepID)
-FROM    cte_Domestic a FULL OUTER JOIN
-        cte_International b ON a.SalesRepID = b.SalesRepID
-WHERE   a.InvoiceID IS NULL OR b.InvoiceID IS NULL;
+WHERE   NOT(CustomerID = 1001 AND Amount = 50);
 GO
+
+--Solution 2
+--EXCEPT
+SELECT  OrderID,
+        CustomerID,
+        Amount
+FROM    #Orders
+EXCEPT
+SELECT  OrderID,
+        CustomerID,
+        Amount
+FROM    #Orders
+WHERE   CustomerID = 1001 AND Amount = 50;
 
 /*----------------------------------------------------
 Answer to Puzzle #36
