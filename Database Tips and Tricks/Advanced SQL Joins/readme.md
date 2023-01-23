@@ -6,11 +6,11 @@
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Besides the standard INNER, OUTER, FULL, and NATURAL joins that are specified in the ANSI SQL standard, there are equi-joins, theta-joins, semi-joins, anti-joins, self-joins, nested-loop joins, merge sort joins, and hash joins.  These joins are not part of the standard SQL join syntax but rather ways to classify different types of joins based on their behavior and the condition used to join the tables.  
 
 We can classify joins into the following 5 categories:
-1.	**Inner**, **outer**, **cross**, and **natural joins** are part of the SQL syntax and are used to combine data from two or more tables based upon a filtering or matching criterion.
+1.	**INNER**, **OUTER**, **CROSS**, and **NATURAL** joins are part of the SQL syntax (hence their capitalization) and are used to combine data from two or more tables based upon a filtering or matching criterion.
 2.	A **self-join** is used when a table is joined to itself. It is useful when a table has a hierarchical structure or when the table has a one-to-many relationship with itself.
-3.	**Semi-joins** and **anti-joins** look for equality or inequality between two datasets, but have an added benefit of not returning duplicates.
-4.	**Equi-joins** and **theta-joins** are used to describe if the join is looking for equality, inequality, or a range of values. 
-5.	**Nested loop**, **Hash**, and **Merge sort joins** are types of join algorithms. They are used to optimize the performance of a query when joining large tables, based on the table size and the type of data they contain.
+3.	**Semi joins** and **anti joins** look for equality or inequality between two datasets, but have an added benefit of not returning duplicates.
+4.	**Equi joins** and **theta joins** are used to describe if the join is looking for equality, inequality, or a range of values. 
+5.	**Nested loop**, **hash**, and **merge sort joins** are types of join algorithms. They are used to optimize the performance of a query when joining large tables, based on the table size and the type of data they contain.
 
 Here is an overall summary of each of the joins:
 |       Join       |                                                                                                              Description                                                                                                              |
