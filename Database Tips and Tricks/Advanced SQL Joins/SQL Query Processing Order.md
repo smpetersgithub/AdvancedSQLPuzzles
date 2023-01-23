@@ -26,7 +26,7 @@ Processing order of a SQL statement:
 
 The four table operators and their suboperations are:
 
-| Operator |                      SubOperations                      |
+| Operator |                      SubPHases                          |
 |----------|---------------------------------------------------------|
 | JOIN     |  1) Cartesian Product 2) ON Predicate 3) Add Outer Rows |
 | APPLY    |  1) Apply Table Expression 2) Add Outer Rows            |
