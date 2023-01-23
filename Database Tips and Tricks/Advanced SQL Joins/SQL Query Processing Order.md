@@ -41,12 +41,12 @@ From the diagram we can determine there is only one true type of table join, the
 ```sql
 --Statement 1
 SELECT  *
-FROM	  Customers emp INNER JOIN
+FROM    Customers emp INNER JOIN
         Orders ord ON emp.CustomerID = ord.CustomerID;
 
 --Statement 2
 SELECT  *
-FROM	  Customers emp CROSS JOIN
+FROM    Customers emp CROSS JOIN
         Orders ord ON emp.CustomerID = ord.CustomerID;
 ```
 
