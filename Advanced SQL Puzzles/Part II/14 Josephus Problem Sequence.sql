@@ -2,7 +2,7 @@
 Scott Peters
 Josephus Problem
 https://advancedsqlpuzzles.com
-Last Updated: 01/13/2023
+Last Updated: 01/24/2023
 Microsoft SQL Server T-SQL
 
 This script runs an iteration of the Josephus Problem.
@@ -18,6 +18,8 @@ variable respectively. The script also displays the result in order of
 elimination and indicates the winner.
 
 **********************************************************************/
+SET NOCOUNT ON;
+GO
 
 -------------------------------
 -------------------------------
@@ -35,14 +37,14 @@ CREATE SEQUENCE dbo.JosephusSequence AS TINYINT
     START WITH 1
     INCREMENT BY 1
     MINVALUE 1
-    MAXVALUE 4-----------------Set to number of soldiers
+    MAXVALUE 14-----------------Set to number of soldiers
     CYCLE;
 GO
 
 -------------------------------
 -------------------------------
 --Create and populate a #Numbers table
-DECLARE @vTotalNumbers INTEGER = 4;
+DECLARE @vTotalNumbers INTEGER = 100;
 
 WITH cte_Number (Number)
 AS (
@@ -80,7 +82,7 @@ GO
 -------------------------------
 -------------------------------
 --Declare and set variables
-DECLARE @vCycle INTEGER = 2;
+DECLARE @vCycle INTEGER = 2;--------------------------------------------------
 DECLARE @vIterator INTEGER = 1;
 
 -------------------------------
@@ -97,9 +99,6 @@ WHERE   SoldierNumber = @vCycle;
 WHILE (SELECT COUNT(DISTINCT SoldierNumber) FROM #Soldiers WHERE Iterator IS NULL) > 1
         BEGIN
 
-        SET @vIterator = @vIterator + 1;
-        PRINT(@vIterator);
-
         DROP TABLE IF EXISTS #SoldiersTemp;
 
         WITH cte_RowNumberEstablish AS
@@ -108,23 +107,22 @@ WHILE (SELECT COUNT(DISTINCT SoldierNumber) FROM #Soldiers WHERE Iterator IS NUL
                 *
         FROM    #Soldiers
         WHERE   Iterator IS NULL AND
-                RowNumber > (SELECT MIN(RowNumber) FROM #Soldiers WHERE Iterator = @vIterator - 1)
+                RowNumber > (SELECT MIN(RowNumber) FROM #Soldiers WHERE Iterator = @vIterator)
         )
-        SELECT *
+        SELECT  *
         INTO    #SoldiersTemp
-        FROM cte_RowNumberEstablish;
-        
-        UPDATE #Soldiers
-        SET    Iterator = @vIterator,
+        FROM    cte_RowNumberEstablish;
+  
+
+		SET @vIterator = @vIterator + 1;
+        PRINT(@vIterator);
+
+
+        UPDATE  #Soldiers
+        SET     Iterator = @vIterator,
                 UpdateDate = GETDATE()
         FROM    #Soldiers a
-        WHERE   a.SoldierNumber IN (SELECT SoldierNumber FROM #SoldiersTemp WHERE RowNumberNew = @vIterator)
-
-       IF @@ROWCOUNT = 0
-        BEGIN
-        PRINT '@@ROWCOUNT Returned 0.  Increase The Size Of The Numbers Table';
-        RETURN
-        END
+        WHERE   a.SoldierNumber IN (SELECT SoldierNumber FROM #SoldiersTemp WHERE RowNumberNew = @vCycle);
 
         END;  --End Loop
 GO
