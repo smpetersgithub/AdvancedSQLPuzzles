@@ -37,14 +37,14 @@ CREATE SEQUENCE dbo.JosephusSequence AS TINYINT
     START WITH 1
     INCREMENT BY 1
     MINVALUE 1
-    MAXVALUE 14-----------------Set to number of soldiers
+    MAXVALUE 14----------------------------------------------------Set to number of soldiers
     CYCLE;
 GO
 
 -------------------------------
 -------------------------------
 --Create and populate a #Numbers table
-DECLARE @vTotalNumbers INTEGER = 100;
+DECLARE @vTotalNumbers INTEGER = 100;------------------------------You may need to increase this number based upon the number of sequences you need to create
 
 WITH cte_Number (Number)
 AS (
@@ -82,8 +82,8 @@ GO
 -------------------------------
 -------------------------------
 --Declare and set variables
-DECLARE @vCycle INTEGER = 2;--------------------------------------------------
-DECLARE @vIterator INTEGER = 1;
+DECLARE @vCycle INTEGER = 2;---------------------------------------Set this to the cycle number
+DECLARE @vIterator INTEGER = 1;------------------------------------This is a constant, do not change
 
 -------------------------------
 -------------------------------
@@ -101,6 +101,7 @@ WHILE (SELECT COUNT(DISTINCT SoldierNumber) FROM #Soldiers WHERE Iterator IS NUL
 
         DROP TABLE IF EXISTS #SoldiersTemp;
 
+
         WITH cte_RowNumberEstablish AS
         (
         SELECT  ROW_NUMBER() OVER (ORDER BY RowNumber) AS RowNumberNew,
@@ -114,9 +115,7 @@ WHILE (SELECT COUNT(DISTINCT SoldierNumber) FROM #Soldiers WHERE Iterator IS NUL
         FROM    cte_RowNumberEstablish;
   
 
-		SET @vIterator = @vIterator + 1;
-        PRINT(@vIterator);
-
+	SET @vIterator = @vIterator + 1;
 
         UPDATE  #Soldiers
         SET     Iterator = @vIterator,
