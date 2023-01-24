@@ -37,14 +37,15 @@ CREATE SEQUENCE dbo.JosephusSequence AS TINYINT
     START WITH 1
     INCREMENT BY 1
     MINVALUE 1
-    MAXVALUE 14----------------------------------------------------Set to number of soldiers
+    MAXVALUE 14----------------------------------------------------Set to number of soldiers!
     CYCLE;
 GO
 
 -------------------------------
 -------------------------------
 --Create and populate a #Numbers table
-DECLARE @vTotalNumbers INTEGER = 100;------------------------------You may need to increase this number based upon the number of sequences you need to create
+--You may need to increate this number based on the number of sequences you need to create!
+DECLARE @vTotalNumbers INTEGER = 100;
 
 WITH cte_Number (Number)
 AS (
@@ -82,8 +83,10 @@ GO
 -------------------------------
 -------------------------------
 --Declare and set variables
-DECLARE @vCycle INTEGER = 2;---------------------------------------Set this to the cycle number
-DECLARE @vIterator INTEGER = 1;------------------------------------This is a constant, do not change
+DECLARE @vCycle INTEGER = 2;---------------------------------------Set this to the cycle number!
+
+--Do not change this variable
+DECLARE @vIterator INTEGER = 1;
 
 -------------------------------
 -------------------------------
@@ -110,18 +113,12 @@ WHILE (SELECT COUNT(DISTINCT SoldierNumber) FROM #Soldiers WHERE Iterator IS NUL
         WHERE   Iterator IS NULL AND
                 RowNumber > (SELECT MIN(RowNumber) FROM #Soldiers WHERE Iterator = @vIterator)
         )
-        SELECT  *
-        INTO    #SoldiersTemp
-        FROM    cte_RowNumberEstablish;
-  
-
-	SET @vIterator = @vIterator + 1;
-
         UPDATE  #Soldiers
-        SET     Iterator = @vIterator,
+        SET     Iterator = @vIterator + 1,
                 UpdateDate = GETDATE()
-        FROM    #Soldiers a
-        WHERE   a.SoldierNumber IN (SELECT SoldierNumber FROM #SoldiersTemp WHERE RowNumberNew = @vCycle);
+        WHERE   SoldierNumber IN (SELECT SoldierNumber FROM cte_RowNumberEstablish WHERE RowNumberNew = @vCycle);
+
+        SET @vIterator = @vIterator + 1;
 
         END;  --End Loop
 GO
@@ -129,8 +126,7 @@ GO
 -------------------------------
 -------------------------------
 --Display the results
-SELECT  
-        SoldierNumber,
+SELECT  SoldierNumber,
         UpdateDate,
         Iterator,
         (CASE WHEN UpdateDate IS NULL THEN 'Winner' END) AS Status
