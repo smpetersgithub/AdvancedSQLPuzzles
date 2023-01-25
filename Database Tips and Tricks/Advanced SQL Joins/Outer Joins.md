@@ -64,7 +64,7 @@ FROM    ##TableA a LEFT OUTER JOIN
 |  3 | Mango | <NULL> | <NULL> |
 |  4 | <NULL | <NULL> | <NULL> |
 
-Placing a predicate on the outer joined table in the WHERE clause causes this to function as an INNER JOIN. 
+Placing a predicate on the outer joined table in the WHERE clause causes this to function to act as an INNER JOIN. 
 
 ```sql
 SELECT  a.ID,
