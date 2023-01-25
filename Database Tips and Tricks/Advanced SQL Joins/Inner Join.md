@@ -173,7 +173,7 @@ You can use a CASE statement to specify the join condition in the WHERE clause b
         a.Fruit,
         b.ID,
         b.Fruit
-FROM    ##TableA a CROSS JOIN
+FROM    ##TableA a,
         ##TableB b
 WHERE   (CASE WHEN a.Fruit = 'Apple' THEN a.Fruit ELSE 'Peach' END) = b.Fruit;
 ```
