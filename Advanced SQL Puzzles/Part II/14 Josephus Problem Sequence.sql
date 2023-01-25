@@ -2,7 +2,7 @@
 Scott Peters
 Josephus Problem
 https://advancedsqlpuzzles.com
-Last Updated: 01/24/2023
+Last Updated: 01/25/2023
 Microsoft SQL Server T-SQL
 
 This script runs an iteration of the Josephus Problem.
@@ -136,3 +136,26 @@ GROUP BY SoldierNumber,
         Iterator
 ORDER BY (CASE WHEN UpdateDate IS NULL THEN GETDATE() ELSE UpdateDate END);
 GO
+
+/*
+You can also solve the Josephus problem via this simple loop,
+but you will not be able to determine which order each soldier was killed.
+
+SET NOCOUNT ON;
+GO
+
+DECLARE @i INTEGER = 1;
+DECLARE @ans INTEGER = 0;
+DECLARE @n INTEGER = 14;
+DECLARE @k INTEGER = 2;
+
+WHILE(@i <= @n)
+BEGIN
+    SET @ans = (@ans + @k) % @i;
+    PRINT CONCAT('@ans is ', @ans);
+    SET @i = 1 + @i;
+    PRINT CONCAT('@i is ',@i);
+END
+PRINT @ans + 1;
+GO
+*/
