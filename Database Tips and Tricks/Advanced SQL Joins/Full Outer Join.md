@@ -66,7 +66,7 @@ WHERE   a.ID IS NOT NULL AND B.ID IS NOT NULL;
 
 ---
 
-You can mimic FULL OUTER JOINs using set operators (UNION) and anti-joins (NOT EXISTS).
+You can simulate FULL OUTER JOINs using set operators (UNION) and anti-joins (NOT EXISTS).
         
 ```sql
 SELECT  a.ID,
@@ -102,7 +102,7 @@ WHERE   NOT EXISTS (SELECT 1 FROM ##TableA b WHERE a.Fruit = b.Fruit);
 
 ---
 
-You can also use the LEFT OUTER JOIN and a RIGHT OUTER JOIN to mimic the FULL OUTER JOIN.
+You can also use the LEFT OUTER JOIN and a RIGHT OUTER JOIN to simulate the FULL OUTER JOIN.
         
 This may be the only case where a LEFT OUTER JOIN and a RIGHT OUTER JOIN can be used in the same SQL statement as it preservers the column and table orders between the two unioned statements.
      
