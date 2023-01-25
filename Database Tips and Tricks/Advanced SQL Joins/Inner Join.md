@@ -5,7 +5,27 @@
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;We can use both equi-join and theta-join operators between the joining fields.  An equi-join is a type of join in which the join condition is based on equality between the values of the specified columns in the two tables being joined.  A theta-join, on the other hand, is a type of join in which the join condition is based on a comparison operator other than equality. This comparison operator can be any of the standard comparison operators such as <, >, <=, >=, <>, etc.
 
 ---
-To start, here is the most common join you will use, an INNER JOIN between two tables.  This join uses an equi-join as it looks for equality between the two fields.
+
+We will be using the following tables that contain fruits.  The DDL to create these tables can be found here.
+  
+**Table A**
+| ID | Fruit  | Quantity |
+|----|--------|----------|
+|  1 | Apple  |       17 |
+|  2 | Peach  |       20 |
+|  3 | Mango  |       11 |
+|  4 | <NULL> |        5 |
+  
+**Table B**
+| ID | Fruit  | Quantity |
+|----|--------|----------|
+|  1 | Apple  | 17       |
+|  2 | Peach  | 25       |
+|  3 | Kiwi   | 20       |
+|  4 | <NULL> | <NULL>   |
+
+----
+To start, here is the most common join you will use, an INNER JOIN between two tables.  This join uses an equi-join as it looks for equality between the two fields.  Note the query does not return the NULL markers, as NULL markers are neither equal to or not equal to each other, they are unknown.
 
 ```sql
 SELECT  a.ID,
