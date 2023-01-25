@@ -1462,6 +1462,8 @@ GO
 /*----------------------------------------------------
 Answer to Puzzle #28
 Fill the Gaps
+
+This is often called a Flash Fill or a Data Smudge
 */----------------------------------------------------
 
 DROP TABLE IF EXISTS #Gaps;
@@ -1480,12 +1482,6 @@ INSERT INTO #Gaps (RowNumber, TestCase) VALUES
 GO
 
 --Solution 1
---MAX function
-SELECT  RowNumber,
-        MAX(TestCase) OVER (ORDER BY RowNumber) AS TestCase
-FROM    #Gaps;
-
---Solution 2
 --MAX and COUNT function
 WITH cte_Count AS
 (
@@ -1500,7 +1496,7 @@ FROM    cte_Count
 ORDER BY RowNumber;
 GO
 
---Solution 3
+--Solution 2
 --MAX function without windowing
 SELECT  a.RowNumber,
         (SELECT b.TestCase
