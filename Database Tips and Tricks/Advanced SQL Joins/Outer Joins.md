@@ -119,7 +119,58 @@ FROM    ##TableA a;
 |  2 | Peach  | 2      | Peach  |
 |  3 | Mango  | <NULL> | <NULL> |
 |  4 | <NULL> | <NULL> | <NULL> |
-  
+
+---        
+Windowing functions were added to the ANSI/ISO Standard SQL:2003 and then extended in ANSI/ISO Standard SQL:2008. SQL Server did not implement window functions until SQL Server 2012.
+
+Because of SQL Server's delay in implementation, you may see statements such as below that where used to mimic window functions.  This statement is often called a Flash Fill or Data Smudge.
+
+This SQL statment will populate the NULL markers in the Fruit column with the nearest prior value.
+
+```sql
+SELECT  a.ID,
+        (SELECT b.Fruit
+        FROM    ##TableA b
+        WHERE   b.ID =
+                    (SELECT MAX(c.ID)
+                    FROM ##TableA c
+                    WHERE c.ID <= a.ID AND c.Fruit != '')) Fruit,
+       a.Quantity
+FROM ##TableA a;
+```
+
+| ID | Fruit | Quantity |
+|----|-------|----------|
+|  1 | Apple |       17 |
+|  2 | Peach |       20 |
+|  3 | Mango |       11 |
+|  4 | Mango |        5 |
+
+Here the query can be written much cleaner using a window function.
+
+```sql
+WITH cte_Count AS
+(
+SELECT  ID,
+        Fruit,
+        Quantity,
+        COUNT(Fruit) OVER (ORDER BY ID) AS DistinctCount
+FROM    ##TableA
+)
+SELECT  ID,
+        MAX(Fruit) OVER (PARTITION BY DistinctCount) AS Fruit,
+        Quantity
+FROM    cte_Count
+ORDER BY ID;
+```
+
+| ID | Fruit | Quantity |
+|----|-------|----------|
+|  1 | Apple |       17 |
+|  2 | Peach |       20 |
+|  3 | Mango |       11 |
+|  4 | Mango |        5 |
+                                     
 ---
 
 Using both LEFT OUTER JOINS and RIGHT OUTER JOINS in a single query is probably the worst SQL practice for an SQL developer, but it is possible.  Avoid this like the plague, as these queries become very hard to read and can be very easy to get wrong.
