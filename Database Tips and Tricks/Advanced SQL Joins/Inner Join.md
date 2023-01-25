@@ -165,7 +165,29 @@ FROM    ##TableA a INNER JOIN
 |  4 | <NULL> |  4 | <NULL> |
 
 ---
-Here is an example that I recently found that works in T-SQL when joining three or more tables.  The ON clause must be in reverse order for this to work.
+
+You can use a CASE statement to specify the join condition in the WHERE clause by and using a CROSS join.  This is considered a bad practice and you should find a better way of writing this query.
+        
+```sql
+ SELECT  a.ID,
+        a.Fruit,
+        b.ID,
+        b.Fruit
+FROM    ##TableA a CROSS JOIN
+        ##TableB b
+WHERE   (CASE WHEN a.Fruit = 'Apple' THEN a.Fruit ELSE 'Peach' END) = b.Fruit;
+```
+        
+| ID | Fruit  | ID | Fruit |
+|----|--------|----|-------|
+|  1 | Apple  |  1 | Apple |
+|  2 | Peach  |  2 | Peach |
+|  3 | Mango  |  2 | Peach |
+|  4 | <NULL> |  2 | Peach |
+     
+---        
+        
+This example works in T-SQL when joining three or more tables.  The ON clause must be in reverse order for this to work.
 
 For this statement, I am self-joining to TableA three times.
         
