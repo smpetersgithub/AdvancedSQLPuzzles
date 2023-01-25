@@ -65,11 +65,67 @@ WHERE   a.ID IS NOT NULL AND B.ID IS NOT NULL;
 |  2 | Peach |  2 | Peach |
 
 ---
-  
+
+You can mimic FULL OUTER JOINs using set operators (UNION) and anti-joins (NOT EXISTS).
+        
+```sql
+SELECT  a.ID,
+        a.Fruit,
+        b.ID,
+        b.Fruit
+FROM    ##TableA a INNER JOIN
+        ##TableB b ON a.Fruit = b.Fruit
+UNION
+SELECT  a.ID,
+        a.Fruit,
+        NULL,
+        NULL
+FROM    ##TableA a
+WHERE   NOT EXISTS (SELECT 1 FROM ##TableB b WHERE a.Fruit = b.Fruit)
+UNION
+SELECT  NULL,
+        NULL,
+        a.ID,
+        a.Fruit
+FROM    ##TableB a
+WHERE   NOT EXISTS (SELECT 1 FROM ##TableA b WHERE a.Fruit = b.Fruit); 
+```        
+ 
+| ID     | Fruit  | ID     | Fruit  |
+|--------|--------|--------|--------|
+| 1      | Apple  | 1      | Apple  |
+| 2      | Peach  | 2      | Peach  |
+| 3      | Mango  | <NULL> | <NULL> |
+| 4      | <NULL> | <NULL> | <NULL> |
+| <NULL> | <NULL> | 3      | Kiwi   |
+| <NULL> | <NULL> | 4      | <NULL> |
+
+---
+
+You can also use the LEFT OUTER JOIN and a RIGHT OUTER JOIN to mimic the FULL OUTER JOIN.
+        
+This may be the only case where a LEFT OUTER JOIN and a RIGHT OUTER JOIN can be used in the same SQL statement as it preservers the column and table orders between the two unioned statements.
+     
+```sql
+SELECT  a.ID, b.Fruit, b.ID, b.Fruit
+FROM    ##TableA a LEFT JOIN 
+        ##TableB b ON a.fruit = b.fruit
+UNION
+SELECT  a.ID, b.Fruit, b.ID, b.Fruit
+FROM    ##TableA a RIGHT JOIN 
+        ##TableB b ON a.fruit = b.fruit;
+```
+
+| ID     | Fruit  | ID     | Fruit  |
+|--------|--------|--------|--------|
+| 1      | Apple  | 1      | Apple  |
+| 2      | Peach  | 2      | Peach  |
+| 3      | Mango  | <NULL> | <NULL> |
+| 4      | <NULL> | <NULL> | <NULL> |
+| <NULL> | <NULL> | 3      | Kiwi   |
+| <NULL> | <NULL> | 4      | <NULL> |
+        
+---        
 Up next is CROSS JOIN.
   
 Happy coding!
-  
-  
-
-  
