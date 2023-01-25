@@ -50,7 +50,7 @@ FROM    ##TableA a CROSS JOIN
 
 ---
 
-You can mimic an INNER JOIN using a CROSS JOIN by placing the join logic in the WHERE clause using an equi-join
+You can simulate an INNER JOIN using a CROSS JOIN by placing the join logic in the WHERE clause using an equi-join
   
 ```sql
 SELECT  a.ID,
@@ -69,7 +69,7 @@ WHERE   a.Fruit = b.Fruit;
  
 ---
   
-In order to mimic a LEFT OUTER JOIN using a CROSS JOIN, you will need to incorporate SET operators (UNION) and an anti-join (NOT EXISTS).  
+In order to simulate a LEFT OUTER JOIN using a CROSS JOIN, you will need to incorporate SET operators (UNION) and an anti-join (NOT EXISTS).  
 
 ```sql
 SELECT  a.ID,
