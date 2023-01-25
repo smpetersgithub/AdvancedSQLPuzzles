@@ -62,7 +62,7 @@ FROM    ##TableA a LEFT OUTER JOIN
 |  1 | Apple | 1      | Apple  |
 |  2 | Peach | <NULL> | <NULL> |
 |  3 | Mango | <NULL> | <NULL> |
-|  4 | <NULL | <NULL> | <NULL> |
+|  4 | <NULL>| <NULL> | <NULL> |
 
 Placing a predicate on the outer joined table in the WHERE clause causes this to function to act as an INNER JOIN. 
 
