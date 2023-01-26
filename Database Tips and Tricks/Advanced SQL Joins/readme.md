@@ -6,11 +6,11 @@
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Besides the standard INNER, OUTER, FULL, and NATURAL joins that are specified in the ANSI SQL standard, there are equi-joins, theta-joins, semi-joins, anti-joins, self-joins, nested-loop joins, merge sort joins, and hash joins.  These joins are not part of the standard SQL join syntax but rather ways to classify different types of joins based on their behavior and the condition used to join the tables.  
 
 We can classify joins into the following 5 categories:
-1.	**INNER**, **OUTER**, **CROSS**, and **NATURAL** joins are part of the SQL syntax (hence their capitalization) and are used to combine data from two or more tables based upon a filtering or matching criterion.
+1.	**INNER**, **OUTER**, **CROSS**, and **NATURAL** joins are part of the SQL syntax (hence their capitalization) and are used to combine data from two or more tables based upon a filtering or matching criterion.  These joins are called **logical joins**.
 2.	A **self join** is used when a table is joined to itself. It is useful when a table has a hierarchical structure or when the table has a one-to-many relationship with itself.
 3.	**Semi joins** and **anti joins** look for equality or inequality between two datasets, but have an added benefit of not returning duplicates.
 4.	**Equi joins** and **theta joins** are used to describe if the join is looking for equality, inequality, or a range of values. 
-5.	**Nested loop**, **hash**, and **merge sort joins** are types of join algorithms. They are used to optimize the performance of a query when joining large tables, based on the table size and the type of data they contain.
+5.	**Nested loop**, **hash**, and **merge sort joins** are types of join algorithms. They are used to optimize the performance of a query when joining large tables, based on the table size and the type of data they contain.  These joins are called **physical joins** and are the common types of physical joins implemented by the DBMS, and each DBMS may have different physical join algorithms, such as **index joins** or **mege-sort joins**.
 
 Here is an overall summary of each of the joins:
 |       Join       |                                                                                                              Description                                                                                                              |
@@ -24,11 +24,14 @@ Here is an overall summary of each of the joins:
 | SEMI JOIN        |  A semi-join returns only the rows from the first table that have matching values in the second table.                                                                                                                                |
 | ANTI JOIN        |  An anti-join returns only the rows from the first table that do not have matching values in the second table.                                                                                                                        |
 | EQUI JOIN        |  An equi join returns only the rows where the values in the specified columns of both tables are equal.                                                                                                                               |
-| THETA JOIN       |     A theta join is a flexible type of join that allows you to join tables based on any type of condition, not just an equality condition.                                                                                            |
+| THETA JOIN       |     A theta join is a flexible type of join that allows you to join tables based on any type of condition, not just an equality condition.                                                                                            |                            
+
 | NESTED LOOP JOIN |  Nested loop join is a type of join algorithm that compares each row of one table with all the rows of another table.                                                                                                                 |
 | HASH JOIN        |  Hash join is a join algorithm that uses a hash table to quickly match rows from one table with rows from another table.                                                                                                              |
 | MERGE SORT JOIN  |  Merge sort join is a join algorithm that sorts both tables on the join column, and then merges the sorted rows together.                                                                                                             |
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Besides the above mentioned joins, I will also cover table operators and SET operators in this GitHub repository.  I have each of these written in individual markup notebooks that you can indiviually explore.
+
+Note, there are also a few other joins that you may encounter: Complex Joins, Physical Joins, Logical Joins, Multi-Database Join. Index Join, Sort-Merge Join, etc...
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Before diving into specifics of each type of join, I recomend understanding table operators first.
