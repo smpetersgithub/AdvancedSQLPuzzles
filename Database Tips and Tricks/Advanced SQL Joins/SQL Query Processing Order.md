@@ -24,9 +24,9 @@ Processing order of a SQL statement:
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The database engine parses each clause of the query individually and creates an execution plan for each clause. These execution plans are then combined to form a final execution plan, which is used to retrieve the desired data from the database.
 
-The four table operators and their suboperations are:
+The four table operators and their subphases are:
 
-| Operator |                      SubPhases                          |
+| Operator |                      Subphases                          |
 |----------|---------------------------------------------------------|
 | JOIN     |  1) Cartesian Product 2) ON Predicate 3) Add Outer Rows |
 | APPLY    |  1) Apply Table Expression 2) Add Outer Rows            |
