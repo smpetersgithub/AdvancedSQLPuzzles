@@ -35,7 +35,11 @@ The four table operators and their subphases are:
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The PIVOT and UNPIVOT are two operators in SQL Server that are used to generate multi-dimensional reports. The APPLY operator is used when you want to return values from a table-valued function.  From the diagram we can determine there is only one true type of table join, the cartesian product.  INNER and OUTER JOINS are restricted cartesian products where the ON predicate specifies the restriction.
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;To best understand that joins are simply restricted cartesian products, the following two statements below produce the exact same result set.  The first statement uses an INNER JOIN, and the second statement uses the CROSS JOIN syntax.  If we were to remove the join logic from the ON clause on the INNER JOIN, an error would occur.  If the join logic is removed from the CROSS join, a full cartesian product is created.  Both statements use an equi-join to filter the result set to all records that have a Customer ID equal in both the Customers and Orders table.  Because the CROSS JOIN has an ON statement specifying how to join the tables, this join acts as an INNER JOIN.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;To best understand that joins are simply restricted cartesian products, the following two statements below produce the exact same result set.  The first statement uses an INNER JOIN, and the second statement uses the CROSS JOIN syntax.  
+*  If we were to remove the join logic from the ON clause on the INNER JOIN, an error would occur.  
+*  If the join logic is removed from the CROSS join, a full cartesian product is created.  
+*  Both statements use an equi-join to filter the result set to all records that have a Customer ID equal in both the Customers and Orders table.  
+*  Because the CROSS JOIN has an ON statement specifying how to join the tables, this join acts as an INNER JOIN.
 
 ```sql
 --Statement 1
@@ -51,9 +55,7 @@ FROM    Customers emp CROSS JOIN
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The biggest difference between INNER, OUTER, and CROSS JOINS is that the INNER JOIN acts as a filtering criterion, OUTER JOIN acts as a matching criterion, and a CROSS JOIN gives all possible combinations.
   
-* For INNER JOINs, the join logic acts as a filter where both columns need to equate to each other, thus restricting the output to only the records that have these matching column values. 
-* For OUTER JOINs, the join logic acts as a matching criterion, where the record count output is not affected by this join logic as it will display the results from the preserved table.
-* A CROSS JOIN creates a cartesian product.  It combines each row from the first table with each row from the second table.
+
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;For INNER and OUTER JOINs, these types of joins require a comparison operator to equate rows from the participating tables based on a common field in both the tables.  These comparison operators are described as equi-joins and theta-joins.  Many of these types of joins are rooted in relational algebra.  Introduced by Edgar F. Codd in 1970, relational algebra uses algebraic structures with a well-founded semantics for modeling data and defining queries on it.
 
