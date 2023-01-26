@@ -109,11 +109,11 @@ This may be the only case where a LEFT OUTER JOIN and a RIGHT OUTER JOIN can be 
 ```sql
 SELECT  a.ID, b.Fruit, b.ID, b.Fruit
 FROM    ##TableA a LEFT JOIN 
-        ##TableB b ON a.fruit = b.fruit
+        ##TableB b ON a.Fruit = b.Fruit
 UNION
 SELECT  a.ID, b.Fruit, b.ID, b.Fruit
 FROM    ##TableA a RIGHT JOIN 
-        ##TableB b ON a.fruit = b.fruit;
+        ##TableB b ON a.Fruit = b.Fruit;
 ```
 
 | ID     | Fruit  | ID     | Fruit  |
