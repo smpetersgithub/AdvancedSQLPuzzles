@@ -8,8 +8,8 @@
 We can classify joins into the following 5 categories:
 1.	**INNER**, **OUTER**, **CROSS**, and **NATURAL** joins are part of the SQL syntax (hence their capitalization) and are used to combine data from two or more tables based upon a filtering or matching criterion.  These joins are called **logical joins**.
 2.	A **self join** is used when a table is joined to itself. It is useful when a table has a hierarchical structure or when the table has a one-to-many relationship with itself.
-3.	**Semi joins** and **anti joins** (sometimes called **non-equi joins**) look for equality or inequality between two datasets, but have an added benefit of not returning duplicates.
-4.	**Equi joins** and **theta joins** are used to describe if the join is looking for equality, inequality, or a range of values. 
+3.	**Semi joins** and **anti joins** look for equality or inequality between two datasets, but have an added benefit of not returning duplicates.
+4.	**Equi joins** and **theta joins** (sometimes called **non-equi joins**) are used to describe if the join is looking for equality, inequality, or a range of values. 
 5.	**Nested loop**, **hash**, and **merge sort joins** are types of join algorithms. They are used to optimize the performance of a query when joining large tables, based on the table size and the type of data they contain.  These joins are called **physical joins** and are the common types of physical joins implemented by the DBMS, and each DBMS may have different physical join algorithms, such as **index joins** or **mege-sort joins**.
 
 Here is an overall summary of each of the joins:
