@@ -45,6 +45,18 @@ FROM    #Cart1 a FULL OUTER JOIN
 GO
 
 --Solution 2
+--LEFT JOIN, UNION and RIGHT JOIN
+SELECT  a.Item AS Item1,
+        b.Item AS Item2
+FROM    #Cart1 a 
+        LEFT JOIN #Cart2 b ON a.Item = b.Item
+UNION
+SELECT  a.Item AS Item1,
+        b.Item AS Item2
+FROM    #Cart1 a 
+        RIGHT JOIN #Cart2 b ON a.Item = b.Item;
+	
+--Solution 3
 --This solution does not use a FULL OUTER JOIN
 SELECT  a.Item AS Item1,
         b.Item AS Item2
