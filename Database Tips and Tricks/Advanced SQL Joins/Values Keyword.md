@@ -36,7 +36,7 @@ FROM    (VALUES (1, 2), (3, 4), (5, 6), (7, 8), (9, 10)) AS MyTable(a, b);
 
 ---
 
-Here is a more elaborate example where the VALUES constructor specifies the values to return.
+Here is a more elaborate example where the VALUES constructor specifies the values to return.  This statement uses an INNER JOIN, but you can use the usual OUTER JOIN, FULL OUTER JOIN, or CROSS JOIN.
 
 ```sql
 SELECT  a.Fruit
