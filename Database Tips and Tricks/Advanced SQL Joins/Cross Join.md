@@ -8,13 +8,11 @@
 
 ### Permutations vs Combinations
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Permutations and combinations are both ways of arranging a set of items, but they differ in how the items are arranged.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Permutations and combinations are both ways of arranging a set of items, but they differ in how the items are arranged.  Permutations are arrangements of items in a specific order, while combinations are selections of items without regard to the order.
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Permutations are a way of arranging a set of items in a specific order. For example, if you have the set of items {A, B, C}, there are 3! (3 factorial) or 6 possible permutations: ABC, ACB, BAC, BCA, CAB, CBA.
+*  Permutations are a way of arranging a set of items in a specific order. For example, if you have the set of items {A, B, C}, there are 3! (3 factorial) or 6 possible permutations: ABC, ACB, BAC, BCA, CAB, CBA.
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Combinations, on the other hand, are a way of selecting a subset of items from a set, without regard to the order. For example, if you have the set of items {A, B, C}, there are 3 C 2 (read as "3 choose 2") or 3 possible combinations: AB, AC, BC.
-
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;In summary, permutations are arrangements of items in a specific order, while combinations are selections of items without regard to the order.
+*  Combinations, on the other hand, are a way of selecting a subset of items from a set, without regard to the order. For example, if you have the set of items {A, B, C}, there are 3 C 2 (read as "3 choose 2") or 3 possible combinations: AB, AC, BC.
 
 ---
 
