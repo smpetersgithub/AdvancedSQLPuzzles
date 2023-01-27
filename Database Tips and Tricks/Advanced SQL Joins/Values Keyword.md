@@ -9,7 +9,7 @@
 |  3 |  Values Constructor            |  True         |  The VALUES constructor can be used to create a derived table, which is a table that is created and used within a single SQL query.        |
 |  4 |  Table Valued Function         |  True         |  A function that returns a table as its result.                                                                                            |
 |  5 |  Subquery                      |  False        |  A query that is embedded within another query. The results of a subquery can be used in the outer query.                                  |
-|  6 |  Derived Table                 |  False        |  A special type of subquery that is defined in the FROM statement, encloused in parenthses and a table name is provided.                   |
+|  6 |  Derived Table                 |  False        |  A special type of subquery that is defined in the FROM statement, enclosed in parenthses and a table name is provided.                   |
 |  7 |  Common Table Expression (CTE) |  False        |  A named temporary result set that can be used in a SELECT, INSERT, UPDATE, or DELETE statement.                                           |
 |  8 |  Temporary Table               |  False        |  A table that is created for a specific session or connection and is automatically dropped when the session or connection ends.            |
 |  9 |  Table Variable                |  False        |  A variable that holds a table of data. It is similar to a temporary table but it has some differences in terms of its behavior and scope. |
