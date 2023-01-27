@@ -2,7 +2,7 @@
 Scott Peters
 Group Concatentation
 https://advancedsqlpuzzles.com
-Last Updated: 01/13/2022
+Last Updated: 01/13/2023
 Microsoft SQL Server T-SQL
 
 This script uses recursion to concatenate the values of string expressions and places separator values between them.
