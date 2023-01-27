@@ -54,7 +54,7 @@ FROM    ##TableA a INNER JOIN
 
 ---
 
-You can also place functions into the VALUES constructor.  The NEWID() function creates a unique value of type uniqueidentifier.
+You can also place functions into the VALUES constructor.  The NEWID() function creates a unique value of type UNIQUEIDENTIFIER.   Here you could easily just add the function to the SELECT statement, but this gives you an idea of the capbilities of the VALUES constructor.
 
 ```sql
 SELECT  a.Fruit, 
