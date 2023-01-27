@@ -189,7 +189,7 @@ FROM    ##TableA a INNER JOIN
 You can also write the above query by using the ON EXISTS clause.  This is a little known trick you can use that may (or may not) yeild a bit better execution plan then the above, but it is worth checking.
 
 ```sql
-  SELECT  a.*,
+SELECT  a.*,
         b.*
 FROM    ##TableA a INNER JOIN
         ##TableB b ON EXISTS(SELECT a.Fruit INTERSECT SELECT b.Fruit);
