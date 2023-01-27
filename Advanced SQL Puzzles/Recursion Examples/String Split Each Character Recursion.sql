@@ -71,11 +71,11 @@ GO
 
 WITH cte_Length AS
 (
-SELECT 1 AS id, 'Super' AS Word, LEN('Super') AS WordLength
+SELECT 1 AS Id, 'Super' AS Word, LEN('Super') AS WordLength
 UNION
 SELECT 2, 'Fly', LEN('fly')
 )
-SELECT *, SUBSTRING(Word,MyInteger,1) AS Character
+SELECT *, SUBSTRING(a.Word, b.MyInteger, 1) AS Character
 FROM   cte_Length a LEFT OUTER JOIN
-       #Numbers B ON b.MyInteger <= a.WordLength;
+       #Numbers b ON b.MyInteger <= a.WordLength;
 GO
