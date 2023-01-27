@@ -87,6 +87,8 @@ WHERE   Fruit IN (SELECT Fruit FROM ##TableB b WHERE a.Quantity = b.Quantity);
 
 The **EXISTS** operator is used to test for the existence of any record in a subquery. The **EXISTS** operator returns TRUE if the subquery returns one or more records and the **EXISTS** operator treats NULL markers as neither equal to nor unequal to each other, they are unknown. 
 
+Because it checks for the existence of rows, you do not need to include any columns in the SELECT statment.  It is considered best practice to simply place an arbitarary "1" in this spot.
+
 ```sql
 SELECT  ID,
         Fruit
