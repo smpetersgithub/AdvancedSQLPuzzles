@@ -186,6 +186,23 @@ FROM    ##TableA a INNER JOIN
 
 ---
 
+You can also write the above query by using the ON EXISTS clause.  This is a little known trick you can use that may (or may not) yeild a bit better execution plan then the above, but it is worth checking.
+
+```sql
+  SELECT  a.*,
+        b.*
+FROM    ##TableA a INNER JOIN
+        ##TableB b ON EXISTS(SELECT a.Fruit INTERSECT SELECT b.Fruit);
+```
+
+| ID | Fruit  | Quantity | ID | Fruit  | Quantity |
+|----|--------|----------|----|--------|----------|
+|  1 | Apple  |       17 |  1 | Apple  | 17       |
+|  2 | Peach  |       20 |  2 | Peach  | 25       |
+|  4 | <NULL> |        5 |  4 | <NULL> | <NULL>   |
+
+---
+
 You can use a CASE statement to specify the join condition in the WHERE clause by and using a CROSS join.  This is considered a bad practice and you should find a better way of writing this query.
         
 ```sql
