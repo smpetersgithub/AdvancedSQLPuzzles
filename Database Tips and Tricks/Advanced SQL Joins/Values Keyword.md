@@ -1,6 +1,6 @@
-## Values Constructor
+## Table Types
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Within SQL, you can create a join to the following 8 joinable objects, some of these objects are schema bound objects, meaning they are saved as a database object within a named schema, and others are unbound and only durable for the life of an SQL statement (CTE, Subquery, Values, Derived Tables) or your current session (Table Variable, Temporary Table).  Items that are not schema bound are created in the tempdb and do not have any data of their existince in the catalog views.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Within SQL, you can create a join to the following 10 table types, some of these objects are schema bound objects, meaning they are saved as a database object within a named schema, and others are unbound and only durable for the life of an SQL statement (CTE, Subquery, Values, Derived Tables) or your current session (Table Variable, Temporary Table).  Items that are not schema bound are created in the tempdb and do not have any data of their existince in the catalog views.
 
 | Id |              Name              |  Schema Bound |                                                                 Description                                                                |
 |----|--------------------------------|---------------|--------------------------------------------------------------------------------------------------------------------------------------------|
@@ -9,14 +9,12 @@
 |  3 |  Values Constructor            |  True         |  The VALUES constructor can be used to create a derived table, which is a table that is created and used within a single SQL query.        |
 |  4 |  Table Valued Function         |  True         |  A function that returns a table as its result.                                                                                            |
 |  5 |  Subquery                      |  False        |  A query that is embedded within another query. The results of a subquery can be used in the outer query.                                  |
-|  6 |  Derived Table                 |  False        |  A special type of subquery that is defined in the FROM statement, enclosed in parenthses and a table name is provided.                   |
+|  6 |  Derived Table                 |  False        |  A special type of subquery that is defined in the FROM statement, encloused in parenthses and a table name is provided.                   |
 |  7 |  Common Table Expression (CTE) |  False        |  A named temporary result set that can be used in a SELECT, INSERT, UPDATE, or DELETE statement.                                           |
 |  8 |  Temporary Table               |  False        |  A table that is created for a specific session or connection and is automatically dropped when the session or connection ends.            |
 |  9 |  Table Variable                |  False        |  A variable that holds a table of data. It is similar to a temporary table but it has some differences in terms of its behavior and scope. |
+| 10 |  External Tables               |  False        |  Used to access data stored externally, such as in a text file. They are created using the CREATE EXTERNAL TABLE statement.                |
 
-Note need to add Derived Table
-I should rename this Table Types
-and have the values keyword separate from this.
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;For this document we are going to concentrate on the VALUES constructor, as this constructor has a few considerations that are often overlooked and deserve its own recognition.  The VALUES constructor specifies a set of row value expressions to be constructed into a table and allows multiple sets of values to be specified in a single DML statement.  Normally we use the VALUES constructor to specify the data to insert into a table, as we initially did with our test data, but it can also be used as a derived table in an SQL statement.
 
