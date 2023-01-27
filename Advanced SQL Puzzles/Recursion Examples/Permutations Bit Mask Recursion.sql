@@ -2,7 +2,7 @@
 Scott Peters
 Permutations (using Bit Mask)
 https://advancedsqlpuzzles.com
-Last Updated: 01/13/2022
+Last Updated: 01/13/2023
 Microsoft SQL Server T-SQL
 
 This script uses recursion to displays all permutations for the numbers 1 through n.
