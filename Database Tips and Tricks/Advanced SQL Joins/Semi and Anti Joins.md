@@ -1,10 +1,10 @@
 ## Semi and Anti-Joins
 
-Semi and Anti joins are two closely related joins.
+Semi and anti-joins are two closely related joins.
 
-The term "semi", meaning half in quantity or value, refers to the fact that it only returns a subset or a half of the data from the joined tables. Specifically, semi-joins only returns the rows from the first table (the left table) that have matching values in the second table (the right table). The columns of the right table are not included in the projection.
+The term "semi", meaning half in quantity or value, refers to the fact that a semi-join only returns a subset (or a half) of the tables involved in the join.  Specifically, semi-joins only returns the rows from the first table (the left table) that have matching values in the second table (the right table). The columns of the right table are not included in the projection.
 
-The opposite are anti-joins act the very same as semi-joins but only return the rows from the firsts table that do not have matching values in the second table.
+The opposite of semi-joins are anti-joins, which look for inequality between the two sets, i.e., the left and right tables.
 
 ---
 
@@ -27,15 +27,16 @@ Semi-joins use the **IN** or **EXISTS** operators in the WHERE clause of an SQL 
 ---
 
 **There are several key differences between semi-joins and anti-joins:**
-*  The NOT IN operator will return an empty set if the anti-join contains a NULL marker.  The NOT EXISTS handles NULL markers implicitly and will return a dataset that contains a NULL marker if the anti-join contains a NULL marker.
-*  The NOT EXISTS and EXIST operators are correlated subqueries and must have a column specified to join between the outer and inner SQL statements. 
-*  The EXISTS and NOT EXISTS operator doesn't check for values, but instead checks for the existence of rows.
-*  The IN and NOT IN operators can contain a list of values and no SELECT statement is mandatory.
-*  The IN and NOT IN operators search the values in the result set of a subquery, whereas the EXITS and NOT EXISTS check for the existence of rows.
 
-If you are performing an anti-join to a NULLable column in the inner query, consider using the NOT EXISTS operator over the NOT operator.
+*  The **NOT IN** operator will return an empty set if the anti-join contains a **NULL** marker.  The **NOT EXISTS** handles NULL markers implicitly and will return a dataset that contains a NULL marker if the anti-join contains a NULL marker.
+*  The **NOT EXISTS** and **EXIST** operators are correlated subqueries and must have a column specified to join between the outer and inner SQL statements. 
+*  The **EXISTS** and **NOT EXISTS** operator doesn't check for values, but instead checks for the existence of rows.
+*  The **IN** and **NOT IN** operators can contain a list of values and no SELECT statement is mandatory.
+*  The **IN** and **NOT IN** operators search the values in the result set of a subquery, whereas the **EXITS** and **NOT EXISTS** check for the existence of rows.
 
-When using semi or anti-joins, check execution plans for the most optimized usage method.
+If you are performing an anti-join to a NULLable column in the inner query, consider using the **NOT EXISTS** operator over the **NOT** operator.
+
+When using semi or anti-joins, check execution plans for the most optimized usage method.  Becaue the **IN** and **NOT IN** operators check for values, and the **EXISTS** and **NOT EXISTS** check for rows, you will get two entirely different execution plans.
 
 ---
 ### Semi-Joins
