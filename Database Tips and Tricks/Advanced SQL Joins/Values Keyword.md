@@ -13,6 +13,10 @@
 |  7 |  Temporary table               |  False       |  A table that is created for a specific session or connection and is automatically dropped when the session or connection ends.            |
 |  8 |  Table variable                |  False       |  A variable that holds a table of data. It is similar to a temporary table but it has some differences in terms of its behavior and scope. |
 
+Note need to add Derived Table
+I should rename this Table Types
+and have the values keyword separate from this.
+
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;For this document we are going to concentrate on the VALUES keyword, as this keyword has a few considerations that are often overlooked and deserve its own recognition.  The VALUES constructor specifies a set of row value expressions to be constructed into a table and allows multiple sets of values to be specified in a single DML statement.  Normally we use the VALUES constructor to specify the data to insert into a table, as we initially did with our test data, but it can also be used as a derived table in an SQL statement.
 
 ---
