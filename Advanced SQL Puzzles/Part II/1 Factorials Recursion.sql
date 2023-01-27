@@ -2,7 +2,7 @@
 Scott Peters
 Factorials
 https://advancedsqlpuzzles.com
-Last Updated: 01/13/2022
+Last Updated: 01/13/2023
 Microsoft SQL Server T-SQL
 
 The script creates a temporary table called #Numbers that contains the 
