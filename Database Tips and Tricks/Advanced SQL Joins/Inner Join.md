@@ -77,6 +77,25 @@ WHERE   a.Fruit = b.Fruit;
 |  1 | Apple |  1 | Apple |
 |  2 | Peach |  2 | Peach |
 
+  
+In MySQL the following will work.  If you remove the WHERE clause this statement will work in both MySQL and SQLite.
+
+```sql
+SELECT a.ID,
+       a.Fruit,
+       b.ID,
+       b.Fruit
+FROM   TableA a CROSS JOIN
+       TableB b on 1=1
+WHERE  a.Fruit = b.Fruit;
+```
+
+| ID | Fruit | ID | Fruit |
+|----|-------|----|-------|
+|  1 | Apple |  1 | Apple |
+|  2 | Peach |  2 | Peach |
+   
+  
 ---
 This LEFT OUTER JOIN acts as an INNER JOIN because we specify a predicate in the WHERE clause on the outer joined table (TableB).
 
