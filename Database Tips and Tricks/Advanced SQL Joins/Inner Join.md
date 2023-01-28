@@ -173,19 +173,23 @@ FROM    ##TableA a INNER JOIN
 |  2 | Peach |       20 |  3 | Kiwi  |       20 |
 
 ---
-This query uses a theta-join to find all fruits in Table A that have a quantity between 10 and 20.  The columns from Table A are shown first in the result set as this table is listed first in the FROM statement.
+This query uses a equi-join and a theta-join that is negated with a NOT operator. Determining if the ID is between the Quantity columns may be a somewhat absurd SQL statement to write, but this shows the possibiities in creating join logic.
   
 ```sql
-SELECT  *
-FROM    ##TableA a INNER JOIN
-        ##TableB b ON a.Fruit = b.Fruit AND a.Quantity BETWEEN 10 AND 20;
+SELECT  a.ID,
+        a.Fruit,
+        b.ID,
+        b.Fruit
+FROM    TableA a INNER JOIN
+        TableB b ON a.Fruit = b.Fruit AND NOT(a.ID BETWEEN a.Quantity AND b.Quantity);
 ```
 
-| ID | Fruit | Quantity | ID | Fruit | Quantity |
-|----|-------|----------|----|-------|----------|
-|  1 | Apple |       17 |  1 | Apple |       17 |
-|  2 | Peach |       20 |  2 | Peach |       25 |
- 
+| ID | Fruit  | Quantity | ID | Fruit  | Quantity |
+|----|--------|----------|----|--------|----------|
+|  1 | Apple  |       17 |  1 | Apple  | 17       |
+|  2 | Peach  |       20 |  2 | Peach  | 25       |
+|  4 | <NULL> |        5 |  4 | <NULL> | <NULL>   |
+
 ---  
 Functions can be used in the join condition as well.  Assigning the empty string to a NULL value via the ISNULL function causes the NULLs to now equate to each other.
 
