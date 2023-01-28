@@ -96,21 +96,22 @@ WHERE   b.Fruit = 'Apple'
 |  2 | Peach |  2 | Peach |
 
 ---
-This next statement incorporates an INNER JOIN with a theta-join, which looks for inequality between two fields.  Normally you will combine a theta-join with an equi-join when creating predicate logic (although not always the case).  This statement uses both an equi-join and a theta-join join to find fruits which exist in both tables but have different quantities.
+This next statement incorporates an INNER JOIN with a theta-join, which looks for inequality between two fields.
+
+A good example of using a theta-join is when someone wants to pair two differnt fruits of different quantities.
 
 ```sql
 SELECT  a.ID,
         a.Fruit,
+        a.Quantity,
         b.ID,
-        b.Fruit
+        b.Fruit,
+        b.Quantity,
 FROM    ##TableA a INNER JOIN
-        ##TableB b ON a.Fruit = b.Fruit AND a.Quantity <> b.Quantity;
+        ##TableB b ON a.Fruit <> b.Fruit AND a.Quantity <> b.Quantity;
 ```
 
-| ID | Fruit | ID | Fruit |
-|----|-------|----|-------|
-|  2 | Peach |  2 | Peach |
-
+  
 ---
 This query uses both an equi-join and a theta-join, and functions similiar to a CROSS JOIN but with one big difference, no NULL markers are returned.  Because we have NULL markers in the table, they are eradicated as NULL markers are neither equal nor not equal to each other, they are unknown.
 
