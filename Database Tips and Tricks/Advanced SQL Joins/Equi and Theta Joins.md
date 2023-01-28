@@ -13,10 +13,7 @@ SQL has the following comparison operators, correct?
 | Theta |  IS DISTINCT FROM     |  Treats NULLs as known values for comparing equality                               |
 | Theta |  IS NOT DISTINCT FROM |  Treats NULLs as known values for comparing equality                               |
 | Theta |  BETWEEN              |  Defines a range and is inclusive                                                  |
-| Equi  |  IN                   |  Determines whether a specified value matches any value in a list of values        |
-| Theta |  NOT IN               |  Determines whether a specified value does not match any value in a list of values |
 | Theta |  LIKE                 |  Matches a string value to a specified pattern                                     |
-
 
 
 It is also important to note the following operators, although not considered equi-joins or theta-joins.
