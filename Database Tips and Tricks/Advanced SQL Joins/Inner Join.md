@@ -4,7 +4,7 @@
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;We can use both **equi-join** and **theta-join** operators between the joining fields.  An **equi-join** is a type of join in which the join condition is based on equality between the values of the specified columns in the two tables being joined.  A **theta-join**, on the other hand, is a type of join in which the join condition is based on a comparison operator other than equality.
 
----
+---------------------------------------------------------------------------------
 
 We will be using the following tables that contain types of fruits and their quantity.  The DDL to create these tables can be found here.
   
@@ -24,7 +24,8 @@ We will be using the following tables that contain types of fruits and their qua
 |  3 | Kiwi   | 20       |
 |  4 | <NULL> | <NULL>   |
 
-----
+---------------------------------------------------------------------------------
+  
 To start, here is the most common join you will use, an **INNER JOIN** between two tables.  This join uses an **equi-join** as it looks for equality between the two fields.  Note the query does not return the NULL markers, as NULL markers are neither equal to or not equal to each other, they are unknown.
 
 ```sql
@@ -59,7 +60,8 @@ WHERE   a.Fruit = b.Fruit;
 |  1 | Apple |  1 | Apple |
 |  2 | Peach |  2 | Peach |
 
----
+---------------------------------------------------------------------------------
+  
 Remembering that all types of joins are restricted cartesian products, the following **CROSS JOIN** produces the same results as above as it establishes the join predicate in the WHERE clause.
 
 ```sql
@@ -95,7 +97,7 @@ WHERE  a.Fruit = b.Fruit;
 |  1 | Apple |  1 | Apple |
 |  2 | Peach |  2 | Peach |
    
----
+---------------------------------------------------------------------------------
   
 This **LEFT OUTER JOIN** acts as an **INNER JOIN** because we specify a predicate in the WHERE clause on the outer joined table (TableB).
 
@@ -113,7 +115,8 @@ WHERE   b.Fruit = 'Apple'
 |----|-------|----|-------|
 |  1 | Apple |  1 | Apple |
 
----
+---------------------------------------------------------------------------------
+  
 This next statement incorporates an **INNER JOIN** with a **theta-join**, which looks for inequality between two fields.
 
 A good example of using a **theta-join** is when someone wants to pair two differnt fruits of different quantities.
@@ -130,7 +133,8 @@ FROM    ##TableA a INNER JOIN
 ```
 
   
----
+---------------------------------------------------------------------------------
+  
 This query uses both an **equi-join** and a **theta-join**, and functions similiar to a **CROSS JOIN** but with one big difference, no NULL markers are returned.  Because we have NULL markers in the table, they are eradicated as NULL markers are neither equal nor not equal to each other, they are unknown.
 
 ```sql
@@ -154,7 +158,8 @@ FROM    ##TableA a INNER JOIN
 |  2 | Peach |  3 | Kiwi  |
 |  3 | Mango |  3 | Kiwi  |
 
----
+---------------------------------------------------------------------------------
+  
 Here are some other examples of **INNER JOINS** using **theta-joins**.  
 
 This query looks for all values where the quantity in Table A is greater than or equal to a quantity in the corresponding Table B.
@@ -171,7 +176,8 @@ FROM    ##TableA a INNER JOIN
 |  2 | Peach |       20 |  1 | Apple |       17 |
 |  2 | Peach |       20 |  3 | Kiwi  |       20 |
 
----
+---------------------------------------------------------------------------------
+  
 This query uses a **equi-join** and a **theta-join** that is negated with a NOT operator. Determining if the ID is between the Quantity columns may be a somewhat absurd SQL statement to write, but this shows the possibiities in creating join logic.  We often forget we can use comparison operators such as LIKE or BETWEEN in the ON clause of an SQL statmeent and then negate it with NOT.
   
 ```sql
@@ -207,8 +213,7 @@ FROM    ##TableA a INNER JOIN
 |  2 | Peach  |  2 | Peach  |
 |  4 | <NULL> |  4 | <NULL> |
 
----
-
+---------------------------------------------------------------------------------
 In `SQL Server` and `PostgreSQL`, you can also write the above query by using the ON EXISTS clause.  This is a little known trick you can use that may (or may not) yeild a bit better execution plan then the above statment, but it is worth checking.  I will cover the ON EXISTS syntax in another document, as it takes some thinking to understand its behavior. 
 
 ```sql
@@ -224,8 +229,7 @@ FROM    ##TableA a INNER JOIN
 |  2 | Peach  |       20 |  2 | Peach  | 25       |
 |  4 | <NULL> |        5 |  4 | <NULL> | <NULL>   |
 
----
-
+---------------------------------------------------------------------------------
 You can use a CASE statement to specify the join condition in the WHERE clause.  This is considered a bad practice and you should find a better way of writing this query.
         
 ```sql
@@ -245,8 +249,7 @@ WHERE   (CASE WHEN a.Fruit = 'Apple' THEN a.Fruit ELSE 'Peach' END) = b.Fruit;
 |  3 | Mango  |  2 | Peach |
 |  4 | <NULL> |  2 | Peach |
      
----
-     
+--------------------------------------------------------------------------------- 
 This SQL statement works in `SQL Server` when joining three or more tables.  The ON clause must be in reverse order for this to work.
 
 For this SQL statement, I am self-joining to TableA three times.
@@ -260,16 +263,16 @@ FROM    ##TableA a INNER JOIN
         ##TableA d ON c.Fruit = d.Fruit ON b.Fruit = c.Fruit ON a.Fruit = b.Fruit;
 ```
 
-
 | ID | Fruit |
 |----|-------|
 |  1 | Apple |
 |  2 | Peach |
 |  3 | Mango |
 
----
-
-In `MySQL`, there is a USING clause that you can use to specify the joining column and the columns to project in the SELECT statement.
+---------------------------------------------------------------------------------
+In `MySQL` and `Oracle`, there is a USING clause that you can use to specify the joining columns.  Each vendor's implementation is slightly different, see your vendor's documentation for specficis.
+  
+The below SQL statement works in `MySQL`.
   
 ```sql
 SELECT  a.ID,
@@ -285,9 +288,8 @@ FROM    ##TableA a INNER JOIN
 |  1 | Apple |  1 | Apple |
 |  2 | Peach |  2 | Peach |
   
----  
-
-`ORACLE` supports the **NATURAL JOIN** syntax.  I classify the natural join as a mathmatical join as it was first conceived by E.F. Codd in his Relational Algebra model.  T cover natural joins in a separate document and why they should be considered bad practice to use.  
+---------------------------------------------------------------------------------
+`ORACLE` supports the **NATURAL JOIN** syntax.  I classify the natural join as a mathmatical join as it was first conceived by E.F. Codd in his Relational Algebra model.  I cover natural joins in a separate document and why they should be considered bad practice to use.  
   
 The use of an asterisk in the SELECT statment is mandatory and the outuput does not show duplicate column names.  This query is the same as an **equi-join** on the ID, Fruit and Quantity columns between Table A and Table B.
 
@@ -301,7 +303,7 @@ FROM    ##TableA a NATURAL JOIN
 |----|--------|----------|
 |  1 | Apple  |       17 |
   
-`ORACLE` has the USING clause that mimics the **NATURAL JOIN** but you have the ability to specify which columns and specify.
+The below `ORACLE` SQL statement uses the USING clause and mimics the **NATURAL JOIN**.
   
 ```sql
 SELECT  *
@@ -309,11 +311,12 @@ FROM    ##TableA a JOIN
         ##TableB b USING(ID, Fruit, Quantity);  
 ```
 
-
 | ID | Fruit  | Quantity |
 |----|--------|----------|
 |  1 | Apple  |       17 |
 
- ---
+---------------------------------------------------------------------------------
 
 Happy coding!        
+
+  
