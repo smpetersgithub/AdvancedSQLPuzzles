@@ -16,9 +16,11 @@
 | 10 |  External Tables               |  False        |  Used to access data stored externally, such as in a text file. They are created using the CREATE EXTERNAL TABLE statement.                |
 
 
+
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;For this document we are going to concentrate on the VALUES constructor, as this constructor has a few considerations that are often overlooked and deserve its own recognition.  The VALUES constructor specifies a set of row value expressions to be constructed into a table and allows multiple sets of values to be specified in a single DML statement.  Normally we use the VALUES constructor to specify the data to insert into a table, as we initially did with our test data, but it can also be used as a derived table in an SQL statement.
 
 ---
+### VALUES Operator
 
 Here is a basic example of using the VALUES constructor as a derived table.
 
