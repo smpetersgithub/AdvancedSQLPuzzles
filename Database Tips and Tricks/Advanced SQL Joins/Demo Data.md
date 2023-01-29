@@ -1,4 +1,4 @@
-## Example Data
+# Example Data
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;For the following examples you will need to understand the behavior of NULL markers.  I’ve provided some rather simple tables with minimal records.  I've also included a few NULL markers so we can understand how the varoius joins treat this special case.
 
@@ -53,3 +53,5 @@ INSERT INTO ##TableB
 VALUES (1,'Apple',17),(2,'Peach',25),(3,'Kiwi',20),(4,NULL,NULL);
 GO
 ```
+
+https://advancedsqlpuzzles.com
