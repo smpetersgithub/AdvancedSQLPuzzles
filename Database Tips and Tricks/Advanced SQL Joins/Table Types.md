@@ -1,4 +1,4 @@
-## Table Types
+# Table Types
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Within SQL, you can create a join to the following 10 table types, some of these objects are schema bound objects, meaning they are saved as a database object within a named schema, and others are unbound and only durable for the life of an SQL statement (CTE, Subquery, Values, Derived Tables) or your current session (Table Variable, Temporary Table).  Items that are not schema bound are created in the tempdb and do not have any data of their existince in the catalog views.
 
@@ -17,10 +17,14 @@
 
 
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;For this document we are going to concentrate on the VALUES constructor, as this constructor has a few considerations that are often overlooked and deserve its own recognition.  The VALUES constructor specifies a set of row value expressions to be constructed into a table and allows multiple sets of values to be specified in a single DML statement.  Normally we use the VALUES constructor to specify the data to insert into a table, as we initially did with our test data, but it can also be used as a derived table in an SQL statement.
 
 ---
 ### VALUES Operator
+
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;For this document we are going to concentrate on the VALUES constructor, as this constructor has a few considerations that are often overlooked and deserve its own recognition.  The VALUES constructor specifies a set of row value expressions to be constructed into a table and allows multiple sets of values to be specified in a single DML statement.  Normally we use the VALUES constructor to specify the data to insert into a table, as we initially did with our test data, but it can also be used as a derived table in an SQL statement.
+
+----
 
 Here is a basic example of using the VALUES constructor as a derived table.
 
