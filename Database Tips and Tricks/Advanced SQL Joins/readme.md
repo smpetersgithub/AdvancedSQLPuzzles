@@ -41,8 +41,8 @@ Here is a breif description of each type of join:
 |  Mathmatical  | EQUI-JOIN        |  An equi-join returns only the rows where the values in the specified columns of both tables are equal.                                                                                                                               |
 |  Mathmatical  | THETA-JOIN       |  A theta-join is a flexible type of join that allows you to join tables based on any type of condition, not just an equality condition.                                                                                               |
 |  Mathmatical  | NON-EQUI-JOIN    |  Interchangable with theta-join  Some texts use the term theta-join, and others use non-equi-join.                                                                                                                                    |
-|  Mathmatical  | NATURAL JOIN     |  A NATURAL JOIN returns the rows where the values in the specified columns of both tables are equal, and the column names are the same.                                              |
-                                                           |
+|  Mathmatical  | NATURAL JOIN     |  A NATURAL JOIN returns the rows where the values in the specified columns of both tables are equal, and the column names are the same.                                                                                               |
+
 ----
 
 Before diving into specifics of each type of join, I recomend understanding table operators first.
