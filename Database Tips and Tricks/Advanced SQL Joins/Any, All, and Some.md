@@ -17,7 +17,7 @@ Coming Soon...
 ---------------------------------------------------------------
 
 #### PART 1
-**= ALL (Equal to ALL)**
+**= ALL (Equal To ALL)**
 
 
 ```sql
@@ -55,7 +55,7 @@ PRINT 'FALSE';
 ---------------------------------------------------------------
 
 #### PART 2
-**<> ALL (Not Equal to ALL)**
+**<> ALL (Not Equal To ALL)**
 
 ```sql
 --FALSE
@@ -89,7 +89,7 @@ PRINT 'FALSE';
 ---------------------------------------------------------------
 
 #### PART 3
-**> ALL (GREATER THAN ALL)**
+**> ALL (Greater Than ALL)**
 
 ```sql
 --FALSE
@@ -113,7 +113,7 @@ PRINT 'FALSE';
 ---------------------------------------------------------------
 
 #### PART 4
-**< ALL (LESS THAN ALL)**
+**< ALL (Less Than ALL)**
 
 ```sql
 --FALSE
@@ -138,7 +138,7 @@ PRINT 'FALSE';
 ---------------------------------------------------------------
 
 ### PART 5
-**= ANY (EQUAL TO ANY)**
+**= ANY (Equal To ANY)**
 
 ```sql
 --TRUE
@@ -163,7 +163,7 @@ PRINT 'FALSE';
 ---------------------------------------------------------------
 
 ### PART 6
-**<> ANY (NOT EQUAL TO ANY)**    
+**<> ANY (Not Equal To ANY)**    
 Note this has several equivalent statements
 
 
@@ -217,7 +217,7 @@ WHERE    TableA.ID <> TableB.ID;
 ---------------------------------------------------------------
 
 ### PART 7
-**> ANY (GREATER THAN ANY)**
+**> ANY (Greater Than ANY)**
 
 ```sql
 --TRUE
@@ -242,7 +242,7 @@ PRINT 'FALSE';
 ---------------------------------------------------------------
 
 ### PART 8
-**< ANY (LESS THAN ANY)**
+**< ANY (Less Than ANY)**
 
 ```sql
 --TRUE
@@ -267,7 +267,7 @@ PRINT 'FALSE';
 ---------------------------------------------------------------
 
 ### PART 9
-**>= ANY AND <= ANY (GREATER THAN OR EQUAL TO ANY AND LESS THAN OR EQUAL TO ANY)**
+**>= ANY AND <= ANY (Greater Than Or Equal To ANY AND Less Than Or Equal To ANY)**
 
 ```sql
 --TRUE
