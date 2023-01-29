@@ -1,4 +1,4 @@
-## CROSS JOINS
+# CROSS JOINS
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;A CROSS JOIN creates all permutations (i.e., a cartesian product) or combinations of the two joining tables.  It will produce a result set which is the number of rows in the first table multiplied by the number of rows in the second table.
 
@@ -154,7 +154,7 @@ WHERE   a.Fruit <> b.Fruit OR a.Fruit IS NULL OR b.Fruit IS NULL;
 | Peach  | <NULL> |
 
 ---                                   
-    
-Up next Semi and Anti-Joins.
-  
+      
 Happy coding!
+
+https://advancedsqlpuzzles.com
