@@ -37,3 +37,5 @@ Here is a summary of each of the joins.
 Before diving into specifics of each type of join, I recomend understanding table operators first.
 
 Happy coding!
+
+https://advancedsqlpuzzles.com
