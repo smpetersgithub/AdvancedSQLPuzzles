@@ -1,4 +1,4 @@
-## FULL OUTER JOIN
+# FULL OUTER JOIN
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;A FULL OUTER JOIN is a method of combining tables so that the result includes unmatched rows of both tables. It is an often underutilized join that has a more specific use case than the other joins.  This join is best used to compare two similar tables as shown below.  Remember to use this type of join when you want to compare two shopping baskets.
 
@@ -126,6 +126,7 @@ FROM    ##TableA a RIGHT JOIN
 | <NULL> | <NULL> | 4      | <NULL> |
         
 ---        
-Up next is CROSS JOIN.
   
 Happy coding!
+
+https://advancedsqlpuzzles.com
