@@ -1,4 +1,4 @@
-## Semi and Anti-Joins
+# Semi and Anti-Joins
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Semi and anti-joins are two types of join operations used in SQL.
 
@@ -34,8 +34,9 @@
 *  If you are performing an anti-join to a NULLable column in the inner query, consider using the **NOT EXISTS** operator over the **NOT** operator.
 *  When using semi or anti-joins, check execution plans for the most optimized usage method.  Becaue the **IN** and **NOT IN** operators check for values, and the **EXISTS** and **NOT EXISTS** check for rows, you will get two entirely different execution plans.
 
----
-### Semi-Joins
+----------------------------------------------------------------------------------------
+
+#### Semi-Joins
 
 The **IN** operator is typically used to filter a column for a certain list of values.  Even though we include a NULL marker in the inner query, the results do not include a NULL marker.
 
@@ -50,7 +51,7 @@ WHERE   Fruit IN ('Apple','Peach',NULL);
 |  1 | Apple |
 |  2 | Peach |
 
-----
+----------------------------------------------------------------------------------------
 
 Using the **IN** operator, this query will return results but does not return a NULL marker even though there is both a NULL marker in Table A and Table B.  The **NOT IN** operator treats NULL markers as neither equal to nor unequal to each other, they are unknown. 
 
@@ -65,7 +66,7 @@ WHERE   Fruit IN (SELECT Fruit FROM ##TableB);
 |  1 | Apple |
 |  2 | Peach |
 
----
+----------------------------------------------------------------------------------------
 
 Using the **IN** operator, you can also join the outer and inner SELECT statements creating a correlated subquery.
 
@@ -80,7 +81,7 @@ WHERE   Fruit IN (SELECT Fruit FROM ##TableB b WHERE a.Quantity = b.Quantity);
 |----|-------|
 |  1 | Apple |
 
----
+----------------------------------------------------------------------------------------
 
 The **EXISTS** operator is used to test for the existence of any record in a subquery. The **EXISTS** operator returns TRUE if the subquery returns one or more records and the **EXISTS** operator treats NULL markers as neither equal to nor unequal to each other, they are unknown. 
 
@@ -98,9 +99,9 @@ WHERE   EXISTS (SELECT 1 FROM ##TableB b WHERE a.Fruit = b.Fruit);
 |  1 | Apple |
 |  2 | Peach |
 
----
+----------------------------------------------------------------------------------------
 
-### Anti-Joins
+#### Anti-Joins
 
 This statement returns an empty dataset as the **NOT IN** operator will return an empty set if the outer query contains a NULL marker.
 
@@ -113,7 +114,7 @@ WHERE   Fruit NOT IN (SELECT Fruit FROM ##TableB)
 ```
 Empty Data Set
 
----
+----------------------------------------------------------------------------------------
 
 The **NOT EXISTS** operator handles NULL markers implicitly and will return a result set with a NULL marker.  The **NOT EXISTS** operator treats NULL markers as neither equal to nor unequal to each other, they are unknown. 
 
@@ -129,7 +130,7 @@ WHERE   NOT EXISTS (SELECT 1 FROM ##TableB b WHERE a.Fruit = b.Fruit);
 |  3 | Mango  |
 |  4 | <NULL> |
 
------
+----------------------------------------------------------------------------------------
   
 Up next is....
 
