@@ -36,6 +36,28 @@
 
 ----------------------------------------------------------------------------------------
 
+We will be using the following tables that contain types of fruits and their quantity.  
+
+[The DDL to create these tables can be found here](Sample%20Data.md)
+
+**Table A**
+| ID | Fruit  | Quantity |
+|----|--------|----------|
+|  1 | Apple  |       17 |
+|  2 | Peach  |       20 |
+|  3 | Mango  |       11 |
+|  4 | <NULL> |        5 |
+  
+**Table B**
+| ID | Fruit  | Quantity |
+|----|--------|----------|
+|  1 | Apple  | 17       |
+|  2 | Peach  | 25       |
+|  3 | Kiwi   | 20       |
+|  4 | <NULL> | <NULL>   |
+        
+----------------------------------------------------------------------------------------
+        
 #### Semi-Joins
 
 The **IN** operator is typically used to filter a column for a certain list of values.  Even though we include a NULL marker in the inner query, the results do not include a NULL marker.
