@@ -4,8 +4,30 @@
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;It is best practice to use the LEFT OUTER JOIN over the RIGHT OUTER JOIN, as we naturally read from left to right.  The left join is more intuitive in terms of its behavior, as the left table is preserved and the right table is optional. It's therefore more natural to think of it as "all rows from the left table, and any matching rows from the right table" which makes it more readable and eaiser to understand.  I will only demonstrate the LEFT OUTER JOIN for this reason.  Using RIGHT OUTER JOIN is considered a bad practice and should be avoided.
 
----
+-----------------------------------------------------------
 
+We will be using the following tables that contain types of fruits and their quantity.  
+
+[The DDL to create these tables can be found here](Sample%20Data.md)
+
+**Table A**
+| ID | Fruit  | Quantity |
+|----|--------|----------|
+|  1 | Apple  |       17 |
+|  2 | Peach  |       20 |
+|  3 | Mango  |       11 |
+|  4 | <NULL> |        5 |
+  
+**Table B**
+| ID | Fruit  | Quantity |
+|----|--------|----------|
+|  1 | Apple  | 17       |
+|  2 | Peach  | 25       |
+|  3 | Kiwi   | 20       |
+|  4 | <NULL> | <NULL>   |
+        
+-----------------------------------------------------------
+        
 #### LEFT OUTER JOIN
 
 The most widely used case for the LEFT OUTER JOIN is when we want all values in Table A, regardless of their presence in Table B.  A join condition in an OUTER JOIN acts as a matching criterion and not as a filtering mechanism.
@@ -80,7 +102,7 @@ WHERE   b.Fruit = 'Apple';
 |----|-------|----|-------|
 |  1 | Apple |  1 | Apple |
 
----  
+-----------------------------------------------------------
   
 Joins can exist in the SELECT, FROM and WHERE clause of any SQL query. 
 
@@ -120,7 +142,8 @@ FROM    ##TableA a;
 |  3 | Mango  | <NULL> | <NULL> |
 |  4 | <NULL> | <NULL> | <NULL> |
 
----        
+-----------------------------------------------------------
+   
 Windowing functions were added to the ANSI/ISO Standard SQL:2003 and then extended in ANSI/ISO Standard SQL:2008. SQL Server did not implement window functions until SQL Server 2012.
 
 Because of SQL Server's delay in implementation, you may see statements such as below that where used to mimic window functions.  This statement is often called a Flash Fill or Data Smudge.
@@ -171,7 +194,7 @@ ORDER BY ID;
 |  3 | Mango |       11 |
 |  4 | Mango |        5 |
                                      
----
+-----------------------------------------------------------
 
 Using both LEFT OUTER JOINS and RIGHT OUTER JOINS in a single query is probably the worst SQL practice for an SQL developer, but it is possible.  Avoid this like the plague, as these queries become very hard to read and can be very easy to get wrong.
 
@@ -194,8 +217,8 @@ FROM    ##TableA a RIGHT OUTER JOIN
 | <NULL> | <NULL> |  3 | Kiwi   | <NULL> | <NULL> |
 | <NULL> | <NULL> |  4 | <NULL> | <NULL> | <NULL> |
 
----
-  
+-----------------------------------------------------------
+
 Up next, FULL OUTER JOINS.
 
 Happy coding!
