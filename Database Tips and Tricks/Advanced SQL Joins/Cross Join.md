@@ -6,7 +6,7 @@
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Note, you can also use recursion to generate permutation sets.  The benefit of using recusion is when you have an unknown number of elements that you need to create permuations on, which you may not know at runtime.  With CROSS JOINS you need to manually create each join.
 
-### Permutations vs Combinations
+#### Permutations vs Combinations
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Permutations and combinations are both ways of arranging a set of items, but they differ in how the items are arranged.  Permutations are arrangements of items in a specific order, while combinations are selections of items without regard to the order.
 
