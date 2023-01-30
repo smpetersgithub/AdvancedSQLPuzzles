@@ -14,7 +14,30 @@
 
 *  Combinations, on the other hand, are a way of selecting a subset of items from a set, without regard to the order. For example, if you have the set of items {A, B, C}, there are 3 C 2 (read as "3 choose 2") or 3 possible combinations: AB, AC, BC.
 
----
+---------------------------------------------------------------------------------
+
+We will be using the following tables that contain types of fruits and their quantity.  
+
+[The DDL to create these tables can be found here](Sample%20Data.md)
+
+**Table A**
+| ID | Fruit  | Quantity |
+|----|--------|----------|
+|  1 | Apple  |       17 |
+|  2 | Peach  |       20 |
+|  3 | Mango  |       11 |
+|  4 | <NULL> |        5 |
+  
+**Table B**
+| ID | Fruit  | Quantity |
+|----|--------|----------|
+|  1 | Apple  | 17       |
+|  2 | Peach  | 25       |
+|  3 | Kiwi   | 20       |
+|  4 | <NULL> | <NULL>   |
+        
+
+---------------------------------------------------------------------------------
 
 Here is a simplest form of the CROSS JOIN that creates all permutations between two datasets.
 
@@ -46,7 +69,8 @@ FROM    ##TableA a CROSS JOIN
 |  3 | Mango  |  4 | <NULL> |
 |  4 | <NULL> |  4 | <NULL> |
 
----
+
+---------------------------------------------------------------------------------
 
 You can simulate an INNER JOIN using a CROSS JOIN by placing the join logic in the WHERE clause using an equi-join
   
@@ -65,7 +89,8 @@ WHERE   a.Fruit = b.Fruit;
 |  1 | Apple |  1 | Apple |
 |  2 | Peach |  2 | Peach |  
  
----
+
+---------------------------------------------------------------------------------
   
 In order to simulate a LEFT OUTER JOIN using a CROSS JOIN, you will need to incorporate SET operators (UNION) and an anti-join (NOT EXISTS).  
 
@@ -93,7 +118,8 @@ WHERE   NOT EXISTS (SELECT 1 FROM ##TableB b where a.Fruit = b.Fruit);
 |  3 | Mango  | <NULL> | <NULL> |
 |  4 | <NULL> | <NULL> | <NULL> |
 
----  
+
+---------------------------------------------------------------------------------
   
 The following produces all combinations (not permuations).
   
@@ -122,10 +148,9 @@ WHERE   a.Fruit < b.Fruit
 | Kiwi  | Mango |
 | Kiwi  | Peach |
 | Mango | Peach |
-
-          
-                          
----
+                        
+---------------------------------------------------------------------------------
+                         
 If you need to find reciprocals on a result set and preserve NULL markers, you can use the following CASE statement.
                          
 ```sql
@@ -153,8 +178,8 @@ WHERE   a.Fruit <> b.Fruit OR a.Fruit IS NULL OR b.Fruit IS NULL;
 | Mango  | Peach  |
 | Peach  | <NULL> |
 
----                                   
-      
+---------------------------------------------------------------------------------
+
 Happy coding!
 
 https://advancedsqlpuzzles.com
