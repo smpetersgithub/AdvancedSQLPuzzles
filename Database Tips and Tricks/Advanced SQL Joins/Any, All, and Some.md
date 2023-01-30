@@ -6,6 +6,8 @@ ANY, ALL and SOME compare a scalar value with a single-column set of values.
 
 Because ANY, ALL, and SOME can be used with the 9 different logical operators below, there can be a total of 27 combinations.  Plus they can be negated with the NOT operator leading to even more combinations.  Most of the usages have equivalents that are easy to understand, and I have found the best way to understand ANY, ALL and SOME is by using the IF keyword to review their usage and provide an equivalant statement.
 
+ANY, ALL, and SOME are not types of joins, but methods you can use to create predicate logic on your tables.  However, you can create correlated subqueries and join the outer query to the subquery involved in your ANY, ALL or SOME statment.
+
 -----
 
 Here are the 9 different comparison operators that can be used with ANY, ALL and SOME.
@@ -366,7 +368,7 @@ PRINT 'FALSE';
 
 ### Example 2: Use Cases for = ALL and <> ANY
 
-Here is another (more elaborate) example using the = ALL operator.  Feel free to modify the data and the requirements to experiment with different ways to produce the expected output.
+Here is another (more elaborate) example using the = ALL operator with a correlated subquery.  Feel free to modify the data and the requirements to experiment with different ways to produce the expected output.
         
 Given the following tables: Sales Representatives and Top Selling Products by Quarter; calculate the following commissions for the year.
 
