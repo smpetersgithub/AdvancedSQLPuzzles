@@ -2,9 +2,13 @@
 
 ----
 
-The most common example used to demonstrate a self-join is the Manager and Employee hierarchical relationship.  In this relationship, the table contains both a foreign key (Manager ID), which relates to its primary key (Employee ID).
+Self joins in SQL are a type of join operation where a table is joined with itself. In a self join, a table is aliased to give it a different name and then used twice in the same query, once as the left table and once as the right table. The join conditions in a self join specify how to relate the rows of a table to itself. Self joins can be used to compare rows within a table, to create subsets of data based on certain conditions, or to combine information from multiple rows within a single table. The result of a self join is a new table that contains the combined data from the two instances of the original table. Self joins can be useful when working with hierarchical data, or when you need to analyze data based on relationships within a table.
 
-Here is an example of such a hierarchy.
+----------------------------------------------------
+
+Here is an example using a self join on a hierarchy table.
+
+For the following table of Managers and Employees, determine each employee's manager.
 
 | Employee ID |      Title     | Manager ID |
 |-------------|----------------|------------|
@@ -14,8 +18,9 @@ Here is an example of such a hierarchy.
 |           4 | Director       | 2          |
 |           5 | Director       | 3          |
   
-We can use the following self-join to determine each employee's manager.
 
+Note the table Employees is referenced twice, but given two different aliases name, a and b.
+ 
 ```sql
 SELECT  a.EmployeeID,
         a.Title ,
@@ -72,7 +77,7 @@ ORDER BY 1;
 |           4 | Director       | 2          | Vice President |     2 |
 |           5 | Director       | 3          | Vice President |     2 |
 
-----
+----------------------------------------------------
   
 Here is another example problem that can be solved with a self-join.  Unlike the above problem, this table does not have a foreign key that references its primary key.
 
@@ -158,20 +163,67 @@ SELECT  ID,
 FROM    #Animals;  
 ```
 
-----
+----------------------------------------------------
+  
+Self joins are also used in relational division.
+
+Given the following table of Employees and their licenses, determine all employees who have matching licenses.
+
+| EmployeeID | License |
+|------------|---------|
+|       1001 | Class A |
+|       1001 | Class B |
+|       1001 | Class C |
+|       2002 | Class A |
+|       2002 | Class B |
+|       2002 | Class C |
+|       3003 | Class A |
+|       3003 | Class D |
+|       4004 | Class A |
+|       4004 | Class B |
+|       4004 | Class D |
+|       5005 | Class A |
+|       5005 | Class B |
+|       5005 | Class D |
+
+Here is the expected output; employees 1001 and 2002 have matching licenses, and employees 4004 and 5005 have matching licenses.
+  
+| EmployeeID_A | EmployeeID_B | LicenseCount |
+|--------------|--------------|--------------|
+|         1001 |         2002 |            3 |
+|         2002 |         1001 |            3 |
+|         4004 |         5005 |            3 |
+|         5005 |         4004 |            3 |
+
+The SQL to generate the expected output uses a self join.
+  
+```sql
+WITH cte_Count AS
+(
+SELECT  EmployeeID,
+        COUNT(*) AS LicenseCount
+FROM    #Employees
+GROUP BY EmployeeID
+),
+cte_CountWindow AS
+(
+SELECT  a.EmployeeID AS EmployeeID_A,
+        b.EmployeeID AS EmployeeID_B,
+        COUNT(*) OVER (PARTITION BY a.EmployeeID, b.EmployeeID) AS CountWindow
+FROM    #Employees a CROSS JOIN
+        #Employees b
+WHERE   a.EmployeeID <> b.EmployeeID and a.License = b.License
+)
+SELECT  DISTINCT
+        a.EmployeeID_A,
+        a.EmployeeID_B,
+        a.CountWindow AS LicenseCount
+FROM    cte_CountWindow a INNER JOIN
+        cte_Count b ON a.CountWindow = b.LicenseCount AND a.EmployeeID_A = b.EmployeeID INNER JOIN
+        cte_Count c ON a.CountWindow = c.LicenseCount AND a.EmployeeID_B = c.EmployeeID;
+GO
+```
+----------------------------------------------------
   
 Up next....
-  
-  
-  
-  ---
-  
-  
-
-  
-  
-  
-  
-----
-  
   
