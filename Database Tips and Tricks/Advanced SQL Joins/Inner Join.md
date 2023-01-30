@@ -6,8 +6,10 @@
 
 ---------------------------------------------------------------------------------
 
-We will be using the following tables that contain types of fruits and their quantity.  The DDL to create these tables can be found here.
-  
+We will be using the following tables that contain types of fruits and their quantity.  
+
+[The DDL to create these tables can be found here](Sample%20Data.md)
+
 **Table A**
 | ID | Fruit  | Quantity |
 |----|--------|----------|
