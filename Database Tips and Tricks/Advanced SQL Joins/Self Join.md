@@ -1,10 +1,10 @@
-#### Self Joins
+# Self Joins
 
 Self joins in SQL are a type of join operation where a table is joined with itself. In a self join, a table is aliased to give it a different name and then used twice in the same query, once as the left table and once as the right table. The join conditions in a self join specify how to relate the rows of a table to itself. Self joins can be used to compare rows within a table, to create subsets of data based on certain conditions, or to combine information from multiple rows within a single table. The result of a self join is a new table that contains the combined data from the two instances of the original table. Self joins can be useful when working with hierarchical data, or when you need to analyze data based on relationships within a table.
 
 ----------------------------------------------------
 
-## Example 1:  Hierarchial Relationships
+#### Example 1:  Hierarchial Relationships
 
 Here is an example using a self join on a hierarchy table.
 
@@ -79,7 +79,7 @@ ORDER BY 1;
 
 ----------------------------------------------------
 
-## Example 2: Finding Pairs
+#### Example 2: Finding Pairs
 
 Here is another example problem that can be solved with a self-join.  Unlike the above problem, this table does not have a foreign key that references its primary key.
 
@@ -125,7 +125,9 @@ FROM    cte_CountCity a INNER JOIN
         Customer b on a.ID = b.ID;  
 ```
 
-## Example 3: Windowing
+ ----------------------------------------------------
+  
+#### Example 3: Windowing
 
   
 Often, if you need to use a self-join there are options you can use (such as window functions) to avoid the use of a self-join.  Let’s look at an example.
@@ -170,7 +172,7 @@ FROM    #Animals;
 
 ----------------------------------------------------
 
-## Example 4: Relational Division
+#### Example 4: Relational Division
   
 Self joins are also used in relational division.
 
@@ -231,7 +233,7 @@ FROM    cte_CountWindow a INNER JOIN
 ```
 ----------------------------------------------------
   
-### Example of what is not a self join.
+#### Example of what is not a self join.
   
 The following are **not** considered self-joins.
 
