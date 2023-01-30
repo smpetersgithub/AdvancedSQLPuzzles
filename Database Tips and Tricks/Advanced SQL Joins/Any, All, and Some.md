@@ -325,7 +325,7 @@ PRINT 'FALSE';
 
 ------------------------------------------------------
 
-### Use Cases for = ALL and <> ANY
+### Example 1: Use Cases for = ALL and <> ANY
 
 The following are examples of the = ALL and <> ANY operators.
 
@@ -378,5 +378,149 @@ PRINT 'TRUE'
 ELSE
 PRINT 'FALSE';
 ```
+
+-----
+
+### Example 2: Use Cases for = ALL and <> ANY
+
+Here is another (more elaborate) example using the = ALL operator.  Feel free to modify the data and the requirements to experiment with different ways to produce the expected output.
+        
+Given the following tables: Sales Representatives and Top Selling Products by Quarter; calculate the following commissions for the year.
+
+*  If ALL the top selling products for the quarter are from one region only, all sales representatives from that region receive a $1000 bonus.
+*  If the top selling products for the quarter are from different regions, all sales representatives from those regions receive a $250 bonus.
+*  If a sales representative is assigned to a region that did not have a top selling product for the year, they receive a goat.
+
+| SalesRepID | Region |
+|------------|--------|
+|       1001 | North  |
+|       2002 | North  |
+|       3003 | South  |
+|       4004 | South  |
+|       5005 | East   |
+|       6006 | West   |
+
+
+| SalesQuarter | Region | Product |
+|--------------|--------|---------|
+| Q1           | North  | A       |
+| Q1           | North  | B       |
+| Q1           | North  | C       |
+| Q2           | North  | A       |
+| Q2           | North  | B       |
+| Q2           | South  | C       |
+| Q3           | East   | D       |
+| Q3           | North  | C       |
+| Q3           | South  | E       |
+| Q4           | North  | A       |
+| Q4           | North  | C       |
+| Q4           | South  | E       |
+
+*  For Q1, the North region had all of the top selling products, therefore reps 1001 and 2002 each get a $1000 commission for that quarter. The North region also had sales in Q2, Q3, and Q4, getting $250 for each of these quarters.
+*  The South region had top selling products in Q2, Q3, and Q4, so they receive $750.
+*  The East region had a top selling product in Q3 only, so they receive $250.
+*  The West region did not have any top selling products for any of the quarters, therefore the sales reps get a goat as a commission.
+
+Here is the SQL to produce the expected results.
+
+```sql
+DROP TABLE IF EXISTS #TopSellingProducts;
+DROP TABLE IF EXISTS #SalesReps;
+DROP TABLE IF EXISTS #CommissionsQuarter;
+GO
+
+CREATE TABLE #TopSellingProducts
+(
+SalesQuarter CHAR(2) NOT NULL,
+Region  VARCHAR(10) NOT NULL,
+Product CHAR(1) NOT NULL,
+PRIMARY KEY (SalesQuarter, Region, Product)
+);
+GO
+
+INSERT INTO #TopSellingProducts (SalesQuarter, Region, Product) VALUES
+('Q1','North','A'),
+('Q1','North','B'),
+('Q1','North','C'),
+-------------------
+('Q2','North','A'),
+('Q2','North','B'),
+('Q2','South','C'),
+-------------------
+('Q3','North','C'),
+('Q3','East','D'),
+('Q3','South','E'),
+-------------------
+('Q4','North','A'),
+('Q4','North','C'),
+('Q4','South','E');
+GO
+
+CREATE TABLE #SalesReps 
+(
+SalesRepID INTEGER NOT NULL PRIMARY KEY,
+Region VARCHAR(10) NOT NULL
+);
+GO
+
+INSERT INTO #SalesReps (SalesRepID, Region) VALUES
+(1001,'North'),
+(2002,'North'),
+(3003,'South'),
+(4004,'South'),
+(5005,'East'),
+(6006,'West');
+GO
+
+WITH cte_SalesRepsQuarter AS
+(
+SELECT DISTINCT
+       a.SalesRepID,
+       a.Region,
+       b.SalesQuarter
+FROM   #SalesReps a CROSS JOIN
+       #TopSellingProducts b
+),
+cte_CommissionALL AS
+(
+SELECT  CAST(1000.00 AS VARCHAR(10)) AS Commission,
+        *
+FROM    cte_SalesRepsQuarter a
+WHERE   Region = ALL(SELECT Region FROM #TopSellingProducts b WHERE a.SalesQuarter = b.SalesQuarter)
+)
+----------------------------
+SELECT  *
+INTO    #CommissionsQuarter
+FROM    cte_CommissionALL
+UNION
+----------------------------
+SELECT  CAST(250.00 AS MONEY),
+        *
+FROM    cte_SalesRepsQuarter a
+WHERE   Region IN (SELECT Region FROM #TopSellingProducts b WHERE a.SalesQuarter = b.SalesQuarter)
+        AND
+        NOT EXISTS (SELECT 1 FROM cte_CommissionALL b WHERE a.SalesRepID = b.SalesRepID AND a.SalesQuarter = b.SalesQuarter)
+UNION
+----------------------------
+SELECT  NULL,
+        SalesRepID,
+        Region,
+        NULL
+FROM    cte_SalesRepsQuarter a
+WHERE   Region NOT IN (SELECT Region FROM #TopSellingProducts)
+----------------------------
+ORDER BY SalesQuarter, SalesRepID, Region, Commission;
+GO
+
+SELECT  COALESCE(CAST(SUM(Commission) AS VARCHAR(100)),'Goat') AS Commission,
+        SalesRepID,
+        Region
+FROM    #CommissionsQuarter
+GROUP BY SalesRepID, Region
+ORDER BY SalesRepID;
+GO
+```
+
+---------------
 
 Happy coding!
