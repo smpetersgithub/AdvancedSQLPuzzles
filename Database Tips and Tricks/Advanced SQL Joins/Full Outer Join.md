@@ -2,7 +2,30 @@
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;A FULL OUTER JOIN is a method of combining tables so that the result includes unmatched rows of both tables. It is an often underutilized join that has a more specific use case than the other joins.  This join is best used to compare two similar tables as shown below.  Remember to use this type of join when you want to compare two shopping baskets.
 
-----
+---------------------------------------------------------------------------------
+
+We will be using the following tables that contain types of fruits and their quantity.  
+
+[The DDL to create these tables can be found here](Sample%20Data.md)
+
+**Table A**
+| ID | Fruit  | Quantity |
+|----|--------|----------|
+|  1 | Apple  |       17 |
+|  2 | Peach  |       20 |
+|  3 | Mango  |       11 |
+|  4 | <NULL> |        5 |
+  
+**Table B**
+| ID | Fruit  | Quantity |
+|----|--------|----------|
+|  1 | Apple  | 17       |
+|  2 | Peach  | 25       |
+|  3 | Kiwi   | 20       |
+|  4 | <NULL> | <NULL>   |
+        
+
+---------------------------------------------------------------------------------
 
 The following shows the contents of fruits in both Table A and Table B.
 
@@ -24,7 +47,7 @@ FROM    ##TableA a FULL OUTER JOIN
 | <NULL> | <NULL> | 3      | Kiwi   |
 | <NULL> | <NULL> | 4      | <NULL> |
 
----
+---------------------------------------------------------------------------------
   
 You can use a FULL OUTER JOIN to find the symetric difference of two datasets using the ISNULL function.
 
@@ -45,7 +68,7 @@ WHERE   a.ID IS NULL OR B.ID IS NULL;
 | 3      | Kiwi   |
 | 4      | <NULL> |
   
----
+---------------------------------------------------------------------------------
   
 You can simulate an INNER JOIN by placing the following predicate logic in the WHERE clause
   
@@ -64,8 +87,8 @@ WHERE   a.ID IS NOT NULL AND B.ID IS NOT NULL;
 |  1 | Apple |  1 | Apple |
 |  2 | Peach |  2 | Peach |
 
----
-
+---------------------------------------------------------------------------------
+        
 You can simulate FULL OUTER JOINs using set operators (UNION) and anti-joins (NOT EXISTS).
         
 ```sql
@@ -100,7 +123,7 @@ WHERE   NOT EXISTS (SELECT 1 FROM ##TableA b WHERE a.Fruit = b.Fruit);
 | <NULL> | <NULL> | 3      | Kiwi   |
 | <NULL> | <NULL> | 4      | <NULL> |
 
----
+---------------------------------------------------------------------------------
 
 You can also use the LEFT OUTER JOIN and a RIGHT OUTER JOIN to simulate the FULL OUTER JOIN.
         
@@ -125,7 +148,7 @@ FROM    ##TableA a RIGHT JOIN
 | <NULL> | <NULL> | 3      | Kiwi   |
 | <NULL> | <NULL> | 4      | <NULL> |
         
----        
+---------------------------------------------------------------------------------       
   
 Happy coding!
 
