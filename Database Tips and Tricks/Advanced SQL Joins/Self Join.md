@@ -26,8 +26,8 @@ SELECT  a.EmployeeID,
         a.Title ,
         a.ManagerID,
         b.Title
-FROM    #Employees a INNER JOIN
-        #Employees b ON a.ManagerID = b.EmployeeID;
+FROM    Employees a INNER JOIN
+        Employees b ON a.ManagerID = b.EmployeeID;
 ```
 
 | EmployeeID  |      Title     |  Manager ID |      Title     |
@@ -56,7 +56,7 @@ SELECT  b.EmployeeID,
         b.ManagerID,
         a.Depth + 1 AS Depth
 FROM    cte_Recursion a INNER JOIN
-        #Employees b on a.EmployeeID = b.ManagerID
+        Employees b on a.EmployeeID = b.ManagerID
 )
 SELECT  a.EmployeeID,
         a.Title,
@@ -64,7 +64,7 @@ SELECT  a.EmployeeID,
         b.Title AS ManagerTitle,
         a.Depth
 FROM    cte_Recursion a LEFT JOIN
-        #Employees b ON a.ManagerID = b.EmployeeID
+        Employees b ON a.ManagerID = b.EmployeeID
 ORDER BY 1;
 ```
   
@@ -98,8 +98,8 @@ The syntax to solve this puzzle with a self-join is shown below.
 ```sql
 SELECT  a.ID,
         a.City
-FROM    #Customer a INNER JOIN
-        #Customer b ON a.City = b.City AND a.ID <> b.ID;
+FROM    Customer a INNER JOIN
+        Customer b ON a.City = b.City AND a.ID <> b.ID;
 ```
   
 The above query uses a self-join and returns the following result set.
@@ -116,13 +116,13 @@ WITH cte_CountCity AS
 (
 SELECT  ID,
         City
-FROM    #Customer
+FROM    Customer
 GROUP BY City
 HAVING  COUNT(City) > 1
 )
 SELECT  a.*
 FROM    cte_CountCity a INNER JOIN
-        #Customer b on a.ID = b.ID;  
+        Customer b on a.ID = b.ID;  
 ```
 
 ## Example 3: Windowing
@@ -144,8 +144,8 @@ Given the below dataset consisting of the weight of various animals, create a cu
 SELECT  a.ID
         a.Animal,
         SUM(b.Weight) AS Cummulative_Weight
-FROM    #Animals a CROSS JOIN
-        #Animals b
+FROM    Animals a CROSS JOIN
+        Animals b
 WHERE   a.ID >= b.ID
 GROUP BY a.ID, a.Animal; 
 ```  
@@ -209,7 +209,7 @@ WITH cte_Count AS
 (
 SELECT  EmployeeID,
         COUNT(*) AS LicenseCount
-FROM    #Employees
+FROM    Employees
 GROUP BY EmployeeID
 ),
 cte_CountWindow AS
@@ -217,8 +217,8 @@ cte_CountWindow AS
 SELECT  a.EmployeeID AS EmployeeID_A,
         b.EmployeeID AS EmployeeID_B,
         COUNT(*) OVER (PARTITION BY a.EmployeeID, b.EmployeeID) AS CountWindow
-FROM    #Employees a CROSS JOIN
-        #Employees b
+FROM    Employees a CROSS JOIN
+        Employees b
 WHERE   a.EmployeeID <> b.EmployeeID and a.License = b.License
 )
 SELECT  DISTINCT
@@ -228,13 +228,14 @@ SELECT  DISTINCT
 FROM    cte_CountWindow a INNER JOIN
         cte_Count b ON a.CountWindow = b.LicenseCount AND a.EmployeeID_A = b.EmployeeID INNER JOIN
         cte_Count c ON a.CountWindow = c.LicenseCount AND a.EmployeeID_B = c.EmployeeID;
-GO
 ```
 ----------------------------------------------------
   
 ### Example of what is not a self join.
   
-The following are **not** considered a self-joins.
+The following are **not** considered self-joins.
+
+Given a table of employees and their salary, write an SQL statment to return all employees who have a higher salary than the average salary of the company.
   
 Although this SQL statement uses the Employees table twice, it does not join to itself.  In this example, the aggregation on the Employees table is used in the predicate logic and not joined to the Employees table.
   
