@@ -1,4 +1,4 @@
-## OUTER JOINS
+# OUTER JOINS
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;OUTER JOINS consist of LEFT, RIGHT, and FULL OUTER JOIN.  LEFT OUTER JOIN and RIGHT OUTER JOIN function the same; the LEFT OUTER JOIN returns all records from the left table, and the RIGHT OUTER JOIN returns all records from the right table.
 
@@ -6,7 +6,7 @@
 
 ---
 
-## LEFT OUTER JOIN
+#### LEFT OUTER JOIN
 
 The most widely used case for the LEFT OUTER JOIN is when we want all values in Table A, regardless of their presence in Table B.  A join condition in an OUTER JOIN acts as a matching criterion and not as a filtering mechanism.
 
