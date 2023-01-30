@@ -166,7 +166,7 @@ PRINT 'FALSE';
 
 ---------------------------------------------------------------
 
-### PART 5
+#### PART 5
 **= ANY (Equal To ANY)**
 
 ```sql
@@ -191,7 +191,7 @@ PRINT 'FALSE';
 
 ---------------------------------------------------------------
 
-### PART 6
+#### PART 6
 **<> ANY (Not Equal To ANY)**    
 Note this has several equivalent statements
 
@@ -245,7 +245,7 @@ WHERE    TableA.ID <> TableB.ID;
 
 ---------------------------------------------------------------
 
-### PART 7
+#### PART 7
 **> ANY (Greater Than ANY)**
 
 ```sql
@@ -270,7 +270,7 @@ PRINT 'FALSE';
 
 ---------------------------------------------------------------
 
-### PART 8
+#### PART 8
 **< ANY (Less Than ANY)**
 
 ```sql
@@ -295,7 +295,7 @@ PRINT 'FALSE';
 
 ---------------------------------------------------------------
 
-### PART 9
+#### PART 9
 **>= ANY AND <= ANY (Greater Than Or Equal To ANY AND Less Than Or Equal To ANY)**
 
 ```sql
@@ -324,5 +324,59 @@ PRINT 'FALSE';
 ```
 
 ------------------------------------------------------
+
+### Use Cases for = ALL and <> ANY
+
+The following are examples of the = ALL and <> ANY operators.
+
+You are given the following example table of runtime statuses, provide an SQL statement that generates the required output.
+
+*  If all the statuses are completed, print "True", else print "False"
+*  If all the statuses are not completed, print "True", else print "False".
+
+This example table has statuses that are all completed.
+
+| ID |  Status   |
+|----|-----------|
+|  1 | Completed |
+|  2 | Completed |
+|  3 | Completed |
+|  4 | Completed |
+
+This example table has statuses that are not all completed.
+
+| ID |  Status   |
+|----|-----------|
+|  1 | Completed |
+|  2 | Completed |
+|  3 | Running   |
+|  4 | Completed |
+
+Here is the SQL statements (along with the DDL) that produce the required output.
+
+```sql
+CREATE TABLE #Status
+(
+ID  INTEGER IDENTITY(1,1) NOT NULL PRIMARY KEY,
+Status VARCHAR(10)
+);
+
+INSERT INTO #Status (Status) VALUES ('Completed'),('Completed'),('Completed'),('Completed');
+GO
+
+IF 'Completed' = ALL (SELECT Status FROM #Status)
+PRINT 'TRUE'
+ELSE
+PRINT 'FALSE';
+
+TRUNCATE TABLE #Status
+INSERT INTO #Status (Status) VALUES ('Completed'),('Error'),('Running'),('Completed');
+GO
+
+IF 'Completed' <> ANY (SELECT Status FROM #Status)
+PRINT 'TRUE'
+ELSE
+PRINT 'FALSE';
+```
 
 Happy coding!
