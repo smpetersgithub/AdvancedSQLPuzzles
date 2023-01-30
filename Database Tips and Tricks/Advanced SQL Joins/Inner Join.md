@@ -1,4 +1,4 @@
-## INNER JOINS
+# INNER JOINS
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The **INNER JOIN** selects records from two tables given a join condition.  This type of join requires a comparison operator to combine rows from the participating tables based on a common field(s) in both tables.  Because of this, **INNER JOINS** act as a filter criteria.
 
