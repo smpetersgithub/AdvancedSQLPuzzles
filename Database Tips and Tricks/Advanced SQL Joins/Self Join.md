@@ -1,8 +1,10 @@
-### Self Joins
+#### Self Joins
 
 Self joins in SQL are a type of join operation where a table is joined with itself. In a self join, a table is aliased to give it a different name and then used twice in the same query, once as the left table and once as the right table. The join conditions in a self join specify how to relate the rows of a table to itself. Self joins can be used to compare rows within a table, to create subsets of data based on certain conditions, or to combine information from multiple rows within a single table. The result of a self join is a new table that contains the combined data from the two instances of the original table. Self joins can be useful when working with hierarchical data, or when you need to analyze data based on relationships within a table.
 
 ----------------------------------------------------
+
+## Example 1:  Hierarchial Relationships
 
 Here is an example using a self join on a hierarchy table.
 
@@ -76,7 +78,9 @@ ORDER BY 1;
 |           5 | Director       | 3          | Vice President |     2 |
 
 ----------------------------------------------------
-  
+
+## Example 2: Finding Pairs
+
 Here is another example problem that can be solved with a self-join.  Unlike the above problem, this table does not have a foreign key that references its primary key.
 
 List all cities that have more than one customer along with the customer details.
@@ -120,6 +124,9 @@ SELECT  a.*
 FROM    cte_CountCity a INNER JOIN
         #Customer b on a.ID = b.ID;  
 ```
+
+## Example 3: Windowing
+
   
 Often, if you need to use a self-join there are options you can use (such as window functions) to avoid the use of a self-join.  Let’s look at an example.
 
@@ -142,7 +149,7 @@ FROM    #Animals a CROSS JOIN
 WHERE   a.ID >= b.ID
 GROUP BY a.ID, a.Animal; 
 ```  
-
+  
 
 | ID |    Animal     | Cummulative Weight |
 |----|---------------|--------------------|
@@ -162,6 +169,8 @@ FROM    #Animals;
 ```
 
 ----------------------------------------------------
+
+## Example 4: Relational Division
   
 Self joins are also used in relational division.
 
@@ -223,5 +232,35 @@ GO
 ```
 ----------------------------------------------------
   
-Up next....
+### Example of what is not a self join.
+  
+The following are **not** considered a self-joins.
+  
+Although this SQL statement uses the Employees table twice, it does not join to itself.  In this example, the aggregation on the Employees table is used in the predicate logic and not joined to the Employees table.
+  
+```sql
+SELECT  Name,
+        Salary
+FROM    Employees
+GROUP BY Name, Salary
+HAVING Salary > (SELECT AVG(Salary) FROM Employees);
+```
+  
+The following is also not a self=join.  The cte_Average does reference the Employees table, but it creates an entirely new relation consisting of {Name, Average}, which does not equal the original Employees table of {Name, Salary}.
+  
+```sql
+WITH cte_Average AS
+(
+SELECT AVG(Salary) AS Average FROM Employees
+)
+SELECT  *
+FROM    Employees a CROSS JOIN
+        cte_Average b
+WHERE   Salary > Average;
+```
+  
+---------------------------------------
+  
+Happy coding!
+
   
