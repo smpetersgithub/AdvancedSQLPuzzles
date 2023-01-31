@@ -20,7 +20,7 @@ SQL has the following operators that can be used to join tables.
 | Comparison |  <>                   |  Not Equal To                                         |
 | Comparison |  !=                   |  Not Equal To (not ISO standard)                      |
 | Comparison |  >                    |  Greater Than                                         |
-| Comparison |  !< (Not Less Than)	 |  Not less than (not ISO standard)                     |
+| Comparison |  !<                	 |  Not less than (not ISO standard)                     |
 | Comparison |  <                    |  Less Than                                            |
 | Comparison |  !>                   |Not greater than (not ISO standard)                    |
 | Comparison |  >=                   |  Greather Than or Equal To                            |
