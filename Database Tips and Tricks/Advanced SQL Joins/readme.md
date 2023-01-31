@@ -2,9 +2,9 @@
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Joining tables in SQL requires a good understanding of the data, the relationships between the tables, and the behavior of the different join types.  This GitHub repository covers some of the more advanced concepts of SQL joins and serves as a collection of interesting, odd, and uncommon ways you may see or think of joins in your everyday SQL encounters.  
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;I've tried to keep all my examples as concise as possible, and they should serve as a springboard for further exploration.  In this repository there are a number of markdown documents I have created that showcase different joins and concepts, and I try to show alternative ways in which you can write the SQL statement as a means of understanding their behavior.  I have tried to create the documents in such a way they can be read in any order without trying to sound repetitive.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;I've tried to keep all my examples as concise as possible, and they should serve as a springboard for further exploration.  In this repository there are a number of markdown documents I have created that showcase different joins and concepts, and I try to show alternative ways in which you can write the SQL statement as a means of understanding their behavior.  I have tried to create the documents in such a way they can be read in any order without trying to sound repetitive, but I do offer a recommended reading order that I provide at the end of each document.
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Although I will talk about the logical processing order and physical join types, I have refrained from discussing query optimization and any in-depth converstation about best practices of which join syntax is best.  Also, I use a very small sample dataset that contains types of fruit that can be found here.  The sample data has NULL markers in the sample data, but not duplicate data.  Feel free to add, subtract and modify the data and these queries to explore their behavior.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Although I will talk about the logical processing order and physical join types, but any discussion about query optimization and best practices is at a cursory level. My intent here is not to show best practices or best optimization methods, but to provide a summarization of the differnt joins that you will encounter in your daily SQL activities and a sort of museum of weird joins that I've encountered in my many years of SQL programming.  To show the various joins, I use a small sample dataset that contains types of fruit that can be found here.  The sample data has NULL markers in the sample data, but not duplicate data.  Feel free to add, subtract and modify the data and these queries to explore their behavior.
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;I welcome any corrections, additions, debates etc. I've tried to show different joins across all the major RDBMS platforms, and I am sure there are some new and interesting joins that I have not included here (such as graph joins).  Feel free to contact me through this GitHub repository or my Wordpress site at https://advancedsqlpuzzles.com.  
 
@@ -45,8 +45,24 @@ Here is a breif description of each type of join:
 
 ----
 
-Before diving into specifics of each type of join, I recomend understanding table operators first.
+Before diving into specifics of each type of join, I recomend understanding the [SQL Proceccing Order](SQL%Proceccing%Order%.md) next.
 
-Happy coding!
+Here is the recomended reading order
+
+1. [Introduction (Read Me)](readme.md)
+2. [SQL Processing Order]()
+3. [Table Types]()
+4. [Sample Data]()
+5. [Equi, Theta, and Natural Joins]()
+6. [Inner Joins]()
+7. [Outer Joins]()
+8. [Full Outer Joins]()
+9. [Cross Joins]()
+10. [Semi and Anti Joins]()
+11. [Any, ALL and Some]()
+12. [Self Joins]()
+13. [Relational Divison]()
+14. [Set Operations]()
+15. [Join Algorithms]()
 
 https://advancedsqlpuzzles.com
