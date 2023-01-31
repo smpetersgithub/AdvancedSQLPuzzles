@@ -366,7 +366,7 @@ PRINT 'FALSE';
 
 -----
 
-### Example 2: Use Cases for = ALL and <> ANY
+### Example 2: Use Cases for = ALL
 
 Here is another (more elaborate) example using the = ALL operator with a correlated subquery.  Feel free to modify the data and the requirements to experiment with different ways to produce the expected output.
         
