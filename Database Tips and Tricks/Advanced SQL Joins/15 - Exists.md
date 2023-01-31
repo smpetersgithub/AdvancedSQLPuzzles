@@ -21,7 +21,7 @@ ELSE
 PRINT 'FALSE'
 ```
 
-This statement will return FALSE when we use use the NOT operator.
+This statement will return FALSE if we use use the NOT operator.
 
 ```sql
 IF NOT EXISTS (SELECT 1 FROM ##TableA)
@@ -31,7 +31,7 @@ ELSE
 PRINT 'FALSE'
 ```
 
-This statement will return TRUE when we suplly a NULL value.
+This statement will return TRUE when we supply a NULL value.  Even though we supply a NULL value, it does return a recordset with a NULL value, which is different than an empty recordset.
 
 ```sql
 IF EXISTS (SELECT NULL)
