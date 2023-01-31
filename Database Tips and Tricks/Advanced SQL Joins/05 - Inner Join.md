@@ -1,8 +1,8 @@
 # INNER JOINS
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The **INNER JOIN** selects records from two tables given a join condition.  This type of join requires a comparison operator to combine rows from the participating tables based on a common field(s) in both tables.  Because of this, **INNER JOINS** act as a filter criteria.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The INNER JOIN selects records from two tables given a join condition.  This type of join requires a comparison operator to combine rows from the participating tables based on a common field(s) in both tables.  Because of this, **INNER JOINS** act as a filter criteria.
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;We can use both **equi-join** and **theta-join** operators between the joining fields.  An **equi-join** is a type of join in which the join condition is based on equality between the values of the specified columns in the two tables being joined.  A **theta-join**, on the other hand, is a type of join in which the join condition is based on a comparison operator other than equality.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;We can use both equi-join and theta-join operators between the joining fields.  An equi-join is a type of join in which the join condition is based on equality between the values of the specified columns in the two tables being joined.  A theta-join, on the other hand, is a type of join in which the join condition is based on a comparison operator other than equality.
 
 ---------------------------------------------------------------------------------
 
@@ -28,7 +28,7 @@ We will be using the following tables that contain types of fruits and their qua
 
 ---------------------------------------------------------------------------------
   
-To start, here is the most common join you will use, an **INNER JOIN** between two tables.  This join uses an **equi-join** as it looks for equality between the two fields.  Note the query does not return the NULL markers, as NULL markers are neither equal to or not equal to each other, they are unknown.
+To start, here is the most common join you will use, an INNER JOIN between two tables.  This join uses an equi-join as it looks for equality between the two fields.  Note the query does not return the NULL markers, as NULL markers are neither equal to or not equal to each other, they are unknown.
 
 ```sql
 SELECT  a.ID,
@@ -45,7 +45,7 @@ FROM    ##TableA a INNER JOIN
 |  2 | Peach |  2 | Peach |
 
 ---
-We can also specify the matching criteria in the WHERE clause without explicitely specifiy the **INNER JOIN** clause.
+We can also specify the matching criteria in the WHERE clause without explicitely specifiy the INNER JOIN clause.
 
 ```sql
 SELECT  a.ID,
@@ -64,7 +64,7 @@ WHERE   a.Fruit = b.Fruit;
 
 ---------------------------------------------------------------------------------
   
-Remembering that all types of joins are restricted cartesian products, the following **CROSS JOIN** produces the same results as above as it establishes the join predicate in the WHERE clause.
+Remembering that all types of joins are restricted cartesian products, the following CROSS JOIN produces the same results as above as it establishes the join predicate in the WHERE clause.
 
 ```sql
 SELECT  a.ID,
@@ -82,7 +82,7 @@ WHERE   a.Fruit = b.Fruit;
 |  2 | Peach |  2 | Peach |
 
 
-In `MySQL` the following SQL statment will work and mimic an **INNER JOIN**.   This SQL statement has an ON clause of 1=1 and a WHERE clause specifiying the join criteria.  If you remove the WHERE clause, this statement will work in both `MySQL` and `SQLite` to return a full cartesian product.
+In `MySQL` the following SQL statment will work and mimic an INNER JOIN.   This SQL statement has an ON clause of 1=1 and a WHERE clause specifiying the join criteria.  If you remove the WHERE clause, this statement will work in both `MySQL` and `SQLite` to return a full cartesian product.
 
 ```sql
 SELECT a.ID,
@@ -101,7 +101,7 @@ WHERE  a.Fruit = b.Fruit;
    
 ---------------------------------------------------------------------------------
   
-This **LEFT OUTER JOIN** acts as an **INNER JOIN** because we specify a predicate in the WHERE clause on the outer joined table (TableB).
+This LEFT OUTER JOIN acts as an INNER JOIN because we specify a predicate in the WHERE clause on the outer joined table (TableB).
 
 ```sql
 SELECT  a.ID,
@@ -119,9 +119,9 @@ WHERE   b.Fruit = 'Apple'
 
 ---------------------------------------------------------------------------------
   
-This next statement incorporates an **INNER JOIN** with a **theta-join**, which looks for inequality between two fields.
+This next statement incorporates an INNER JOIN with a theta-join, which looks for inequality between two fields.
 
-A good example of using a **theta-join** is when someone wants to pair two differnt fruits of different quantities.
+A good example of using a theta-join is when someone wants to pair two differnt fruits of different quantities.
 
 ```sql
 SELECT  a.ID,
@@ -137,7 +137,7 @@ FROM    ##TableA a INNER JOIN
   
 ---------------------------------------------------------------------------------
   
-This query uses both an **equi-join** and a **theta-join**, and functions similiar to a **CROSS JOIN** but with one big difference, no NULL markers are returned.  Because we have NULL markers in the table, they are eradicated as NULL markers are neither equal nor not equal to each other, they are unknown.
+This query uses both an equi-join and a theta-join, and functions similiar to a CROSS JOIN but with one big difference, no NULL markers are returned.  Because we have NULL markers in the table, they are eradicated as NULL markers are neither equal nor not equal to each other, they are unknown.
 
 ```sql
 SELECT  a.ID,
@@ -162,7 +162,7 @@ FROM    ##TableA a INNER JOIN
 
 ---------------------------------------------------------------------------------
   
-Here are some other examples of **INNER JOINS** using **theta-joins**.  
+Here are some other examples of INNER JOINS using theta-joins.
 
 This query looks for all values where the quantity in Table A is greater than or equal to a quantity in the corresponding Table B.
 
@@ -180,7 +180,7 @@ FROM    ##TableA a INNER JOIN
 
 ---------------------------------------------------------------------------------
   
-This query uses a **equi-join** and a **theta-join** that is negated with a NOT operator. Determining if the ID is between the Quantity columns may be a somewhat absurd SQL statement to write, but this shows the possibiities in creating join logic.  We often forget we can use comparison operators such as LIKE or BETWEEN in the ON clause of an SQL statmeent and then negate it with NOT.
+This query uses a equi-join and a theta-join that is negated with a NOT operator. Determining if the ID is between the Quantity columns may be a somewhat absurd SQL statement to write, but this shows the possibiities in creating join logic.  We often forget we can use comparison operators such as LIKE or BETWEEN in the ON clause of an SQL statmeent and then negate it with NOT.
   
 ```sql
 SELECT  a.ID,
@@ -291,9 +291,9 @@ FROM    ##TableA a INNER JOIN
 |  2 | Peach |  2 | Peach |
   
 ---------------------------------------------------------------------------------
-`ORACLE` supports the **NATURAL JOIN** syntax.  I classify the natural join as a mathmatical join as it was first conceived by E.F. Codd in his Relational Algebra model.  I cover natural joins in a separate document and why they should be considered bad practice to use.  
+`ORACLE` supports the NATURAL JOIN syntax.  I classify the natural join as a mathmatical join as it was first conceived by E.F. Codd in his Relational Algebra model.  I cover natural joins in a separate document and why they should be considered bad practice to use.  
   
-The use of an asterisk in the SELECT statment is mandatory and the outuput does not show duplicate column names.  This query is the same as an **equi-join** on the ID, Fruit and Quantity columns between Table A and Table B.
+The use of an asterisk in the SELECT statment is mandatory and the outuput does not show duplicate column names.  This query is the same as an equi-join on the ID, Fruit and Quantity columns between Table A and Table B.
 
 ```sql
 SELECT  *
@@ -305,7 +305,7 @@ FROM    ##TableA a NATURAL JOIN
 |----|--------|----------|
 |  1 | Apple  |       17 |
   
-The below `ORACLE` SQL statement uses the USING clause and mimics the **NATURAL JOIN**.
+The below `ORACLE` SQL statement uses the USING clause and mimics the NATURAL JOIN.
   
 ```sql
 SELECT  *
@@ -319,6 +319,4 @@ FROM    ##TableA a JOIN
 
 ---------------------------------------------------------------------------------
 
-Happy coding!        
-
-  
+Happy coding!
