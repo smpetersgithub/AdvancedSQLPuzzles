@@ -65,7 +65,7 @@ When we use negation (the NOT operator) with the EXISTS clause, we return the re
 ```sql
 SELECT  *
 FROM    ##TableA a
-WHERE   EXISTS (SELECT 1 FROM ##TableB b WHERE a.Fruit = b.Fruit);
+WHERE   NOT EXISTS (SELECT 1 FROM ##TableB b WHERE a.Fruit = b.Fruit);
 ```
 
 | ID | Fruit   | Quantity |
