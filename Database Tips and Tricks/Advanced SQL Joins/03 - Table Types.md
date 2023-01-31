@@ -2,6 +2,8 @@
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Within SQL, you can create a join to the following 10 table types, some of these objects are schema bound objects, meaning they are saved as a database object within a named schema, and others are unbound and only durable for the life of an SQL statement (CTE, Subquery, Values, Derived Tables) or your current session (Table Variable, Temporary Table).  Items that are not schema bound are created in the tempdb and do not have any data of their existince in the catalog views.
 
+Here are the 10 different types of tables you can create.
+
 | Id |              Name              |  Schema Bound |                                                                 Description                                                                |
 |----|--------------------------------|---------------|--------------------------------------------------------------------------------------------------------------------------------------------|
 |  1 |  Table                         |  True         |  A regular table that is stored in the database.                                                                                           |
