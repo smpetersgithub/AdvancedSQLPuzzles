@@ -2,7 +2,7 @@
 
 ANY, ALL and SOME compare a scalar value with a single-column set of values. 
 
-> **SOME and ANY are equivalent; for this document I will use ANY.**
+**SOME and ANY are equivalent; for this document I will use ANY.**
 
 Because ANY, ALL, and SOME can be used with the 9 different logical operators below, there can be a total of 27 combinations.  Plus they can be negated with the NOT operator leading to even more combinations.  Most of the usages have equivalents that are easy to understand, and I have found the best way to understand ANY, ALL and SOME is by using the IF keyword to review their usage and provide an equivalant statement.
 
