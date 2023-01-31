@@ -50,7 +50,7 @@ Before diving into specifics of each type of join, I recomend understanding the 
 Here is the recomended reading order
 
 1. [Introduction (Read Me)](01%-%Introduction.md)
-2. [SQL Processing Order](02%-%SQL% Processing%Order.md)
+2. [SQL Processing Order](02%-%SQL%Processing%Order.md)
 3. [Table Types](03%-%Table%Types.md)
 4. [Equi, Theta, and Natural Joins](04%-%Equi,%Theta,%and%Natural%Joins.md)
 5. [Inner Joins](05%-%Inner%Joins.md)
