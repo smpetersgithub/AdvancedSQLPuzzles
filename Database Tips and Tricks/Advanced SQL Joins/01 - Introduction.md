@@ -49,19 +49,19 @@ Before diving into specifics of each type of join, I recomend understanding the 
 
 Here is the recomended reading order
 
-1. [Introduction (Read Me)](01%-%Introduction.md)
-2. [SQL Processing Order](02%-%SQL%Processing%Order.md)
-3. [Table Types](03%-%Table%Types.md)
-4. [Equi, Theta, and Natural Joins](04%-%Equi,%Theta,%and%Natural%Joins.md)
-5. [Inner Joins](05%-%Inner%Joins.md)
-6. [Outer Joins](06%-%Outer%Joins.md)
-7. [Full Outer Joins](07%-%Full%Outer%Joins.md)
-8. [Cross Joins](08%-%Cross%Joins.md)
-9. [Semi and Anti Joins](09%-%Semi%and%Anti%Joins.md)
-10. [Any, ALL and Some](10%-%Any,%ALL%and%Some.md)
-11. [Self Joins](11%-%Self%Joins.md)
-12. [Relational Divison](12%-%Relational%Divison.md)
-13. [Set Operations](13%-%Set%Operations.md)
-14. [Join Algorithms](14%-%Join%Algorithms.md)
+1. [Introduction (Read Me)](01%20-%20Introduction.md)
+2. [SQL Processing Order](02%20-%20SQL%20Processing%Order.md)
+3. [Table Types](03%20-%20Table%20Types.md)
+4. [Equi, Theta, and Natural Joins](04%20-%20Equi,%20Theta,%20and%20Natural%20Joins.md)
+5. [Inner Joins](05%20-%20Inner%20Joins.md)
+6. [Outer Joins](06%20-%20Outer%20Joins.md)
+7. [Full Outer Joins](07%20-%20Full%20Outer%20Joins.md)
+8. [Cross Joins](08%20-%20Cross%20Joins.md)
+9. [Semi and Anti Joins](09%20-%20Semi%20and%20Anti%20Joins.md)
+10. [Any, ALL and Some](10%20-%20Any,%20ALL%20and%20Some.md)
+11. [Self Joins](11%20-%20Self%20Joins.md)
+12. [Relational Divison](12%20-%20Relational%20Divison.md)
+13. [Set Operations](13%20-%20Set%20Operations.md)
+14. [Join Algorithms](14%20-%20Join%20Algorithms.md)
 
 https://advancedsqlpuzzles.com
