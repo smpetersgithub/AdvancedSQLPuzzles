@@ -4,9 +4,12 @@ ANY, ALL and SOME compare a scalar value with a single-column set of values.
 
 **SOME and ANY are equivalent; for this document I will use ANY.**
 
-Because ANY, ALL, and SOME can be used with the 9 different logical operators below, there can be a total of 27 combinations.  Plus they can be negated with the NOT operator leading to even more combinations.  Most of the usages have equivalents that are easy to understand, and I have found the best way to understand ANY, ALL and SOME is by using the IF keyword to review their usage and provide an equivalant statement.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Because ANY, ALL, and SOME can be used with the 9 different logical operators below, there can be a total of 27 combinations.  Plus they can be negated with the NOT operator leading to even more combinations.  Most of the usages have equivalents that are easy to understand, and I have found the best way to understand ANY, ALL and SOME is by using the IF keyword to review their usage and provide an equivalant statement.
 
-ANY, ALL, and SOME are not join types, but rather methods for creating predicate logic between tables. They can be utilized in correlated subqueries, where the outer query is joined to the subquery involved in the ANY, ALL, or SOME statement. These methods are similar to semi and anti-joins, in that they cannot be used in the SELECT clause and do not introduce duplicates. However, they differ in that they allow for comparisons between a range of values, rather than only equality or inequality.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ANY, ALL, and SOME are not join types, but rather methods for creating predicate logic between tables. They can be utilized in correlated subqueries, where the outer query is joined to the subquery involved in the ANY, ALL, or SOME statement. These methods are similar to semi and anti-joins, in that they cannot be used in the SELECT clause and do not introduce duplicates. However, they differ in that they allow for comparisons between a range of values, rather than only equality or inequality.
+
+*  ANY, ALL and SOME compare a scalar value with a single-column set of values. 
+*  SOME and ANY are equivalent; for this document I will use ANY.
 
 -----
 
