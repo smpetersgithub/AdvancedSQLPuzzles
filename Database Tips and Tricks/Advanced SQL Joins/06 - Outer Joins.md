@@ -2,7 +2,10 @@
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;OUTER JOINS consist of LEFT, RIGHT, and FULL OUTER JOIN.  LEFT OUTER JOIN and RIGHT OUTER JOIN function the same; the LEFT OUTER JOIN returns all records from the left table, and the RIGHT OUTER JOIN returns all records from the right table.
 
+
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;It is best practice to use the LEFT OUTER JOIN over the RIGHT OUTER JOIN, as we naturally read from left to right.  The left join is more intuitive in terms of its behavior, as the left table is preserved, and the right table is optional. It's therefore more natural to think of it as "all rows from the left table, and any matching rows from the right table" which makes it more readable and easier to understand.  I will only demonstrate the LEFT OUTER JOIN for this reason.  Using RIGHT OUTER JOIN is considered a bad practice and should be avoided.
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;This document covers the LEFT OUTER JOIN and the RIGHT OUTER JOIN.  The FULL OUTER JOIN has its own separate document.
 
 -----------------------------------------------------------
 
@@ -218,7 +221,3 @@ FROM    ##TableA a RIGHT OUTER JOIN
 | <NULL> | <NULL> |  4 | <NULL> | <NULL> | <NULL> |
 
 -----------------------------------------------------------
-
-Up next, FULL OUTER JOINS.
-
-Happy coding!
