@@ -48,8 +48,8 @@ The query is rather simple once you understand how to use the HAVING clause.
 
 CREATE TABLE #PilotSkills 
 (
-PilotName varchar(255),
-PlaneName varchar(255)
+PilotName VARCHAR(255),
+PlaneName VARCHAR(255)
 );
 
 INSERT INTO #PilotSkills (PilotName, PlaneName) VALUES ('Johnson', 'Piper Cub'),
@@ -68,7 +68,7 @@ INSERT INTO #PilotSkills (PilotName, PlaneName) VALUES ('Brown', 'F-17 Fighter')
 
 CREATE TABLE #Hanger 
 (
-PlaneName varchar(255)
+PlaneName VARCHAR(255)
 );
 
 INSERT INTO #Hanger (PlaneName) VALUES ('B-1 Bomber');
@@ -150,6 +150,49 @@ The last example shows all employees who have worked in all departments.
 | Nancy |  Wardrobe   |         1 |
 | Jim   |  Music      |         1 |
 | Jim   |  Wardrobe   |         0 |
+
+```sql
+CREATE TABLE #DepartmentHistory 
+(
+Name VARCHAR(255),
+Department VARCHAR(255),
+IsActive boolean
+);
+
+INSERT INTO #DepartmentHistory (Name, Department, IsActive) VALUES ('Chris', 'Wardrobe', false);
+INSERT INTO #DepartmentHistory (Name, Department, IsActive) VALUES ('Chris', 'Lighting', true);
+INSERT INTO #DepartmentHistory (Name, Department, IsActive) VALUES ('Chris', 'Music', false);
+INSERT INTO #DepartmentHistory (Name, Department, IsActive) VALUES ('Nancy', 'Wardrobe', true);
+INSERT INTO #DepartmentHistory (Name, Department, IsActive) VALUES ('Jim', 'Music', true);
+INSERT INTO #DepartmentHistory (Name, Department, IsActive) VALUES ('Jim', 'Wardrobe', false);
+
+WITH cte_DistinctEmployeeDepartment
+(
+SELECT  DISTINCT
+        EmployeeName,
+        DepartmentName
+FROM    #DepartmentHistory
+)
+cte_EmployeeDepartmentCount AS
+(
+SELECT  EmployeeName,
+        COUNT(Department) AS DepartmentCount
+FROM    cte_Distinct
+),
+cte_DistinctDeparments
+(
+SELECT  DISTINCT
+        Departments
+FROM    #DepartmentHistory
+)
+SELECT  *
+FROM    cte_EmployeeDepartmentCount
+WHERE   DepartmentCount IN (SELECT Departments from cte_DistinctDepartment);
+```
+
+-----------------------------------------------------------------------
+
+
 
 
 
