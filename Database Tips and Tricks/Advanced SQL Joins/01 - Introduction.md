@@ -1,10 +1,10 @@
-# Welcome
+ # Welcome
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Joining tables in SQL requires a good understanding of the data, the relationships between the tables, and the behavior of the different join types.  This GitHub repository covers some of the more advanced concepts of SQL joins and serves as a collection of interesting, odd, and uncommon ways you may see or think of joins in your everyday SQL encounters.  
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;I've tried to keep all my examples as concise as possible, and they should serve as a springboard for further exploration.  In this repository there are a number of markdown documents I have created that showcase different joins and concepts, and I try to show alternative ways in which you can write the SQL statement as a means of understanding their behavior.  I have tried to create the documents in such a way they can be read in any order without trying to sound repetitive, but I do offer a recommended reading order that I provide at the end of each document.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;I've tried to keep all my examples as concise as possible, and they should serve as a springboard for further exploration.  In this repository there are several markdown documents I have created that showcase different joins and concepts, and I try to show alternative ways in which you can write the SQL statement as a means of understanding their behavior.  I have tried to create the documents in such a way they can be read in any order without trying to sound repetitive, but I do offer a recommended reading order that I provide at the end of each document.
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Although I will talk about the logical processing order and physical join types, but any discussion about query optimization and best practices is at a cursory level. My intent here is not to show best practices or best optimization methods, but to provide a summarization of the differnt joins that you will encounter in your daily SQL activities and a sort of museum of weird joins that I've encountered in my many years of SQL programming.  To show the various joins, I use a small sample dataset that contains types of fruit that can be found here.  The sample data has NULL markers in the sample data, but not duplicate data.  Feel free to add, subtract and modify the data and these queries to explore their behavior.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Although I will talk about the logical processing order and physical join types, but any discussion about query optimization and best practices is at a cursory level. My intent here is not to show best practices or best optimization methods, but to provide a summarization of the different joins that you will encounter in your daily SQL activities and a sort of museum of weird joins that I've encountered in my many years of SQL programming.  To show the various joins, I use a small sample dataset that contains types of fruit that can be found here.  The sample data has NULL markers in the sample data, but not duplicate data.  Feel free to add, subtract and modify the data and these queries to explore their behavior.
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;I welcome any corrections, additions, debates etc. I've tried to show different joins across all the major RDBMS platforms, and I am sure there are some new and interesting joins that I have not included here (such as graph joins).  Feel free to contact me through this GitHub repository or my Wordpress site at https://advancedsqlpuzzles.com.  
 
@@ -23,7 +23,7 @@ I classify joins into the following 4 categories, Logical, Physical, Descriptive
 |  4 |  Model       |  Joins that are described in the Relational Model which SQL is based on.                                                       |
 
 
-Here is a breif description of each type of join:
+Here is a brief description of each type of join:
 
 |  Type         |       Join       |                                                                                                              Description                                                                                                              |
 |---------------|------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -34,20 +34,19 @@ Here is a breif description of each type of join:
 |  Physical     | NESTED LOOP JOIN |  Nested loop join is a type of join algorithm that compares each row of one table with all the rows of another table.                                                                                                                 |
 |  Physical     | HASH JOIN        |  Hash join is a join algorithm that uses a hash table to quickly match rows from one table with rows from another table.                                                                                                              |
 |  Physical     | MERGE SORT JOIN  |  Merge sort join is a join algorithm that sorts both tables on the join column, and then merges the sorted rows together.                                                                                                             |
-|  Descriptive  | COMPLEX JOIN     |  A complex join is a type of join operation that combines multiple tables using various comparison operators, and often includes subqueries and aggregate functions, in order to retrieve and combine data from different tables.     |
+|  Descriptive  | COMPLEX JOIN     |  A complex join is a type of join operation that combines multiple tables using various comparison operators, and often includes subqueries and aggregate functions, to retrieve and combine data from different tables.     |
 |  Descriptive  | SELF-JOIN        |  A self-join is used to join a table to itself, using the same table twice with different aliases.                                                                                                                                    |
-|  Mathmatical  | SEMI-JOIN        |  A semi-join returns only the rows from the first table that have matching values in the second table.                                                                                                                                |
-|  Mathmatical  | ANTI-JOIN        |  An anti-join returns only the rows from the first table that do not have matching values in the second table.                                                                                                                        |
+|  Model        | SEMI-JOIN        |  A semi-join returns only the rows from the first table that have matching values in the second table.                                                                                                                                |
+|  Model        | ANTI-JOIN        |  An anti-join returns only the rows from the first table that do not have matching values in the second table.                                                                                                                        |
 |  Mathmatical  | EQUI-JOIN        |  An equi-join returns only the rows where the values in the specified columns of both tables are equal.                                                                                                                               |
-|  Mathmatical  | THETA-JOIN       |  A theta-join is a flexible type of join that allows you to join tables based on any type of condition, not just an equality condition.                                                                                               |
-|  Mathmatical  | NON-EQUI-JOIN    |  Interchangable with theta-join  Some texts use the term theta-join, and others use non-equi-join.                                                                                                                                    |
-|  Mathmatical  | NATURAL JOIN     |  A NATURAL JOIN returns the rows where the values in the specified columns of both tables are equal, and the column names are the same.                                                                                               |
+|  Model        | THETA-JOIN       |  A theta-join is a flexible type of join that allows you to join tables based on any type of condition, not just an equality condition.                                                                                               |
+|  Model        | NON-EQUI-JOIN    |  Interchangable with theta-join  Some texts use the term theta-join, and others use non-equi-join.                                                                                                                                    |
+|  Model        | NATURAL JOIN     |  A NATURAL JOIN returns the rows where the values in the specified columns of both tables are equal, and the column names are the same.                                                                                               |
 
 ----
 
-Before diving into specifics of each type of join, I recomend understanding the [SQL Proceccing Order](SQL%Proceccing%Order%.md) next.
 
-Here is the recomended reading order
+Here is the recommended reading order
 
 1. [Introduction (Read Me)](01%20-%20Introduction.md)
 2. [SQL Processing Order](02%20-%20SQL%20Processing%Order.md)
@@ -60,7 +59,7 @@ Here is the recomended reading order
 9. [Semi and Anti Joins](09%20-%20Semi%20and%20Anti%20Joins.md)
 10. [Any, ALL and Some](10%20-%20Any,%20ALL%20and%20Some.md)
 11. [Self Joins](11%20-%20Self%20Joins.md)
-12. [Relational Divison](12%20-%20Relational%20Divison.md)
+12. [Relational Division](12%20-%20Relational%20Divsion.md)
 13. [Set Operations](13%20-%20Set%20Operations.md)
 14. [Join Algorithms](14%20-%20Join%20Algorithms.md)
 
