@@ -28,7 +28,7 @@ We will be using the following tables that contain types of fruits and their qua
 
 ---------------------------------------------------------------------------------
   
-To start, here is the most common join you will use, an INNER JOIN between two tables.  This join uses an equi-join as it looks for equality between the two fields.  Note the query does not return the NULL markers, as NULL markers are neither equal to or not equal to each other, they are unknown.
+To start, here is the most common join you will use, an INNER JOIN between two tables.  This join uses an equi-join as it looks for equality between the two fields.  Note the query does not return the NULL markers, as NULL markers are neither equal to nor not equal to each other, they are unknown.
 
 ```sql
 SELECT  a.ID,
