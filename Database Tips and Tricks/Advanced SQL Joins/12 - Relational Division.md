@@ -194,7 +194,7 @@ WHERE   DepartmentCount IN (SELECT Departments from cte_DistinctDepartment);
 ```
 
 -----------------------------------------------------------------------
-#### Examples OF What Is Not Relational Division
+#### Examples Of What Is Not Relational Division
 
 Sometimes when learning, it is best to understand what does not fit the criteria.
 
@@ -236,8 +236,21 @@ SELECT
         ) * 1.0 /2 AS Median;
 ```
 
-Ranking is also not relational division.  Here is an example finding a percentile on test scores and determining the top 80%.  For brieity on this statement, I won't include the test data.
+Ranking is also not relational division.  Here is an example finding a percentile on test scores and determining the top 10%.  Relational division refers to a set operation that returns all the tuples in a table that do not have a corresponding tuple in another table, based on certain conditions.  For brieity on this statement, I won't include the test data.
+
+Below is not an example of relational division, but rather a way to divide the scores into percentiles and then select the top 10% of scores based on their value. 
 
 ```sql
-
+WITH cte_ScoreData AS 
+(
+SELECT  Name,
+        Score,
+        NTILE(100) OVER (ORDER BY Score DESC) AS Percentile
+FROM    Scores
+)
+SELECT  Name,
+        Score
+FROM   ScoreData
+WHERE  Percentile <= 10;
 ```
+-----------------------------------------------------------------------
