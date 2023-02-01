@@ -57,7 +57,7 @@ SELECT * FROM Employees;
 
 A SQL view is a virtual table that provides a specific, customized perspective of data from one or more tables in a database.  There are two main types of SQL views: materialized views and non-materialized (or simple) views. Materialized views store the result set of the view query, while non-materialized views do not store any data and dynamically retrieve data from the underlying tables each time the view is accessed.  You issue `INSERT` and `DELETE` commands through views.
 
-In this example we create a view from the `Employee`s table, insert a record into the table, and then select from the view;
+In this example we create a view from the `Employees` table, insert a record into the table, and then select from the view;
 
 ```sql
 CREATE OR ALTER VIEW vwEmployees as
@@ -116,7 +116,7 @@ FROM    Employees a INNER JOIN
 |          2 | Sarah     | Shultz   | Accounting |  90000.00 |
 
 
-You can also place functions into the `VALUE`S constructor.  The `NEWID()` function creates a unique value of type `UNIQUEIDENTIFIER`.   Here you could easily just add the function to the `SELECT` statement, but this gives you an idea of the capabilities of the `VALUES` constructor.
+You can also place functions into the `VALUES` constructor.  The `NEWID()` function creates a unique value of type `UNIQUEIDENTIFIER`.   Here you could easily just add the function to the `SELECT` statement, but this gives you an idea of the capabilities of the `VALUES` constructor.
 
 ```sql
 SELECT  CONCAT(FirstName,' ',LastName) AS Name,
@@ -228,14 +228,14 @@ WHERE   EmployeeCount > 2;
 --------------------------------------------------------------------------------------------------------
 #### Temporary Table        
 
-The syntax for creating temporary tables is different for each database system.  These examples work in `SQL SERVER`.
+The syntax for creating temporary tables is different for each database system.  These examples work in `SQL Server`.
 
 Session temporary tables and global temporary tables are two types of temporary tables in SQL. The main difference between them is their scope and visibility.  
 
 *  In SQL Server you can use a single octothorpe (#) for a session temporary table, and two octothorpes (##) for a global session table.
 *  Session temporary tables are only visible to the user who created them and are automatically dropped when the user's session ends.  
 *  Global temporary tables are available to every user's session.  
-*  You can place the same constraints, except for foreign key constraints, on a temp table as you can on a permanent table.  
+*  You can place the same constraints, except for `FOREIGN KEY` constraints, on a temp table as you can on a permanent table.  
 *  Indexing is also allowed on temporary tables.
 *  Temporary tables reside in tempdb and you cannot see its meta data in the information schema.
 
