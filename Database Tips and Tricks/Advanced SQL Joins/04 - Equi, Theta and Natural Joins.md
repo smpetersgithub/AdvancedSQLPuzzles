@@ -27,10 +27,10 @@ SQL has the following operators that can be used to join tables.
 | Comparison |  <>                   |  Not Equal To                                         |
 | Comparison |  !=                   |  Not Equal To (not ISO standard)                      |
 | Comparison |  >                    |  Greater Than                                         |
-| Comparison |  !<                	 |  Not less than (not ISO standard)                     |
+| Comparison |  !<                	 |  Not less than (not ISO standard)                      |
 | Comparison |  <                    |  Less Than                                            |
 | Comparison |  !>                   |Not greater than (not ISO standard)                    |
-| Comparison |  >=                   |  Greater Than or Equal To                            |
+| Comparison |  >=                   |  Greater Than or Equal To                             |
 | Comparison |  <=                   |  Less Than or Equal To                                |
 | Logical    |  BETWEEN              |  Defines a range and is inclusive                     |
 | Logical    |  LIKE                 |  Matches a string value to a specified pattern        |
@@ -41,7 +41,7 @@ SQL has the following operators that can be used to join tables.
 
 *  Comparison operators test whether two expressions are the same. Comparison operators can be used on all expressions except expressions of the text, ntext, or image data types.
 
-*  The `IS \[NOT] DISTINCT FROM` operator is relatively new feature being added to the various database systems.  I have set it to NULL as I have not been able to find any vendor documentation that categorizes this operator as logical or a comparison.
+*  The `IS [NOT] DISTINCT FROM` operator is relatively new feature being added to the various database systems.  I have set it to NULL as I have not been able to find any vendor documentation that categorizes this operator as logical or a comparison.
 
 --------------------------------------------------------------------------------
 #### Equi-joins
