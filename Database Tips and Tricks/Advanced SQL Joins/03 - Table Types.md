@@ -283,7 +283,7 @@ SELECT * FROM #Employees2
 
 Table variables are much like temporary tables.  They are often used when you need to pass a record set to a stored procedure.  Each database may implement table variables slightly different, but SQL Server has the following considerations.
 
-*  You can place constraints on the table except for 'FOREIGN' constraints.
+*  You can place constraints on the table except for `FOREIGN KEY` constraints.
 *  The constraints must be placed on the table on creation.
 *  You cannot alter the table variable once it is created.
 *  You cannot create an explicit index on a table variable.
