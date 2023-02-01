@@ -1,6 +1,6 @@
 # FULL OUTER JOIN
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;A FULL OUTER JOIN is a method of combining tables so that the result includes unmatched rows of both tables. It is an often underutilized join that has a more specific use case than the other joins.  This join is best used to compare two similar tables as shown below.  Remember to use this type of join when you want to compare two shopping baskets.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;A FULL OUTER JOIN is a method of combining tables so that the result includes unmatched rows of both tables. It is an often-underutilized join that has a more specific use case than the other joins.  This join is best used to compare two similar tables as shown below.  Remember to use this type of join when you want to compare two shopping baskets.
 
 ---------------------------------------------------------------------------------
 
@@ -49,9 +49,9 @@ FROM    ##TableA a FULL OUTER JOIN
 
 ---------------------------------------------------------------------------------
   
-You can use a FULL OUTER JOIN to find the symetric difference of two datasets using the ISNULL function.
+You can use a FULL OUTER JOIN to find the symmetric difference of two datasets using the ISNULL function.
 
-This SQL statement returns the records that are in Table A but not in Table B along with the records in Table B that are not in Table A.  This is known in set theory as the symetric difference.  The result set will include two NULL markers as NULLs are neither equal to nor not equal to each other, they are unkown.
+This SQL statement returns the records that are in Table A but not in Table B along with the records in Table B that are not in Table A.  This is known in set theory as the symmetric difference.  The result set will include two NULL markers as NULLs are neither equal to or not equal to each other, they are unknown.
  
 ```sql 
 SELECT  ISNULL(a.ID, b.ID) AS ID,
@@ -127,7 +127,7 @@ WHERE   NOT EXISTS (SELECT 1 FROM ##TableA b WHERE a.Fruit = b.Fruit);
 
 You can also use the LEFT OUTER JOIN and a RIGHT OUTER JOIN to simulate the FULL OUTER JOIN.
         
-This may be the only case where a LEFT OUTER JOIN and a RIGHT OUTER JOIN can be used in the same SQL statement as it preservers the column and table orders between the two unioned statements.
+This may be the only case where a LEFT OUTER JOIN and a RIGHT OUTER JOIN can be used in the same SQL statement as it preservers the column and table orders between the two statements.
      
 ```sql
 SELECT  a.ID, b.Fruit, b.ID, b.Fruit
