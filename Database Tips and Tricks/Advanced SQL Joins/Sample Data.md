@@ -18,7 +18,7 @@
 |  3 | Kiwi   | 20       |
 |  4 | <NULL> | <NULL>   |
   
-In some statements the example data may not be sufficient.  Feel free to add your own data and experiment with the outcomes.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;In some statements the example data may not be sufficient.  Feel free to add your own data and experiment with the outcomes.
 
 ```sql
 ------------------------
