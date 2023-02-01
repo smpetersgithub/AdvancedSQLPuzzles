@@ -45,7 +45,7 @@ FROM    ##TableA a INNER JOIN
 |  2 | Peach |  2 | Peach |
 
 ---
-We can also specify the matching criteria in the WHERE clause without explicitely specifiy the INNER JOIN clause.
+We can also specify the matching criteria in the WHERE clause without explicitly specify the INNER JOIN clause.
 
 ```sql
 SELECT  a.ID,
@@ -82,7 +82,7 @@ WHERE   a.Fruit = b.Fruit;
 |  2 | Peach |  2 | Peach |
 
 
-In `MySQL` the following SQL statment will work and mimic an INNER JOIN.   This SQL statement has an ON clause of 1=1 and a WHERE clause specifiying the join criteria.  If you remove the WHERE clause, this statement will work in both `MySQL` and `SQLite` to return a full cartesian product.
+In `MySQL` the following SQL statement will work and mimic an INNER JOIN.   This SQL statement has an ON clause of 1=1 and a WHERE clause specifying the join criteria.  If you remove the WHERE clause, this statement will work in both `MySQL` and `SQLite` to return a full cartesian product.
 
 ```sql
 SELECT a.ID,
@@ -121,7 +121,7 @@ WHERE   b.Fruit = 'Apple'
   
 This next statement incorporates an INNER JOIN with a theta-join, which looks for inequality between two fields.
 
-A good example of using a theta-join is when someone wants to pair two differnt fruits of different quantities.
+A good example of using a theta-join is when someone wants to pair two different fruits of different quantities.
 
 ```sql
 SELECT  a.ID,
@@ -137,7 +137,7 @@ FROM    ##TableA a INNER JOIN
   
 ---------------------------------------------------------------------------------
   
-This query uses both an equi-join and a theta-join, and functions similiar to a CROSS JOIN but with one big difference, no NULL markers are returned.  Because we have NULL markers in the table, they are eradicated as NULL markers are neither equal nor not equal to each other, they are unknown.
+This query uses both an equi-join and a theta-join, and functions similar to a CROSS JOIN but with one big difference, no NULL markers are returned.  Because we have NULL markers in the table, they are eradicated as NULL markers are neither equal nor not equal to each other, they are unknown.
 
 ```sql
 SELECT  a.ID,
@@ -180,7 +180,7 @@ FROM    ##TableA a INNER JOIN
 
 ---------------------------------------------------------------------------------
   
-This query uses a equi-join and a theta-join that is negated with a NOT operator. Determining if the ID is between the Quantity columns may be a somewhat absurd SQL statement to write, but this shows the possibiities in creating join logic.  We often forget we can use comparison operators such as LIKE or BETWEEN in the ON clause of an SQL statmeent and then negate it with NOT.
+This query uses a equi-join and a theta-join that is negated with a NOT operator. Determining if the ID is between the Quantity columns may be a somewhat absurd SQL statement to write, but this shows the possibilities in creating join logic.  We often forget we can use comparison operators such as LIKE or BETWEEN in the ON clause of an SQL statement and then negate it with NOT.
   
 ```sql
 SELECT  a.ID,
@@ -216,7 +216,7 @@ FROM    ##TableA a INNER JOIN
 |  4 | <NULL> |  4 | <NULL> |
 
 ---------------------------------------------------------------------------------
-In `SQL Server` and `PostgreSQL`, you can also write the above query by using the ON EXISTS clause.  This is a little known trick you can use that may (or may not) yeild a bit better execution plan then the above statment, but it is worth checking.  I will cover the ON EXISTS syntax in another document, as it takes some thinking to understand its behavior. 
+In `SQL Server` and `PostgreSQL`, you can also write the above query by using the ON EXISTS clause.  This is a little known trick you can use that may (or may not) yield a bit better execution plan then the above statement, but it is worth checking.  I will cover the ON EXISTS syntax in another document, as it takes some thinking to understand its behavior. 
 
 ```sql
 SELECT  a.*,
@@ -272,7 +272,7 @@ FROM    ##TableA a INNER JOIN
 |  3 | Mango |
 
 ---------------------------------------------------------------------------------
-In `MySQL` and `Oracle`, there is a USING clause that you can use to specify the joining columns.  Each vendor's implementation is slightly different, see your vendor's documentation for specficis.
+In `MySQL` and `Oracle`, there is a USING clause that you can use to specify the joining columns.  Each vendor's implementation is slightly different, see your vendor's documentation for specifics.
   
 The below SQL statement works in `MySQL`.
   
@@ -291,9 +291,9 @@ FROM    ##TableA a INNER JOIN
 |  2 | Peach |  2 | Peach |
   
 ---------------------------------------------------------------------------------
-`ORACLE` supports the NATURAL JOIN syntax.  I classify the natural join as a mathmatical join as it was first conceived by E.F. Codd in his Relational Algebra model.  I cover natural joins in a separate document and why they should be considered bad practice to use.  
+`ORACLE` supports the NATURAL JOIN syntax.  I classify the natural join as a mathematical join as it was first conceived by E.F. Codd in his Relational Algebra model.  I cover natural joins in a separate document and why they should be considered bad practice to use.  
   
-The use of an asterisk in the SELECT statment is mandatory and the outuput does not show duplicate column names.  This query is the same as an equi-join on the ID, Fruit and Quantity columns between Table A and Table B.
+The use of an asterisk in the SELECT statement is mandatory and the output does not show duplicate column names.  This query is the same as an equi-join on the ID, Fruit and Quantity columns between Table A and Table B.
 
 ```sql
 SELECT  *
