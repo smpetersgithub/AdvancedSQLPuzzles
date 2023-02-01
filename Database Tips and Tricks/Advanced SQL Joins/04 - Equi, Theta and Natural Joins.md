@@ -8,7 +8,7 @@
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;However, the basic principles of relational algebra still form the basis of SQL, and many SQL operations can be directly mapped to relational algebra operations. This means that understanding relational algebra can help to understand SQL more deeply and improve the ability to write effective and efficient SQL queries. Nevertheless, SQL remains a lenient interpretation of relational algebra, as it deviates from the mathematical principles to provide a practical and user-friendly way to work with relational databases.
 
-We will first look at equi and theta-joins, and then move on to the natural join.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;We will first look at equi and theta-joins, and then move on to the natural join.
 
 ----------------------------------
 
