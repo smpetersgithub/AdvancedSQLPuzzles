@@ -18,7 +18,7 @@ Overall, here are some tips I use to working with complex joins.
 
 One important concept of good query planning is understanding a driving table.
 
-A driving table in SQL refers to the table that drives the execution of a query. In a query that involves multiple tables, the driving table determines the order in which the records are retrieved and processed, and can have a significant impact on the performance of the query.
+A driving table in SQL refers to the table that drives the execution of a query. In a query that involves multiple tables, the driving table determines the order in which the records are retrieved and processed and can have a significant impact on the performance of the query.
 
 The driving table is typically the table with the smallest number of records, or the table that has the most selective conditions applied to it. By starting with the driving table, the database can eliminate as many records as possible early in the processing, reducing the amount of data that needs to be further processed and improving the performance of the query.
 
@@ -27,7 +27,7 @@ It is important to carefully consider the driving table when writing complex SQL
 -----------------------------------------------------
 #### Multiple Branches
 
-These types of SQL statements I like to refer to as brach joins.  First let's take a look at the SQL statement.
+These types of SQL statements I like to refer to as branch joins.  First let's take a look at the SQL statement.
 
 ```sql
 SELECT  t.TransactionDate,
@@ -48,7 +48,7 @@ Breaking down the joins we have the following:
 *  Users -> Transaction -> TransactionType
 *  Users -> SubUsers -> FeePlan
 
-From this join breakdown we can see we have 1 root (Users), 2 branches (Transactions and SubUsers), and 2 leafs.  The root table `Users` is our driving table.  Given this, here is a simplier way of writing the statement.
+From this join breakdown we can see we have 1 root, 2 branches, and 2 leaf nodes.  The root table `Users` is our driving table.  Given this, here is a simpler way of writing the statement.
 
 ```sql
 WITH cte_Users AS
@@ -87,7 +87,7 @@ GROUP BY t.TransactionDate,
 
 This puzzle is called the Overlapping Time Periods, and I find this to be the most difficult puzzle to solve.
 
-For this example I used temporary tables to avoid making a common table expression dependant on another commont table expression.  This allows future developers to easy review the data sets in the step order and reverse engineer the statement.
+For this example, I used temporary tables to avoid making a common table expression dependent on another common table expression.  This allows future developers to easy review the data sets in the step order and reverse engineer the statement.
 
 Note it also uses a LEFT OUTER JOIN with a theta-join to create the table `#OuterJoin`.
 
@@ -147,13 +147,13 @@ GROUP BY MinEndDate_A;
 
 #### Programming Style
 
-Lastly when writting SQL, programming style goes a long way to readability.  
+Lastly when writing SQL, programming style goes a long way to readability.  
 
 1.  Choose a more verbose solution over a concise solution where the intent of the SQL statement is more clear when possible.  
-2.  Understand the SQL language and its various functions, such as lag, lead, first_value, LAST_VALUE and how to window.
-3.  Understand the relation between the data, especially heirarchial data.  I often see bad implementations of heirarchial data structures.
-4.  Just because you can, doesn't mean you should.  For example, don't use a table variable if uneeded.
-5.  Write well formatted code.  Im partial to keywords in UPPER case, column names in CamelCase, and my glyphs all spaces with nice whitspacing.
+2.  Understand the SQL language and its various functions, such as LAG, LEAD, FIRST_VALUE, LAST_VALUE, etc. and how to perform windowing.
+3.  Understand the relation between the data, especially hierarchical data.  I often see bad implementations of hierarchical data structures.
+4.  Just because you can, doesn't mean you should.  For example, don't use a table variable if unneeded.
+5.  Write well formatted code.  I’m partial to keywords in UPPER case, column names in CamelCase, and my glyphs all spaces with nice white spacing.
 
 -------------------------------------------------
 
