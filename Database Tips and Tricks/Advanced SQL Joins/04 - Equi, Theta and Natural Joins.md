@@ -32,8 +32,36 @@ SQL has the following operators that can be used to join tables.
 --------------------------------------------------------------------------------
 #### Equi-joins
 
+Equi-joins look for equality in a relationship.  They can be used with INNER, OUTER, FULL OUTER, and CROSS JOINS. The example below uses the CROSS JOIN syntax, but functions like and INNER JOIN because the join logic is in the WHERE clause.
+
+```sql
+SELECT  a.ID,
+        a.Fruit,
+        b.ID,
+        b.Fruit
+FROM    ##TableA a CROSS JOIN
+        ##TableB b
+WHERE   a.Fruit = b.Fruit;
+
 --------------------------------------------------------------------------------
 #### Theta-joins
+Theta-joins looks for any non-equality comparison.  Sometimes this join is called a non-equi-join.  They can be used with INNER, OUTER, FULL OUTER, and CROSS JOINS
+
+Here are some examples that you may not have realized are possible.
+
+You can use the LIKE and BETWEEN operators with the ON statement.  We often place these operators in the WHERE clause, but they can exist with the ON statement.
+
+```sql
+
+```
+
+Here is an example where you would use the greater than operator.  Suppose you want to purchase two fruits, one fruit from Table A and one fruit from Table B, however, the quantity of the fruit in Table A needs to be larger than the quantity in Table B.
+
+```sql
+
+```
+
+
 
 --------------------------------------------------------------------------------
 #### Natural joins
