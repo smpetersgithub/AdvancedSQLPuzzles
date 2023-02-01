@@ -1,6 +1,6 @@
 # Table Types
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Within SQL, you can create a join to the following 10 table types, some of these objects are schema bound objects, meaning they are saved as a database object within a named schema, and others are unbound and only durable for the life of an SQL statement (CTE, Subquery, Values, Derived Tables) or your current session (Table Variable, Temporary Table).  Items that are not schema bound are created in the tempdb and do not have any data of their existince in the catalog views.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Within SQL, you can create a join to the following 10 table types, some of these objects are schema bound objects, meaning they are saved as a database object within a named schema, and others are unbound and only durable for the life of an SQL statement (CTE, Subquery, Values, Derived Tables) or your current session (Table Variable, Temporary Table).  Items that are not schema bound are created in the tempdb and do not have any data of their existence in the catalog views.
 
 Here are the 10 different types of tables you can create.
 
@@ -11,7 +11,7 @@ Here are the 10 different types of tables you can create.
 |  3 |  Values Constructor            |  True         |  The VALUES constructor can be used to create a derived table, which is a table that is created and used within a single SQL query.        |
 |  4 |  Table Valued Function         |  True         |  A function that returns a table as its result.                                                                                            |
 |  5 |  Subquery                      |  False        |  A query that is embedded within another query. The results of a subquery can be used in the outer query.                                  |
-|  6 |  Derived Table                 |  False        |  A special type of subquery that is defined in the FROM statement, encloused in parenthses and a table name is provided.                   |
+|  6 |  Derived Table                 |  False        |  A special type of subquery that is defined in the FROM statement, enclosed in parentheses and a table name is provided.                   |
 |  7 |  Common Table Expression (CTE) |  False        |  A named temporary result set that can be used in a SELECT, INSERT, UPDATE, or DELETE statement.                                           |
 |  8 |  Temporary Table               |  False        |  A table that is created for a specific session or connection and is automatically dropped when the session or connection ends.            |
 |  9 |  Table Variable                |  False        |  A variable that holds a table of data. It is similar to a temporary table but it has some differences in terms of its behavior and scope. |
@@ -116,7 +116,7 @@ FROM    Employees a INNER JOIN
 |          2 | Sarah     | Shultz   | Accounting |  90000.00 |
 
 
-You can also place functions into the VALUES constructor.  The NEWID() function creates a unique value of type UNIQUEIDENTIFIER.   Here you could easily just add the function to the SELECT statement, but this gives you an idea of the capbilities of the VALUES constructor.
+You can also place functions into the VALUES constructor.  The NEWID() function creates a unique value of type UNIQUEIDENTIFIER.   Here you could easily just add the function to the SELECT statement, but this gives you an idea of the capabilities of the VALUES constructor.
 
 ```sql
 SELECT  CONCAT(FirstName,' ',LastName) AS Name,
@@ -135,9 +135,9 @@ FROM    Employees a CROSS JOIN
 --------------------------------------------------------------------------------------------------------
 #### Table Valued Function
 
-A table valued function acts much like a view with the added benefit of being paramaterized.  
+A table valued function acts much like a view with the added benefit of being parameterized.  
 
-For this example we create a table valued funtion using the Employees table.  To use the table values function we can simply select from the function, or use the CROSS APPLY to join to another table.
+For this example we create a table valued function using the Employees table.  To use the table values function we can simply select from the function, or use the CROSS APPLY to join to another table.
         
 ```sql
  CREATE OR ALTER FUNCTION FnGetEmployees (@EmployeeID INTEGER)
@@ -235,9 +235,9 @@ Session temporary tables and global temporary tables are two types of temporary 
 *  In SQL Server you can use a single octothorpe (#) for a session temporary table, and two octothorpes (##) for a global session table.
 *  Session temporary tables are only visible to the user who created them and are automatically dropped when the user's session ends.  
 *  Global temporary tables are available to every user's session.  
-*  You can place the same constraints, except for foreign key constraints, on a temp table as you can on a permanant table.  
+*  You can place the same constraints, except for foreign key constraints, on a temp table as you can on a permanent table.  
 *  Indexing is also allowed on temporary tables.
-*  Temporary tables reside in TempDB and you cannot see its meta data in the information schema.
+*  Temporary tables reside in tempdb and you cannot see its meta data in the information schema.
 
 This creates a session temporary table in `SQL Server`.
 
@@ -281,7 +281,7 @@ SELECT * FROM #Employees2
 --------------------------------------------------------------------------------------------------------
 #### Table Variable   
 
-Table variables are much like tmeporary tables.  They are often used when you need to pass a record set to a stored procedure.  Each database may implement table variables slightly different, but SQL Server has the following considerations.
+Table variables are much like temporary tables.  They are often used when you need to pass a record set to a stored procedure.  Each database may implement table variables slightly different, but SQL Server has the following considerations.
 
 *  You can place constraints on the table except for foreign key constraints.
 *  The constraints must be placed on the table on creation.
@@ -289,7 +289,7 @@ Table variables are much like tmeporary tables.  They are often used when you ne
 *  You cannot create an explicit index on a table variable.
 *  When creating a primary key or a unique constraint an index is created.
 *  The TRUNCATE statement does not work on table variables.
-*  Table variables are stored in TempDB.
+*  Table variables are stored in temdb.
 
 ```sql
 DECLARE @TableVariable Table
