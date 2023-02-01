@@ -1,10 +1,10 @@
 # CROSS JOINS
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;A CROSS JOIN creates all permutations (i.e., a cartesian product) or combinations of the two joining tables.  It will produce a result set which is the number of rows in the first table multiplied by the number of rows in the second table.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;A `CROSS JOIN` creates all permutations (i.e., a cartesian product) or combinations of the two joining tables.  It will produce a result set which is the number of rows in the first table multiplied by the number of rows in the second table.
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;It is important to be mindful of the number of rows in each table, because a cross join will return the product of the number of rows of both tables. If one table has 100 rows and the other has 1000 rows, a cross join will return 100,000 rows. Therefore, cross join can cause performance issues if used on large tables.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;It is important to be mindful of the number of rows in each table, because a cross join will return the product of the number of rows of both tables. If one table has 100 rows and the other has 1000 rows, a 'CROS JOIN` will return 100,000 rows. Therefore, 'CROSS JOIN' can cause performance issues if used on large tables.
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Note, you can also use recursion to generate permutation sets.  The benefit of using recursion is when you have an unknown number of elements that you need to create permutations on, which you may not know at runtime.  With CROSS JOINS you need to manually create each join.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Note, you can also use recursion to generate permutation sets.  The benefit of using recursion is when you have an unknown number of elements that you need to create permutations on, which you may not know at runtime.  With `CROSS JOIN` you need to manually create each join.
 
 #### Permutations vs Combinations
 
@@ -39,7 +39,7 @@ We will be using the following tables that contain types of fruits and their qua
 
 ---------------------------------------------------------------------------------
 
-Here is a simplest form of the CROSS JOIN that creates all permutations between two datasets.
+Here is a simplest form of the `CROSS JOIN` that creates all permutations between two datasets.
 
 ```sql
 SELECT  a.ID,
@@ -72,7 +72,7 @@ FROM    ##TableA a CROSS JOIN
 
 ---------------------------------------------------------------------------------
 
-You can simulate an INNER JOIN using a CROSS JOIN by placing the join logic in the WHERE clause using an equi-join
+You can simulate an `INNER JOIN` using a `CROSS JOIN` by placing the join logic in the `WHERE` clause using an equi-join
   
 ```sql
 SELECT  a.ID,
@@ -92,7 +92,7 @@ WHERE   a.Fruit = b.Fruit;
 
 ---------------------------------------------------------------------------------
   
-In order to simulate a LEFT OUTER JOIN using a CROSS JOIN, you will need to incorporate SET operators (UNION) and an anti-join (NOT EXISTS).  
+In order to simulate a `LEFT OUTER JOIN` using a `CROSS JOIN`, you will need to incorporate `SET` operators (`UNION`) and an anti-join (`NOT EXISTS`).  
 
 ```sql
 SELECT  a.ID,
@@ -123,7 +123,7 @@ WHERE   NOT EXISTS (SELECT 1 FROM ##TableB b where a.Fruit = b.Fruit);
   
 The following produces all combinations (not permuations).
   
-Given all fruits in both Table A and Table B, here is a result set of all fruit combinations.  Because of the theta-join in the WHERE clause, the fruits are listed in alphabetical order left to right, as Apple and Peach are the same as Peach and Apple.  Note that NULL markers are not included in the result set, as NULL markers are not equal to each other nor are they equal to each other, they are unknown.
+Given all fruits in both `Table A` and `Table B`, here is a result set of all fruit combinations.  Because of the theta-join in the `WHERE` clause, the fruits are listed in alphabetical order left to right, as Apple and Peach are the same as Peach and Apple.  Note that NULL markers are not included in the result set, as NULL markers are not equal to each other nor are they equal to each other, they are unknown.
   
 ```sql
 WITH cte_DistinctFruits as
@@ -151,7 +151,7 @@ WHERE   a.Fruit < b.Fruit
                         
 ---------------------------------------------------------------------------------
                          
-If you need to find reciprocals on a result set and preserve NULL markers, you can use the following CASE statement.
+If you need to find reciprocals on a result set and preserve NULL markers, you can use the following `CASE` statement.
                          
 ```sql
 SELECT  DISTINCT
