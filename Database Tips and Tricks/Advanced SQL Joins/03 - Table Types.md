@@ -17,36 +17,69 @@ Here are the 10 different types of tables you can create.
 |  9 |  Table Variable                |  False        |  A variable that holds a table of data. It is similar to a temporary table but it has some differences in terms of its behavior and scope. |
 | 10 |  External Tables               |  False        |  Used to access data stored externally, such as in a text file. They are created using the CREATE EXTERNAL TABLE statement.                |
 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tempdb is used by SQL Server to store intermediate results when processing queries, such as those created by derived tables and subqueries. For example, when you create a derived table or use a subquery, SQL Server may create a temporary table in tempdb to store the intermediate results. This allows the database engine to reuse the results multiple times in the same query, instead of having to recompute them each time they're needed.
 
-The most interesting of these table types in the VALUES keyword.  We often think the only use of the VALUES operator is using it with an INSERT statement, but it can be used to create a relation.  First though, lets create examples of each of the table types.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;It's important to note that the use of tempdb and the extent to which it's used can vary depending on the complexity of the query and other factors, such as the amount of memory available and the indexes present on the involved tables. However, it's a common practice for SQL Server to use tempdb when working with derived tables and subqueries.
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The most interesting of these table types in the VALUES keyword.  We often think the only use of the VALUES operator is using it with an INSERT statement, but it can be used to create a relation.  First though, lets create examples of each of the table types.
 
 --------------------------------------------------------------------------------------------------------
 #### Table
 
-The type of table referred to below is a base table. A base table is a permanent table stored in the database and contains the actual data in the form of rows and columns. The SELECT * statement retrieves all columns and all rows from the table. It is a permanent table that stores data in the database.
+The type of table referred to below is a base table. A base table is a permanent table stored in the database and contains the actual data in the form of rows and columns. The SELECT * statement retrieves all columns and all rows from the table. It is a permanent table that stores data in the database.  On base tables you can implement NOT NULL, UNIQUE, PRIMARY KEY, FOREIGN KEY, CHECKM and DEFAULT constraints.
 
-On base tables you can implement NOT NULL, UNIQUE, PRIMARY KEY, FOREIGN KEY, CHECKM and DEFAULT constraints.
+In this example we create a table named `Employees`, insert a record using the VALUES constructor, and then select from the table. 
 
 ```sql
 CREATE TABLE Employees
 (
-ID INTEGER PRIMARY KEY,
-Name VARCHAR(100)
+EmployeeID INTEGER PRIMARY KEY,
+FirstName  VARCHAR(100) NOT NULL,
+LastName   VARCHAR(100) NOT NULL,
+Department VARCHAR(100) NOT NULL,
+Salary     MONEY NOT NULL
 );
+
+INSERT INTO Employees (EmployeeID, FirstName, LastName, Department,Salary) VALUES (1,'John','Wilson','Accounting',100000);
+INSERT INTO Employees (EmployeeID, FirstName, LastName, Department,Salary) VALUES (2,'Sarah','Shultz','Accounting',90000);
+
+SELECT * FROM Employees;
 ```
 
+
+| EmployeeID | FirstName | LastName | Department |  Salary   |
+|------------|-----------|----------|------------|-----------|
+|          1 | John      | Wilson   | Accounting | 100000.00 |
+|          2 | Sarah     | Shultz   | Accounting |  90000.00 |
 
 --------------------------------------------------------------------------------------------------------
 #### View
 
 A SQL view is a virtual table that provides a specific, customized perspective of data from one or more tables in a database.  There are two main types of SQL views: materialized views and non-materialized (or simple) views. Materialized views store the result set of the view query, while non-materialized views do not store any data and dynamically retrieve data from the underlying tables each time the view is accessed.  You can INSERT and DELETE data through views.
 
+In this example we create a view from the Employees table, insert a record into the table, and then select from the view;
+
 ```sql
-CREATE VIEW vwEmployees as
+CREATE OR ALTER VIEW vwEmployees as
 (
-SELECT * FROM Employees
+SELECT  EmployeeID,
+        FirstName,
+        LastName,
+        Department,
+        Salary
+FROM    Employees
 );
+
+INSERT INTO vwEmployees (EmployeeID,FirstName,LastName, Department,Salary) VALUES(3,'Larry','Johnson','Accounting','85000');
+
+SELECT * FROM vwEmployees;
 ```
+
+| EmployeeID | FirstName | LastName | Department |  Salary   |
+|------------|-----------|----------|------------|-----------|
+|          1 | John      | Wilson   | Accounting | 100000.00 |
+|          2 | Sarah     | Shultz   | Accounting |  90000.00 |
+|          3 | Larry     | Johnson  | Accounting |  85000.00 |
 
 --------------------------------------------------------------------------------------------------------
 #### VALUES Operator
@@ -69,51 +102,175 @@ FROM    (VALUES (1, 2), (3, 4), (5, 6), (7, 8), (9, 10)) AS MyTable(a, b);
 | 7 |  8 |
 | 9 | 10 |
 
-
-Here is a more elaborate example where the VALUES constructor specifies the values to return.  This statement uses an INNER JOIN, but you can use the usual OUTER JOIN, FULL OUTER JOIN, or CROSS JOIN.
+Here is a more elaborate example where the VALUES constructor specifies the values to return.  This statement uses an INNER JOIN, but you can use a LEFT OUTER JOIN, RIGHT OUTER JOIN, FULL OUTER JOIN, or CROSS JOIN.
 
 ```sql
 SELECT  a.Fruit
-FROM    ##TableA a INNER JOIN
-        (VALUES ('Kiwi'), ('Apple')) AS b(Fruit) ON a.Fruit = b.Fruit;
+FROM    Employees a INNER JOIN
+        (VALUES (1), (2)) AS b(EmployeeID) ON a.EmployeeID = b.EmployeeID;
 ```
 
-| Fruit |
-|-------|
-| Apple |
+| EmployeeID | FirstName | LastName | Department |  Salary   |
+|------------|-----------|----------|------------|-----------|
+|          1 | John      | Wilson   | Accounting | 100000.00 |
+|          2 | Sarah     | Shultz   | Accounting |  90000.00 |
 
 
 You can also place functions into the VALUES constructor.  The NEWID() function creates a unique value of type UNIQUEIDENTIFIER.   Here you could easily just add the function to the SELECT statement, but this gives you an idea of the capbilities of the VALUES constructor.
 
 ```sql
-SELECT  a.Fruit, 
-        b.ID
-FROM    ##TableA a CROSS JOIN
-        (VALUES (NEWID())) AS b(ID);
+SELECT  CONCAT(FirstName,' ',LastName) AS Name,
+        b.UniqueID
+FROM    Employees a CROSS JOIN
+        (VALUES (NEWID())) AS b(UniqueID);
 ```
 
-| Fruit  |                ID                    |
-|--------|--------------------------------------|
-| Apple  | 72A95D25-1224-405E-8879-295C2DD0891A |
-| Peach  | 3767AF47-17B1-4D92-9FBA-632E07A7D10D |
-| Mango  | 60B37D3D-2FB4-4F24-B486-2CBCD2C09A6B |
-| <NULL> | 6466B482-C607-497D-A355-0A9A97E61711 |
+|     Name      |               UniqueID               |
+|---------------|--------------------------------------|
+| John Wilson   | 50CA5F8E-9090-4DB8-A7C4-43F1D6C89D57 |
+| Sarah Shultz  | 803DF712-0144-41AC-959A-A774F35DC600 |
+| Larry Johnson | 5CCCCBE3-F600-4E79-B16B-1BC6504152A2 |
+
 
 --------------------------------------------------------------------------------------------------------
 #### Table Valued Function
+
+A table valued function acts much like a view with the added benefit of being paramaterized.  
+
+For this example we create a table valued funtion using the Employees table.  To use the table values function we can simply select from the function, or use the CROSS APPLY to join to another table.
         
-        
+```sql
+ CREATE OR ALTER FUNCTION FnGetEmployees (@EmployeeID INTEGER)
+RETURNS TABLE
+AS
+RETURN
+(
+    SELECT EmployeeID, Name
+    FROM   Employees
+    WHERE EmployeeID = @EmployeeID
+);
+
+SELECT * FROM fnGetEmployees(1);
+
+SELECT  a.*
+FROM    Employees a CROSS APPLY
+        fnGetEmployees(1);
+```
+
+| EmployeeID | FirstName | LastName | Department |  Salary   |
+|------------|-----------|----------|------------|-----------|
+|          1 | John      | Wilson   | Accounting | 100000.00 |
+
 --------------------------------------------------------------------------------------------------------
 #### Subquery
-        
+
+A subquery is a query nested within another query. Here are a few examples of subqueries using the Employees table:
+   
+```sql
+SELECT  e.*
+FROM    Employees e
+WHERE   e.Salary >  (SELECT AVG(Salary)
+                     FROM Employees
+                     WHERE Department = e.Department););
+```
+
+
+| EmployeeID | FirstName | LastName | Department |  Salary   |
+|------------|-----------|----------|------------|-----------|
+|          1 | John      | Wilson   | Accounting | 100000.00 |
+
+
+
 --------------------------------------------------------------------------------------------------------
 #### Derived Table
+
+A derived table is a table that is derived from a SELECT statement and used within another SELECT statement. Here is an example of a derived table in SQL        
         
+```sql
+SELECT  e.*,
+        e2.EmployeeID,
+        e2.Salary
+FROM  (
+      SELECT  EmployeeID, FirstName, LastName, Salary
+      FROM    Employees
+      ) e INNER JOIN Employees e2 ON e.Salary > e2.Salary;      
+```
+
+
+| EmployeeID | FirstName | LastName |  Salary   | EmployeeID |  Salary  |
+|------------|-----------|----------|-----------|------------|----------|
+|          1 | John      | Wilson   | 100000.00 |          2 | 90000.00 |
+|          1 | John      | Wilson   | 100000.00 |          3 | 85000.00 |
+|          2 | Sarah     | Shultz   |  90000.00 |          3 | 85000.00 |
+
+
 --------------------------------------------------------------------------------------------------------
 #### Common Table Expression (CTE) 
-        
+
+A Common Table Expression (CTE) is a named, temporary result set that is defined within a SELECT statement
+
+```sql        
+WITH EmployeesByDepartment AS 
+(
+SELECT  Department, COUNT(*) AS EmployeeCount
+FROM    Employees
+GROUP BY Department
+)
+SELECT  Department, EmployeeCount
+FROM    EmployeesByDepartment
+WHERE   EmployeeCount > 2;
+```
+
+| Department | EmployeeCount |
+|------------|---------------|
+| Accounting |             3 |
+
 --------------------------------------------------------------------------------------------------------
 #### Temporary Table        
+The syntax for creating temporary tables is different for each database system.  These examples work in `SQL SERVER`.
+
+Session temporary tables and global temporary tables are two types of temporary tables in SQL. The main difference between them is their scope and visibility.  In SQL Server you can use a single octothorpe (#) for a session temporary table, and two octothorpes (##) for a global session table.
+
+Session temporary tables are only visible to the user who created them and are automatically dropped when the user's session ends.  Global temporary tables are available to every user's session.  You can place the same constraints on a temp table as you can a permanant table, but the table resides in TempDB and you cannot see its meta data in the information schema.
+
+This creates a session temporary table in `SQL Server`.
+
+```sql
+CREATE TABLE #Employees
+(
+EmployeeID INTEGER PRIMARY KEY,
+FirstName  VARCHAR(100) NOT NULL,
+LastName   VARCHAR(100) NOT NULL,
+Department VARCHAR(100) NOT NULL,
+Salary     MONEY NOT NULL
+);
+
+INSERT INTO #Employees SELECT * FROM Employees;
+
+SELECT * FROM #Employees;
+```sql
+
+| EmployeeID | FirstName | LastName |  Salary   | EmployeeID |  Salary  |
+|------------|-----------|----------|-----------|------------|----------|
+|          1 | John      | Wilson   | 100000.00 |          2 | 90000.00 |
+|          1 | John      | Wilson   | 100000.00 |          3 | 85000.00 |
+|          2 | Sarah     | Shultz   |  90000.00 |          3 | 85000.00 |
+
+You can also create temporary tables via the INTO statement in a query.  This works in `SQL Server` and each database system has slightly different syntax for temporary tables.
+
+```sql
+SELECT  *
+INTO    #Employees2
+FROM    Employees;
+
+SELECT * FROM #Employees2
+```
+
+| EmployeeID | FirstName | LastName |  Salary   | EmployeeID |  Salary  |
+|------------|-----------|----------|-----------|------------|----------|
+|          1 | John      | Wilson   | 100000.00 |          2 | 90000.00 |
+|          1 | John      | Wilson   | 100000.00 |          3 | 85000.00 |
+|          2 | Sarah     | Shultz   |  90000.00 |          3 | 85000.00 |
 
 --------------------------------------------------------------------------------------------------------
 #### Table Variable   
