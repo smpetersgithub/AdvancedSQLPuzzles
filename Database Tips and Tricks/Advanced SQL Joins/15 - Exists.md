@@ -2,7 +2,7 @@
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The EXISTS operator in SQL is a Boolean operator that tests for the existence of any rows in a subquery. It returns TRUE if the subquery returns at least one row, and FALSE if the subquery returns no rows. The EXISTS can be used with the IF, WHERE, and the ON clauses.  The EXIST operator can also be used with the NOT operator for negation.
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;This document will concentrate on the ON EXISTS statement with the ON clause.  Strangly, I cannot find any documentation with Microsoft or PostgreSQL for the usage of ON EXISTS.  Itzik Ben-Gan does mention it in passing in an article [here](https://sqlperformance.com/2019/12/t-sql-queries/null-complexities-part-1) about it's usage, and he does mention it in the [TSQL Fundamentals](https://www.amazon.com/T-SQL-Fundamentals-3rd-Itzik-Ben-Gan/dp/150930200X/ref=sr_1_1?adgrpid=1331509151302817&hvadid=83219393942729&hvbmt=be&hvdev=c&hvlocphy=66021&hvnetw=o&hvqmt=e&hvtargid=kwd-83219680138630%3Aloc-190&hydadcr=16377_10417921&keywords=t-sql+fundamentals&qid=1675204165&sr=8-1) book.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;This document will concentrate on the ON EXISTS statement with the ON clause.  Strangely, I cannot find any documentation with Microsoft or PostgreSQL for the usage of ON EXISTS.  Itzik Ben-Gan does mention it in passing in an article [here](https://sqlperformance.com/2019/12/t-sql-queries/null-complexities-part-1) about it's usage, and he does mention it in the [TSQL Fundamentals](https://www.amazon.com/T-SQL-Fundamentals-3rd-Itzik-Ben-Gan/dp/150930200X/ref=sr_1_1?adgrpid=1331509151302817&hvadid=83219393942729&hvbmt=be&hvdev=c&hvlocphy=66021&hvnetw=o&hvqmt=e&hvtargid=kwd-83219680138630%3Aloc-190&hydadcr=16377_10417921&keywords=t-sql+fundamentals&qid=1675204165&sr=8-1) book.
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;First let's look of some examples of the EXISTS.  It is important to remember that the EXISTS clause returns TRUE or FALSE, and not a result set.
 
@@ -31,7 +31,7 @@ ELSE
 PRINT 'FALSE'
 ```
 
-This statement will return TRUE when we supply a NULL value.  Even though we supply a NULL value, it does return a recordset with a NULL value, which is different than an empty recordset.
+This statement will return TRUE when we supply a NULL value.  Even though we supply a NULL value, it does return a record set with a NULL value, which is different than an empty record set.
 
 ```sql
 IF EXISTS (SELECT NULL)
@@ -79,7 +79,7 @@ WHERE   NOT EXISTS (SELECT 1 FROM ##TableB b WHERE a.Fruit = b.Fruit);
   
 Probably one of the more difficult joins to understand is the below usage of EXISTS.  It is best to learn by examples and remember that EXISTS returns TRUE or FALSE and not a subset of records.  The ON EXISTS will work with the INNER JOIN, LEFT OUTER JOIN, RIGHT OUTER JOIN, and FULL OUTER JOIN clauses, but not the CROSS JOIN.
  
-These statments will return TRUE and behave like a CROSS JOIN.
+These statements will return TRUE and behave like a CROSS JOIN.
   
 ```sql
 SELECT  *
@@ -116,7 +116,7 @@ ORDER BY 1,2;
 
 ----------------------------------------------------
 
-From our previous SQL statement we can see that the INNER JOIN acts like a CROSS JOIN.  Now lets add a more practical use of the ON EXISTS.  Here we have a more practical use of the statement.
+From our previous SQL statement, we can see that the INNER JOIN acts like a CROSS JOIN.  Now lets add a more practical use of the ON EXISTS.  Here we have a more practical use of the statement.
 
 This query will return all the rows of table A and B where the values of column "Fruit" are the same in both tables, and the columns of both tables will be included in the result set. The query will include rows from TableA where the Fruit value exists in TableB.  
   
@@ -135,7 +135,7 @@ FROM    ##TableA a INNER JOIN
 |  4 | <NULL> |        5 |  4 | <NULL> | <NULL>   |
 
   
-A similiar statement to the above would be the following where we have to explicitly handle NULL markers.
+A similar statement to the above would be the following where we must explicitly handle NULL markers.
 
 ```sql
 SELECT  *
@@ -151,7 +151,7 @@ WHERE   ISNULL(a.Fruit,'') = ISNULL(b.Fruit,'');
 |  4 | <NULL> |        5 |  4 | <NULL> | <NULL>   |
   
   
-We can also apply DeMorgan's law and use the NOT EXISTS and the EXCEPT operators.
+We can also apply De Morgan's law and use the NOT EXISTS and the EXCEPT operators.
   
 ```sql
 SELECT  a.*,
@@ -204,7 +204,7 @@ Note, missing from this above set is the following.
 |  2 | Peach  |       20 |  2 | Peach  | 25       |
 |  4 | <NULL> |        5 |  4 | <NULL> | <NULL>   |
  
-The equivalant statement for this below.
+The equivalent statement for this below.
   
 ``sql
 SELECT  *
@@ -230,7 +230,7 @@ WHERE   NOT(ISNULL(a.Fruit,'') = ISNULL(b.Fruit,''));
 | 4  | <NULL> | 5        | 3  | Kiwi   | 20       |
 
   
-DeMorgan's Law is in effect, and you can accomplish the above with the NOT EXISTS and the INTERSECT statement.
+De Morgan's Law is in effect, and you can accomplish the above with the NOT EXISTS and the INTERSECT statement.
 
 ```sql
 SELECT  a.*,
