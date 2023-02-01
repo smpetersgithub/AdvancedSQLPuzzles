@@ -32,14 +32,14 @@ CREATE TABLE ##TableA
 (
 ID          INTEGER NOT NULL PRIMARY KEY,
 Fruit       VARCHAR(10) NULL UNIQUE,
-Quantity    TINYINT
+Quantity    INTEGER
 );
 
 CREATE TABLE ##TableB
 (
 ID          INTEGER NOT NULL PRIMARY KEY,
 Fruit       VARCHAR(10) NULL UNIQUE,
-Quantity    TINYINT
+Quantity    INTEGER
 );
 
 INSERT INTO ##TableA VALUES (1,'Apple',17);
