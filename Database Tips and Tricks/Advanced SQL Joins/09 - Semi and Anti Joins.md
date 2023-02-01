@@ -32,7 +32,7 @@ Semi-joins and anti-joins have some key differences and considerations.
 *  Another difference is that the NOT EXISTS and EXIST operators are correlated subqueries, meaning they must have a specified column to join between the outer and inner SQL statements, whereas the IN and NOT IN operators can contain a list of values and do not require a SELECT statement.
 *  Additionally, the IN and NOT IN operators search for values in the result set of a subquery, whereas the EXISTS and NOT EXISTS operators check for the existence of rows.
 *  If you are performing an anti-join to a NULLable column in the inner query, consider using the NOT EXISTS operator over the NOT operator.
-*  When using semi or anti-joins, check execution plans for the most optimized usage method.  Becaue the IN and NOT IN operators check for values, and the EXISTS and NOT EXISTS check for rows, you will get two entirely different execution plans.
+*  When using semi or anti-joins, check execution plans for the most optimized usage method.  Because the IN and NOT IN operators check for values, and the EXISTS and NOT EXISTS check for rows, you will get two entirely different execution plans.
 
 ----------------------------------------------------------------------------------------
 
@@ -107,7 +107,7 @@ WHERE   Fruit IN (SELECT Fruit FROM ##TableB b WHERE a.Quantity = b.Quantity);
 
 The EXISTS operator is used to test for the existence of any record in a subquery. The EXISTS operator returns TRUE if the subquery returns one or more records and the EXISTS operator treats NULL markers as neither equal to nor unequal to each other, they are unknown. 
 
-Because it checks for the existence of rows, you do not need to include any columns in the SELECT statment.  It is considered best practice to simply place an arbitarary "1" in this spot.
+Because it checks for the existence of rows, you do not need to include any columns in the SELECT statement.  It is considered best practice to simply place an arbitrary "1" in this spot.
 
 ```sql
 SELECT  ID,
