@@ -1,6 +1,6 @@
 # OUTER JOINS
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`OUTER JOINS` consist of `LEFT`, `RIGHT`, and `FULL OUTER JOIN`.  `LEFT OUTER JOIN` and `RIGHT OUTER JOIN` function the same; the `LEFT OUTER JOIN` returns all records from the left table, and the `RIGHT OUTER JOIN` returns all records from the right table.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Outer Joins consist of `LEFT`, `RIGHT`, and `FULL OUTER JOIN`.  `LEFT OUTER JOIN` and `RIGHT OUTER JOIN` function the same; the `LEFT OUTER JOIN` returns all records from the left table, and the `RIGHT OUTER JOIN` returns all records from the right table.
 
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;It is best practice to use the `LEFT OUTER JOIN` over the `RIGHT OUTER JOIN`, as we naturally read from left to right.  The `LEFT OUTER JOIN` is more intuitive in terms of its behavior, as the left table is preserved, and the right table is optional. It's therefore more natural to think of it as "all rows from the left table, and any matching rows from the right table" which makes it more readable and easier to understand.  I will mainly demonstrate the `LEFT OUTER JOIN` for this reason.  Using `RIGHT OUTER JOIN` is considered a bad practice and should be avoided.
@@ -11,7 +11,7 @@
 
 We will be using the following tables that contain types of fruits and their quantity.  
 
-[The DDL to create these tables can be found here](Sample%20Data.md)
+[The DDL to create these tables can be found here.](Sample%20Data.md)
 
 **Table A**
 | ID | Fruit  | Quantity |
