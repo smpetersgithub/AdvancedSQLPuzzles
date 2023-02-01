@@ -2,7 +2,7 @@
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;OUTER JOINS consist of LEFT, RIGHT, and FULL OUTER JOIN.  LEFT OUTER JOIN and RIGHT OUTER JOIN function the same; the LEFT OUTER JOIN returns all records from the left table, and the RIGHT OUTER JOIN returns all records from the right table.
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;It is best practice to use the LEFT OUTER JOIN over the RIGHT OUTER JOIN, as we naturally read from left to right.  The left join is more intuitive in terms of its behavior, as the left table is preserved and the right table is optional. It's therefore more natural to think of it as "all rows from the left table, and any matching rows from the right table" which makes it more readable and eaiser to understand.  I will only demonstrate the LEFT OUTER JOIN for this reason.  Using RIGHT OUTER JOIN is considered a bad practice and should be avoided.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;It is best practice to use the LEFT OUTER JOIN over the RIGHT OUTER JOIN, as we naturally read from left to right.  The left join is more intuitive in terms of its behavior, as the left table is preserved, and the right table is optional. It's therefore more natural to think of it as "all rows from the left table, and any matching rows from the right table" which makes it more readable and easier to understand.  I will only demonstrate the LEFT OUTER JOIN for this reason.  Using RIGHT OUTER JOIN is considered a bad practice and should be avoided.
 
 -----------------------------------------------------------
 
@@ -68,7 +68,7 @@ WHERE   b.Fruit IS NULL;
 
 Predicate logic placed in the ON clause behaves differently than predicate logic in the WHERE clause.  Notice the difference in output between these two queries.
 
-Placing prediate login in the ON statment preserves the outer join.
+Placing predicate login in the ON statement preserves the outer join.
 
 ```sql
 SELECT  a.ID,
@@ -123,7 +123,7 @@ FROM    ##TableA a;
 |  3 | Mango  | <NULL> | <NULL> |
 |  4 | <NULL> | <NULL> | <NULL> |
 
-Up to 32 levels of nesting is possible, although the limit varies based on available memory and the complexity of other expressions in the query. Individual queries may not support nesting up to 32 levels. A subquery can appear anywhere an expression can be used, if it returns a single value
+Up to 32 levels of nesting is possible, although the limit varies based on available memory and the complexity of other expressions in the query. Individual queries may not support nesting up to 32 levels. A subquery can appear anywhere an expression can be used if it returns a single value
 
 Here is a SELECT, within a SELECT, within a SELECT statement.  Nesting SQL statements can make them difficult to read and should be avoided if possible.
 
@@ -146,7 +146,7 @@ FROM    ##TableA a;
    
 Windowing functions were added to the ANSI/ISO Standard SQL:2003 and then extended in ANSI/ISO Standard SQL:2008. SQL Server did not implement window functions until SQL Server 2012.
 
-Because of SQL Server's delay in implementation, you may see statements such as below that where used to mimic window functions.  This statement is often called a Flash Fill or Data Smudge.
+Because of SQL Server's delay in implementation, you may see statements such as below that were used to mimic window functions.  This statement is often called a Flash Fill or Data Smudge.
 
 This SQL statment will populate the NULL markers in the Fruit column with the nearest prior value.
 
