@@ -238,4 +238,6 @@ SELECT
 
 Ranking is also not relational division.  Here is an example finding a percentile on test scores and determining the top 80%.  For brieity on this statement, I won't include the test data.
 
+```sql
 
+```
