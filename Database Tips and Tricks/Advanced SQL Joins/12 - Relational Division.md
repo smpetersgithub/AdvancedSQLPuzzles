@@ -9,7 +9,7 @@
 *  I want to find all employees who match on at least two-thirds of their issued licenses.  
 *  I want to find all managers who have worked in every department.
 
-Let’s look at a couple of examples.
+Let’s look at a few examples.
 
 --------------------------------------------------------------
 #### Planes In The Hanger
@@ -34,14 +34,12 @@ The most common example you will find on the internet is the airplanes in the ha
 | Brown      |  F-14 Fighter   |
 | Brown      |  F-17 Fighter   |
 
-
 **Hanger**
 |  Plane Name  |
 |--------------|
 | B-1 Bomber   |
 | B-52 Bomber  |
 | F-14 Fighter |
-
 
 The query is rather simple once you understand how to use the `HAVING` clause.
 
