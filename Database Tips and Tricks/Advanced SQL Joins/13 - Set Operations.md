@@ -14,6 +14,27 @@
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;We often think of Venn Diagrams for both SET operations and JOIN operations,  Venn Diagrams are good for set theory , but often Venn diagrams are used for pedagogical reasons to quickly show the behavior of `INNER`, `RIGHT OUTER`, `LEFT OUTER`, `FULL OUTER`, and `CROSS JOINA`.  However, they are not well suited for representing complex relationships that can exist between tables in a relational database.  While Venn diagrams can be used to show the overlap between two sets of data, they cannot easily convey the specific conditions that are being used to filter the data and can become very complex and difficult to read as the number of tables and join conditions increases.  Venn diagrams are intended to show traditional set operations and not join operations.  A good example of the limitation in Venn diagrams is that it is not able to show the `CROSS JOIN` properly and how duplicate records can get introduced into the resulting dataset.
 
+--------------------------------------------------------------------------------
+We will be using the following tables that contain types of fruits and their quantity.  
+
+[The DDL to create these tables can be found here.](Sample%20Data.md)
+
+**Table A**
+| ID | Fruit  | Quantity |
+|----|--------|----------|
+|  1 | Apple  |       17 |
+|  2 | Peach  |       20 |
+|  3 | Mango  |       11 |
+|  4 | <NULL> |        5 |
+  
+**Table B**
+| ID | Fruit  | Quantity |
+|----|--------|----------|
+|  1 | Apple  | 17       |
+|  2 | Peach  | 25       |
+|  3 | Kiwi   | 20       |
+|  4 | <NULL> | <NULL>   |
+  
 -----------------------------------------------------------------
 #### UNION
 
