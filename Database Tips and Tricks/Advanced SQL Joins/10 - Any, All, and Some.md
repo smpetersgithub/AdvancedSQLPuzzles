@@ -1,21 +1,18 @@
 # ANY, ALL and SOME
 
-ANY, ALL and SOME compare a scalar value with a single-column set of values. 
+`ANY`, `ALL` and `SOME` compare a scalar value with a single-column set of values. 
 
-**SOME and ANY are equivalent; for this document I will use ANY.**
+**`SOME` and `ANY` are equivalent; for this document I will use `ANY`.**
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Because ANY, ALL, and SOME can be used with the 9 different logical operators below, there can be a total of 27 combinations.  Plus they can be negated with the NOT operator leading to even more combinations.  Most of the usages have equivalents that are easy to understand, and I have found the best way to understand ANY, ALL and SOME is by using the IF keyword to review their usage and provide an equivalent statement.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Because `ANY`, `ALL`, and `SOME` can be used with the 9 different logical operators below, there can be a total of 27 combinations.  Plus they can be negated with the `NOT` operator leading to even more combinations.  Most of the usages have equivalents that are easy to understand, and I have found the best way to understand `ANY`, `ALL` and `SOME` is by using the IF keyword to review their usage and provide an equivalent statement.
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ANY, ALL, and SOME are not join types, but rather methods for creating predicate logic between tables. They can be utilized in correlated subqueries, where the outer query is joined to the subquery involved in the ANY, ALL, or SOME statement. These methods are similar to semi and anti-joins, in that they cannot be used in the SELECT clause and do not introduce duplicates. However, they differ in that they allow for comparisons between a range of values, rather than only equality or inequality.
-
-*  ANY, ALL and SOME compare a scalar value with a single column set of values. 
-*  SOME and ANY are equivalent; for this document I will use ANY.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`ANY`, `ALL`, and `SOME` are not join types, but rather methods for creating predicate logic between tables. They can be utilized in correlated subqueries, where the outer query is joined to the subquery involved in the `ANY`, `ALL`, or `SOME` statement. These methods are similar to semi and anti-joins, in that they cannot be used in the SELECT clause and do not introduce duplicates. However, they differ in that they allow for comparisons between a range of values, rather than only equality or inequality.
 
 -----
 
-Here are the 9 different comparison operators that can be used with ANY, ALL and SOME.
+Here are the 9 different comparison operators that can be used with `ANY`, `ALL` and `SOME`.
 
-There are two usages, <> ANY and = ALL, that I will further elaborate on, as these have special use cases that I feel are best practice to use rather than their equivalents.
+There are two usages, `<> ANY` and `= ALL`, that I will further elaborate on, as these have special use cases that I feel are best practice to use rather than their equivalents.
 
 | Operator | Description                         |
 |----------|-------------------------------------|
@@ -30,7 +27,7 @@ There are two usages, <> ANY and = ALL, that I will further elaborate on, as the
 | !>       | Not Greater Than (not ISO standard) |
 
 
-I have found understanding these 9 operations will easily allow you to understand any combination you will see in your daily SQL activities.  I have included the SQL statements below to review these operations.  The operations <> ANY and = ALL have special use cases, which I further elaborate and give a more business use case for them.
+I have found understanding these 9 operations will easily allow you to understand any combination you will see in your daily SQL activities.  I have included the SQL statements below to review these operations.
 
 | Id |     Operation     |             Equivalent                                      |
 |----|-------------------|-------------------------------------------------------------|
@@ -315,7 +312,7 @@ PRINT 'FALSE';
 
 ### Example 1: Use Cases for = ALL and <> ANY
 
-The following are examples of the = ALL and <> ANY operators.
+The following are examples of the `= ALL` and `<> ANY` operators.
 
 You are given the following example table of runtime statuses, provide an SQL statement that generates the required output.
 
@@ -371,11 +368,11 @@ PRINT 'FALSE';
 
 ### Example 2: Use Cases for = ALL
 
-Here is another (more elaborate) example using the = ALL operator with a correlated subquery.  Feel free to modify the data and the requirements to experiment with different ways to produce the expected output.
+Here is another (more elaborate) example using the `= ALL` operator with a correlated subquery.  Feel free to modify the data and the requirements to experiment with different ways to produce the expected output.
         
-Given the following tables: Sales Representatives and Top Selling Products by Quarter; calculate the following commissions for the year.
+Given the following tables: `Sales Representatives` and `Top Selling Products by Quarter`; calculate the following commissions for the year.
 
-*  If ALL the top selling products for the quarter are from one region only, all sales representatives from that region receive a $1000 bonus.
+*  If all the top selling products for the quarter are from one region only, all sales representatives from that region receive a $1000 bonus.
 *  If the top selling products for the quarter are from different regions, all sales representatives from those regions receive a $250 bonus.
 *  If a sales representative is assigned to a region that did not have a top selling product for the year, they receive a goat.
 
