@@ -62,5 +62,7 @@ Here is the recommended reading order
 12. [Relational Divison](12%20-%20Relational%20Division.md)
 13. [Set Operations](13%20-%20Set%20Operations.md)
 14. [Join Algorithms](14%20-%20Join%20Algorithms.md)
+15. [Exists](15%20-%20Exists.md)
+16. [Join Algorithms](16%20-%20Complex%20Joins.md)
 
 https://advancedsqlpuzzles.com
