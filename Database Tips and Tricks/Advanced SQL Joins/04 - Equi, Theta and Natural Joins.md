@@ -41,12 +41,12 @@ SQL has the following operators that can be used to join tables.
 
 *  Comparison operators test whether two expressions are the same. Comparison operators can be used on all expressions except expressions of the text, ntext, or image data types.
 
-*  The IS \[NOT] DISTINCT FROM operator is relatively new feature being added to the various database systems.  I have set it to NULL as I have not been able to find any vendor documentation that categorizes this operator as logical or a comparison.
+*  The `IS \[NOT] DISTINCT FROM` operator is relatively new feature being added to the various database systems.  I have set it to NULL as I have not been able to find any vendor documentation that categorizes this operator as logical or a comparison.
 
 --------------------------------------------------------------------------------
 #### Equi-joins
 
-Equi-joins look for equality in a relationship.  They can be used with INNER, OUTER, FULL OUTER, and CROSS JOINS. The example below uses the CROSS JOIN syntax, but functions like and INNER JOIN because the join logic is in the WHERE clause.
+Equi-joins look for equality in a relationship.  They can be used with `INNER`, `OUTER`, `FULL OUTER`, and `CROSS JOINS`. The example below uses the `CROSS JOIN` syntax, but functions like and `INNER JOIN` because the join logic is in the `WHERE` clause.
 
 ```sql
 SELECT  a.ID,
@@ -61,17 +61,17 @@ WHERE   a.Fruit = b.Fruit;
 
 --------------------------------------------------------------------------------
 #### Theta-joins
-Theta-joins looks for any non-equality comparison.  Sometimes this join is called a non-equi-join.  They can be used with INNER, OUTER, FULL OUTER, and CROSS JOINS
+Theta-joins looks for any non-equality comparison.  Sometimes this join is called a non-equi-join.  They can be used with `INNER`, `OUTER`, `FULL OUTER`, and `CROSS JOINS`.
 
 Here are some examples that you may not have realized are possible.
 
-You can use the LIKE and BETWEEN operators with the ON statement.  We often place these operators in the WHERE clause, but they can exist with the ON statement.
+You can use the `LIKE` and `BETWEEN` operators with the ON statement.  We often place these operators in the `WHERE` clause, but they can exist with the ON statement.
 
 ```sql
 
 ```
 
-Here is an example where you would use the greater than operator.  Suppose you want to purchase two fruits, one fruit from Table A and one fruit from Table B, however, the quantity of the fruit in Table A needs to be larger than the quantity in Table B.
+Here is an example where you would use the greater than operator.  Suppose you want to purchase two fruits, one fruit from `Table A` and one fruit from `Table B`, however, the quantity of the fruit in Table A needs to be larger than the quantity in Table B.
 
 ```sql
 
@@ -96,7 +96,7 @@ For these reasons, it is generally recommended to use explicit join syntax and s
 
 #### Natural Joins
 
-The use of an asterisk in the SELECT statement is mandatory and the output does not show duplicate column names. This query is the same as an equi-join on the ID, Fruit and Quantity columns between Table A and Table B.
+The use of an asterisk in the `SELECT` statement is mandatory and the output does not show duplicate column names. This query is the same as an equi-join on the `ID`, `Fruit` and `Quantity` columns between `Table A` and `Table B`.
 
 ```sql
 SELECT  *
@@ -110,7 +110,7 @@ FROM    ##TableA a NATURAL JOIN
 |  1 | Apple |       17 |
 
 
-Note, to counteract some of the bad practices for using the NATURAL JOIN, ORACLE and MySQL has the USING clause.  Below is the `ORACLE` implementation of the USING clause.
+Note, to counteract some of the bad practices for using the `NATURAL JOIN`, `ORACLE` and `MySQL` has the `USING` clause.  Below is the `ORACLE` implementation of the `USING` clause.
 
 ```sql
 SELECT  *
