@@ -37,7 +37,7 @@ Overall, as a developer there are some ways to write the most optimized SQL from
 
 3.  Use the correct data types: Using the appropriate data types for columns can help improve query performance, as well as reduce storage requirements.
 
-4.  Avoid using subqueries and cursors: Subqueries and cursors can be slow and may impact performance. Instead, try to use alternative techniques such as JOINs or Common Table Expressions (CTEs).
+4.  Avoid using subqueries and cursors: Subqueries and cursors can be slow and may impact performance. Instead, try to use alternative techniques such as joins or common table expressions (CTEs).
 
 5.  Use temporary tables: Temporary tables can be used to store intermediate results, which can then be used in subsequent queries. This can help to simplify complex queries and improve performance.
 
