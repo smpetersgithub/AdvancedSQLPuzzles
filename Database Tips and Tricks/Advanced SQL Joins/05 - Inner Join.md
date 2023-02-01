@@ -137,7 +137,7 @@ FROM    ##TableA a INNER JOIN
   
 ---------------------------------------------------------------------------------
   
-This query uses both an equi-join and a theta-join, and functions similar to a CROSS JOIN but with one big difference, no NULL markers are returned.  Because we have NULL markers in the table, they are eradicated as NULL markers are neither equal nor not equal to each other, they are unknown.
+This query uses both an equi-join and a theta-join, and functions similar to a CROSS JOIN but with one big difference, no NULL markers are returned.  Because we have NULL markers in the table, they are eradicated as NULL markers are neither equal to nor not equal to each other, they are unknown.
 
 ```sql
 SELECT  a.ID,
