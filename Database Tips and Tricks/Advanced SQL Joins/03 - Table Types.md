@@ -26,7 +26,7 @@ Here are the 10 different types of tables you can create.
 --------------------------------------------------------------------------------------------------------
 #### Table
 
-The type of table referred to below is a base table. A base table is a permanent table stored in the database and contains the actual data in the form of rows and columns. The SELECT * statement retrieves all columns and all rows from the table. It is a permanent table that stores data in the database.  On base tables you can implement NOT NULL, UNIQUE, PRIMARY KEY, FOREIGN KEY, CHECKM and DEFAULT constraints.
+The type of table referred to below is a base table. A base table is a permanent table stored in the database and contains the actual data in the form of rows and columns. The `SELECT *` statement retrieves all columns and all rows from the table. It is a permanent table that stores data in the database.  On base tables you can implement `NOT NULL`, `UNIQUE`, `PRIMARY KEY`, `FOREIGN KEY`, `CHECK` and `DEFAULT` constraints.
 
 In this example we create a table named `Employees`, insert a record using the VALUES constructor, and then select from the table. 
 
@@ -55,9 +55,9 @@ SELECT * FROM Employees;
 --------------------------------------------------------------------------------------------------------
 #### View
 
-A SQL view is a virtual table that provides a specific, customized perspective of data from one or more tables in a database.  There are two main types of SQL views: materialized views and non-materialized (or simple) views. Materialized views store the result set of the view query, while non-materialized views do not store any data and dynamically retrieve data from the underlying tables each time the view is accessed.  You can INSERT and DELETE data through views.
+A SQL view is a virtual table that provides a specific, customized perspective of data from one or more tables in a database.  There are two main types of SQL views: materialized views and non-materialized (or simple) views. Materialized views store the result set of the view query, while non-materialized views do not store any data and dynamically retrieve data from the underlying tables each time the view is accessed.  You issue `INSERT` and `DELETE` commands through views.
 
-In this example we create a view from the Employees table, insert a record into the table, and then select from the view;
+In this example we create a view from the `Employee`s table, insert a record into the table, and then select from the view;
 
 ```sql
 CREATE OR ALTER VIEW vwEmployees as
@@ -84,9 +84,9 @@ SELECT * FROM vwEmployees;
 --------------------------------------------------------------------------------------------------------
 #### VALUES Operator
 
-The VALUES constructor has a few considerations that are often overlooked and deserve its own recognition.  The VALUES constructor specifies a set of row value expressions to be constructed into a table and allows multiple sets of values to be specified in a single DML statement.  Normally we use the VALUES constructor to specify the data to insert into a table, as we initially did with our test data, but it can also be used as a derived table in an SQL statement.
+The `VALUES` constructor has a few considerations that are often overlooked and deserve its own recognition.  The `VALUES` constructor specifies a set of row value expressions to be constructed into a table and allows multiple sets of values to be specified in a single DML statement.  Normally we use the `VALUES` constructor to specify the data to insert into a table, as we initially did with our test data, but it can also be used as a derived table in an SQL statement.
 
-Here is a basic example of using the VALUES constructor as a derived table.
+Here is a basic example of using the `VALUES` constructor as a derived table.
 
 ```sql
 SELECT  a,
@@ -102,7 +102,7 @@ FROM    (VALUES (1, 2), (3, 4), (5, 6), (7, 8), (9, 10)) AS MyTable(a, b);
 | 7 |  8 |
 | 9 | 10 |
 
-Here is a more elaborate example where the VALUES constructor specifies the values to return.  This statement uses an INNER JOIN, but you can use a LEFT OUTER JOIN, RIGHT OUTER JOIN, FULL OUTER JOIN, or CROSS JOIN.
+Here is a more elaborate example where the VALUES constructor specifies the values to return.  This statement uses an `INNER JOIN`, but you can use a `LEFT OUTER JOIN`, `RIGHT OUTER JOIN`, `FULL OUTER JOIN`, or `CROSS JOIN`.
 
 ```sql
 SELECT  a.Fruit
@@ -116,7 +116,7 @@ FROM    Employees a INNER JOIN
 |          2 | Sarah     | Shultz   | Accounting |  90000.00 |
 
 
-You can also place functions into the VALUES constructor.  The NEWID() function creates a unique value of type UNIQUEIDENTIFIER.   Here you could easily just add the function to the SELECT statement, but this gives you an idea of the capabilities of the VALUES constructor.
+You can also place functions into the `VALUE`S constructor.  The `NEWID()` function creates a unique value of type `UNIQUEIDENTIFIER`.   Here you could easily just add the function to the `SELECT` statement, but this gives you an idea of the capabilities of the `VALUES` constructor.
 
 ```sql
 SELECT  CONCAT(FirstName,' ',LastName) AS Name,
@@ -137,7 +137,7 @@ FROM    Employees a CROSS JOIN
 
 A table valued function acts much like a view with the added benefit of being parameterized.  
 
-For this example we create a table valued function using the Employees table.  To use the table values function we can simply select from the function, or use the CROSS APPLY to join to another table.
+For this example we create a table valued function using the `Employees` table.  To use the table values function we can simply select from the function, or use the `CROSS APPLY` to join to another table.
         
 ```sql
  CREATE OR ALTER FUNCTION FnGetEmployees (@EmployeeID INTEGER)
@@ -164,7 +164,7 @@ FROM    Employees a CROSS APPLY
 --------------------------------------------------------------------------------------------------------
 #### Subquery
 
-A subquery is a query nested within another query. Here are a few examples of subqueries using the Employees table:
+A subquery is a query nested within another query. Here are a few examples of subqueries using the `Employees` table:
    
 ```sql
 SELECT  e.*
@@ -184,7 +184,7 @@ WHERE   e.Salary >  (SELECT AVG(Salary)
 --------------------------------------------------------------------------------------------------------
 #### Derived Table
 
-A derived table is a table that is derived from a SELECT statement and used within another SELECT statement. Here is an example of a derived table in SQL        
+A derived table is a table that is derived from a `SELECT` statement and used within another `SELECT` statement. Here is an example of a derived table in SQL        
         
 ```sql
 SELECT  e.*,
@@ -207,7 +207,7 @@ FROM  (
 --------------------------------------------------------------------------------------------------------
 #### Common Table Expression (CTE) 
 
-A Common Table Expression (CTE) is a named, temporary result set that is defined within a SELECT statement
+A Common Table Expression (CTE) is a named, temporary result set that is defined within a `SELECT` statement
 
 ```sql        
 WITH EmployeesByDepartment AS 
@@ -283,12 +283,12 @@ SELECT * FROM #Employees2
 
 Table variables are much like temporary tables.  They are often used when you need to pass a record set to a stored procedure.  Each database may implement table variables slightly different, but SQL Server has the following considerations.
 
-*  You can place constraints on the table except for foreign key constraints.
+*  You can place constraints on the table except for 'FOREIGN' constraints.
 *  The constraints must be placed on the table on creation.
 *  You cannot alter the table variable once it is created.
 *  You cannot create an explicit index on a table variable.
 *  When creating a primary key or a unique constraint an index is created.
-*  The TRUNCATE statement does not work on table variables.
+*  The `TRUNCATE` statement does not work on table variables.
 *  Table variables are stored in temdb.
 
 ```sql
