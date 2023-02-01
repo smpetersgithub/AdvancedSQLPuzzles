@@ -227,11 +227,17 @@ WHERE   EmployeeCount > 2;
 
 --------------------------------------------------------------------------------------------------------
 #### Temporary Table        
+
 The syntax for creating temporary tables is different for each database system.  These examples work in `SQL SERVER`.
 
-Session temporary tables and global temporary tables are two types of temporary tables in SQL. The main difference between them is their scope and visibility.  In SQL Server you can use a single octothorpe (#) for a session temporary table, and two octothorpes (##) for a global session table.
+Session temporary tables and global temporary tables are two types of temporary tables in SQL. The main difference between them is their scope and visibility.  
 
-Session temporary tables are only visible to the user who created them and are automatically dropped when the user's session ends.  Global temporary tables are available to every user's session.  You can place the same constraints on a temp table as you can a permanant table, but the table resides in TempDB and you cannot see its meta data in the information schema.
+*  In SQL Server you can use a single octothorpe (#) for a session temporary table, and two octothorpes (##) for a global session table.
+*  Session temporary tables are only visible to the user who created them and are automatically dropped when the user's session ends.  
+*  Global temporary tables are available to every user's session.  
+*  You can place the same constraints, except for foreign key constraints, on a temp table as you can on a permanant table.  
+*  Indexing is also allowed on temporary tables.
+*  Temporary tables reside in TempDB and you cannot see its meta data in the information schema.
 
 This creates a session temporary table in `SQL Server`.
 
@@ -274,6 +280,71 @@ SELECT * FROM #Employees2
 
 --------------------------------------------------------------------------------------------------------
 #### Table Variable   
-        
+
+Table variables are much like tmeporary tables.  They are often used when you need to pass a record set to a stored procedure.  Each database may implement table variables slightly different, but SQL Server has the following considerations.
+
+*  You can place constraints on the table except for foreign key constraints.
+*  The constraints must be placed on the table on creation.
+*  You cannot alter the table variable once it is created.
+*  You cannot create an explicit index on a table variable.
+*  When creating a primary key or a unique constraint an index is created.
+*  The TRUNCATE statement does not work on table variables.
+*  Table variables are stored in TempDB.
+
+```sql
+DECLARE @TableVariable Table
+(
+EmployeeID INTEGER PRIMARY KEY,
+FirstName  VARCHAR(100) NOT NULL,
+LastName   VARCHAR(100) NOT NULL,
+Department VARCHAR(100) NOT NULL,
+Salary     MONEY NOT NULL
+);
+
+INSERT INTO @TableVariable
+SELECT * FROM Employees;
+
+SELECT * FROM @TableVariable;
+```
+
+| EmployeeID | FirstName | LastName |  Salary   | EmployeeID |  Salary  |
+|------------|-----------|----------|-----------|------------|----------|
+|          1 | John      | Wilson   | 100000.00 |          2 | 90000.00 |
+|          1 | John      | Wilson   | 100000.00 |          3 | 85000.00 |
+|          2 | Sarah     | Shultz   |  90000.00 |          3 | 85000.00 |
+
 --------------------------------------------------------------------------------------------------------
 #### External Tables           
+
+External tables in `SQL Server` are tables that exist outside of the SQL Server database and are used to access data stored in external sources such as flat files, Hadoop, or Azure Blob storage. External tables provide a way to access external data as if it were a regular table within the `SQL Server` database, allowing you to use standard SQL queries to retrieve and manipulate data stored in external sources. This can be useful for tasks such as performing data integration, bulk data loading, and data archiving, as well as for querying and processing large datasets stored in external sources. However, external tables in `SQL Server` have some limitations and limitations such as limited indexing options and slower query performance compared to regular tables stored in the SQL Server database.
+
+See your vendor's documentation on external tables, as this will vary for each vendor.
+
+The `SQL Server` documentation has the following examples.
+
+```sql
+CREATE EXTERNAL DATA SOURCE mydatasource
+WITH (
+    TYPE = HADOOP,
+    LOCATION = 'hdfs://xxx.xxx.xxx.xxx:8020'
+);
+
+CREATE EXTERNAL FILE FORMAT myfileformat
+WITH (
+    FORMAT_TYPE = DELIMITEDTEXT,
+    FORMAT_OPTIONS (FIELD_TERMINATOR ='|')
+);
+
+CREATE EXTERNAL TABLE ClickStream (
+    url varchar(50),
+    event_date date,
+    user_IP varchar(50)
+)
+WITH (
+        LOCATION='/webdata/employee.tbl',
+        DATA_SOURCE = mydatasource,
+        FILE_FORMAT = myfileformat
+    );
+```
+
+--------------------------------------------------------------------------
