@@ -4,7 +4,7 @@ In this document we will define complex joins and highlight a few examples.
 
 Complex joins in a descriptive term that refers to join operations that involve multiple tables and require more intricate join conditions than simple joins.  These joins can become quite complex when multiple conditions need to be met to return the desired result set. In such cases, multiple join clauses can be used to define the relationships between the tables.
 
-To create complex joins, it's important to have a clear understanding of the relationships between the tables and the desired outcome. It is also important to use clear and concise syntax, such as explicit join clauses and appropriate use of ON, USING, and WHERE clauses. By breaking down complex joins into smaller, simpler join operations, it can be easier to understand and maintain the query.
+To create complex joins, it's important to have a clear understanding of the relationships between the tables and the desired outcome. It is also important to use clear and concise syntax, such as explicit join clauses and appropriate use of `ON`, `USING`, and `WHERE` clauses. By breaking down complex joins into smaller, simpler join operations, it can be easier to understand and maintain the query.
 
 Overall, here are some tips I use to working with complex joins.
 
@@ -45,8 +45,8 @@ WHERE   fp.FeePlanType = 'Advantage' AND
 ```
 
 Breaking down the joins we have the following:
-*  Users -> Transaction -> TransactionType
-*  Users -> SubUsers -> FeePlan
+*  `Users` -> `Transaction` -> `TransactionType`
+*  `Users` -> `SubUsers` -> `FeePlan`
 
 From this join breakdown we can see we have 1 root, 2 branches, and 2 leaf nodes.  The root table `Users` is our driving table.  Given this, here is a simpler way of writing the statement.
 
@@ -89,7 +89,7 @@ This puzzle is called the Overlapping Time Periods, and I find this to be the mo
 
 For this example, I used temporary tables to avoid making a common table expression dependent on another common table expression.  This allows future developers to easy review the data sets in the step order and reverse engineer the statement.
 
-Note it also uses a LEFT OUTER JOIN with a theta-join to create the table `#OuterJoin`.
+Note it also uses a `LEFT OUTER JOIN` with a theta-join to create the table `#OuterJoin`.
 
 ```sql
 CREATE TABLE #TimePeriods
@@ -150,7 +150,7 @@ GROUP BY MinEndDate_A;
 Lastly when writing SQL, programming style goes a long way to readability.  
 
 1.  Choose a more verbose solution over a concise solution where the intent of the SQL statement is more clear when possible.  
-2.  Understand the SQL language and its various functions, such as LAG, LEAD, FIRST_VALUE, LAST_VALUE, etc. and how to perform windowing.
+2.  Understand the SQL language and its various functions, such as `LAG`, `LEAD`, `FIRST_VALUE`, `LAST_VALUE`, etc. and how to perform windowing.
 3.  Understand the relation between the data, especially hierarchical data.  I often see bad implementations of hierarchical data structures.
 4.  Just because you can, doesn't mean you should.  For example, don't use a table variable if unneeded.
 5.  Write well formatted code.  I’m partial to keywords in UPPER case, column names in CamelCase, and my glyphs all spaces with nice white spacing.
