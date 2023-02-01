@@ -43,7 +43,7 @@ The most common example you will find on the internet is the airplanes in the ha
 | F-14 Fighter |
 
 
-The query is rather simple once you understand how to use the HAVING clause.
+The query is rather simple once you understand how to use the `HAVING` clause.
 
 ```sql
 
