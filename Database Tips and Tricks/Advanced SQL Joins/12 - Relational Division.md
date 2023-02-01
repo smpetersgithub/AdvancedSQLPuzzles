@@ -1,17 +1,18 @@
 # Relational Division
 
-Relational division is a relational algebra operation that represents the division of one relation into another relation based on certain conditions. In SQL, relational division can be achieved by using multiple join operations and conditional statements to divide the data in one table into multiple groups based on certain criteria. This can be useful for solving problems such as finding all employees who have had a shift in every department, or employees that have the same licenses or skillsets.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Relational division is a relational algebra operation that represents the division of one relation into another relation based on certain conditions. In SQL, relational division can be achieved by using multiple join operations and conditional statements to divide the data in one table into multiple groups based on certain criteria. This can be useful for solving problems such as finding all employees who have had a shift in every department, or employees that have the same licenses or skillsets.
 
-Relational division is not a built-in operator in SQL, so it must be simulated using a combination of other SQL operations, such as joins, subqueries, and conditional statements. The exact implementation of relational division may vary depending on the specific requirements of the problem and the database management system being used.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Relational division is not a built-in operator in SQL, so it must be simulated using a combination of other SQL operations, such as joins, subqueries, and conditional statements. The exact implementation of relational division may vary depending on the specific requirements of the problem and the database management system being used.
 
-The simpliest way to define relational division is by stating you are looking for a percentage or fraction.  Relational division is used in SQL to select rows that conform to a number of different criteria.
-*  I want to find all pilots who can fly 100% of the airplanes in the hanger (the most common exmaple of relational division).
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The simplest way to define relational division is by stating you are looking for a percentage or fraction.  Relational division is used in SQL to select rows that conform to a number of different criteria.
+*  I want to find all pilots who can fly 100% of the airplanes in the hanger (the most common example of relational division).
 *  I want to find all employees who match on at least two-thirds of their issued licenses.  
 *  I want to find all managers who have worked in every department.
 
-Lets look at a couple of examples.
+Let’s look at a couple of examples.
 
 --------------------------------------------------------------
+#### Planes In The Hanger
 
 The most common example you will find on the internet is the airplanes in the hanger example.
 
@@ -84,6 +85,7 @@ HAVING  COUNT(ps.PlaneName) = (SELECT COUNT(PlaneName) FROM Hangar);
 ```
 
 -------------------------------------------------------------------------
+#### Employees With Matching Licenses.
 
 Another example is find all employees who have the same licenses.
 
@@ -138,6 +140,7 @@ FROM    cte_CountWindow a INNER JOIN
 
 
 -------------------------------------------------------------------------
+#### All Departments
 
 The last example shows all employees who have worked in all departments.
 
@@ -191,8 +194,48 @@ WHERE   DepartmentCount IN (SELECT Departments from cte_DistinctDepartment);
 ```
 
 -----------------------------------------------------------------------
+#### Examples OF What Is Not Relational Division
 
+Sometimes when learning, it is best to understand what does not fit the criteria.
 
+This SQL statement finds the median of a number.  The median is defined as the middle value in a set of data when the values are sorted in ascending or descending order.
 
+The query works by dividing the data into two halves (top 50% and bottom 50%) and then selecting the top 1 value from each of these halves. These two values are then added together and divided by 2 to obtain the median.
+
+While the query does involve dividing the data into two halves, it does not perform a true relational division in the sense that relational division is typically understood in the context of relational databases.
+
+Relational division refers to a set of operations performed on two or more relations (tables) to divide one relation into multiple groups based on certain conditions.
+
+```sql
+CREATE TABLE #SampleData
+(
+IntegerValue  INTEGER NOT NULL
+);
+GO
+
+INSERT INTO #SampleData VALUES
+(5),(6),(10),(10),(13),(14),(17),(20),(81),(90),(76);
+GO
+
+--Median
+SELECT
+        ((SELECT TOP 1 IntegerValue
+        FROM    (
+                SELECT  TOP 50 PERCENT IntegerValue
+                FROM    #SampleData
+                ORDER BY IntegerValue
+                ) a
+        ORDER BY IntegerValue DESC) +  --Add the Two Together
+        (SELECT TOP 1 IntegerValue
+        FROM (
+            SELECT  TOP 50 PERCENT IntegerValue
+            FROM    #SampleData
+            ORDER BY IntegerValue DESC
+            ) a
+        ORDER BY IntegerValue ASC)
+        ) * 1.0 /2 AS Median;
+```
+
+Ranking is also not relational division.  Here is an example finding a percentile on test scores and determining the top 80%.  For brieity on this statement, I won't include the test data.
 
 
