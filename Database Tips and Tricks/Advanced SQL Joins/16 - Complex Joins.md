@@ -1,10 +1,10 @@
 # Complex Joins
 
-In this document we will define complex joins and highlight a few examples.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;In this document we will define complex joins and highlight a few examples.
 
-Complex joins in a descriptive term that refers to join operations that involve multiple tables and require more intricate join conditions than simple joins.  These joins can become quite complex when multiple conditions need to be met to return the desired result set. In such cases, multiple join clauses can be used to define the relationships between the tables.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Complex joins in a descriptive term that refers to join operations that involve multiple tables and require more intricate join conditions than simple joins.  These joins can become quite complex when multiple conditions need to be met to return the desired result set. In such cases, multiple join clauses can be used to define the relationships between the tables.
 
-To create complex joins, it's important to have a clear understanding of the relationships between the tables and the desired outcome. It is also important to use clear and concise syntax, such as explicit join clauses and appropriate use of `ON`, `USING`, and `WHERE` clauses. By breaking down complex joins into smaller, simpler join operations, it can be easier to understand and maintain the query.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;To create complex joins, it's important to have a clear understanding of the relationships between the tables and the desired outcome. It is also important to use clear and concise syntax, such as explicit join clauses and appropriate use of `ON`, `USING`, and `WHERE` clauses. By breaking down complex joins into smaller, simpler join operations, it can be easier to understand and maintain the query.
 
 Overall, here are some tips I use to working with complex joins.
 
@@ -16,13 +16,13 @@ Overall, here are some tips I use to working with complex joins.
 
 #### Driving Tables
 
-One important concept of good query planning is understanding a driving table.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;One important concept of good query planning is understanding a driving table.
 
-A driving table in SQL refers to the table that drives the execution of a query. In a query that involves multiple tables, the driving table determines the order in which the records are retrieved and processed and can have a significant impact on the performance of the query.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;A driving table in SQL refers to the table that drives the execution of a query. In a query that involves multiple tables, the driving table determines the order in which the records are retrieved and processed and can have a significant impact on the performance of the query.
 
-The driving table is typically the table with the smallest number of records, or the table that has the most selective conditions applied to it. By starting with the driving table, the database can eliminate as many records as possible early in the processing, reducing the amount of data that needs to be further processed and improving the performance of the query.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The driving table is typically the table with the smallest number of records, or the table that has the most selective conditions applied to it. By starting with the driving table, the database can eliminate as many records as possible early in the processing, reducing the amount of data that needs to be further processed and improving the performance of the query.
 
-It is important to carefully consider the driving table when writing complex SQL queries to ensure optimal performance. A well-chosen driving table can help to minimize the amount of data that needs to be processed and can lead to much faster query execution times. On the other hand, an poorly-chosen driving table can result in slow query performance and inefficiencies in the database processing.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;It is important to carefully consider the driving table when writing complex SQL queries to ensure optimal performance. A well-chosen driving table can help to minimize the amount of data that needs to be processed and can lead to much faster query execution times. On the other hand, an poorly-chosen driving table can result in slow query performance and inefficiencies in the database processing.
 
 -----------------------------------------------------
 #### Multiple Branches
