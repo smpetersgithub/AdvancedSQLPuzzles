@@ -1,12 +1,12 @@
 # Self Joins
 
-Self joins in SQL are a type of join operation where a table is joined with itself. In a self join, a table is aliased to give it a different name and then used twice in the same query, once as the left table and once as the right table. The join conditions in a self join specify how to relate the rows of a table to itself. Self joins can be used to compare rows within a table, to create subsets of data based on certain conditions, or to combine information from multiple rows within a single table. The result of a self join is a new table that contains the combined data from the two instances of the original table. Self joins can be useful when working with hierarchical data, or when you need to analyze data based on relationships within a table.
+Self joins in SQL are a type of join operation where a table is joined with itself. In a self-join, a table is aliased to give it a different name and then used twice in the same query, once as the left table and once as the right table. The join conditions in a self-join specify how to relate the rows of a table to itself. Self joins can be used to compare rows within a table, to create subsets of data based on certain conditions, or to combine information from multiple rows within a single table. The result of a self-join is a new table that contains the combined data from the two instances of the original table. Self joins can be useful when working with hierarchical data, or when you need to analyze data based on relationships within a table.
 
 ----------------------------------------------------
 
-#### Example 1:  Hierarchial Relationships
+#### Example 1:  Hierarchical Relationships
 
-Here is an example using a self join on a hierarchy table.
+Here is an example using a self-join on a hierarchy table.
 
 For the following table of Managers and Employees, determine each employee's manager.
 
@@ -37,7 +37,7 @@ FROM    Employees a INNER JOIN
 |           4 | Director       |           2 | Vice President |
 |           5 | Director       |           3 | Vice President |
 
-It is worth mentioning that because the Managers and Emnployees table is a heirarchial relationshipt, the problem lends itself to using a self-referencing common table expression (CTE) to determine the level of depth each employee has from the highest tier.
+It is worth mentioning that because the Managers and Emnployees table is a hierarchical relationship, the problem lends itself to using a self-referencing common table expression (CTE) to determine the level of depth each employee has from the highest tier.
 
 In the below example, the common table expression cte_Recursion references itself in the UNION ALL statement.
 
@@ -204,7 +204,7 @@ Here is the expected output; employees 1001 and 2002 have matching licenses, and
 |         4004 |         5005 |            3 |
 |         5005 |         4004 |            3 |
 
-The SQL to generate the expected output uses a self join.
+The SQL to generate the expected output uses a self-join.
   
 ```sql
 WITH cte_Count AS
@@ -233,11 +233,11 @@ FROM    cte_CountWindow a INNER JOIN
 ```
 ----------------------------------------------------
   
-#### Example of what is not a self join.
+#### Example of what is not a self-join.
   
 The following are **not** considered self-joins.
 
-Given a table of employees and their salary, write an SQL statment to return all employees who have a higher salary than the average salary of the company.
+Given a table of employees and their salary, write an SQL statement to return all employees who have a higher salary than the average salary of the company.
   
 Although this SQL statement uses the Employees table twice, it does not join to itself.  In this example, the aggregation on the Employees table is used in the predicate logic and not joined to the Employees table.
   
@@ -249,7 +249,7 @@ GROUP BY Name, Salary
 HAVING Salary > (SELECT AVG(Salary) FROM Employees);
 ```
   
-The following is also not a self=join.  The cte_Average does reference the Employees table, but it creates an entirely new relation consisting of {Name, Average}, which does not equal the original Employees table of {Name, Salary}.
+The following is also not a self-join.  The cte_Average does reference the Employees table, but it creates an entirely new relation consisting of {Name, Average}, which does not equal the original Employees table of {Name, Salary}.
   
 ```sql
 WITH cte_Average AS
