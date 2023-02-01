@@ -229,8 +229,8 @@ The plus sign is `Oracle` syntax for an outer join and is not ANSI standard.  Th
         a.Fruit
         b.ID,
         b.Fruit
-FROM    TableA a,
-        TableB b
+FROM    ##TableA a,
+        ##TableB b
 WHERE   a.Fruit = b.Fruit(+)
 ```
   
