@@ -63,6 +63,6 @@ Here is the recommended reading order
 13. [Set Operations](13%20-%20Set%20Operations.md)
 14. [Join Algorithms](14%20-%20Join%20Algorithms.md)
 15. [Exists](15%20-%20Exists.md)
-16. [Join Algorithms](16%20-%20Complex%20Joins.md)
+16. [Complex Joins](16%20-%20Complex%20Joins.md)
 
 https://advancedsqlpuzzles.com
