@@ -48,7 +48,7 @@ Here is a brief description of each type of join:
 1. [Introduction](01%20-%20Introduction.md)
 2. [SQL Processing Order](02%20-%20SQL%20Query%20Processing%20Order.md)
 3. [Table Types](03%20-%20Table%20Types.md)
-4. [Equi, Theta, and Natural Joins](04%20-%20Equi%2C%20Theta%20and%20Natural%20Joins.md)
+4. [Equi, Theta, and Natural Joins](04%20-%20Equi%2C%20Theta%2C%20and%20Natural%20Joins.md)
 5. [Inner Joins](05%20-%20Inner%20Join.md)
 6. [Outer Joins](06%20-%20Outer%20Joins.md)
 7. [Full Outer Joins](07%20-%20Full%20Outer%20Join.md)
