@@ -222,7 +222,7 @@ FROM    ##TableA a RIGHT OUTER JOIN
 
 -----------------------------------------------------------
 
-The plus sign is Oracle syntax for an outer join and is not ANSI standard.  The + sign determines which table is outer joined.
+The plus sign is `Oracle` syntax for an outer join and is not ANSI standard.  The + sign determines which table is outer joined.
   
   ```sql
   SELECT  a.ID,
