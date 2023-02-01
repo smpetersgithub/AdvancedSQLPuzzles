@@ -221,3 +221,24 @@ FROM    ##TableA a RIGHT OUTER JOIN
 | <NULL> | <NULL> |  4 | <NULL> | <NULL> | <NULL> |
 
 -----------------------------------------------------------
+
+The plus sign is Oracle syntax for an outer join and is not ANSI standard.  The + sign determines which table is outer joined.
+  
+  ```sql
+  SELECT  a.ID,
+        a.Fruit
+        b.ID,
+        b.Fruit
+FROM    TableA a,
+        TableB b
+WHERE   a.Fruit = b.Fruit(+)
+```
+  
+| ID |  Fruit |   ID   |  Fruit |
+|----|--------|--------|--------|
+|  1 | Apple  | 1      | Apple  |
+|  2 | Peach  | 2      | Peach  |
+|  3 | Mango  | <NULL> | <NULL> |
+|  4 | <NULL> | <NULL> | <NULL> |
+  
+-----------------------------------------------------------
