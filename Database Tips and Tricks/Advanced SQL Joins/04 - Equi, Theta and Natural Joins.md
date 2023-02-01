@@ -79,7 +79,7 @@ Here is an example where you would use the greater than operator.  Suppose you w
 
 
 --------------------------------------------------------------------------------
-#### Natural joins
+#### Natural Joins Overview
 
 A natural join in relational algebra is a type of join operation that combines two relational tables via an equi-join based on their common attributes. In a natural join, only the rows with matching values in the common columns are included in the result. The common columns of the two tables are used as the join criteria and the result set includes only one copy of these columns. The columns in the result set correspond to the combination of columns from both tables,
 
@@ -93,6 +93,8 @@ A natural join in relational algebra is a type of join operation that combines t
 For these reasons, it is generally recommended to use explicit join syntax and specify the join conditions explicitly, rather than relying on natural joins. This allows for more control over the join conditions and the resulting data and makes the query easier to understand and maintain.
 
 ------------------------------------------------
+
+#### Natural Joins
 
 The use of an asterisk in the SELECT statement is mandatory and the output does not show duplicate column names. This query is the same as an equi-join on the ID, Fruit and Quantity columns between Table A and Table B.
 
