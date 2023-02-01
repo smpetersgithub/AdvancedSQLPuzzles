@@ -8,7 +8,7 @@
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;I welcome any corrections, additions, debates etc. I've tried to show different joins across all the major RDBMS platforms, and I am sure there are some new and interesting joins that I have not included here (such as graph joins).  Feel free to contact me through this GitHub repository or my Wordpress site at https://advancedsqlpuzzles.com.  
 
------
+---------------------------------------------------------
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Besides the standard **INNER**, **LEFT OUTER**, **RIGHT OUTER**,**FULL OUTER** and **CROSS** joins that are specified in the ANSI SQL standard, there are a slew of joins are not part of the standard SQL join syntax, but rather ways to classify different types of joins based on their behavior and the condition used to join the tables.  
 
@@ -43,12 +43,11 @@ Here is a brief description of each type of join:
 |  Model        | NON-EQUI-JOIN    |  Interchangable with theta-join  Some texts use the term theta-join, and others use non-equi-join.                                                                                                                                    |
 |  Model        | NATURAL JOIN     |  A NATURAL JOIN returns the rows where the values in the specified columns of both tables are equal, and the column names are the same.                                                                                               |
 
-----
-
+---------------------------------------------------------
 
 Here is the recommended reading order
 
-1. [Introduction (Read Me)](01%20-%20Introduction.md)
+1. [Introduction](01%20-%20Introduction.md)
 2. [SQL Processing Order](02%20-%20SQL%20Query%20Processing%20Order.md)
 3. [Table Types](03%20-%20Table%20Types.md)
 4. [Equi, Theta, and Natural Joins](04%20-%20Equi%2C%20Theta%20and%20Natural%20Joins.md)
@@ -57,7 +56,7 @@ Here is the recommended reading order
 7. [Full Outer Joins](07%20-%20Full%20Outer%20Join.md)
 8. [Cross Joins](08%20-%20Cross%20Join.md)
 9. [Semi and Anti Joins](09%20-%20Semi%20and%20Anti%20Joins.md)
-10. [Any, ALL and Some](10%20-%20Any%2C%20All%2C%20and%20Some.md)
+10. [Any, All and Some](10%20-%20Any%2C%20All%2C%20and%20Some.md)
 11. [Self Joins](11%20-%20Self%20Join.md)
 12. [Relational Divison](12%20-%20Relational%20Division.md)
 13. [Set Operations](13%20-%20Set%20Operations.md)
