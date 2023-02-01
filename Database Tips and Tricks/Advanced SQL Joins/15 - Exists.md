@@ -7,6 +7,27 @@
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;First let's look of some examples of the `EXISTS`.  It is important to remember that the `EXISTS` clause returns TRUE or FALSE, and not a result set.
 
 --------------------------------------------------------------
+--------------------------------------------------------------------------------
+We will be using the following tables that contain types of fruits and their quantity.  
+
+[The DDL to create these tables can be found here.](Sample%20Data.md)
+
+**Table A**
+| ID | Fruit  | Quantity |
+|----|--------|----------|
+|  1 | Apple  |       17 |
+|  2 | Peach  |       20 |
+|  3 | Mango  |       11 |
+|  4 | <NULL> |        5 |
+  
+**Table B**
+| ID | Fruit  | Quantity |
+|----|--------|----------|
+|  1 | Apple  | 17       |
+|  2 | Peach  | 25       |
+|  3 | Kiwi   | 20       |
+|  4 | <NULL> | <NULL>   |
+  
 #### IF EXISTS
 
 Here we have an example of using `EXISTS` with the `IF` statement to check for the existence of records.  
