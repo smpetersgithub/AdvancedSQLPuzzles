@@ -42,7 +42,28 @@ SQL has the following operators that can be used to join tables.
 *  Comparison operators test whether two expressions are the same. Comparison operators can be used on all expressions except expressions of the text, ntext, or image data types.
 
 *  The `IS [NOT] DISTINCT FROM` operator is relatively new feature being added to the various database systems.  I have set it to NULL as I have not been able to find any vendor documentation that categorizes this operator as logical or a comparison.
+ 
+--------------------------------------------------------------------------------
+We will be using the following tables that contain types of fruits and their quantity.  
 
+[The DDL to create these tables can be found here.](Sample%20Data.md)
+
+**Table A**
+| ID | Fruit  | Quantity |
+|----|--------|----------|
+|  1 | Apple  |       17 |
+|  2 | Peach  |       20 |
+|  3 | Mango  |       11 |
+|  4 | <NULL> |        5 |
+  
+**Table B**
+| ID | Fruit  | Quantity |
+|----|--------|----------|
+|  1 | Apple  | 17       |
+|  2 | Peach  | 25       |
+|  3 | Kiwi   | 20       |
+|  4 | <NULL> | <NULL>   |
+ 
 --------------------------------------------------------------------------------
 #### Equi-joins
 
