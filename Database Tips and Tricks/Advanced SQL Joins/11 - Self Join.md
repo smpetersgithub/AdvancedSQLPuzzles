@@ -8,7 +8,7 @@ Self joins in SQL are a type of join operation where a table is joined with itse
 
 Here is an example using a self-join on a hierarchy table.
 
-For the following table of Managers and Employees, determine each employee's manager.
+For the following table of `Managers` and `Employees`, determine each employee's manager.
 
 | Employee ID |      Title     | Manager ID |
 |-------------|----------------|------------|
@@ -19,7 +19,7 @@ For the following table of Managers and Employees, determine each employee's man
 |           5 | Director       | 3          |
   
 
-Note the table Employees is referenced twice, but given two different aliases name, a and b.
+Note the table `Employees` is referenced twice, but given two different aliases name, `a` and `b`.
  
 ```sql
 SELECT  a.EmployeeID,
@@ -37,9 +37,9 @@ FROM    Employees a INNER JOIN
 |           4 | Director       |           2 | Vice President |
 |           5 | Director       |           3 | Vice President |
 
-It is worth mentioning that because the Managers and Emnployees table is a hierarchical relationship, the problem lends itself to using a self-referencing common table expression (CTE) to determine the level of depth each employee has from the highest tier.
+It is worth mentioning that because the `Emnployees` table is a hierarchical relationship, the problem lends itself to using a self-referencing common table expression (CTE) to determine the level of depth each employee has from the highest tier.
 
-In the below example, the common table expression cte_Recursion references itself in the UNION ALL statement.
+In the below example, the common table expression `cte_Recursion` references itself in the `UNION ALL` statement.
 
 ```sql
 WITH cte_Recursion AS
@@ -81,7 +81,7 @@ ORDER BY 1;
 
 #### Example 2: Finding Pairs
 
-Here is another example problem that can be solved with a self-join.  Unlike the above problem, this table does not have a foreign key that references its primary key.
+  Here is another example problem that can be solved with a self-join.  Unlike the above problem, this table does not have a foreign key that references its primary key.
 
 List all cities that have more than one customer along with the customer details.
 
@@ -109,7 +109,7 @@ The above query uses a self-join and returns the following result set.
 |  2 | Detroit |
 |  4 | Detroit |
 
-Because the Customer table does not have a foreign key relationship, the above query could (and most probably should) be written using the following syntax.  This statement is slightly more verbose, but the intent of the statement becomes a bit more obvious.
+Because the `Customer` table does not have a foreign key relationship, the above query could (and most probably should) be written using the following syntax.  This statement is slightly more verbose, but the intent of the statement becomes a bit more obvious.
 
 ```sql
 WITH cte_CountCity AS
@@ -176,7 +176,7 @@ FROM    #Animals;
   
 Self joins are also used in relational division.
 
-Given the following table of Employees and their licenses, determine all employees who have matching licenses.
+Given the following table of employees and their licenses, determine all employees who have matching licenses.
 
 | EmployeeID | License |
 |------------|---------|
@@ -239,7 +239,7 @@ The following are **not** considered self-joins.
 
 Given a table of employees and their salary, write an SQL statement to return all employees who have a higher salary than the average salary of the company.
   
-Although this SQL statement uses the Employees table twice, it does not join to itself.  In this example, the aggregation on the Employees table is used in the predicate logic and not joined to the Employees table.
+Although this SQL statement uses the `Employees` table twice, it does not join to itself.  In this example, the aggregation on the `Employees` table is used in the predicate logic and not joined to the `Employees` table.
   
 ```sql
 SELECT  Name,
@@ -249,7 +249,7 @@ GROUP BY Name, Salary
 HAVING Salary > (SELECT AVG(Salary) FROM Employees);
 ```
   
-The following is also not a self-join.  The cte_Average does reference the Employees table, but it creates an entirely new relation consisting of {Name, Average}, which does not equal the original Employees table of {Name, Salary}.
+The following is also not a self-join.  The `cte_Average` does reference the Employees table, but it creates an entirely new relation consisting of {`Name`, `Average`}, which does not equal the original `Employees` table of {`Name`, `Salary`}.
   
 ```sql
 WITH cte_Average AS
