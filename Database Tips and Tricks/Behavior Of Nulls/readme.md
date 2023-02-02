@@ -258,6 +258,25 @@ ORDER BY 1,2;
 | 5      | <NULL> | <NULL> | <NULL> |
 | 6      | <NULL> | <NULL> | <NULL> |
 
+
+---------------------------------------------------------
+There are a few methods for returning NULL columns in a join as shown below.
+
+The first method uses the ISNULL function and sets the NULLS to an empty string.
+The second method uses the ON EXISTS clause.
+The third method uses the 'IS [NOT] DISINCT FROM' clause.
+
+        
+
+| ID | Fruit  | Quantity | ID | Fruit  | Quantity |
+|----|--------|----------|----|--------|----------|
+|  1 | Apple  |       17 |  1 | Apple  | 17       |
+|  2 | Peach  |       20 |  2 | Peach  | 25       |
+|  5 | <NULL> |        5 |  4 | <NULL> | <NULL>   |
+|  6 | <NULL> |        3 |  4 | <NULL> | <NULL>   |
+
+
+        
 ---------------------------------------------------------
 ### SEMI AND ANTI JOINS
 :large_blue_circle: [Table Of Contents](#table-of-contents)
