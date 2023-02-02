@@ -774,7 +774,7 @@ ORDER BY 1;
 
 ---------------------------------------------------------
 ### EMPTY STRINGS, NULL, AND ASCII VALUES
-[Link Back to Contents](#contents)
+[Table Of Contents](#table-of-contents)
         
 A useful feature to combat NULL markers in character fields is by using the empty string.  The empty string character is not an ASCII value, and the following function returns a NULL marker.  Also, you would assume the ASCII value for a NULL marker is 0 when reviewing an ASCII code chart, however this is not the case, and the `ASCII` function returns NULL for the NULL marker as shown below.  SQL does not use the standard ANSI NULL marker.
 
