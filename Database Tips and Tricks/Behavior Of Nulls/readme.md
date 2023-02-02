@@ -796,15 +796,15 @@ Often, we think of the `BIT` data type as being a Boolean value (true or false, 
 Because the only acceptable values for the `BIT` data type is 1, 0 or NULL.  The `BIT` data type converts any nonzero value to 1.  As discussed earlier, the NULL marker is neither a nonzero value nor a zero value, so it is not promoted to the value of 1.  Here we can demonstrate that behavior.
 
 ```sql   
-SELECT CAST(NULL AS BIT)
+SELECT 1 AS ID, CAST(NULL AS BIT)
 UNION
-SELECT CAST(3 AS BIT);
+SELECT 2 AS ID, CAST(3 AS BIT);
 ```
-
-| MyBit  |
-|--------|
-| <NULL> |
-| 1      |
+**DOUBLE CHECK THIS**
+| ID  | MyBit  |
+|-----|--------|
+| 1   | <NULL> |
+| 2   |        |
 
 Much like NULL markers and duplicate tuples, there is much debate in the SQL community if the BIT data type should be a permissible data type, as its allowance for the NULL marker does not mimic the real world.  Joe Celko and C.J. Date advocate against using the BIT data type and give further details of this in many of their writings.  To read more about the BIT data type and its awkward fit for SQL databases, I recommend the following articles.
 BIT of a Problem - Simple Talk (red-gate.com)
