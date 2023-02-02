@@ -788,12 +788,14 @@ Here is a screen shot of the resulting view.  The columns with `CAST` and `COMPU
 
 Here we will discuss two SQL constructs, the `BIT` data type and the `NOT` operator.
 
-**BIT**
+------------------------------------------------------------------
+**BIT**    
+        
 Often, we think of the `BIT` data type as being a Boolean value (true or false, yes or no, on or off, one or zero…), however NULL markers are allowed for the `BIT` data type making the possible values 1, 0 and NULL.  In short, the `BIT` data type in SQL is not a true Boolean value.
   
 Because the only acceptable values for the `BIT` data type is 1, 0 or NULL.  The `BIT` data type converts any nonzero value to 1.  As discussed earlier, the NULL marker is neither a nonzero value nor a zero value, so it is not promoted to the value of 1.  Here we can demonstrate that behavior.
 
-```sql
+```sql   
 SELECT CAST(NULL AS BIT)
 UNION
 SELECT CAST(3 AS BIT);
@@ -808,6 +810,7 @@ Much like NULL markers and duplicate tuples, there is much debate in the SQL com
 BIT of a Problem - Simple Talk (red-gate.com)
 WHAT’S WRONG WITH NULLS? - SQL and Relational Theory, 2nd Edition [Book] (oreilly.com)
 
+--------------------------------------------------------        
 **NOT**
 
 The `NOT` operator negates a Boolean input.
