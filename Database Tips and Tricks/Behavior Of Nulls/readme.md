@@ -25,22 +25,22 @@ We will cover these aspects and many more in the following document.
 
 👍 I recomend navigating using the **Table Of Contents**.
 
-[1. PREDICATE LOGIC](#predicate-logic)    
+[1. Predicate Logic](#predicate-logic)    
 [2. ANSI_NULLS](#ansi_nulls)    
 [3. IS NULL and IS NOT NULL](#is-null-and-is-not-null)    
-[4. SAMPLE DATA](#sample-data)    
-[5. JOIN SYNTAX](#join-syntax)    
-[6. SEMI AND ANTI JOINS](#semi-and-anti-joins)    
-[7. SET OPERATORS](#set-operators)    
-[8. COUNT AND AVERAGE FUNCTION](#count-and-average-function)    
-[9. CONSTRAINTS](#constraints)    
-[10. REFERENTIAL INTEGRITY](#referential-integrity)    
-[11. COMPUTED COLUMNS](#computed-columns)    
-[12. SQL FUNCTIONS](#sql-functions)    
+[4. Sample Data](#sample-data)    
+[5. Join Syntax](#join-syntax)    
+[6. SEMI and ANTI Joins](#semi-and-anti-joins)    
+[7. Set Operators](#set-operators)    
+[8. COUNT and AVERAGE Functions](#count-and-average-functions)    
+[9. Constraints](#constraints)    
+[10. Referential Integrity](#referential-integrity)    
+[11. Computed Columns](#computed-columns)    
+[12. SQL Functions](#sql-functions)    
 [13. EMPTY STRINGS, NULL, AND ASCII VALUES](#empty-strings-null-and-ascii-values)    
 [14. CONCAT](#concat)    
-[15. VIEWS](#views)    
-[16. BOOLEAN VALUES](#boolean-values)    
+[15. Views](#views)    
+[16. Boolean Values](#boolean-values)    
 
 --------------------------------------------------------
 ### Brief History of Nulls 
@@ -777,7 +777,7 @@ SELECT  1 AS ID,
 
 
 ---------------------------------------------------------
-### Empty String, NULL, AND ASCII VALUES
+### Empty Strings, NULL, AND ASCII VALUES
 🔵 [Table Of Contents](#table-of-contents)
         
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;A useful feature to combat NULL markers in character fields is by using the empty string.  The empty string character is not an ASCII value, and the following function returns a NULL marker.  Also, you would assume the ASCII value for a NULL marker is 0 when reviewing an ASCII code chart, however this is not the case, and the `ASCII` function returns NULL for the NULL marker as shown below.  SQL does not use the standard ANSI NULL marker.
