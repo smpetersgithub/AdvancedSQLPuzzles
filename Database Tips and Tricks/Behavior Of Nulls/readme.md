@@ -20,7 +20,7 @@ SQL also provides three functions to evaluate NULL markers:
 We will cover these aspects and many more in the following document.
 
 
-[The header of this page](#PREDICATE LOGIC)
+[The header of this page](#predicate-logic-1)
 
 [PREDICATE LOGIC](https://github.com/smpetersgithub/AdvancedSQLPuzzles/tree/AdvancedSQLJoins/Database%20Tips%20and%20Tricks/Behavior%20Of%20Nulls#predicate-logic-1)
 ANSI_NULLS
