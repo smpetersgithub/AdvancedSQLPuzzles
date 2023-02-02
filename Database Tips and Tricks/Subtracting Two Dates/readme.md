@@ -1,6 +1,6 @@
 # Subtracting Two Dates
 
-In this GitHub repository I have two stored procedures (one that returns a table, and one that returns a varchar) that can accurately return the difference between two dates.
+In this GitHub repository I have two stored procedures (one that returns a `TABLE`, and one that returns a `VARCHAR`) that can accurately return the difference between two dates.
 
 Anyone who has used the `DATEDIFF` has probably been frustrated by its limitations. To solve this problem, I have created two functions to subtract dates. 
 
