@@ -895,21 +895,19 @@ Here we will discuss two SQL constructs, the `BIT` data type and the `NOT` opera
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Because the only acceptable values for the `BIT` data type is 1, 0 or NULL.  The `BIT` data type converts any nonzero value to 1.  As discussed earlier, the NULL marker is neither a nonzero value nor a zero value, so it is not promoted to the value of 1.  Here we can demonstrate that behavior.
 
 ```sql   
-SELECT 1 AS ID, CAST(NULL AS BIT)
+SELECT 1 AS ID, CAST(NULL AS BIT) AS Bit
 UNION
-SELECT 2 AS ID, CAST(3 AS BIT);
+SELECT 2 AS ID, CAST(3 AS BIT) AS Bit;
 ```
-**DOUBLE CHECK THIS**
-| ID  | MyBit  |
-|-----|--------|
-| 1   | <NULL> |
-| 2   |        |
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Much like NULL markers and duplicate tuples, there is much debate in the SQL community if the BIT data type should be a permissible data type, as its allowance for the NULL marker does not mimic the real world.  Joe Celko and C.J. Date advocate against using the BIT data type and give further details of this in many of their writings.  To read more about the BIT data type and its awkward fit for SQL databases, I recommend the following articles.
-BIT of a Problem - Simple Talk (red-gate.com)
-WHAT’S WRONG WITH NULLS? - SQL and Relational Theory, 2nd Edition [Book] (oreilly.com)
+| ID |  Bit   |
+|----|--------|
+|  1 | <NULL> |
+|  2 | 1      |
 
---------------------------------------------------------        
+------------------------------------------------------------------
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Much like NULL markers and duplicate tuples, there is much debate in the SQL community if the BIT data type should be a permissible data type, as its allowance for the NULL marker does not mimic the real world.  Joe Celko and C.J. Date advocate against using the BIT data type and give further details of this in many of their writings.
+------------------------------------------------------------------   
 **NOT**
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The `NOT` operator negates a Boolean input.
@@ -927,7 +925,6 @@ WHERE   NOT(FRUIT = 'Mango');
 |----|-------|----------|
 |  1 | Apple |       17 |
 |  2 | Peach |       20 |
-
 
 --------------------------------------------------------- 
 ### RETURN
