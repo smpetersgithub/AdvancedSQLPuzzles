@@ -21,37 +21,22 @@ We will cover these aspects and many more in the following document.
 
 
 
-[PREDICATE LOGIC](#predicate-logic)
-
-[ANSI_NULLS](#ansi_nulls)
-
-[IS NULL | IS NOT NULL](#is-null-|-is-not-null)
-
-[SAMPLE DATA](#sample-date)
-
-[JOIN SYNTAX](#join-syntax)
-
-[SEMI AND ANTI JOINS](#semi-and-anti-joins)
-
-[SET OPERATORS](#set-operators)
-
-[COUNT AND AVERAGE FUNCTION](#count-and-average-function)
-
-[CONSTRAINTS](#constraints)
-
-[REFERENTIAL INTEGRITY](#referential-integrity)
-
-[COMPUTED COLUMNS](#computed-columns)
-
-[SQL FUNCTIONS](#sql-functions)
-
-[EMPTY STRINGS, NULL, AND ASCII VALUES](#empty-strings,-null-and-ascii-values)
-
-[CONCAT](#concat)
-
-[VIEWS](#views)
-
-[BOOLEAN VALUES](#boolean-values)
+[1. PREDICATE LOGIC](#predicate-logic)
+[2. ANSI_NULLS](#ansi_nulls)
+[3. IS NULL and IS NOT NULL](#is-null-and-is-not-null)
+[4. SAMPLE DATA](#sample-data)
+[5. JOIN SYNTAX](#join-syntax)
+[6. SEMI AND ANTI JOINS](#semi-and-anti-joins)
+[7. SET OPERATORS](#set-operators)
+[8. COUNT AND AVERAGE FUNCTION](#count-and-average-function)
+[9. CONSTRAINTS](#constraints)
+[10. REFERENTIAL INTEGRITY](#referential-integrity)
+[11. COMPUTED COLUMNS](#computed-columns)
+[12. SQL FUNCTIONS](#sql-functions)
+[13. EMPTY STRINGS, NULL, AND ASCII VALUES](#empty-strings-null-and-ascii-values)
+[14. CONCAT](#concat)
+[15. VIEWS](#views)
+[16. BOOLEAN VALUES](#boolean-values)
 
 --------------------------------------------------------
 ### NULLs
@@ -98,7 +83,7 @@ In SQL Server, the `SET ANSI_NULLS` setting specifies the ISO compliant behavior
 | 1 <> NULL          | UNKNOWN           | TRUE               |
 | NULL > NULL        | UNKNOWN           | UNKNOWN            |
 | 1 > NULL           | UNKNOWN           | UNKNOWN            |
-| NULL IS NULL       | TRUE              | TRUE               |
+| NULL | TRUE              | TRUE               |
 | 1 IS NULL          | FALSE             | FALSE              |
 | NULL IS NOT NULL   | FALSE             | FALSE              |
 | 1 IS NOT NULL      | TRUE              | TRUE               |
@@ -108,7 +93,7 @@ In SQL Server, the `SET ANSI_NULLS` setting specifies the ISO compliant behavior
 `ANSI NULLS` will be removed in future versions of 'SQL Server'.
 
 ---------------------------------------------------------
-### IS NULL | IS NOT NULL
+### IS NULL and IS NOT NULL
 
 We can experiment with setting the `ANSI_NULLS` to ON and OFF to review how the behavior of NULL markers change.  In the following examples we will set the default ANSI_NULLS setting to ON.
 
