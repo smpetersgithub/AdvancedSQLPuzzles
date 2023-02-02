@@ -20,22 +20,22 @@ SQL also provides three functions to evaluate NULL markers:
 We will cover these aspects and many more in the following document.
 
 
-### PREDICATE LOGIC
-### ANSI_NULLS
-### IS NULL | IS NOT NULL
-### SAMPLE DATA
-### JOIN SYNTAX
-### SEMI AND ANTI JOINS
-### SET OPERATORS
-### COUNT AND AVERAGE FUNCTION
-### CONSTRAINTS
-### REFERENTIAL INTEGRITY
-### COMPUTED COLUMNS
-### SQL FUNCTIONS 
-### EMPTY STRINGS, NULL, AND ASCII VALUES
-### CONCAT
-### VIEWS
-### BOOLEAN VALUES
+[PREDICATE LOGIC](https://github.com/smpetersgithub/AdvancedSQLPuzzles/tree/AdvancedSQLJoins/Database%20Tips%20and%20Tricks/Behavior%20Of%20Nulls#predicate-logic-1)
+ANSI_NULLS
+IS NULL | IS NOT NULL
+SAMPLE DATA
+JOIN SYNTAX
+SEMI AND ANTI JOINS
+SET OPERATORS
+COUNT AND AVERAGE FUNCTION
+CONSTRAINTS
+REFERENTIAL INTEGRITY
+COMPUTED COLUMNS
+SQL FUNCTIONS 
+EMPTY STRINGS, NULL, AND ASCII VALUES
+CONCAT
+VIEWS
+BOOLEAN VALUES
 
 --------------------------------------------------------
 
