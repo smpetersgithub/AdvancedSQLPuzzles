@@ -54,7 +54,7 @@ We will cover these aspects and many more in the following document.
 
 ---------------------------------------------------------
 
-:white_check_mark:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The examples provided are written in `Microsoft’s SQL Server T-SQL`.  The provided SQL statements can be easily modified to fit your dialect of SQL.  
+:white_check_mark:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The examples provided are written in `Microsoft’s SQL Server T-SQL`.  The provided SQL statements can be easily modified to fit your dialect of SQL.
 
 :mailbox: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**I welcome any corrections, new tricks, new techniques, dead links, misspellings, or bugs!**
 
@@ -70,14 +70,14 @@ The following truth tables display how the three-valued logic is applied.
 
 ![Truth Tables Three Valued Logic](/Database%20Tips%20and%20Tricks/Behavior%20Of%20Nulls/images/Truth_Tables_Three_Valued_Logic.png)
 
-A good example of the complexity is shown below in the following examples.
+A good example of the complexity is shown below in the following examples.  [De Morgan's Law](https://en.wikipedia.org/wiki/De_Morgan%27s_laws) is also included below as I show both version of negation.
 
 ```sql
---TRUE OR UNKNOWN = TRUE
-SELECT 1 WHERE ((1=1) OR (NULL=1));
-
---FALSE OR UNKNOWN = UNKNOWN
-SELECT 1 WHERE NOT((1=2) OR (NULL=1));
+SELECT 1 WHERE ((1=1) OR (NULL=1)) --TRUE OR UNKNOWN = TRUE
+UNION
+SELECT 2 WHERE NOT((1=2) OR (NULL=1)) --FALSE OR UNKNOWN = UNKNOWN
+UNION
+SELECT 3 WHERE NOT(1=2) AND NOT(NULL=1); --FALSE OR UNKNOWN = UNKNOWN
 ```
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Because **TRUE OR UNKNOWN** equates to **TRUE**, one may expect `NOT(FALSE OR UNKNOWN)` to equate to **TRUE**, but this is not the case.  **UNKNOWN** could potentially have the value of **TRUE** or **FALSE**, leading to the second statement to either be **TRUE** or **FALSE** if the value of **UNKNOWN** becomes available.
