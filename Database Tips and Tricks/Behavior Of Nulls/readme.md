@@ -57,7 +57,7 @@ SQL also provides three functions to evaluate NULL markers:
 
 ----------------------------------------------------------
 
-#### Contents    
+#### Table Of Contents    
 [1. PREDICATE LOGIC](#predicate-logic)    
 [2. ANSI_NULLS](#ansi_nulls)    
 [3. IS NULL and IS NOT NULL](#is-null-and-is-not-null)    
@@ -76,23 +76,30 @@ SQL also provides three functions to evaluate NULL markers:
 [16. BOOLEAN VALUES](#boolean-values)    
 
 --------------------------------------------------------
-### NULLs
-[Link Back to Contents](#contents)
+### Brief History of NULLS 
+[Table Of Contents](#table-of-contents)
 
-:exclamation:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;With NULL markers, there is no common agreement upon how to properly deal with null values, neither in practice nor in theory.  C.J. Date, an independent author, lecturer, researcher, and consultant, specializing in relational database theory, is a proponent of rejecting the concept of NULL markers entirely and gives the strong opinion that nulls have no place in the Relational Model.  E.F. Codd, the inventor of the relational model, does include the concept of NULL markers in the Relational Model.  For more on this debate, I highly suggest C.J Date’s book, “Database in Depth: Relational Theory for Practitioners”.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;NULL values in relational databases are a source of debate, with some proponents rejecting them entirely, while others, including E.F. Codd, advocate for their use. Codd, a computer scientist who revolutionized database management with his work on relational database theory, introduced the concept of NULL values in the late 1960s and early 1970s to represent the absence of a value.
 
-:white_check_mark:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The examples provided are written in 'Microsoft’s SQL Server T-SQL'.  The provided SQL statements can be easily modified to fit your dialect of SQL.  I welcome any corrections, new tricks, new techniques, dead links, misspellings, or bugs.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Codd's work ensured data consistency and accuracy in relational databases, as they could better handle real-world scenarios where information may not always be complete. However, some critics argue that NULL values can lead to ambiguity and confusion, lack of default values, performance issues, and affect data quality.
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Despite these criticisms, NULL values are widely used and accepted, but must be used appropriately to understand their limitations and impact on data quality and performance. For further information, refer to C.J. Date's book, [Database in Depth: Relational Theory for Practitioners](https://www.amazon.com/Database-Depth-Relational-Theory-Practitioners/dp/0596100124).
+
+---------------------------------------------------------
+
+:white_check_mark:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The examples provided are written in 'Microsoft’s SQL Server T-SQL'.  The provided SQL statements can be easily modified to fit your dialect of SQL.  
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**I welcome any corrections, new tricks, new techniques, dead links, misspellings, or bugs!**
 
 ---------------------------------------------------------
 ### PREDICATE LOGIC
 [Link Back to Contents](#contents)
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;To best understand NULL markers in SQL, we need to understand the three-valued logic outcomes of TRUE, FALSE, and UNKNOWN.  While NOT TRUE is FALSE, and NOT FALSE is TRUE, the opposite of UNKNOWN is UNKNOWN.  Unique to SQL, the logic result will always be UNKNOWN when comparing a NULL marker to any other value.   SQL’s use of the three-valued logic system presents a surprising amount of complexity into a seemingly straightforward query.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;To best understand NULL markers in SQL, we need to understand the three-valued logic outcomes of TRUE, FALSE, and UNKNOWN.  Unique to SQL, the logic result will always be UNKNOWN when comparing a NULL marker to any other value.   SQL’s use of the three-valued logic system presents a surprising amount of complexity into a seemingly straightforward query.
 
 ---------------------------------------------------------
 
 The following truth tables display how the three-valued logic is applied.
-
 
 ![Truth Tables Three Valued Logic](/Database%20Tips%20and%20Tricks/Behavior%20Of%20Nulls/images/Truth_Tables_Three_Valued_Logic.png)
 
@@ -106,7 +113,7 @@ SELECT 1 WHERE ((1=1) OR (NULL=1));
 SELECT 1 WHERE NOT((1=2) OR (NULL=1));
 ```
 
-Because TRUE OR UNKNOWN equates to TRUE, one may expect 'NOT(FALSE OR UNKNOWN)' to equate to TRUE, but this is not the case.  UNKNOWN could potentially have the value of TRUE or FALSE, leading to the second statement to either be TRUE or FALSE if the value of UNKNOWN becomes available.
+Because TRUE OR UNKNOWN equates to TRUE, one may expect `NOT(FALSE OR UNKNOWN)` to equate to TRUE, but this is not the case.  UNKNOWN could potentially have the value of TRUE or FALSE, leading to the second statement to either be TRUE or FALSE if the value of UNKNOWN becomes available.
 
 The statement TRUE OR UNKNOWN will always resolve to TRUE if the value of UNKNOWN is either TRUE or FALSE, as TRUE OR FALSE is always TRUE.
 
@@ -116,9 +123,7 @@ The statement TRUE OR UNKNOWN will always resolve to TRUE if the value of UNKNOW
 
 In SQL Server, the `SET ANSI_NULLS` setting specifies the ISO compliant behavior of the equality (=) and inequality (<>) comparison operators.  The following table shows how the ANSI_NULLS session setting affects the results of Boolean expressions using NULL markers.  
 
-:exclamation:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The standard setting for `ANSI_NULLS` is ON.  
-
-:exclamation:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;To learn more about `ANSI_NULLS`, review the following [Microsoft documentation](https://learn.microsoft.com/en-us/sql/t-sql/statements/set-ansi-nulls-transact-sql?view=sql-server-ver16)
+:exclamation:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The standard setting for `ANSI_NULLS` is ON.  To learn more about `ANSI_NULLS`, review the following [Microsoft documentation](https://learn.microsoft.com/en-us/sql/t-sql/statements/set-ansi-nulls-transact-sql?view=sql-server-ver16)
 
 
 | Boolean Expression | SET ANSI_NULLS ON | SET ANSI_NULLS OFF |
@@ -139,7 +144,7 @@ In SQL Server, the `SET ANSI_NULLS` setting specifies the ISO compliant behavior
 ### IS NULL and IS NOT NULL
 [Link Back to Contents](#contents)
 
-We can experiment with setting the `ANSI_NULLS` to ON and OFF to review how the behavior of NULL markers change.  In the following examples we will set the default 'ANSI_NULLS' setting to ON.
+We can experiment with setting the `ANSI_NULLS` to ON and OFF to review how the behavior of NULL markers change.  In the following examples we will set the default `ANSI_NULLS` setting to ON.
 
 SQL provides two functions for handling NULL markers, `IS NULL` and `IS NOT NULL` which we will also demonstrate below.
 
@@ -301,7 +306,7 @@ There are several key differences between semi-joins and anti-joins:
 2.  The `IN` and `EXIST` operators will return a dataset if the semi-join contains a NULL marker.
 3.  The `NOT EXISTS` and `EXIST` operators can join on multiple columns between the outer and inner SQL statements.  The `NOT IN` or `IN` operators join on only one single field.
 
-**EMOJI HERE*  If you are performing an anti-join to a NULLable column, consider using the `NOT EXISTS` operator over the `NOT` operator.
+:small_red_triangle:      If you are performing an anti-join to a NULLable column, consider using the `NOT EXISTS` operator over the `NOT` operator.
 
 --------------------------------------------------------
 This statement returns an empty dataset as the anti-join contains a NULL marker.
