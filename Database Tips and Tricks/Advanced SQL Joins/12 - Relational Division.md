@@ -1,10 +1,10 @@
 # Relational Division
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Relational division is a relational algebra operation that represents the division of one relation into another relation based on certain conditions. In SQL, relational division can be achieved by using multiple join operations and conditional statements to divide the data in one table into multiple groups based on certain criteria. This can be useful for solving problems such as finding all employees who have had a shift in every department, or employees that have the same licenses or skillsets.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Relational division is a Relational Algebra operation that represents the division of one relation into another relation based on certain conditions. In SQL, relational division can be achieved by using multiple join operations and conditional statements to divide the data in one table into multiple groups based on certain criteria. This can be useful for solving problems such as finding all employees who have had a shift in every department, or employees that have the same licenses or skillsets.
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Relational division is not a built-in operator in SQL, so it must be simulated using a combination of other SQL operations, such as joins, subqueries, and conditional statements. The exact implementation of relational division may vary depending on the specific requirements of the problem and the database management system being used.
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The simplest way to define relational division is by stating you are looking for a percentage or fraction.  Relational division is used in SQL to select rows that conform to a number of different criteria.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Relational division is used in SQL to select rows that conform to a number of different criteria.
 *  I want to find all pilots who can fly 100% of the airplanes in the hanger (the most common example of relational division).
 *  I want to find all employees who match on at least two-thirds of their issued licenses.  
 *  I want to find all managers who have worked in every department.
@@ -109,7 +109,8 @@ Another example is find all employees who have the same licenses.
 |       5005 | Class B |
 |       5005 | Class D |
 
-```sqlCREATE TABLE #Employees
+```sql
+CREATE TABLE #Employees
 (
 EmployeeID  INTEGER,
 License     VARCHAR(100),
