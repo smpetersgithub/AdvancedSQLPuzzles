@@ -1,6 +1,6 @@
 # Pivoting Data
 
-The pivot operator is a powerful feature in SQL, but often goes unused due to its complicated syntax.  
+The `PIVOT` operator is a powerful feature in SQL, but often goes unused due to its complicated syntax.  
 
 Here we simplify the syntax by encapsulating the pivot into a stored procedure allowing us to easy automate the creation of pivoted datasets. 
 
