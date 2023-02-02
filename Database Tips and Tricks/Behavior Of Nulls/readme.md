@@ -19,6 +19,24 @@ SQL also provides three functions to evaluate NULL markers:
 
 We will cover these aspects and many more in the following document.
 
+
+### PREDICATE LOGIC
+### ANSI_NULLS
+### IS NULL | IS NOT NULL
+### SAMPLE DATA
+### JOIN SYNTAX
+### SEMI AND ANTI JOINS
+### SET OPERATORS
+### COUNT AND AVERAGE FUNCTION
+### CONSTRAINTS
+### REFERENTIAL INTEGRITY
+### COMPUTED COLUMNS
+### SQL FUNCTIONS 
+### EMPTY STRINGS, NULL, AND ASCII VALUES
+### CONCAT
+### VIEWS
+### BOOLEAN VALUES
+
 --------------------------------------------------------
 
 With NULL markers, there is no common agreement upon how to properly deal with null values, neither in practice nor in theory.  C.J. Date, an independent author, lecturer, researcher, and consultant, specializing in relational database theory, is a proponent of rejecting the concept of NULL markers entirely and gives the strong opinion that nulls have no place in the Relational Model.  E.F. Codd, the inventor of the relational model, does include the concept of NULL markers in the Relational Model.  For more on this debate, I highly suggest C.J Date’s book, “Database in Depth: Relational Theory for Practitioners”.
@@ -171,6 +189,7 @@ GO
 
 ---------------------------------------------------------
 ### JOIN SYNTAX
+
 NULL markers are neither equal to nor not equal to each other.  They are treated as unknowns.  This is best demonstrated by the below `INNER JOIN` statement, where NULL markers are not present in the result set.  Note here we are looking for both equality and inequality on the Fruit column (and a DISTINCT is applied as well).
 
 ```sql
@@ -477,6 +496,7 @@ FROM   cte_Average;
 --------------------------------------------------------- 
 ### CONSTRAINTS
 
+--------------------------------------------------------- 
 **PRIMARY KEYS**
 
 The `PRIMARY KEY` syntax will create a `CLUSTERED INDEX` unless specified otherwise.  The following statements will error as a 'PRIMARY KEY' does not allow for NULL markers.
@@ -490,7 +510,7 @@ ALTER TABLE ##TableA
 ADD CONSTRAINT PK_NULLConstraints PRIMARY KEY CLUSTERED (Fruit);
 ```
 
---------------------------------------------------------
+--------------------------------------------------------- 
 **UNIQUE**
 
 A `UNIQUE` constraint will create a `NONCLUSTERED INDEX` unless specified otherwise.
