@@ -36,8 +36,8 @@ We will cover these aspects and many more in the following document.
 [9. Constraints](#constraints)    
 [10. Referential Integrity](#referential-integrity)    
 [11. Computed Columns](#computed-columns)    
-[12. SQL Functions](#sql-functions)    
-[13. EMPTY STRINGS, NULL, AND ASCII VALUES](#empty-strings-null-and-ascii-values)    
+[12. SQL NULL Functions](#sql-null-functions)    
+[13. Empty Strings, NULL, AND ASCII Values](#empty-strings-null-and-ascii-values)    
 [14. CONCAT](#concat)    
 [15. Views](#views)    
 [16. Boolean Values](#boolean-values)    
@@ -499,7 +499,7 @@ GROUP BY Fruit;
 | Peach  |          1 |           1 |
 
 ---------------------------------------------------------
-### COUNT and AVERAGE Function
+### COUNT and AVERAGE Functions
 🔵[Table Of Contents](#table-of-contents)
 
 The `COUNT` and `AVG` functions have a few nuances to NULL markers as will demonstrate below.
@@ -728,7 +728,7 @@ GO
 Commands completed successfully.
   
 ---------------------------------------------------------
-### SQL Functions
+### SQL NULL Functions
 🔵[Table Of Contents](#table-of-contents)
         
 Besides the `IS NULL` and `IS NOT NULL` predicate logic constructs, SQL also provides three functions to help evaluate NULL markers.
