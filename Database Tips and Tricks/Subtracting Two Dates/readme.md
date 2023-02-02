@@ -12,8 +12,7 @@ Same logic, one returns a table and the other returns a varchar. Passing two dat
 **Step 1:**   
 Create the `FnDateDiffPartsChar` scalar valued function via the `FnDateDiffPartsChar.sql` script.
 
-Example usage of the scalar valued function `FnDateDiffPartsChar`.  
-This function is used with in the `SELECT` statement.
+Example usage of the scalar valued function `FnDateDiffPartsChar`.
 
 ```sql
 SELECT dbo.FnDateDiffPartsChar('20110619 00:00:00.0000001', '20110619 00:00:00.0000000');
@@ -25,7 +24,6 @@ SELECT dbo.FnDateDiffPartsChar('20170518 00:00:00.0000001','20110619 00:00:00.11
 Create the `FnDateDiffPartsTable` table-valued function via the `FnDateDiffPartsTable.sql` script.
 
 Example usage of the table valued function `FnDateDiffPartsTable`.  
-This function is used with in the `FROM` statement.
 
 ```sql
 SELECT * FROM dbo.FnDateDiffPartsChar('20110619 00:00:00.0000001', '20110619 00:00:00.0000000');
