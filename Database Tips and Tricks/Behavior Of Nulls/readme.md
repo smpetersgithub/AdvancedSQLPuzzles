@@ -644,6 +644,7 @@ GO
 
 CREATE TABLE dbo.Child
 (
+RowNumber INTEGER IDENTITY(1,1) UNIQUE NOT NULL,
 ChildID INTEGER FOREIGN KEY REFERENCES dbo.Parent (ParentID)
 );
 GO
@@ -666,17 +667,15 @@ SELECT * FROM dbo.Child;
 |        3 |
 |        4 |
 |        5 |
-
   
 **Child**
-| ChildID |
-|---------|
-| 1       |
-| 2       |
-| <NULL>  |
-| <NULL>  |
+| RowNumber | ChildID |
+|-----------|---------|
+|         1 | 1       |
+|         2 | 2       |
+|         3 | <NULL>  |
+|         4 | <NULL>  |
 
-  
 ---------------------------------------------------------
 ### Computed Columns
 🔵[Table Of Contents](#table-of-contents)
