@@ -22,7 +22,7 @@ We will cover these aspects and many more in the following document.
 
 ----------------------------------------------------------
 
-👍 I recomend navigating using the table of contents.
+👍 I recomend navigating using the **Table Of Contents**.
 
 #### Table Of Contents    
 [1. PREDICATE LOGIC](#predicate-logic)    
@@ -295,7 +295,7 @@ WHERE   Fruit NOT IN (SELECT Fruit FROM ##TableB);
 \<Empty Data Set>
 
 --------------------------------------------------------  
-Adding an 'ISNULL' function to the inner query is one way to alleviate the issue of NULL markers.
+Adding an `ISNULL` function to the inner query is one way to alleviate the issue of NULL markers.
 
 ```sql
 SELECT  ID,
