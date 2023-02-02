@@ -1,12 +1,12 @@
 # Behavior of Nulls
 
-To record missing or unknown values, users of relational databases can assign NULL markers to columns.  NULL is not a data value, but a marker representing the absence of a value.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;To record missing or unknown values, users of relational databases can assign NULL markers to columns.  NULL is not a data value, but a marker representing the absence of a value.
 
 NULL markers can mean one of two things:
 1)  The column does not apply to the other columns in the record.
 2)  The column applies, but the information is unknown.
 
-Because NULL markers represent the absence of a value, NULL markers can be a source of much confusion and trouble for developers.  To best understand NULL markers, one must understand the three-valued logic of TRUE, FALSE, or UNKNOWN, and recognize how NULL markers are treated within the different constructs of the SQL language.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Because NULL markers represent the absence of a value, NULL markers can be a source of much confusion and trouble for developers.  To best understand NULL markers, one must understand the three-valued logic of TRUE, FALSE, or UNKNOWN, and recognize how NULL markers are treated within the different constructs of the SQL language.
 
 Because NULL markers do not represent a value, SQL has two conditions specific to the SQL language:
 1)  `IS NULL`
@@ -24,6 +24,14 @@ SQL also provides three functions to evaluate NULL markers:
 :email:    
 :mailbox:    
 :postbox:    
+:traffic_light:    
+:vertical_traffic_light:    
+:ticket:     
+:bulb:    
+:flashlight:    
+:high_brightness:    
+:low_brightness:    
+:electric_plug:    
 
 ----------------------------------------------------------
 
@@ -49,11 +57,9 @@ SQL also provides three functions to evaluate NULL markers:
 ### NULLs
 [Link Back to Contents](#contents)
 
-:grey_exclamation:  With NULL markers, there is no common agreement upon how to properly deal with null values, neither in practice nor in theory.  C.J. Date, an independent author, lecturer, researcher, and consultant, specializing in relational database theory, is a proponent of rejecting the concept of NULL markers entirely and gives the strong opinion that nulls have no place in the Relational Model.  E.F. Codd, the inventor of the relational model, does include the concept of NULL markers in the Relational Model.  For more on this debate, I highly suggest C.J Date’s book, “Database in Depth: Relational Theory for Practitioners”.
+:exclamation:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;With NULL markers, there is no common agreement upon how to properly deal with null values, neither in practice nor in theory.  C.J. Date, an independent author, lecturer, researcher, and consultant, specializing in relational database theory, is a proponent of rejecting the concept of NULL markers entirely and gives the strong opinion that nulls have no place in the Relational Model.  E.F. Codd, the inventor of the relational model, does include the concept of NULL markers in the Relational Model.  For more on this debate, I highly suggest C.J Date’s book, “Database in Depth: Relational Theory for Practitioners”.
 
-The examples provided are written in 'Microsoft’s SQL Server T-SQL'.  The provided SQL statements can be easily modified to fit your dialect of SQL.  I welcome any corrections, new tricks, new techniques, dead links, misspellings, or bugs.
-
-Please contact me through the contact page on my website.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The examples provided are written in 'Microsoft’s SQL Server T-SQL'.  The provided SQL statements can be easily modified to fit your dialect of SQL.  I welcome any corrections, new tricks, new techniques, dead links, misspellings, or bugs.
 
 ---------------------------------------------------------
 ### PREDICATE LOGIC
@@ -85,9 +91,9 @@ The statement TRUE OR UNKNOWN will always resolve to TRUE if the value of UNKNOW
 
 In SQL Server, the `SET ANSI_NULLS` setting specifies the ISO compliant behavior of the equality (=) and inequality (<>) comparison operators.  The following table shows how the ANSI_NULLS session setting affects the results of Boolean expressions using NULL markers.  
 
-:exclamation: The standard setting for 'ANSI_NULLS' is ON.  
+:exclamation: The standard setting for `ANSI_NULLS` is ON.  
 
-:exclamation:To learn more about 'ANSI_NULLS', review the following [Microsoft documentation](https://learn.microsoft.com/en-us/sql/t-sql/statements/set-ansi-nulls-transact-sql?view=sql-server-ver16)
+:exclamation:To learn more about `ANSI_NULLS`, review the following [Microsoft documentation](https://learn.microsoft.com/en-us/sql/t-sql/statements/set-ansi-nulls-transact-sql?view=sql-server-ver16)
 
 
 | Boolean Expression | SET ANSI_NULLS ON | SET ANSI_NULLS OFF |
@@ -110,7 +116,7 @@ In SQL Server, the `SET ANSI_NULLS` setting specifies the ISO compliant behavior
 
 We can experiment with setting the `ANSI_NULLS` to ON and OFF to review how the behavior of NULL markers change.  In the following examples we will set the default 'ANSI_NULLS' setting to ON.
 
-SQL provides two functions for handling NULL markers, 'IS NULL' and 'IS NOT NULL' which we will also demonstrate below.
+SQL provides two functions for handling NULL markers, `IS NULL` and `IS NOT NULL` which we will also demonstrate below.
 
 ```sql
 --2.1
