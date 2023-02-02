@@ -31,7 +31,28 @@ SQL also provides three functions to evaluate NULL markers:
 :flashlight:    
 :high_brightness:    
 :low_brightness:    
-:electric_plug:    
+:electric_plug:       
+:black_small_square:    
+:white_small_square:    
+:black_medium_small_square:    
+:white_medium_small_square:    
+:black_medium_square:    
+:white_medium_square:    
+:black_large_square:    
+:white_large_square:    
+:white_check_mark:    
+:black_square_button:    
+:white_square_button:    
+:black_circle:    
+:white_circle:    
+:red_circle:    
+:large_blue_circle:    
+:large_blue_diamond:    
+:large_orange_diamond:    
+:small_blue_diamond:    
+:small_orange_diamond:    
+:small_red_triangle:    
+:small_red_triangle_down:    
 
 ----------------------------------------------------------
 
@@ -59,7 +80,7 @@ SQL also provides three functions to evaluate NULL markers:
 
 :exclamation:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;With NULL markers, there is no common agreement upon how to properly deal with null values, neither in practice nor in theory.  C.J. Date, an independent author, lecturer, researcher, and consultant, specializing in relational database theory, is a proponent of rejecting the concept of NULL markers entirely and gives the strong opinion that nulls have no place in the Relational Model.  E.F. Codd, the inventor of the relational model, does include the concept of NULL markers in the Relational Model.  For more on this debate, I highly suggest C.J Date’s book, “Database in Depth: Relational Theory for Practitioners”.
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The examples provided are written in 'Microsoft’s SQL Server T-SQL'.  The provided SQL statements can be easily modified to fit your dialect of SQL.  I welcome any corrections, new tricks, new techniques, dead links, misspellings, or bugs.
+:white_check_mark:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The examples provided are written in 'Microsoft’s SQL Server T-SQL'.  The provided SQL statements can be easily modified to fit your dialect of SQL.  I welcome any corrections, new tricks, new techniques, dead links, misspellings, or bugs.
 
 ---------------------------------------------------------
 ### PREDICATE LOGIC
@@ -91,9 +112,9 @@ The statement TRUE OR UNKNOWN will always resolve to TRUE if the value of UNKNOW
 
 In SQL Server, the `SET ANSI_NULLS` setting specifies the ISO compliant behavior of the equality (=) and inequality (<>) comparison operators.  The following table shows how the ANSI_NULLS session setting affects the results of Boolean expressions using NULL markers.  
 
-:exclamation: The standard setting for `ANSI_NULLS` is ON.  
+:exclamation:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The standard setting for `ANSI_NULLS` is ON.  
 
-:exclamation:To learn more about `ANSI_NULLS`, review the following [Microsoft documentation](https://learn.microsoft.com/en-us/sql/t-sql/statements/set-ansi-nulls-transact-sql?view=sql-server-ver16)
+:exclamation:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;To learn more about `ANSI_NULLS`, review the following [Microsoft documentation](https://learn.microsoft.com/en-us/sql/t-sql/statements/set-ansi-nulls-transact-sql?view=sql-server-ver16)
 
 
 | Boolean Expression | SET ANSI_NULLS ON | SET ANSI_NULLS OFF |
@@ -211,7 +232,7 @@ GO
 ### JOIN SYNTAX
 [Link Back to Contents](#contents)
         
-NULL markers are neither equal to nor not equal to each other.  They are treated as unknowns.  This is best demonstrated by the below `INNER JOIN` statement, where NULL markers are not present in the result set.  Note here we are looking for both equality and inequality on the Fruit column (and a DISTINCT is applied as well).
+NULL markers are neither equal to nor not equal to each other.  They are treated as unknowns.  This is best demonstrated by the below `INNER JOIN` statement, where NULL markers are not present in the result set.  Note here we are looking for both equality and inequality on the Fruit column (and a `DISTINCT` is applied as well).
 
 ```sql
 SELECT  DISTINCT
