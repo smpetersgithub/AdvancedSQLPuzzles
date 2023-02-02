@@ -1,4 +1,5 @@
 # Behavior of Nulls
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;https://advancedsqlpuzzles.com
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;To record missing or unknown values, users of relational databases can assign NULL markers to columns.  NULL is not a data value, but a marker representing the absence of a value.
 
@@ -6,7 +7,7 @@ NULL markers can mean one of two things:
 1)  The column does not apply to the other columns in the record.
 2)  The column applies, but the information is unknown.
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Because NULL markers represent the absence of a value, NULL markers can be a source of much confusion and trouble for developers.  To best understand NULL markers, one must understand the three-valued logic of TRUE, FALSE, or UNKNOWN, and recognize how NULL markers are treated within the different constructs of the SQL language.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Because NULL markers represent the absence of a value, NULL markers can be a source of much confusion and trouble for developers.  To best understand NULL markers, one must understand the three-valued logic of **TRUE, FALSE, or UNKNOWN**, and recognize how NULL markers are treated within the different constructs of the SQL language.
 
 Because NULL markers do not represent a value, SQL has two conditions specific to the SQL language:
 1)  `IS NULL`
@@ -87,9 +88,9 @@ SQL also provides three functions to evaluate NULL markers:
 
 ---------------------------------------------------------
 
-:white_check_mark:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The examples provided are written in 'Microsoft’s SQL Server T-SQL'.  The provided SQL statements can be easily modified to fit your dialect of SQL.  
+:white_check_mark:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The examples provided are written in `Microsoft’s SQL Server T-SQL`.  The provided SQL statements can be easily modified to fit your dialect of SQL.  
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**I welcome any corrections, new tricks, new techniques, dead links, misspellings, or bugs!**
+:mailbox: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**I welcome any corrections, new tricks, new techniques, dead links, misspellings, or bugs!**
 
 ---------------------------------------------------------
 ### PREDICATE LOGIC
@@ -113,9 +114,9 @@ SELECT 1 WHERE ((1=1) OR (NULL=1));
 SELECT 1 WHERE NOT((1=2) OR (NULL=1));
 ```
 
-Because TRUE OR UNKNOWN equates to TRUE, one may expect `NOT(FALSE OR UNKNOWN)` to equate to TRUE, but this is not the case.  UNKNOWN could potentially have the value of TRUE or FALSE, leading to the second statement to either be TRUE or FALSE if the value of UNKNOWN becomes available.
+Because **TRUE OR UNKNOWN** equates to **TRUE**, one may expect `NOT(FALSE OR UNKNOWN)` to equate to **TRUE**, but this is not the case.  **UNKNOWN** could potentially have the value of **TRUE** or **FALSE**, leading to the second statement to either be **TRUE** or **FALSE** if the value of **UNKNOWN** becomes available.
 
-The statement TRUE OR UNKNOWN will always resolve to TRUE if the value of UNKNOWN is either TRUE or FALSE, as TRUE OR FALSE is always TRUE.
+The statement **TRUE OR UNKNOWN** will always resolve to **TRUE** if the value of **UNKNOWN** is either **TRUE** or **FALSE**, as **TRUE OR FALSE** is always **TRUE**.
 
 ---------------------------------------------------------
 ### ANSI_NULLS
@@ -144,7 +145,7 @@ In SQL Server, the `SET ANSI_NULLS` setting specifies the ISO compliant behavior
 ### IS NULL and IS NOT NULL
 [Table Of Contents](#table-of-contents)
 
-We can experiment with setting the `ANSI_NULLS` to ON and OFF to review how the behavior of NULL markers change.  In the following examples we will set the default `ANSI_NULLS` setting to ON.
+We can experiment with setting the `ANSI_NULLS` to `ON` and `OFF` to review how the behavior of NULL markers change.  In the following examples we will set the default `ANSI_NULLS` setting to `ON`.
 
 SQL provides two functions for handling NULL markers, `IS NULL` and `IS NOT NULL` which we will also demonstrate below.
 
@@ -297,7 +298,7 @@ Semi-joins and anti-joins are two closely related join methods.  The semi-join a
 
 Anti-joins use the `NOT IN` or `NOT EXISTS` operators.  Semi-joins use the `IN` or `EXISTS` operators.
 
-There are several benefits of using anti-joins and semi-joins over `INNER JOINS':
+There are several benefits of using anti-joins and semi-joins over `INNER JOINS`:
 1.  Semi-joins and anti-joins remove the risk of returning duplicate rows.
 2.  Semi-joins and anti-joins increase readability as the result set can only contain the columns from the outer semi-joined table.
 
@@ -411,11 +412,11 @@ Mango
 ### SET OPERATORS
 [Table Of Contents](#table-of-contents)
         
-The SQL standard for set operators does not use the term EQUAL TO or NOT EQUAL TO when describing their behavior.  Instead, it uses the terminology of IS [NOT] DISTINCT FROM and the following expressions are TRUE when using set operators.
+The SQL standard for set operators does not use the term **EQUAL TO or NOT EQUAL TO** when describing their behavior.  Instead, it uses the terminology of **IS [NOT] DISTINCT FROM** and the following expressions are TRUE when using set operators.
 *  NULL is not distinct from NULL
 *  NULL is distinct from "Apples".
 
-In the following examples, we see the set operators treat the NULL markers differently than the JOIN syntax.
+In the following examples, we see the set operators treat the NULL markers differently than the join syntax.
 
 --------------------------------------------------------        
 The `UNION` operator demonstrates that NULL is not distinct from NULL, as the following returns only one NULL marker.
@@ -552,12 +553,12 @@ FROM   cte_Average;
 ### CONSTRAINTS
 [Table Of Contents](#table-of-contents)
         
-SQL provides the following contraints; NOT NULL, PRIMARY KEY, FOREIGN KEY. UNIQUE, and CHECK CONSTRAINTS.
+SQL provides the following contraints; `NOT NULL`, `PRIMARY KEY`, `FOREIGN KEY`. `UNIQUE`, and `CHECK CONSTRAINTS`.
         
 --------------------------------------------------------- 
 **PRIMARY KEYS**
 
-The `PRIMARY KEY` syntax will create a `CLUSTERED INDEX` unless specified otherwise.  The following statements will error as a 'PRIMARY KEY' does not allow for NULL markers.
+The `PRIMARY KEY` syntax will create a `CLUSTERED INDEX` unless specified otherwise.  The following statements will error as a `PRIMARY KEY` does not allow for NULL markers.
 
 ```sql
 ALTER TABLE ##TableA
@@ -574,7 +575,7 @@ ADD CONSTRAINT PK_NULLConstraints PRIMARY KEY CLUSTERED (Fruit);
 A `UNIQUE` constraint will create a `NONCLUSTERED INDEX` unless specified otherwise.
 
 The error statement produced will be:    
-“Cannot define PRIMARY KEY constraint on NULLable column in table ##TableA.”
+:exclamation:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;“Cannot define PRIMARY KEY constraint on NULLable column in table ##TableA.”
 
 
 To demonstrate that a `UNIQUE CONSTRAINT` allows only one NULL marker we can run the following statement.  We add a `UNIQUE CONSTRAINT` to `##TableB`, which already includes a NULL marker in the column Fruit. 
@@ -588,8 +589,8 @@ INSERT INTO #NULLConstraints(MyField2) VALUES (NULL);
 GO
 ```
 
-The second statement produces the following error.
-“Violation of UNIQUE KEY constraint UNIQUE_NULLConstraints. Cannot insert duplicate key in object ##TableB. The duplicate key value is (<NULL>).”
+The second statement produces the following error.     
+:exclamation:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;“Violation of UNIQUE KEY constraint UNIQUE_NULLConstraints. Cannot insert duplicate key in object ##TableB. The duplicate key value is (<NULL>).”
 
 --------------------------------------------------------
 **CHECK CONSTRAINTS**
@@ -620,7 +621,7 @@ MyField
 ### REFERENTIAL INTEGRITY
 [Table Of Contents](#table-of-contents)
         
-In short, multiple NULL markers can be inserted into the child column or a `FOREIGN KEY` constraint.
+Multiple NULL markers can be inserted into the child column or a `FOREIGN KEY` constraint.
 
 In `SQL Server`, a `FOREIGN KEY` constraint must be linked to a column with either a `PRIMARY KEY` constraint or a `UNIQUE` constraint defined on the column.  A `PRIMARY KEY` constraint does not allow NULL markers, but a `UNIQUE` constraint allows one NULL marker.
 
@@ -677,8 +678,7 @@ Kiwi	22
 
 When creating a table with a non-NULLable computed column, you must create the column as `PERSISTED`, else you will receive the error message:
 
-Msg 8183, Level 16, State 1, Line 307
-Only UNIQUE or PRIMARY KEY constraints can be created on computed columns, while CHECK, FOREIGN KEY, and NOT NULL constraints require that computed columns be persisted.
+:exclamation:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Only UNIQUE or PRIMARY KEY constraints can be created on computed columns, while CHECK, FOREIGN KEY, and NOT NULL constraints require that computed columns be persisted.
 
 From this error message we can see there are several rules we need to follow on computed columns if we want to add `UNIQUE`, `PRIMARY KEY`, `FOREIGN KEY`, `CHECK` and `NOT NULL` constraints.
 
@@ -705,32 +705,41 @@ GO
 ### SQL FUNCTIONS 
 [Table Of Contents](#table-of-contents)
         
-Besides the IS NULL and IS NOT NULL predicate logic constructs, SQL also provides three functions to help evaluate NULL markers.
+Besides the `IS NULL` and `IS NOT NULL` predicate logic constructs, SQL also provides three functions to help evaluate NULL markers.
 
----------------------------------------------------------
-**COALESCE**
-The `COALESCE` function returns the first non-NULL value among its arguments.  If all values are NULL, `COALESCE` returns a NULL marker.    
-`COALESCE(expression [ ,…n ])`
-
-**There is a system setting for how NULL markers are treated with CONCAT**
-
-**ISNULL**
-The `ISNULL` function replaces NULL with the specified replacement value.    
-'ISNULL(check_expression , replacement_value)'
-
-**NULLIF**
-The `NULLIF` returns a NULL marker if the two specified expressions are equal.
-`NULLIF(expression , expression)`
-
-
-`COALESCE` and `ISNULL` have several key differences that should be noted.  A full comparison can be found here in this Microsoft documentation.
+1.  `ISNULL`
+2.  `COALESCE`
+3.  `NULLIF`
+  
+`COALESCE` and `ISNULL` have several key differences that should be noted.  A full comparison can be found [here](https://www.mssqltips.com/sqlservertip/2689/deciding-between-coalesce-and-isnull-in-sql-server/).
 
 The major differences between `COALESCE` and `ISNULL` from the documentation are:
 
-1)  `COALESCE` behaves the same as a `CASE` statement, and therefore can accept multiple parameters and return a NULL marker.  `ISNULL` cannot return a NULL marker and accepts only two parameters.
-2)  `COALESCE` determines the type of output based upon data type precedence.  ISNULL uses the data type of the first parameter.
+1.  `COALESCE` behaves the same as a `CASE` statement, and therefore can accept multiple parameters and return a NULL marker.  `ISNULL` cannot return a NULL marker and accepts only two parameters.
+2.  `COALESCE` determines the type of output based upon data type precedence.  ISNULL uses the data type of the first parameter.
 
-Check the Microsoft documentation provided above for more robust examples of the differences between `COALESCE` and `ISNULL`. Below I provide a few quick examples to note their behavior.
+---------------------------------------------------------  
+:exclamation:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;In `SQL Server`, the `SET CONCAT_NULL_YIELDS_NULL` database setting controls whether concatenation results are treated as null or empty string values.  In a future version of `SQL Server` `CONCAT_NULL_YIELDS_NULL` will always be `ON` and any applications that explicitly set the option to OFF will generate an error. Avoid using this feature in new development work, and plan to modify applications that currently use this feature.
+  
+---------------------------------------------------------
+**COALESCE**
+*  The `COALESCE` function returns the first non-NULL value among its arguments.  If all values are NULL, `COALESCE` returns a NULL marker.        
+*  The basic usage of the function is `COALESCE(expression [ ,…n ])`       
+
+
+---------------------------------------------------------
+**ISNULL**     
+ *  The `ISNULL` function replaces NULL with the specified replacement value.        
+*  The basic usage of the function is `ISNULL(check_expression , replacement_value)`
+
+---------------------------------------------------------        
+**NULLIF**    
+*  The `NULLIF` returns a NULL marker if the two specified expressions are equal.    
+*  The basic usage of the function is `NULLIF(expression , expression)`
+
+--------------------------------------------------------- 
+
+Below I provide a few quick examples to note their behavior.
 
 ```sql
 WITH cte_functions AS
