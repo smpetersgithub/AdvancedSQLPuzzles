@@ -124,7 +124,7 @@ The statement **TRUE OR UNKNOWN** will always resolve to **TRUE** if the value o
 
 In SQL Server, the `SET ANSI_NULLS` setting specifies the ISO compliant behavior of the equality (=) and inequality (<>) comparison operators.  The following table shows how the ANSI_NULLS session setting affects the results of Boolean expressions using NULL markers.  
 
-:exclamation:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The standard setting for `ANSI_NULLS` is ON.  To learn more about `ANSI_NULLS`, review the following [Microsoft documentation](https://learn.microsoft.com/en-us/sql/t-sql/statements/set-ansi-nulls-transact-sql?view=sql-server-ver16)
+:exclamation:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The standard setting for `ANSI_NULLS` is `ON`.  In a future version of `Microsoft SQL Server` `ANSI_NULLS` will always be `ON` and any applications that explicitly set the option to `OFF` will produce an error. Avoid using this feature in new development work, and plan to modify applications that currently use this feature.
 
 
 | Boolean Expression | SET ANSI_NULLS ON | SET ANSI_NULLS OFF |
@@ -575,7 +575,7 @@ ADD CONSTRAINT PK_NULLConstraints PRIMARY KEY CLUSTERED (Fruit);
 A `UNIQUE` constraint will create a `NONCLUSTERED INDEX` unless specified otherwise.
 
 The error statement produced will be:    
-:exclamation:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;“Cannot define PRIMARY KEY constraint on NULLable column in table ##TableA.”
+>:exclamation:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;“Cannot define PRIMARY KEY constraint on NULLable column in table ##TableA.”
 
 
 To demonstrate that a `UNIQUE CONSTRAINT` allows only one NULL marker we can run the following statement.  We add a `UNIQUE CONSTRAINT` to `##TableB`, which already includes a NULL marker in the column Fruit. 
@@ -590,7 +590,7 @@ GO
 ```
 
 The second statement produces the following error.     
-:exclamation:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;“Violation of UNIQUE KEY constraint UNIQUE_NULLConstraints. Cannot insert duplicate key in object ##TableB. The duplicate key value is (<NULL>).”
+>:exclamation:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;“Violation of UNIQUE KEY constraint UNIQUE_NULLConstraints. Cannot insert duplicate key in object ##TableB. The duplicate key value is (<NULL>).”
 
 --------------------------------------------------------
 **CHECK CONSTRAINTS**
@@ -957,6 +957,6 @@ The 'SpReturnStatement' procedure attempted to return a status of NULL, which is
         
 Over the course of this document, we have touched on many of the SQL constructs and how they treat NULL markers.  I hope this document serves as a guiding document for future development, and most importantly, always remember to include NULL markers in your test data.
 
-The most important concept to understand with NULL markers is the three-valued logic, where statements can equate to TRUE, FALSE, or UNKNOWN.  Understanding the three-valued logic is instrumental in understanding the behavior of NULL markers.  TRUE OR UNKNOWN equates to TRUE, and TRUE OR UNKNOWN equates to UNKNOWN.
+The most important concept to understand with NULL markers is the three-valued logic, where statements can equate to **TRUE**, **FALSE**, or **UNKNOWN**.  Understanding the three-valued logic is instrumental in understanding the behavior of NULL markers.  **TRUE OR UNKNOWN** equates to TRUE, and **TRUE AND UNKNOWN** equates to **UNKNOWN**.
  
 https://advancedsqlpuzzles.com
