@@ -89,7 +89,26 @@ This puzzle is called the Overlapping Time Periods, and I find this to be the mo
 
 For this example, I used temporary tables to avoid making a common table expression dependent on another common table expression.  This allows future developers to easy review the data sets in the step order and reverse engineer the statement.
 
-Note it also uses a `LEFT OUTER JOIN` with a theta-join to create the table `#OuterJoin`.
+Here is the overlapping time period data.
+
+| StartDate  |  EndDate   |
+|------------|------------|
+| 2018-01-01 | 2018-01-05 |
+| 2018-01-03 | 2018-01-09 |
+| 2018-01-10 | 2018-01-11 |
+| 2018-01-12 | 2018-01-16 |
+| 2018-01-15 | 2018-01-19 |
+
+
+And here is the expected output:
+
+| StartDate  |  EndDate   |
+|------------|------------|
+| 2018-01-01 | 2018-01-09 |
+| 2018-01-10 | 2018-01-11 |
+| 2018-01-12 | 2018-01-19 |
+
+The following solution uses a `LEFT OUTER JOIN` with a theta-join to create the table `#OuterJoin`.
 
 ```sql
 CREATE TABLE #TimePeriods
