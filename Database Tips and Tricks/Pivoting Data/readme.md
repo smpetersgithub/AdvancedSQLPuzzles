@@ -9,12 +9,12 @@ Under the hood the stored procedure uses XML and dynamic SQL to accomplish its g
 ## Installation
 
 **Step 1:**   
-Create the stored procedure **SpPivotData** via the **SpPivotData.sql** script.
+Create the stored procedure `SpPivotData` via the `SpPivotData.sql` script.
 
 **Step 2:**   
-Review example usages of the SpPivotData stored procedure in teh **Pivot Data Examples.sql** script.
+Review example usages of the `SpPivotData` stored procedure in the `Pivot Data Examples.sql` script.
 
-Here is a basic execution of the SpPivotData stored procedure.
+Here is a basic execution of the `SpPivotData` stored procedure.
 
 ```sql
 EXEC dbo.SpPivotData
