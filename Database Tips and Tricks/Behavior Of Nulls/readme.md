@@ -88,7 +88,7 @@ SELECT 1 WHERE NOT((1=2) OR (NULL=1));
 ### ANSI_NULLS
 :large_blue_circle: [Table Of Contents](#table-of-contents)
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;In SQL Server, the `SET ANSI_NULLS` setting specifies the ISO compliant behavior of the equality (=) and inequality (<>) comparison operators.  The following table shows how the ANSI_NULLS session setting affects the results of Boolean expressions using NULL markers.  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;In SQL Server, the `SET ANSI_NULLS` setting specifies the ISO compliant behavior of the equality (=) and inequality (<>) comparison operators.  The following table shows how the `ANSI_NULLS` session setting affects the results of Boolean expressions using NULL markers.  
 
 :exclamation:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The standard setting for `ANSI_NULLS` is `ON`.  In a future version of `Microsoft SQL Server` `ANSI_NULLS` will always be `ON` and any applications that explicitly set the option to `OFF` will produce an error. Avoid using this feature in new development work, and plan to modify applications that currently use this feature.
 
@@ -626,7 +626,7 @@ SELECT * FROM dbo.Child;
 ### COMPUTED COLUMNS
 :large_blue_circle: [Table Of Contents](#table-of-contents)
         
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;A computed column is a virtual column that is not physically stored in a table.  A computed column expression can use data from other columns to calculate a value.  When an expression is applied to a column with a NULL marker, a NULL marker will be the return value.   Here we attempt to add the value "2" to a the `Quantity` field which includes a NULL marker in our test data.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;A computed column is a virtual column that is not physically stored in a table.  A computed column expression can use data from other columns to calculate a value.  When an expression is applied to a column with a NULL marker, a NULL marker will be the return value.   Here we add the value "2" to a the `Quantity` field which includes a NULL marker in our test data.
 
 ```sql
 SELECT Fruit,
@@ -644,7 +644,7 @@ Kiwi	22
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;When creating a table with a non-NULLable computed column, you must create the column as `PERSISTED`, else you will receive the error message:
 
-:exclamation:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Only UNIQUE or PRIMARY KEY constraints can be created on computed columns, while CHECK, FOREIGN KEY, and NOT NULL constraints require that computed columns be persisted.
+> :exclamation:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Only `UNIQUE` or `PRIMARY KEY` constraints can be created on computed columns, while `CHECK`, `FOREIGN KEY`, and `NOT NULL` constraints require that computed columns be persisted.
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;From this error message we can see there are several rules we need to follow on computed columns if we want to add `UNIQUE`, `PRIMARY KEY`, `FOREIGN KEY`, `CHECK` and `NOT NULL` constraints.
 
