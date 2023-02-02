@@ -90,18 +90,18 @@ SELECT 3 WHERE NOT(1=2) AND NOT(NULL=1); --FALSE OR UNKNOWN = UNKNOWN
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;In SQL Server, the `SET ANSI_NULLS` setting specifies the ISO compliant behavior of the equality (=) and inequality (<>) comparison operators.  The following table shows how the `ANSI_NULLS` session setting affects the results of Boolean expressions using NULL markers.  
 
-| Boolean Expression | SET ANSI_NULLS ON | SET ANSI_NULLS OFF |
-|--------------------|-------------------|--------------------|
-| NULL = NULL        | UNKNOWN           | TRUE               |
-| 1 = NULL           | UNKNOWN           | FALSE              |
-| NULL <> NULL       | UNKNOWN           | FALSE              |
-| 1 <> NULL          | UNKNOWN           | TRUE               |
-| NULL > NULL        | UNKNOWN           | UNKNOWN            |
-| 1 > NULL           | UNKNOWN           | UNKNOWN            |
-| NULL | TRUE              | TRUE               |
-| 1 IS NULL          | FALSE             | FALSE              |
-| NULL IS NOT NULL   | FALSE             | FALSE              |
-| 1 IS NOT NULL      | TRUE              | TRUE               |
+| Boolean Expression     | SET ANSI_NULLS ON | SET ANSI_NULLS OFF |
+|------------------------|-------------------|--------------------|
+| **NULL = NULL**        | UNKNOWN           | TRUE               |
+| **1 = NULL**           | UNKNOWN           | FALSE              |
+| **NULL <> NULL**       | UNKNOWN           | FALSE              |
+| **1 <> NULL**          | UNKNOWN           | TRUE               |
+| **NULL > NULL**        | UNKNOWN           | UNKNOWN            |
+| **1 > NULL**           | UNKNOWN           | UNKNOWN            |
+| **NULL**               | TRUE              | TRUE               |
+| **1 IS NULL**          | FALSE             | FALSE              |
+| **NULL IS NOT NULL**   | FALSE             | FALSE              |
+| **1 IS NOT NULL**      | TRUE              | TRUE               |
 
 
 ---------------------------------------------------------
