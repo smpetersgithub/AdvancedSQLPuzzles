@@ -7,7 +7,7 @@ NULL markers can mean one of two things:
 1)  The column does not apply to the other columns in the record.
 2)  The column applies, but the information is unknown.
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Because NULL markers represent the absence of a value, NULL markers can be a source of much confusion and trouble for developers.  To best understand NULL markers, one must understand the three-valued logic of **TRUE, FALSE, or UNKNOWN**, and recognize how NULL markers are treated within the different constructs of the SQL language.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Because NULL markers represent the absence of a value, NULL markers can be a source of much confusion and trouble for developers.  To best understand NULL markers, one must understand the three-valued logic of **TRUE**, **FALSE**, or **UNKNOWN**, and recognize how NULL markers are treated within the different constructs of the SQL language.
 
 Because NULL markers do not represent a value, SQL has two conditions specific to the SQL language:
 1)  `IS NULL`
@@ -22,7 +22,7 @@ We will cover these aspects and many more in the following document.
 
 ----------------------------------------------------------
 
-I recomend navigating using the table of contents.
+👍 I recomend navigating using the table of contents.
 
 #### Table Of Contents    
 [1. PREDICATE LOGIC](#predicate-logic)    
