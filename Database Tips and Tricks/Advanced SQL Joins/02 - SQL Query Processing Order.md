@@ -57,9 +57,9 @@ FROM    Customers emp CROSS JOIN
   
 
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;For `INNER` and `OUTER` JOINs, these types of joins require a comparison operator to equate rows from the participating tables based on a common field in both the tables.  These comparison operators are described as equi-joins and theta-joins.  Many of these types of joins are rooted in relational algebra.  Introduced by Edgar F. Codd in 1970, relational algebra uses algebraic structures with a well-founded semantics for modeling data and defining queries on it.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;For `INNER` and `OUTER` JOIN', these types of joins require a comparison operator to equate rows from the participating tables based on a common field in both the tables.  These comparison operators are described as equi-joins and theta-joins are rooted in Relational Algebra.  Introduced by Edgar F. Codd in 1970, Relational Algebra uses algebraic structures with a well-founded semantics for modeling data and defining queries on it.
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Lastly, SQL is a declarative language, meaning you tell the SQL engine WHAT to do, and not HOW to do it.  When a table operation is being performed, the SQL engine decides the best method for physically joining the tables (called a join algorithm).  These join algorithms are used to optimize the performance of a query when performing a join operation and are based on the table size, type of data they contain, available index, table statistics.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Lastly, SQL is a declarative language, meaning you tell the SQL engine **WHAT** to do, and not **HOW** to do it.  When a table operation is being performed, the SQL engine decides the best method for physically joining the tables (called a join algorithm).  These join algorithms are used to optimize the performance of a query when performing a join operation and are based on the table size, type of data they contain, available index, table statistics.
 
 ---------------------------------------------------------
 
