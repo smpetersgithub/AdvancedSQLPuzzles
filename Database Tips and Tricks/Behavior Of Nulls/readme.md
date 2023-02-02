@@ -21,22 +21,22 @@ We will cover these aspects and many more in the following document.
 
 
 
-[1. PREDICATE LOGIC](#predicate-logic)
-[2. ANSI_NULLS](#ansi_nulls)
-[3. IS NULL and IS NOT NULL](#is-null-and-is-not-null)
-[4. SAMPLE DATA](#sample-data)
-[5. JOIN SYNTAX](#join-syntax)
-[6. SEMI AND ANTI JOINS](#semi-and-anti-joins)
-[7. SET OPERATORS](#set-operators)
-[8. COUNT AND AVERAGE FUNCTION](#count-and-average-function)
-[9. CONSTRAINTS](#constraints)
-[10. REFERENTIAL INTEGRITY](#referential-integrity)
-[11. COMPUTED COLUMNS](#computed-columns)
-[12. SQL FUNCTIONS](#sql-functions)
-[13. EMPTY STRINGS, NULL, AND ASCII VALUES](#empty-strings-null-and-ascii-values)
-[14. CONCAT](#concat)
-[15. VIEWS](#views)
-[16. BOOLEAN VALUES](#boolean-values)
+[1. PREDICATE LOGIC](#predicate-logic)    
+[2. ANSI_NULLS](#ansi_nulls)    
+[3. IS NULL and IS NOT NULL](#is-null-and-is-not-null)    
+[4. SAMPLE DATA](#sample-data)    
+[5. JOIN SYNTAX](#join-syntax)    
+[6. SEMI AND ANTI JOINS](#semi-and-anti-joins)    
+[7. SET OPERATORS](#set-operators)    
+[8. COUNT AND AVERAGE FUNCTION](#count-and-average-function)    
+[9. CONSTRAINTS](#constraints)    
+[10. REFERENTIAL INTEGRITY](#referential-integrity)    
+[11. COMPUTED COLUMNS](#computed-columns)    
+[12. SQL FUNCTIONS](#sql-functions)    
+[13. EMPTY STRINGS, NULL, AND ASCII VALUES](#empty-strings-null-and-ascii-values)    
+[14. CONCAT](#concat)    
+[15. VIEWS](#views)    
+[16. BOOLEAN VALUES](#boolean-values)    
 
 --------------------------------------------------------
 ### NULLs
