@@ -1,4 +1,4 @@
-# Behavior of NULLS
+# Behavior of Nulls
 
 To record missing or unknown values, users of relational databases can assign NULL markers to columns.  NULL is not a data value, but a marker representing the absence of a value.
 
