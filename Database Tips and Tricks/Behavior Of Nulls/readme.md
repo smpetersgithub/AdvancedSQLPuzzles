@@ -947,7 +947,7 @@ EXEC @return_status = SpReturnStatement;
 SELECT 'Return Status' = @return_status;
 ```
 
-The 'SpReturnStatement' procedure attempted to return a status of NULL, which is not allowed. A status of 0 will be returned instead.
+The `SpReturnStatement` procedure attempted to return a status of NULL, which is not allowed. A status of 0 will be returned instead.
 
 | Return Status |
 |---------------|
