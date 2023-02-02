@@ -211,27 +211,31 @@ GO
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;NULL markers are neither equal to nor not equal to each other.  They are treated as unknowns.  This is best demonstrated by the below `INNER JOIN` statement, where NULL markers are not present in the result set.  Note here we are looking for both equality and inequality on the Fruit column (and a `DISTINCT` is applied as well).
 
 ```sql
-SELECT  DISTINCT
-        a.ID,
+SELECT  a.ID,
         a.Fruit,
         b.ID,
         b.Fruit
-FROM    #TableA a INNER JOIN
-        #TableB b ON a.Fruit = b.Fruit OR a.Fruit <> b.Fruit;
+FROM    ##TableA a INNER JOIN
+        ##TableB b ON a.Fruit = b.Fruit OR a.Fruit <> b.Fruit;
 ```
 
-Fruit	Fruit
-Apple	Apple
-Apple	Kiwi
-Apple	Peach
-Mango	Apple
-Mango	Kiwi
-Mango	Peach
-Peach	Apple
-Peach	Kiwi
-Peach	Peach
+| ID | Fruit | ID | Fruit |
+|----|-------|----|-------|
+|  1 | Apple |  1 | Apple |
+|  1 | Apple |  2 | Peach |
+|  1 | Apple |  3 | Kiwi  |
+|  2 | Peach |  1 | Apple |
+|  2 | Peach |  2 | Peach |
+|  2 | Peach |  3 | Kiwi  |
+|  3 | Mango |  1 | Apple |
+|  3 | Mango |  2 | Peach |
+|  3 | Mango |  3 | Kiwi  |
+|  4 | Mango |  1 | Apple |
+|  4 | Mango |  2 | Peach |
+|  4 | Mango |  3 | Kiwi  |
 
-
+---------------------------------------------------
+  
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The `OUTER JOIN` will give an illusion that is matches on the NULL markers but looking closely at the number of NULL markers returned vs the number of NULL markers in our sample data, we can determine this is indeed not true.  Also, the below query demonstrates the `ORDER BY` sorts NULLS in ascending order.
 
 ```sql
@@ -244,17 +248,16 @@ FROM    ##TableA a FULL OUTER JOIN
 ORDER BY 1,2;
 ```
 
-Fruit	Fruit
-<NULL>	<NULL>
-<NULL>	<NULL>
-<NULL>	<NULL>
-<NULL>	<NULL>
-<NULL>	Kiwi
-Apple	Apple
-Mango	<NULL>
-Mango	<NULL>
-Peach	Peach
-
+|   ID   | Fruit  |   ID   | Fruit  |
+|--------|--------|--------|--------|
+| <NULL> | <NULL> | 3      | Kiwi   |
+| <NULL> | <NULL> | 4      | <NULL> |
+| 1      | Apple  | 1      | Apple  |
+| 2      | Peach  | 2      | Peach  |
+| 3      | Mango  | <NULL> | <NULL> |
+| 4      | Mango  | <NULL> | <NULL> |
+| 5      | <NULL> | <NULL> | <NULL> |
+| 6      | <NULL> | <NULL> | <NULL> |
 
 ---------------------------------------------------------
 ### SEMI AND ANTI JOINS
@@ -279,100 +282,109 @@ There are several key differences between semi-joins and anti-joins:
 This statement returns an empty dataset as the anti-join contains a NULL marker.
 
 ```sql
-SELECT  a.ID,
+SELECT  1 AS RowNumber,
+        ID,
         Fruit
 FROM    ##TableA
 WHERE   Fruit NOT IN (SELECT Fruit FROM ##TableB);
 ```
 
-<Empty Data Set>
+| RowNumber | ID | Fruit |
+|-----------|----|-------|    
+  
+\<Empty Data Set>
 
+--------------------------------------------------------  
 Adding an 'ISNULL' function to the inner query is one way to alleviate the issue of NULL markers.
 
 ```sql
-SELECT  DISTINCT
-        a.ID,
+SELECT  ID,
         Fruit
 FROM    ##TableA
 WHERE   Fruit NOT IN (SELECT ISNULL(Fruit,'') FROM ##TableB);
-
 ```
 
 
 Fruit
 Mango
 
+--------------------------------------------------------  
 A better practice is to place predicate logic in the `WHERE` clause to eradicate the NULL markers.
 
 ```sql
-SELECT DISTINCT
-       a.ID,
-       Fruit
-FROM   ##TableA
-WHERE  Fruit NOT IN (SELECT Fruit FROM ##TableB WHERE Fruit IS NOT NULL);
+SELECT  ID,
+        Fruit
+FROM    ##TableA
+WHERE   Fruit NOT IN (SELECT Fruit FROM ##TableB WHERE Fruit IS NOT NULL);
 ```
 
-Fruit
-Mango
+| ID | Fruit |
+|----|-------|
+|  3 | Mango |
+|  4 | Mango |
+
+
 
 --------------------------------------------------------        
 The opposite of anti-joins are semi-joins.  Using the `IN` operator, this query will return a result set.  A `NOT IN` operator would return an empty dataset.
 
 ```sql
-SELECT  a.ID,
+SELECT  ID,
         Fruit
 FROM    ##TableA
 WHERE   Fruit IN (SELECT Fruit FROM ##TableB);
 ```
 
+| ID | Fruit |
+|----|-------|
+|  1 | Apple |
+|  2 | Peach |
 
-Fruit
-Apple
-Peach
-
+--------------------------------------------------------  
 The `IN` and `NOT IN` operators can also take a hard coded list of values as its input.  For this example, we use the `IN` operator.  Even though we include a NULL marker in the inner query, the results do not include a NULL marker.
 
 ```sql
-SELECT  a.ID,
+SELECT  ID,
         Fruit
 FROM    ##TableA
 WHERE   Fruit IN ('Apple','Kiwi',NULL);
 ```
 
-Fruit
-Apple
+| ID | Fruit |
+|----|-------|
+|  1 | Apple |
 
 --------------------------------------------------------
 `EXISTS` is much the same as `IN`.  But with `EXISTS` you must specify a query and you can specify multiple join conditions.
 
 ```sql
-SELECT  a.ID,
+SELECT  ID,
         Fruit
 FROM    ##TableA a
 WHERE   EXISTS (SELECT 1 FROM ##TableB b WHERE a.Fruit = b.Fruit AND a.Quantity = b.Quantity);
 ```
 
-
-Fruit
-Apple
+| ID | Fruit |
+|----|-------|
+|  1 | Apple |
 
 --------------------------------------------------------
 Here is the usage of the `NOT EXISTS`.  A NULL marker is returned in the dataset (unlike the `IN` operator).
 
 ```sql
-SELECT  DISTINCT
-        a.ID,
+SELECT  a.ID,
         Fruit
 FROM    ##TableA a
 WHERE   NOT EXISTS (SELECT 1 FROM ##TableB b WHERE a.Fruit = b.Fruit AND a.Quantity = b.Quantity);
 ```
 
-
-Fruit
-Peach
-Mango
-<NULL>
-
+| ID | Fruit  |
+|----|--------|
+|  2 | Peach  |
+|  3 | Mango  |
+|  4 | Mango  |
+|  5 | <NULL> |
+|  6 | <NULL> |
 
 ---------------------------------------------------------
 ### SET OPERATORS
@@ -393,12 +405,13 @@ UNION
 SELECT DISTINCT Fruit FROM ##TableB;
 ```
 
-Fruit
-<NULL>
-Apple
-Kiwi
-Mango
-Peach
+| Fruit  |
+|--------|
+| <NULL> |
+| Apple  |
+| Kiwi   |
+| Mango  |
+| Peach  |
 
 --------------------------------------------------------
 The `UNION ALL` operator returns all values including each NULL marker.
@@ -409,15 +422,16 @@ UNION ALL
 SELECT DISTINCT Fruit FROM ##TableB;
 ```
 
-Fruit
-<NULL>
-Apple
-Mango
-Peach
-<NULL>
-Apple
-Kiwi
-Peach
+| Fruit  |
+|--------|
+| <NULL> |
+| Apple  |
+| Mango  |
+| Peach  |
+| <NULL> |
+| Apple  |
+| Kiwi   |
+| Peach  |
 
 --------------------------------------------------------
 The `EXCEPT` operator treats the NULL markers as being not distinct from each other.
@@ -428,9 +442,9 @@ EXCEPT
 SELECT DISTINCT Fruit FROM ##TableA;
 ```
 
-
-Fruit
-Kiwi
+| Fruit |
+|-------|
+| Kiwi  |
 
 --------------------------------------------------------
 The `INTERSECT` returns the following records.
@@ -441,11 +455,11 @@ INTERSECT
 SELECT DISTINCT Fruit FROM ##TableB;
 ```
 
-Fruit
-<NULL>
-Apple
-Peach
-
+| Fruit  |
+|--------|
+| <NULL> |
+| Apple  |
+| Peach  |
 
 ---------------------------------------------------------
 ### GROUP BY
@@ -454,42 +468,44 @@ Peach
 The `GROUP BY` clause aggregates the NULL markers together.
 
 ```sql
-SELECT Fruit,
-       COUNT(*) AS Count_Star,
-       COUNT(Fruit) AS Count_Fruit
-FROM   ##TableA
+SELECT  Fruit,
+        COUNT(*) AS Count_Star,
+        COUNT(Fruit) AS Count_Fruit
+FROM    ##TableA
 GROUP BY Fruit;
 ```
 
-
-Fruit	Count_Star	Count_Fruit
-<NULL>	2			0
-Apple	1			1
-Mango	2			2
-Peach	1			1
+| Fruit  | Count_Star | Count_Fruit |
+|--------|------------|-------------|
+| <NULL> |          2 |           0 |
+| Apple  |          1 |           1 |
+| Mango  |          2 |           2 |
+| Peach  |          1 |           1 |
 
 ---------------------------------------------------------
 ### COUNT AND AVERAGE FUNCTION
 :large_blue_circle: [Table Of Contents](#table-of-contents)
-        
+
+**ADD SOME TEXT HERE**
+---------------------------------------------------------  
 The `COUNT` function removes the NULL markers when a specified field is included in the function but counts the NULL markers when using the asterisk.
 
 ```sql
-SELECT Fruit,
-       COUNT(*) AS Count_Star,
-       COUNT(Fruit) AS Count_Fruit
-FROM   ##TableA
+SELECT  Fruit,
+        COUNT(*) AS Count_Star,
+        COUNT(Fruit) AS Count_Fruit
+FROM    ##TableA
 GROUP BY Fruit;
 ```
 
+| Fruit  | Count_Star | Count_Fruit |
+|--------|------------|-------------|
+| <NULL> |          2 |           0 |
+| Apple  |          1 |           1 |
+| Mango  |          2 |           2 |
+| Peach  |          1 |           1 |
 
-Fruit	Count_Star	Count_Fruit
-<NULL>	1			0
-Apple	1			1
-Mango	1			1
-Peach	1			1
-
-
+---------------------------------------------------------
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The `AVG` function will remove records with NULL markers in its calculation, as shown below.  For this example, we created the test data in the common table expression `cte_Average`, as this more easily demonstrates the functions behavior.
 
 In `SQL Server`, when performing division between integers, you will need to use the `CAST` or `CONVERT` function on the values as shown below.
@@ -497,18 +513,18 @@ In `SQL Server`, when performing division between integers, you will need to use
 ```sql
 WITH cte_Average AS
 (
-SELECT 1 AS Id, 100 AS MyValue
+SELECT 1 AS ID, 100 AS MyValue
 UNION 
-SELECT 2 AS Id, 100 AS MyValue
+SELECT 2 AS ID, 100 AS MyValue
 UNION 
-SELECT 3 AS Id, NULL AS MyValue
+SELECT 3 AS ID, NULL AS MyValue
 UNION 
-SELECT NULL AS Id, 100 AS MyValue
+SELECT NULL AS ID, 100 AS MyValue
 )
-SELECT SUM(MyValue) / CAST(COUNT(*) AS NUMERIC(10,2)) AS Average_CountStar,
-       SUM(MyValue) / CAST(COUNT(Id) AS NUMERIC(5,2)) AS Average_CountId,
-       AVG(CAST(MyValue AS NUMERIC(10,2))) AS Average_AvgFunction
-FROM   cte_Average;
+SELECT  SUM(MyValue) / CAST(COUNT(*) AS NUMERIC(10,2)) AS Average_CountStar,
+        SUM(MyValue) / CAST(COUNT(ID) AS NUMERIC(5,2)) AS Average_CountId,
+        AVG(CAST(MyValue AS NUMERIC(10,2))) AS Average_AvgFunction
+FROM    cte_Average;
 ```
 
 | Average_CountStar | Average_CountId | Average_AvgFunction |
@@ -530,19 +546,17 @@ The `PRIMARY KEY` syntax will create a `CLUSTERED INDEX` unless specified otherw
 ALTER TABLE ##TableA
 ADD CONSTRAINT PK_NULLConstraints PRIMARY KEY NONCLUSTERED (Fruit);
 
---8.2
 ALTER TABLE ##TableA
 ADD CONSTRAINT PK_NULLConstraints PRIMARY KEY CLUSTERED (Fruit);
 ```
+❗
+>Msg 8111, Level 16, State 1, Line 1
+>Cannot define PRIMARY KEY constraint on nullable column in table '##TableA'.
+>Msg 1750, Level 16, State 0, Line 1
+>Could not create constraint or index. See previous errors.
 
 --------------------------------------------------------- 
 **UNIQUE**
-
-A `UNIQUE` constraint will create a `NONCLUSTERED INDEX` unless specified otherwise.
-
-The error statement produced will be:    
->:exclamation:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;“Cannot define PRIMARY KEY constraint on NULLable column in table ##TableA.”
-
 
 To demonstrate that a `UNIQUE CONSTRAINT` allows only one NULL marker we can run the following statement.  We add a `UNIQUE CONSTRAINT` to `##TableB`, which already includes a NULL marker in the column Fruit. 
 
@@ -551,12 +565,13 @@ ALTER TABLE ##TableB
 ADD CONSTRAINT UNIQUE_NULLConstraints UNIQUE (Fruit);
 GO
 
-INSERT INTO #NULLConstraints(MyField2) VALUES (NULL);
+INSERT INTO ##TableB(Fruit) VALUES (NULL);
 GO
 ```
 
 The second statement produces the following error.     
->:exclamation:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;“Violation of UNIQUE KEY constraint UNIQUE_NULLConstraints. Cannot insert duplicate key in object ##TableB. The duplicate key value is (<NULL>).”
+>:exclamation:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Msg 2627, Level 14, State 1, Line 5
+Violation of UNIQUE KEY constraint 'UNIQUE_NULLConstraints'. Cannot insert duplicate key in object 'dbo.##TableB'. The duplicate key value is (<NULL>).
 
 --------------------------------------------------------
 **CHECK CONSTRAINTS**
@@ -569,19 +584,21 @@ GO
 
 CREATE TABLE ##CheckConstraints
 (
-MyField INTEGER,
+ID            INTEGER,
+MyField       INTEGER,
 CONSTRAINT Check_NULLConstraints CHECK (MyField > 0)
 );
 GO
 
-INSERT INTO ##CheckConstraints (MyField) VALUES (NULL);
+INSERT INTO ##CheckConstraints (ID, MyField) VALUES (1,NULL);
 GO
 
 SELECT * FROM ##CheckConstraints;
 ```
 
-MyField
-<NULL>
+| ID | MyField |
+|----|---------|
+|  1 | <NULL>  |
 
 ---------------------------------------------------------
 ### REFERENTIAL INTEGRITY
@@ -622,11 +639,30 @@ SELECT * FROM dbo.Parent;
 SELECT * FROM dbo.Child;
 ```
 
+**Parent**
+| ParentID |
+|----------|
+|        1 |
+|        2 |
+|        3 |
+|        4 |
+|        5 |
+
+  
+**Child**
+| ChildID |
+|---------|
+| 1       |
+| 2       |
+| <NULL>  |
+| <NULL>  |
+
+  
 ---------------------------------------------------------
 ### COMPUTED COLUMNS
 :large_blue_circle: [Table Of Contents](#table-of-contents)
         
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;A computed column is a virtual column that is not physically stored in a table.  A computed column expression can use data from other columns to calculate a value.  When an expression is applied to a column with a NULL marker, a NULL marker will be the return value.   Here we add the value "2" to a the `Quantity` field which includes a NULL marker in our test data.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;A computed column is a virtual column that is not physically stored in a table.  A computed column expression can use data from other columns to calculate a value.  When an expression is applied to a column with a NULL marker, a NULL marker will be the return value.   Here we add the value `2` to a the `Quantity` field in `TableB` (which includes a NULL marker in the `Quantity` field.
 
 ```sql
 SELECT Fruit,
@@ -634,14 +670,15 @@ SELECT Fruit,
 FROM   ##TableB;
 ```
 
-Fruit	QuantityPlus2
-Apple	19
-Peach	27
-Kiwi	22
-<NULL>	<NULL>
-<NULL>	<NULL>
 
+| ID | Fruit  | QuantityPlus2 |
+|----|--------|---------------|
+|  1 | Apple  | 19            |
+|  2 | Peach  | 27            |
+|  3 | Kiwi   | 22            |
+|  4 | <NULL> | <NULL>        |
 
+-------------------------------------------------------------
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;When creating a table with a non-NULLable computed column, you must create the column as `PERSISTED`, else you will receive the error message:
 
 > :exclamation:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Only `UNIQUE` or `PRIMARY KEY` constraints can be created on computed columns, while `CHECK`, `FOREIGN KEY`, and `NOT NULL` constraints require that computed columns be persisted.
@@ -666,7 +703,9 @@ ALTER TABLE MyComputed ADD PRIMARY KEY CLUSTERED (Int3);
 DROP TABLE IF EXISTS MyComputed;
 GO
 ```
-
+  
+Commands completed successfully.
+  
 ---------------------------------------------------------
 ### SQL FUNCTIONS 
 :large_blue_circle: [Table Of Contents](#table-of-contents)
@@ -704,35 +743,16 @@ The major differences between `COALESCE` and `ISNULL` from the documentation are
 Below I provide a few quick examples to note their behavior.
 
 ```sql
-WITH cte_functions AS
-(
-SELECT  1 AS Id,
-        'IsNull' AS Type,
-        ISNULL(@test, 'ABCD') AS Result--truncates ABCD to ABC.
-UNION
-SELECT  2 AS Id,
-        'Coalesce_3Parameters' AS Type,
-        COALESCE(@test, 'ABCD', 'EFGH') AS Result1--accepts three parameters, does not truncate ABCD
-UNION
-SELECT  3 AS Id,
-        'Coalesce_NULL' AS Type,
-        COALESCE(@test, NULL, NULL) AS Result1--Returns a NULL
-UNION
-SELECT  4 AS Id,
-       'NullIf' AS Type,
-        NULLIF('ABCD', @test) AS Result--The first argument needs to be a NON-NULL
-)
-SELECT *
-FROM   cte_functions;
-ORDER BY 1;
+SELECT  1 AS ID,
+        ISNULL(NULL, 'foo') AS fnISNULL,
+        COALESCE(NULL, NULL, 'foo') AS fnCOALESCE,
+        NULLIF('foo', 'foo') AS fnNULLIF
 ```
 
-| Type |         Type         | Result |
-|------|----------------------|--------|
-|    1 | IsNull               | ABC    |
-|    2 | Coalesce_3Parameters | ABCD   |
-|    3 | Coalesce_NULL        | <NULL> |
-|    4 | NullIf               | ABCD   |
+| Id | fnISNULL | fnCOALESCE | fnNULLIF |
+|----|----------|------------|----------|
+|  1 | foo      | foo        | <NULL>   |
+
 
 ---------------------------------------------------------
 ### EMPTY STRINGS, NULL, AND ASCII VALUES
@@ -741,49 +761,56 @@ ORDER BY 1;
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;A useful feature to combat NULL markers in character fields is by using the empty string.  The empty string character is not an ASCII value, and the following function returns a NULL marker.  Also, you would assume the ASCII value for a NULL marker is 0 when reviewing an ASCII code chart, however this is not the case, and the `ASCII` function returns NULL for the NULL marker as shown below.  SQL does not use the standard ANSI NULL marker.
 
 ```sql
-SELECT  ASCII('') AS ASCII_EmptyString,
+SELECT  1 AS ID,
+        ASCII('') AS ASCII_EmptyString,
         ASCII(NULL) AS ASCII_NULL;
 ```
 
-| ASCII_EmptyString | ASCII_NULL |
-|-------------------|------------|
-| <NULL>            | <NULL>     |
+| ID | ASCII_EmptyString | ASCII_NULL |
+|----|-------------------|------------|
+|  1 | <NULL>            | <NULL>     |
 
+
+---------------------------------------------------------
 Any queries that join on a field with an empty string will equate to true.  Commonly the empty string is used with the ISNULL function, such as the following query.
 
 ```sql
-SELECT  DISTINCT
-        a.ID,
+SELECT  a.ID,
         a.Fruit,
+        b.ID,
         b.Fruit
 FROM    ##TableA a INNER JOIN
         ##TableB b ON ISNULL(a.Fruit,'') = ISNULL(b.Fruit,'');
 ```
 
-
-Fruit	Fruit
-<NULL>	<NULL>
-Apple	Apple
-Peach	Peach
+| ID | Fruit  | ID | Fruit  |
+|----|--------|----|--------|
+|  1 | Apple  |  1 | Apple  |
+|  2 | Peach  |  2 | Peach  |
+|  5 | <NULL> |  4 | <NULL> |
+|  6 | <NULL> |  4 | <NULL> |
+  
 
 ---------------------------------------------------------
 ### CONCAT
 :large_blue_circle: [Table Of Contents](#table-of-contents)
 
         
-> :exclamation:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;In `SQL Server`, the `SET CONCAT_NULL_YIELDS_NULL` database setting controls whether concatenation results are treated as null or empty string values.  In a future version of `SQL Server` `CONCAT_NULL_YIELDS_NULL` will always be `ON` and any applications that explicitly set the option to OFF will generate an error. Avoid using this feature in new development work, and plan to modify applications that currently use this feature.
+> :exclamation:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;In `SQL Server`, the `SET CONCAT_NULL_YIELDS_NULL` database setting controls whether concatenation results are treated as NULL or empty string values.  In a future version of `SQL Server` `CONCAT_NULL_YIELDS_NULL` will always be `ON` and any applications that explicitly set the option to OFF will generate an error. Avoid using this feature in new development work, and plan to modify applications that currently use this feature.
        
 The `CONCAT` function will return an empty string if all the values are NULL.
   
  
 ```sql
-SELECT CONCAT(NULL,NULL,NULL) AS ConcatFunc;
+SELECT 1 AS ID, CONCAT(NULL,NULL,NULL) AS fnConcat;
 ```
  
-| ConcatFunc |
-|------------|
-| <NULL>     |
 
+| ID |    fnConcat     |
+|----|-----------------|
+|  1 | \<empty string> |
+
+---------------------------------------------------------
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;This feature of `CONCAT` is especially helpful when you want to join to a table on multiple fields (with multiple data types) where NULL markers and empty strings are not used consistently in the tables, as shown below.  You can include fields with different data types into the `CONCAT` function as this function performs an implicit data type conversion.
  
 ```sql
@@ -836,9 +863,23 @@ SELECT  MyInteger,
         MyInteger * 10 AS MyInteger_Computed
 FROM    MyTable;
 GO
+
+SELECT  c.name AS ColumnName,
+        ty.name as DataType,
+        c.is_nullable
+FROM    sys.views t INNER JOIN
+        sys.columns c ON t.object_id = c.object_id INNER JOIN
+        sys.types ty ON ty.user_type_id = c.user_type_id
+WHERE   t.name = 'vwMyTable' and c.is_nullable = 1
+ORDER BY 1,2,3;
 ```
 
-Here is a screen shot of the resulting view.  The columns with `CAST` and `COMPUTE` are NULLable.
+|     ColumnName     | DataType | is_nullable |
+|--------------------|----------|-------------|
+| MyDate_Cast        | datetime |           1 |
+| MyInteger_Cast     | int      |           1 |
+| MyInteger_Computed | int      |           1 |
+| MyVarchar_Cast     | varchar  |           1 |
 
 ---------------------------------------------------------
 ### BOOLEAN VALUES
