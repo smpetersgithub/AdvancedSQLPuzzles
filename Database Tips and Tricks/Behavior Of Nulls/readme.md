@@ -271,10 +271,9 @@ There are several benefits of using anti-joins and semi-joins over `INNER JOINS`
 1.  Semi-joins and anti-joins remove the risk of returning duplicate rows.
 2.  Semi-joins and anti-joins increase readability as the result set can only contain the columns from the outer semi-joined table.
 
-There are several key differences between semi-joins and anti-joins:
+There are two key differences differences between semi-joins and anti-joins:
 1.  The `NOT IN` operator will return an empty set if the anti-join contains a NULL marker.  The `NOT EXISTS` will return a dataset that contains a NULL marker if the anti-join contains a NULL marker.
 2.  The `IN` and `EXIST` operators will return a dataset if the semi-join contains a NULL marker.
-3.  The `NOT EXISTS` and `EXIST` operators can join on multiple columns between the outer and inner SQL statements.  The `NOT IN` or `IN` operators join on only one single field.
 
 :small_red_triangle:      If you are performing an anti-join to a NULLable column, consider using the `NOT EXISTS` operator over the `NOT` operator.
 
