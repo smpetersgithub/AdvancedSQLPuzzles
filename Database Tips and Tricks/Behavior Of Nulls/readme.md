@@ -237,6 +237,7 @@ FROM    ##TableA a INNER JOIN
 
 ---------------------------------------------------
 **FULL OUTER JOIN**
+        
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The `FULL OUTER JOIN` will give an illusion that is matches on the NULL markers but looking closely at the number of NULL markers returned vs the number of NULL markers in our sample data, we can determine this is indeed not true.  Also, the below query demonstrates the `ORDER BY` sorts NULLS in ascending order.
 
 ```sql
@@ -263,6 +264,7 @@ ORDER BY 1,2;
 
 ---------------------------------------------------------
 **Other Methods For Returning NULLS**
+        
 There are a few methods for returning NULL columns in a join, as shown below.
 
 1.  The first method uses the `ISNULL` function and sets the NULLS to an empty string.
@@ -306,10 +308,12 @@ There are several benefits of using anti-joins and semi-joins over `INNER JOINS`
 1.  Semi-joins and anti-joins remove the risk of returning duplicate rows.
 2.  Semi-joins and anti-joins increase readability as the result set can only contain the columns from the outer semi-joined table.
 
-There are two key differences differences between semi-joins and anti-joins:
+There are a few key differences differences between semi-joins and anti-joins:
 1.  The `NOT IN` operator will return an empty set if the anti-join contains a NULL marker.  The `NOT EXISTS` will return a dataset that contains a NULL marker if the anti-join contains a NULL marker.
 2.  The `IN` and `EXIST` operators will return a dataset if the semi-join contains a NULL marker.
-
+3.  The 'IN' and 'NOT IN' can take a list of arguments, or an SQL statement.  The SQL statement can return a set of values, or it can be a correlated subquery.  
+4.  The 'EXISTS' and 'NOT EXITS' must be a correlated subquery.
+     
 :small_red_triangle:      If you are performing an anti-join to a NULLable column, consider using the `NOT EXISTS` operator over the `NOT` operator.
 
 --------------------------------------------------------
@@ -322,46 +326,13 @@ SELECT  1 AS RowNumber,
         ID,
         Fruit
 FROM    ##TableA
-WHERE   Fruit NOT IN (SELECT Fruit FROM ##TableB);
+WHERE   Fruit NOT IN ('Banana',NULL);
 ```
 
 | RowNumber | ID | Fruit |
 |-----------|----|-------|    
   
 \<Empty Data Set>
-
---------------------------------------------------------
-**NOT IN with ISNULL**    
-  
-Adding an `ISNULL` function to the inner query is one way to alleviate the issue of NULL markers.
-
-```sql
-SELECT  ID,
-        Fruit
-FROM    ##TableA
-WHERE   Fruit NOT IN (SELECT ISNULL(Fruit,'') FROM ##TableB);
-```
-
-| ID | Fruit |
-|----|-------|
-|  3 | Mango |
-|  4 | Mango |
-
---------------------------------------------------------
-**NOT IN with IS NOT NULL**
-A better practice is to place predicate logic in the `WHERE` clause to eradicate the NULL markers.
-
-```sql
-SELECT  ID,
-        Fruit
-FROM    ##TableA
-WHERE   Fruit NOT IN (SELECT Fruit FROM ##TableB WHERE Fruit IS NOT NULL);
-```
-
-| ID | Fruit |
-|----|-------|
-|  3 | Mango |
-|  4 | Mango |
 
 --------------------------------------------------------
 **IN**   
@@ -372,7 +343,7 @@ The opposite of anti-joins are semi-joins.  Using the `IN` operator, this query 
 SELECT  ID,
         Fruit
 FROM    ##TableA
-WHERE   Fruit IN (SELECT Fruit FROM ##TableB);
+WHERE   Fruit IN ('Apple','Peach',NULL);
 ```
 
 | ID | Fruit |
@@ -380,26 +351,10 @@ WHERE   Fruit IN (SELECT Fruit FROM ##TableB);
 |  1 | Apple |
 |  2 | Peach |
 
---------------------------------------------------------  
-**IN Hardcoded List**
-
-The `IN` and `NOT IN` operators can also take a hard coded list of values as its input.  For this example, we use the `IN` operator.  Even though we include a NULL marker in the inner query, the results do not include a NULL marker.
-
-```sql
-SELECT  ID,
-        Fruit
-FROM    ##TableA
-WHERE   Fruit IN ('Apple','Kiwi',NULL);
-```
-
-| ID | Fruit |
-|----|-------|
-|  1 | Apple |
-
 --------------------------------------------------------
-**Exists**
+**EXISTS**
   
-`EXISTS` is much the same as `IN`.  But with `EXISTS` you must specify a query and you can specify multiple join conditions.
+`EXISTS` is much the same as `IN`.  But with `EXISTS` you must specify a query.
 
 ```sql
 SELECT  ID,
@@ -549,6 +504,7 @@ The `COUNT` and `AVG` functions have a few nuances to NULL markers as will demon
         
 ---------------------------------------------------------
 **COUNT**
+        
 The `COUNT` function removes the NULL markers when a specified field is included in the function but counts the NULL markers when using the asterisk.
 
 ```sql
@@ -956,7 +912,7 @@ ORDER BY 1,2,3;
         
 Here we will discuss two SQL constructs, the `BIT` data type and the `NOT` operator.
 
-❗&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Much like NULL markers and duplicate tuples, there is much debate in the SQL community if the BIT data type should be a permissible data type, as its allowance for the NULL marker does not mimic the real world.  Joe Celko and C.J. Date advocate against using the BIT data type and give further details of this in many of their writings.
+>❗&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Much like NULL markers and duplicate tuples, there is much debate in the SQL community if the BIT data type should be a permissible data type, as its allowance for the NULL marker does not mimic the real world.  Joe Celko and C.J. Date advocate against using the BIT data type and give further details of this in many of their writings.
         
 ------------------------------------------------------------------
 **BIT**    
