@@ -20,7 +20,7 @@ It populates the `#DynamicSQL` table with a set of SQL statements generated from
 
 The SQL statements in the `#DynamicSQL` table are then executed to create the `NOT NULL`, `UNIQUE`, `PRIMARY KEY`, and `CHECK CONSTRAINTS` on the temporary table. 
 
-Note, `FOREIGN KEY` constraints cannot be created on temp tables.  And you cannot create a temp table via dynamic sql.  This is a limitation of TSQL.
+Note, `FOREIGN KEY` constraints cannot be created on temp tables.  And you cannot create a temp table via dynamic sql.  This is a limitation of `T-SQL`.
 
 ## Installation
 
