@@ -304,9 +304,10 @@ FROM    ##TableA
 WHERE   Fruit NOT IN (SELECT ISNULL(Fruit,'') FROM ##TableB);
 ```
 
-
-Fruit
-Mango
+| ID | Fruit |
+|----|-------|
+|  3 | Mango |
+|  4 | Mango |
 
 --------------------------------------------------------  
 A better practice is to place predicate logic in the `WHERE` clause to eradicate the NULL markers.
@@ -322,8 +323,6 @@ WHERE   Fruit NOT IN (SELECT Fruit FROM ##TableB WHERE Fruit IS NOT NULL);
 |----|-------|
 |  3 | Mango |
 |  4 | Mango |
-
-
 
 --------------------------------------------------------        
 The opposite of anti-joins are semi-joins.  Using the `IN` operator, this query will return a result set.  A `NOT IN` operator would return an empty dataset.
