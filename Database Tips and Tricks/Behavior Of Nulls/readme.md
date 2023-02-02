@@ -82,10 +82,6 @@ UNION
 SELECT 3 WHERE NOT(1=2) AND NOT(NULL=1); --FALSE OR UNKNOWN = UNKNOWN
 ```
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Because **TRUE OR UNKNOWN** equates to **TRUE**, one may expect `NOT(FALSE OR UNKNOWN)` to equate to **TRUE**, but this is not the case.  **UNKNOWN** could potentially have the value of **TRUE** or **FALSE**, leading to the second statement to either be **TRUE** or **FALSE** if the value of **UNKNOWN** becomes available.
-
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The statement **TRUE OR UNKNOWN** will always resolve to **TRUE** if the value of **UNKNOWN** is either **TRUE** or **FALSE**, as **TRUE OR FALSE** is always **TRUE**.
-
 ---------------------------------------------------------
 ### ANSI_NULLS
 🔵[Table Of Contents](#table-of-contents)
@@ -188,21 +184,22 @@ Quantity    INTEGER
 );
 GO
 
-INSERT INTO ##TableA VALUES
-(1,'Apple',17),
-(2,'Peach',20),
-(3,'Mango',11),
-(4,'Mango',15),
-(5,NULL,5),
-(6,NULL,3);
+INSERT INTO ##TableA VALUES(1,'Apple',17);
+INSERT INTO ##TableA VALUES(2,'Peach',20);
+INSERT INTO ##TableA VALUES(3,'Mango',11);
+INSERT INTO ##TableA VALUES(4,'Mango',15);
+INSERT INTO ##TableA VALUES(5,NULL,5);
+INSERT INTO ##TableA VALUES(6,NULL,3);
 GO
 
-INSERT INTO ##TableB VALUES
-(1,'Apple',17),
-(2,'Peach',25),
-(3,'Kiwi',20),
-(4,NULL,NULL)
+INSERT INTO ##TableB VALUES(1,'Apple',17);
+INSERT INTO ##TableB VALUES(2,'Peach',25);
+INSERT INTO ##TableB VALUES(3,'Kiwi',20);
+INSERT INTO ##TableB VALUES(4,NULL,NULL);
 GO
+
+SELECT * FROM ##TableA
+SELECT * from ##TableB
 ```
 
 ---------------------------------------------------------
