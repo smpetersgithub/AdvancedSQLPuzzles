@@ -6,7 +6,7 @@
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Relational division is used in SQL to select rows that conform to a number of different criteria.
 *  I want to find all pilots who can fly 100% of the airplanes in the hanger (the most common example of relational division).
-*  I want to find all employees who match on at least two-thirds of their issued licenses.  
+*  I want to find all employees who match on their issued licenses.  
 *  I want to find all managers who have worked in every department.
 
 Let’s look at a few examples.
