@@ -37,7 +37,7 @@ We will cover these aspects and many more in the following document.
 [10. Referential Integrity](#referential-integrity)    
 [11. Computed Columns](#computed-columns)    
 [12. SQL NULL Functions](#sql-null-functions)    
-[13. Empty Strings, NULL, AND ASCII Values](#empty-strings-null-and-ascii-values)    
+[13. Empty Strings, NULL, and ASCII Values](#empty-strings-null-and-ascii-values)    
 [14. CONCAT](#concat)    
 [15. Views](#views)    
 [16. Boolean Values](#boolean-values)    
