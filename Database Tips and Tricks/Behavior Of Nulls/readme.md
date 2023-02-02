@@ -885,6 +885,8 @@ ORDER BY 1,2,3;
         
 Here we will discuss two SQL constructs, the `BIT` data type and the `NOT` operator.
 
+❗&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Much like NULL markers and duplicate tuples, there is much debate in the SQL community if the BIT data type should be a permissible data type, as its allowance for the NULL marker does not mimic the real world.  Joe Celko and C.J. Date advocate against using the BIT data type and give further details of this in many of their writings.
+        
 ------------------------------------------------------------------
 **BIT**    
         
@@ -903,9 +905,8 @@ SELECT 2 AS ID, CAST(3 AS BIT) AS Bit;
 |  1 | <NULL> |
 |  2 | 1      |
 
-------------------------------------------------------------------
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Much like NULL markers and duplicate tuples, there is much debate in the SQL community if the BIT data type should be a permissible data type, as its allowance for the NULL marker does not mimic the real world.  Joe Celko and C.J. Date advocate against using the BIT data type and give further details of this in many of their writings.
-------------------------------------------------------------------   
+
+ ------------------------------------------------------------------   
 **NOT**
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The `NOT` operator negates a Boolean input.
