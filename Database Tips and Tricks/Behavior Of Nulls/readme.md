@@ -30,7 +30,7 @@ We will cover these aspects and many more in the following document.
 [3. IS NULL and IS NOT NULL](#is-null-and-is-not-null)    
 [4. Sample Data](#sample-data)    
 [5. Join Syntax](#join-syntax)    
-[6. SEMI and ANTI Joins](#semi-and-anti-joins)    
+[6. Semi and Anti Joins](#semi-and-anti-joins)    
 [7. Set Operators](#set-operators)    
 [8. COUNT and AVERAGE Functions](#count-and-average-functions)    
 [9. Constraints](#constraints)    
