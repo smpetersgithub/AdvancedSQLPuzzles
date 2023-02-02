@@ -4,7 +4,7 @@ The `PIVOT` operator is a powerful feature in SQL, but often goes unused due to 
 
 Here we simplify the syntax by encapsulating the pivot into a stored procedure allowing us to easy automate the creation of pivoted datasets. 
 
-Under the hood the stored procedure uses `XML` and 'DYNAMIC SQL' to accomplish its goal.
+Under the hood the stored procedure uses `XML` and `DYNAMIC SQL` to accomplish its goal.
 
 ## Installation
 
