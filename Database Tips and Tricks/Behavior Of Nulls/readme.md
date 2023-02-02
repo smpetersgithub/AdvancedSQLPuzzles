@@ -53,7 +53,7 @@ We will cover these aspects and many more in the following document.
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Despite these criticisms, NULL values are widely used and accepted, but must be used appropriately to understand their limitations and impact on data quality and performance. For further information, refer to C.J. Date's book, [Database in Depth: Relational Theory for Practitioners](https://www.amazon.com/Database-Depth-Relational-Theory-Practitioners/dp/0596100124).
 
 ---------------------------------------------------------
-### Quick Note
+### Quick Notes
 
 :white_check_mark:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The examples provided are written in `Microsoft’s SQL Server T-SQL`.  The provided SQL statements can be easily modified to fit your dialect of SQL.
 
