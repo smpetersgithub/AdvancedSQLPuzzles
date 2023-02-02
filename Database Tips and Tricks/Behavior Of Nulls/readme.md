@@ -20,28 +20,41 @@ SQL also provides three functions to evaluate NULL markers:
 We will cover these aspects and many more in the following document.
 
 
-[The header of this page](#ansi_nulls-1)
 
-[PREDICATE LOGIC](https://github.com/smpetersgithub/AdvancedSQLPuzzles/tree/AdvancedSQLJoins/Database%20Tips%20and%20Tricks/Behavior%20Of%20Nulls#predicate-logic-1)
-ANSI_NULLS
+[PREDICATE LOGIC](#predicate-logic)
 
+[ANSI_NULLS](#ansi_nulls)
 
-IS NULL | IS NOT NULL
-SAMPLE DATA
-JOIN SYNTAX
-SEMI AND ANTI JOINS
-SET OPERATORS
-COUNT AND AVERAGE FUNCTION
-CONSTRAINTS
-REFERENTIAL INTEGRITY
-COMPUTED COLUMNS
-SQL FUNCTIONS 
-EMPTY STRINGS, NULL, AND ASCII VALUES
-CONCAT
-VIEWS
-BOOLEAN VALUES
+[IS NULL | IS NOT NULL](#is-null-|-is-not-null)
+
+[SAMPLE DATA](#sample-date)
+
+[JOIN SYNTAX](#join-syntax)
+
+[SEMI AND ANTI JOINS](#semi-and-anti-joins)
+
+[SET OPERATORS](#set-operators)
+
+[COUNT AND AVERAGE FUNCTION](#count-and-average-function)
+
+[CONSTRAINTS](#constraints)
+
+[REFERENTIAL INTEGRITY](#referential-integrity)
+
+[COMPUTED COLUMNS](#computed-columns)
+
+[SQL FUNCTIONS](#sql-functions)
+
+[EMPTY STRINGS, NULL, AND ASCII VALUES](#empty-strings,-null-and-ascii-values)
+
+[CONCAT](#concat)
+
+[VIEWS](#views)
+
+[BOOLEAN VALUES](#boolean-values)
 
 --------------------------------------------------------
+### NULLs
 
 With NULL markers, there is no common agreement upon how to properly deal with null values, neither in practice nor in theory.  C.J. Date, an independent author, lecturer, researcher, and consultant, specializing in relational database theory, is a proponent of rejecting the concept of NULL markers entirely and gives the strong opinion that nulls have no place in the Relational Model.  E.F. Codd, the inventor of the relational model, does include the concept of NULL markers in the Relational Model.  For more on this debate, I highly suggest C.J Date’s book, “Database in Depth: Relational Theory for Practitioners”.
 
