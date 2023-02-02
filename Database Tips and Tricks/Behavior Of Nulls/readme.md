@@ -1,18 +1,14 @@
 # Behavior of NULLS
 
-The following document is written for 'Microsoft SQL Server T-SQL', but you can easily modify it to your flavor of SQL.
-
 To record missing or unknown values, users of relational databases can assign NULL markers to columns.  NULL is not a data value, but a marker representing the absence of a value.
 
 NULL markers can mean one of two things:
-The column does not apply to the other columns in the record.
-The column applies, but the information is unknown.
+1)  The column does not apply to the other columns in the record.
+2)  The column applies, but the information is unknown.
 
-Because NULL markers represent the absence of a value, NULL markers can be a source of much confusion and trouble for developers.  
+Because NULL markers represent the absence of a value, NULL markers can be a source of much confusion and trouble for developers.  To best understand NULL markers, one must understand the three-valued logic of TRUE, FALSE, or UNKNOWN, and recognize how NULL markers are treated within the different constructs of the SQL language.
 
-To best understand NULL markers, one must understand the three-valued logic of true, false, or unknown, and recognize how NULL markers are treated within the different constructs of the SQL language.  The join syntax will treat NULL markers differently than set operators, and a unique constraint will treat a NULL marker differently than a primary key constraint.
-
-Because NUL markers do not represent a value, SQL has two conditions specific to the SQL language:
+Because NULL markers do not represent a value, SQL has two conditions specific to the SQL language:
 1)  `IS NULL`
 2)  `IS NOT NULL`
 
@@ -23,12 +19,11 @@ SQL also provides three functions to evaluate NULL markers:
 
 We will cover these aspects and many more in the following document.
 
-With NULL markers, there is no common agreement upon how to properly deal with null values, neither in practice nor in theory.  C.J. Date, an independent author, lecturer, researcher, and consultant, specializing in relational database theory, is a proponent of rejecting the concept of null markers entirely and gives the strong opinion that nulls have no place in the relational model.  E.F. Codd, the inventor of the relational model, does include the concept of NULL markers in the relational model.  For more on this debate, I highly suggest C.J Date’s book, “Database in Depth: Relational Theory for Practitioners”.
+--------------------------------------------------------
 
-The SQL statements from this document can be found in the following Git repository.
-https://github.com/smpetersgithub/AdvancedSQLPuzzles/tree/main/Database%20Writings
-The examples provided are written in Microsoft’s SQL Server T-SQL.  The provided SQL statements can be easily modified to fit your dialect of SQL.
-I welcome any corrections, new tricks, new techniques, dead links, misspellings, or bugs.
+With NULL markers, there is no common agreement upon how to properly deal with null values, neither in practice nor in theory.  C.J. Date, an independent author, lecturer, researcher, and consultant, specializing in relational database theory, is a proponent of rejecting the concept of NULL markers entirely and gives the strong opinion that nulls have no place in the Relational Model.  E.F. Codd, the inventor of the relational model, does include the concept of NULL markers in the Relational Model.  For more on this debate, I highly suggest C.J Date’s book, “Database in Depth: Relational Theory for Practitioners”.
+
+The examples provided are written in 'Microsoft’s SQL Server T-SQL'.  The provided SQL statements can be easily modified to fit your dialect of SQL.  I welcome any corrections, new tricks, new techniques, dead links, misspellings, or bugs.
 
 Please contact me through the contact page on my website.
 
@@ -74,7 +69,8 @@ In SQL Server, the `SET ANSI_NULLS` setting specifies the ISO compliant behavior
 | 1 IS NOT NULL      | TRUE              | TRUE               |
 
 
-`ANSI NULLS` will be removed in future versions of SQL Server.
+**INSERT EMOJI**
+`ANSI NULLS` will be removed in future versions of 'SQL Server'.
 
 ---------------------------------------------------------
 ### IS NULL | IS NOT NULL
@@ -239,9 +235,9 @@ There are several key differences between semi-joins and anti-joins:
 2.  The `IN` and `EXIST` operators will return a dataset if the semi-join contains a NULL marker.
 3.  The `NOT EXISTS` and `EXIST` operators can join on multiple columns between the outer and inner SQL statements.  The `NOT IN` or `IN` operators join on only one single field.
 
-If you are performing an anti-join to a NULLable column, consider using the `NOT EXISTS` operator over the `NOT` operator.
+**EMOJI HERE*  If you are performing an anti-join to a NULLable column, consider using the `NOT EXISTS` operator over the `NOT` operator.
 
-
+--------------------------------------------------------
 This statement returns an empty dataset as the anti-join contains a NULL marker.
 
 ```sql
@@ -252,7 +248,6 @@ WHERE   Fruit NOT IN (SELECT Fruit FROM ##TableB);
 ```
 
 <Empty Data Set>
-
 
 Adding an 'ISNULL' function to the inner query is one way to alleviate the issue of NULL markers.
 
@@ -282,7 +277,7 @@ WHERE  Fruit NOT IN (SELECT Fruit FROM ##TableB WHERE Fruit IS NOT NULL);
 Fruit
 Mango
 
-
+--------------------------------------------------------        
 The opposite of anti-joins are semi-joins.  Using the `IN` operator, this query will return a result set.  A `NOT IN` operator would return an empty dataset.
 
 ```sql
@@ -297,7 +292,6 @@ Fruit
 Apple
 Peach
 
-
 The `IN` and `NOT IN` operators can also take a hard coded list of values as its input.  For this example, we use the `IN` operator.  Even though we include a NULL marker in the inner query, the results do not include a NULL marker.
 
 ```sql
@@ -310,7 +304,7 @@ WHERE   Fruit IN ('Apple','Kiwi',NULL);
 Fruit
 Apple
 
-
+--------------------------------------------------------
 `EXISTS` is much the same as `IN`.  But with `EXISTS` you must specify a query and you can specify multiple join conditions.
 
 ```sql
@@ -324,7 +318,7 @@ WHERE   EXISTS (SELECT 1 FROM ##TableB b WHERE a.Fruit = b.Fruit AND a.Quantity 
 Fruit
 Apple
 
-
+--------------------------------------------------------
 Here is the usage of the `NOT EXISTS`.  A NULL marker is returned in the dataset (unlike the `IN` operator).
 
 ```sql
@@ -349,8 +343,9 @@ The SQL standard for set operators does not use the term EQUAL TO or NOT EQUAL T
 *  NULL is not distinct from NULL
 *  NULL is distinct from "Apples".
 
-The phrase “NULL is not distinct from NULL” may seem difficult to understand at first, but this simply means that NULLS are treated as equalities in the context of set operators.  In the following examples, we see the set operators treat the NULL markers differently than the JOIN syntax.
+In the following examples, we see the set operators treat the NULL markers differently than the JOIN syntax.
 
+--------------------------------------------------------        
 The `UNION` operator demonstrates that NULL is not distinct from NULL, as the following returns only one NULL marker.
 
 ```sql
@@ -366,7 +361,7 @@ Kiwi
 Mango
 Peach
 
-
+--------------------------------------------------------
 The `UNION ALL` operator returns all values including each NULL marker.
 
 ```sql
@@ -385,7 +380,7 @@ Apple
 Kiwi
 Peach
 
-
+--------------------------------------------------------
 The `EXCEPT` operator treats the NULL markers as being not distinct from each other.
 
 ```sql
@@ -398,6 +393,7 @@ SELECT DISTINCT Fruit FROM ##TableA;
 Fruit
 Kiwi
 
+--------------------------------------------------------
 The `INTERSECT` returns the following records.
 
 ```sql
@@ -494,6 +490,7 @@ ALTER TABLE ##TableA
 ADD CONSTRAINT PK_NULLConstraints PRIMARY KEY CLUSTERED (Fruit);
 ```
 
+--------------------------------------------------------
 **UNIQUE**
 
 A `UNIQUE` constraint will create a `NONCLUSTERED INDEX` unless specified otherwise.
@@ -516,7 +513,7 @@ GO
 The second statement produces the following error.
 “Violation of UNIQUE KEY constraint UNIQUE_NULLConstraints. Cannot insert duplicate key in object ##TableB. The duplicate key value is (<NULL>).”
 
-
+--------------------------------------------------------
 **CHECK CONSTRAINTS**
 
 To demonstrate `CHECK CONSTRAINTS`, let's start by creating a new table with the constraints.  The below insert does not error and allows for the operation to take place.
