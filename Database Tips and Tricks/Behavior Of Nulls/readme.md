@@ -1,11 +1,11 @@
-# Behaviour of NULLS
+# Behavior of NULLS
 
 The following document is written for 'Microsoft SQL Server T-SQL', but you can easily modify it to your flavor of SQL.
 
 To record missing or unknown values, users of relational databases can assign NULL markers to columns.  NULL is not a data value, but a marker representing the absence of a value.
 
 NULL markers can mean one of two things:
-The column does not apply to the other columns in the record
+The column does not apply to the other columns in the record.
 The column applies, but the information is unknown.
 
 Because NULL markers represent the absence of a value, NULL markers can be a source of much confusion and trouble for developers.  
@@ -33,42 +33,20 @@ I welcome any corrections, new tricks, new techniques, dead links, misspellings,
 Please contact me through the contact page on my website.
 
 ---------------------------------------------------------
-# PREDICATE LOGIC
+### PREDICATE LOGIC
 
 To best understand NULL markers in SQL, we need to understand the three-valued logic outcomes of TRUE, FALSE, and UNKNOWN.  While NOT TRUE is FALSE, and NOT FALSE is TRUE, the opposite of UNKNOWN is UNKNOWN.  Unique to SQL, the logic result will always be UNKNOWN when comparing a NULL marker to any other value.   SQL’s use of the three-valued logic system presents a surprising amount of complexity into a seemingly straightforward query.
 
 The following truth tables display how the three-valued logic is applied.
 
- <span style="color:blue">some *blue* text</span>.
-
-|   **AND**   | **TRUE** | **UNKNOWN** | **FALSE** |
-|-------------|----------|-------------|-----------|
-| **TRUE**    | TRUE     | UNKNOWN     | FALSE     |
-| **UNKNOWN** | UNKNOWN  | UNKNOWN     | FALSE     |
-| **FALSE**   | FALSE    | FALSE       | FALSE     |
-
-
-
-
-
-OR		TRUE	UNKNOWN	FALSE
-TRUE	TRUE	TRUE	TRUE
-UNKNOWN	TRUE	UNKNOWN	UNKNOWN
-FALSE	TRUE	UNKNOWN	FALSE
-
-NOT		<NULL>
-TRUE	FALSE
-UNKNOWN	UNKNOWN
-FALSE	TRUE
+**INSERT IMAGE INSERT IMAGE INSERT IMAGE**
 
 A good example of the complexity is shown below in the following examples.
 
 ```sql
---1.1
 --TRUE OR UNKNOWN = TRUE
 SELECT 1 WHERE ((1=1) OR (NULL=1));
 
---1.2
 --FALSE OR UNKNOWN = UNKNOWN
 SELECT 1 WHERE NOT((1=2) OR (NULL=1));
 ```
@@ -78,7 +56,7 @@ Because TRUE OR UNKNOWN equates to TRUE, one may expect NOT(FALSE OR UNKNOWN) to
 The statement TRUE OR UNKNOWN will always resolve to TRUE if the value of UNKNOWN is either TRUE or FALSE, as TRUE OR FALSE is always TRUE.
 
 ---------------------------------------------------------
-# ANSI_NULLS
+### ANSI_NULLS
 
 In SQL Server, the `SET ANSI_NULLS` setting specifies the ISO compliant behavior of the equality (=) and inequality (<>) comparison operators.  The following table shows how the ANSI_NULLS session setting affects the results of Boolean expressions using NULL markers.  Note the standard setting for ANSI_NULLS is ON.
 
@@ -99,7 +77,7 @@ In SQL Server, the `SET ANSI_NULLS` setting specifies the ISO compliant behavior
 `ANSI NULLS` will be removed in future versions of SQL Server.
 
 ---------------------------------------------------------
-# IS NULL | IS NOT NULL
+### IS NULL | IS NOT NULL
 
 We can experiment with setting the `ANSI_NULLS` to ON and OFF to review how the behavior of NULL markers change.  In the following examples we will set the default ANSI_NULLS setting to ON.
 
@@ -132,14 +110,11 @@ SELECT 1 WHERE NULL IS NOT NULL;
 Now that we have covered the basics of NULL markers, lets create two sample data tables and start working through examples.
 
 ---------------------------------------------------------
-# SAMPLE DATA
+### SAMPLE DATA
 
 We will use the following tables of fruits and their quantities in our quest to understand the behavior of NULL markers.  Using two tables of the same type gives us the best example for understanding NULL markers.  We will work with this data throughout these exercises.
 
-
-
-**##TableA
-
+**##TableA**
 | ID | Fruit  | Quantity |
 |----|--------|----------|
 |  1 | Apple  |       17 |
@@ -151,8 +126,7 @@ We will use the following tables of fruits and their quantities in our quest to 
 
 
 
-**##TableB
-
+**##TableB**
 | ID | Fruit  | Quantity |
 |----|--------|----------|
 |  1 | Apple  | 17       |
@@ -200,7 +174,7 @@ GO
 ```
 
 ---------------------------------------------------------
-# JOIN SYNTAX
+### JOIN SYNTAX
 NULL markers are neither equal to nor not equal to each other.  They are treated as unknowns.  This is best demonstrated by the below `INNER JOIN` statement, where NULL markers are not present in the result set.  Note here we are looking for both equality and inequality on the Fruit column (and a DISTINCT is applied as well).
 
 ```sql
@@ -250,7 +224,7 @@ Peach	Peach
 
 
 ---------------------------------------------------------
-# SEMI AND ANTI JOINS
+### SEMI AND ANTI JOINS
 
 Semi-joins and anti-joins are two closely related join methods.  The semi-join and anti-join are types of joins between two tables where rows from the outer query are returned based upon the presence or absence of a matching row in the joined table.
 
@@ -280,7 +254,7 @@ WHERE   Fruit NOT IN (SELECT Fruit FROM ##TableB);
 <Empty Data Set>
 
 
-Adding an ISNULL function to the inner query is one way to alleviate the issue of NULL markers.
+Adding an 'ISNULL' function to the inner query is one way to alleviate the issue of NULL markers.
 
 ```sql
 SELECT  DISTINCT
@@ -369,7 +343,7 @@ Mango
 
 
 ---------------------------------------------------------
-# SET OPERATORS
+### SET OPERATORS
 
 The SQL standard for set operators does not use the term EQUAL TO or NOT EQUAL TO when describing their behavior.  Instead, it uses the terminology of IS [NOT] DISTINCT FROM and the following expressions are TRUE when using set operators.
 *  NULL is not distinct from NULL
@@ -439,7 +413,7 @@ Peach
 
 
 ---------------------------------------------------------
-# GROUP BY
+### GROUP BY
 
 The `GROUP BY` clause aggregates the NULL markers together.
 
@@ -459,7 +433,7 @@ Mango	2			2
 Peach	1			1
 
 ---------------------------------------------------------
-# COUNT AND AVERAGE FUNCTION
+### COUNT AND AVERAGE FUNCTION
 
 The `COUNT` function removes the NULL markers when a specified field is included in the function but counts the NULL markers when using the asterisk.
 
@@ -500,15 +474,14 @@ SELECT SUM(MyValue) / CAST(COUNT(*) AS NUMERIC(10,2)) AS Average_CountStar,
 FROM   cte_Average;
 ```
 
-
-Average_CountStar	Average_CountId	Average_AvgFunction
-112.50000000000		150.000000		150.000000
-
+| Average_CountStar | Average_CountId | Average_AvgFunction |
+|-------------------|-----------------|---------------------|
+|   112.50000000000 |      150.000000 |          150.000000 |
 
 --------------------------------------------------------- 
-# CONSTRAINTS
+### CONSTRAINTS
 
-**PRIMARY KEYS
+**PRIMARY KEYS**
 
 The `PRIMARY KEY` syntax will create a `CLUSTERED INDEX` unless specified otherwise.  The following statements will error as a 'PRIMARY KEY' does not allow for NULL markers.
 
@@ -521,10 +494,11 @@ ALTER TABLE ##TableA
 ADD CONSTRAINT PK_NULLConstraints PRIMARY KEY CLUSTERED (Fruit);
 ```
 
-**UNIQUE
+**UNIQUE**
 
 A `UNIQUE` constraint will create a `NONCLUSTERED INDEX` unless specified otherwise.
-The error statement produced will be:
+
+The error statement produced will be:    
 “Cannot define PRIMARY KEY constraint on NULLable column in table ##TableA.”
 
 
@@ -543,7 +517,7 @@ The second statement produces the following error.
 “Violation of UNIQUE KEY constraint UNIQUE_NULLConstraints. Cannot insert duplicate key in object ##TableB. The duplicate key value is (<NULL>).”
 
 
-**CHECK CONSTRAINTS
+**CHECK CONSTRAINTS**
 
 To demonstrate `CHECK CONSTRAINTS`, let's start by creating a new table with the constraints.  The below insert does not error and allows for the operation to take place.
 
@@ -568,7 +542,7 @@ MyField
 <NULL>
 
 ---------------------------------------------------------
-# REFERENTIAL INTEGRITY
+### REFERENTIAL INTEGRITY
 
 In short, multiple NULL markers can be inserted into the child column or a `FOREIGN KEY` constraint.
 
@@ -606,7 +580,7 @@ SELECT * FROM dbo.Child;
 ```
 
 ---------------------------------------------------------
-# COMPUTED COLUMNS
+### COMPUTED COLUMNS
 
 A computed column is a virtual column that is not physically stored in a table.  A computed column expression can use data from other columns to calculate a value.  When an expression is applied to a column with a NULL marker, a NULL marker will be the return value.   Here we attempt to add the value "2" to a the `Quantity` field which includes a NULL marker in our test data.
 
@@ -651,22 +625,22 @@ GO
 ```
 
 ---------------------------------------------------------
-# SQL FUNCTIONS 
+### SQL FUNCTIONS 
 
 Besides the IS NULL and IS NOT NULL predicate logic constructs, SQL also provides three functions to help evaluate NULL markers.
 
 ---------------------------------------------------------
-**COALESCE
+**COALESCE**
 The `COALESCE` function returns the first non-NULL value among its arguments.  If all values are NULL, `COALESCE` returns a NULL marker.    
 `COALESCE(expression [ ,…n ])`
 
-**There is a system setting for how NULL markers are treated with CONCAT;
+**There is a system setting for how NULL markers are treated with CONCAT**
 
-**ISNULL
+**ISNULL**
 The `ISNULL` function replaces NULL with the specified replacement value.    
 'ISNULL(check_expression , replacement_value)'
 
-**NULLIF
+**NULLIF**
 The `NULLIF` returns a NULL marker if the two specified expressions are equal.
 `NULLIF(expression , expression)`
 
@@ -712,7 +686,7 @@ ORDER BY 1;
 |    4 | NullIf               | ABCD   |
 
 ---------------------------------------------------------
-# EMPTY STRINGS, NULL, AND ASCII VALUES
+### EMPTY STRINGS, NULL, AND ASCII VALUES
 
 A useful feature to combat NULL markers in character fields is by using the empty string.  The empty string character is not an ASCII value, and the following function returns a NULL marker.  Also, you would assume the ASCII value for a NULL marker is 0 when reviewing an ASCII code chart, however this is not the case, and the `ASCII` function returns NULL for the NULL marker as shown below.  SQL does not use the standard ANSI NULL marker.
 
@@ -743,13 +717,14 @@ Apple	Apple
 Peach	Peach
 
 ---------------------------------------------------------
-# CONCAT
+### CONCAT
 
 The `CONCAT` function will return an empty string if all the values are NULL.
  
 ```sql
-```SELECT CONCAT(NULL,NULL,NULL) AS ConcatFunc;
-
+SELECT CONCAT(NULL,NULL,NULL) AS ConcatFunc;
+```
+ 
 | ConcatFunc |
 |------------|
 | <NULL>     |
@@ -779,7 +754,7 @@ FROM   cte_NULL a INNER JOIN
 ???????????????????
 
 ---------------------------------------------------------
-# VIEWS
+### VIEWS
 
 When creating a view, if you perform a `CAST` function or create a computed column on a column which has a NOT NULL constraint, the result will yield a NULLable column.
 
@@ -812,17 +787,16 @@ GO
 Here is a screen shot of the resulting view.  The columns with `CAST` and `COMPUTE` are NULLable.
 
 ---------------------------------------------------------
-# BOOLEAN VALUES
+### BOOLEAN VALUES
 
 Here we will discuss two SQL constructs, the `BIT` data type and the `NOT` operator.
 
-** BIT
+**BIT**
 Often, we think of the `BIT` data type as being a Boolean value (true or false, yes or no, on or off, one or zero…), however NULL markers are allowed for the `BIT` data type making the possible values 1, 0 and NULL.  In short, the `BIT` data type in SQL is not a true Boolean value.
   
 Because the only acceptable values for the `BIT` data type is 1, 0 or NULL.  The `BIT` data type converts any nonzero value to 1.  As discussed earlier, the NULL marker is neither a nonzero value nor a zero value, so it is not promoted to the value of 1.  Here we can demonstrate that behavior.
 
 ```sql
---15.1
 SELECT CAST(NULL AS BIT)
 UNION
 SELECT CAST(3 AS BIT);
@@ -837,8 +811,7 @@ Much like NULL markers and duplicate tuples, there is much debate in the SQL com
 BIT of a Problem - Simple Talk (red-gate.com)
 WHAT’S WRONG WITH NULLS? - SQL and Relational Theory, 2nd Edition [Book] (oreilly.com)
 
----------------------------------------------------------
-# NOT
+**NOT**
 
 The `NOT` operator negates a Boolean input.
 
@@ -851,7 +824,6 @@ FROM    ##TableA
 WHERE   NOT(FRUIT = 'Mango');
 ```
 
-
 | ID | Fruit | Quantity |
 |----|-------|----------|
 |  1 | Apple |       17 |
@@ -859,7 +831,7 @@ WHERE   NOT(FRUIT = 'Mango');
 
 
 --------------------------------------------------------- 
-# RETURN
+### RETURN
 
 The `RETURN` statement exists unconditionally from a query or procedure.  All stored procedures return a value of 0 for a successful execution, and a nonzero value for a failure.  When the `RETURN` statement is used with a stored procedure, it cannot return a NULL marker.  If a procedure tries to return a NULL marker in the `RETURN` statement, a warning message is generated and a value of 0 is returned.
 
@@ -880,7 +852,6 @@ EXEC @return_status = SpReturnStatement;
 SELECT 'Return Status' = @return_status;
 ```
 
-
 The 'SpReturnStatement' procedure attempted to return a status of NULL, which is not allowed. A status of 0 will be returned instead.
 
 | Return Status |
@@ -888,13 +859,13 @@ The 'SpReturnStatement' procedure attempted to return a status of NULL, which is
 |             0 |
 
 --------------------------------------------------------- 
-# CONCLUSION
+### CONCLUSION
 
 Over the course of this document, we have touched on many of the SQL constructs and how they treat NULL markers.  I hope this document serves as a guiding document for future development, and most importantly, always remember to include NULL markers in your test data.
 
 The most important concept to understand with NULL markers is the three-valued logic, where statements can equate to TRUE, FALSE, or UNKNOWN.  Understanding the three-valued logic is instrumental in understanding the behavior of NULL markers.  TRUE OR UNKNOWN equates to TRUE, and TRUE OR UNKNOWN equates to UNKNOWN.
-
-I hope you have enjoyed this evaluation on the behavior of NULLS.  If you have any questions, bug fixes, or want to say hello, please contact me through my website at https://advancedsqlpuzzles.com. 
+ 
+https://advancedsqlpuzzles.com. 
 
 
 THE END
