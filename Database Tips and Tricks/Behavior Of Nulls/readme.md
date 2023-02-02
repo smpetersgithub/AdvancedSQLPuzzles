@@ -206,7 +206,7 @@ SELECT * from ##TableB
 ### JOIN SYNTAX
 🔵 [Table Of Contents](#table-of-contents)
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The standard ANSI:SQL joins are `INNER`, `LEFT OUTER JOIN`, `RIGHT OUTER JOIN`, `FULL OUTER JOIN`, and `CROSS JOIN`.  For NULL markers, all 5 of these joins treat the NULL marker as **UNKOWN**.  For this reason I do not demonstrate each of these joins, but only the relevant joins needed to understand the behavior of NULL markers in joins.  Also, I include some alternativfe methods for joining if you need to treat NULLS as equals, these methods use the `ISNULL`, `ON EXISTS`, and the `IS [NOT] DISTINCT FROM` clauses.  See my documentation **Advanced SQL Joins** for more examples of these clauses!
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The standard ANSI:SQL joins are `INNER`, `LEFT OUTER JOIN`, `RIGHT OUTER JOIN`, `FULL OUTER JOIN`, and `CROSS JOIN`.  For NULL markers, all 5 of these joins treat the NULL marker as **UNKOWN**.  For this reason I do not demonstrate each of these joins, but only the relevant joins needed to understand the behavior of NULL markers.  Also, I include some alternativfe methods for joining if you need to treat NULLS as equals, these methods use the `ISNULL`, `ON EXISTS`, and the `IS [NOT] DISTINCT FROM` clauses.  See my documentation **Advanced SQL Joins** for more examples of these clauses.
 
 ---------------------------------------------------------
 **INNER JOIN**
@@ -313,10 +313,10 @@ There are several benefits of using anti-joins and semi-joins over `INNER JOINS`
 There are a few key differences differences between semi-joins and anti-joins:
 1.  The `NOT IN` operator will return an empty set if the anti-join contains a NULL marker.  The `NOT EXISTS` will return a dataset that contains a NULL marker if the anti-join contains a NULL marker.
 2.  The `IN` and `EXIST` operators will return a dataset if the semi-join contains a NULL marker.
-3.  The 'IN' and 'NOT IN' can take a list of arguments, or an SQL statement.  The SQL statement can return a set of values, or it can be a correlated subquery.  
-4.  The 'EXISTS' and 'NOT EXITS' must be a correlated subquery.
+3.  The `IN` and `NOT IN` can take a list of arguments, or an SQL statement.  The SQL statement can return a set of values, or it can be a correlated subquery.  
+4.  The `EXISTS` and `NOT EXITS` must be a correlated subquery.
      
-:small_red_triangle:      If you are performing an anti-join to a NULLable column, consider using the `NOT EXISTS` operator over the `NOT` operator.
+:small_red_triangle:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;If you are performing an anti-join to a NULLable column, consider using the `NOT EXISTS` operator over the `NOT` operator.
 
 --------------------------------------------------------
 **NOT IN**
@@ -356,7 +356,7 @@ WHERE   Fruit IN ('Apple','Peach',NULL);
 --------------------------------------------------------
 **EXISTS**
   
-`EXISTS` is much the same as `IN`.  But with `EXISTS` you must specify a query.
+`EXISTS` is much the same as `IN`.  But with `EXISTS` you must create a correlated subquery.
 
 ```sql
 SELECT  ID,
