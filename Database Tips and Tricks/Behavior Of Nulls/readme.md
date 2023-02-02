@@ -911,7 +911,7 @@ SELECT 2 AS ID, CAST(3 AS BIT) AS Bit;
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The `NOT` operator negates a Boolean input.
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Here we can see how the `NOT` operator acts on our test data.  The distinct fruits in the table are Apple, Peach, Mango and NULL.  Placing the `NOT` operator on the predicate logic will return Apple and Peach, but the NULL marker is not returned.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Here we can see how the `NOT` operator acts on our test data.  Placing the `NOT` operator on the predicate logic will return Apple and Peach, but the NULL marker is not returned.
 
 ```sql
 --15.2
