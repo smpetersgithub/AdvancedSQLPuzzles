@@ -14,6 +14,8 @@ Overall, here are some tips I use to working with complex joins.
 5.  Use diagrams or visual aids: Draw a diagram of the relationships between tables or use other visual aids to help you understand the flow of data in the query.
 6.  Test and validate the query: Try running the query with a small subset of data to see the result, and validate the output to make sure it matches your expectations.
 
+-----------------------------------------------------
+
 #### Driving Tables
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;One important concept of good query planning is understanding a driving table.
