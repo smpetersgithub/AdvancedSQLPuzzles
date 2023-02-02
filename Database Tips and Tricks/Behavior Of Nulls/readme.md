@@ -53,6 +53,7 @@ SQL also provides three functions to evaluate NULL markers:
 :small_orange_diamond:    
 :small_red_triangle:    
 :small_red_triangle_down:    
+:link:
 
 ----------------------------------------------------------
 
