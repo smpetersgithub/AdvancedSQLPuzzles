@@ -1,6 +1,6 @@
 # Creating a Calendar Table
 
-Here is a nifty trick for creating a calendar table (or in this case, a calendar view) using a **table-valued function**.
+Here is a nifty trick for creating a calendar table (or in this case, a calendar view) using a table-valued function.
 
 We typically use **table-valued functions** as parameterized views. In comparison with stored procedures, the table-valued functions are more flexible as we can use them wherever tables are used.
 
