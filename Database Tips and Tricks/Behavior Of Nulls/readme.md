@@ -86,9 +86,12 @@ SQL also provides three functions to evaluate NULL markers:
 ### PREDICATE LOGIC
 [Link Back to Contents](#contents)
 
-To best understand NULL markers in SQL, we need to understand the three-valued logic outcomes of TRUE, FALSE, and UNKNOWN.  While NOT TRUE is FALSE, and NOT FALSE is TRUE, the opposite of UNKNOWN is UNKNOWN.  Unique to SQL, the logic result will always be UNKNOWN when comparing a NULL marker to any other value.   SQL’s use of the three-valued logic system presents a surprising amount of complexity into a seemingly straightforward query.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;To best understand NULL markers in SQL, we need to understand the three-valued logic outcomes of TRUE, FALSE, and UNKNOWN.  While NOT TRUE is FALSE, and NOT FALSE is TRUE, the opposite of UNKNOWN is UNKNOWN.  Unique to SQL, the logic result will always be UNKNOWN when comparing a NULL marker to any other value.   SQL’s use of the three-valued logic system presents a surprising amount of complexity into a seemingly straightforward query.
+
+---------------------------------------------------------
 
 The following truth tables display how the three-valued logic is applied.
+
 
 **INSERT IMAGE INSERT IMAGE INSERT IMAGE**
 
