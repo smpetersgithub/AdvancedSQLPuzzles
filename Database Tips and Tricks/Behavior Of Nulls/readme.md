@@ -93,7 +93,7 @@ SQL also provides three functions to evaluate NULL markers:
 The following truth tables display how the three-valued logic is applied.
 
 
-**INSERT IMAGE INSERT IMAGE INSERT IMAGE**
+![Truth Tables Three Valued Logic](/Database%20Tips%20and%20Tricks/Behavior%20Of%20Nulls/images/Truth_Tables_Three_Valued_Logic.png)
 
 A good example of the complexity is shown below in the following examples.
 
