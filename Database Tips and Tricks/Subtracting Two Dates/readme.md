@@ -19,7 +19,7 @@ SELECT dbo.FnDateDiffPartsChar('20110619 00:00:00.0000001', '20110619 00:00:00.0
 SELECT dbo.FnDateDiffPartsChar('20171231', '20160101 00:00:00.0000000');
 SELECT dbo.FnDateDiffPartsChar('20170518 00:00:00.0000001','20110619 00:00:00.1110000');
 ```
-
+------------------------------------------------------------
 **Step 2:**  
 Create the `FnDateDiffPartsTable` table-valued function via the `FnDateDiffPartsTable.sql` script.
 
