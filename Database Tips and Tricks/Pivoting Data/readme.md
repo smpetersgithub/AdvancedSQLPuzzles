@@ -14,6 +14,8 @@ Create the stored procedure `SpPivotData` via the `SpPivotData.sql` script.
 **Step 2:**   
 Review example usages of the `SpPivotData` stored procedure in the `Pivot Data Examples.sql` script.
 
+--------------------------------
+
 Here is a basic execution of the `SpPivotData` stored procedure.
 
 ```sql
