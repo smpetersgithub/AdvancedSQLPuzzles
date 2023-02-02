@@ -2,11 +2,11 @@
 
 When working with datasets, it's important to have a quick and easy way to understand the structure and quality of the data. One important aspect of this is identifying missing or NULL values in the dataset.
 
-To address these issues, I created a data profiling script that allows me to quickly and easily identify the number of null or empty string values in a given column (among other things). This script is designed to be simple and easy to use, allowing me to quickly get a sense of the quality of the data and identify any areas that may require further cleaning or processing.
+To address these issues, I created a data profiling script that allows me to quickly and easily identify the number of NULL or empty string values in a given column (among other things). This script is designed to be simple and easy to use, allowing me to quickly get a sense of the quality of the data and identify any areas that may require further cleaning or processing.
 
 ## Overview  
 
-The script updates a temporary table called `#DataProfiling` with a user supplied metric (such as COUNT, AVG, MAX, MIN) for a user-specified schema and table name. The script uses a cursor to iterate through each column in the specified table and executes an update statement for each column with a different metric specified.   This script creates a temporary table called `#DataProfilingSQL`, which contain the SQL statements that are used to update the `#DataProfiling` table.
+The script updates a temporary table called `#DataProfiling` with a user supplied metric (such as `COUNT`, `AVG`, `MAX`, `MIN`, etc.) for a user-specified schema and table name. The script uses a cursor to iterate through each column in the specified table and executes an update statement for each column with a different metric specified.   This script creates a temporary table called `#DataProfilingSQL`, which contain the SQL statements that are used to update the `#DataProfiling` table.
 
 Example SQL statements are provided to find NULL markers, empty strings, keyword search, etc....
 
