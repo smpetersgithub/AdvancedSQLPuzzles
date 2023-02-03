@@ -55,7 +55,7 @@ We will cover these aspects and many more in the following document.
 ---------------------------------------------------------
 ### Quick Notes
 
-:white_check_mark:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The examples provided are written in `Microsoft’s SQL Server T-SQL`.  The provided SQL statements can be easily modified to fit your dialect of SQL.
+:white_check_mark:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The examples provided are written in Microsoft’s SQL Server T-SQL.  The provided SQL statements can be easily modified to fit your dialect of SQL.
 
 :mailbox: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**I welcome any corrections, new tricks, new techniques, dead links, misspellings, or bugs!**
 
@@ -86,7 +86,7 @@ SELECT 3 WHERE NOT(1=2) AND NOT(NULL=1); --FALSE OR UNKNOWN = UNKNOWN
 ### ANSI_NULLS
 🔵[Table Of Contents](#table-of-contents)
 
->:exclamation:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The standard setting for `ANSI_NULLS` is `ON`.  In a future version of `Microsoft SQL Server` `ANSI_NULLS` will always be `ON` and any applications that explicitly set the option to `OFF` will produce an error.  Avoid using this feature in new development work, and plan to modify applications that currently use this feature.
+>:exclamation:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The standard setting for `ANSI_NULLS` is `ON`.  In a future version of Microsoft SQL Server `ANSI_NULLS` will always be `ON` and any applications that explicitly set the option to `OFF` will produce an error.  Avoid using this feature in new development work, and plan to modify applications that currently use this feature.
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;In SQL Server, the `SET ANSI_NULLS` setting specifies the ISO compliant behavior of the equality (=) and inequality (<>) comparison operators.  The following table shows how the `ANSI_NULLS` session setting affects the results of Boolean expressions using NULL markers.  
 
@@ -206,7 +206,7 @@ SELECT * from ##TableB
 ### Join Syntax
 🔵 [Table Of Contents](#table-of-contents)
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The standard ANSI:SQL joins are `INNER`, `LEFT OUTER JOIN`, `RIGHT OUTER JOIN`, `FULL OUTER JOIN`, and `CROSS JOIN`.  For NULL markers, all 5 of these joins treat the NULL marker as **UNKOWN**.  For this reason I do not demonstrate each of these joins, but only the relevant joins needed to understand the behavior of NULL markers.  Also, I include some alternativfe methods for joining if you need to treat NULLS as equals, these methods use the `ISNULL`, `ON EXISTS`, and the `IS [NOT] DISTINCT FROM` clauses.  See my documentation **Advanced SQL Joins** for more examples of these clauses.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The standard ANSI:SQL joins are `INNER`, `LEFT OUTER JOIN`, `RIGHT OUTER JOIN`, `FULL OUTER JOIN`, and `CROSS JOIN`.  For NULL markers, all 5 of these joins treat the NULL marker as **UNKOWN**.  For this reason I do not demonstrate each of these joins, but only the relevant joins needed to understand the behavior of NULL markers.  Also, I include some alternative methods for joining if you need to treat NULLS as equals, these methods use the `ISNULL`, `ON EXISTS`, and the `IS [NOT] DISTINCT FROM` clauses.  See my documentation **Advanced SQL Joins** for more examples of these clauses.
 
 ---------------------------------------------------------
 **INNER JOIN**
@@ -267,11 +267,11 @@ ORDER BY 1,2;
 ---------------------------------------------------------
 **Other Methods For Returning NULLS**
         
-There are a few methods for returning NULL columns in a join, as shown below.
+There are a few methods for returning NULL values in a join, as shown below.
 
 1.  The first method uses the `ISNULL` function and sets the NULLS to an empty string.
-2.  The second method uses the `ON EXISTS` clause.  `ON EXISTS` is only available in `SQL Server` and `PostreSQL`.
-3.  New to `SQL Server 2022`, the third method uses the `IS [NOT] DISINCT FROM` clause.
+2.  The second method uses the `ON EXISTS` clause.  `ON EXISTS` is only available in SQL Server and PostreSQL.
+3.  New to SQL Server 2022, the third method uses the `IS [NOT] DISINCT FROM` clause.
 
 ```sql
 --Method 1
@@ -310,7 +310,7 @@ There are several benefits of using anti-joins and semi-joins over `INNER JOINS`
 1.  Semi-joins and anti-joins remove the risk of returning duplicate rows.
 2.  Semi-joins and anti-joins increase readability as the result set can only contain the columns from the outer semi-joined table.
 
-There are a few key differences differences between semi-joins and anti-joins:
+There are a few key differences between semi-joins and anti-joins:
 1.  The `NOT IN` operator will return an empty set if the anti-join contains a NULL marker.  The `NOT EXISTS` will return a dataset that contains a NULL marker if the anti-join contains a NULL marker.
 2.  The `IN` and `EXIST` operators will return a dataset if the semi-join contains a NULL marker.
 3.  The `IN` and `NOT IN` can take a list of arguments, or an SQL statement.  The SQL statement can return a set of values, or it can be a correlated subquery.  
@@ -393,7 +393,7 @@ WHERE   NOT EXISTS (SELECT 1 FROM ##TableB b WHERE a.Fruit = b.Fruit AND a.Quant
 ### Set Operators
 🔵[Table Of Contents](#table-of-contents)
         
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The SQL standard for set operators does not use the term **EQUAL TO or NOT EQUAL TO** when describing their behavior.  Instead, it uses the terminology of **IS [NOT] DISTINCT FROM** and the following expressions are TRUE when using set operators.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The SQL standard for set operators does not use the term **EQUAL TO or NOT EQUAL TO** when describing their behavior.  Instead, it uses the terminology of **IS [NOT] DISTINCT FROM** and the following expressions are **TRUE** when using set operators.
 *  NULL is not distinct from NULL
 *  NULL is distinct from "Apple".
 
@@ -556,7 +556,7 @@ FROM    cte_Average;
 ### CONSTRAINTS
 🔵[Table Of Contents](#table-of-contents)
         
-SQL provides the following contraints; `NOT NULL`, `PRIMARY KEY`, `FOREIGN KEY`. `UNIQUE`, and `CHECK CONSTRAINTS`.
+SQL provides the following constraints; `NOT NULL`, `PRIMARY KEY`, `FOREIGN KEY`. `UNIQUE`, and `CHECK CONSTRAINTS`.
         
 --------------------------------------------------------- 
 **PRIMARY KEYS**
@@ -629,7 +629,7 @@ SELECT * FROM ##CheckConstraints;
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;In the below example, we demonstrate that multiple NULL markers can be inserted into a child column that references another column only if the referenced column has a `UNIQUE CONSTRAINT` on the table.  
 
-Referential integrity cannot be created on temporary tables, so for this example we create two tables in the dbo schema named `Parent` and `Child`.
+Referential integrity cannot be created on temporary tables, so for this example we create two tables in the `dbo` schema named `Parent` and `Child`.
 
 ```sql
 DROP TABLE IF EXISTS dbo.Child;
@@ -795,7 +795,7 @@ SELECT  1 AS ID,
 ---------------------------------------------------------
 **ISNULL**
   
-Any queries that join on a field with an empty string will equate to true.  Commonly the empty string is used with the ISNULL function, such as the following query.
+Any queries that join on a field with an empty string will equate to true.  Commonly the empty string is used with the `ISNULL` function, such as the following query.
 
 ```sql
 SELECT  a.ID,
@@ -819,7 +819,7 @@ FROM    ##TableA a INNER JOIN
 🔵 [Table Of Contents](#table-of-contents)
 
         
-> :exclamation:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;In `SQL Server`, the `SET CONCAT_NULL_YIELDS_NULL` database setting controls whether concatenation results are treated as NULL or empty string values.  In a future version of `SQL Server` `CONCAT_NULL_YIELDS_NULL` will always be `ON` and any applications that explicitly set the option to OFF will generate an error. Avoid using this feature in new development work, and plan to modify applications that currently use this feature.
+> :exclamation:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;In SQL Server, the `SET CONCAT_NULL_YIELDS_NULL` database setting controls whether concatenation results are treated as NULL or empty string values.  In a future version of SQL Server `CONCAT_NULL_YIELDS_NULL` will always be `ON` and any applications that explicitly set the option to `OFF` will generate an error. Avoid using this feature in new development work, and plan to modify applications that currently use this feature.
        
 The `CONCAT` function will return an empty string if all the values are NULL.
   
@@ -852,7 +852,7 @@ FROM   cte_Values v1 INNER JOIN
        cte_Values v2 ON CONCAT(v1.A, v1.B) = CONCAT(v2.C,v2.D);
 ```
 
-For these results I state NULL and Empty String were relevant.  In query editors NULLS and empty strings will appear different (by default, SSMS shows the color yellow for NULLS and a blank for empty strings), but since I am using markdown, I show these values as string.
+For these results I state NULL and Empty String were relevant.  In query editors NULLS and empty strings will appear different (by default, SSMS shows yellow for NULLS and a blank for empty strings).
 
 |  A     |  B     |       C         |      D         |
 |--------|--------|-----------------|----------------|
@@ -863,7 +863,7 @@ For these results I state NULL and Empty String were relevant.  In query editors
 ### Views
 🔵 [Table Of Contents](#table-of-contents)
         
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;When creating a view, if you perform a `CAST` function or create a computed column on a column which has a NOT NULL constraint, the result will yield a NULLable column.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;When creating a view, if you perform a `CAST` function or create a computed column on a column which has a `NOT NULL` constraint, the result will yield a NULLable column.
 
 Here we create a table with `NOT NULL` constraints and then create a view where we perform a `CAST` and create a computed column.  From the resulting screen shot, we can see the columns are NULLable.
 
@@ -988,6 +988,6 @@ The `SpReturnStatement` procedure attempted to return a status of NULL, which is
         
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Over the course of this document, we have touched on many of the SQL constructs and how they treat NULL markers.  I hope this document serves as a guiding document for future development, and most importantly, always remember to include NULL markers in your test data.
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The most important concept to understand with NULL markers is the three-valued logic, where statements can equate to **TRUE**, **FALSE**, or **UNKNOWN**.  Understanding the three-valued logic is instrumental in understanding the behavior of NULL markers.  **TRUE OR UNKNOWN** equates to TRUE, and **TRUE AND UNKNOWN** equates to **UNKNOWN**.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The most important concept to understand with NULL markers is the three-valued logic, where statements can equate to **TRUE**, **FALSE**, or **UNKNOWN**.  Understanding the three-valued logic is instrumental in understanding the behavior of NULL markers.  **TRUE OR UNKNOWN** equates to **TRUE**, and **TRUE AND UNKNOWN** equates to **UNKNOWN**.
  
 https://advancedsqlpuzzles.com
