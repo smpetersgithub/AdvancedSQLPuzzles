@@ -79,6 +79,10 @@ FROM    ##TableA a CROSS JOIN
 WHERE   a.Fruit = b.Fruit;
 ```
 
+| ID | Fruit | ID | Fruit |
+|----|-------|----|-------|
+|  1 | Apple |  1 | Apple |
+|  2 | Peach |  2 | Peach |
 
 --------------------------------------------------------------------------------
 #### Theta-joins
@@ -86,18 +90,30 @@ Theta-joins looks for any non-equality comparison.  Sometimes this join is calle
 
 Here are some examples that you may not have realized are possible.
 
-You can use the `LIKE` and `BETWEEN` operators with the `ON` statement.  We often place these operators in the `WHERE` clause, but they can exist with the `ON` statement.
+You can use the `LIKE` and `BETWEEN` operators with the `ON` statement, as well as mathmatical operations.  We often place these operators in the `WHERE` clause, but they can exist with the `ON` statement.
 
 ```sql
-
+SELECT  *
+FROM    ##TableA a INNER JOIN
+        ##TableB b ON a.Quantity BETWEEN b.Quantity AND b.Quantity + 10
+                      AND a.Fruit LIKE b.Fruit;
 ```
 
-Here is an example where you would use the greater than operator.  Suppose you want to purchase two fruits, one fruit from `TableA` and one fruit from `TableB`, however, the quantity of the fruit in `TableA` needs to be larger than the quantity in `TableB`.
+| ID | Fruit | Quantity | ID | Fruit | Quantity |
+|----|-------|----------|----|-------|----------|
+|  1 | Apple |       17 |  1 | Apple |       17 |
+ 
+Here is an example where you would use the greater than operator.  Suppose you want to purchase two fruits, one fruit from `TableA` and one fruit from `TableB`, however, the quantity of the fruit in `TableA` needs to be larger than the quantity in `TableB`.  A common example you will see on the internet is the scenario where you need to purchase two items (such as a car and a boat) and one item (the car) must be of greater value than the other.
 
 ```sql
-
+SELECT  *
+FROM    ##TableA a INNER JOIN
+        ##TableB b ON a.Quantity > b.Quantity;
 ```
 
+| ID | Fruit | Quantity | ID | Fruit | Quantity |
+|----|-------|----------|----|-------|----------|
+|  2 | Peach |       20 |  1 | Apple |       17 |
 
 --------------------------------------------------------------------------------
 #### Natural Joins Overview
