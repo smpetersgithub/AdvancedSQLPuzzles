@@ -38,5 +38,5 @@ I also have a Wordpress site where you can find my data analytics projects, Pyth
 
 :mailbox: If you find any inaccuracies, misspellings, bugs, dead links, etc. please report an issue!  No detail is too small, and I appreciate all the help.
 
-:smile: Good luck and happy coding!
+:smile: Happy coding!
 
