@@ -26,7 +26,7 @@ In this directory you will find the following files:
 *  The Databricks notebooks (`SuppliersAndParts.dbc`) that connects the Key Vault, Data Lake, SQL Server, etc. and performs the ETL.
 *  The DDL statements (`SuppliersAndPartsDDL.sql`) to create the tables in SQL Server.
 
-I've also included the Power Point presentation (Databricks Spark Hive Demo PowerPoint.pptx) that you can download and add notes or modify as needed.
+I've also included the Power Point presentation (`Databricks Spark Hive Demo PowerPoint.pptx`) that you can download and add notes or modify as needed.
 
 ## Conclusion
 
@@ -38,5 +38,5 @@ I also have a Wordpress site where you can find my data analytics projects, Pyth
 
 :mailbox: If you find any inaccuracies, misspellings, bugs, dead links, etc. please report an issue!  No detail is too small, and I appreciate all the help.
 
-:smile: Good luck and happy coding!
+:smile: Happy coding!
 
