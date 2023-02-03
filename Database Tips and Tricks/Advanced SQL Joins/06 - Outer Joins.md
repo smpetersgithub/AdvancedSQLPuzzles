@@ -33,7 +33,7 @@ We will be using the following tables that contain types of fruits and their qua
         
 #### LEFT OUTER JOIN
 
-The most widely used case for the `LEFT OUTER JOIN` is when we want all values in `Table A`, regardless of their presence in `Table B`.  A join condition in an `OUTER JOIN` acts as a matching criterion and not as a filtering mechanism.
+The most widely used case for the `LEFT OUTER JOIN` is when we want all values in `TableA`, regardless of their presence in `TableB`.  A join condition in an `OUTER JOIN` acts as a matching criterion and not as a filtering mechanism.
 
 ```sql
 SELECT  a.ID,
@@ -53,7 +53,7 @@ FROM    ##TableA a LEFT OUTER JOIN
 
 ---
 
-A `LEFT OUTER JOIN` is one of several methods to determine records in `Table A` that do not exist in `Table B`.  The following statement returns all values in `Table A` that do not exist in `Table B`.  There are other (and possibly better) ways of writing this query which we will cover later.
+A `LEFT OUTER JOIN` is one of several methods to determine records in `TableA` that do not exist in `TableB`.  The following statement returns all values in `TableA` that do not exist in `TableB`.  There are other (and possibly better) ways of writing this query which we will cover later.
 
 ```sql
 SELECT  a.*
@@ -151,7 +151,7 @@ Windowing functions were added to the `ANSI/ISO Standard SQL:2003` and then exte
 
 Because of SQL Server's delay in implementation, you may see statements such as below that were used to mimic window functions.  This statement is often called a "Flash Fill" or "Data Smudge".
 
-This SQL statment will populate the NULL markers in the `Fruit` column with the nearest prior value.
+This SQL statement will populate the NULL markers in the `Fruit` column with the nearest prior value.
 
 ```sql
 SELECT  a.ID,
