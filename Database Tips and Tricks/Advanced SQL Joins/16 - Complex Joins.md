@@ -4,15 +4,15 @@
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Complex joins in a descriptive term that refers to join operations that involve multiple tables and require more intricate join conditions than simple joins.  These joins can become quite complex when multiple conditions need to be met to return the desired result set. In such cases, multiple join clauses can be used to define the relationships between the tables.
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;To create complex joins, it's important to have a clear understanding of the relationships between the tables and the desired outcome. It is also important to use clear and concise syntax, such as explicit join clauses and appropriate use of `ON`, `USING`, and `WHERE` clauses. By breaking down complex joins into smaller, simpler join operations, it can be easier to understand and maintain the query.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;To create complex joins, it's important to have a clear understanding of the relationships between the tables and the desired outcome. It is also important to use clear and concise syntax, such as using explicit join clauses, knowing when to use windowing, ranking, lag/lead functions etc. By breaking down complex joins into smaller, simpler join operations, it can be easier to understand and maintain the query.
 
 Overall, here are some tips I use to working with complex joins.
 
-1.  Break down the query into smaller parts: Divide the query into smaller, more manageable parts. Start by understanding the different clauses and how they fit together.
-3.  Know the database schema: Understanding the structure of the database, including tables, columns, relationships, and constraints, is essential for understanding complex queries.
-4.  Identify the purpose of each clause: Understand what each clause in the query is meant to do, and how it contributes to the overall result.
-5.  Use diagrams or visual aids: Draw a diagram of the relationships between tables or use other visual aids to help you understand the flow of data in the query.
-6.  Test and validate the query: Try running the query with a small subset of data to see the result and validate the output to make sure it matches your expectations.
+1.  **Break down the query into smaller parts**: Divide the query into smaller, more manageable parts. Start by understanding the different clauses and how they fit together.
+3.  **Know the database schema**: Understanding the structure of the database, including tables, columns, relationships, and constraints, is essential for understanding complex queries.
+4.  **Identify the purpose of each clause**: Understand what each clause in the query is meant to do, and how it contributes to the overall result.
+5.  **Use diagrams or visual aids**: Draw a diagram of the relationships between tables or use other visual aids to help you understand the flow of data in the query.
+6.  **Test and validate the query**: Try running the query with a small subset of data to see the result and validate the output to make sure it matches your expectations.
 
 -----------------------------------------------------
 
