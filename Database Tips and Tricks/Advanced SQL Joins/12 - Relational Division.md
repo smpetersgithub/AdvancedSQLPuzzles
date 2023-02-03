@@ -90,7 +90,7 @@ HAVING  COUNT(ps.PlaneName) = (SELECT COUNT(PlaneName) FROM #Hangar);
 -------------------------------------------------------------------------
 #### Employees With Matching Licenses.
 
-Another example is find all employees who have the same licenses.
+Another example is finding all employees who have the same licenses.
 
 | EmployeeID | License |
 |------------|---------|
@@ -268,7 +268,7 @@ SELECT
         ) * 1.0 /2 AS Median;
 ```
 
-Ranking is also not relational division.  Here is an example finding a percentile on test scores and determining the top 10%.  Relational division refers to a set operation that returns all the tuples in a table that do not have a corresponding tuple in another table, based on certain conditions.  For brieity on this statement, I won't include the test data.
+Ranking is also not relational division.  Here is an example finding a percentile on test scores and determining the top 10%.  Relational division refers to a set operation that returns all the tuples in a table that do not have a corresponding tuple in another table, based on certain conditions.  For brevity on this statement, I won't include the test data.
 
 Below is not an example of relational division, but rather a way to divide the scores into percentiles and then select the top 10% of scores based on their value. 
 
