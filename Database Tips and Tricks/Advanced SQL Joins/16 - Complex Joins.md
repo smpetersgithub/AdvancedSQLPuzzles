@@ -189,7 +189,7 @@ Lastly when writing SQL, programming style goes a long way to readability.
 9. [Semi and Anti Joins](09%20-%20Semi%20and%20Anti%20Joins.md)
 10. [Any, All, and Some](10%20-%20Any%2C%20All%2C%20and%20Some.md)
 11. [Self Joins](11%20-%20Self%20Join.md)
-12. [Relational Divison](12%20-%20Relational%20Division.md)
+12. [Relational Division](12%20-%20Relational%20Division.md)
 13. [Set Operations](13%20-%20Set%20Operations.md)
 14. [Join Algorithms](14%20-%20Join%20Algorithms.md)
 15. [Exists](15%20-%20Exists.md)
