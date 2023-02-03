@@ -18,8 +18,8 @@ The content of this GitHub is ever growing, here are some of the more popular co
 
 *  [Advanced SQL Puzzles](/Advanced%20SQL%20Puzzles): A growing collection of SQL puzzles that are on the advanced side.  
 *  [Recursion](/Advanced%20SQL%20Puzzles/Recursion%20Examples): My collection of SQL queries that use recursion.  Here I solve all sorts of problems such as Markov chains, floor and ceiling caps, Traveling Salesman, and even one for Sudoku.    
-*  [Advanced SQL Joins](): Ever wanted to know all about semi-joins, anti-joins, equi-joins, theta-joins, self-joins, and all the ways you will encounter the word "join" in your daily SQL activities, then this is the directory for you!    
-*  [Behavior of Nulls]():  NULL markers are the bane of every developer, so I compiled a list of all the different SQL constructs and how they handle NULL markers.    
+*  [Advanced SQL Joins](/Database%20Tips%20and%20Tricks/Advanced%20SQL%20Joins): Ever wanted to know all about semi-joins, anti-joins, equi-joins, theta-joins, self-joins, and all the ways you will encounter the word "join" in your daily SQL activities, then this is the directory for you!    
+*  [Behavior of Nulls](/Database%20Tips%20and%20Tricks/Behavior%20Of%20Nulls):  NULL markers are the bane of every developer, so I compiled a list of all the different SQL constructs and how they handle NULL markers.    
 
 
 ## Conclusion
