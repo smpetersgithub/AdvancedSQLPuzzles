@@ -6,7 +6,7 @@ This repository contains a collection of my SQL puzzles, tips and tricks, demos,
 
 All SQL is written in **Microsoft SQL Servers TSQL**, unless otherwise noted.
 
-:star: Give this repository a star if you find this repository informative!
+:star: Please consider giving a star to this repository if you find its contents informative!
 
 ## Getting Started
 
