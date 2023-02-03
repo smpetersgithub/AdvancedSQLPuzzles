@@ -27,7 +27,7 @@ We will be using the following tables that contain types of fruits and their qua
 
 ---------------------------------------------------------------------------------
 
-The following shows the contents of fruits in both `Table A` and `Table B`.
+The following shows the contents of fruits in both `TableA` and `TableB`.
 
 ```sql
 SELECT  a.ID,
@@ -51,7 +51,7 @@ FROM    ##TableA a FULL OUTER JOIN
   
 You can use a `FULL OUTER JOIN` to find the symmetric difference of two datasets using the `ISNULL` function.
 
-This SQL statement returns the records that are in `Table A` but not in Table B along with the records in Table B that are not in `Table A`.  This is known in set theory as the symmetric difference.  The result set will include two NULL markers as NULLs are neither equal to or not equal to each other, they are unknown.
+This SQL statement returns the records that are in `TableA` but not in `TableB` along with the records in `TableB` that are not in `TableA`.  This is known in set theory as the symmetric difference.  The result set will include two NULL markers as NULLs are neither equal to or not equal to each other, they are unknown.
  
 ```sql 
 SELECT  ISNULL(a.ID, b.ID) AS ID,
