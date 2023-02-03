@@ -1,4 +1,4 @@
- # Welcome
+# Welcome
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Joining tables in SQL requires a good understanding of the data, the relationships between the tables, and the behavior of the different join types.  This GitHub repository covers some of the more advanced concepts of SQL joins and serves as a collection of interesting, odd, and uncommon ways you may see or think of joins in your everyday SQL encounters.  
 
@@ -18,7 +18,7 @@ I classify joins into the following 4 categories, Logical, Physical, Descriptive
 | ID |     Type     |                                                           Description                                                          |
 |----|--------------|--------------------------------------------------------------------------------------------------------------------------------|
 |  1 |  Logical     |  Joins that are part of the SQL ANSI syntax and are used to combine data from two or more tables based upon a filter criteria. |
-|  2 |  Physical    |  Implemented by the RDBMS and describe how the system will phyically join the tables to create the desired results.            |
+|  2 |  Physical    |  Implemented by the RDBMS and describe how the system will physically join the tables to create the desired results.            |
 |  3 |  Descriptive |  Used when discussing certain behavior or complexity of a join.                                                                |
 |  4 |  Model       |  Joins that are described in the Relational Model which SQL is based on.                                                       |
 
@@ -40,7 +40,7 @@ Here is a brief description of each type of join:
 |  Model        | ANTI-JOIN        |  An anti-join returns only the rows from the first table that do not have matching values in the second table.                                                                                                                        |
 |  Model        | EQUI-JOIN        |  An equi-join returns only the rows where the values in the specified columns of both tables are equal.                                                                                                                               |
 |  Model        | THETA-JOIN       |  A theta-join is a flexible type of join that allows you to join tables based on any type of condition, not just an equality condition.                                                                                               |
-|  Model        | NON-EQUI-JOIN    |  Interchangable with theta-join  Some texts use the term theta-join, and others use non-equi-join.                                                                                                                                    |
+|  Model        | NON-EQUI-JOIN    |  Interchangeable with theta-join  Some texts use the term theta-join, and others use non-equi-join.                                                                                                                                    |
 |  Model        | NATURAL JOIN     |  A NATURAL JOIN returns the rows where the values in the specified columns of both tables are equal, and the column names are the same.                                                                                               |
 
 ---------------------------------------------------------
