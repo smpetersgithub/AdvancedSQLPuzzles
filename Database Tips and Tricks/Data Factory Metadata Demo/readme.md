@@ -22,7 +22,7 @@ To get started, download the `Data Factory Metadata Demo PDF.pdf` and follow alo
 
 In this directory you will find the following files:
 *  Sample text files (`Customer_1.txt`,`Customer_2.txt`,`Customer_3.txt`) that we will import using Azure Data Factory.
-*  A script (`Data Factory SQL DDL Scripts.sql`) to create the tables and stored procedure that we will use in this Demo.
+*  A script (`Data Factory SQL DDL Scripts.sql`) to create the tables and stored procedure that we will use in this demo.
 
 I've also included the Power Point presentation (`Data Factory MetaData Demo PowerPoint.pptx`) that you can download and add notes or modify as needed.
 
