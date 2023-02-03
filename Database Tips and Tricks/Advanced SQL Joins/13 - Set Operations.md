@@ -12,7 +12,7 @@
 
 #### Note on Venn Diagrams
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;We often think of Venn Diagrams for both SET operations and JOIN operations,  Venn Diagrams are good for set theory , but often Venn diagrams are used for pedagogical reasons to quickly show the behavior of `INNER`, `RIGHT OUTER`, `LEFT OUTER`, `FULL OUTER`, and `CROSS JOINA`.  However, they are not well suited for representing complex relationships that can exist between tables in a relational database.  While Venn diagrams can be used to show the overlap between two sets of data, they cannot easily convey the specific conditions that are being used to filter the data and can become very complex and difficult to read as the number of tables and join conditions increases.  Venn diagrams are intended to show traditional set operations and not join operations.  A good example of the limitation in Venn diagrams is that it is not able to show the `CROSS JOIN` properly and how duplicate records can get introduced into the resulting dataset.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;We often think of Venn Diagrams for both SET operations and JOIN operations,  Venn Diagrams are good for set theory , but often Venn diagrams are used for pedagogical reasons to quickly show the behavior of `INNER`, `RIGHT OUTER`, `LEFT OUTER`, `FULL OUTER`, and `CROSS JOIN`.  However, they are not well suited for representing complex relationships that can exist between tables in a relational database.  While Venn diagrams can be used to show the overlap between two sets of data, they cannot easily convey the specific conditions that are being used to filter the data and can become very complex and difficult to read as the number of tables and join conditions increases.  Venn diagrams are intended to show traditional set operations and not join operations.  A good example of the limitation in Venn diagrams is that it is not able to show the `CROSS JOIN` properly and how duplicate records can get introduced into the resulting dataset.
 
 --------------------------------------------------------------------------------
 We will be using the following tables that contain types of fruits and their quantity.  
@@ -111,7 +111,7 @@ SELECT Fruit FROM ##TableB;
 
 #### Symmetric Difference
 
-There is no SQL set operation to find the symmetric difference of a dataset.  You can use a `FULL OUTER JOIN` to find the symmetric difference of two datasets using the ISNULL function.
+There is no SQL set operation to find the symmetric difference of a dataset.  You can use a `FULL OUTER JOIN` to find the symmetric difference of two datasets using the `ISNULL` function.
 
 This SQL statement returns the records that are in `TableA` but not in `TableB` along with the records in `TableB` that are not in `TableA`. The result set will include two NULL markers.
   
