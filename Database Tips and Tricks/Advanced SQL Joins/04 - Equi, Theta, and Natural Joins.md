@@ -1,6 +1,6 @@
- # Equi, Theta, and Natural Joins
+# Equi, Theta, and Natural Joins
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Equi, theta, and natural joins were were introduced by E.F. Codd in his seminal work on defining relational algebra, which serves as the foundation for SQL.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Equi, theta, and natural joins were introduced by E.F. Codd in his seminal work on defining relational algebra, which serves as the foundation for SQL.
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SQL is considered a lenient interpretation of relational algebra because it deviates from the strict mathematical principles of relational algebra in some ways. While relational algebra provides a rigorous mathematical foundation for relational database management, SQL is a more practical, user-friendly language for querying and manipulating data in relational databases.
 
@@ -86,13 +86,13 @@ Theta-joins looks for any non-equality comparison.  Sometimes this join is calle
 
 Here are some examples that you may not have realized are possible.
 
-You can use the `LIKE` and `BETWEEN` operators with the ON statement.  We often place these operators in the `WHERE` clause, but they can exist with the ON statement.
+You can use the `LIKE` and `BETWEEN` operators with the `ON` statement.  We often place these operators in the `WHERE` clause, but they can exist with the `ON` statement.
 
 ```sql
 
 ```
 
-Here is an example where you would use the greater than operator.  Suppose you want to purchase two fruits, one fruit from `Table A` and one fruit from `Table B`, however, the quantity of the fruit in Table A needs to be larger than the quantity in Table B.
+Here is an example where you would use the greater than operator.  Suppose you want to purchase two fruits, one fruit from `TableA` and one fruit from `TableB`, however, the quantity of the fruit in `TableA` needs to be larger than the quantity in `TableB`.
 
 ```sql
 
@@ -104,9 +104,7 @@ Here is an example where you would use the greater than operator.  Suppose you w
 
 A natural join in relational algebra is a type of join operation that combines two relational tables via an equi-join based on their common attributes. In a natural join, only the rows with matching values in the common columns are included in the result. The common columns of the two tables are used as the join criteria and the result set includes only one copy of these columns. The columns in the result set correspond to the combination of columns from both tables,
 
-`ORACLE` does is currently the only vendor that supports the `NATURAL JOIN` syntax.  It is considered a bad practice for some reasons:
-
-*  Natural joins in SQL can be considered a bad practice for several reasons:
+`ORACLE` does is currently the only vendor that supports the `NATURAL JOIN` syntax.  It is considered a bad practice for the following reasons:
 *  Ambiguity: Natural joins can cause ambiguity if two or more columns in the participating tables have the same name. This can lead to unexpected results and make the query difficult to understand and maintain.
 *  Data Loss: In a natural join, only the rows with matching values in the common columns are included in the result set. This means that any data in the participating tables that doesn't match will be lost and not included in the result.
 *  Maintenance: Natural joins can make the database schema more difficult to maintain because changes to the common columns in one of the participating tables will affect the result of the join.
@@ -117,7 +115,7 @@ For these reasons, it is generally recommended to use explicit join syntax and s
 
 #### Natural Joins
 
-The use of an asterisk in the `SELECT` statement is mandatory and the output does not show duplicate column names. This query is the same as an equi-join on the `ID`, `Fruit` and `Quantity` columns between `Table A` and `Table B`.
+The use of an asterisk in the `SELECT` statement is mandatory and the output does not show duplicate column names. This query is the same as an equi-join on the `ID`, `Fruit` and `Quantity` columns between `TableA` and `TableB`.
 
 ```sql
 SELECT  *
