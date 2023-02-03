@@ -37,7 +37,7 @@ FROM    Employees a INNER JOIN
 |           4 | Director       |           2 | Vice President |
 |           5 | Director       |           3 | Vice President |
 
-It is worth mentioning that because the `Emnployees` table is a hierarchical relationship, the problem lends itself to using a self-referencing common table expression (CTE) to determine the level of depth each employee has from the highest tier.
+It is worth mentioning that because the `Employees` table is a hierarchical relationship, the problem lends itself to using a self-referencing common table expression (CTE) to determine the level of depth each employee has from the highest tier.
 
 In the below example, the common table expression `cte_Recursion` references itself in the `UNION ALL` statement.
 
