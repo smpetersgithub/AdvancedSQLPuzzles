@@ -11,16 +11,16 @@ This directory contains a demo to understand what metadata is available with Azu
 In this demo I create several pipelines to import text files into a SQL Server database and append all Azure Data Factory metadata from both the text files 
 and the Data Factory pipeline.
 
-This demo covers the following topics:
-• File and Data Factory Pipeline Metadata
-• Parameters and Variables
-• User-Defined Table Types
+This demo covers the following topics:    
+*  File and Data Factory Pipeline Metadata
+*  Parameters and Variables
+*  User-Defined Table Types
 
 ## Getting Started
 
 To get started, download the `Data Factory Metadata Demo PDF.pdf` and follow along with each slide.
 
-In this directory you will find the following files:
+In this directory you will find the following files:    
 *  Sample text files (`Customer_1.txt`,`Customer_2.txt`,`Customer_3.txt`) that we will import using Azure Data Factory.
 *  A script (`Data Factory SQL DDL Scripts.sql`) to create the tables and stored procedure that we will use in this demo.
 
@@ -36,5 +36,5 @@ I also have a Wordpress site where you can find my data analytics projects, Pyth
 
 :mailbox: If you find any inaccuracies, misspellings, bugs, dead links, etc. please report an issue!  No detail is too small, and I appreciate all the help.
 
-:smile: Good luck and happy coding!
+:smile: Happy coding!
 
