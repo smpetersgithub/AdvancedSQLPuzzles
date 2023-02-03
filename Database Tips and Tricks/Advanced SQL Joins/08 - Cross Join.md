@@ -92,7 +92,7 @@ WHERE   a.Fruit = b.Fruit;
 
 ---------------------------------------------------------------------------------
   
-In order to simulate a `LEFT OUTER JOIN` using a `CROSS JOIN`, you will need to incorporate `SET` operators (`UNION`) and an anti-join (`NOT EXISTS`).  
+To simulate a `LEFT OUTER JOIN` using a `CROSS JOIN`, you will need to incorporate set operators (`UNION`) and an anti-join (`NOT EXISTS`).  
 
 ```sql
 SELECT  a.ID,
@@ -123,7 +123,7 @@ WHERE   NOT EXISTS (SELECT 1 FROM ##TableB b where a.Fruit = b.Fruit);
   
 The following produces all combinations (not permuations).
   
-Given all fruits in both `Table A` and `Table B`, here is a result set of all fruit combinations.  Because of the theta-join in the `WHERE` clause, the fruits are listed in alphabetical order left to right, as Apple and Peach are the same as Peach and Apple.  Note that NULL markers are not included in the result set, as NULL markers are not equal to each other nor are they equal to each other, they are unknown.
+Given all fruits in both `TableA` and `TableB`, here is a result set of all fruit combinations.  Because of the theta-join in the `WHERE` clause, the fruits are listed in alphabetical order left to right.  Note that NULL markers are not included in the result set, as NULL markers are not equal to each other nor are they equal to each other, they are unknown.
   
 ```sql
 WITH cte_DistinctFruits as
