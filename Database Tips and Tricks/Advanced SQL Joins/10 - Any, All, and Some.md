@@ -224,7 +224,7 @@ PRINT 'FALSE';
 --TRUE
 IF EXISTS 
 (
-SELECT  DISTINCT TableA.ID
+SELECT  TableA.ID
 FROM    (VALUES(3)) AS TableA(ID) CROSS JOIN
         (VALUES(1),(2),(3)) AS TableB(ID)
 WHERE    TableA.ID <> TableB.ID
