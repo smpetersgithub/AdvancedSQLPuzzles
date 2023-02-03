@@ -13,8 +13,7 @@ All SQL is written in **Microsoft SQL Servers TSQL**, unless otherwise noted.
 To get started, clone or download the repository to your local machine.  I have included readme files for each directory that describes its contents.  If anything is unclear, please contact me and I would be happy to assist.
 
 ## Content
-The content of this GitHub is ever growing, here are some of the more popular content:
-
+The contents of this GitHub continue to expand, so check back often. Below are some of the most popular directories:
 
 *  [Advanced SQL Puzzles](/Advanced%20SQL%20Puzzles): A growing collection of my SQL puzzles.  I'm always looking for new puzzles, so please share if you have anything that would be a great fit.  
 *  [Recursion](/Advanced%20SQL%20Puzzles/Recursion%20Examples): My collection of SQL queries that use recursion.  Here I solve all sorts of problems such as Markov chains, floor and ceiling caps, Traveling Salesman, and even one for Sudoku.    
