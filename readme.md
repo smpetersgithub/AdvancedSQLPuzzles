@@ -27,6 +27,7 @@ I hope you find this repository to be useful and informative and I welcome any n
 
 If you find any inaccuracies, misspellings, bugs, dead links, etc. please report an issue.
 
-I also have a Wordpress site at https:/advancedsqlpuzzles.com where you can find my data analytics projects, Python puzzles, and my blog.
+I also have a Wordpress site where you can find my data analytics projects, Python puzzles, and blog.    
+https:/advancedsqlpuzzles.com 
 
 :smile: Good luck and happy coding!
