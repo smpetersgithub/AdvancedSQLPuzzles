@@ -31,7 +31,7 @@ We will be using the following tables that contain types of fruits and their qua
 
 Here we have an example of using `EXISTS` with the `IF` statement to check for the existence of records.  
 
-This statement will return `TRUE`, as there are records in `TableA`.
+This statement will return TRUE, as there are records in `TableA`.
 
 ```sql
 IF EXISTS (SELECT 1 FROM ##TableA)
@@ -136,7 +136,7 @@ ORDER BY 1,2;
 
 ----------------------------------------------------
 
-From our previous SQL statement, we can see that the `INNER JOIN` acts like a `CROSS JOIN`.  Now lets add a more practical use of the `ON EXISTS`.  Here we have a more practical use of the statement.
+From our previous SQL statement, we can see that the `INNER JOIN` acts like a `CROSS JOIN`.  Now let’s add a more practical use of the `ON EXISTS`.  Here we have a more practical use of the statement.
 
 This query will return all the rows of `TableA` and `TableB` where the values of column `Fruit` are the same in both tables, and the columns of both tables will be included in the result set. The query will include rows from `TableA` where the `Fruit` value exists in `TableB`.  
   
