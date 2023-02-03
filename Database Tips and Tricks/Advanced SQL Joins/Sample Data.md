@@ -1,6 +1,6 @@
 # Sample Data
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;For the following examples you will need to understand the behavior of NULL markers.  I’ve provided some rather simple tables with minimal records.  I've also included a few NULL markers so we can understand how the varoius joins treat this special case.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;For the following examples you will need to understand the behavior of NULL markers.  I’ve provided some rather simple tables with minimal records.  I've also included a few NULL markers so we can understand how the various joins treat this special case.
 
 **Table A**
 | ID | Fruit  | Quantity |
