@@ -82,7 +82,7 @@ WHERE   a.Fruit = b.Fruit;
 |  2 | Peach |  2 | Peach |
 
 
-In `MySQL` the following SQL statement will work and mimic an `INNER JOIN`.   This SQL statement has an ON clause of 1=1 and a `WHERE` clause specifying the join criteria.  If you remove the WHERE clause, this statement will work in both `MySQL` and `SQLite` to return a full cartesian product.
+In `MySQL` the following SQL statement will work and mimic an `INNER JOIN`.   This SQL statement has an ON clause of 1=1 and a `WHERE` clause specifying the join criteria.  If you remove the `WHERE` clause, this statement will work in both `MySQL` and `SQLite` to return a full cartesian product.
 
 ```sql
 SELECT a.ID,
@@ -164,7 +164,7 @@ FROM    ##TableA a INNER JOIN
   
 Here are some other examples of `INNER JOINS` using theta-joins.
 
-This query looks for all values where the quantity in Table A is greater than or equal to a quantity in the corresponding `Table B`.
+This query looks for all values where the quantity in Table A is greater than or equal to a quantity in the corresponding `TableB`.
 
 ```sql
 SELECT  *
@@ -216,7 +216,7 @@ FROM    ##TableA a INNER JOIN
 |  4 | <NULL> |  4 | <NULL> |
 
 ---------------------------------------------------------------------------------
-In `SQL Server` and `PostgreSQL`, you can also write the above query by using the `ON EXISTS` clause.  This is a little known trick you can use that may (or may not) yield a bit better execution plan then the above statement, but it is worth checking.  I will cover the `ON EXIST`S syntax in another document, as it takes some thinking to understand its behavior. 
+In `SQL Server` and `PostgreSQL`, you can also write the above query by using the `ON EXISTS` clause.  This is a little-known trick you can use that may (or may not) yield a bit better execution plan then the above statement, but it is worth checking.  I will cover the `ON EXISTS` syntax in another document, as it takes some thinking to understand its behavior. 
 
 ```sql
 SELECT  a.*,
@@ -232,7 +232,7 @@ FROM    ##TableA a INNER JOIN
 |  4 | <NULL> |        5 |  4 | <NULL> | <NULL>   |
 
 ---------------------------------------------------------------------------------
-You can use a `CASE` statement to specify the join condition in the WHERE clause.  This is considered a bad practice and you should find a better way of writing this query.
+You can use a `CASE` statement to specify the join condition in the `WHERE` clause.  This is considered a bad practice and you should find a better way of writing this query.
         
 ```sql
  SELECT  a.ID,
@@ -291,7 +291,7 @@ FROM    ##TableA a INNER JOIN
 |  2 | Peach |  2 | Peach |
   
 ---------------------------------------------------------------------------------
-`ORACLE` supports the `NATURAL JOIN` syntax.  I classify the natural join as a mdoel join as it was first conceived by E.F. Codd in his work on the Relational Model.  I cover natural joins in a separate document and why they should be considered bad practice to use.  
+`ORACLE` supports the `NATURAL JOIN` syntax.  I classify the natural join as a model join as it was first conceived by E.F. Codd in his work on the Relational Model.  I cover natural joins in a separate document and why they should be considered bad practice to use.  
   
 The use of an asterisk in the `SELECT` statement is mandatory and the output does not show duplicate column names.  This query is the same as an equi-join on the `ID`, `Fruit` and `Quantity` columns between `TableA` and `TableB`.
 
