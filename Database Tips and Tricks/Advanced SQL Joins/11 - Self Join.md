@@ -280,5 +280,6 @@ WHERE   Salary > Average;
 14. [Join Algorithms](14%20-%20Join%20Algorithms.md)
 15. [Exists](15%20-%20Exists.md)
 16. [Complex Joins](16%20-%20Complex%20Joins.md)
+  
 https://advancedsqlpuzzles.com
   
