@@ -2,7 +2,7 @@
 
 ❗ **`SOME` and `ANY` are equivalent; for this document I will use `ANY`.**
 
-`ANY`, `ALL`, and `SOME` compare a scalar value with a single-column set of values. 
+`ANY`, `ALL`, and `SOME` compare a scalar value with a single column set of values. 
 
 ---------------------------------------------------------
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Because `ANY`, `ALL`, and `SOME` can be used with the 9 different logical operators below, there can be a total of 27 combinations.  Plus they can be negated with the `NOT` operator leading to even more combinations.  Most of the usages have equivalents that are easy to understand, and I have found the best way to understand `ANY`, `ALL`, and `SOME` is by using the `IF` keyword to review their usage and provide an equivalent statement.
@@ -65,7 +65,7 @@ ELSE
 PRINT 'FALSE';
 ```
 
-Equivalant statement below.
+Equivalent statement below.
 
 ```sql
 --TRUE
@@ -98,7 +98,7 @@ ELSE
 PRINT 'FALSE';
 ```
 
-Equivalant statement below.
+Equivalent statement below.
 
 ```sql
 --FALSE
@@ -120,7 +120,7 @@ PRINT 'TRUE'
 ELSE  
 PRINT 'FALSE' ;
 ```
-Equivalant statement below.
+Equivalent statement below.
 
 ```sql
 --TRUE
@@ -338,7 +338,7 @@ This example table has statuses that are not all completed.
 |  3 | Running   |
 |  4 | Completed |
 
-Here is the SQL statements (along with the DDL) that produce the required output.
+Here are the SQL statements (along with the DDL) that produce the required output.
 
 ```sql
 CREATE TABLE #Status
@@ -402,7 +402,7 @@ Given the following tables: `Sales Representatives` and `Top Selling Products by
 | Q4           | North  | C       |
 | Q4           | South  | E       |
 
-*  For Q1, the North region had all of the top selling products, therefore reps 1001 and 2002 each get a $1000 commission for that quarter. The North region also had sales in Q2, Q3, and Q4, getting $250 for each of these quarters.
+*  For Q1, the North region had all the top selling products, therefore reps 1001 and 2002 each get a $1000 commission for that quarter. The North region also had sales in Q2, Q3, and Q4, getting $250 for each of these quarters.
 *  The South region had top selling products in Q2, Q3, and Q4, so they receive $750.
 *  The East region had a top selling product in Q3 only, so they receive $250.
 *  The West region did not have any top selling products for any of the quarters, therefore the sales reps get a goat as a commission.
