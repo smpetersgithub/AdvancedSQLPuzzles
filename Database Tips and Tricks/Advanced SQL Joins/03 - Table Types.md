@@ -1,6 +1,6 @@
 # Table Types
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Within SQL, you can create a join to the following 10 table types, some of these objects are schema bound objects, meaning they are saved as a database object within a named schema, and others are unbound and only durable for the life of an SQL statement (CTE, Subquery, Values, Derived Tables) or your current session (Table Variable, Temporary Table).  Items that are not schema bound are created in the tempdb and do not have any data of their existence in the catalog views.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Within SQL, you can create a join to the following 10 table types, some of these objects are schema bound objects, meaning they are saved as a database object within a named schema, and others are unbound and only durable for the life of an SQL statement (CTE, Subquery, Values, Derived Tables) or your current session (Table Variable, Temporary Table).  Items that are not schema bound are created in the `tempdb` and do not have any data of their existence in the catalog views.
 
 Here are the 10 different types of tables you can create.
 
@@ -8,27 +8,27 @@ Here are the 10 different types of tables you can create.
 |----|--------------------------------|---------------|--------------------------------------------------------------------------------------------------------------------------------------------|
 |  1 |  Table                         |  True         |  A regular table that is stored in the database.                                                                                           |
 |  2 |  View                          |  True         |  A virtual table that is based on the result of a SELECT statement.                                                                        |
-|  3 |  Values Constructor            |  True         |  The VALUES constructor can be used to create a derived table, which is a table that is created and used within a single SQL query.        |
+|  3 |  Values Constructor            |  True         |  The `VALUES` constructor can be used to create a derived table, which is a table that is created and used within a single SQL query.        |
 |  4 |  Table Valued Function         |  True         |  A function that returns a table as its result.                                                                                            |
 |  5 |  Subquery                      |  False        |  A query that is embedded within another query. The results of a subquery can be used in the outer query.                                  |
-|  6 |  Derived Table                 |  False        |  A special type of subquery that is defined in the FROM statement, enclosed in parentheses and a table name is provided.                   |
-|  7 |  Common Table Expression (CTE) |  False        |  A named temporary result set that can be used in a SELECT, INSERT, UPDATE, or DELETE statement.                                           |
+|  6 |  Derived Table                 |  False        |  A special type of subquery that is defined in the `FROM` statement, enclosed in parentheses and a table name is provided.                   |
+|  7 |  Common Table Expression (CTE) |  False        |  A named temporary result set that can be used in a `SELECT`, `INSERT`, `UPDATE`, or `DELETE` statement.                                           |
 |  8 |  Temporary Table               |  False        |  A table that is created for a specific session or connection and is automatically dropped when the session or connection ends.            |
 |  9 |  Table Variable                |  False        |  A variable that holds a table of data. It is similar to a temporary table but it has some differences in terms of its behavior and scope. |
-| 10 |  External Tables               |  False        |  Used to access data stored externally, such as in a text file. They are created using the CREATE EXTERNAL TABLE statement.                |
+| 10 |  External Tables               |  False        |  Used to access data stored externally, such as in a text file. They are created using the `CREATE EXTERNAL TABLE` statement.                |
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tempdb is used by SQL Server to store intermediate results when processing queries, such as those created by derived tables and subqueries. For example, when you create a derived table or use a subquery, SQL Server may create a temporary table in tempdb to store the intermediate results. This allows the database engine to reuse the results multiple times in the same query, instead of having to recompute them each time they're needed.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tempdb is used by SQL Server to store intermediate results when processing queries, such as those created by derived tables and subqueries. For example, when you create a derived table or use a subquery, SQL Server may create a temporary table in `tempdb` to store the intermediate results. This allows the database engine to reuse the results multiple times in the same query, instead of having to recompute them each time they're needed.
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;It's important to note that the use of tempdb and the extent to which it's used can vary depending on the complexity of the query and other factors, such as the amount of memory available and the indexes present on the involved tables. However, it's a common practice for SQL Server to use tempdb when working with derived tables and subqueries.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;It's important to note that the use of `tempdb` and the extent to which it's used can vary depending on the complexity of the query and other factors, such as the amount of memory available and the indexes present on the involved tables. However, it's a common practice for SQL Server to use `tempdb` when working with derived tables and subqueries.
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The most interesting of these table types in the VALUES keyword.  We often think the only use of the VALUES operator is using it with an INSERT statement, but it can be used to create a relation.  First though, lets create examples of each of the table types.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The most interesting of these table types in the `VALUES` keyword.  We often think the only use of the `VALUES` operator is using it with an `INSERT` statement, but it can be used to create a relation.  First though, lets create examples of each of the table types.
 
 --------------------------------------------------------------------------------------------------------
 #### Table
 
 The type of table referred to below is a base table. A base table is a permanent table stored in the database and contains the actual data in the form of rows and columns. The `SELECT *` statement retrieves all columns and all rows from the table. It is a permanent table that stores data in the database.  On base tables you can implement `NOT NULL`, `UNIQUE`, `PRIMARY KEY`, `FOREIGN KEY`, `CHECK` and `DEFAULT` constraints.
 
-In this example we create a table named `Employees`, insert a record using the VALUES constructor, and then select from the table. 
+In this example we create a table named `Employees`, insert a record using the `VALUES` constructor, and then select from the table. 
 
 ```sql
 CREATE TABLE Employees
@@ -102,7 +102,7 @@ FROM    (VALUES (1, 2), (3, 4), (5, 6), (7, 8), (9, 10)) AS MyTable(a, b);
 | 7 |  8 |
 | 9 | 10 |
 
-Here is a more elaborate example where the VALUES constructor specifies the values to return.  This statement uses an `INNER JOIN`, but you can use a `LEFT OUTER JOIN`, `RIGHT OUTER JOIN`, `FULL OUTER JOIN`, or `CROSS JOIN`.
+Here is a more elaborate example where the `VALUES` constructor specifies the values to return.  This statement uses an `INNER JOIN`, but you can use a `LEFT OUTER JOIN`, `RIGHT OUTER JOIN`, `FULL OUTER JOIN`, or `CROSS JOIN`.
 
 ```sql
 SELECT  a.Fruit
@@ -137,7 +137,7 @@ FROM    Employees a CROSS JOIN
 
 A table valued function acts much like a view with the added benefit of being parameterized.  
 
-For this example we create a table valued function using the `Employees` table.  To use the table values function we can simply select from the function, or use the `CROSS APPLY` to join to another table.
+For this example, we create a table valued function using the `Employees` table.  To use the table values function we can simply select from the function or use the `CROSS APPLY` to join to another table.
         
 ```sql
  CREATE OR ALTER FUNCTION FnGetEmployees (@EmployeeID INTEGER)
@@ -228,7 +228,7 @@ WHERE   EmployeeCount > 2;
 --------------------------------------------------------------------------------------------------------
 #### Temporary Table        
 
-The syntax for creating temporary tables is different for each database system.  These examples work in `SQL Server`.
+The syntax for creating temporary tables is different for each database system.  These examples work in SQL Server.
 
 Session temporary tables and global temporary tables are two types of temporary tables in SQL. The main difference between them is their scope and visibility.  
 
@@ -239,7 +239,7 @@ Session temporary tables and global temporary tables are two types of temporary 
 *  Indexing is also allowed on temporary tables.
 *  Temporary tables reside in tempdb and you cannot see its meta data in the information schema.
 
-This creates a session temporary table in `SQL Server`.
+This creates a session temporary table in SQL Server.
 
 ```sql
 CREATE TABLE #Employees
@@ -289,7 +289,7 @@ Table variables are much like temporary tables.  They are often used when you ne
 *  You cannot create an explicit index on a table variable.
 *  When creating a primary key or a unique constraint an index is created.
 *  The `TRUNCATE` statement does not work on table variables.
-*  Table variables are stored in temdb.
+*  Table variables are stored in `tempdb`.
 
 ```sql
 DECLARE @TableVariable Table
@@ -316,11 +316,11 @@ SELECT * FROM @TableVariable;
 --------------------------------------------------------------------------------------------------------
 #### External Tables           
 
-External tables in `SQL Server` are tables that exist outside of the SQL Server database and are used to access data stored in external sources such as flat files, Hadoop, or Azure Blob storage. External tables provide a way to access external data as if it were a regular table within the `SQL Server` database, allowing you to use standard SQL queries to retrieve and manipulate data stored in external sources. This can be useful for tasks such as performing data integration, bulk data loading, and data archiving, as well as for querying and processing large datasets stored in external sources. However, external tables in `SQL Server` have some limitations and limitations such as limited indexing options and slower query performance compared to regular tables stored in the SQL Server database.
+External tables in SQL Server are tables that exist outside of the SQL Server database and are used to access data stored in external sources such as flat files, Hadoop, or Azure Blob storage. External tables provide a way to access external data as if it were a regular table within the SQL Server database, allowing you to use standard SQL queries to retrieve and manipulate data stored in external sources. This can be useful for tasks such as performing data integration, bulk data loading, and data archiving, as well as for querying and processing large datasets stored in external sources. However, external tables in SQL Server have some limitations and limitations such as limited indexing options and slower query performance compared to regular tables stored in the SQL Server database.
 
 See your vendor's documentation on external tables, as this will vary for each vendor.
 
-The `SQL Server` documentation has the following examples.
+The SQL Server documentation has the following examples.
 
 ```sql
 CREATE EXTERNAL DATA SOURCE mydatasource
@@ -360,7 +360,7 @@ WITH (
 9. [Semi and Anti Joins](09%20-%20Semi%20and%20Anti%20Joins.md)
 10. [Any, All, and Some](10%20-%20Any%2C%20All%2C%20and%20Some.md)
 11. [Self Joins](11%20-%20Self%20Join.md)
-12. [Relational Divison](12%20-%20Relational%20Division.md)
+12. [Relational Division](12%20-%20Relational%20Division.md)
 13. [Set Operations](13%20-%20Set%20Operations.md)
 14. [Join Algorithms](14%20-%20Join%20Algorithms.md)
 15. [Exists](15%20-%20Exists.md)
