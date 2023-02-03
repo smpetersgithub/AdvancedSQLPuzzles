@@ -2,7 +2,7 @@
 Scott Peters
 Floor and Ceiling Caps
 https://advancedsqlpuzzles.com
-Last Updated: 01/13/2022
+Last Updated: 01/13/2023
 Microsoft SQL Server T-SQL
 
 This script uses recursion to display a running total where the sum 

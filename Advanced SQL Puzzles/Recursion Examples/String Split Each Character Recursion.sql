@@ -2,7 +2,7 @@
 Scott Peters
 String Split Each Character
 https://advancedsqlpuzzles.com
-Last Updated: 01/13/2022
+Last Updated: 01/13/2023
 Microsoft SQL Server T-SQL
 
 This script uses recursion to split a string into rows of substrings for each character in the string.
@@ -71,11 +71,11 @@ GO
 
 WITH cte_Length AS
 (
-SELECT 1 AS id, 'Super' AS Word, LEN('Super') AS WordLength
+SELECT 1 AS Id, 'Super' AS Word, LEN('Super') AS WordLength
 UNION
 SELECT 2, 'Fly', LEN('fly')
 )
-SELECT *, SUBSTRING(Word,MyInteger,1) AS Character
+SELECT *, SUBSTRING(a.Word, b.MyInteger, 1) AS Character
 FROM   cte_Length a LEFT OUTER JOIN
-       #Numbers B ON b.MyInteger <= a.WordLength;
+       #Numbers b ON b.MyInteger <= a.WordLength;
 GO

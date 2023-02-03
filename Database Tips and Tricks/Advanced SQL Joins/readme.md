@@ -1,34 +1,31 @@
+# Welcome
 
-## Welcome
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Joining tables in SQL requires a good understanding of the data, the relationships between the tables, and the behavior of the different join types.  This GitHub repository covers some of the more advanced concepts of SQL joins and serves as a collection of interesting, odd, and uncommon ways you may see or think of joins in your everyday SQL encounters.  
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Joining tables in SQL requires a good understanding of the data, the relationships between the tables, and the behavior of the different join types.  This GitHub repository covers some of the more advanced concepts of SQL joins.
-     
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Besides the standard INNER, OUTER, FULL, and NATURAL joins that are specified in the ANSI SQL standard, there are equi-joins, theta-joins, semi-joins, anti-joins, self-joins, nested-loop joins, merge sort joins, and hash joins.  These joins are not part of the standard SQL join syntax but rather ways to classify different types of joins based on their behavior and the condition used to join the tables.  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;I've tried to keep all my examples as concise as possible, and they should serve as a springboard for further exploration.  In this repository there are several markdown documents I have created that showcase different joins and concepts, and I try to show alternative ways in which you can write the SQL statement as a means of understanding their behavior.  I have tried to create the documents in such a way they can be read in any order without trying to sound repetitive, but I do offer a recommended reading order that I provide at the end of each document.
 
-We can classify joins into the following 5 categories:
-1.	**Inner**, **outer**, **cross**, and **natural joins** are part of the SQL syntax and are used to combine data from two or more tables based upon a filtering or matching criterion.
-2.	A **self-join** is used when a table is joined to itself. It is useful when a table has a hierarchical structure or when the table has a one-to-many relationship with itself.
-3.	**Semi-joins** and **anti-joins** look for equality or inequality between two datasets, but have an added benefit of not returning duplicates.
-4.	**Equi-joins** and **theta-joins** are used to describe if the join is looking for equality, inequality, or a range of values. 
-5.	**Nested loop**, **Hash**, and **Merge sort joins** are types of join algorithms. They are used to optimize the performance of a query when joining large tables, based on the table size and the type of data they contain.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Although I will talk about the logical processing order and physical join types, but any discussion about query optimization and best practices is at a cursory level. My intent here is not to show best practices or best optimization methods, but to provide a summarization of the different joins that you will encounter in your daily SQL activities and a sort of museum of odd and strange joins that I've encountered in my many years of SQL programming.  To show the various joins, I use a small sample dataset that contains types of fruit that you can find in the Sample Data markdown file.  The sample data has NULL markers in the sample data, but not duplicate data.  Feel free to add, subtract and modify the data and these queries to explore their behavior.
 
-Here is an overall summary of each of the joins:
-|       Join       |                                                                                                              Description                                                                                                              |
-|------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| INNER JOIN       |  An inner join returns only the rows that have matching values in both tables.                                                                                                                                                        |
-| OUTER JOIN       |  An outer join returns all the rows from one table, and any matching rows from the other table. If there is no match, the result will contain NULL values.                                                                            |
-| FULL OUTER JOIN  |  A full outer join returns all the rows from both tables, where if there are no matching rows, the result will contain NULL values.                                                                                                   |
-| CROSS JOIN       |  A cross join returns the Cartesian product of the two tables, meaning it returns every possible combination of rows from the two tables.                                                                                          |
-| NATURAL JOIN     |  A natural join returns the rows where the values in the specified columns of both tables are equal, and the column names are the same. It is important to note that in case of ambiguous columns, it may lead to unexpected results. |
-| SELF JOIN        |  A self-join is used to join a table to itself, using the same table twice with different aliases.                                                                                                                                    |
-| SEMI JOIN        |  A semi-join returns only the rows from the first table that have matching values in the second table.                                                                                                                                |
-| ANTI JOIN        |  An anti-join returns only the rows from the first table that do not have matching values in the second table.                                                                                                                        |
-| EQUI JOIN        |  An equi join returns only the rows where the values in the specified columns of both tables are equal.                                                                                                                               |
-| THETA JOIN       |     A theta join is a flexible type of join that allows you to join tables based on any type of condition, not just an equality condition.                                                                                            |
-| NESTED LOOP JOIN |  Nested loop join is a type of join algorithm that compares each row of one table with all the rows of another table.                                                                                                                 |
-| HASH JOIN        |  Hash join is a join algorithm that uses a hash table to quickly match rows from one table with rows from another table.                                                                                                              |
-| MERGE SORT JOIN  |  Merge sort join is a join algorithm that sorts both tables on the join column, and then merges the sorted rows together.                                                                                                             |
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;I welcome any corrections, additions, debates etc. I've tried to show different joins across all the major database platforms, and I am sure there are some new and interesting joins that I have not included here (such as graph joins).  Feel free to contact me through this GitHub repository or my Wordpress site at https://advancedsqlpuzzles.com.  
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Besides the above mentioned joins, I will also cover table operators and SET operators in this GitHub repository.  I have each of these written in individual markup notebooks that you can indiviually explore.
+---------------------------------------------------------
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Before diving into specifics of each type of join, I recomend understanding table operators first.
+1. [Introduction](01%20-%20Introduction.md)
+2. [SQL Processing Order](02%20-%20SQL%20Query%20Processing%20Order.md)
+3. [Table Types](03%20-%20Table%20Types.md)
+4. [Equi, Theta, and Natural Joins](04%20-%20Equi%2C%20Theta%2C%20and%20Natural%20Joins.md)
+5. [Inner Joins](05%20-%20Inner%20Join.md)
+6. [Outer Joins](06%20-%20Outer%20Joins.md)
+7. [Full Outer Joins](07%20-%20Full%20Outer%20Join.md)
+8. [Cross Joins](08%20-%20Cross%20Join.md)
+9. [Semi and Anti Joins](09%20-%20Semi%20and%20Anti%20Joins.md)
+10. [Any, All, and Some](10%20-%20Any%2C%20All%2C%20and%20Some.md)
+11. [Self Joins](11%20-%20Self%20Join.md)
+12. [Relational Division](12%20-%20Relational%20Division.md)
+13. [Set Operations](13%20-%20Set%20Operations.md)
+14. [Join Algorithms](14%20-%20Join%20Algorithms.md)
+15. [Exists](15%20-%20Exists.md)
+16. [Complex Joins](16%20-%20Complex%20Joins.md)
+
+https://advancedsqlpuzzles.com
+

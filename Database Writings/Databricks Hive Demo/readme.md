@@ -1,3 +1,0 @@
-### Databricks Spark Hive Demo
-
-Coming Soon...

@@ -2,7 +2,7 @@
 Scott Peters
 Solutions for Advanced SQL Puzzles
 https://advancedsqlpuzzles.com
-Last Updated: 01/20/2022
+Last Updated: 01/25/2023
 Microsoft SQL Server T-SQL
 
 */----------------------------------------------------
@@ -45,6 +45,18 @@ FROM    #Cart1 a FULL OUTER JOIN
 GO
 
 --Solution 2
+--LEFT JOIN, UNION and RIGHT JOIN
+SELECT  a.Item AS Item1,
+        b.Item AS Item2
+FROM    #Cart1 a 
+        LEFT JOIN #Cart2 b ON a.Item = b.Item
+UNION
+SELECT  a.Item AS Item1,
+        b.Item AS Item2
+FROM    #Cart1 a 
+        RIGHT JOIN #Cart2 b ON a.Item = b.Item;
+	
+--Solution 3
 --This solution does not use a FULL OUTER JOIN
 SELECT  a.Item AS Item1,
         b.Item AS Item2
@@ -1462,6 +1474,8 @@ GO
 /*----------------------------------------------------
 Answer to Puzzle #28
 Fill the Gaps
+
+This is often called a Flash Fill or a Data Smudge
 */----------------------------------------------------
 
 DROP TABLE IF EXISTS #Gaps;
@@ -1480,12 +1494,6 @@ INSERT INTO #Gaps (RowNumber, TestCase) VALUES
 GO
 
 --Solution 1
---MAX function
-SELECT  RowNumber,
-        MAX(TestCase) OVER (ORDER BY RowNumber) AS TestCase
-FROM    #Gaps;
-
---Solution 2
 --MAX and COUNT function
 WITH cte_Count AS
 (
@@ -1500,7 +1508,7 @@ FROM    cte_Count
 ORDER BY RowNumber;
 GO
 
---Solution 3
+--Solution 2
 --MAX function without windowing
 SELECT  a.RowNumber,
         (SELECT b.TestCase

@@ -1,6 +1,6 @@
 # Creating a Calendar Table
 
-Here is a nifty trick for creating a calendar table (or in this case, a calendar view) using a **table-valued function**.
+Here is a nifty trick for creating a calendar table (or in this case, a calendar view) using a table-valued function.
 
 We typically use **table-valued functions** as parameterized views. In comparison with stored procedures, the table-valued functions are more flexible as we can use them wherever tables are used.
 
@@ -13,10 +13,10 @@ Additionally, with a calendar table in place, it's easy to generate reports that
 ## Installation
 
 **Step 1:**  
-Compile the **FnReturnCalendarTable.sql** script to create the function **FnReturnCalendarTable**.  
+Compile the `FnReturnCalendarTable.sql` script to create the function `FnReturnCalendarTable`.  
 
 **Step 2:**  
-View the **FnReturnCalendarTable Example Use.sql** script for example uses of the **table-valued function**.
+View the `FnReturnCalendarTable Example Use.sql` script for example uses of the **table-valued function**.
 
 The basic usage is:
 ```sql

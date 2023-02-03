@@ -2,7 +2,7 @@
 Scott Peters
 Josephus Problem
 https://advancedsqlpuzzles.com
-Last Updated: 01/13/2023
+Last Updated: 01/25/2023
 Microsoft SQL Server T-SQL
 
 This script runs an iteration of the Josephus Problem.
@@ -18,6 +18,8 @@ variable respectively. The script also displays the result in order of
 elimination and indicates the winner.
 
 **********************************************************************/
+SET NOCOUNT ON;
+GO
 
 -------------------------------
 -------------------------------
@@ -35,14 +37,15 @@ CREATE SEQUENCE dbo.JosephusSequence AS TINYINT
     START WITH 1
     INCREMENT BY 1
     MINVALUE 1
-    MAXVALUE 4-----------------Set to number of soldiers
+    MAXVALUE 14----------------------------------------------------Set to number of soldiers!
     CYCLE;
 GO
 
 -------------------------------
 -------------------------------
 --Create and populate a #Numbers table
-DECLARE @vTotalNumbers INTEGER = 4;
+--You may need to increate this number based on the number of sequences you need to create!
+DECLARE @vTotalNumbers INTEGER = 100;
 
 WITH cte_Number (Number)
 AS (
@@ -80,7 +83,9 @@ GO
 -------------------------------
 -------------------------------
 --Declare and set variables
-DECLARE @vCycle INTEGER = 2;
+DECLARE @vCycle INTEGER = 2;---------------------------------------Set this to the cycle number!
+
+--Do not change this variable
 DECLARE @vIterator INTEGER = 1;
 
 -------------------------------
@@ -97,10 +102,8 @@ WHERE   SoldierNumber = @vCycle;
 WHILE (SELECT COUNT(DISTINCT SoldierNumber) FROM #Soldiers WHERE Iterator IS NULL) > 1
         BEGIN
 
-        SET @vIterator = @vIterator + 1;
-        PRINT(@vIterator);
-
         DROP TABLE IF EXISTS #SoldiersTemp;
+
 
         WITH cte_RowNumberEstablish AS
         (
@@ -108,23 +111,14 @@ WHILE (SELECT COUNT(DISTINCT SoldierNumber) FROM #Soldiers WHERE Iterator IS NUL
                 *
         FROM    #Soldiers
         WHERE   Iterator IS NULL AND
-                RowNumber > (SELECT MIN(RowNumber) FROM #Soldiers WHERE Iterator = @vIterator - 1)
+                RowNumber > (SELECT MIN(RowNumber) FROM #Soldiers WHERE Iterator = @vIterator)
         )
-        SELECT *
-        INTO    #SoldiersTemp
-        FROM cte_RowNumberEstablish;
-        
-        UPDATE #Soldiers
-        SET    Iterator = @vIterator,
+        UPDATE  #Soldiers
+        SET     Iterator = @vIterator + 1,
                 UpdateDate = GETDATE()
-        FROM    #Soldiers a
-        WHERE   a.SoldierNumber IN (SELECT SoldierNumber FROM #SoldiersTemp WHERE RowNumberNew = @vIterator)
+        WHERE   SoldierNumber IN (SELECT SoldierNumber FROM cte_RowNumberEstablish WHERE RowNumberNew = @vCycle);
 
-       IF @@ROWCOUNT = 0
-        BEGIN
-        PRINT '@@ROWCOUNT Returned 0.  Increase The Size Of The Numbers Table';
-        RETURN
-        END
+        SET @vIterator = @vIterator + 1;
 
         END;  --End Loop
 GO
@@ -132,8 +126,7 @@ GO
 -------------------------------
 -------------------------------
 --Display the results
-SELECT  
-        SoldierNumber,
+SELECT  SoldierNumber,
         UpdateDate,
         Iterator,
         (CASE WHEN UpdateDate IS NULL THEN 'Winner' END) AS Status
@@ -143,3 +136,26 @@ GROUP BY SoldierNumber,
         Iterator
 ORDER BY (CASE WHEN UpdateDate IS NULL THEN GETDATE() ELSE UpdateDate END);
 GO
+
+/*
+You can also solve the Josephus problem via this simple loop,
+but you will not be able to determine which order each soldier was killed.
+
+SET NOCOUNT ON;
+GO
+
+DECLARE @i INTEGER = 1;
+DECLARE @ans INTEGER = 0;
+DECLARE @n INTEGER = 14;
+DECLARE @k INTEGER = 2;
+
+WHILE(@i <= @n)
+BEGIN
+    SET @ans = (@ans + @k) % @i;
+    PRINT CONCAT('@ans is ', @ans);
+    SET @i = 1 + @i;
+    PRINT CONCAT('@i is ',@i);
+END
+PRINT @ans + 1;
+GO
+*/

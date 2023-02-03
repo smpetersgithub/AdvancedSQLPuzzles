@@ -1,30 +1,30 @@
 # Table Validation
 
-This script compares two identical tables using **DYNAMIC SQ**L and **FULL OUTER JOINS**.  This can be used to audit the differences between two datasets and display all columns which do not match.
+This script compares two identical tables using `DYNAMIC SQL` and `FULL OUTER JOINS`.  This can be used to audit the differences between two datasets and display all columns which do not match.
 
 ## Installation
 
 Inside this GitHub repository you will find the following SQL scripts:
 
-1)  **Table Validation Demo Tables.sql**    
+1)  `Table Validation Demo Tables.sql`    
 A script that creates the test data for demo purposes. 
 
-2)  **Table Validation Part 1.sql**  
+2)  `Table Validation Part 1.sql`  
 A script that inserts the table information to be audited. 
 
-3)  **Table Validation Part 2.sql**  
+3)  `Table Validation Part 2.sql`  
 A script that creates a dynamic SQL statement and executes. 
 
 To execute a quick demo, execute the above scripts in order. 
 
-**Note, the tables must have the exact same columns for this script to work.**
+:exclamation: **The tables must have the exact same columns for this script to work.**
 
--------
+---------------------------------------------------
 
-**Step 1:**   
-Run the script: **Table Validation Demo Tables.sql** to create the demo tables.
+### Step 1:  
+Run the script: `Table Validation Demo Tables.sql` to create the demo tables.
 
-The following tables will be created for our demo; **dbo.Sales_Old** and **dbo.Sales_New**. 
+The following tables will be created for our demo; `dbo.Sales_Old` and `dbo.Sales_New`. 
 
 **Sales_Old**
 | TableID  | CustID  | Region   | City       | Sales        | ManagerID  | AwardStatus  |
@@ -47,9 +47,10 @@ The following tables will be created for our demo; **dbo.Sales_Old** and **dbo.S
 
 Looking at this data we can see several differences between the tables; some values are different, the tables have different records, and the tables have duplicate rows. The Full Outer Join script will account for these scenarios. 
 
-**Step 2:**  
-Next, run the script **Table Validation Part 1.sql**
-This script will populate the table **##TableInformation** with the following values.
+---------------------------------------------------
+### Step 2:    
+Next, run the script `Table Validation Part 1.sql`
+This script will populate the table `##TableInformation` with the following values.
 
 | ColumnName  | Value                                     |
 | ----------  | ----------------------------------------  |
@@ -61,37 +62,39 @@ This script will populate the table **##TableInformation** with the following va
 | Exists1     | CONCAT(t1.CustID, t1.Region, t1.City)     |
 | Exists2     | CONCAT(t2.CustID, t2.Region, t2.City)     |
 
-The table **##TableInformation** is used to store the schemas, table names, and the join conditions between the two tables. You will need to modify this table according to the tables you want to audit. 
+The table `##TableInformation` is used to store the schemas, table names, and the join conditions between the two tables. You will need to modify this table according to the tables you want to audit. 
 
-The join between the two tables is created in the fields **Exists1** and **Exists2**, where a CONCAT function is used to group the values together.  If the join criteria is on multiple columns, use a CONCAT function to join the columns together.  You can remove the CONCAT if the join criteria is on one column.  
+The join between the two tables is created in the fields `Exists1` and `Exists2`, where a `CONCAT` function is used to group the values together.  If the join criteria is on multiple columns, use a `CONCAT` function to join the columns together.  You can remove the `CONCAT` if the join criteria is on one column.  
 
-**Note the **t1** and **t2** difference between the fields **Exists1** and **Exists2**. This can be easily overlooked when inserting your join criteria.**
+:exclamation: **The `t1` and `t2` difference between the fields `Exists1` and `Exists2`. This can be easily overlooked when inserting your join criteria.**
 
-You can store multiple reconciliation scenarios in this table, simply input the values and increment the LookupID value. 
+You can store multiple reconciliation scenarios in this table, simply input the values and increment the `LookupID` value.
 
-**Step 3:**  
+---------------------------------------------------
+### Step 3:  
 
-Lastly, run the script **Table Validation Part 2.sql**
+Lastly, run the script `Table Validation Part 2.sql`
 
-This script will generate an SQL statement that compares the tables using a FULL OUTER JOIN and then execute it dynamically. 
+This script will generate an SQL statement that compares the tables using a `FULL OUTER JOIN` and then execute it dynamically. 
 
 **Notes:**  
 
-1)  Modify the **@vLookupID** variable appropriately. This variable is used to lookup the table information in **##TableInformation**.  
+1)  Modify the `@vLookupID` variable appropriately. This variable is used to lookup the table information in `##TableInformation`.  
 
-2)  The dynamic SQL statement will be saved in the table **#SQLStatementFinal**. You can review this SQL statement and modify as needed.   
+2)  The dynamic SQL statement will be saved in the table `#SQLStatementFinal`. You can review this SQL statement and modify as needed.   
 
-3)  The results from the dynamic SQL statement will be saved in the temporary table **##@vTableName1_TemporaryTemp** (which will be **##Sales_New_TemporaryTable** in
+3)  The results from the dynamic SQL statement will be saved in the temporary table `##@vTableName1_TemporaryTemp` (which will be `##Sales_New_TemporaryTable` in
     our example).  
 
-4)  For each column there is a **Compare** field created that will be populated with a 1 if the fields are unequal, and a 0 if they are equal.   
+4)  For each column there is a `Compare` field created that will be populated with a `1` if the fields are unequal, and a `0` if they are equal.   
 
-5)  The field **Compare_Summary** in the first column of the result set and gives an overall summary if the record matches between the two tables.   
+5)  The field `Compare_Summary` in the first column of the result set and gives an overall summary if the record matches between the two tables.   
 
 6)  The result set also has information on which fields do not exist in its partner table, distinct counts, etc….   
 
-7)  To best understand the SQL generated from the script, review the SQL statement in the table **#SQLStatementFinal**.   
+7)  To best understand the SQL generated from the script, review the SQL statement in the table `#SQLStatementFinal`.   
 
+---------------------------------------------------
 ```sql
 WITH CTE_SQLStatement AS ( 
 SELECT   'Start Compare-->' AS CompareStart 
