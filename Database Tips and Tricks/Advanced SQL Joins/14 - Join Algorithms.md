@@ -1,6 +1,6 @@
 # Join Algorithms
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;There are several types of join algorithms that the SQL Server Optimizer can choose from, including nested loop join, hash join, and merge join. The choice of the join algorithm depends on various factors such as the size of the datasets, the presence of indexes, and the distribution of data. The Optimizer makes a cost-based decision to choose the most efficient algorithm for the given query, in order to return the results in the quickest possible time.  These types of joins are created by the optimizer and not the developer (although you can add query hints).
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;There are several types of join algorithms that the SQL Server optimizer can choose from, including nested loop join, hash join, and merge join. The choice of the join algorithm depends on various factors such as the size of the datasets, the presence of indexes, and the distribution of data. The optimizer makes a cost-based decision to choose the most efficient algorithm for the given query in order to return the results in the quickest possible time.  These types of joins are created by the optimizer and not the developer (although you can add query hints).
 
 ---------------------------------------------------------------------
 ##### Types Of Join Algorithms
@@ -13,7 +13,7 @@ Here is a brief overview of each of the join algorithms.
 
 *  A hash join is used when large tables are joined, often where an index is not available.  The hash join builds a hash table in memory and then scans for matches.  It is the least efficient of the joins.
 
-Also, there are numerous factors that make tuning complex because there are so many individual items to addressed and so many ways they can interact for better or worse outcomes.  Factors can include the physical hardware and its configuration, the data model and the volume of data, along with the traditional use of indexes and statistics, etc.
+Also, there are numerous factors that make tuning complex because there are so many individual items to addressed and so many ways they can interact for better or worse outcomes.  Factors can include the physical hardware and its configuration, the data model, and the volume of data, along with the traditional use of indexes and statistics, etc.
 
 ---------------------------------------------------------------------
 ##### Query Parsing
@@ -31,9 +31,9 @@ Upon running an SQL statement, the query becomes parsed and is checked for the f
 ##### Developer Considerations
 
 Overall, as a developer there are some ways to write the most optimized SQL from the start.
-1.  Use indexes: Indexes can greatly improve the speed of your queries. Make sure to use indexes on columns that are frequently used in WHERE, JOIN, and ORDER BY clauses.
+1.  Use indexes: Indexes can greatly improve the speed of your queries. Make sure to use indexes on columns that are frequently used in `WHERE`, `JOIN`, and `ORDER BY` clauses.
 
-2.  Avoid using wildcard characters: Using wildcard characters in a SELECT statement can slow down your query. Instead, use specific column names.
+2.  Avoid using wildcard characters: Using wildcard characters in a `SELECT` statement can slow down your query. Instead, use specific column names.
 
 3.  Use the correct data types: Using the appropriate data types for columns can help improve query performance, as well as reduce storage requirements.
 
