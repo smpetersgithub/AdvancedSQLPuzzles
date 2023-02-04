@@ -1,6 +1,6 @@
 # Table Types
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Within SQL, you can create a join to the following 10 table types, some of these objects are schema bound objects, meaning they are saved as a database object within a named schema, and others are unbound and only durable for the life of an SQL statement (CTE, Subquery, Values, Derived Tables) or your current session (Table Variable, Temporary Table).  Items that are not schema bound are created in the `tempdb` and do not have any data of their existence in the catalog views.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Within SQL, you can create a join to the following 10 table types, some of these objects are schema bound objects, meaning they are saved as a database object within a named schema, and others are unbound and only durable for the life of an SQL statement or your current session.  Items that are not schema bound are created in the `tempdb` and do not have any data of their existence in the catalog views.
 
 Here are the 10 different types of tables you can create.
 
@@ -8,14 +8,14 @@ Here are the 10 different types of tables you can create.
 |----|--------------------------------|---------------|--------------------------------------------------------------------------------------------------------------------------------------------|
 |  1 |  Table                         |  True         |  A regular table that is stored in the database.                                                                                           |
 |  2 |  View                          |  True         |  A virtual table that is based on the result of a SELECT statement.                                                                        |
-|  3 |  Values Constructor            |  True         |  The `VALUES` constructor can be used to create a derived table, which is a table that is created and used within a single SQL query.        |
+|  3 |  Values Constructor            |  True         |  The `VALUES` constructor can be used to create a derived table, which is a table that is created and used within a single SQL query.      |
 |  4 |  Table Valued Function         |  True         |  A function that returns a table as its result.                                                                                            |
 |  5 |  Subquery                      |  False        |  A query that is embedded within another query. The results of a subquery can be used in the outer query.                                  |
-|  6 |  Derived Table                 |  False        |  A special type of subquery that is defined in the `FROM` statement, enclosed in parentheses and a table name is provided.                   |
-|  7 |  Common Table Expression (CTE) |  False        |  A named temporary result set that can be used in a `SELECT`, `INSERT`, `UPDATE`, or `DELETE` statement.                                           |
+|  6 |  Derived Table                 |  False        |  A special type of subquery that is defined in the `FROM` statement                                                                        |
+|  7 |  Common Table Expression (CTE) |  False        |  A named temporary result set that can be used in a `SELECT`, `INSERT`, `UPDATE`, or `DELETE` statement.                                   |
 |  8 |  Temporary Table               |  False        |  A table that is created for a specific session or connection and is automatically dropped when the session or connection ends.            |
 |  9 |  Table Variable                |  False        |  A variable that holds a table of data. It is similar to a temporary table but it has some differences in terms of its behavior and scope. |
-| 10 |  External Tables               |  False        |  Used to access data stored externally, such as in a text file. They are created using the `CREATE EXTERNAL TABLE` statement.                |
+| 10 |  External Tables               |  False        |  Used to access data stored externally, such as in a text file. They are created using the `CREATE EXTERNAL TABLE` statement.              |
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tempdb is used by SQL Server to store intermediate results when processing queries, such as those created by derived tables and subqueries. For example, when you create a derived table or use a subquery, SQL Server may create a temporary table in `tempdb` to store the intermediate results. This allows the database engine to reuse the results multiple times in the same query, instead of having to recompute them each time they're needed.
 
@@ -171,7 +171,7 @@ SELECT  e.*
 FROM    Employees e
 WHERE   e.Salary >  (SELECT AVG(Salary)
                      FROM Employees
-                     WHERE Department = e.Department););
+                     WHERE Department = e.Department);
 ```
 
 
@@ -184,18 +184,24 @@ WHERE   e.Salary >  (SELECT AVG(Salary)
 --------------------------------------------------------------------------------------------------------
 #### Derived Table
 
-A derived table is a table that is derived from a `SELECT` statement and used within another `SELECT` statement. Here is an example of a derived table in SQL        
-        
+A derived table is an expression that generates a table within the scope of the `FROM` clause.  It is a special type of subquery.  
+
+A derived table has three characteristics:
+1) Defined in the `FROM` clause
+2) Surrounded in parenthesis
+3) Has a table alias.
+
+Here is an example of a derived table in SQL.
+
+    
 ```sql
 SELECT  e.*,
         e2.EmployeeID,
         e2.Salary
-FROM  (
-      SELECT  EmployeeID, FirstName, LastName, Salary
-      FROM    Employees
-      ) e INNER JOIN Employees e2 ON e.Salary > e2.Salary;      
+FROM    (SELECT  EmployeeID, FirstName, LastName, Salary FROM Employees) e 
+        INNER JOIN 
+        Employees e2 ON e.Salary > e2.Salary;      
 ```
-
 
 | EmployeeID | FirstName | LastName |  Salary   | EmployeeID |  Salary  |
 |------------|-----------|----------|-----------|------------|----------|
@@ -203,7 +209,20 @@ FROM  (
 |          1 | John      | Wilson   | 100000.00 |          3 | 85000.00 |
 |          2 | Sarah     | Shultz   |  90000.00 |          3 | 85000.00 |
 
+In SQL Server, even when performing a `CROSS JOIN` the derived table must be aliased.  This statement will error if the table aliases is removed.  For brevity I only show the top two records.
 
+```sql
+SELECT  TOP 2 *
+FROM    (SELECT DISTINCT Salary FROM Employees) e
+        CROSS JOIN
+        Employees;
+```
+
+|  Salary  | EmployeeID | FirstName | LastName | Department |  Salary   |
+|----------|------------|-----------|----------|------------|-----------|
+| 85000.00 |          1 | John      | Wilson   | Accounting | 100000.00 |
+| 85000.00 |          2 | Sarah     | Shultz   | Accounting |  90000.00 |
+  
 --------------------------------------------------------------------------------------------------------
 #### Common Table Expression (CTE) 
 
@@ -287,7 +306,7 @@ Table variables are much like temporary tables.  They are often used when you ne
 *  The constraints must be placed on the table on creation.
 *  You cannot alter the table variable once it is created.
 *  You cannot create an explicit index on a table variable.
-*  When creating a primary key or a unique constraint an index is created.
+*  When creating a `PRIMARY KEY` or a `UNIQUE` constraint an index is created.
 *  The `TRUNCATE` statement does not work on table variables.
 *  Table variables are stored in `tempdb`.
 
@@ -316,7 +335,7 @@ SELECT * FROM @TableVariable;
 --------------------------------------------------------------------------------------------------------
 #### External Tables           
 
-External tables in SQL Server are tables that exist outside of the SQL Server database and are used to access data stored in external sources such as flat files, Hadoop, or Azure Blob storage. External tables provide a way to access external data as if it were a regular table within the SQL Server database, allowing you to use standard SQL queries to retrieve and manipulate data stored in external sources. This can be useful for tasks such as performing data integration, bulk data loading, and data archiving, as well as for querying and processing large datasets stored in external sources. However, external tables in SQL Server have some limitations and limitations such as limited indexing options and slower query performance compared to regular tables stored in the SQL Server database.
+External tables in SQL Server are tables that exist outside of the SQL Server database and are used to access data stored in external sources such as flat files, Hadoop, or Azure Blob storage. External tables provide a way to access external data as if it were a regular table within the SQL Server database, allowing you to use standard SQL queries to retrieve and manipulate data stored in external sources. This can be useful for tasks such as performing data integration, bulk data loading, and data archiving, as well as for querying and processing large datasets stored in external sources. However, external tables in SQL Server have some limitations such as limited indexing options and slower query performance compared to regular tables stored in the SQL Server database.
 
 See your vendor's documentation on external tables, as this will vary for each vendor.
 
