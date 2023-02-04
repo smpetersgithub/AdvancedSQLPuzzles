@@ -79,7 +79,7 @@ SELECT  a.ID,
         b.Fruit
 FROM    ##TableA a FULL OUTER JOIN
         ##TableB b ON a.Fruit = b.Fruit
-WHERE   a.ID IS NOT NULL AND B.ID IS NOT NULL;
+WHERE   a.ID IS NOT NULL AND b.ID IS NOT NULL;
 ```
 
 | ID | Fruit | ID | Fruit |
