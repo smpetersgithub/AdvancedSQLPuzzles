@@ -4,7 +4,7 @@ This script creates an Excel concatenation formula based on the number of user-i
 
 If you need a more robust solution, there are several available products that are very affordable that can transform CSV files to SQL `INSERT` statements.  A quick internet search of "convert CSV to SQL INSERT statements" should be sufficient.  Another option is to import the file into SQL Server Express (where you will have `CREATE TABLE` persmisssions) and then export as `INSERT` statements.  In SSMS, simply right click on the required Database (where the actual table is available) from the Object Explorer, select Tasks and click on Generate Scripts.  And finally, there are web based converters available, but I do not recomend pasting any company data into a web browser for obvious security reasons.
 
-
+⌨️&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;This script is written in Microsoft SQL Server T-SQL.
 
 ## Overview 
 
