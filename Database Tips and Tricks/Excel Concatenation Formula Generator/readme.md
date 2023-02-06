@@ -27,3 +27,9 @@ The script assumes that your Excel file has a header row. In the second row of t
 
 **Step 4:**   
 Copy the values into your SQL editor and then insert the values into a table.
+
+------------------------------------------------
+
+:mailbox:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;If you find any inaccuracies, misspellings, bugs, dead links, etc. please report an issue!  No detail is too small, and I appreciate all the help.
+
+:smile:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Happy coding!
