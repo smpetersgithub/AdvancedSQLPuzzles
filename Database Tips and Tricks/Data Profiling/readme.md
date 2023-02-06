@@ -47,3 +47,9 @@ DECLARE @vSQLStatement NVARCHAR(1000) = (SELECT STRING_AGG(SQLLine,' ') FROM #Da
 
 **Step 4:**  
 Execute the script.
+
+--------------------------------------------------------------
+
+:mailbox:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;If you find any inaccuracies, misspellings, bugs, dead links, etc. please report an issue!  No detail is too small, and I appreciate all the help.
+
+:smile:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Happy coding!
