@@ -13,7 +13,7 @@ As my list of puzzles continues to grow, I have decided to combine the puzzles i
 
 *  In the second set of puzzles, I have collected all the puzzles related to permutations, combinations, and sequences. Solving these puzzles will require a deeper knowledge of your SQL thinking, focusing on such constructs as using recursion or sequence objects to reach the desired output
 
-:keyboard: The solutions provided are written in **Microsoft SQL Servers T-SQL**, but you can easily modify them to fit your flavor of SQL.
+:keyboard:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The solutions provided are written in **Microsoft SQL Servers T-SQL**, but you can easily modify them to fit your flavor of SQL.
 
 ## Getting Started
 
@@ -32,6 +32,6 @@ I also have a Wordpress site where you can find my data analytics projects, Pyth
 
 **https://advancedsqlpuzzles.com**  
 
-:mailbox: If you find any inaccuracies, misspellings, bugs, dead links, etc. please report an issue!  No detail is too small, and I appreciate all the help.
+:mailbox:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;If you find any inaccuracies, misspellings, bugs, dead links, etc. please report an issue!  No detail is too small, and I appreciate all the help.
 
-:smile: Happy coding!
+:smile:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Happy coding!
