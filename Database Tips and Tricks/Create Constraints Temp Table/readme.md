@@ -30,7 +30,7 @@ Create the `EmployeesRecords` sample table via the `EmployeePayRecords Sample Ta
 This will create the perminatnt table `EmployeePayRecords` with `NOT NULL`, `UNIQUE`, `PRIMARY KEY`, and `CHECK CONSTRAINTS`.  
 
 **Step 2**   
-Run the scirpt `Create Constraints Temp Table.sql` to create a temporary table with the same constraints on `EmployeeRecords';
+Run the script `Create Constraints Temp Table.sql` to create a temporary table with the same constraints on `EmployeeRecords';
 
 **Step 3**    
 Test your `INSERT`,`UPDATE`, `DELETE`, `MERGE`, etc. statements on the temporary table.
