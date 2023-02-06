@@ -20,6 +20,13 @@ SQL also provides three functions to evaluate NULL markers:
 
 We will cover these aspects and many more in the following document.
 
+---------------------------------------------------------
+### Quick Notes
+
+:keyboard: The examples provided are written in Microsofts SQL Server T-SQL.  The provided SQL statements can be easily modified to fit your dialect of SQL.
+
+:mailbox: I welcome any corrections, new tricks, new techniques, dead links, misspellings, or bugs!
+
 ----------------------------------------------------------
 #### Table Of Contents   
 
@@ -51,13 +58,6 @@ We will cover these aspects and many more in the following document.
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Codd's work ensured data consistency and accuracy in relational databases, as they could better handle real-world scenarios where information may not always be complete. However, some critics argue that NULL values can lead to ambiguity and confusion, lack of default values, performance issues, and affect data quality.
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Despite these criticisms, NULL values are widely used and accepted, but must be used appropriately to understand their limitations and impact on data quality and performance. For further information, refer to C.J. Date's book, [Database in Depth: Relational Theory for Practitioners](https://www.amazon.com/Database-Depth-Relational-Theory-Practitioners/dp/0596100124).
-
----------------------------------------------------------
-### Quick Notes
-
-:keyboard: The examples provided are written in Microsofts SQL Server T-SQL.  The provided SQL statements can be easily modified to fit your dialect of SQL.
-
-:mailbox: I welcome any corrections, new tricks, new techniques, dead links, misspellings, or bugs!
 
 ---------------------------------------------------------
 ### Predicate Logic
