@@ -1,10 +1,8 @@
 # Data Factory Metadata Demo   
 
-**https://advancedsqlpuzzles.com**
-
 This directory contains a demo to understand what metadata is available with Azure Data Factory.  
 
->:exclamation: Please note that this presentation was created in late 2021 and Microsoft Azure may have updated certain features and options. If any information in this presentation becomes outdated or needs to be updated, kindly notify me. Thank you.
+>:exclamation:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Please note that this presentation was created in late 2021 and Microsoft Azure may have updated certain features and options. If any information in this presentation becomes outdated or needs to be updated, kindly notify me. Thank you.
 
 ## About
 
@@ -26,15 +24,8 @@ In this directory you will find the following files:
 
 I've also included the Power Point presentation (`Data Factory MetaData Demo PowerPoint.pptx`) that you can download and add notes or modify as needed.
 
-## Conclusion
+:mailbox:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;If you find any inaccuracies, misspellings, bugs, dead links, etc. please report an issue!  No detail is too small, and I appreciate all the help.
 
-I hope you find this repository to be useful and informative and I welcome any new additions you may have.
-
-I also have a Wordpress site where you can find my data analytics projects, Python puzzles, and blog.    
+:smile:Happy coding!
 
 **https://advancedsqlpuzzles.com**  
-
-:mailbox: If you find any inaccuracies, misspellings, bugs, dead links, etc. please report an issue!  No detail is too small, and I appreciate all the help.
-
-:smile: Happy coding!
-
