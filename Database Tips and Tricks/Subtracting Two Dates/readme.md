@@ -22,11 +22,18 @@ Create the `FnDateDiffPartsTable` table-valued function via the `FnDateDiffParts
 Example usage of the scalar valued function `FnDateDiffPartsChar`.
 
 ```sql
-SELECT dbo.FnDateDiffPartsChar('20110619 00:00:00.0000001', '20110619 00:00:00.0000000');
-SELECT dbo.FnDateDiffPartsChar('20171231', '20160101 00:00:00.0000000');
+SELECT dbo.FnDateDiffPartsChar('20110619 00:00:00.0000001', '20110619 00:00:00.0000000') AS DateDifference
+UNION
+SELECT dbo.FnDateDiffPartsChar('20171231', '20160101 00:00:00.0000000')
+UNION
 SELECT dbo.FnDateDiffPartsChar('20170518 00:00:00.0000001','20110619 00:00:00.1110000');
 ```
-**add output here**
+
+|          DateDifference           |
+|-----------------------------------|
+| 100n                              |
+| 1y 11m 30d 0h 0m 0s 0n            |
+| 5y 10m 28d 23h 59m 59s 889000100n |
 
 Example usage of the scalar valued function `FnDateDiffPartsChar`.
 
@@ -36,7 +43,11 @@ SELECT * FROM dbo.FnDateDiffPartsTable('20171231', '20160101 00:00:00.0000000');
 SELECT * FROM dbo.FnDateDiffPartsTable('20170518 00:00:00.0000001','20110619 00:00:00.1110000');
 ```
 
-**add output here**
+| YearDifference | MonthDifference | DayDifference | HourDifference | MinuteDifference | SecondDifference | NanoDifference |
+|----------------|-----------------|---------------|----------------|------------------|------------------|----------------|
+|              0 |               0 |             0 |              0 |                0 |                0 |            100 |
+|              1 |              11 |            30 |              0 |                0 |                0 |              0 |
+|              5 |              10 |            28 |             23 |               59 |               59 |      889000100 |
 
 --------------------------------------------------------------
 
