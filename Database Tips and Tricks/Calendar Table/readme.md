@@ -4,6 +4,8 @@
 
 Here is a nifty trick for creating a calendar table (or in this case, a calendar view) using a table-valued function.
 
+⌨️&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;This script is written in Microsoft SQL Server T-SQL.
+
 ## Overview
 
 We typically use **table-valued functions** as parameterized views. In comparison with stored procedures, the table-valued functions are more flexible as we can use them wherever tables are used.
