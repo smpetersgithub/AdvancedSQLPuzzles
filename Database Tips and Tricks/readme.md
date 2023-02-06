@@ -28,3 +28,10 @@ The items in this directory can be grouped into three categories:
 *   Subtracting Two Dates
 *   Table Validation
 
+----------------
+
+:mailbox:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;If you find any inaccuracies, misspellings, bugs, dead links, etc. please report an issue!  No detail is too small, and I appreciate all the help.
+
+:smile:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Happy coding!
+
+**https://advancedsqlpuzzles.com**  
