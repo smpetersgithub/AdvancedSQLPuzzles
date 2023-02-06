@@ -28,7 +28,9 @@ In this directory you will find the following files:
 
 I've also included the Power Point presentation (`Databricks Spark Hive Demo PowerPoint.pptx`) that you can download and add notes or modify as needed.
 
-:mailbox:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;If you find any inaccuracies, misspellings, bugs, dead links, etc. please report an issue!  No detail is too small, and I appreciate all the help.
+---------------------------------------------
+
+If you find any inaccuracies, misspellings, bugs, dead links, etc. please report an issue!  No detail is too small, and I appreciate all the help.
 
 :smile:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Happy coding!
 
