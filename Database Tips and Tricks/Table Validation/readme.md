@@ -2,6 +2,28 @@
 
 This script compares two identical tables using `DYNAMIC SQL` and `FULL OUTER JOINS`.  This can be used to audit the differences between two datasets and display all columns which do not match.
 
+⌨️&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;This script is written in Microsoft SQL Server T-SQL.
+
+## Overview
+
+The scripts `Table Validation Part 1.sql` and `Table Validation Part 2.sql` will create the following tempoarary tables in order to arrive at the final table `#SQLStatementFinal`.  The SQL statement in the table `#SQLStatementFinal` will then be executed via `DYANMIC SQL`  
+
+##TableInformation
+#Select
+#Exists
+#RowNumber
+#Count
+#Distinct_Count
+#Compare
+#Columns
+#Into
+#From
+#FullOuterJoin
+#SQLStatementTemp
+#SQLStatementFinal
+
+I recomend running the `Table Validation Demo Tables.sql` first and run this on the provided sample set.  There are a number of items in the setup of the script that need to be modified.
+
 ## Installation
 
 Inside this GitHub repository you will find the following SQL scripts:
