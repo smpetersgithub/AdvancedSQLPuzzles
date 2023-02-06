@@ -5,6 +5,8 @@ This directory contains my collection of SQL puzzles.
 
 I hope you enjoy these puzzles as much as I have enjoyed creating them!
 
+:keyboard:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The solutions provided are written in Microsoft SQL Server T-SQL, but you can easily modify them to fit your flavor of SQL.
+
 ## About
 
 As my list of puzzles continues to grow, I have decided to combine the puzzles into one single PDF document broken down into two different sections.
@@ -12,8 +14,6 @@ As my list of puzzles continues to grow, I have decided to combine the puzzles i
 *  In the first section I have 58 of the most difficult puzzles that I could create; randomly organized and in no specific order.  These are mostly set-based puzzles, interspersed with a small number of puzzles that require knowledge of constraints, specific data types, cursors, loops, etc....
 
 *  In the second set of puzzles, I have collected all the puzzles related to permutations, combinations, and sequences. Solving these puzzles will require a deeper knowledge of your SQL thinking, focusing on such constructs as using recursion or sequence objects to reach the desired output
-
-:keyboard:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The solutions provided are written in **Microsoft SQL Server T-SQL**, but you can easily modify them to fit your flavor of SQL.
 
 ## Getting Started
 
