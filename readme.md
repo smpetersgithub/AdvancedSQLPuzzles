@@ -4,7 +4,7 @@
 
 This repository contains a collection of my SQL puzzles, tips and tricks, demos, and various writings.  Feel free to rummage around, and I am constantly updating this repository, so check back often.
 
-All SQL is written in **Microsoft SQL Servers T-SQL**, unless otherwise noted.
+:keyboard: All SQL is written in **Microsoft SQL Servers T-SQL**, unless otherwise noted.
 
 :star: Please consider giving a star to this repository if you find its contents informative!
 
