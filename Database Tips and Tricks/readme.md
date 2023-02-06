@@ -31,9 +31,7 @@ The items in this directory can be grouped into three categories:
 
 ## Conclusion
 
-I hope you find this repository to be useful and informative and I welcome any new additions you may have.
-
-I also have a Wordpress site where you can find my data analytics projects, Python puzzles, and blog.    
+I hope you find this repository to be useful and informative and I welcome any new additions you may have.  I also have a Wordpress site where you can find my data analytics projects, Python puzzles, and blog.    
 
 **https://advancedsqlpuzzles.com**  
 
