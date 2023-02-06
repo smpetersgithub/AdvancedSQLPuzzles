@@ -35,7 +35,9 @@ Here is a brief description of each type of join:
 
 ---------------------------------------------------------
 
-:electric_plug: **I will cover all these types of joins and more in the following doucments.  Continue reading with the below links.....**
+:electric_plug: I will cover all these types of joins and more in the following doucments.  Continue reading with the below links.....
+
+⌨️ All SQL is written in **Microsoft SQL Server T-SQL**, unless otherwise noted.
 
 ---------------------------------------------------------
 
