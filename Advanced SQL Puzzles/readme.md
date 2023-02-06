@@ -25,11 +25,10 @@ To get started, download the `Advanced SQL Puzzles.pdf`.
 *  I also keep my collection of my SQL statements using recursion in the directory `Recursion Exmaples`.  Here you can find out how to solve a Markov chain, calculate floor and ceiling caps, solve the Traveling Salesman problem, or find a solution to a Sudoku puzzle.
 
 
-## Conclusion
-I hope you find this repository to be useful and informative and I welcome any new puzzles or tips and tricks you may have.  I also have a Wordpress site where you can find my data analytics projects, Python puzzles, and blog.    
-
-**https://advancedsqlpuzzles.com**  
+----------------
 
 :mailbox:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;If you find any inaccuracies, misspellings, bugs, dead links, etc. please report an issue!  No detail is too small, and I appreciate all the help.
 
 :smile:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Happy coding!
+
+**https://advancedsqlpuzzles.com**  
