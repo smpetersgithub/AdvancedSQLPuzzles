@@ -989,4 +989,8 @@ The `SpReturnStatement` procedure attempted to return a status of NULL, which is
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The most important concept to understand with NULL markers is the three-valued logic, where statements can equate to **TRUE**, **FALSE**, or **UNKNOWN**.  Understanding the three-valued logic is instrumental in understanding the behavior of NULL markers.  **TRUE OR UNKNOWN** equates to **TRUE**, and **TRUE AND UNKNOWN** equates to **UNKNOWN**.
  
-https://advancedsqlpuzzles.com
+:mailbox:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;If you find any inaccuracies, misspellings, bugs, dead links, etc. please report an issue!  No detail is too small, and I appreciate all the help.
+
+:smile:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Happy coding!
+
+**https://advancedsqlpuzzles.com**  
