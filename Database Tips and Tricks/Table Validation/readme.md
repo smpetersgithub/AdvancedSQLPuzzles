@@ -6,23 +6,23 @@ This script compares two identical tables using `DYNAMIC SQL` and `FULL OUTER JO
 
 ## Overview
 
-The scripts `Table Validation Part 1.sql` and `Table Validation Part 2.sql` will create the following tempoarary tables in order to arrive at the final table `#SQLStatementFinal`.  The SQL statement in the table `#SQLStatementFinal` will then be executed via `DYANMIC SQL`  
+The scripts `Table Validation Part 1.sql` and `Table Validation Part 2.sql` will create the following thirteen tempoarary tables in order to arrive at the final tempoarary table `#SQLStatementFinal`.  The SQL statement in the table `#SQLStatementFinal` will then be executed via `DYANMIC SQL`  
 
-##TableInformation
-#Select
-#Exists
-#RowNumber
-#Count
-#Distinct_Count
-#Compare
-#Columns
-#Into
-#From
-#FullOuterJoin
-#SQLStatementTemp
-#SQLStatementFinal
+1.  ##TableInformation   
+2.  #Select   
+3.  #Exists    
+4.  #RowNumber   
+5.  #Count    
+6.  #Distinct_Count    
+7.  #Compare    
+8.  #Columns    
+9.  #Into    
+10.  #From    
+11.  #FullOuterJoin    
+12.  #SQLStatementTemp    
+13.  #SQLStatementFinal    
 
-I recomend running the `Table Validation Demo Tables.sql` first and run this on the provided sample set.  There are a number of items in the setup of the script that need to be modified.
+I recomend running the `Table Validation Demo Tables.sql` first and run this on the provided sample set.  There are a number of items in the setup of the script that need to be modified.  Once the final dataset is created, export to Miscrosoft Excel.
 
 ## Installation
 
@@ -39,9 +39,12 @@ A script that creates a dynamic SQL statement and executes.
 
 To execute a quick demo, execute the above scripts in order. 
 
-:exclamation: **The tables must have the exact same columns for this script to work.**
+:exclamation:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;For this installation, we will run the `Table Validation Part 1.sql` and `Table Validation Part 2.sql` on the sample data set.     
+:exclamation:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The tables must have the exact same columns for this script to work.
 
 ---------------------------------------------------
+
+
 
 ### Step 1:  
 Run the script: `Table Validation Demo Tables.sql` to create the demo tables.
@@ -88,7 +91,7 @@ The table `##TableInformation` is used to store the schemas, table names, and th
 
 The join between the two tables is created in the fields `Exists1` and `Exists2`, where a `CONCAT` function is used to group the values together.  If the join criteria is on multiple columns, use a `CONCAT` function to join the columns together.  You can remove the `CONCAT` if the join criteria is on one column.  
 
-:exclamation: **The `t1` and `t2` difference between the fields `Exists1` and `Exists2`. This can be easily overlooked when inserting your join criteria.**
+:exclamation:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The `t1` and `t2` difference between the fields `Exists1` and `Exists2`. This can be easily overlooked when inserting your join criteria.
 
 You can store multiple reconciliation scenarios in this table, simply input the values and increment the `LookupID` value.
 
@@ -115,6 +118,10 @@ This script will generate an SQL statement that compares the tables using a `FUL
 6)  The result set also has information on which fields do not exist in its partner table, distinct counts, etc….   
 
 7)  To best understand the SQL generated from the script, review the SQL statement in the table `#SQLStatementFinal`.   
+
+## Example Usage
+
+To best understand the SQL generated from the script, review the example SQL statement in the table `#SQLStatementFinal`.   
 
 ---------------------------------------------------
 ```sql
