@@ -32,6 +32,8 @@ SELECT  *
 FROM    FnReturnCalendarTable(GETDATE())
 ```
 
+See the 'FnReturnCalendarTable Example Use.sql' script for example usages/
+
 **need to add usage and results, fnReturnCalendarValue
 
 
