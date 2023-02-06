@@ -11,15 +11,15 @@ Many of these items are solutions to everyday problems that I encounter in my da
 
 The items in this directory can be grouped into three categories:
 
-::point_right: **Database Writings**
+::point_right: &nbsp;&nbsp;**Database Writings**
 *  Advanced SQL Joins:
 *  Behavior of Nulls
 
-:point_right: **Cloud Demos**
+:point_right: &nbsp;&nbsp;**Cloud Demos**
 *  Databaricks Hive Demo
 *  Data Factory Metadata Demo
 
-:point_right: **Utility Scripts**     
+:point_right: &nbsp;&nbsp;**Utility Scripts**     
 *   Calendar Table
 *   Create Constraints Temp Table
 *   Data Profiling
