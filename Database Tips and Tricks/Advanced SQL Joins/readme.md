@@ -8,7 +8,7 @@
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;I welcome any corrections, additions, debates etc. I've tried to show different joins across all the major database platforms, and I am sure there are some new and interesting joins that I have not included here (such as graph joins).  Feel free to contact me through this GitHub repository or my Wordpress site at https://advancedsqlpuzzles.com.  
 
-⌨️ All SQL is written in **Microsoft SQL Server T-SQL**, unless otherwise noted.
+⌨️ All SQL is written in Microsoft SQL Server T-SQL, unless otherwise noted.
 
 ---------------------------------------------------------
 
