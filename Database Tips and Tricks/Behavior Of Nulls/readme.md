@@ -55,9 +55,9 @@ We will cover these aspects and many more in the following document.
 ---------------------------------------------------------
 ### Quick Notes
 
-:white_check_mark:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The examples provided are written in Microsoft’s SQL Server T-SQL.  The provided SQL statements can be easily modified to fit your dialect of SQL.
+:keyboard: The examples provided are written in Microsofts SQL Server T-SQL.  The provided SQL statements can be easily modified to fit your dialect of SQL.
 
-:mailbox: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**I welcome any corrections, new tricks, new techniques, dead links, misspellings, or bugs!**
+:mailbox: I welcome any corrections, new tricks, new techniques, dead links, misspellings, or bugs!
 
 ---------------------------------------------------------
 ### Predicate Logic
