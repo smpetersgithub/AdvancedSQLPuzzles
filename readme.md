@@ -4,9 +4,9 @@
 
 This repository contains a collection of my SQL puzzles, tips and tricks, demos, and various writings.  Feel free to rummage around, and I am constantly updating this repository, so check back often.
 
-:keyboard: All SQL is written in **Microsoft SQL Servers T-SQL**, unless otherwise noted.
+:keyboard:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;All SQL is written in **Microsoft SQL Servers T-SQL**, unless otherwise noted.
 
-:star: Please consider giving a star to this repository if you find its contents informative!
+:star:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Please consider giving a star to this repository if you find its contents informative!
 
 ## Getting Started
 
@@ -28,8 +28,8 @@ I also have a Wordpress site where you can find my data analytics projects, Pyth
 
 **https://advancedsqlpuzzles.com**  
 
-:mailbox: If you find any inaccuracies, misspellings, bugs, dead links, etc. please report an issue!  No detail is too small, and I appreciate all the help.
+:mailbox:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;If you find any inaccuracies, misspellings, bugs, dead links, etc. please report an issue!  No detail is too small, and I appreciate all the help.
 
 
 
-:smile: Happy coding!
+:smile:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Happy coding!
