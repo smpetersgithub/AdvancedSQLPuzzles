@@ -1,6 +1,6 @@
 # Advanced SQL Puzzles
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;This repository contains a collection of my SQL puzzles, tips and tricks, demos, and various writings.  Feel free to rummage around, and I am constantly updating this repository, so check back often.
+This repository contains a collection of my SQL puzzles, tips and tricks, demos, and various writings.  Feel free to rummage around, and I am constantly updating this repository, so check back often.
 
 :keyboard:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;All SQL is written in Microsoft SQL Server T-SQL, unless otherwise noted.
 
@@ -8,7 +8,7 @@
 
 ## Getting Started
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;To get started, clone or download the repository to your local machine.  I have included readme files for each directory that describes its contents.  If anything is unclear, please contact me and I would be happy to assist.
+To get started, clone or download the repository to your local machine.  I have included readme files for each directory that describes its contents.  If anything is unclear, please contact me and I would be happy to assist.
 
 ## Content
 The contents of this GitHub continue to expand, so check back often. Below are some of the most popular directories:
