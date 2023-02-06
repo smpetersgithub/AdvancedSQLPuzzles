@@ -22,7 +22,7 @@ The scripts `Table Validation Part 1.sql` and `Table Validation Part 2.sql` will
 12.  #SQLStatementTemp    
 13.  #SQLStatementFinal    
 
-I recomend running the `Table Validation Demo Tables.sql` first and run this on the provided sample set.  There are a number of items in the setup of the script that need to be modified.  Once the final dataset is created, export to Miscrosoft Excel.
+I recomend running the `Table Validation Demo Tables.sql` first on the provided sample set.  There are a number of items in the setup of the script that need to be modified.  Once the final dataset is created, export to Miscrosoft Excel.
 
 ## Installation
 
@@ -37,9 +37,9 @@ A script that inserts the table information to be audited.
 3)  `Table Validation Part 2.sql`  
 A script that creates a dynamic SQL statement and executes. 
 
-To execute a quick demo, execute the above scripts in order. 
+To execute the demo, execute the above scripts in order. 
 
-:exclamation:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;For this installation, we will run the `Table Validation Part 1.sql` and `Table Validation Part 2.sql` on the sample data set.     
+:exclamation:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;For this installation, we will run the `Table Validation Part 1.sql` and `Table Validation Part 2.sql` on the sample data set created in `Table Validation Demo Tables.sql`      
 :exclamation:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The tables must have the exact same columns for this script to work.
 
 ---------------------------------------------------
@@ -123,7 +123,6 @@ This script will generate an SQL statement that compares the tables using a `FUL
 
 To best understand the SQL generated from the script, review the example SQL statement in the table `#SQLStatementFinal`.   
 
----------------------------------------------------
 ```sql
 WITH CTE_SQLStatement AS ( 
 SELECT   'Start Compare-->' AS CompareStart 
