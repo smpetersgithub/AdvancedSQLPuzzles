@@ -59,3 +59,4 @@ Execute the script.
 
 ## Example Usage
 
+For example usage, see the installation instructions.
