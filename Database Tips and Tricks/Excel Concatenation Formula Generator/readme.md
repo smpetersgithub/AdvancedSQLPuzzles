@@ -1,6 +1,10 @@
 # Creating an Excel Concatenation Formula
 
-This script creates an Excel concatenation formula based on the number of user-inputted columns.  This becomes handy went I want to quickly insert into a temporary table and generate the `VALUES` statements within Excel.  Often I will have privelages to create and insert into temporary tables, but not persistant tables, so this script provides a quick solution to load data into a temporary table.
+This script creates an Excel concatenation formula based on the number of user-inputted columns.  This becomes handy went I want to quickly insert into a temporary table and generate the `VALUES` statements within Excel.  Often I will have privelages to 'CREATE' and `INSERT` into temporary tables, but not persistant tables, so this script provides a quick solution for loading data into a temporary table.
+
+If you need a more robust solution, there are several available products that are very affordable that can transform CSV files to SQL `INSERT` statements.  A quick internet search of "convert CSV to SQL INSERT statements" should be sufficient.  Another option is to import the file into SQL Server Express (where you will have `CREATE TABLE` persmisssions) and then export as `INSERT` statements.  In SSMS, simply right click on the required Database (where the actual table is available) from the Object Explorer, select Tasks and click on Generate Scripts.  And finally, there are web based converters available, but I do not recomend pasting any company data into a web browser for obvious security reasons.
+
+
 
 ## Overview 
 
