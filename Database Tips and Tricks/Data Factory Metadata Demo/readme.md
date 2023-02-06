@@ -2,7 +2,7 @@
 
 This directory contains a demo to understand what metadata is available with Azure Data Factory.  
 
-:exclamation:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;This presentation was created in late 2021 and Microsoft Azure may have updated certain features and options. If any information in this presentation becomes outdated or needs to be updated, kindly notify me. Thank you.
+:exclamation:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;This presentation was created in late 2021 and Microsoft Azure may have updated certain features and options. If any information in this presentation becomes outdated or needs to be updated, kindly notify me. Thank you!
 
 ## About
 
