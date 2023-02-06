@@ -1,9 +1,9 @@
 
 # Advanced SQL Puzzles
 
-**https://advancedsqlpuzzles.com**
+This directory contains my collection of SQL puzzles.
 
-This directory contains my collection of SQL puzzles I hope you enjoy these puzzles as much as I have enjoyed creating them!
+I hope you enjoy these puzzles as much as I have enjoyed creating them!
 
 ## About
 
@@ -13,7 +13,7 @@ As my list of puzzles continues to grow, I have decided to combine the puzzles i
 
 *  In the second set of puzzles, I have collected all the puzzles related to permutations, combinations, and sequences. Solving these puzzles will require a deeper knowledge of your SQL thinking, focusing on such constructs as using recursion or sequence objects to reach the desired output
 
-:thumbsup: The solutions provided are written in **Microsoft SQL Servers T-SQL**, but you can easily modify them to fit your flavor of SQL.
+:keyboard: The solutions provided are written in **Microsoft SQL Servers T-SQL**, but you can easily modify them to fit your flavor of SQL.
 
 ## Getting Started
 
