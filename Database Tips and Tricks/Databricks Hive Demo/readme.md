@@ -4,7 +4,7 @@
 
 This directory contains a demo to understand how to connect Databricks to an Azure Data Lake and SQL Server.
 
->:exclamation: Please note that this presentation was created in late 2021 and Microsoft Azure may have updated certain features and options. If any information in this presentation becomes outdated or needs to be updated, kindly notify me. Thank you.
+>:exclamation: Please note that this presentation was created in late 2021 and Microsoft Azure may have updated certain features and options. If any information in this presentation becomes outdated or needs to be updated, kindly notify me. Thank you!
 
 ## About
 
