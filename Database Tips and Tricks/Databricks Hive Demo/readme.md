@@ -28,15 +28,9 @@ In this directory you will find the following files:
 
 I've also included the Power Point presentation (`Databricks Spark Hive Demo PowerPoint.pptx`) that you can download and add notes or modify as needed.
 
-## Conclusion
+:mailbox:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;If you find any inaccuracies, misspellings, bugs, dead links, etc. please report an issue!  No detail is too small, and I appreciate all the help.
 
-I hope you find this repository to be useful and informative and I welcome any new additions you may have.
-
-I also have a Wordpress site where you can find my data analytics projects, Python puzzles, and blog.    
+:smile:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Happy coding!
 
 **https://advancedsqlpuzzles.com**  
-
-:mailbox: If you find any inaccuracies, misspellings, bugs, dead links, etc. please report an issue!  No detail is too small, and I appreciate all the help.
-
-:smile: Happy coding!
 
