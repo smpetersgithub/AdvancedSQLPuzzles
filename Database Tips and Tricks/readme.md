@@ -7,7 +7,7 @@ Many of these items are solutions to everyday problems that I encounter in my da
 ⌨️&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;All SQL is written in Microsoft SQL Servers T-SQL, unless otherwise noted.
 
 
-### About
+## About
 
 The items in this directory can be grouped into three categories:
 
