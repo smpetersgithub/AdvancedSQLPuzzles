@@ -1,16 +1,14 @@
 # Advanced SQL Puzzles
 
-**https://advancedsqlpuzzles.com**  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;This repository contains a collection of my SQL puzzles, tips and tricks, demos, and various writings.  Feel free to rummage around, and I am constantly updating this repository, so check back often.
 
-This repository contains a collection of my SQL puzzles, tips and tricks, demos, and various writings.  Feel free to rummage around, and I am constantly updating this repository, so check back often.
-
-:keyboard:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;All SQL is written in **Microsoft SQL Servers T-SQL**, unless otherwise noted.
+:keyboard:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;All SQL is written in Microsoft SQL Server T-SQL, unless otherwise noted.
 
 :star:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Please consider giving a star to this repository if you find its contents informative!
 
 ## Getting Started
 
-To get started, clone or download the repository to your local machine.  I have included readme files for each directory that describes its contents.  If anything is unclear, please contact me and I would be happy to assist.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;To get started, clone or download the repository to your local machine.  I have included readme files for each directory that describes its contents.  If anything is unclear, please contact me and I would be happy to assist.
 
 ## Content
 The contents of this GitHub continue to expand, so check back often. Below are some of the most popular directories:
@@ -22,9 +20,7 @@ The contents of this GitHub continue to expand, so check back often. Below are s
 *  [Databricks Hive Demo](/Database%20Tips%20and%20Tricks/Databricks%20Hive%20Demo):  Setting up Databricks to connect to an Azure Data Lake and SQL Server is no easy task, so i created an end-to-end demo showing how to set everything up.
 
 ## Conclusion
-I hope you find this repository to be useful and informative and I welcome any new puzzles or tips and tricks you may have.  
-
-I also have a Wordpress site where you can find my data analytics projects, Python puzzles, and blog.    
+I hope you find this repository to be useful and informative and I welcome any new puzzles or tips and tricks you may have.  I also have a Wordpress site where you can find my data analytics projects, Python puzzles, and blog.    
 
 **https://advancedsqlpuzzles.com**  
 
