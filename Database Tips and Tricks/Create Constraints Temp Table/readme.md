@@ -6,9 +6,9 @@ Often I find myself in an environment where I have permissions to create a tempo
 
 ## Overview
 
-The script 'Create Constraints Temp Table.sql' creates the constraints on a temporary table with same constraints as the persistant table.  In the test script 'EmployeePayRecords Sample Table.sql', I create a temporary table `#EmployeePayRecords` with identical constraints to it's matching persistent table.  The user should adjust the variables `@vschema_name` and `@vtable_name` to the appropriate names of the desired table to use.
+The script `Create Constraints Temp Table.sql` creates the constraints on a temporary table with same constraints as the persistant table.  In the test script `EmployeePayRecords Sample Table.sql`, I create a temporary table `#EmployeePayRecords` with identical constraints to its matching persistent table.  The user should adjust the variables `@vschema_name` and `@vtable_name` to the appropriate names of the desired table to use.
 
-The '`EmployeePayRecords Sample Table.sql`' script creates several temporary tables to store the SQL statements that will create the different types of constraints on the temporary table.
+The ``EmployeePayRecords Sample Table.sql` script creates several temporary tables to store the SQL statements that will create the different types of constraints on the temporary table.
 *  `#DynamicSQL`
 *  `#PrimaryUniqueKeyConstraints`
 *  `#NULLConstraints` 
@@ -26,14 +26,14 @@ The SQL statements in the `#DynamicSQL` table are then executed to create the `N
 **To run this on a sample table:**    
 
 **Step 1:**     
-Create the 'EmployeesRecords' sample table via the `EmployeePayRecords Sample Table.sql` script.  
+Create the `EmployeesRecords` sample table via the `EmployeePayRecords Sample Table.sql` script.  
 This will create the perminatnt table `EmployeePayRecords` with `NOT NULL`, `UNIQUE`, `PRIMARY KEY`, and `CHECK CONSTRAINTS`.  
 
 **Step 2**   
-Run the scirpt 'Create Constraints Temp Table.sql' to create a temporary table with the same constraints on `EmployeeRecords';
+Run the scirpt `Create Constraints Temp Table.sql` to create a temporary table with the same constraints on `EmployeeRecords';
 
 **Step 3**    
-Test your 'INSERT','UPDATE','DELETE','MERGE' statement on the temporary table.
+Test your `INSERT`,`UPDATE`, `DELETE`, `MERGE`, etc. statements on the temporary table.
 
 --------------------------------------------
 
@@ -56,7 +56,3 @@ DECLARE @vtable_name VARCHAR(100) = 'EmployeePayRecords';
 
 **Step 3:**  
 Execute the script.
-
-## Example Usage
-
-For example usage, see the installation instructions.
