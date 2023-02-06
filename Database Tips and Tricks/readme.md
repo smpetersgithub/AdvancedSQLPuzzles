@@ -4,7 +4,7 @@ This directory has mishmash of different items, ranging from tips and tricks, my
 
 Many of these items are solutions to everyday problems that I encounter in my daily SQL activities.  Feel free to rummage around. I've tried my best to include detailed yet brief instructions for each of my scripts.
 
-⌨️&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;All SQL is written in Microsoft SQL Servers T-SQL, unless otherwise noted.
+⌨️&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;All SQL is written in Microsoft SQL Server T-SQL, unless otherwise noted.
 
 
 ## About
