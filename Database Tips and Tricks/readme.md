@@ -1,10 +1,11 @@
 # Database Tips and Tricks   
 
-**https://advancedsqlpuzzles.com**
-
 This directory has mishmash of different items, ranging from tips and tricks, my writings on various database topics, and a few Azure end to end demos I have created.
 
 Many of these items are solutions to everyday problems that I encounter in my daily SQL activities.  Feel free to rummage around. I've tried my best to include detailed yet brief instructions for each of my scripts.
+
+⌨️ All SQL is written in Microsoft SQL Servers T-SQL, unless otherwise noted.
+
 
 ### About
 
