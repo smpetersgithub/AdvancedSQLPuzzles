@@ -30,7 +30,14 @@ The basic usage is:
 ```sql
 SELECT  *
 FROM    FnReturnCalendarTable(GETDATE())
+```
 
 **need to add usage and results, fnReturnCalendarValue
 
-```
+
+--------------------------------------------------------------
+
+:mailbox:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;If you find any inaccuracies, misspellings, bugs, dead links, etc. please report an issue!  No detail is too small, and I appreciate all the help.
+
+:smile:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Happy coding!
+
