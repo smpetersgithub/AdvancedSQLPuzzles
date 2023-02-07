@@ -36,7 +36,7 @@ CREATE TABLE demo.CustomersMetadata
 	System_PipelineTriggerTime VARCHAR(MAX) NULL,
 	System_PipelineGroupID VARCHAR(MAX) NULL,
 	System_PipelineTriggeredByPipelineName VARCHAR(MAX) NULL,
-	System_PipelineTriggerByPipelineRundId VARCHAR(MAX) NULL
+	System_PipelineTriggerByPipelineRunId VARCHAR(MAX) NULL
 	);
 GO
 --------------------------------------------------------
@@ -74,7 +74,7 @@ CREATE OR ALTER PROCEDURE demo.SpInsertCustomersMetadata
 	,@pSystem_PipelineTriggerTime VARCHAR(MAX) NULL
 	,@pSystem_PipelineGroupID VARCHAR(MAX) NULL
 	,@pSystem_PipelineTriggeredByPipelineName VARCHAR(MAX) NULL
-	,@pSystem_PipelineTriggerByPipelineRundId VARCHAR(MAX) NULL
+	,@pSystem_PipelineTriggerByPipelineRunId VARCHAR(MAX) NULL
 AS
 BEGIN
 
@@ -98,7 +98,7 @@ INSERT INTO demo.CustomersMetadata
 	,System_PipelineTriggerTime
 	,System_PipelineGroupID
 	,System_PipelineTriggeredByPipelineName
-	,System_PipelineTriggerByPipelineRundId
+	,System_PipelineTriggerByPipelineRunId
 	)
 SELECT
 	CustomerName
@@ -119,7 +119,7 @@ SELECT
 	,@pSystem_PipelineTriggerTime
 	,@pSystem_PipelineGroupID
 	,@pSystem_PipelineTriggeredByPipelineName
-	,@pSystem_PipelineTriggerByPipelineRundId
+	,@pSystem_PipelineTriggerByPipelineRunId
 FROM	@pCustomersTableType;
 
 END
