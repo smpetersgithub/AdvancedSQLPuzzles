@@ -2,7 +2,7 @@
 Scott Peters
 Create Constraints On A Temp Table
 https://advancedsqlpuzzles.com
-Last Updated: 01/11/2023
+Last Updated: 02/07/2023
 Microsoft SQL Server T-SQL
 
 This script creates several constraints on a temporary table, #EmployeePayRecords, that are 
@@ -29,7 +29,7 @@ on the #EmployeePayRecords temporary table, though FOREIGN KEY constraints canno
 due to the limitation of the temp table only being stored on the tempdb.
 
 Instructions:
-Step 1  Manually create the temp table from the persistant table using SELECT * INTO (you cannot create a temp table via dynamic sql).
+Step 1  Manually create the temp table from the persistent table using SELECT * INTO (you cannot create a temp table via dynamic sql).
 Step 2  Change the variables @vschema_name and @vtable_name to the appropriate names.
 
 ----------------
