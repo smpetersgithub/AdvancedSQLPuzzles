@@ -22,15 +22,15 @@ Here is the code to create a numbers table using recursion.
 DECLARE @vTotalNumbers INTEGER = 100;
 WITH cte_Number (Number)
 AS (
-SELECT 1 AS Number
+SELECT  1 AS Number
 UNION ALL
-SELECT Number + 1
-FROM cte_Number
-WHERE Number < @vTotalNumbers
+SELECT  Number + 1
+FROM    cte_Number
+WHERE   Number < @vTotalNumbers
 )
-SELECT Number
-INTO #Numbers
-FROM cte_Number
+SELECT  Number
+INTO    #Numbers
+FROM    cte_Number
 OPTION (MAXRECURSION 0)--A value of 0 means no limit to the recursion level
 ```
 
@@ -44,6 +44,7 @@ CREATE TABLE #Numbers
 (Number INT IDENTITY(1,1) PRIMARY KEY,
 InsertDate DATETIME NOT NULL);
 GO
+
 INSERT INTO #Numbers (InsertDate) VALUES (GETDATE())
 GO 100
 ```
@@ -127,19 +128,20 @@ CREATE TABLE #Numbers
 (Number INT IDENTITY(1,1) PRIMARY KEY,
 InsertDate DATETIME NOT NULL);
 GO
+
 INSERT INTO #Numbers (InsertDate) VALUES (GETDATE())
 GO 100000
+
 ;WITH cte_RandomNumber AS
 (
-SELECT ABS(CHECKSUM(NEWID()) % 10) + 1 AS RandomNumber
-FROM #Numbers
+SELECT  ABS(CHECKSUM(NEWID()) % 10) + 1 AS RandomNumber
+FROM    #Numbers
 )
-SELECT RandomNumber,
-COUNT(RandomNumber) AS RandomCount,
-COUNT(RandomNumber) / CAST((SELECT MAX(Number) FROM #Numbers) AS FLOAT) AS
-Perc
-FROM cte_RandomNumber
-GROUP BY RandomNumber
+SELECT  RandomNumber,
+        COUNT(RandomNumber) AS RandomCount,
+        COUNT(RandomNumber) / CAST((SELECT MAX(Number) FROM #Numbers) AS FLOAT) AS Perc
+FROM    cte_RandomNumber
+GROUP BY RandomNumber;
 ```
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;When solving such puzzles as the Dice Roll Game, many developers will think of creating a fully iterative based solutions rather than a set-based solution. The developer will write the code to roll the dice, perform any update or insert based upon the result, roll the dice again… and continue this loop until an exit condition is met. Instead, consider creating an initial set of dice rolls that far exceeds the number needed and use set based windowing techniques to create your answer. In this scenario you will need to provide a validation to ensure you have a large enough set of dice rolls, but it will provide a more elegant solution that executes faster.
