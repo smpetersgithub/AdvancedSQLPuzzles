@@ -2,7 +2,7 @@
 Scott Peters
 All Permutations
 https://advancedsqlpuzzles.com
-Last Updated: 01/13/2023
+Last Updated: 02/07/2023
 Microsoft SQL Server T-SQL
 
 The script generates all the permutations of numbers from 1 to @vTotalNumbers (inclusive). 
@@ -46,7 +46,7 @@ OPTION (MAXRECURSION 0);--A value of 0 means no limit to the recursion level
 
 ---------------------
 ---------------------
---Generate the Permuations using recursion
+--Generate the Permutations using recursion
 WITH cte_Numbers AS
 (
 SELECT  CAST(Number AS VARCHAR(MAX)) AS Number
