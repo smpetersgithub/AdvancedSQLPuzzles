@@ -256,7 +256,7 @@ Session temporary tables and global temporary tables are two types of temporary 
 *  Global temporary tables are available to every user's session.  
 *  You can place the same constraints, except for `FOREIGN KEY` constraints, on a temp table as you can on a permanent table.  
 *  Indexing is also allowed on temporary tables.
-*  Temporary tables reside in tempdb and you cannot see its meta data in the information schema.
+*  Temporary tables reside in `tempdb` and you cannot see its meta data in the information schema.
 
 This creates a session temporary table in SQL Server.
 
@@ -280,8 +280,9 @@ SELECT * FROM #Employees;
 |          1 | John      | Wilson   | 100000.00 |          2 | 90000.00 |
 |          1 | John      | Wilson   | 100000.00 |          3 | 85000.00 |
 |          2 | Sarah     | Shultz   |  90000.00 |          3 | 85000.00 |
+```
 
-You can also create temporary tables via the INTO statement in a query.  This works in `SQL Server` and each database system has slightly different syntax for temporary tables.
+You can also create temporary tables via the `INTO` statement in a query.  This works in SQL Server and each database system has slightly different syntax for temporary tables.
 
 ```sql
 SELECT  *
