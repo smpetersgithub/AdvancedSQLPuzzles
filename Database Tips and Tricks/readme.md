@@ -16,7 +16,7 @@ The items in this directory can be grouped into three categories:
 *  Behavior of Nulls
 
 :point_right: &nbsp;&nbsp;**Cloud Demos**
-*  Databaricks Hive Demo
+*  Databricks Hive Demo
 *  Data Factory Metadata Demo
 
 :point_right: &nbsp;&nbsp;**Utility Scripts**     
