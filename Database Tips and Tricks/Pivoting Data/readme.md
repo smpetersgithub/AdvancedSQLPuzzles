@@ -6,7 +6,7 @@ The `PIVOT` operator is a powerful feature in SQL, but often goes unused due to 
 
 ## Overview    
 
-In the script 'SpPivotData.sql' we simplify the 'PIVOT' table operator syntax by encapsulating the pivot into a stored procedure allowing us to easy automate the creation of pivoted datasets. 
+In the script `SpPivotData.sql` we simplify the `PIVOT` table operator syntax by encapsulating the pivot into a stored procedure allowing us to easy automate the creation of pivoted datasets. 
 
 Under the hood the stored procedure uses `XML` and `DYNAMIC SQL` to accomplish its goal.
 
@@ -31,7 +31,11 @@ EXEC dbo.SpPivotData
      @vAggColumns = 'TotalTransactions';
 ```
 
-**add table here**
+
+| TransactionType | 2019-01-01 | 2019-01-02 | 2019-01-03 | 2019-01-04 | 2019-01-05 |
+|-----------------|------------|------------|------------|------------|------------|
+| ATM             |          2 | 4          |          6 |          8 | <NULL>     |
+| Signature       |         10 | <NULL>     |         12 |         14 | 16         |
 
 --------------------------------------------------------------
 
