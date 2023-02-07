@@ -2,7 +2,7 @@
 Scott Peters
 Birthday Problem
 https://advancedsqlpuzzles.com
-Last Updated: 01/13/2023
+Last Updated: 02/07/2023
 Microsoft SQL Server T-SQL
 
 This script runs a simulation of the Birthday Problem.
@@ -15,7 +15,7 @@ if the number of iterations has been reached. Within the while loop, the script 
 to create a table of random birthdays for a set number of people. It then uses a join to find 
 the first pair of people with the same birthday, and saves that information in the #BirthDaysHistory table. 
 After the loop is completed, it creates a percentile table using the information from #BirthDaysHistory, 
-and fills in any missing valueswith a percentile of 0 or 100. The final table shows the number of people 
+and fills in any missing values with a percentile of 0 or 100. The final table shows the number of people 
 needed for the first pair to have the same birthday and the corresponding percentile for that number of people.
 
 **********************************************************************/
