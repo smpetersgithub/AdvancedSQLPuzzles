@@ -2,11 +2,11 @@
 Scott Peters
 Four Vehicles Puzzle
 https://advancedsqlpuzzles.com
-Last Updated: 01/13/2023
+Last Updated: 02/07/2023
 Microsoft SQL Server T-SQL
 
 This script solves the "Four Vehicles Puzzle" which is about assigning 5 children and 5 adults to 4 
-different vehicles (Motorcycle, Sidecar, Golfcart, Car) with different seating capacities (1, 2, 3, 4).
+different vehicles (Motorcycle, Sidecar, Golf Cart, Car) with different seating capacities (1, 2, 3, 4).
 The script starts by dropping and creating several tables, one of which is the #Passengers table that 
 stores information about the passengers (name and type). The script then populates the #Passengers table 
 with 5 children and 5 adults.  The script then creates 4 additional tables (#Motorcycle, #Sidecar, #Golfcart, #Car) 
@@ -125,7 +125,7 @@ WHERE   DriverName <> PassengerName_1
         PassengerName_1 <> PassengerName_2
 )
 SELECT  DISTINCT
-        'Golfcart' AS VehicleType,
+        'Golf Cart' AS VehicleType,
         a.DriverName
         ,(CASE WHEN PassengerName_1 < PassengerName_2 THEN PassengerName_1 ELSE PassengerName_2 END) AS PassengerName_1
         ,(CASE WHEN a.PassengerName_1 < a.PassengerName_2 THEN a.PassengerName_2 ELSE a.PassengerName_1 END) AS PassengerName_2
@@ -277,7 +277,7 @@ SELECT  --'Motorcycle ---->' AS x1,
         b.VehicleType AS Sidecar,
         b.DriverName AS SidecarDriverName,
         b.PassengerName_1 AS SidecarPassengerName_1,
-        --'Golfcart ---->' AS x3,
+        --'Golf Cart ---->' AS x3,
         c.VehicleType AS Golfcart,
         c.DriverName AS GolfcartDriverName,
         c.PassengerName_1 AS GolfCartPassengerName_1,
