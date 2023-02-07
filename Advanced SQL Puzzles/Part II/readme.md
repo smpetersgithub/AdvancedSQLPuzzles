@@ -2,7 +2,7 @@
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;This directory contains the SQL scripts to solve the puzzles for **Part II: Permutations, Combinations, Sequences and Random Numbers** which can be found in the [parent directory](/Advanced%20SQL%20Puzzles).
 
-:keyboard:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The scripts provided are written in Microsoft SQL Server T-SQL, but you can easily modify them to fit your flavor of SQL.
+:keyboard:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The scripts provided are written in Microsoft SQL Server T-SQL, but you can easily modify them to fit your flavor of SQL.  
 
 ## Overview    
 
@@ -167,8 +167,12 @@ GROUP BY RandomNumber;
 
 
 ## Conclusion
+
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;I hope you have enjoyed solving these puzzles as much as I have enjoyed creating them (and solving them myself).
 
+:mailbox:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;If you find any inaccuracies, misspellings, bugs, dead links, etc. please report an issue!  No detail is too small, and I appreciate all the help.
 
 :smile:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Happy coding!
+
+**https://advancedsqlpuzzles.com**  
 
