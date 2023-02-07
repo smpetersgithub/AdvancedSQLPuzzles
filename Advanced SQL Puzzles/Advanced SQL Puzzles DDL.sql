@@ -2,7 +2,7 @@
 Scott Peters
 DDL for Advanced SQL Puzzles
 https://advancedsqlpuzzles.com
-Last Updated 01/13/2023
+Last Updated 02/07/2023
 Microsoft SQL Server T-SQL
 
 */----------------------------------------------------
@@ -739,10 +739,10 @@ DDL for Puzzle #32
 First and Last
 */----------------------------------------------------
 
-DROP TABLE IF EXISTS #Personel;
+DROP TABLE IF EXISTS #Personal;
 GO
 
-CREATE TABLE #Personel
+CREATE TABLE #Personal
 (
 SpacemanID      INTEGER PRIMARY KEY,
 JobDescription  VARCHAR(100) NOT NULL,
@@ -750,7 +750,7 @@ MissionCount    INTEGER NOT NULL
 );
 GO
 
-INSERT INTO #Personel (SpacemanID, JobDescription, MissionCount) VALUES
+INSERT INTO #Personal (SpacemanID, JobDescription, MissionCount) VALUES
 (1001,'Astrogator',6),(2002,'Astrogator',12),(3003,'Astrogator',17),
 (4004,'Geologist',21),(5005,'Geologist',9),(6006,'Geologist',8),
 (7007,'Technician',13),(8008,'Technician',2),(9009,'Technician',7);
@@ -1243,7 +1243,8 @@ No DDL provided
 
 You are creating a table that customer agents will use to enter customer information and their phone numbers.
 Create a table with the fields Customer ID and Phone Number, where the Phone Number field must be inserted with the format (999)-999-9999.
-Agents will enter phone numbers into this table via a form, and it is imperative that phone numbers are formatted correctly when inputted.  Create a table that meets these requirements. 
+Agents will enter phone numbers into this table via a form, and it is imperative that phone numbers are formatted correctly when inputted.  
+Create a table that meets these requirements. 
 */
 
 /*----------------------------------------------------
