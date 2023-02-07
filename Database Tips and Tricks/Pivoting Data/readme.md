@@ -2,7 +2,7 @@
 
 The `PIVOT` operator is a powerful feature in SQL, but often goes unused due to its complicated syntax.  
 
-⌨️&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;This scirpt is written in Microsoft SQL Server T-SQL.
+⌨️&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;This script is written in Microsoft SQL Server T-SQL.
 
 ## Overview    
 
