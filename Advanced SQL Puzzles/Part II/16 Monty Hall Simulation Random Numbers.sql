@@ -2,7 +2,7 @@
 Scott Peters
 Monty Hall Simulation
 https://advancedsqlpuzzles.com
-Last Updated: 01/13/2023
+Last Updated: 02/07/2023
 Microsoft SQL Server T-SQL
 
 This script creates a simulation of the Monty Hall problem.
@@ -65,7 +65,7 @@ DECLARE @vNumberContestantDoors INTEGER = 1;
 DECLARE @vNumberOfDoorsSwitch INTEGER = @vNumberContestantDoors;
 
 --The number of prize doors in final selection for the contestant to be considered a winner
-DECLARE @vNumberofPrizeDoorsSelectedNeededToWin INTEGER = 1; 
+DECLARE @vNumberOfPrizeDoorsSelectedNeededToWin INTEGER = 1; 
 ---------------------
 ---------------------
 
@@ -100,7 +100,7 @@ IF  NOT(@vNumberGoats >=  @vNumberHostDoors + @vNumberContestantDoors)
 
 --The number of prize doors needed to win must be less than or equal to 
 --1) the number of doors the contestant can choose
-IF  NOT(@vNumberofPrizeDoorsSelectedNeededToWin <= @vNumberContestantDoors)
+IF  NOT(@vNumberOfPrizeDoorsSelectedNeededToWin <= @vNumberContestantDoors)
     BEGIN
     PRINT 'Fail 4'
     RETURN
@@ -109,7 +109,7 @@ IF  NOT(@vNumberofPrizeDoorsSelectedNeededToWin <= @vNumberContestantDoors)
 --To ensure the simulation can be won, the number of prize doors needed to win must be less than the difference of 
 --1) the number of doors in the simulation 
 --2) the number of goats in the simulation
-IF  NOT(@vNumberofPrizeDoorsSelectedNeededToWin <= @vNumberDoors - @vNumberGoats)
+IF  NOT(@vNumberOfPrizeDoorsSelectedNeededToWin <= @vNumberDoors - @vNumberGoats)
     BEGIN
     PRINT 'Fail 5'
     RETURN
@@ -183,12 +183,12 @@ WHERE   RowNumber <= @vNumberHostDoors;
 --Update ContestantSwitchFlag
 WITH cte_Doors AS
 (
-SELECT  ROW_NUMBER() OVER (ORDER BY ContestantSwitchID) AS rownumber,
+SELECT  ROW_NUMBER() OVER (ORDER BY ContestantSwitchID) AS RowNumber,
         *
 FROM    #Doors
 WHERE   ContestantChooseFlag = 0 AND HostRevealFlag = 0
 )
-UPDATE cte_Doors
+UPDATE  cte_Doors
 SET     ContestantSwitchFlag = 1
 WHERE   RowNumber <= @vNumberHostDoors;
 
@@ -201,7 +201,7 @@ BeforeSwitchPrizeDoors,
 AfterSwitchPrizeDoors
 )
 SELECT
-        @vNumberofPrizeDoorsSelectedNeededToWin,
+        @vNumberOfPrizeDoorsSelectedNeededToWin,
         (SELECT COUNT(*) FROM #Doors WHERE PrizeFlag = 'Car' AND ContestantChooseFlag = 1),
         (SELECT COUNT(*) FROM #Doors WHERE PrizeFlag = 'Car' AND ContestantSwitchFlag = 1)
 
