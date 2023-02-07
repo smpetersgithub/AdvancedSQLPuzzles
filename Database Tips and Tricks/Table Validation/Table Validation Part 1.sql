@@ -6,7 +6,7 @@ Last Updated: 01/13/2023
 Microsoft SQL Server T-SQL
 
 This script creates and populates the ##TableInformation
-with the necessary information to peform a dynamic full outer join.
+with the necessary information to perform a dynamic full outer join.
 
 */----------------------------------------------------
 
