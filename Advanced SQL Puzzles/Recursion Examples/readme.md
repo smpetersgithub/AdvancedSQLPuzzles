@@ -2,21 +2,33 @@
 
 In this directory you will find my collection of SQL scripts to solve various challenges using resursion.    
 
--------------------------------------------------
-
-:star: I am always on the look out for puzzles that can be solved using recursion.  If you have any ideas or scripts you want to add to my collection, please contact me!
+:star:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;I am always on the look out for puzzles that can be solved using recursion.  If you have any ideas or scripts you want to add to my collection, please contact me!
 
 :keyboard:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The scripts provided are written in Microsoft SQL Server T-SQL, but you can easily modify them to fit your flavor of SQL.
 
--------------------------------------------------
 
 ## About
 
-Recursion in SQL is a technique used to process hierarchical data, where a query can reference itself in order to process data in a recursive manner. It is commonly used in cases where a single row of data has multiple relationships with other rows in the same table, creating a parent-child relationship. The process starts with an initial query that returns a base case, and subsequent queries use the results of the previous query to process the data until a stop condition is reached. Recursion in SQL is implemented using Common Table Expressions (CTEs), which are temporary result sets defined within a SELECT statement, and can be referenced within the same SELECT statement to perform the recursion.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Recursion in SQL is a technique used to process hierarchical data, where a query can reference itself in order to process data in a recursive manner. It is commonly used in cases where a single row of data has multiple relationships with other rows in the same table, creating a parent-child relationship. The process starts with an initial query that returns a base case, and subsequent queries use the results of the previous query to process the data until a stop condition is reached. Recursion in SQL is implemented using Common Table Expressions (CTEs), which are temporary result sets defined within a `SELECT` statement, and can be referenced within the same `SELECT` statement to perform the recursion.
 
-An example of an implicit hierarchy where the table containing the data doesn't always show a hierarchy is a file system in a computer. A file system organizes files and directories into a tree-like structure, where each directory can contain multiple subdirectories and files. However, the table that stores the information about the files and directories in a file system typically only contains information about each individual file or directory, without explicitly showing the parent-child relationships between them. Nevertheless, the hierarchy can be inferred based on the file path, where each directory is a parent of its subdirectories and files. In this scenario, the implicit hierarchy can be used to traverse the file system, starting from the root directory and moving down to each subdirectory and file.
+❕&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Data can have an implicit or an exmplicit hierarchy.  
 
-a numbers table can be considered to have an implicit hierarchy, where each number depends on the previous number in the sequence. The hierarchy is implicit because it is not explicitly stored in the table, but can be derived from the relationship between the numbers. This type of hierarchy can be useful in situations where you need to perform operations on sequences of numbers, such as generating a series of dates or calculating the cumulative sum of values.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;An example of an **explicit hierarchy** is an organizational chart in a company. Each employee has a direct manager, and the top-level manager is at the root of the hierarchy. In this scenario, the manager-employee relationship forms an implied hierarchy, with the manager being the parent and the employee being the child. This hierarchy can be used to traverse the entire organization, starting from the top-level manager, and moving down to each employee, and possibly further down to each employee's subordinates.
+
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;An example of an **implicit hierarchy** where the data doesn't always show a hierarchy can be found in numbers, date, words and sentences where the hierarchy can be inferred.
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;A numbers table can be considered to have an implicit hierarchy because each number depends on the previous number in the sequence. The hierarchy is implicit because it is not explicitly stored in the table, but can be derived from the relationship between the numbers. This type of hierarchy can be useful in situations where you need to perform operations on sequences of numbers, such as generating a series of dates or calculating the cumulative sum of values.
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dates, words and sentences also have an implicit hierarchy.
+
+*  Dates are a hirerarchy as the date 1892-12-31 cannot exist without 1892-12-30.
+*  The letters in the word "angel" must be printed in a specific order.  The letter "a" must come before the letter "n", and so on....  If they are not printed in the correct order, you may spell "glean, which is an entirely new word with a different meaning.
+*  Also, sentences have an implicit hierarchy.  The sentence "The cat sat on the mat" must have a certain word order in order for it to be logical. 
+
+Also, providing a solution using recursion rather than a loop based solution isn't necessarily a best practice.  This is best highlighted in the book "T-SQL Querying"...
+
+> "The main benefits I seere in recursive queries are the brevity of the code and the ability to traverse graph structures based only on the parent and child IDS.  The main drawback of recursive queries is performance.   They tend to perform lesss efficiently than alternative methods, even your own loop-based solutions.   With recursive queries, you don't have any control over the worktable; for example, you can't define your own indexes on it, you can't define how to filter the rows from the pervious round, and so on.  If you know hot to optimize T-SQL code, you can usually get better pefromance with your own solution." 
 
 
 
