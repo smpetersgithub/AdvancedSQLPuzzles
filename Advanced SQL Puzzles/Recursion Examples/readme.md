@@ -2,7 +2,15 @@
 
 In this directory you will find my collection of SQL scripts to solve various challenges using resursion.    
 
+-------------------------------------------------
+
 :star: I am always on the look out for puzzles that can be solved using recursion.  If you have any ideas or scripts you want to add to my collection, please contact me!
+
+:keyboard:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The scripts provided are written in Microsoft SQL Server T-SQL, but you can easily modify them to fit your flavor of SQL.
+
+-------------------------------------------------
+
+## About
 
 Recursion in SQL is a technique used to process hierarchical data, where a query can reference itself in order to process data in a recursive manner. It is commonly used in cases where a single row of data has multiple relationships with other rows in the same table, creating a parent-child relationship. The process starts with an initial query that returns a base case, and subsequent queries use the results of the previous query to process the data until a stop condition is reached. Recursion in SQL is implemented using Common Table Expressions (CTEs), which are temporary result sets defined within a SELECT statement, and can be referenced within the same SELECT statement to perform the recursion.
 
@@ -12,4 +20,3 @@ a numbers table can be considered to have an implicit hierarchy, where each numb
 
 
 
-:keyboard:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The scripts provided are written in Microsoft SQL Server T-SQL, but you can easily modify them to fit your flavor of SQL.
