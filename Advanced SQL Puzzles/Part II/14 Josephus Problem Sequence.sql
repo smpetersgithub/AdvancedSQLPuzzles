@@ -2,7 +2,7 @@
 Scott Peters
 Josephus Problem
 https://advancedsqlpuzzles.com
-Last Updated: 01/25/2023
+Last Updated: 02/07/2023
 Microsoft SQL Server T-SQL
 
 This script runs an iteration of the Josephus Problem.
@@ -44,7 +44,7 @@ GO
 -------------------------------
 -------------------------------
 --Create and populate a #Numbers table
---You may need to increate this number based on the number of sequences you need to create!
+--You may need to increase this number based on the number of sequences you need to create!
 DECLARE @vTotalNumbers INTEGER = 100;
 
 WITH cte_Number (Number)
@@ -98,7 +98,7 @@ WHERE   SoldierNumber = @vCycle;
 
 -------------------------------
 -------------------------------
---Use a WHILE loop to determine which order soilders are killed
+--Use a WHILE loop to determine which order soldiers are killed
 WHILE (SELECT COUNT(DISTINCT SoldierNumber) FROM #Soldiers WHERE Iterator IS NULL) > 1
         BEGIN
 
