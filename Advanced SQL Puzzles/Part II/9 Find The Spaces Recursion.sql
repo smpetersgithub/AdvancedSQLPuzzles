@@ -2,7 +2,7 @@
 Scott Peters
 Find The Spaces
 https://advancedsqlpuzzles.com
-Last Updated: 01/13/2023
+Last Updated: 02/07/2023
 Microsoft SQL Server T-SQL
 
 This script uses recursion to find the spaces in a given string and determine their start and position points. 
@@ -32,7 +32,7 @@ GO
 
 -------------------------------
 -------------------------------
---Dispaly the results using recursion
+--Display the results using recursion
 ;WITH cte_CAST AS
 (
 SELECT Id, CAST(String AS VARCHAR(200)) AS String FROM #Strings
