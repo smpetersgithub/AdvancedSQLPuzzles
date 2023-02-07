@@ -6,7 +6,7 @@ Last Updated: 01/13/2023
 Microsoft SQL Server T-SQL
 
 This script uses recursion to concatenate the values of string expressions and places separator values between them.
-Note, this provides the same functionality as the STRING_AGG funtion.
+Note, this provides the same functionality as the STRING_AGG function.
 
 */----------------------------------------------------
 
