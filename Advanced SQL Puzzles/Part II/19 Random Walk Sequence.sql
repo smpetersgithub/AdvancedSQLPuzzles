@@ -2,7 +2,7 @@
 Scott Peters
 Random Walk
 https://advancedsqlpuzzles.com
-Last Updated: 01/13/2023
+Last Updated: 02/07/2023
 Microsoft SQL Server T-SQL
 
 In mathematics, a random walk is a random process that describes a path that consists of a succession of random steps on some mathematical space.
@@ -57,7 +57,7 @@ GO
 --Create #Numbers table
 CREATE TABLE #Numbers
 (
-Number INTEGER IDENTITY(0,1) PRIMARY KEY, -- Begin at 0 and increate by 1
+Number INTEGER IDENTITY(0,1) PRIMARY KEY, -- Begin at 0 and increase by 1
 InsertDate DATETIME NOT NULL
 );
 GO
@@ -79,7 +79,7 @@ GO
 --Create ###ParticipantsDESC table
 CREATE TABLE #ParticipantsDESC
 (
-CoinFlipSum INTEGER IDENTITY(-1,-1) PRIMARY KEY, -- Begin at -1 and increate by -1
+CoinFlipSum INTEGER IDENTITY(-1,-1) PRIMARY KEY, -- Begin at -1 and increase by -1
 Participant INTEGER
 );
 GO
@@ -96,7 +96,7 @@ GO
 ------------------------
 ------------------------
 --Create and populate the #Participants table
---For simplicity, I create seperate sequences and tables
+--For simplicity, I create separate sequences and tables
 DROP SEQUENCE IF EXISTS dbo.MySequenceASC;
 DROP SEQUENCE IF EXISTS dbo.MySequenceDESC;
 GO
