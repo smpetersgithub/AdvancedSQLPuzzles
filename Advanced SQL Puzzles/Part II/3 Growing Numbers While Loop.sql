@@ -2,7 +2,7 @@
 Scott Peters
 Growing Numbers
 https://advancedsqlpuzzles.com
-Last Updated: 01/13/2023
+Last Updated: 02/07/2023
 Microsoft SQL Server T-SQL
 
 This script is used to find all possible growing numbers from a set of integers within a specified range. 
@@ -31,7 +31,7 @@ GO
 
 ---------------------
 ---------------------
---Create #Permuations table
+--Create #Permutations table
 CREATE TABLE #Permutations
 (
 Number BIGINT UNIQUE NOT NULL
@@ -47,7 +47,7 @@ DECLARE @number BIGINT;
 
 ---------------------
 ---------------------
---Populate the #Permuations table
+--Populate the #Permutations table
 WHILE @vStart <= @vEnd
 	BEGIN
 
