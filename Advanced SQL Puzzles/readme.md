@@ -1,9 +1,9 @@
 
 # Advanced SQL Puzzles
 
-**https://advancedsqlpuzzles.com**
+This directory contains my collection of SQL puzzles.  I hope you enjoy these puzzles as much as I have enjoyed creating them!
 
-This directory contains my collection of SQL puzzles I hope you enjoy these puzzles as much as I have enjoyed creating them!
+:keyboard:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The solutions provided are written in Microsoft SQL Server T-SQL, but you can easily modify them to fit your flavor of SQL.
 
 ## About
 
@@ -12,8 +12,6 @@ As my list of puzzles continues to grow, I have decided to combine the puzzles i
 *  In the first section I have 58 of the most difficult puzzles that I could create; randomly organized and in no specific order.  These are mostly set-based puzzles, interspersed with a small number of puzzles that require knowledge of constraints, specific data types, cursors, loops, etc....
 
 *  In the second set of puzzles, I have collected all the puzzles related to permutations, combinations, and sequences. Solving these puzzles will require a deeper knowledge of your SQL thinking, focusing on such constructs as using recursion or sequence objects to reach the desired output
-
-:thumbsup: The solutions provided are written in **Microsoft SQL Servers T-SQL**, but you can easily modify them to fit your flavor of SQL.
 
 ## Getting Started
 
@@ -25,13 +23,10 @@ To get started, download the `Advanced SQL Puzzles.pdf`.
 *  I also keep my collection of my SQL statements using recursion in the directory `Recursion Exmaples`.  Here you can find out how to solve a Markov chain, calculate floor and ceiling caps, solve the Traveling Salesman problem, or find a solution to a Sudoku puzzle.
 
 
-## Conclusion
-I hope you find this repository to be useful and informative and I welcome any new puzzles or tips and tricks you may have.  
+----------------
 
-I also have a Wordpress site where you can find my data analytics projects, Python puzzles, and blog.    
+:mailbox:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;If you find any inaccuracies, misspellings, bugs, dead links, etc. please report an issue!  No detail is too small, and I appreciate all the help.
+
+:smile:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Happy coding!
 
 **https://advancedsqlpuzzles.com**  
-
-:mailbox: If you find any inaccuracies, misspellings, bugs, dead links, etc. please report an issue!  No detail is too small, and I appreciate all the help.
-
-:smile: Happy coding!

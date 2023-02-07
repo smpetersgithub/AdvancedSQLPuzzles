@@ -1,5 +1,4 @@
 # Behavior of Nulls
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;https://advancedsqlpuzzles.com
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;To record missing or unknown values, users of relational databases can assign NULL markers to columns.  NULL is not a data value, but a marker representing the absence of a value.
 
@@ -20,6 +19,13 @@ SQL also provides three functions to evaluate NULL markers:
 
 We will cover these aspects and many more in the following document.
 
+---------------------------------------------------------
+### Quick Notes
+
+:keyboard: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The examples provided are written in Microsofts SQL Server T-SQL.  The provided SQL statements can be easily modified to fit your flavor of SQL.
+
+:mailbox: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;I welcome any corrections, new tricks, new techniques, dead links, misspellings, or bugs!
+
 ----------------------------------------------------------
 #### Table Of Contents   
 
@@ -36,7 +42,7 @@ We will cover these aspects and many more in the following document.
 [9. Constraints](#constraints)    
 [10. Referential Integrity](#referential-integrity)    
 [11. Computed Columns](#computed-columns)    
-[12. SQL NULL Functions](#sql-null-functions)    
+[12. SQL NULL Functions (NULLIF, ISNULL, COALESCE)](#sql-null-functions)    
 [13. Empty Strings, NULL, and ASCII Values](#empty-strings-null-and-ascii-values)    
 [14. CONCAT](#concat)    
 [15. Views](#views)    
@@ -44,7 +50,7 @@ We will cover these aspects and many more in the following document.
 
 --------------------------------------------------------
 ### Brief History of Nulls 
-🔵[Table Of Contents](#table-of-contents)
+🔵&nbsp;&nbsp;&nbsp;[Table Of Contents](#table-of-contents)
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;NULL values in relational databases are a source of debate, with some proponents rejecting them entirely, while others, including E.F. Codd, advocate for their use. Codd, a computer scientist who revolutionized database management with his work on relational database theory, introduced the concept of NULL values in the late 1960s and early 1970s to represent the absence of a value.
 
@@ -53,15 +59,8 @@ We will cover these aspects and many more in the following document.
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Despite these criticisms, NULL values are widely used and accepted, but must be used appropriately to understand their limitations and impact on data quality and performance. For further information, refer to C.J. Date's book, [Database in Depth: Relational Theory for Practitioners](https://www.amazon.com/Database-Depth-Relational-Theory-Practitioners/dp/0596100124).
 
 ---------------------------------------------------------
-### Quick Notes
-
-:white_check_mark:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The examples provided are written in Microsoft’s SQL Server T-SQL.  The provided SQL statements can be easily modified to fit your dialect of SQL.
-
-:mailbox: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**I welcome any corrections, new tricks, new techniques, dead links, misspellings, or bugs!**
-
----------------------------------------------------------
 ### Predicate Logic
-🔵 [Table Of Contents](#table-of-contents)
+🔵&nbsp;&nbsp;&nbsp;[Table Of Contents](#table-of-contents)
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;To best understand NULL markers in SQL, we need to understand the three-valued logic outcomes of **TRUE**, **FALSE**, and **UNKNOWN**.  Unique to SQL, the logic result will always be **UNKNOWN** when comparing a NULL marker to any other value.   SQL’s use of the three-valued logic system presents a surprising amount of complexity into a seemingly straightforward query!
 
@@ -84,7 +83,7 @@ SELECT 3 WHERE NOT(1=2) AND NOT(NULL=1); --FALSE OR UNKNOWN = UNKNOWN
 
 ---------------------------------------------------------
 ### ANSI_NULLS
-🔵[Table Of Contents](#table-of-contents)
+🔵&nbsp;&nbsp;&nbsp;[Table Of Contents](#table-of-contents)
 
 >:exclamation:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The standard setting for `ANSI_NULLS` is `ON`.  In a future version of Microsoft SQL Server `ANSI_NULLS` will always be `ON` and any applications that explicitly set the option to `OFF` will produce an error.  Avoid using this feature in new development work, and plan to modify applications that currently use this feature.
 
@@ -106,7 +105,7 @@ SELECT 3 WHERE NOT(1=2) AND NOT(NULL=1); --FALSE OR UNKNOWN = UNKNOWN
 
 ---------------------------------------------------------
 ### IS NULL and IS NOT NULL
-🔵 [Table Of Contents](#table-of-contents)
+🔵&nbsp;&nbsp;&nbsp;[Table Of Contents](#table-of-contents)
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;We can experiment with setting the `ANSI_NULLS` to `ON` and `OFF` to review how the behavior of NULL markers change.  In the following examples we will set the default `ANSI_NULLS` setting to `ON`.
 
@@ -204,7 +203,7 @@ SELECT * from ##TableB
 
 ---------------------------------------------------------
 ### Join Syntax
-🔵 [Table Of Contents](#table-of-contents)
+🔵&nbsp;&nbsp;&nbsp;[Table Of Contents](#table-of-contents)
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The standard ANSI:SQL joins are `INNER`, `LEFT OUTER JOIN`, `RIGHT OUTER JOIN`, `FULL OUTER JOIN`, and `CROSS JOIN`.  For NULL markers, all 5 of these joins treat the NULL marker as **UNKOWN**.  For this reason I do not demonstrate each of these joins, but only the relevant joins needed to understand the behavior of NULL markers.  Also, I include some alternative methods for joining if you need to treat NULLS as equals, these methods use the `ISNULL`, `ON EXISTS`, and the `IS [NOT] DISTINCT FROM` clauses.  See my documentation **Advanced SQL Joins** for more examples of these clauses.
 
@@ -300,7 +299,7 @@ WHERE   a.Fruit IS DISTINCT FROM b.Fruit;
 
 ---------------------------------------------------------
 ### Semi and Anti Joins
-🔵[Table Of Contents](#table-of-contents)
+🔵&nbsp;&nbsp;&nbsp;[Table Of Contents](#table-of-contents)
         
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Semi-joins and anti-joins are two closely related join methods.  The semi-join and anti-join are types of joins between two tables where rows from the outer query are returned based upon the presence or absence of a matching row in the joined table.
 
@@ -391,7 +390,7 @@ WHERE   NOT EXISTS (SELECT 1 FROM ##TableB b WHERE a.Fruit = b.Fruit AND a.Quant
 
 ---------------------------------------------------------
 ### Set Operators
-🔵[Table Of Contents](#table-of-contents)
+🔵&nbsp;&nbsp;&nbsp;[Table Of Contents](#table-of-contents)
         
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The SQL standard for set operators does not use the term **EQUAL TO or NOT EQUAL TO** when describing their behavior.  Instead, it uses the terminology of **IS [NOT] DISTINCT FROM** and the following expressions are **TRUE** when using set operators.
 *  NULL is not distinct from NULL
@@ -479,7 +478,7 @@ SELECT Fruit FROM ##TableB;
 
 ---------------------------------------------------------
 ### GROUP BY
-🔵[Table Of Contents](#table-of-contents)
+🔵&nbsp;&nbsp;&nbsp;[Table Of Contents](#table-of-contents)
         
 The `GROUP BY` clause aggregates the NULL markers together.
 
@@ -500,7 +499,7 @@ GROUP BY Fruit;
 
 ---------------------------------------------------------
 ### COUNT and AVERAGE Functions
-🔵[Table Of Contents](#table-of-contents)
+🔵&nbsp;&nbsp;&nbsp;[Table Of Contents](#table-of-contents)
 
 The `COUNT` and `AVG` functions have a few nuances to NULL markers as will demonstrate below.
         
@@ -554,7 +553,7 @@ FROM    cte_Average;
 
 --------------------------------------------------------- 
 ### CONSTRAINTS
-🔵[Table Of Contents](#table-of-contents)
+🔵&nbsp;&nbsp;&nbsp;[Table Of Contents](#table-of-contents)
         
 SQL provides the following constraints; `NOT NULL`, `PRIMARY KEY`, `FOREIGN KEY`. `UNIQUE`, and `CHECK CONSTRAINTS`.
         
@@ -621,7 +620,7 @@ SELECT * FROM ##CheckConstraints;
 
 ---------------------------------------------------------
 ### Referential Integrity
-🔵 [Table Of Contents](#table-of-contents)
+🔵&nbsp;&nbsp;&nbsp;[Table Of Contents](#table-of-contents)
         
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Multiple NULL markers can be inserted into the child column or a `FOREIGN KEY` constraint.
 
@@ -678,7 +677,7 @@ SELECT * FROM dbo.Child;
 
 ---------------------------------------------------------
 ### Computed Columns
-🔵[Table Of Contents](#table-of-contents)
+🔵&nbsp;&nbsp;&nbsp;[Table Of Contents](#table-of-contents)
         
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;A computed column is a virtual column that is not physically stored in a table.  A computed column expression can use data from other columns to calculate a value.  When an expression is applied to a column with a NULL marker, a NULL marker will be the return value.   Here we add the value `2` to a the `Quantity` field in `TableB` (which includes a NULL marker in the `Quantity` field.
 
@@ -728,7 +727,7 @@ Commands completed successfully.
   
 ---------------------------------------------------------
 ### SQL NULL Functions
-🔵[Table Of Contents](#table-of-contents)
+🔵&nbsp;&nbsp;&nbsp;[Table Of Contents](#table-of-contents)
         
 Besides the `IS NULL` and `IS NOT NULL` predicate logic constructs, SQL also provides three functions to help evaluate NULL markers.
 
@@ -777,7 +776,7 @@ SELECT  1 AS ID,
 
 ---------------------------------------------------------
 ### Empty Strings, NULL, and ASCII VALUES
-🔵 [Table Of Contents](#table-of-contents)
+🔵&nbsp;&nbsp;&nbsp;[Table Of Contents](#table-of-contents)
         
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;A useful feature to combat NULL markers in character fields is by using the empty string.  The empty string character is not an ASCII value, and the following function returns a NULL marker for both the empty string and the NULL marker parameters.  Also, you would assume the ASCII value for a NULL marker is 0 when reviewing an ASCII code chart, however this is not the case.  SQL does not use the standard ANSI NULL marker.
 
@@ -816,7 +815,7 @@ FROM    ##TableA a INNER JOIN
 
 ---------------------------------------------------------
 ### CONCAT
-🔵 [Table Of Contents](#table-of-contents)
+🔵&nbsp;&nbsp;&nbsp;[Table Of Contents](#table-of-contents)
 
         
 > :exclamation:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;In SQL Server, the `SET CONCAT_NULL_YIELDS_NULL` database setting controls whether concatenation results are treated as NULL or empty string values.  In a future version of SQL Server `CONCAT_NULL_YIELDS_NULL` will always be `ON` and any applications that explicitly set the option to `OFF` will generate an error. Avoid using this feature in new development work, and plan to modify applications that currently use this feature.
@@ -861,7 +860,7 @@ For these results I state NULL and Empty String were relevant.  In query editors
 
 ---------------------------------------------------------
 ### Views
-🔵 [Table Of Contents](#table-of-contents)
+🔵&nbsp;&nbsp;&nbsp;[Table Of Contents](#table-of-contents)
         
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;When creating a view, if you perform a `CAST` function or create a computed column on a column which has a `NOT NULL` constraint, the result will yield a NULLable column.
 
@@ -909,7 +908,7 @@ ORDER BY 1,2,3;
 
 ---------------------------------------------------------
 ### Boolean Values
-🔵[Table Of Contents](#table-of-contents)
+🔵&nbsp;&nbsp;&nbsp;[Table Of Contents](#table-of-contents)
         
 Here we will discuss two SQL constructs, the `BIT` data type and the `NOT` operator.
 
@@ -955,7 +954,7 @@ WHERE   NOT(FRUIT = 'Mango');
 
 --------------------------------------------------------- 
 ### RETURN
-🔵[Table Of Contents](#table-of-contents)
+🔵&nbsp;&nbsp;&nbsp;[Table Of Contents](#table-of-contents)
         
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The `RETURN` statement exists unconditionally from a query or procedure.  All stored procedures return a value of 0 for a successful execution, and a nonzero value for a failure.  When the `RETURN` statement is used with a stored procedure, it cannot return a NULL marker.  If a procedure tries to return a NULL marker in the `RETURN` statement, a warning message is generated and a value of 0 is returned.
 
@@ -984,10 +983,14 @@ The `SpReturnStatement` procedure attempted to return a status of NULL, which is
 
 --------------------------------------------------------- 
 ### Conclusion
-🔵[Table Of Contents](#table-of-contents)
+🔵&nbsp;&nbsp;&nbsp;[Table Of Contents](#table-of-contents)
         
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Over the course of this document, we have touched on many of the SQL constructs and how they treat NULL markers.  I hope this document serves as a guiding document for future development, and most importantly, always remember to include NULL markers in your test data.
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The most important concept to understand with NULL markers is the three-valued logic, where statements can equate to **TRUE**, **FALSE**, or **UNKNOWN**.  Understanding the three-valued logic is instrumental in understanding the behavior of NULL markers.  **TRUE OR UNKNOWN** equates to **TRUE**, and **TRUE AND UNKNOWN** equates to **UNKNOWN**.
  
-https://advancedsqlpuzzles.com
+:mailbox:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;If you find any inaccuracies, misspellings, bugs, dead links, etc. please report an issue!  No detail is too small, and I appreciate all the help.
+
+:smile:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Happy coding!
+
+**https://advancedsqlpuzzles.com**  

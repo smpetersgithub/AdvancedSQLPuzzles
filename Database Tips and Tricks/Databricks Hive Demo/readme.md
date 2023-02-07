@@ -4,7 +4,7 @@
 
 This directory contains a demo to understand how to connect Databricks to an Azure Data Lake and SQL Server.
 
->:exclamation: Please note that this presentation was created in late 2021 and Microsoft Azure may have updated certain features and options. If any information in this presentation becomes outdated or needs to be updated, kindly notify me. Thank you.
+:exclamation: This presentation was created in late 2021 and Microsoft Azure may have updated certain features and options. If any information in this presentation becomes outdated or needs to be updated, kindly notify me. Thank you!
 
 ## About
 
@@ -28,15 +28,8 @@ In this directory you will find the following files:
 
 I've also included the Power Point presentation (`Databricks Spark Hive Demo PowerPoint.pptx`) that you can download and add notes or modify as needed.
 
-## Conclusion
+---------------------------------------------
 
-I hope you find this repository to be useful and informative and I welcome any new additions you may have.
+:mailbox:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;If you find any inaccuracies, misspellings, bugs, dead links, etc. please report an issue!  No detail is too small, and I appreciate all the help.
 
-I also have a Wordpress site where you can find my data analytics projects, Python puzzles, and blog.    
-
-**https://advancedsqlpuzzles.com**  
-
-:mailbox: If you find any inaccuracies, misspellings, bugs, dead links, etc. please report an issue!  No detail is too small, and I appreciate all the help.
-
-:smile: Happy coding!
-
+:smile:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Happy coding!
