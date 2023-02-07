@@ -2,7 +2,7 @@
 
 In this directory you will find my collection of SQL scripts to solve various challenges using recursion.    
 
-:star:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;I am always on the lookout for puzzles that can be solved using recursion.  If you have any ideas or scripts you want to add to my collection, please contact me!
+👓&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;I am always on the lookout for puzzles that can be solved using recursion.  If you have any ideas or scripts you want to add to my collection, please contact me!
 
 :keyboard:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The scripts provided are written in Microsoft SQL Server T-SQL, but you can easily modify them to fit your flavor of SQL.
 
