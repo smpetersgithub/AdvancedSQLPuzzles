@@ -1,8 +1,8 @@
-# Data Profiling  
+ # Data Profiling  
 
 When working with datasets, it's important to have a quick and easy way to understand the structure and quality of the data. One important aspect of this is identifying missing or NULL values in the dataset.
 
-To address these issues, I created a data profiling script that allows me to quickly and easily identify the number of NULL or empty string values in a given column (among other things). This script is designed to be simple and easy to use, allowing me to quickly get a sense of the quality of the data and identify any areas that may require further cleaning or processing.
+To address these issues, I created a data profiling script that allows me to identify the number of NULL or empty string values quickly and easily in each column (among other things). This script is designed to be simple and easy to use, allowing me to quickly get a sense of the quality of the data and identify any areas that may require further cleaning or processing.
 
 ## Overview  
 
@@ -13,7 +13,7 @@ Example SQL statements are provided to find NULL markers, empty strings, keyword
 ## Installation
 
 **Step 1:**  
-Modify the script variables `@vSchemaName` and `@vTableName` to the shema and table name you wish to profile.  
+Modify the script variables `@vSchemaName` and `@vTableName` to the schema and table name you wish to profile.  
 ```sql
 DECLARE @vSchemaName NVARCHAR(100) = '';
 DECLARE @vTableName NVARCHAR(100) = '';
@@ -28,8 +28,8 @@ WHERE   1=1 AND
         AND ty.Name NOT IN ('XML','uniqueidentifier')--Modify as needed
 ```
 **Step 3:**  
-I have provided several SQL statments for NULL markers, empty strings, keyword searches, etc... You may need to create your own profiling query based upon your needs.
-Here is an example of a profiling where I count the non NULL values in the columns.
+I have provided several SQL statements for NULL markers, empty strings, keyword searches, etc... You may need to create your own profiling query based upon your needs.
+Here is an example of a profiling where I count the non-NULL values in the columns.
 
 ```sql
 INSERT INTO #DataProfilingSQL (DataProfilingType, OrderID, SQLLine) VALUES
