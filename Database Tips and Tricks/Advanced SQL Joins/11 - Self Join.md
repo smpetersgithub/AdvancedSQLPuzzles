@@ -145,15 +145,15 @@ Given the below dataset consisting of the weight of various animals, create a cu
 ```sql
 SELECT  a.ID
         a.Animal,
-        SUM(b.Weight) AS Cummulative_Weight
+        SUM(b.Weight) AS Cumulative_Weight
 FROM    Animals a CROSS JOIN
         Animals b
 WHERE   a.ID >= b.ID
-GROUP BY a.ID, a.Animal; 
+GROUP BY a.ID, a.Animal;
 ```  
   
 
-| ID |    Animal     | Cummulative Weight |
+| ID |    Animal     | Cumulative Weight |
 |----|---------------|--------------------|
 |  1 | Elephant      |              13000 |
 |  4 | Giraffe       |              26000 |
@@ -166,7 +166,7 @@ However, a better way to write this statement is by using a windowing function.
 ```sql
 SELECT  ID,
         Animal,
-        SUM(Weight) OVER (ORDER BY ID ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS Cummulative_Weight
+        SUM(Weight) OVER (ORDER BY ID ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS Cumulative_Weight
 FROM    #Animals;  
 ```
 
