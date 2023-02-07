@@ -1,12 +1,12 @@
 # Create Constraints on a Temp Table
 
-Often I find myself in an environment where I have permissions to create a temporary table, but not a persistant table.  In order to properly test any `UPDATE`, `INSERT`, `DELETE` or `MERGE` statements on a table, I use this script to create a temporary table with the same constraints as the persistant table.  This way I can check my SQL statements to ensure no constraints are violated.
+Often, I find myself in an environment where I have permissions to create a temporary table, but not a persistent table.  To properly test any `UPDATE`, `INSERT`, `DELETE` or `MERGE` statements on a table, I use this script to create a temporary table with the same constraints as the persistent table.  This way I can check my SQL statements to ensure no constraints are violated.
 
 ⌨️&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;This script is written in Microsoft SQL Server T-SQL.
 
 ## Overview
 
-The script `Create Constraints Temp Table.sql` creates the constraints on a temporary table with same constraints as the persistant table.  In the test script `EmployeePayRecords Sample Table.sql`, I create a temporary table `#EmployeePayRecords` with identical constraints to its matching persistent table.  The user should adjust the variables `@vschema_name` and `@vtable_name` to the appropriate names of the desired table to use.
+The script `Create Constraints Temp Table.sql` creates the constraints on a temporary table with same constraints as the persistent table.  In the test script `EmployeePayRecords Sample Table.sql`, I create a temporary table `#EmployeePayRecords` with identical constraints to its matching persistent table.  The user should adjust the variables `@vschema_name` and `@vtable_name` to the appropriate names of the desired table to use.
 
 The `EmployeePayRecords Sample Table.sql` script creates several temporary tables to store the SQL statements that will create the different types of constraints on the temporary table.
 *  `#DynamicSQL`
@@ -27,7 +27,7 @@ The SQL statements in the `#DynamicSQL` table are then executed to create the `N
 
 **Step 1:**     
 Create the `EmployeesRecords` sample table via the `EmployeePayRecords Sample Table.sql` script.  
-This will create the perminatnt table `EmployeePayRecords` with `NOT NULL`, `UNIQUE`, `PRIMARY KEY`, and `CHECK CONSTRAINTS`.  
+This will create the permanent table `EmployeePayRecords` with `NOT NULL`, `UNIQUE`, `PRIMARY KEY`, and `CHECK CONSTRAINTS`.  
 
 **Step 2**   
 Run the script `Create Constraints Temp Table.sql` to create a temporary table with the same constraints on `EmployeeRecords`;
@@ -37,7 +37,7 @@ Test your `INSERT`,`UPDATE`, `DELETE`, `MERGE`, etc. statements on the temporary
 
 --------------------------------------------
 
-**To run on a user defined tabe:**   
+**To run on a user defined table:**   
 
 **Step 1:**  
 Manually create the temp table from the persistent table using:
