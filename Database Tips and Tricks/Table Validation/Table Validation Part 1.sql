@@ -2,7 +2,7 @@
 Scott Peters
 Dynamic Full Outer Joins
 https://advancedsqlpuzzles.com
-Last Updated: 01/13/2023
+Last Updated: 02/07/2023
 Microsoft SQL Server T-SQL
 
 This script creates and populates the ##TableInformation
