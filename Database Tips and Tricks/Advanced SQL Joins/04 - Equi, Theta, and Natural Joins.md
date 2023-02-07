@@ -27,7 +27,7 @@ SQL has the following operators that can be used to join tables.
 | Comparison |  <>                   |  Not Equal To                                         |
 | Comparison |  !=                   |  Not Equal To (not ISO standard)                      |
 | Comparison |  >                    |  Greater Than                                         |
-| Comparison |  !<                	 |  Not less than (not ISO standard)                      |
+| Comparison |  !<                   |  Not less than (not ISO standard)                     |
 | Comparison |  <                    |  Less Than                                            |
 | Comparison |  !>                   |Not greater than (not ISO standard)                    |
 | Comparison |  >=                   |  Greater Than or Equal To                             |
@@ -37,9 +37,9 @@ SQL has the following operators that can be used to join tables.
 |            |  IS DISTINCT FROM     |  Treats NULLs as known values for comparing equality  |
 |            |  IS NOT DISTINCT FROM |  Treats NULLs as known values for comparing equality  |
 
-*  Logical operators test for the truth of some condition. Logical operators, like comparison operators, return a Boolean data type with a value of TRUE, FALSE, or UNKNOWN.
+*  Logical operators test for the truth of some condition. Logical operators, like comparison operators, return a Boolean data type with a value of **TRUE**, **FALSE**, or **UNKNOWN**.
 
-*  Comparison operators test whether two expressions are the same. Comparison operators can be used on all expressions except expressions of the text, ntext, or image data types.
+*  Comparison operators test whether two expressions are the same. Comparison operators can be used on all expressions except expressions of the `text`, `ntext`, or `image` data types.
 
 *  The `IS [NOT] DISTINCT FROM` operator is relatively new feature being added to the various database systems.  I have set it to NULL as I have not been able to find any vendor documentation that categorizes this operator as logical or a comparison.
  
@@ -90,7 +90,7 @@ Theta-joins looks for any non-equality comparison.  Sometimes this join is calle
 
 Here are some examples that you may not have realized are possible.
 
-You can use the `LIKE` and `BETWEEN` operators with the `ON` statement, as well as mathmatical operations.  We often place these operators in the `WHERE` clause, but they can exist with the `ON` statement.
+You can use the `LIKE` and `BETWEEN` operators with the `ON` statement, as well as mathematical operations.  We often place these operators in the `WHERE` clause, but they can exist with the `ON` statement.
 
 ```sql
 SELECT  *
