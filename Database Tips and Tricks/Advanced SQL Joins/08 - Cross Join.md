@@ -2,7 +2,7 @@
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;A `CROSS JOIN` creates all permutations (i.e., a cartesian product) or combinations of the two joining tables.  It will produce a result set which is the number of rows in the first table multiplied by the number of rows in the second table.
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;It is important to be mindful of the number of rows in each table, because a cross join will return the product of the number of rows of both tables. If one table has 100 rows and the other has 1000 rows, a 'CROS JOIN` will return 100,000 rows. Therefore, 'CROSS JOIN' can cause performance issues if used on large tables.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;It is important to be mindful of the number of rows in each table, because a cross join will return the product of the number of rows of both tables. If one table has 100 rows and the other has 1000 rows, a `CROSS JOIN` will return 100,000 rows. Therefore, `CROSS JOIN` can cause performance issues if used on large tables.
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Note, you can also use recursion to generate permutation sets.  The benefit of using recursion is when you have an unknown number of elements that you need to create permutations on, which you may not know at runtime.  With `CROSS JOIN` you need to manually create each join.
 
