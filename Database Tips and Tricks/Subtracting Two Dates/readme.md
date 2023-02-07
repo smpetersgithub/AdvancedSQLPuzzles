@@ -1,12 +1,12 @@
 # Subtracting Two Dates
 
-Anyone who has used Microsoft SQL Server T-SQL'S `DATEDIFF` function has probably been frustrated by its limitations. To solve this problem, I have created two functions (same logic, one returns a `TABLE` and the other returns a `VARCHAR`) to return the  years, months, day, minutes, seconds and nano seconds between two dates.
+Anyone who has used Microsoft SQL Server T-SQL'S `DATEDIFF` function has probably been frustrated by its limitations. To solve this problem, I have created two functions (same logic, one returns a `TABLE` and the other returns a `VARCHAR`) to return the  years, months, day, minutes, seconds, and nano seconds between two dates.
 
 ⌨️&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;This script is written in Microsoft SQL Server T-SQL.
 
 ## Overview 
 
-This directory contains two function, `FnDateDiffPartsChar.sql` and `FnDateDiffPartsTable.sql` to return the years, months, day, minutes, seconds and nano seconds between two dates.  One function is a table-valued function, and the other is a scalar value function.
+This directory contains two function, `FnDateDiffPartsChar.sql` and `FnDateDiffPartsTable.sql` to return the years, months, day, minutes, seconds, and nano seconds between two dates.  One function is a table-valued function, and the other is a scalar value function.
 
 ## Installation
 
