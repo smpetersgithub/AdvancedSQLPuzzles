@@ -218,7 +218,7 @@ FROM    #DepartmentHistory
 )
 SELECT  *
 FROM    cte_EmployeeDepartmentCount
-WHERE   DepartmentCount IN (SELECT DepartmentCount from cte_DistinctDeparments);
+WHERE   DepartmentCount IN (SELECT DepartmentCount from cte_DistinctDepartments);
 ```
 
 | Name  | DepartmentCount |
