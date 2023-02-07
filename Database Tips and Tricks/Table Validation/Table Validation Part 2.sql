@@ -33,8 +33,8 @@ DROP TABLE IF EXISTS #Columns;------------Level 600 (Set the QueryOrder to the s
 DROP TABLE IF EXISTS #Into;---------------Level 700
 DROP TABLE IF EXISTS #From;---------------Level 800
 DROP TABLE IF EXISTS #FullOuterJoin;------Level 900
-DROP TABLE IF EXISTS #SQLStatementTemp;-------Used to create dynamic SQL statment
-DROP TABLE IF EXISTS #SQLStatementFinal;--Used to create dynamic SQL statment
+DROP TABLE IF EXISTS #SQLStatementTemp;-------Used to create dynamic SQL statement
+DROP TABLE IF EXISTS #SQLStatementFinal;--Used to create dynamic SQL statement
 GO
 
 ----------------------------------------
