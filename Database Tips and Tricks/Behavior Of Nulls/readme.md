@@ -22,7 +22,7 @@ We will cover these aspects and many more in the following document.
 ---------------------------------------------------------
 ### Quick Notes
 
-:keyboard: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The examples provided are written in Microsofts SQL Server T-SQL.  The provided SQL statements can be easily modified to fit your flavor of SQL.
+:keyboard: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The examples provided are written in Microsoft SQL Server T-SQL.  The provided SQL statements can be easily modified to fit your flavor of SQL.
 
 :mailbox: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;I welcome any corrections, new tricks, new techniques, dead links, misspellings, or bugs!
 
@@ -52,7 +52,7 @@ We will cover these aspects and many more in the following document.
 ### Brief History of Nulls 
 🔵&nbsp;&nbsp;&nbsp;[Table Of Contents](#table-of-contents)
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;NULL values in relational databases are a source of debate, with some proponents rejecting them entirely, while others, including E.F. Codd, advocate for their use. Codd, a computer scientist who revolutionized database management with his work on relational database theory, introduced the concept of NULL values in the late 1960s and early 1970s to represent the absence of a value.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;NULL values in relational databases are a source of debate, with some proponents rejecting them entirely, while others, including Edgar F. Codd, advocate for their use. Codd, a computer scientist who revolutionized database management with his work on relational database theory, introduced the concept of NULL values in the late 1960s and early 1970s to represent the absence of a value.
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Codd's work ensured data consistency and accuracy in relational databases, as they could better handle real-world scenarios where information may not always be complete. However, some critics argue that NULL values can lead to ambiguity and confusion, lack of default values, performance issues, and affect data quality.
 
@@ -210,7 +210,7 @@ SELECT * from ##TableB
 ---------------------------------------------------------
 **INNER JOIN**
            
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;NULL markers are neither equal to nor not equal to each other.  They are treated as **UNKOWN**.  This is best demonstrated by the below `INNER JOIN` statement, where NULL markers are not present in the result set.  Note here we are looking for both equality and inequality on the Fruit column (and a `DISTINCT` is applied as well).
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;NULL markers are neither equal to nor not equal to each other.  They are treated as **UNKNOWN**.  This is best demonstrated by the below `INNER JOIN` statement, where NULL markers are not present in the result set.  Note here we are looking for both equality and inequality on the Fruit column (and a `DISTINCT` is applied as well).
 
 ```sql
 SELECT  a.ID,
@@ -269,8 +269,8 @@ ORDER BY 1,2;
 There are a few methods for returning NULL values in a join, as shown below.
 
 1.  The first method uses the `ISNULL` function and sets the NULLS to an empty string.
-2.  The second method uses the `ON EXISTS` clause.  `ON EXISTS` is only available in SQL Server and PostreSQL.
-3.  New to SQL Server 2022, the third method uses the `IS [NOT] DISINCT FROM` clause.
+2.  The second method uses the `ON EXISTS` clause.  `ON EXISTS` is only available in SQL Server and PostgreSQL.
+3.  New to SQL Server 2022, the third method uses the `IS [NOT] DISTINCT FROM` clause.
 
 ```sql
 --Method 1
