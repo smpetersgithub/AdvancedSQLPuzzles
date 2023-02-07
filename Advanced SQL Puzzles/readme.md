@@ -1,9 +1,7 @@
 
 # Advanced SQL Puzzles
 
-This directory contains my collection of SQL puzzles.
-
-I hope you enjoy these puzzles as much as I have enjoyed creating them!
+This directory contains my collection of SQL puzzles.  I hope you enjoy these puzzles as much as I have enjoyed creating them!
 
 :keyboard:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The solutions provided are written in Microsoft SQL Server T-SQL, but you can easily modify them to fit your flavor of SQL.
 
