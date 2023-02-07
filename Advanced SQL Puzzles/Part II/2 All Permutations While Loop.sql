@@ -2,7 +2,7 @@
 Scott Peters
 All Permutations
 https://advancedsqlpuzzles.com
-Last Updated: 01/13/2023
+Last Updated: 02/07/2023
 Microsoft SQL Server T-SQL
 
 This script generates all permutations of a given set of numbers using a while loop. 
@@ -48,7 +48,7 @@ OPTION (MAXRECURSION 0);--A value of 0 means no limit to the recursion level
 
 ---------------------
 ---------------------
---Create the #Permuations table and provide initial seed
+--Create the #Permutations table and provide initial seed
 SELECT  CAST(Number AS VARCHAR(100)) AS Permutation,
         GETDATE() AS InsertDate
 INTO    #Permutations
