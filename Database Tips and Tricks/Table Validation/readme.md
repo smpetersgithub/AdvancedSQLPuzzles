@@ -6,23 +6,24 @@ This script compares two identical tables using `DYNAMIC SQL` and `FULL OUTER JO
 
 ## Overview
 
-The scripts `Table Validation Part 1.sql` and `Table Validation Part 2.sql` will create the following thirteen tempoarary tables in order to arrive at the final tempoarary table `#SQLStatementFinal`.  The SQL statement in the table `#SQLStatementFinal` will then be executed via `DYANMIC SQL`  
+The scripts `Table Validation Part 1.sql` and `Table Validation Part 2.sql` will create the following thirteen temporary tables in order to arrive at the final temporary table `#SQLStatementFinal`.  The SQL statement in the table `#SQLStatementFinal` will then be executed via `DYANMIC SQL`.  
 
-1.  ##TableInformation   
-2.  #Select   
-3.  #Exists    
-4.  #RowNumber   
-5.  #Count    
-6.  #Distinct_Count    
-7.  #Compare    
-8.  #Columns    
-9.  #Into    
-10.  #From    
-11.  #FullOuterJoin    
-12.  #SQLStatementTemp    
-13.  #SQLStatementFinal    
+1.  `##TableInformation`   
+2.  `#Select`   
+3.  `#Exists`    
+4.  `#RowNumber`   
+5.  `#Count`    
+6.  `#Distinct_Count`    
+7.  `#Compare`    
+8.  `#Columns`    
+9.  `#Into`    
+10. `#From`    
+11.  `#FullOuterJoin`    
+12.  `#SQLStatementTemp`    
+13.  `#SQLStatementFinal`
 
-I recomend running the `Table Validation Demo Tables.sql` first on the provided sample set.  There are a number of items in the setup of the script that need to be modified.  Once the final dataset is created, export to Miscrosoft Excel.
+
+I recommend running the `Table Validation Demo Tables.sql` first on the provided sample set.  There are a number of items in the setup of the script that need to be modified.  Once the final dataset is created, export to Microsoft Excel.
 
 ## Installation
 
@@ -115,7 +116,7 @@ This script will generate an SQL statement that compares the tables using a `FUL
 
 5)  The field `Compare_Summary` in the first column of the result set and gives an overall summary if the record matches between the two tables.   
 
-6)  The result set also has information on which fields do not exist in its partner table, distinct counts, etc….   
+6)  The result set also has information on which fields do not exist in its partner table, distinct counts, etc.….   
 
 7)  To best understand the SQL generated from the script, review the SQL statement in the table `#SQLStatementFinal`.   
 
