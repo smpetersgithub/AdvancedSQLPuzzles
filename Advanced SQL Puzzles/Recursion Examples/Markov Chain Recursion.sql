@@ -2,7 +2,7 @@
 Scott Peters
 Markov Chains
 https://advancedsqlpuzzles.com
-Last Updated: 01/13/2023
+Last Updated: 02/07/2023
 Microsoft SQL Server T-SQL
 
 This script uses recursion to solve a Markov Chain.
@@ -21,7 +21,7 @@ On average, how many rainy days are there in Probability Land?
 DROP TABLE IF EXISTS #Probabilities;
 DROP TABLE IF EXISTS #Numbers;
 DROP TABLE IF EXISTS #RandomNumbers;
-DROP TABLE IF EXISTS #ProbabilitesFinal;
+DROP TABLE IF EXISTS #ProbabilitiesFinal;
 GO
 
 -------------------------------
@@ -96,7 +96,7 @@ SELECT  StepNumber
         ,CurrentState
         ,(CASE CurrentState WHEN 1 THEN 'Rainy' WHEN 2 THEN 'Sunny' END) AS [Description]
         ,Probability
-INTO    #ProbabilitesFinal
+INTO    #ProbabilitiesFinal
 FROM    cte_Recursion
 ORDER BY StepNumber
 OPTION (MAXRECURSION 0);
@@ -106,7 +106,7 @@ GO
 -------------------------------
 SELECT  [Description],
         COUNT(*) AS [Count]
-FROM    #ProbabilitesFinal
+FROM    #ProbabilitiesFinal
 GROUP BY [Description]
 ORDER BY 1;
 GO
