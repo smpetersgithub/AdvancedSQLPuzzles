@@ -2,7 +2,7 @@
 Scott Peters
 Solutions for Advanced SQL Puzzles
 https://advancedsqlpuzzles.com
-Last Updated: 01/25/2023
+Last Updated: 02/07/2023
 Microsoft SQL Server T-SQL
 
 */----------------------------------------------------
@@ -272,7 +272,7 @@ SELECT  a.CustomerID,
         b.Cellular,
         c.Work,
         d.Home
-FROM    (SELECT DISTINCT CustomerID FROM #Phonedirectory) a LEFT OUTER JOIN
+FROM    (SELECT DISTINCT CustomerID FROM #PhoneDirectory) a LEFT OUTER JOIN
         cte_Cellular b ON a.CustomerID = b.CustomerID LEFT OUTER JOIN
         cte_Work c ON a.CustomerID = c.CustomerID LEFT OUTER JOIN
         cte_Home d ON a.CustomerID = d.CustomerID;
@@ -1047,7 +1047,7 @@ SELECT  ProductID,
         COALESCE(UnitPrice,0) AS UnitPrice
 FROM    #ValidPrices AS pp
 WHERE   NOT EXISTS (SELECT    1
-                    FROM      #Validprices AS ppl
+                    FROM      #ValidPrices AS ppl
                     WHERE     ppl.ProductID = pp.ProductID AND
                               ppl.EffectiveDate > pp.EffectiveDate);
 GO
@@ -1306,7 +1306,7 @@ GO
 WITH cte_Max AS
 (
 SELECT  OrderID, CustomerID, OrderCount, Vendor,
-        MAX(Ordercount) OVER (PARTITION BY CustomerID ORDER BY CustomerID) AS MaxOrderCount
+        MAX(OrderCount) OVER (PARTITION BY CustomerID ORDER BY CustomerID) AS MaxOrderCount
 FROM    #Orders
 )
 SELECT  CustomerID, Vendor
@@ -1645,10 +1645,10 @@ Answer to Puzzle #32
 First and Last
 */----------------------------------------------------
 
-DROP TABLE IF EXISTS #Personel;
+DROP TABLE IF EXISTS #Personal;
 GO
 
-CREATE TABLE #Personel
+CREATE TABLE #Personal
 (
 SpacemanID      INTEGER PRIMARY KEY,
 JobDescription  VARCHAR(100) NOT NULL,
@@ -1656,7 +1656,7 @@ MissionCount    INTEGER NOT NULL
 );
 GO
 
-INSERT INTO #Personel (SpacemanID, JobDescription, MissionCount) VALUES
+INSERT INTO #Personal (SpacemanID, JobDescription, MissionCount) VALUES
 (1001,'Astrogator',6),(2002,'Astrogator',12),(3003,'Astrogator',17),
 (4004,'Geologist',21),(5005,'Geologist',9),(6006,'Geologist',8),
 (7007,'Technician',13),(8008,'Technician',2),(9009,'Technician',7);
@@ -1668,16 +1668,16 @@ WITH cte_MinMax AS
 SELECT  JobDescription,
         MAX(MissionCount) AS MaxMissionCount,
         MIN(MissionCount) AS MinMissionCount
-FROM    #Personel
+FROM    #Personal
 GROUP BY JobDescription
 )
 SELECT  a.JobDescription,
         b.SpacemanID AS MostExperienced,
         c.SpacemanID AS LeastExperienced
 FROM    cte_MinMax a INNER JOIN
-        #Personel b ON a.JobDescription = b.JobDescription AND
+        #Personal b ON a.JobDescription = b.JobDescription AND
                        a.MaxMissionCount = b.MissionCount  INNER JOIN
-        #Personel c ON a.JobDescription = c.JobDescription AND
+        #Personal c ON a.JobDescription = c.JobDescription AND
                        a.MinMissionCount = c.MissionCount;
 GO
 
@@ -2249,7 +2249,7 @@ FROM    #Edges a CROSS JOIN
 ORDER BY 1,2,3;
 GO
 
---Evalues the cross join to the edges
+--Evaluates the cross join to the edges
 WITH cte_JoinLogic AS
 (
 SELECT  a.Friend1
