@@ -20,7 +20,7 @@ To get started, download the `Advanced SQL Puzzles.pdf`.
 *  Solutions are provided in the `Advanced SQL Puzzles Solutions.sql` script
 *  If you just want the `CREATE TABLE` and `INSERT` statements without the solutions, see the script `Advanced SQL Puzzles DDL.sql`.
 *  Solutions for the more advanced second set of puzzles are located in the directory `Part II`.
-*  I also keep my collection of my SQL statements using recursion in the directory `Recursion Exmaples`.  Here you can find out how to solve a Markov chain, calculate floor and ceiling caps, solve the Traveling Salesman problem, or find a solution to a Sudoku puzzle.
+*  I also keep my collection of my SQL statements using recursion in the directory `Recursion Examples`.  Here you can find out how to solve a Markov chain, calculate floor and ceiling caps, solve the Traveling Salesman problem, or find a solution to a Sudoku puzzle.
 
 
 ----------------
