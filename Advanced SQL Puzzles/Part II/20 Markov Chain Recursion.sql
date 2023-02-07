@@ -18,7 +18,7 @@ day being sunny or rainy given the current day's weather. Then it creates and po
 with a specified number of days to simulate. Using these two tables, the script generates a #RandomNumbers 
 table with a column for the current state of the weather, which is seeded as "rainy", and a column for the 
 probability of the next day's weather, which is generated randomly.  Finally, the script uses a recursive 
-CTE to generate a #ProbabilitesFinal table, which shows the weather for each day of the simulation. 
+CTE to generate a #ProbabilitiesFinal table, which shows the weather for each day of the simulation. 
 The script then displays a summary of the counts of rainy and sunny days.
 
 It is important to note that this simulation is based on random numbers and therefore the results may vary when running the script multiple times.
@@ -31,7 +31,7 @@ It is important to note that this simulation is based on random numbers and ther
 DROP TABLE IF EXISTS #Probabilities;
 DROP TABLE IF EXISTS #Numbers;
 DROP TABLE IF EXISTS #RandomNumbers;
-DROP TABLE IF EXISTS #ProbabilitesFinal;
+DROP TABLE IF EXISTS #ProbabilitiesFinal;
 GO
 
 -------------------------------
@@ -92,7 +92,7 @@ GO
 
 -------------------------------
 -------------------------------
---Insert into #ProbabilitesFinal using recursion
+--Insert into #ProbabilitiesFinal using recursion
 WITH cte_Recursion AS
 (
 SELECT  StepNumber
@@ -113,7 +113,7 @@ SELECT  StepNumber
         ,CurrentState
         ,(CASE CurrentState WHEN 1 THEN 'Rainy' WHEN 2 THEN 'Sunny' END) AS [Description]
         ,Probability
-INTO    #ProbabilitesFinal
+INTO    #ProbabilitiesFinal
 FROM    cte_Recursion
 ORDER BY StepNumber
 OPTION (MAXRECURSION 0);
@@ -124,7 +124,7 @@ GO
 --Display a summary of counts
 SELECT  [Description],
         COUNT(*) AS [Count]
-FROM    #ProbabilitesFinal
+FROM    #ProbabilitiesFinal
 GROUP BY [Description]
 ORDER BY 1;
 GO
