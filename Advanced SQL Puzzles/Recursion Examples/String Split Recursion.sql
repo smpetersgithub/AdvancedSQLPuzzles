@@ -6,7 +6,7 @@ Last Updated: 01/13/2023
 Microsoft SQL Server T-SQL
 
 This script uses recursion to split a string into rows of substrings, based on a specified separator character 
-This script provides the same functinoality of the STRING_SPLIT function.
+This script provides the same functionality of the STRING_SPLIT function.
 
 */----------------------------------------------------
 
