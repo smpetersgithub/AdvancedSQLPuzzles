@@ -37,7 +37,7 @@ OPTION (MAXRECURSION 0)--A value of 0 means no limit to the recursion level
 Here is another little trick to create a numbers table in SQL Server. This will only work in a SQL script, as the `GO` command is not a T-SQL statement.
 
 ```sql
-SET NOCOUNT OFF;
+SET NOCOUNT ON;
 DROP TABLE IF EXISTS #Numbers;
 GO
 CREATE TABLE #Numbers
@@ -47,6 +47,18 @@ GO
 
 INSERT INTO #Numbers (InsertDate) VALUES (GETDATE())
 GO 100
+```
+
+:exclamation:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;New in SQL Server 2022 is the GENERATE_SERIES function.
+
+The `GENERATE_SERIES` function produces a set-based sequence of numeric values. It supplants cumbersome numbers tables, recursive CTEs, and other on-the-fly sequence generation techniques we've all used at one point or another.
+
+The arguments are:  `GENERATE_SERIES(START = <start>, STOP = <stop> [, STEP = <step>])`
+
+Here is a an example of creating the a numbers table.
+
+```sql
+SELECT value FROM GENERATE_SERIES(START = 1, STOP = 5);
 ```
 
 From the [Microsoft documentation](https://learn.microsoft.com/en-us/sql/t-sql/language-elements/sql-server-utilities-statements-go?view=sql-server-ver16):
@@ -121,16 +133,17 @@ I recommend the following syntax to generate random integers between 1 and n.
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Also, I recommend saving your random number generator as a function and create a stored procedure to validate the randomness of the function (which can then be reused when a new user needs to ensure it is truly random). Here is a quick script that creates a 1 million random numbers and checks the count of each number and the percentage of its occurrence.
 
 ```sql
-SET NOCOUNT OFF;
+SET NOCOUNT ON;
 DROP TABLE IF EXISTS #Numbers;
 GO
+
 CREATE TABLE #Numbers
-(Number INT IDENTITY(1,1) PRIMARY KEY,
+(Number    INT IDENTITY(1,1) PRIMARY KEY,
 InsertDate DATETIME NOT NULL);
 GO
 
 INSERT INTO #Numbers (InsertDate) VALUES (GETDATE())
-GO 100000
+GO 100
 
 ;WITH cte_RandomNumber AS
 (
