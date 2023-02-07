@@ -6,7 +6,7 @@ This script compares two identical tables using `DYNAMIC SQL` and `FULL OUTER JO
 
 ## Overview
 
-The scripts `Table Validation Part 1.sql` and `Table Validation Part 2.sql` will create the following thirteen temporary tables in order to arrive at the final temporary table `#SQLStatementFinal`.  The SQL statement in the table `#SQLStatementFinal` will then be executed via `DYANMIC SQL`.  
+The scripts `Table Validation Part 1.sql` and `Table Validation Part 2.sql` will create the following thirteen temporary tables in order to arrive at the final temporary table `#SQLStatementFinal`.  The SQL statement in the table `#SQLStatementFinal` will then be executed via `DYNAMIC SQL`.  
 
 1.  `##TableInformation`   
 2.  `#Select`   
@@ -129,7 +129,7 @@ WITH CTE_SQLStatement AS (
 SELECT   'Start Compare-->' AS CompareStart 
         ,'dbo,MyTable1' AS TableName1 
         ,'dbo,MyTable2' AS TableName2 
-        ,'VDSPETERS\SQLEXPRESS' AS ServerName 
+        ,'Your Servername' AS ServerName 
         ,'CONCAT(t1.CustID, t1.Region, t1.City)' AS JoinSyntax_Table1 
         ,'CONCAT(t2.CustID, t2.Region, t2.City)' AS JoinSyntax_Table2 
         ,CASE WHEN CONCAT(t1.CustID, t1.Region, t1.City) = '' THEN 1 ELSE 0 END AS NotExists_Table1 
@@ -178,7 +178,8 @@ SELECT   'Start Compare-->' AS CompareStart
          THEN 1 ELSE 0 END AS [Compare_Summary] 
         ,* 
 INTO    ##Sales_New_TemporaryTable 
-FROM    CTE_SQLStatement; ```
+FROM    CTE_SQLStatement; 
+```
 
 --------------------------------------------------------------
 
