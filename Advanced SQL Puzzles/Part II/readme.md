@@ -134,7 +134,7 @@ I recommend the following syntax to generate random integers between 1 and n.
 
 :exclamation: Before you implement any type of random integer solution, ensure the statement returns a random number without any bias!
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;To determine if the random number generator truly is random, use the law of large numbers and generate enough numbers where the distribution should be even across all the numbers. For example, f you need to simulate dice rolls, run the random number generator 1,000 times, and ensure each value appears 1/6 of the time. If you want to measure the randomness using statistical measures, the Chi-Square test can be used to assess the goodness of fit between observed and expected values.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;To determine if the random number generator truly is random, use the law of large numbers and generate enough numbers where the distribution should be even across all the numbers. For example, if you need to simulate dice rolls, run the random number generator 1,000 times, and ensure each value appears 1/6 of the time. If you want to measure the randomness using statistical measures, the Chi-Square test can be used to assess the goodness of fit between observed and expected values.
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Also, I recommend saving your random number generator as a function and create a stored procedure to validate the randomness of the function (which can then be reused when a new user needs to ensure it is truly random). Here is a quick script that creates a 1 million random numbers and checks the count of each number and the percentage of its occurrence.
 
