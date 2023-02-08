@@ -20,12 +20,11 @@ The contents of this GitHub continue to expand, so check back often. Below are s
 *  [Databricks Hive Demo](/Database%20Tips%20and%20Tricks/Databricks%20Hive%20Demo):  Setting up Databricks to connect to an Azure Data Lake and SQL Server is no easy task, so i created an end-to-end demo showing how to set everything up.
 
 ## Conclusion
-I hope you find this repository to be useful and informative and I welcome any new puzzles or tips and tricks you may have.  I also have a Wordpress site where you can find my data analytics projects, Python puzzles, and blog.    
-
-**https://advancedsqlpuzzles.com**  
 
 :mailbox:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;If you find any inaccuracies, misspellings, bugs, dead links, etc. please report an issue!  No detail is too small, and I appreciate all the help.
 
-
-
 :smile:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Happy coding!
+
+I hope you find this repository to be useful and informative and I welcome any new puzzles or tips and tricks you may have.  I also have a Wordpress site where you can find my data analytics projects, Python puzzles, and blog.    
+
+**https://advancedsqlpuzzles.com**  
