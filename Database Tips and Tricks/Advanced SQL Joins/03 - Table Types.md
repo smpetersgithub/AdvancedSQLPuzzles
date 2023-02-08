@@ -60,7 +60,7 @@ A SQL view is a virtual table that provides a specific, customized perspective o
 In this example we create a view from the `Employees` table, insert a record into the table, and then select from the view;
 
 ```sql
-CREATE OR ALTER VIEW vwEmployees as
+CREATE OR ALTER VIEW vwEmployees AS
 (
 SELECT  EmployeeID,
         FirstName,
