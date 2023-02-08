@@ -8,8 +8,6 @@
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;As the name of the title suggests, the solutions to the puzzles **Part II: Permutations, Combinations, Sequences and Random Numbers** require the use of permutations, combinations, sequences, and random numbers to solve. The following is a brief overview of some relevant talking points concerning these topics that I want to highlight.
 
-:exclamation:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Warning, you may consider some of the discussion below to be a spoiler alert on how to best solve these puzzles.
-
 ## Creating a Simple Numbers Table
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;At the heart of these puzzles a numbers table is ultimately involved in creating the solution. Numbers tables are much like calendar tables, and can be used to fill in gaps, create ranges and tallies, provide custom sorting, and allow you to create set based solutions over iterative solutions.
