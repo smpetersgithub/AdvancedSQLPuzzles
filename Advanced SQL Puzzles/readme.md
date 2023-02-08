@@ -29,4 +29,6 @@ To get started, download the `Advanced SQL Puzzles.pdf`.
 
 :smile:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Happy coding!
 
-**https://advancedsqlpuzzles.com**  
+I hope you find this repository to be useful and informative and I welcome any new puzzles or tips and tricks you may have. I also have a Wordpress site where you can find my data analytics projects, Python puzzles, and blog.
+
+https://advancedsqlpuzzles.com
