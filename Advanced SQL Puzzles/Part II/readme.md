@@ -130,7 +130,7 @@ FROM    CalendarTable c INNER JOIN
 I recommend the following syntax to generate random integers between 1 and n.    
 `ABS(CHECKSUM(NEWID()) % n) + 1`
 
-:exclamation: Before you implement any type of random integer solution, ensure the statement returns a random number without any bias!
+:exclamation:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Before you implement any type of random integer solution, ensure the statement returns a random number without any bias!
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;To determine if the random number generator truly is random, use the law of large numbers and generate enough numbers where the distribution should be even across all the numbers. For example, if you need to simulate dice rolls, run the random number generator 1,000 times, and ensure each value appears 1/6 of the time. If you want to measure the randomness using statistical measures, the Chi-Square test can be used to assess the goodness of fit between observed and expected values.
 
