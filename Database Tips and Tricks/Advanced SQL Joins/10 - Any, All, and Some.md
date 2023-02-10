@@ -48,6 +48,13 @@ I have found understanding these 9 operations will easily allow you to understan
 #### PART 1
 **= ALL (Equal To ALL)**
 
+```sql
+--TRUE
+IF 3 = ALL (SELECT ID FROM (VALUES(3),(3),(3),(3)) AS a(ID))
+PRINT 'TRUE'
+ELSE  
+PRINT 'FALSE';
+```
 
 ```sql
 --FALSE
@@ -57,16 +64,7 @@ ELSE
 PRINT 'FALSE';
 ```
 
-
-```sql
---TRUE
-IF 3 = ALL (SELECT ID FROM (VALUES(3),(3),(3),(3)) AS a(ID))
-PRINT 'TRUE'
-ELSE  
-PRINT 'FALSE';
-```
-
-Equivalent statement below.
+Equivalent **TRUE** statement below.
 
 ```sql
 --TRUE
@@ -84,14 +82,6 @@ PRINT 'FALSE';
 **<> ALL (Not Equal To ALL)**
 
 ```sql
---FALSE
-IF 3 <> ALL (SELECT ID FROM (VALUES(1),(2),(3),(4)) AS a(ID))
-PRINT 'TRUE'
-ELSE  
-PRINT 'FALSE';
-```
-
-```sql
 --TRUE
 IF 5 <> ALL (SELECT ID FROM (VALUES(1),(2),(3),(4)) AS a(ID))
 PRINT 'TRUE'
@@ -99,11 +89,19 @@ ELSE
 PRINT 'FALSE';
 ```
 
-Equivalent statement below.
-
 ```sql
 --FALSE
-IF 3 NOT IN (SELECT ID FROM (VALUES(1),(2),(3),(4)) AS a(ID))
+IF 3 <> ALL (SELECT ID FROM (VALUES(1),(2),(3),(4)) AS a(ID))
+PRINT 'TRUE'
+ELSE  
+PRINT 'FALSE';
+```
+
+Equivalent **TRUE** statement below.
+
+```sql
+--TRUE
+IF 5 NOT IN (SELECT ID FROM (VALUES(1),(2),(3),(4)) AS a(ID))
 PRINT 'TRUE'
 ELSE  
 PRINT 'FALSE';
@@ -114,14 +112,15 @@ PRINT 'FALSE';
 #### PART 3
 **> ALL (Greater Than ALL)**
 
+
 ```sql
---FALSE
-IF 3 > ALL (SELECT ID FROM (VALUES(1),(2),(3),(4)) AS a(ID))
+--TRUE
+IF 5 > ALL (SELECT ID FROM (VALUES(1),(2),(3),(4)) AS a(ID))
 PRINT 'TRUE'
 ELSE  
 PRINT 'FALSE' ;
 ```
-Equivalent statement below.
+Equivalent **TRUE** statement below.
 
 ```sql
 --TRUE
@@ -137,6 +136,14 @@ PRINT 'FALSE';
 **< ALL (Less Than ALL)**
 
 ```sql
+--TRUE
+IF 1 < ALL (SELECT ID FROM (VALUES(2),(3),(4)) AS a(ID))
+PRINT 'TRUE'
+ELSE  
+PRINT 'FALSE';
+```
+
+```sql
 --FALSE
 IF 3 < ALL (SELECT ID FROM (VALUES(1),(2),(3),(4)) AS a(ID))
 PRINT 'TRUE'
@@ -144,11 +151,11 @@ ELSE
 PRINT 'FALSE';
 ```
 
-Equivalent statement below.
+Equivalent **TRUE** statement below.
 
 ```sql
 --TRUE
-IF 1 < (SELECT MIN(ID) FROM (VALUES(1),(2),(3),(4)) AS a(ID))
+IF 1 < (SELECT MIN(ID) FROM (VALUES(2),(3),(4)) AS a(ID))
 PRINT 'TRUE'
 ELSE  
 PRINT 'FALSE';
@@ -167,7 +174,7 @@ ELSE
 PRINT 'FALSE';
 ```
 
-Equivalent statement below.
+Equivalent **TRUE** statement below.
 
 ```sql
 --TRUE
@@ -200,7 +207,7 @@ ELSE
 PRINT 'FALSE';
 ```
 
-Equivalent statements below.
+Equivalent **TRUE** statements below.
 
 ```sql
 --TRUE
@@ -247,7 +254,7 @@ ELSE
 PRINT 'FALSE';
 ```
 
-Equivalent statement below.
+Equivalent **TRUE** statement below.
 
 ```sql
 --TRUE
@@ -270,7 +277,7 @@ ELSE
 PRINT 'FALSE';
 ```
 
-Equivalent statement below.
+Equivalent **TRUE** statement below.
 
 ```sql
 --TRUE
@@ -287,8 +294,6 @@ PRINT 'FALSE';
 
 ```sql
 --TRUE
---9 is greater than the MIN value in the comparison set AND
---9 is less than the MAX value in the comparison set
 IF 9 >= ANY (SELECT ID FROM (VALUES(1),(2),(3),(10)) AS a(ID)) 
    AND
    9 <= ANY (SELECT ID FROM (VALUES(1),(2),(3),(10)) AS a(ID))
@@ -297,7 +302,7 @@ ELSE
 PRINT 'FALSE';
 ```
 
-Equivalent statement below.
+Equivalent **TRUE** statement below.
 
 ```sql
 --TRUE
