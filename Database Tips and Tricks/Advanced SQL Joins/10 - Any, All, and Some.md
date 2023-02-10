@@ -45,7 +45,7 @@ I have found understanding these 9 operations will easily allow you to understan
 
 ---------------------------------------------------------------
 
-#### PART 1
+### PART 1
 **= ALL (Equal To ALL)**
 
 ```sql
@@ -78,7 +78,7 @@ PRINT 'FALSE';
 
 ---------------------------------------------------------------
 
-#### PART 2
+### PART 2
 **<> ALL (Not Equal To ALL)**
 
 ```sql
@@ -109,7 +109,7 @@ PRINT 'FALSE';
 
 ---------------------------------------------------------------
 
-#### PART 3
+### PART 3
 **> ALL (Greater Than ALL)**
 
 
@@ -132,7 +132,7 @@ PRINT 'FALSE';
 
 ---------------------------------------------------------------
 
-#### PART 4
+### PART 4
 **< ALL (Less Than ALL)**
 
 ```sql
@@ -163,7 +163,7 @@ PRINT 'FALSE';
 
 ---------------------------------------------------------------
 
-#### PART 5
+### PART 5
 **= ANY (Equal To ANY)**
 
 ```sql
@@ -186,7 +186,7 @@ PRINT 'FALSE';
 
 ---------------------------------------------------------------
 
-#### PART 6
+### PART 6
 **<> ANY (Not Equal To ANY)**    
 Note this has several equivalent statements
 
@@ -243,7 +243,7 @@ PRINT 'FALSE';
 
 ---------------------------------------------------------------
 
-#### PART 7
+### PART 7
 **> ANY (Greater Than ANY)**
 
 ```sql
@@ -266,7 +266,7 @@ PRINT 'FALSE';
 
 ---------------------------------------------------------------
 
-#### PART 8
+### PART 8
 **< ANY (Less Than ANY)**
 
 ```sql
@@ -289,7 +289,7 @@ PRINT 'FALSE';
 
 ---------------------------------------------------------------
 
-#### PART 9
+### PART 9
 **>= ANY AND <= ANY (Greater Than Or Equal To ANY AND Less Than Or Equal To ANY)**
 
 ```sql
