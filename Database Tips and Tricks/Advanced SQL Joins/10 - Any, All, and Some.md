@@ -42,6 +42,7 @@ I have found understanding these 9 operations will easily allow you to understan
 |  8 | < ANY             |  < MAX                                                      |
 |  9 | >= ANY AND <= ANY |  BETWEEN and the MIN/MAX functions                          |
 
+
 ---------------------------------------------------------------
 
 #### PART 1
@@ -124,7 +125,6 @@ Equivalent statement below.
 
 ```sql
 --TRUE
-
 IF 5 > (SELECT MAX(ID) FROM (VALUES(1),(2),(3),(4)) AS a(ID))
 PRINT 'TRUE'
 ELSE  
