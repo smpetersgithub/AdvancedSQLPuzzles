@@ -25,7 +25,7 @@ Hi, I'm Scott Peters, an experienced SQL developer based in Austin, Texas. With 
 
 My strengths lie in my ability to think in a set-based manner, grasp the relational model, and tackle complex data puzzles. I'm also skilled in technical writing, which has allowed me to effectively document my work.   
 
-II am always eager to collaborate with fellow SQL developers. If you would like to connect, feel free to drop me a line!
+I am always eager to collaborate with fellow SQL developers. If you would like to connect, feel free to drop me a line!
 
 ## Conclusion
 
