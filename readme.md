@@ -19,6 +19,14 @@ The contents of this GitHub continue to expand, so check back often. Below are s
 *  [Behavior of Nulls](/Database%20Tips%20and%20Tricks/Behavior%20Of%20Nulls):  NULL markers are the bane of every developer, so I compiled a list of all the different SQL constructs and how they handle NULL markers.    
 *  [Databricks Hive Demo](/Database%20Tips%20and%20Tricks/Databricks%20Hive%20Demo):  Setting up Databricks to connect to an Azure Data Lake and SQL Server is no easy task, so i created an end-to-end demo showing how to set everything up.
 
+## About Me
+
+Hi, I'm Scott Peters, an experienced SQL developer based in Austin, Texas. With over two decades of experience in the field, I've honed my skills in designing, developing, and maintaining complex databases, with a focus on the financial industry.   
+
+My strengths lie in my ability to think in a set-based manner, grasp the relational model, and tackle complex data puzzles. I'm also skilled in technical writing, which has allowed me to effectively document my work.   
+
+II am always eager to collaborate with fellow SQL developers. If you would like to connect, feel free to drop me a line!
+
 ## Conclusion
 
 :mailbox:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;If you find any inaccuracies, misspellings, bugs, dead links, etc. please report an issue!  No detail is too small, and I appreciate all the help.
