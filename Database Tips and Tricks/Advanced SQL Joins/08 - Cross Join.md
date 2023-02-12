@@ -155,8 +155,8 @@ If you need to find reciprocals on a result set and preserve NULL markers, you c
                          
 ```sql
 SELECT  DISTINCT
-        (CASE WHEN a.Fruit < b.Fruit THEN a.Fruit else b.Fruit END) AS Fruit,
-        (CASE WHEN a.Fruit < b.Fruit THEN b.Fruit else a.Fruit END) AS Fruit
+        (CASE WHEN a.Fruit < b.Fruit THEN a.Fruit ELSE b.Fruit END) AS Fruit,
+        (CASE WHEN a.Fruit < b.Fruit THEN b.Fruit ELSE a.Fruit END) AS Fruit
 FROM    ##TableA a CROSS JOIN
         ##TableB b
 WHERE   a.Fruit <> b.Fruit OR a.Fruit IS NULL OR b.Fruit IS NULL;
