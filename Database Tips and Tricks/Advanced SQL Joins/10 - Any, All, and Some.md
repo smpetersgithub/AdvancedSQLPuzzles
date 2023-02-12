@@ -512,6 +512,65 @@ ORDER BY SalesRepID;
 GO
 ```
 
+-----
+
+### Example 2: Use Cases for = ALL
+
+The task is to identify all Order Numbers that are linked to a single Item and have a "PROMO" discount value. If an Order Number is associated with multiple Items, it should not be included in the result.
+
+For example, Order Number 33 meets these criteria because it has a connection to one Item and all the products linked to it have a discount value of "PROMO." On the other hand, Order Number 11 does not meet the criteria as it is linked to two different Items.
+
+
+| OrderNumber | Product  | Discount |
+|-------------|----------|----------|
+|    11       | Item1    | PROMO    |
+|    11       | Item1    | PROMO    |
+|    11       | Item1    | MARKDOWN |
+|    11       | Item2    | PROMO    |
+|    22       | Item2    | <null>   |
+|    22       | Item3    | MARKDOWN |
+|    22       | Item3    | <null>   |
+|    33       | Item1    | PROMO    |
+|    33       | Item1    | PROMO    |
+|    33       | Item1    | PROMO    |
+
+```sql
+DROP TABLE IF EXISTS ##OrderItem;
+GO
+
+CREATE TABLE ##OrderItem (
+OrderNumber INT NOT NULL,
+Item       VARCHAR(255) NOT NULL,
+Discount   VARCHAR(255)
+);
+GO
+
+INSERT INTO ##OrderItem (OrderNumber, Item, Discount)
+VALUES (11, 'Item1', 'PROMO'),
+       (11, 'Item1', 'PROMO'),
+       (11, 'Item1', 'MARKDOWN'),
+       (11, 'Item2', 'PROMO'),
+       (22, 'Item2', NULL),
+       (22, 'Item3', 'MARKDOWN'),
+       (22, 'Item3', NULL),
+       (33, 'Item1', 'PROMO'),
+       (33, 'Item1', 'PROMO'),
+       (33, 'Item1', 'PROMO');
+GO
+
+SELECT OrderNumber
+FROM   ##OrderItem
+WHERE  Discount = ALL (SELECT 'PROMO')
+GROUP BY OrderNumber
+HAVING COUNT(DISTINCT Item) = 1;
+GO
+```
+
+| OrderNumber |
+|-------------|
+|    3        |
+
+       
 ---------------------------------------------------------
 
 1. [Introduction](01%20-%20Introduction.md)
