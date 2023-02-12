@@ -91,8 +91,8 @@ SELECT a.ID,
        a.Fruit,
        b.ID,
        b.Fruit
-FROM   TableA a CROSS JOIN
-       TableB b on 1=1
+FROM   ##TableA a CROSS JOIN
+       ##TableB b on 1=1
 WHERE  a.Fruit = b.Fruit;
 ```
 
@@ -189,8 +189,8 @@ SELECT  a.ID,
         a.Fruit,
         b.ID,
         b.Fruit
-FROM    TableA a INNER JOIN
-        TableB b ON a.Fruit = b.Fruit AND NOT(a.ID BETWEEN a.Quantity AND b.Quantity);
+FROM    ##TableA a INNER JOIN
+        ##TableB b ON a.Fruit = b.Fruit AND NOT(a.ID BETWEEN a.Quantity AND b.Quantity);
 ```
 
 | ID | Fruit  | Quantity | ID | Fruit  | Quantity |
