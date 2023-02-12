@@ -6,6 +6,9 @@ This repository contains a collection of my SQL puzzles, tips and tricks, demos,
 
 :star:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Please consider giving a star to this repository if you find its contents informative!
 
+:question:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;If you have any questions, please feel free to create a GitHub discussion.  I am always happy to help out and explain different solutions.
+
+
 ## Getting Started
 
 To get started, clone or download the repository to your local machine.  I have included readme files for each directory that describes its contents.  If anything is unclear, please contact me and I would be happy to assist.
