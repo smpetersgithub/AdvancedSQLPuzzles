@@ -146,7 +146,7 @@ SELECT  a.EmployeeID AS EmployeeID_A,
         COUNT(*) OVER (PARTITION BY a.EmployeeID, b.EmployeeID) AS CountWindow
 FROM    #Employees a CROSS JOIN
         #Employees b
-WHERE   a.EmployeeID <> b.EmployeeID and a.License = b.License
+WHERE   a.EmployeeID <> b.EmployeeID AND a.License = b.License
 )
 SELECT  DISTINCT
         a.EmployeeID_A,
@@ -218,7 +218,7 @@ FROM    #DepartmentHistory
 )
 SELECT  *
 FROM    cte_EmployeeDepartmentCount
-WHERE   DepartmentCount IN (SELECT DepartmentCount from cte_DistinctDepartments);
+WHERE   DepartmentCount IN (SELECT DepartmentCount FROM cte_DistinctDepartments);
 ```
 
 | Name  | DepartmentCount |
