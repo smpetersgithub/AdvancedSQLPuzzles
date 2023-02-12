@@ -55,9 +55,9 @@ This statement will return TRUE when we supply a NULL value.  Even though we sup
 
 ```sql
 IF EXISTS (SELECT NULL)
-PRINT 'True'
+PRINT 'TRUE'
 ELSE
-PRINT 'False'
+PRINT 'FALSE'
 ```
 
 
