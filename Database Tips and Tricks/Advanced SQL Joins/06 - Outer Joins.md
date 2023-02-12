@@ -161,8 +161,8 @@ SELECT  a.ID,
                     (SELECT MAX(c.ID)
                     FROM ##TableA c
                     WHERE c.ID <= a.ID AND c.Fruit != '')) Fruit,
-       a.Quantity
-FROM ##TableA a;
+        a.Quantity
+FROM    ##TableA a;
 ```
 
 | ID | Fruit | Quantity |
