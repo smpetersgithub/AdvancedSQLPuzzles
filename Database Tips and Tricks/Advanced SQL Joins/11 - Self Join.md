@@ -48,7 +48,7 @@ SELECT  EmployeeID,
         Title,
         ManagerID,
         0 AS Depth
-FROM    #Employees
+FROM    Employees
 WHERE   ManagerID IS NULL
 UNION ALL
 SELECT  b.EmployeeID,
@@ -122,7 +122,7 @@ HAVING  COUNT(City) > 1
 )
 SELECT  a.*
 FROM    cte_CountCity a INNER JOIN
-        Customer b on a.ID = b.ID;  
+        Customer b ON a.ID = b.ID;  
 ```
 
  ----------------------------------------------------
