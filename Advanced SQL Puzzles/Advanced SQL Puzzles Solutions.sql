@@ -2,10 +2,13 @@
 Scott Peters
 Solutions for Advanced SQL Puzzles
 https://advancedsqlpuzzles.com
-Last Updated: 02/07/2023
+Last Updated: 02/12/2023
 Microsoft SQL Server T-SQL
 
 */----------------------------------------------------
+
+SET NOCOUNT ON;
+GO
 
 /*----------------------------------------------------
 Answer to Puzzle #1
@@ -841,6 +844,7 @@ De-Grouping
 */----------------------------------------------------
 
 DROP TABLE IF EXISTS #Ungroup;
+DROP TABLE IF EXISTS #Numbers;
 GO
 
 CREATE TABLE #Ungroup
@@ -879,7 +883,7 @@ WITH cte_Recursion AS
     FROM    #Ungroup
     UNION ALL
     SELECT  ProductDescription,Quantity-1 
-    FROM    Recursion
+    FROM    cte_Recursion
     WHERE   Quantity >= 2
     )
 SELECT  ProductDescription,1 AS Quantity
@@ -1842,25 +1846,25 @@ GO
 
 --Solution 1 
 --NOT
-SELECT  OrderID,
-        CustomerID,
+SELECT  InvoiceID,
+        SalesRepID,
         Amount
 FROM    #Orders
-WHERE   NOT(CustomerID = 1001 AND Amount = 50);
+WHERE   NOT(SalesRepID = 1001 AND Amount = 50);
 GO
 
 --Solution 2
 --EXCEPT
-SELECT  OrderID,
-        CustomerID,
+SELECT  InvoiceID,
+        SalesRepID,
         Amount
 FROM    #Orders
 EXCEPT
-SELECT  OrderID,
-        CustomerID,
+SELECT  InvoiceID,
+        SalesRepID,
         Amount
 FROM    #Orders
-WHERE   CustomerID = 1001 AND Amount = 50;
+WHERE   SalesRepID = 1001 AND Amount = 50;
 
 /*----------------------------------------------------
 Answer to Puzzle #36
