@@ -82,6 +82,8 @@ WHERE   a.Fruit = b.Fruit;
 |  2 | Peach |  2 | Peach |
 
 
+---------------------------------------------------------------------------------
+  
 In `MySQL` the following SQL statement will work and mimic an `INNER JOIN`.   This SQL statement has an ON clause of 1=1 and a `WHERE` clause specifying the join criteria.  If you remove the `WHERE` clause, this statement will work in both `MySQL` and `SQLite` to return a full cartesian product.
 
 ```sql
@@ -164,7 +166,7 @@ FROM    ##TableA a INNER JOIN
   
 Here are some other examples of `INNER JOINS` using theta-joins.
 
-This query looks for all values where the quantity in Table A is greater than or equal to a quantity in the corresponding `TableB`.
+This query looks for all values where the quantity in `TableA` is greater than or equal to a quantity in the corresponding `TableB`.
 
 ```sql
 SELECT  *
