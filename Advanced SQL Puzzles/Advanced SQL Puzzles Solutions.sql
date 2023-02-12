@@ -854,19 +854,12 @@ INSERT INTO #Ungroup (ProductDescription, Quantity) VALUES
 ('Pencil',3),('Eraser',4),('Notebook',2);
 GO
 
+--Solution 1
 --Numbers Table
-DROP TABLE IF EXISTS #Numbers;
+SELECT IntegerValue
+INTO   #Numbers
+FROM   (VALUES(1),(2),(3),(4)) a(IntegerValue) 
 GO
-
-CREATE TABLE #Numbers
-(
-IntegerValue    INTEGER IDENTITY(1,1) PRIMARY KEY,
-RowID           UNIQUEIDENTIFIER
-);
-GO
-
-INSERT INTO #Numbers VALUES (NEWID());
-GO 1000
 
 ALTER TABLE #Ungroup ADD FOREIGN KEY (Quantity) REFERENCES #Numbers(IntegerValue);
 GO
@@ -875,7 +868,23 @@ SELECT  a.ProductDescription,
         1 AS Quantity
 FROM    #Ungroup a CROSS JOIN
         #Numbers b
-WHERE   a.Quantity >= b. IntegerValue;
+WHERE   a.Quantity >= b.IntegerValue;
+GO
+
+--Solution 2
+--Recursion
+WITH cte_Recursion AS
+    (
+    SELECT  ProductDescription,Quantity 
+    FROM    #Ungroup
+    UNION ALL
+    SELECT  ProductDescription,Quantity-1 
+    FROM    Recursion
+    WHERE   Quantity >= 2
+    )
+SELECT  ProductDescription,1 AS Quantity
+FROM   cte_Recursion
+ORDER BY ProductDescription DESC;
 GO
 
 /*----------------------------------------------------
