@@ -208,7 +208,7 @@ SELECT * from ##TableB
 ### Join Syntax
 🔵&nbsp;&nbsp;&nbsp;[Table Of Contents](#table-of-contents)
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The standard ANSI:SQL joins are `INNER`, `LEFT OUTER JOIN`, `RIGHT OUTER JOIN`, `FULL OUTER JOIN`, and `CROSS JOIN`.  For NULL markers, all 5 of these joins treat the NULL marker as **UNKOWN**.  For this reason I do not demonstrate each of these joins, but only the relevant joins needed to understand the behavior of NULL markers.  Also, I include some alternative methods for joining if you need to treat NULLS as equals, these methods use the `ISNULL`, `ON EXISTS`, and the `IS [NOT] DISTINCT FROM` clauses.  See my documentation **Advanced SQL Joins** for more examples of these clauses.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The standard ANSI:SQL joins are `INNER`, `LEFT OUTER JOIN`, `RIGHT OUTER JOIN`, `FULL OUTER JOIN`, and `CROSS JOIN`.  For NULL markers, all 5 of these joins treat the NULL marker as **UNKOWN**.  For this reason I do not demonstrate each of these joins, but only the relevant joins needed to understand the behavior of NULL markers.  Also, I include some alternative methods for joining if you need to treat NULL markers as equals, these methods use the `ISNULL`, `ON EXISTS`, and the `IS [NOT] DISTINCT FROM` clauses.  See my documentation **Advanced SQL Joins** for more examples of these clauses.
 
 ---------------------------------------------------------
 **INNER JOIN**
@@ -242,7 +242,7 @@ FROM    ##TableA a INNER JOIN
 ---------------------------------------------------
 **FULL OUTER JOIN**
         
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The `FULL OUTER JOIN` will give an illusion that is matches on the NULL markers but looking closely at the number of NULL markers returned vs the number of NULL markers in our sample data, we can determine this is indeed not true.  Also, the below query demonstrates the `ORDER BY` sorts NULLS in ascending order.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The `FULL OUTER JOIN` will give an illusion that is matches on the NULL markers but looking closely at the number of NULL markers returned vs the number of NULL markers in our sample data, we can determine this is indeed not true.  Also, the below query demonstrates the `ORDER BY` sorts NULL markers in ascending order.
 
 ```sql
 SELECT  a.ID,
@@ -267,11 +267,11 @@ ORDER BY 1,2;
 
 
 ---------------------------------------------------------
-**Other Methods For Returning NULLS**
+**Other Methods For Returning NULL Markers**
         
 There are a few methods for returning NULL markers in a join, as shown below.
 
-1.  The first method uses the `ISNULL` function and sets the NULLS to an empty string.
+1.  The first method uses the `ISNULL` function and sets the NULL markers to an empty string.
 2.  The second method uses the `ON EXISTS` clause.  `ON EXISTS` is only available in SQL Server and PostgreSQL.
 3.  New to SQL Server 2022, the third method uses the `IS [NOT] DISTINCT FROM` clause.
 
