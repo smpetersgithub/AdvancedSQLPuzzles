@@ -612,9 +612,9 @@ GO
 
 CREATE TABLE #ProcessLog
 (
-WorkFlow       VARCHAR(100),
+Workflow       VARCHAR(100),
 ExecutionDate  DATE,
-PRIMARY KEY (WorkFlow, ExecutionDate)
+PRIMARY KEY (Workflow, ExecutionDate)
 );
 GO
 
@@ -626,12 +626,12 @@ GO
 
 WITH cte_DayDiff AS
 (
-SELECT  WorkFlow,
+SELECT  Workflow,
         (DATEDIFF(DD,LAG(ExecutionDate,1,NULL) OVER
-                (PARTITION BY WorkFlow ORDER BY ExecutionDate),ExecutionDate)) AS DateDifference
+                (PARTITION BY Workflow ORDER BY ExecutionDate),ExecutionDate)) AS DateDifference
 FROM    #ProcessLog
 )
-SELECT  WorkFlow,
+SELECT  Workflow,
         AVG(DateDifference)
 FROM    cte_DayDiff
 WHERE   DateDifference IS NOT NULL
@@ -2391,7 +2391,7 @@ PRIMARY KEY (CustomerID, StartDate)
 );
 GO
 
-INSERT INTO #Balances (CustomerID, StartDAte, EndDate, Amount) VALUES
+INSERT INTO #Balances (CustomerID, StartDate, EndDate, Amount) VALUES
 (1001,'10/11/2021','12/31/9999',54.32),
 (1001,'10/10/2021','10/10/2021',17.65),
 (1001,'9/18/2021','10/12/2021',65.56),
@@ -2402,12 +2402,12 @@ GO
 
 WITH cte_Lag AS
 (
-SELECT  CustomerID, StartDAte, EndDate, Amount,
+SELECT  CustomerID, StartDate, EndDate, Amount,
         LAG(StartDate) OVER 
             (PARTITION BY CustomerID ORDER BY StartDate DESC) AS StartDate_Lag
 FROM    #Balances
 )
-SELECT  CustomerID, StartDAte, EndDate, Amount, StartDate_Lag
+SELECT  CustomerID, StartDate, EndDate, Amount, StartDate_Lag
 FROM    cte_Lag
 WHERE   EndDate >= StartDate_Lag
 ORDER BY CustomerID, StartDate DESC;
@@ -2500,7 +2500,7 @@ PRIMARY KEY (ScheduleID, ActivityName, StartTime, EndTime)
 );
 GO
 
-INSERT INTO #Schedule (ScheduleID, StartTIme, EndTime) VALUES
+INSERT INTO #Schedule (ScheduleID, StartTime, EndTime) VALUES
 ('A',CAST('2021-10-01 10:00:00' AS DATETIME),CAST('2021-10-01 15:00:00' AS DATETIME)),
 ('B',CAST('2021-10-01 10:15:00' AS DATETIME),CAST('2021-10-01 12:15:00' AS DATETIME));
 GO
@@ -2530,10 +2530,10 @@ SELECT  a.ScheduleID
         ,COALESCE(b.ActivityName, c.ActivityName, 'Work') AS ActivityName
 INTO    #ActivityCoalesce
 FROM    #ScheduleTimes a LEFT OUTER JOIN
-        #Activity b ON a.ScheduleTime = b.StartTime and a.ScheduleId = b.ScheduleID LEFT OUTER JOIN
-        #Activity c ON a.ScheduleTime = c.EndTime  and a.ScheduleId = b.ScheduleID LEFT OUTER JOIN
-        #Schedule d ON a.ScheduleTime = d.StartTime  and a.ScheduleId = b.ScheduleID LEFT OUTER JOIN
-        #Schedule e ON a.ScheduleTime = e.EndTime  and a.ScheduleId = b.ScheduleID 
+        #Activity b ON a.ScheduleTime = b.StartTime AND a.ScheduleId = b.ScheduleID LEFT OUTER JOIN
+        #Activity c ON a.ScheduleTime = c.EndTime AND a.ScheduleId = b.ScheduleID LEFT OUTER JOIN
+        #Schedule d ON a.ScheduleTime = d.StartTime AND a.ScheduleId = b.ScheduleID LEFT OUTER JOIN
+        #Schedule e ON a.ScheduleTime = e.EndTime AND a.ScheduleId = b.ScheduleID 
 ORDER BY a.ScheduleID, a.ScheduleTime;
 GO
 
