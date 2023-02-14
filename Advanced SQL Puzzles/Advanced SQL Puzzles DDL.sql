@@ -2,7 +2,7 @@
 Scott Peters
 DDL for Advanced SQL Puzzles
 https://advancedsqlpuzzles.com
-Last Updated 02/07/2023
+Last Updated 02/14/2023
 Microsoft SQL Server T-SQL
 
 */----------------------------------------------------
