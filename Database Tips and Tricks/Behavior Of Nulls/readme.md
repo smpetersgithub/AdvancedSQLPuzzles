@@ -74,11 +74,14 @@ The following truth tables display how the three-valued logic is applied.
 A good example of the complexity is shown below in the following examples.  [De Morgan's Law](https://en.wikipedia.org/wiki/De_Morgan%27s_laws) is also included below as I show both version of negation.
 
 ```sql
-SELECT 1 WHERE ((1=1) OR (NULL=1)) --TRUE OR UNKNOWN = TRUE
-UNION
-SELECT 2 WHERE NOT((1=2) OR (NULL=1)) --FALSE OR UNKNOWN = UNKNOWN
-UNION
-SELECT 3 WHERE NOT(1=2) AND NOT(NULL=1); --FALSE OR UNKNOWN = UNKNOWN
+--TRUE OR UNKNOWN = TRUE
+SELECT 1 WHERE ((1=1) OR (NULL=1))
+
+--NOT(FALSE OR UNKNOWN) = UNKNOWN
+SELECT 2 WHERE NOT((1=2) OR (NULL=1))
+
+--NOT(FALSE) AND NOT(UNKNOWN) = UNKNOWN
+SELECT 3 WHERE NOT(1=2) AND NOT(NULL=1);
 ```
 
 ---------------------------------------------------------
