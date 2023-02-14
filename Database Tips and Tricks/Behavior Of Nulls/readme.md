@@ -210,7 +210,7 @@ SELECT * from ##TableB
 ---------------------------------------------------------
 **INNER JOIN**
            
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;NULL markers are neither equal to nor not equal to each other.  They are treated as **UNKNOWN**.  This is best demonstrated by the below `INNER JOIN` statement, where NULL markers are not present in the result set.  Note here we are looking for both equality and inequality on the Fruit column (and a `DISTINCT` is applied as well).
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;NULL markers are neither equal to nor not equal to each other.  They are treated as **UNKNOWN**.  This is best demonstrated by the below `INNER JOIN` statement, where NULL markers are not present in the result set.  Note here we are looking for both equality and inequality on the `Fruit` column (and a `DISTINCT` is applied as well).
 
 ```sql
 SELECT  a.ID,
@@ -266,7 +266,7 @@ ORDER BY 1,2;
 ---------------------------------------------------------
 **Other Methods For Returning NULLS**
         
-There are a few methods for returning NULL values in a join, as shown below.
+There are a few methods for returning NULL markers in a join, as shown below.
 
 1.  The first method uses the `ISNULL` function and sets the NULLS to an empty string.
 2.  The second method uses the `ON EXISTS` clause.  `ON EXISTS` is only available in SQL Server and PostgreSQL.
@@ -744,7 +744,7 @@ The major differences between `COALESCE` and `ISNULL` from the documentation are
 
 ---------------------------------------------------------
 **COALESCE**
-*  The `COALESCE` function returns the first non-NULL value among its arguments.  If all values are NULL, `COALESCE` returns a NULL marker.        
+*  The `COALESCE` function returns the first non-NULL marker among its arguments.  If all values are NULL, `COALESCE` returns a NULL marker.        
 *  The basic usage of the function is `COALESCE(expression [ ,…n ])`       
 
 ---------------------------------------------------------
@@ -958,7 +958,7 @@ WHERE   NOT(FRUIT = 'Mango');
         
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The `RETURN` statement exists unconditionally from a query or procedure.  All stored procedures return a value of 0 for a successful execution, and a nonzero value for a failure.  When the `RETURN` statement is used with a stored procedure, it cannot return a NULL marker.  If a procedure tries to return a NULL marker in the `RETURN` statement, a warning message is generated and a value of 0 is returned.
 
-Here we will create a stored procedure that overrides the default `RETURN` value and attempt to return a NULL value.
+Here we will create a stored procedure that overrides the default `RETURN` value and attempt to return a NULL marker.
 
 ```sql
 CREATE OR ALTER PROCEDURE SpReturnStatement
