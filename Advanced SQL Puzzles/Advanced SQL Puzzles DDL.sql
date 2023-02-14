@@ -281,7 +281,7 @@ PRIMARY KEY (WorkFlow, ExecutionDate)
 );
 GO
 
-INSERT INTO #ProcessLog (Workflow, ExecutionDate) VALUES
+INSERT INTO #ProcessLog (WorkFlow, ExecutionDate) VALUES
 ('Alpha','6/01/2018'),('Alpha','6/14/2018'),('Alpha','6/15/2018'),
 ('Bravo','6/1/2018'),('Bravo','6/2/2018'),('Bravo','6/19/2018'),
 ('Charlie','6/1/2018'),('Charlie','6/15/2018'),('Charlie','6/30/2018');
@@ -331,7 +331,7 @@ INSERT INTO #ProcessLog (Workflow, StepNumber, RunStatus) VALUES
 ('Delta',1,'Error'),('Delta',2,'Error'),
 ('Echo',1,'Running'),('Echo',2,'Complete');
 GO
-/
+
 *----------------------------------------------------
 DDL for Puzzle #15
 Group Concatenation
@@ -1073,7 +1073,7 @@ PRIMARY KEY (CustomerID, StartDate)
 );
 GO
 
-INSERT INTO #Balances (CustomerID, StartDAte, EndDate, Amount) VALUES
+INSERT INTO #Balances (CustomerID, StartDate, EndDate, Amount) VALUES
 (1001,'10/11/2021','12/31/9999',54.32),
 (1001,'10/10/2021','10/10/2021',17.65),
 (1001,'9/18/2021','10/12/2021',65.56),
@@ -1116,7 +1116,7 @@ GO
 
 CREATE TABLE #Schedule
 (
-ScheduleId  CHAR(1) PRIMARY KEY,
+ScheduleID  CHAR(1) PRIMARY KEY,
 StartTime   DATETIME NOT NULL,
 EndTime     DATETIME NOT NULL
 );
@@ -1132,7 +1132,7 @@ PRIMARY KEY (ScheduleID, ActivityName, StartTime, EndTime)
 );
 GO
 
-INSERT INTO #Schedule (ScheduleID, StartTIme, EndTime) VALUES
+INSERT INTO #Schedule (ScheduleID, StartTime, EndTime) VALUES
 ('A',CAST('2021-10-01 10:00:00' AS DATETIME),CAST('2021-10-01 15:00:00' AS DATETIME)),
 ('B',CAST('2021-10-01 10:15:00' AS DATETIME),CAST('2021-10-01 12:15:00' AS DATETIME));
 GO
