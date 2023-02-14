@@ -853,8 +853,7 @@ SELECT v1.A, v2.B, v2.C, v2.D
 FROM   cte_Values v1 INNER JOIN 
        cte_Values v2 ON CONCAT(v1.A, v1.B) = CONCAT(v2.C,v2.D);
 ```
-
-For these results I state NULL and Empty String were relevant.  In query editors NULLS and empty strings will appear different (by default, SSMS shows yellow for NULLS and a blank for empty strings).
+In query editors NULLS and empty strings will appear different (by default, SSMS shows yellow for NULLS and a blank for empty strings).
 
 |  A     |  B     |       C         |      D         |
 |--------|--------|-----------------|----------------|
