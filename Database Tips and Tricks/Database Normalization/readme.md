@@ -52,5 +52,8 @@ I have added the last three lines to force the table into 2NF.
 |  7 | Springfield Dirty Birdie Mini Gulf Invitational | 2000 | Buzz Lightyear | 24 January 1943   |
 |  8 | Springfield Dirty Birdie Mini Gulf Invitational | 2001 | Chip Masterson | 14 March 1977     |
 
+It has the Candidate Keys of:
+{ID} and {Tournament,Year}
 
-
+It has the SuperKeys of: 
+{ID},{Tournament,Year},{DOB,Tournament,Winner,Year},{DOB,Tournament,Year},{Tournament,Winner,Year},{ID,Tournament},{ID,Tournament,Winner},{ID,Tournament,Winner,Year},{ID,Tournament,Year},{ID,Winner},{ID,Winner,Year},{ID,Year},{DOB,ID},{DOB,ID,Tournament},{DOB,ID,Tournament,Winner},{DOB,ID,Tournament,Winner,Year},{DOB,ID,Tournament,Year},{DOB,ID,Winner},{DOB,ID,Winner,Year},{DOB,ID,Year}
