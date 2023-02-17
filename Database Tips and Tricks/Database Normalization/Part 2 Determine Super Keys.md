@@ -1,18 +1,22 @@
 # Part 2: Determine Super Keys
 
-This script determines all the Super Keys, Minimal Super Keys and Candidate Keys.
+This script determines all the **Super Keys**, **Minimal Super Keys** and **Candidate Keys**.
 
 #### Tables Used
 
-I have named the table with a prefix of "anf".  "a" for the first letter of the alphabet so they are sorted in the object viewer, and "nf" for normal form.
 
 1.  `anf_SuperKeys1_SysColumns`    
 2.  `anf_SuperKeys2_Permutations`    
 3.  `anf_SuperKeys3_DynamicSQL`    
+6.  `anf_SuperKeys5_CandidateKey`    
 4.  `anf_SuperKeys4_StringSplit`    
 5.  `anf_SuperKeys5_CandidateKey`
-6.  `anf_SuperKeys5_CandidateKey`    
 
+
+
+I have named the tables with a prefix of "anf".  
+*  "a" for the first letter of the alphabet so they are sorted in the object viewer.
+*  "nf" for normal form.
 ---------------------------------------------
 
 
