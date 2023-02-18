@@ -36,9 +36,8 @@ GO
 -----------------------------------------------------------------
 -----------------------------------------------------------------
 
-DECLARE @vSchemaName NVARCHAR(100) = 'Person';
-DECLARE @vTableName NVARCHAR(100) = 'Person';
-DECLARE @vNewLine AS NVARCHAR(2) = NCHAR(13) + NCHAR(10);
+DECLARE @vSchemaName NVARCHAR(100) = 'Your Schema Name Here';---------------Need to set
+DECLARE @vTableName NVARCHAR(100) = 'Your Table Name Here'; ----------------Need to set
 
 ----------------------------------------------------------------------------------------
 --This SQL statement determines record count of the column
