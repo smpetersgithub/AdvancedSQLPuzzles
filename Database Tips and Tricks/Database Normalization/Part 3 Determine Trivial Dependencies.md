@@ -20,6 +20,7 @@ To determine trivial and semi-trivial dependencies, you create a cartesian produ
 |4     | Determinant_Dependent4_TrivialDependency  | CREATE   | Creates the `Determinant_Dependent4_TrivialDependency` table that determines if the Dependent is a Trivial or Semi Trivial dependency.   |                    
 
 
+Because you create a permuations table of Determinants and Dependents, the output is quite large.  For our sample dataset, this is 225 rows.
 
 |        Determinant         |         Dependent          | IsTrivialDependency | IsSemiTrivialDependency | IsDeterminantSuperKey | IsDependentSuperKey |
 |----------------------------|----------------------------|---------------------|-------------------------|-----------------------|---------------------|
