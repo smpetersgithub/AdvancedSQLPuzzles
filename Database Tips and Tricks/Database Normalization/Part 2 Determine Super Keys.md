@@ -17,7 +17,7 @@ This script determines all the **Super Keys**, **Minimal Super Keys**, **Candida
 
 ### Steps Involved
 
-| Step |        Table Created    |          |                                                         Notes                                           |
+| Step |        Table Created    |  Action  |                                                         Notes                                           |
 |------|-------------------------|----------|---------------------------------------------------------------------------------------------------------|
 |    1 | SuperKeys1_SysColumns   | `CREATE` | From the system tables, determines all the columns in the table `NormalizationTest`.                    |
 |    2 | SuperKeys2_Permutations | `CREATE` | Seed the `SuperKeys2_Permutations` table from `SuperKeys1_SysColumns`.                                  |
