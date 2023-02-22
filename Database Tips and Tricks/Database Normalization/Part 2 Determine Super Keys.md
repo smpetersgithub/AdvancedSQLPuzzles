@@ -26,19 +26,20 @@ This script determines all the **Super Keys**, **Minimal Super Keys**, **Candida
 |    7 | SuperKeys4_Final        | `UPDATE` | Updates the `IsSuperKey` and `IsMinimalSuperKey` columns in the table `SuperKeys4_Final`.               |
 |    8 | SuperKeys5_StringSplit  | `CREATE` | Uses the `STRING_SPLIT` function to determine candidate keys.                                           |
 |    9 | SuperKeys6_CandidateKey | `CREATE` | Creates the table `SuperKeys6_CandidateKey` to determine the candiate keys.                             |
-|   10 | SuperKeys4_Final        | `UPDATE` | Updates the `SuperKeys5_Final` table with the candidate kys.                                            |
-|   11 | SuperKeys7_NonPrime     | `CREATE` | Using the `STRING_AGG` function, determine non-prime attributes of the candidate keys                   |
-|   12 | SuperKeys4_Final        | `UPDATE` | For all super keys, update the `NonPrimeAttributes` column in the final table.                          |
+|   10 | SuperKeys4_Final        | `UPDATE` | Updates the `SuperKeys5_Final.IsCandidateKey` column.                                                   |
+|   11 | SuperKeys7_NonPrime     | `CREATE` | Using the `STRING_AGG` function, determine non-prime attributes of the candidate keys.                  |
+|   12 | SuperKeys4_Final        | `UPDATE` | For all super keys, update the `NonPrimeAttributes` column in the `SuperKeys4_Final`table.              |
 
 
-A **candidate key** is a minimal set of attributes (or columns) that can uniquely identify each tuple (or row) in a relation (or table) without redundancy. In other words, a **candidate key** is a combination of one or more attributes that uniquely identifies each tuple in the relation.  A relation can have multiple **candidate keys**, but one of them (usually the mimimal super key) is promoted to be the primary key of the relation, which is used to establish relationships with other tables and to enforce referential integrity constraints.
+A **candidate key** is a minimal set of attributes (or columns) that can uniquely identify each tuple (or row) in a relation (or table) without redundancy. In other words, a **candidate key** is a combination of one or more attributes that uniquely identifies each tuple in the relation.  A relation can have multiple **candidate keys**, but one of them (usually the mimimal super key) is promoted to be the primary key of the relation.
+
 
 ### Example Output
 
 Here is example output from the script:
 
 
-|         ColumnList         | IsSuperKey | IsminimalSuperKey | IsCandidateKey | NonPrimeAttributes   |
+|         ColumnList         | IsSuperKey | IsMinimalSuperKey | IsCandidateKey | NonPrimeAttributes   |
 |----------------------------|------------|-------------------|----------------|----------------------|
 | Tournament,Year            |          1 |                 1 |              1 | DOB,Winner           |
 | Tournament,Winner,Year     |          1 |                 0 |              0 | DOB                  |
