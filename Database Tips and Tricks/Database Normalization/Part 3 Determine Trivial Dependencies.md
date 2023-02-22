@@ -19,8 +19,9 @@ To determine trivial and semi-trivial dependencies first generate a Cartesian pr
 |3     | Determinant_Dependent2_StringSplit        | CREATE   | Determine the count of `Dependent` columns that are part of the the super key.                                                           |
 |4     | Determinant_Dependent4_TrivialDependency  | CREATE   | Creates the `Determinant_Dependent4_TrivialDependency` table that determines if the dependent is a trivial or semi-trivial dependency.   |                    
 
+---------------
 
-Because you create a permuations table of Determinants and Dependents, the output is quite large.  For our sample dataset, this is 225 rows.
+Generating a permutations table of determinants and dependents can result in a large output. In the case of our sample dataset, the output is 225 rows.
 
 |        Determinant         |         Dependent          | IsTrivialDependency | IsSemiTrivialDependency | IsDeterminantSuperKey | IsDependentSuperKey |
 |----------------------------|----------------------------|---------------------|-------------------------|-----------------------|---------------------|
