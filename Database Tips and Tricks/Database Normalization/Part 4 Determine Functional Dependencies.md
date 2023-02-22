@@ -15,7 +15,9 @@
 |  3   |     Determinant_Dependent6_DynamicSQL2           |  UPDATE  |  Using a cursor, loop through `Determinant_Dependent6_DynamicSQL2` and determine if their is a Functional Dependency.      |
 |  4   |     Determinant_Dependent7_FunctionalDependency  |  CREATE  |  Combine columns from `Determinant_Dependent6_DynamicSQL2` and `SuperKeys4_Final` for the Determinants and Dependents.     |
 
+-------------
 
+Generating a permutations table of determinants and dependents can result in a large output. In the case of our sample dataset, the output is 225 rows.
 
 
 |        Determinant         |         Dependent          |            ID1            | IsDeterminantSperKey | IsDeterminantMinimalSuperKey | IsDeterminantCandidateKey | DeterminantColumnCount |          ID2          | IsTrivialDependency | IsSemiTrivialDependency | IsFunctionalDependency | IsDependentSuperKey | IsDependentMinimalSuperKey | IsDependentCandidateKey | DependentColumnCount |
