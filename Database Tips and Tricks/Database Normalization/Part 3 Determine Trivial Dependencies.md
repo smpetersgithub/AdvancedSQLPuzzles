@@ -2,7 +2,7 @@
 
 This script determines trivial and semi-trivial dependencies.
 
-To determine trivial and semi-trivial dependencies, you create a cartesian product of all possible columns and then compare this list agains each other to see what columns are matching in both the Determinant and the Dependent.
+To determine trivial and semi-trivial dependencies first generate a Cartesian product of all possible column combinations, and then compare the resulting list of combinations to identify any columns that appear in both the determinant and dependent sets.
 
 **Table Used**    
 1.  `Determinant_Dependent1_CrossJoin`
@@ -14,10 +14,10 @@ To determine trivial and semi-trivial dependencies, you create a cartesian produ
 
 | Step |                          Table Created    |  Action  |                                                         Notes                                                                            |
 |------|-------------------------------------------|----------|------------------------------------------------------------------------------------------------------------------------------------------|
-|1     | Determinant_Dependent1_CrossJoin          | CREATE   | Create the table `Determinant_Dependent1_CrossJoin` of all possibilites of Determinants and Dependents.                                  |
-|2     | Determinant_Dependent2_StringSplit        | CREATE   | Uses `STRING_SPLIT` on the Dependent column to build a dataset to determine which columns are subsets.                                   |
-|3     | Determinant_Dependent2_StringSplit        | CREATE   | Determine the count of Dependent columns that are part of the the Super Key.                                                             |
-|4     | Determinant_Dependent4_TrivialDependency  | CREATE   | Creates the `Determinant_Dependent4_TrivialDependency` table that determines if the Dependent is a Trivial or Semi Trivial dependency.   |                    
+|1     | Determinant_Dependent1_CrossJoin          | CREATE   | Create the table `Determinant_Dependent1_CrossJoin` of all possibilites of determinants and dependents.                                  |
+|2     | Determinant_Dependent2_StringSplit        | CREATE   | Uses `STRING_SPLIT` on the `Dependent` column to build a dataset to determine which columns are subsets.                                 |
+|3     | Determinant_Dependent2_StringSplit        | CREATE   | Determine the count of `Dependent` columns that are part of the the super key.                                                           |
+|4     | Determinant_Dependent4_TrivialDependency  | CREATE   | Creates the `Determinant_Dependent4_TrivialDependency` table that determines if the dependent is a trivial or semi-trivial dependency.   |                    
 
 
 Because you create a permuations table of Determinants and Dependents, the output is quite large.  For our sample dataset, this is 225 rows.
