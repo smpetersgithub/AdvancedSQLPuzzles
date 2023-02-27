@@ -27,4 +27,6 @@ The five scripts are:
 
 The first script gives the user the ability to choose from several datasets that I have copied from the Wikipedia articles on normalization.  These scripts use brute force to determine the various keys, so the test data must include enough information for the scripts to deduce these keys.
 
-To get started, set the `DECLARE @vRun INTEGER = 1;` in Part 1 Create Normalization Base Table, and then simply run each script in succession.  To ensure accuracy, I `DROP` the tables for the current and future scripts in order to help prevent not running the scripts in full or jumping over a script
+To get started, set the `@vRun` variable in `Part 1 Create Normalization Base Table`, and then simply run each script in succession.  
+
+To ensure accuracy, I `DROP` the tables for the current and future scripts in order to help prevent not running the scripts in the correct order.
