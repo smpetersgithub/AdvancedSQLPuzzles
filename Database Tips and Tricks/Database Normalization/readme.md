@@ -1,6 +1,7 @@
-# Welcome 
 
-In this part of my GitHub I have several scripts to determine the following attributes of a dataset:
+# Dataset Normalization Scripts 
+
+In this repository, you'll find several scripts for determining various attributes of a dataset, including:
 
 1) Super Keys
 2) Minimal Super Keys
@@ -11,11 +12,10 @@ In this part of my GitHub I have several scripts to determine the following attr
 7) Partial and Functional Dependencies
 
 
-## Overview    
+## Overview 
 
 There are five sripts in this repository, and I break each one down into its own markup file for easy explanation.   
 
-The five scripts are:    
 1) `Part 1 Create Normalization Base Table`
 2) `Part 2 Determine Super Keys`
 3) `Part 3 Determine Trivial Dependencies`
