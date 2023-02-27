@@ -16,11 +16,11 @@ In this part of my GitHub I have several scripts to determine the following attr
 There are five sripts in this repository, and I break each one down into its own markup file for easy explanation.   
 
 The five scripts are:    
-1) Part 1 Create Normalization Base Table
-2) Part 2 Determine Super Keys
-3) Part 3 Determine Trivial Dependencies
-4) Part 4 Determine Functional Dependencies
-5) Part 5 List Partial and Functional Dependencies 
+1) `Part 1 Create Normalization Base Table`
+2) `Part 2 Determine Super Keys`
+3) `Part 3 Determine Trivial Dependencies`
+4) `Part 4 Determine Functional Dependencies`
+5) `Part 5 List Partial and Functional Dependencies` 
 
 
 ## Installation
