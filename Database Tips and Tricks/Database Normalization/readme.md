@@ -1,59 +1,30 @@
+# Welcome 
+
+In this part of my GitHub I have several scripts to determine the following attributes of a dataset:
+
+1) Super Keys
+2) Minimal Super Keys
+3) Candidate Keys
+4) Prime and Non-Prime Attributes 
+5) Dependents and Determinants
+6) Trivial, Non-Trivial and Semi-Trivial Dependencies 
+7) Partial and Functional Dependencies
 
 
-## Part 1
-Creates the table `NormalizationTest`
+## Overview    
 
-----------------------------------
+There are five sripts in this repository, and I break each one down into its own markup file for easy explanation.   
 
-### 1 is in Second Normal Form but not in Third Normal Form
-
-https://en.wikipedia.org/wiki/Second_normal_form
-
-I have added the last three lines to force the table into 2NF.
-
-
-|                   Tournament                    | Year |     Winner     |        DOB        |
-|-------------------------------------------------|------|----------------|-------------------|
-| Indiana Invitational                            | 1998 | Al Fredrickson | 21 July 1975      |
-| Cleveland Open                                  | 1999 | Bob Albertson  | 28 September 1968 |
-| Des Moines Masters                              | 1999 | Al Fredrickson | 21 July 1975      |
-| Indiana Invitational                            | 1999 | Chip Masterson | 14 March 1977     |
-| Indiana Invitational                            | 2000 | Chip Masterson | 14 March 1977     |
-| Putt Pirate Classic                             | 2000 | Chip Masterson | 14 March 1977     |
-| Springfield Dirty Birdie Mini Gulf Invitational | 2000 | Buzz Lightyear | 24 January 1943   |
-| Springfield Dirty Birdie Mini Gulf Invitational | 2001 | Chip Masterson | 14 March 1977     |
+The five scripts are:    
+1) Part 1 Create Normalization Base Table
+2) Part 2 Determine Super Keys
+3) Part 3 Determine Trivial Dependencies
+4) Part 4 Determine Functional Dependencies
+5) Part 5 List Partial and Functional Dependencies 
 
 
+## Installation
 
-### 2 is in First Normal Form but not in 3rd Normal Form.
+The first script gives the user the ability to choose from several datasets that I have copied from the Wikipedia articles on normalization.  These scripts use brute force to determine the various keys, so the test data must include enough information for the scripts to deduce these keys.
 
-| Manufacturer |    Model    | Country |
-|--------------|-------------|---------|
-| Forte        | X-Prime     | Italy   |
-| Forte        | Ultraclean  | Italy   |
-| Dent-o-Fresh | EZbrush     | USA     |
-| Brushmaster  | SuperBrush  | USA     |
-| Kobayashi    | ST-60       | Japan   |
-| Hoch         | Toothmaster | Germany |
-| Hoch         | X-Prime     | Germany |
-
-
-
-### 3 is the same as 1 but has an ID column added
-
-| ID |                   Tournament                    | Year |     Winner     |        DOB        |
-|----|-------------------------------------------------|------|----------------|-------------------|
-|  1 | Indiana Invitational                            | 1998 | Al Fredrickson | 21 July 1975      |
-|  2 | Cleveland Open                                  | 1999 | Bob Albertson  | 28 September 1968 |
-|  3 | Des Moines Masters                              | 1999 | Al Fredrickson | 21 July 1975      |
-|  4 | Indiana Invitational                            | 1999 | Chip Masterson | 14 March 1977     |
-|  5 | Indiana Invitational                            | 2000 | Chip Masterson | 14 March 1977     |
-|  6 | Putt Pirate Classic                             | 2000 | Chip Masterson | 14 March 1977     |
-|  7 | Springfield Dirty Birdie Mini Gulf Invitational | 2000 | Buzz Lightyear | 24 January 1943   |
-|  8 | Springfield Dirty Birdie Mini Gulf Invitational | 2001 | Chip Masterson | 14 March 1977     |
-
-It has the Candidate Keys of:
-{ID} and {Tournament,Year}
-
-It has the SuperKeys of: 
-{ID},{Tournament,Year},{DOB,Tournament,Winner,Year},{DOB,Tournament,Year},{Tournament,Winner,Year},{ID,Tournament},{ID,Tournament,Winner},{ID,Tournament,Winner,Year},{ID,Tournament,Year},{ID,Winner},{ID,Winner,Year},{ID,Year},{DOB,ID},{DOB,ID,Tournament},{DOB,ID,Tournament,Winner},{DOB,ID,Tournament,Winner,Year},{DOB,ID,Tournament,Year},{DOB,ID,Winner},{DOB,ID,Winner,Year},{DOB,ID,Year}
+To get started, set the `DECLARE @vRun INTEGER = 1;` in Part 1 Create Normalization Base Table, and then simply run each script in succession.  To ensure accuracy, I `DROP` the tables for the current and future scripts in order to help prevent not running the scripts in full or jumping over a script
