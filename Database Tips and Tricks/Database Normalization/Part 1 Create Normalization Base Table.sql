@@ -2,11 +2,11 @@ SET NOCOUNT ON;
 GO
 
 --------------------------------------------------
---Drop table for part 1
+--Drop tables for part 1
 DROP TABLE IF EXISTS NormalizationTest;
 GO
 
---Drop table for part 2
+--Drop tables for part 2
 DROP TABLE IF EXISTS SuperKeys1_SysColumns;
 DROP TABLE IF EXISTS SuperKeys2_Permutations;
 DROP TABLE IF EXISTS SuperKeys3_DynamicSQL;
@@ -16,20 +16,20 @@ DROP TABLE IF EXISTS SuperKeys6_CandidateKey;
 DROP TABLE IF EXISTS SuperKeys7_NonPrime;
 GO
 
---Drop table for part 3
+--Drop tables for part 3
 DROP TABLE IF EXISTS Determinant_Dependent1_CrossJoin;
 DROP TABLE IF EXISTS Determinant_Dependent2_StringSplit;
 DROP TABLE IF EXISTS Determinant_Dependent3_SumPartOfDeterminant;
 DROP TABLE IF EXISTS Determinant_Dependent4_TrivialDependency;
 GO
 
---Drop table for part 4
+--Drop tables for part 4
 DROP TABLE IF EXISTS Determinant_Dependent5_DynamicSQL1;
 DROP TABLE IF EXISTS Determinant_Dependent6_DynamicSQL2;
 DROP TABLE IF EXISTS Determinant_Dependent7_FunctionalDependency;
 GO
 
---Drop table for part 5
+--Drop tables for part 5
 DROP TABLE IF EXISTS PartialDependency;
 DROP TABLE IF EXISTS FunctionalDependency;
 GO
