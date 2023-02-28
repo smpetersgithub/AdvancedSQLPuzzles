@@ -6,7 +6,6 @@ GO
 DROP TABLE IF EXISTS PartialDependency;
 DROP TABLE IF EXISTS FunctionalDependency;
 GO
---------------------------------------------------
 
 --------------
 ----Step 1----
