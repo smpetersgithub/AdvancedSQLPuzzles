@@ -1,6 +1,7 @@
 SET NOCOUNT ON
 GO
 
+--------------------------------------------------
 --Drop tables for part 4
 DROP TABLE IF EXISTS Determinant_Dependent5_DynamicSQL1;
 DROP TABLE IF EXISTS Determinant_Dependent6_DynamicSQL2;
