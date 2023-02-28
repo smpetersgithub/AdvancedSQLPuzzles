@@ -1,5 +1,3 @@
 # Handbook
 
-This directory contains the various markdown files for each of the provided scripts.
-
-Enjoy!
+This directory contains the various markdown files to explain each of the provided scripts in the parent directory.
