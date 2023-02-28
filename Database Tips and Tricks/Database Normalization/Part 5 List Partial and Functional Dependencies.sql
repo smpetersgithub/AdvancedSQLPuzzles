@@ -8,6 +8,9 @@ DROP TABLE IF EXISTS FunctionalDependency;
 GO
 --------------------------------------------------
 
+--------------
+----Step 1----
+--------------
 WITH cte_CandidateKeys AS
 (
 SELECT  ColumnList
@@ -38,10 +41,16 @@ WHERE   c.IsFunctionalDependency = 1
         AND c.IsSemiTrivialDependency = 0;
 GO
 
+--------------
+----Step 2----
+--------------
 UPDATE 	PartialDependency	
 SET     PartialDependency = CONCAT('{',CandidateKey,'} ----> {',TrivialDependency,'} ----> {',Dependent,'}');
 GO
 
+--------------
+----Step 3----
+--------------
 INSERT INTO PartialDependency (CandidateKey)
 SELECT  ColumnList
 FROM    SuperKeys4_Final a
@@ -49,8 +58,9 @@ WHERE   IsCandidateKey = 1
         AND NOT EXISTS (SELECT 1 FROM PartialDependency b WHERE a.ColumnList = b.CandidateKey);
 GO
 
--------------------------------------------------------------------------------
--------------------------------------------------------------------------------
+--------------
+----Step 4----
+--------------
 WITH cte_CandidateKeys AS
 (
 SELECT  ColumnList
@@ -82,6 +92,9 @@ WHERE   IsCandidateKey = 1
         AND NOT EXISTS (SELECT 1 FROM FunctionalDependency b WHERE a.ColumnList = b.CandidateKey);
 GO
 
+---------------------
+----Final Queries----
+---------------------
 SELECT * FROM PartialDependency;
 SELECT * FROM FunctionalDependency;
 GO
