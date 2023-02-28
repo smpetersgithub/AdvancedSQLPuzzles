@@ -2,7 +2,9 @@
 
 This script creates gives the user the option of several test datasets to experiment with.  These datasets are based upon the Wiki articles on normalization forms, where I include additional records to force the data to understand primary keys.
 
-Simply set the variable `@vRun`.
+To execute the script, set the variable `@vRun` date or create your own sample dataset with the table name `NormalizationTest`.
+
+For more information on normalization forms, see the following Wikipedia articles.    
 
 *  [Second Normal Form](https://en.wikipedia.org/wiki/Second_normal_form)
 *  [Third Normal Form](https://en.wikipedia.org/wiki/Third_normal_form)
