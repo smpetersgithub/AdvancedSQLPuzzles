@@ -1,7 +1,8 @@
 SET NOCOUNT ON;
 GO
 
---Part 2
+--------------------------------------------------
+--Drop table for part 2
 DROP TABLE IF EXISTS SuperKeys1_SysColumns;
 DROP TABLE IF EXISTS SuperKeys2_Permutations;
 DROP TABLE IF EXISTS SuperKeys3_DynamicSQL;
@@ -10,18 +11,18 @@ DROP TABLE IF EXISTS SuperKeys5_StringSplit;
 DROP TABLE IF EXISTS SuperKeys6_CandidateKey;
 DROP TABLE IF EXISTS SuperKeys7_NonPrime;
 GO
---Part 3
+--Drop table for part 3
 DROP TABLE IF EXISTS Determinant_Dependent1_CrossJoin;
 DROP TABLE IF EXISTS Determinant_Dependent2_StringSplit;
 DROP TABLE IF EXISTS Determinant_Dependent3_SumPartOfDeterminant;
 DROP TABLE IF EXISTS Determinant_Dependent4_TrivialDependency;
 GO
---Part 4
+--Drop table for part 4
 DROP TABLE IF EXISTS Determinant_Dependent5_DynamicSQL1;
 DROP TABLE IF EXISTS Determinant_Dependent6_DynamicSQL2;
 DROP TABLE IF EXISTS Determinant_Dependent7_FunctionalDependency;
 GO
---Part 5
+--Drop table for part 5
 DROP TABLE IF EXISTS PartialDependency;
 DROP TABLE IF EXISTS FunctionalDependency;
 GO
@@ -40,6 +41,7 @@ FROM    sys.schemas s LEFT OUTER JOIN
 WHERE   1=1 AND t.Name = 'NormalizationTest'
 ORDER BY 1;
 GO
+
 --------------
 ----Step 2----
 --------------
@@ -67,6 +69,7 @@ FROM    SuperKeys2_Permutations a INNER JOIN
 SET @vTotalElements = @vTotalElements - 1;
 END;
 GO
+
 --------------
 ----Step 4----
 --------------
@@ -129,6 +132,7 @@ FETCH NEXT FROM mycursor INTO @vRowNumber, @vSQLStatement;
 CLOSE mycursor;
 DEALLOCATE mycursor;
 GO
+
 --------------
 ----Step 7----
 --------------
@@ -145,6 +149,7 @@ SET   IsMinimalSuperKey = (CASE WHEN RecordCount = @vRecordCount AND
                                           WHERE   IsSuperKey = 1)
                                 THEN 1 ELSE 0 END);
 GO
+
 --------------
 ----Step 8----
 --------------
@@ -258,6 +263,9 @@ FROM    SuperKeys4_Final a INNER JOIN
         SuperKeys7_NonPrime b ON a.ColumnList = b.SuperKey
 GO
 
+-----------------
+---Final Query---
+-----------------
 --Display the results
 SELECT  ColumnList,
         IsSuperKey,
