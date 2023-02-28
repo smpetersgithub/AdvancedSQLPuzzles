@@ -1,4 +1,4 @@
-# Part 5 List Partial and Functional Dependencies
+# Part 5: List Partial and Functional Dependencies
 coming soon....
 
 --------------------------------------------------------------
