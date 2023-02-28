@@ -1,7 +1,5 @@
-USE SMP;
-GO
-
 SET NOCOUNT ON;
+GO
 
 --Part 2
 DROP TABLE IF EXISTS SuperKeys1_SysColumns;
@@ -41,7 +39,7 @@ FROM    sys.schemas s LEFT OUTER JOIN
         sys.types ty ON ty.user_type_id = c.user_type_id
 WHERE   1=1 AND t.Name = 'NormalizationTest'
 ORDER BY 1;
-
+GO
 --------------
 ----Step 2----
 --------------
@@ -68,7 +66,7 @@ FROM    SuperKeys2_Permutations a INNER JOIN
 
 SET @vTotalElements = @vTotalElements - 1;
 END;
-
+GO
 --------------
 ----Step 4----
 --------------
@@ -108,6 +106,7 @@ SELECT  RowNumber,
         NonPrimeAttributes
 INTO    SuperKeys4_Final
 FROM    SuperKeys3_DynamicSQL;
+GO
 
 --------------
 ----Step 6----
@@ -129,7 +128,7 @@ FETCH NEXT FROM mycursor INTO @vRowNumber, @vSQLStatement;
         END
 CLOSE mycursor;
 DEALLOCATE mycursor;
-
+GO
 --------------
 ----Step 7----
 --------------
@@ -145,7 +144,7 @@ SET   IsMinimalSuperKey = (CASE WHEN RecordCount = @vRecordCount AND
                                           FROM    SuperKeys4_Final 
                                           WHERE   IsSuperKey = 1)
                                 THEN 1 ELSE 0 END);
-
+GO
 --------------
 ----Step 8----
 --------------
@@ -213,6 +212,7 @@ SELECT  *
 INTO    SuperKeys6_CandidateKey
 FROM    cte_SumMatches
 WHERE   SumMatches = ColumnCount_A;
+GO
 
 -------------
 ---Step 10---
@@ -226,7 +226,7 @@ WHERE   ColumnList NOT IN (SELECT ColumnList_B FROM SuperKeys6_CandidateKey) AND
 UPDATE  SuperKeys4_Final
 SET     IsCandidateKey = 0
 WHERE   IsCandidateKey IS NULL;
-
+GO
 
 -------------
 ---Step 11---
@@ -246,6 +246,7 @@ FROM    SuperKeys1_SysColumns a CROSS JOIN
 WHERE   CHARINDEX(a.ColumnName,b.SuperKey) = 0
 GROUP BY b.SuperKey
 ORDER BY SuperKey;
+GO
 
 --------------
 ----Step 12---
@@ -255,7 +256,7 @@ UPDATE  SuperKeys4_Final
 SET     NonPrimeAttributes = b.NonPrimeAttributes
 FROM    SuperKeys4_Final a INNER JOIN
         SuperKeys7_NonPrime b ON a.ColumnList = b.SuperKey
-
+GO
 
 --Display the results
 SELECT  ColumnList,
@@ -268,3 +269,4 @@ ORDER BY IsCandidateKey DESC,
          IsMinimalSuperKey DESC,
          IsSuperKey DESC,
          ColumnCount;
+GO
