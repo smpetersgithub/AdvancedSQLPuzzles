@@ -248,4 +248,8 @@ Generating a permutations table of determinants and dependents can result in a l
 | Tournament,Winner          | DOB,Tournament,Winner      | Determinant Info -------> |                    0 |                            0 |                         0 |                      2 | Dependent Info------> |                   0 |                       1 |                      1 |                   0 |                          0 |                       0 |                    3 |
 | Tournament,Winner,Year     | DOB,Tournament,Winner      | Determinant Info -------> |                    1 |                            0 |                         0 |                      3 | Dependent Info------> |                   0 |                       1 |                      1 |                   0 |                          0 |                       0 |                    3 |
 
+--------------------------------------------------------------
 
+:mailbox:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;If you find any inaccuracies, misspellings, bugs, dead links, etc. please report an issue!  No detail is too small, and I appreciate all the help.
+
+:smile:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Happy coding!
