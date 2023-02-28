@@ -37,7 +37,7 @@ WHERE   Determinant <> Dependent
 SELECT  a.ColumnList as CandidateKey,
         b.Dependent AS TrivialDependency,
         c.Dependent AS Dependent,
-		CAST(NULL AS VARCHAR(255)) AS PartialDependency
+        CAST(NULL AS VARCHAR(255)) AS PartialDependency
 INTO    PartialDependency
 FROM    cte_CandidateKeys a INNER JOIN
         cte_TrivialDependencies b ON a.ColumnList = b.Determinant
