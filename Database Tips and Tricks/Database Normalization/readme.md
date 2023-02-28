@@ -29,4 +29,4 @@ The first script gives the user the ability to choose from several datasets that
 
 To get started, set the `@vRun` variable in `Part 1 Create Normalization Base Table`, and then simply run each script in succession.  
 
-To ensure accuracy, I `DROP` the tables for the current and future scripts to help prevent not running the scripts in the correct order.
+To ensure accuracy, I drop the tables for the current and future scripts to help prevent not running the scripts in the correct order.  You will see these `DROP TABLE` statements at the beginning of each script.
