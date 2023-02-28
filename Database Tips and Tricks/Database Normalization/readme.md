@@ -1,5 +1,5 @@
 
-# Dataset Normalization Scripts 
+# Database Normalization Scripts 
 
 In this repository, you'll find several scripts for determining various attributes of a relation, including:
 
