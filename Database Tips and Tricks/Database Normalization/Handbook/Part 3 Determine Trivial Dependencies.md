@@ -251,4 +251,8 @@ Generating a permutations table of determinants and dependents can result in a l
 | Year                       | Winner,Year                |                   0 |                       1 |                     0 |                   0 |
 | Year                       | Year                       |                   1 |                       0 |                     0 |                   0 |
 
+--------------------------------------------------------------
 
+:mailbox:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;If you find any inaccuracies, misspellings, bugs, dead links, etc. please report an issue!  No detail is too small, and I appreciate all the help.
+
+:smile:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Happy coding!
