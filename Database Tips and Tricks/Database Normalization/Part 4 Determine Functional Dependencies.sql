@@ -1,12 +1,12 @@
 SET NOCOUNT ON
 GO
 
---Part 4
+--Drop tables for part 4
 DROP TABLE IF EXISTS Determinant_Dependent5_DynamicSQL1;
 DROP TABLE IF EXISTS Determinant_Dependent6_DynamicSQL2;
 DROP TABLE IF EXISTS Determinant_Dependent7_FunctionalDependency;
 GO
---Part 5
+--Drop tables for part 5
 DROP TABLE IF EXISTS PartialDependency;
 DROP TABLE IF EXISTS FunctionalDependency;
 GO
@@ -14,7 +14,6 @@ GO
 ----------
 --STEP 1--
 ----------
---Builds part 1 of the dynamic SQL needed to determine Functional Dependencies.
 SELECT  *,
         CONCAT('SELECT COUNT(DISTINCT(CONCAT(', [Dependent], ',''''))) AS Count FROM NormalizationTest GROUP BY ', Determinant) AS SQLStatementTemp
 INTO    Determinant_Dependent5_DynamicSQL1
@@ -24,7 +23,6 @@ GO
 ----------
 --STEP 2--
 ----------
---Builds part 2 of the dynamic SQL needed to determine Functional Dependencies.
 SELECT ROW_NUMBER() OVER (ORDER BY [Dependent]) AS RowNumber
        ,*
        ,CONCAT('IF 1 = ALL(',SQLStatementTemp,') UPDATE Determinant_Dependent6_DynamicSQL2 SET IsFunctionalDependency = 1 WHERE RowNumber = vRowNumber') AS SQLStatement
@@ -36,7 +34,6 @@ GO
 ----------
 --STEP 3--
 ----------
---Using a cursor, loop through `Determinant_Dependent6_DynamicSQL2` and determine if their is a Functional Dependency.
 SET NOCOUNT ON;
 DECLARE @vRowNumber INTEGER;
 DECLARE @vSQLStatement VARCHAR(8000);
@@ -59,7 +56,6 @@ GO
 ----------
 --STEP 4--
 ----------
---Combine columns from `Determinant_Dependent6_DynamicSQL2` and `SuperKeys4_Final` for the Determinants and Dependents.
 SELECT  a.Determinant,
         a.Dependent,
         'Determinant Info ------->' AS ID1,
