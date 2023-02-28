@@ -1,15 +1,15 @@
---Part 3
+--Drop tables for part 3
 DROP TABLE IF EXISTS Determinant_Dependent1_CrossJoin;
 DROP TABLE IF EXISTS Determinant_Dependent2_StringSplit;
 DROP TABLE IF EXISTS Determinant_Dependent3_SumPartOfDeterminant;
 DROP TABLE IF EXISTS Determinant_Dependent4_TrivialDependency;
 GO
---Part 4
+--Drop tables for part 4
 DROP TABLE IF EXISTS Determinant_Dependent5_DynamicSQL1;
 DROP TABLE IF EXISTS Determinant_Dependent6_DynamicSQL2;
 DROP TABLE IF EXISTS Determinant_Dependent7_FunctionalDependency;
 GO
---Part 5
+--Drop tables for part 5
 DROP TABLE IF EXISTS PartialDependency;
 DROP TABLE IF EXISTS FunctionalDependency;
 GO
@@ -108,10 +108,9 @@ INTO   Determinant_Dependent4_TrivialDependency
 FROM   Determinant_Dependent3_SumPartOfDeterminant;
 GO
 
-----------------------
-----------------------
-----------------------
-----------------------
+---------------
+--Final Query--
+---------------
 SELECT  *
 FROM    Determinant_Dependent4_TrivialDependency
 ORDER BY 5 DESC,
