@@ -1,10 +1,12 @@
 SET NOCOUNT ON;
 GO
 
---Part 5
+--------------------------------------------------
+--Drop tables for part 5
 DROP TABLE IF EXISTS PartialDependency;
 DROP TABLE IF EXISTS FunctionalDependency;
 GO
+--------------------------------------------------
 
 WITH cte_CandidateKeys AS
 (
@@ -46,9 +48,7 @@ FROM    SuperKeys4_Final a
 WHERE   IsCandidateKey = 1
         AND NOT EXISTS (SELECT 1 FROM PartialDependency b WHERE a.ColumnList = b.CandidateKey);
 GO
--------------------------------------------------------------------------------
--------------------------------------------------------------------------------
--------------------------------------------------------------------------------
+
 -------------------------------------------------------------------------------
 -------------------------------------------------------------------------------
 WITH cte_CandidateKeys AS
