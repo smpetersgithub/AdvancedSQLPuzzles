@@ -1,3 +1,11 @@
+/*----------------------------------------------------------------------------------------------------------------------------
+Scott Peters
+Database Normalization
+https://advancedsqlpuzzles.com
+Last Updated: 02/28/2023
+Microsoft SQL Server T-SQL
+*/----------------------------------------------------------------------------------------------------------------------------
+
 --Drop tables for part 3
 DROP TABLE IF EXISTS Determinant_Dependent1_CrossJoin;
 DROP TABLE IF EXISTS Determinant_Dependent2_StringSplit;
