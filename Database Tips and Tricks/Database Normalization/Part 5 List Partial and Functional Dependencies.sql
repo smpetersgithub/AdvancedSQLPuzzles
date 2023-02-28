@@ -81,10 +81,16 @@ WHERE   b.IsTrivialDependency = 0 AND b.IsFunctionalDependency = 1 AND b.IsSemiT
 		b.Dependent <> c.Dependent;
 GO
 
+--------------
+----Step 5----
+--------------
 UPDATE FunctionalDependency
 SET FunctionalDependency = CONCAT('{',CandidateKey,'} ----> {',Dependent1,'} ----> {',Dependent2,'}')
 GO
 
+--------------
+----Step 6----
+--------------
 INSERT INTO FunctionalDependency (CandidateKey)
 SELECT  ColumnList
 FROM    SuperKeys4_Final a
