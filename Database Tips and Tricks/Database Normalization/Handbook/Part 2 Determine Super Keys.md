@@ -1,6 +1,6 @@
 # Part 2: Determine Super Keys
 
-This script determines all the **Super Keys**, **Minimal Super Keys**, **Candidate Keys** and **Non-Prime Attriubutes** from the `NormalizationTest` table.
+This script determines all the **Super Keys**, **Minimal Super Keys**, **Candidate Keys** and **Non-Prime Attributes** from the user created `NormalizationTest` table.
 
 #### Tables Used
 
@@ -31,7 +31,7 @@ This script determines all the **Super Keys**, **Minimal Super Keys**, **Candida
 |   12 | SuperKeys4_Final        | `UPDATE` | For all super keys, update the `NonPrimeAttributes` column in the `SuperKeys4_Final`table.              |
 
 
-A **candidate key** is a minimal set of attributes (or columns) that can uniquely identify each tuple (or row) in a relation (or table) without redundancy. In other words, a **candidate key** is a combination of one or more attributes that uniquely identifies each tuple in the relation.  A relation can have multiple **candidate keys**, but one of them (usually the mimimal super key) is promoted to be the primary key of the relation.
+A **candidate key** is a minimal set of attributes (or columns) that can uniquely identify each tuple (or row) in a relation (or table) without redundancy. In other words, a **candidate key** is a combination of one or more attributes that uniquely identifies each tuple in the relation.  A relation can have multiple **candidate keys**, but one of them (usually the minimal super key) is promoted to be the primary key of the relation.
 
 
 ### Example Output
