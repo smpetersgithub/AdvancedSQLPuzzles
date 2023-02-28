@@ -1,6 +1,3 @@
-USE SMP
-GO
-
 SET NOCOUNT ON
 GO
 
@@ -14,7 +11,6 @@ DROP TABLE IF EXISTS PartialDependency;
 DROP TABLE IF EXISTS FunctionalDependency;
 GO
 
-
 ----------
 --STEP 1--
 ----------
@@ -23,6 +19,7 @@ SELECT  *,
         CONCAT('SELECT COUNT(DISTINCT(CONCAT(', [Dependent], ',''''))) AS Count FROM NormalizationTest GROUP BY ', Determinant) AS SQLStatementTemp
 INTO    Determinant_Dependent5_DynamicSQL1
 FROM    Determinant_Dependent4_TrivialDependency;
+GO
 
 ----------
 --STEP 2--
@@ -35,7 +32,6 @@ SELECT ROW_NUMBER() OVER (ORDER BY [Dependent]) AS RowNumber
 INTO   Determinant_Dependent6_DynamicSQL2
 FROM   Determinant_Dependent5_DynamicSQL1
 GO
-
 
 ----------
 --STEP 3--
@@ -58,6 +54,7 @@ FETCH NEXT FROM mycursor INTO @vRowNumber, @vSQLStatement
         END
 CLOSE mycursor;
 DEALLOCATE mycursor;
+GO
 
 ----------
 --STEP 4--
@@ -82,6 +79,7 @@ INTO    Determinant_Dependent7_FunctionalDependency
 FROM    Determinant_Dependent6_DynamicSQL2 a LEFT JOIN
         SuperKeys4_Final b ON a.Determinant = b.ColumnList LEFT JOIN
         SuperKeys4_Final c ON a.Dependent = c.ColumnList;
+GO
 
 ---------------------------------
 ---------------------------------
@@ -89,3 +87,4 @@ FROM    Determinant_Dependent6_DynamicSQL2 a LEFT JOIN
 SELECT  *
 FROM    Determinant_Dependent7_FunctionalDependency
 ORDER BY IsDeterminantCandidateKey DESC;
+GO
