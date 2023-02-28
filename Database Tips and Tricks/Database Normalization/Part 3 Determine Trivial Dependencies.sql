@@ -1,6 +1,3 @@
-USE SMP;
-GO
-
 --Part 3
 DROP TABLE IF EXISTS Determinant_Dependent1_CrossJoin;
 DROP TABLE IF EXISTS Determinant_Dependent2_StringSplit;
@@ -17,7 +14,6 @@ DROP TABLE IF EXISTS PartialDependency;
 DROP TABLE IF EXISTS FunctionalDependency;
 GO
 
-
 ----------
 --STEP 1--
 ----------
@@ -33,7 +29,7 @@ SELECT  DISTINCT
 INTO    Determinant_Dependent1_CrossJoin --Determinant_Dependent1
 FROM    SuperKeys4_Final a CROSS JOIN
         SuperKeys4_Final b;
-
+GO
 
 ----------
 --STEP 2--
@@ -58,8 +54,6 @@ SELECT  RANK() OVER (ORDER BY Determinant, Dependent) AS RowNumber1
 INTO    Determinant_Dependent2_StringSplit
 FROM    cte_StringSplit;
 GO
-
-
 
 ----------
 --STEP 3--
@@ -112,6 +106,7 @@ SELECT  Determinant
        ,IsDependentSuperKey
 INTO   Determinant_Dependent4_TrivialDependency
 FROM   Determinant_Dependent3_SumPartOfDeterminant;
+GO
 
 ----------------------
 ----------------------
@@ -121,5 +116,6 @@ SELECT  *
 FROM    Determinant_Dependent4_TrivialDependency
 ORDER BY 5 DESC,
          6 DESC,
-		 Determinant,
-		 Dependent;
+         Determinant,
+         Dependent;
+GO
