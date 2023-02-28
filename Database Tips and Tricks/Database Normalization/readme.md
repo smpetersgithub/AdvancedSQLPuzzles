@@ -1,7 +1,7 @@
 
 # Dataset Normalization Scripts 
 
-In this repository, you'll find several scripts for determining various attributes of a dataset, including:
+In this repository, you'll find several scripts for determining various attributes of a relation, including:
 
 1) Super Keys
 2) Minimal Super Keys
@@ -14,7 +14,7 @@ In this repository, you'll find several scripts for determining various attribut
 
 ## Overview 
 
-There are five sripts in this repository, and I break each one down into its own markup file for easy explanation.   
+There are five scripts in this repository, and I break each one down into its own markup file for easy explanation.   
 
 1) `Part 1 Create Normalization Base Table`
 2) `Part 2 Determine Super Keys`
@@ -29,4 +29,4 @@ The first script gives the user the ability to choose from several datasets that
 
 To get started, set the `@vRun` variable in `Part 1 Create Normalization Base Table`, and then simply run each script in succession.  
 
-To ensure accuracy, I `DROP` the tables for the current and future scripts in order to help prevent not running the scripts in the correct order.
+To ensure accuracy, I `DROP` the tables for the current and future scripts to help prevent not running the scripts in the correct order.
