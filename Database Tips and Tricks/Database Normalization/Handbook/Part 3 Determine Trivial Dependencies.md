@@ -1,4 +1,4 @@
-# Part 2: Determine Trivial Dependencies
+# Part 3: Determine Trivial Dependencies
 
 This script determines trivial and semi-trivial dependencies.
 
