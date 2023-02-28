@@ -180,7 +180,7 @@ GO
 --------------
 ----Step 9----
 --------------
---Creates the dataset to determine the Candiate Keys. 
+--Creates the dataset to determine the Candidate Keys. 
 WITH cte_StringSplitMatch AS
 (
 SELECT a.DenseRank as DenseRank_A,
