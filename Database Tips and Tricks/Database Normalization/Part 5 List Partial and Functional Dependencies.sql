@@ -1,6 +1,3 @@
-USE SMP;
-GO
-
 SET NOCOUNT ON;
 GO
 
@@ -8,12 +5,6 @@ GO
 DROP TABLE IF EXISTS PartialDependency;
 DROP TABLE IF EXISTS FunctionalDependency;
 GO
-
-/*
-a partial dependency, which occurs when an attribute is dependent on only part of a composite primary key. 
-In this case, the Court attribute is dependent on the RateType attribute, which is only part of the 
-composite primary key {EndTime, RateType}.
-*/
 
 WITH cte_CandidateKeys AS
 (
@@ -47,22 +38,19 @@ GO
 
 UPDATE 	PartialDependency	
 SET     PartialDependency = CONCAT('{',CandidateKey,'} ----> {',TrivialDependency,'} ----> {',Dependent,'}');
+GO
 
 INSERT INTO PartialDependency (CandidateKey)
 SELECT  ColumnList
 FROM    SuperKeys4_Final a
 WHERE   IsCandidateKey = 1
         AND NOT EXISTS (SELECT 1 FROM PartialDependency b WHERE a.ColumnList = b.CandidateKey);
-
 GO
-
 -------------------------------------------------------------------------------
 -------------------------------------------------------------------------------
 -------------------------------------------------------------------------------
 -------------------------------------------------------------------------------
 -------------------------------------------------------------------------------
-
-
 WITH cte_CandidateKeys AS
 (
 SELECT  ColumnList
@@ -83,11 +71,9 @@ WHERE   b.IsTrivialDependency = 0 AND b.IsFunctionalDependency = 1 AND b.IsSemiT
 		b.Dependent <> c.Dependent;
 GO
 
-
 UPDATE FunctionalDependency
 SET FunctionalDependency = CONCAT('{',CandidateKey,'} ----> {',Dependent1,'} ----> {',Dependent2,'}')
 GO
-
 
 INSERT INTO FunctionalDependency (CandidateKey)
 SELECT  ColumnList
@@ -96,10 +82,6 @@ WHERE   IsCandidateKey = 1
         AND NOT EXISTS (SELECT 1 FROM FunctionalDependency b WHERE a.ColumnList = b.CandidateKey);
 GO
 
-
-
 SELECT * FROM PartialDependency;
 SELECT * FROM FunctionalDependency;
-
 GO
-
