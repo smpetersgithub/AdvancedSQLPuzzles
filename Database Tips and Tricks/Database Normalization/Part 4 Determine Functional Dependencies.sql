@@ -78,9 +78,9 @@ FROM    Determinant_Dependent6_DynamicSQL2 a LEFT JOIN
         SuperKeys4_Final c ON a.Dependent = c.ColumnList;
 GO
 
----------------------------------
----------------------------------
----------------------------------
+-----------------
+--Final Queries--
+-----------------
 SELECT  *
 FROM    Determinant_Dependent7_FunctionalDependency
 ORDER BY IsDeterminantCandidateKey DESC;
