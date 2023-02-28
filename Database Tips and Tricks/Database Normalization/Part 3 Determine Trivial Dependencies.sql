@@ -21,7 +21,7 @@ GO
 ----------
 --STEP 1--
 ----------
---Create the table `Determinant_Dependent1_CrossJoin` of all possibilites of Determinants and Dependents.
+--Create the table `Determinant_Dependent1_CrossJoin` of all possibilities of Determinants and Dependents.
 SELECT  DISTINCT
         b.ColumnList AS Determinant
        ,a.ColumnList AS [Dependent]
