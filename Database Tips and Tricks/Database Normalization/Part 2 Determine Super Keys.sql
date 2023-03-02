@@ -53,7 +53,7 @@ GO
 --------------
 ----Step 2----
 --------------
---Seed the SuperKeys2_Permutations table by a simple insert from SuperKeys1_SysColumns.  
+--Seed the SuperKeys2_Permutations table from SuperKeys1_SysColumns.
 SELECT  RowNumber AS MaxRowNumber,
         ColumnName AS ColumnList
 INTO    SuperKeys2_Permutations
@@ -63,7 +63,7 @@ GO
 --------------
 ----Step 3----
 --------------
---Loop through the table to determine the column list; column order is kept in alphabetical order.
+--Loop through SuperKeys1_SysColumns to determine the column list.
 DECLARE @vTotalElements INTEGER = (SELECT COUNT(*) FROM SuperKeys1_SysColumns);
 
 WHILE @vTotalElements > 0
@@ -81,7 +81,7 @@ GO
 --------------
 ----Step 4----
 --------------
---Creates the SQL statements to determine record counts for Super Keys.  
+--Creates the dynamic SQL statements to determine record counts for use in determining the super keys.
 WITH cte_ColumnListConcat AS
 (
 SELECT  DISTINCT
@@ -106,7 +106,7 @@ GO
 --------------
 ----Step 5----
 --------------
---Create SuperKeys3_Final from SuperKeys3_DynamicSQL.   
+--Create SuperKeys3_Final from SuperKeys3_DynamicSQL.  
 SELECT  RowNumber,
         ColumnCount,
         ColumnList,
@@ -122,7 +122,7 @@ GO
 --------------
 ----Step 6----
 --------------
---Using a cursor, loops through the SQL and updates the SuperKeys3_Final.RecordCount column.     
+--Using a cursor, loops through the SQL and updates the SuperKeys4_Final.RecordCount column.
 DECLARE @vRowNumber INTEGER;
 DECLARE @vSQLStatement VARCHAR(8000);
 
@@ -144,7 +144,7 @@ GO
 --------------
 ----Step 7----
 --------------
---Updates the IsSuperKey and IsMinimalSuperKey columns.  
+--Updates the IsSuperKey and IsMinimalSuperKey columns in the table SuperKeys4_Final.
 DECLARE @vRecordCount INTEGER = (SELECT COUNT(*) FROM NormalizationTest);
 
 UPDATE SuperKeys4_Final
@@ -161,7 +161,7 @@ GO
 --------------
 ----Step 8----
 --------------
---This step uses the STRING_SPLIT function for use in determining the Candidate Keys.   
+--Uses the STRING_SPLIT function to determine candidate keys.
 WITH cte_StringSplit AS
 (
 SELECT  a.ColumnCount,
@@ -192,7 +192,7 @@ GO
 --------------
 ----Step 9----
 --------------
---Creates the dataset to determine the Candidate Keys. 
+--Creates the table SuperKeys6_CandidateKey to determine the candiate keys.
 WITH cte_StringSplitMatch AS
 (
 SELECT a.DenseRank as DenseRank_A,
@@ -230,7 +230,7 @@ GO
 -------------
 ---Step 10---
 -------------
---Updates the SuperKeys5_Final table with the Candidate Keys. 
+--Updates the SuperKeys5_Final.IsCandidateKey column.
 UPDATE  SuperKeys4_Final
 SET     IsCandidateKey = 1
 WHERE   ColumnList NOT IN (SELECT ColumnList_B FROM SuperKeys6_CandidateKey) AND
@@ -244,7 +244,7 @@ GO
 -------------
 ---Step 11---
 -------------
---Using the STRING_AGG function, determine non-prime attributes of the Candidate Keys     
+--Using the STRING_AGG function, determine non-prime attributes of the candidate keys.
 WITH cte_SuperKeys AS
 (
 SELECT  ColumnList AS SuperKey
@@ -264,7 +264,7 @@ GO
 --------------
 ----Step 12---
 --------------
---Update the `NonPrimeAttributes` column in the final table
+--For all super keys, update the NonPrimeAttributes column in the SuperKeys4_Finaltable.
 UPDATE  SuperKeys4_Final
 SET     NonPrimeAttributes = b.NonPrimeAttributes
 FROM    SuperKeys4_Final a INNER JOIN
