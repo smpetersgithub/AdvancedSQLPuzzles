@@ -25,7 +25,7 @@ GO
 ----------
 --STEP 1--
 ----------
---Create the table `Determinant_Dependent1_CrossJoin` of all possibilities of Determinants and Dependents.
+--Create the table Determinant_Dependent1_CrossJoin of all possibilities of determinants and dependents.
 SELECT  DISTINCT
         b.ColumnList AS Determinant
        ,a.ColumnList AS [Dependent]
@@ -42,7 +42,7 @@ GO
 ----------
 --STEP 2--
 ----------
---Use `STRING_SPLIT` on the Dependent column.
+--Uses STRING_SPLIT on the Dependent column to build a dataset to determine which columns are subsets.
 WITH cte_StringSplit AS
 (
 SELECT  a.*
@@ -66,7 +66,7 @@ GO
 ----------
 --STEP 3--
 ----------
---Determine the count of Dependent columns that are part of the the Super Key.
+--Determine the count of Dependent columns that are part of the super key.
 WITH cte_PartOfDeterminant AS
 (
 SELECT  RowNumber1
@@ -102,7 +102,7 @@ GO
 ----------
 --STEP 4--
 ----------
---Creates the `Determinant_Dependent4_TrivialDependency` table that determines if the Dependent is a Trivial or Semi Trivial dependency.
+--Creates the Determinant_Dependent4_TrivialDependency table that determines if the dependent is a trivial or semi-trivial dependency.
 SELECT  Determinant
        ,Dependent
        ,CASE WHEN DependentColumnCount = SumIsPartOfDeterminant 
