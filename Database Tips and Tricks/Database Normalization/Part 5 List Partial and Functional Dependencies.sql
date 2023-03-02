@@ -18,6 +18,7 @@ GO
 --------------
 ----Step 1----
 --------------
+--Creates the table PartialDependency for which you can make deductions about 2NF.
 WITH cte_CandidateKeys AS
 (
 SELECT  ColumnList
@@ -51,6 +52,7 @@ GO
 --------------
 ----Step 2----
 --------------
+--Update the PartialDependency.PartialDependency column that gives a description of the dependency.
 UPDATE 	PartialDependency	
 SET     PartialDependency = CONCAT('{',CandidateKey,'} ----> {',TrivialDependency,'} ----> {',Dependent,'}');
 GO
@@ -58,6 +60,7 @@ GO
 --------------
 ----Step 3----
 --------------
+--Inserts into the PartialDependency table any candidate keys that are currently not present.  These are keys that do not have any partial dependencies.
 INSERT INTO PartialDependency (CandidateKey)
 SELECT  ColumnList
 FROM    SuperKeys4_Final a
@@ -68,6 +71,7 @@ GO
 --------------
 ----Step 4----
 --------------
+--Creates the table FunctionalDependency for which you can make deductions about 3NF.
 WITH cte_CandidateKeys AS
 (
 SELECT  ColumnList
@@ -77,7 +81,7 @@ WHERE   IsCandidateKey = 1
 SELECT  a.ColumnList AS CandidateKey
         ,b.Dependent AS Dependent1
         ,c.Dependent AS Dependent2
-		,CAST(NULL AS VARCHAR(255)) AS FunctionalDependency
+        ,CAST(NULL AS VARCHAR(255)) AS FunctionalDependency
 INTO    FunctionalDependency
 FROM    cte_CandidateKeys a INNER JOIN
         Determinant_Dependent7_FunctionalDependency b ON a.ColumnList = b.Determinant
@@ -85,12 +89,13 @@ FROM    cte_CandidateKeys a INNER JOIN
         Determinant_Dependent7_FunctionalDependency c ON b.Dependent = c.Determinant
 WHERE   b.IsTrivialDependency = 0 AND b.IsFunctionalDependency = 1 AND b.IsSemiTrivialDependency = 0 AND
         c.IsTrivialDependency = 0 AND c.IsFunctionalDependency = 1 AND c.IsSemiTrivialDependency = 0 AND
-		b.Dependent <> c.Dependent;
+        b.Dependent <> c.Dependent;
 GO
 
 --------------
 ----Step 5----
 --------------
+--Update the FunctionalDependency.FunctionalDependency column that gives a description of the functional dependency.
 UPDATE FunctionalDependency
 SET FunctionalDependency = CONCAT('{',CandidateKey,'} ----> {',Dependent1,'} ----> {',Dependent2,'}')
 GO
@@ -98,6 +103,7 @@ GO
 --------------
 ----Step 6----
 --------------
+--Inserts into the FunctionalDependency table any candidate keys that are currently not present.  These are keys that do not have any functional dependencies.
 INSERT INTO FunctionalDependency (CandidateKey)
 SELECT  ColumnList
 FROM    SuperKeys4_Final a
