@@ -1,11 +1,8 @@
 # Part 5: List Partial and Functional Dependencies
 
-# Part 4: Determine Functional Dependencies
-
 **Tables Used**    
-1.  `PartialDependency`
-2.  `FunctionalDependency`
-
+1.  `SuperKeys4_Final`
+2.  `Determinant_Dependent7_FunctionalDependency`
 
 ### Steps Involved
 
