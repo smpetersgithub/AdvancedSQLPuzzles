@@ -8,12 +8,10 @@ In this repository, you'll find several scripts for determining various attribut
 3) Candidate Keys
 4) Prime and Non-Prime Attributes 
 5) Dependents and Determinants
-6) Trivial, Non-Trivial and Semi-Trivial Dependencies 
+6) Trivial, Non-Trivial and Semi-Trivial Dependencies
 7) Partial and Functional Dependencies
 
-:book:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;For documentation for each of these scripts, please the relevant markdowns in the directory named Handbook.
-
-## Overview 
+## Overview
 
 There are five scripts in this repository, and I break each one down into its own markup file for easy explanation.   
 
@@ -23,6 +21,7 @@ There are five scripts in this repository, and I break each one down into its ow
 4) `Part 4 Determine Functional Dependencies`
 5) `Part 5 List Partial and Functional Dependencies` 
 
+:book:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;For documentation for each of these scripts, please review the relevant markdowns in the directory named Handbook.
 
 ## Installation
 
