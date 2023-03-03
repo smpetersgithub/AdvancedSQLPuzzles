@@ -11,6 +11,8 @@ In this repository, you'll find several scripts for determining various attribut
 6) Trivial, Non-Trivial and Semi-Trivial Dependencies
 7) Partial and Functional Dependencies
 
+From these attributes, you can make deductions about 2NF, 3NF, BCNF, 4NF, 5NF.
+
 ## Overview
 
 There are five scripts in this repository, and I break each one down into its own markup file for easy explanation.   
