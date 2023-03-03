@@ -10,6 +10,7 @@ See the documentation of the scripts located in my GitRepository.
 
 Set the variable @vRun to run a sample dataset, or create your own sample dataset using the table name NormalizationTest.
 
+To ensure accuracy and avoid errors, all tables are dropped in this script.
 */----------------------------------------------------------------------------------------------------------------------------
 
 SET NOCOUNT ON;
@@ -57,7 +58,7 @@ GO
 --Set this variable!!
 --Set this variable!!
 
-DECLARE @vRun INTEGER = 5;
+DECLARE @vRun INTEGER = 1;
 
 -------------------------------------------------------------------------------
 -------------------------------------------------------------------------------
