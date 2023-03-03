@@ -1,6 +1,6 @@
 # Part 1: Create Normalization Tables
 
-This script creates gives the user the option of several test datasets to experiment with.  These datasets are based upon the Wiki articles on normalization forms, where I include additional records to force the data to understand primary keys.
+This script gives the user the option of several test datasets to experiment with.  These datasets are based upon the Wiki articles on normalization forms, where I include additional records to force the data to understand primary keys.
 
 To execute the script, set the variable `@vRun` date or create your own sample dataset with the table name `NormalizationTest`.
 
@@ -16,7 +16,7 @@ Note:
 *  Second, third, and Boyce–Codd normal forms are concerned with functional dependencies, 4NF is concerned with a more general type of dependency known as a multivalued dependency.
 *  Fifth normal form is designed to remove redundancy in relational databases recording multi-valued facts by isolating semantically related multiple relationships.
 
-:exclamation:  In the following script, I do not state which exact normal forms the provided datasets exist in.  Rather, I state all the different keys, dependents and determinants, prime and non-prime attributes, trivial dependencies, and functional dependencies.
+:exclamation:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;I do not specify the exact normal forms of the provided datasets in the following script. Instead, I describe the various keys, dependents and determinants, prime and non-prime attributes, trivial dependencies, and functional dependencies.
 
 -----------
 
@@ -68,7 +68,7 @@ This example is the same as Option 2, but with an `ID` column added.
 
 `DECLARE @vRun INTEGER = 3;`
 
-:exclamation:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;I often characterize database normalization as an instructive demonstration of common mistakes because the examples include obvious mistakes, such as not including an Identity column. This example shows how adding an `ID` column changes the different possible keys.
+:exclamation:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;I frequently describe database normalization as an instructive demonstration of common mistakes, as the examples often highlight glaring oversights, such as the absence of an `Identity` column. This particular instance illustrates how the introduction of an `ID` column alters the possible keys candidate keys and the functional dependencies surronding them.
 
 
 | ID | Tournament | Year | Winner |        DOB        |
