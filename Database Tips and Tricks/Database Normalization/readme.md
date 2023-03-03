@@ -11,6 +11,7 @@ In this repository, you'll find several scripts for determining various attribut
 6) Trivial, Non-Trivial and Semi-Trivial Dependencies 
 7) Partial and Functional Dependencies
 
+:book:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;For documentation for each of these scripts, please the relevant markdowns in the directory named Handbook.
 
 ## Overview 
 
