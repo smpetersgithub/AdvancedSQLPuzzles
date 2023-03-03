@@ -2,7 +2,7 @@
 Scott Peters
 Database Normalization
 https://advancedsqlpuzzles.com
-Last Updated: 02/28/2023
+Last Updated: 03/03/2023
 Microsoft SQL Server T-SQL
 */----------------------------------------------------------------------------------------------------------------------------
 
@@ -52,8 +52,8 @@ GO
 --------------
 ----Step 2----
 --------------
---Update the PartialDependency.PartialDependency column that gives a description of the dependency.
-UPDATE 	PartialDependency	
+--Updates the PartialDependency.PartialDependency column that gives a description of the dependency.
+UPDATE  PartialDependency
 SET     PartialDependency = CONCAT('{',CandidateKey,'} ----> {',TrivialDependency,'} ----> {',Dependent,'}');
 GO
 
@@ -71,7 +71,7 @@ GO
 --------------
 ----Step 4----
 --------------
---Creates the table FunctionalDependency for which you can make deductions about 3NF.
+--Creates the table FunctionalDependency for which you can make deductions about 3NF, BCNF, 4NF, and 5NF.
 WITH cte_CandidateKeys AS
 (
 SELECT  ColumnList
