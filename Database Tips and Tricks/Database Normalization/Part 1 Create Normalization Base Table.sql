@@ -2,8 +2,14 @@
 Scott Peters
 Database Normalization
 https://advancedsqlpuzzles.com
-Last Updated: 02/28/2023
+Last Updated: 03/03/2023
 Microsoft SQL Server T-SQL
+
+These example datasets provided here are based on the Wikipedia examples for 2NF, 3NF, BCNF, 4NF, AND 5NF.
+See the documentation of the scripts located in my GitRepository.
+
+Set the variable @vRun to run a sample dataset, or create your own sample dataset using the table name NormalizationTest.
+
 */----------------------------------------------------------------------------------------------------------------------------
 
 SET NOCOUNT ON;
