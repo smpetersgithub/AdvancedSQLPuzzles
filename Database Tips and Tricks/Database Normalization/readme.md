@@ -23,7 +23,7 @@ There are five scripts in this repository, and I break each one down into its ow
 4) `Part 4 Determine Functional Dependencies`
 5) `Part 5 List Partial and Functional Dependencies` 
 
-:book:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;For documentation for each of these scripts, please review the relevant markdowns in the directory named Handbook.
+:book:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;For documentation for each of these scripts, please review the relevant markdowns in the directory named **Handbook**.
 
 ## Installation
 
