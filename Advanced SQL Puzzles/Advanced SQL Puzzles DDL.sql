@@ -332,7 +332,7 @@ INSERT INTO #ProcessLog (Workflow, StepNumber, RunStatus) VALUES
 ('Echo',1,'Running'),('Echo',2,'Complete');
 GO
 
-*----------------------------------------------------
+/*----------------------------------------------------
 DDL for Puzzle #15
 Group Concatenation
 */----------------------------------------------------
@@ -643,7 +643,7 @@ GO
 
 CREATE TABLE #SampleData
 (
-IntegerValue  INTEGER NOT NULL,
+IntegerValue  INTEGER NOT NULL
 );
 GO
 

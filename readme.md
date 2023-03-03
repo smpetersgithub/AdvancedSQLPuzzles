@@ -24,9 +24,7 @@ The contents of this GitHub continue to expand, so check back often. Below are s
 
 ## About Me
 
-Hi, I'm Scott Peters, an experienced SQL developer based in Austin, Texas. With over two decades of experience in the field, I've honed my skills in designing, developing, and maintaining complex databases, with a focus on the financial industry.   
-
-My strengths lie in my ability to think in a set-based manner, grasp the relational model, and tackle complex data puzzles. I'm also skilled in technical writing, which has allowed me to effectively document my work.   
+Greetings, I am Scott Peters, a resident of Austin, TX, and an accomplished database developer. I have a wealth of experience in this field, and one of my many enjoyments is crafting intricate SQL puzzles that challenge and engage fellow developers. If someone were to inform me that I've written the word "SELECT" at least 200,000 times, I wouldn't be surprised in the slightest. 
 
 I am always eager to collaborate with fellow SQL developers. If you would like to connect, feel free to drop me a line!
 
