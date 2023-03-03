@@ -13,7 +13,7 @@ For more information on normalization forms, see the following Wikipedia article
 *  [Fifth Normal Form](https://en.wikipedia.org/wiki/Fifth_normal_form)
 
 Note:
-*  Second, third, and Boyce–Codd normal forms are concerned with functional dependencies, 4NF is concerned with a more general type of dependency known as a multivalued dependency.
+*  Second, third, and Boyce–Codd normal forms are concerned with functional dependencies, forth normal form is concerned with a more general type of dependency known as a multivalued dependency.
 *  Fifth normal form is designed to remove redundancy in relational databases recording multi-valued facts by isolating semantically related multiple relationships.
 
 :exclamation:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;I do not specify the exact normal forms of the provided datasets in the following script. Instead, I describe the various keys, dependents and determinants, prime and non-prime attributes, trivial dependencies, and functional dependencies.
