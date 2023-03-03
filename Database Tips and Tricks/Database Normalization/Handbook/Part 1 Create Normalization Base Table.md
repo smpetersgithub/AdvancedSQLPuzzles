@@ -68,7 +68,7 @@ This example is the same as Option 2, but with an `ID` column added.
 
 `DECLARE @vRun INTEGER = 3;`
 
-:exclamation: I often characterize database normalization as an instructive demonstration of common mistakes because the examples include obvious mistakes, such as not including an Identity column. This example shows how adding an `ID` column changes the different possible keys.
+:exclamation:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;I often characterize database normalization as an instructive demonstration of common mistakes because the examples include obvious mistakes, such as not including an Identity column. This example shows how adding an `ID` column changes the different possible keys.
 
 
 | ID | Tournament | Year | Winner |        DOB        |
