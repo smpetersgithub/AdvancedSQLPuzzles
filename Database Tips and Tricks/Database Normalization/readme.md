@@ -27,7 +27,7 @@ There are five scripts in this repository, and I break each one down into its ow
 
 The first script gives the user the ability to choose from several datasets that I have copied from the Wikipedia articles on normalization.  You can create your own dataset with the table name `NormalizationTest`.
 
-:exclamation: These scripts use brute force to determine the various keys, so the test data must include proper test data for the scripts to deduce these keys.
+:exclamation:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;These scripts use brute force to determine the various keys!  The test data must include proper test data for the scripts to deduce these keys!
 
 To get started, set the `@vRun` variable in `Part 1 Create Normalization Base Table`, and then simply run each script in succession.  
 
