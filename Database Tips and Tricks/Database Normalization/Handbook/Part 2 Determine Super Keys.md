@@ -33,31 +33,7 @@ This script determines all the **Super Keys**, **Minimal Super Keys**, **Candida
 
 A **candidate key** is a minimal set of attributes (or columns) that can uniquely identify each tuple (or row) in a relation (or table) without redundancy. In other words, a **candidate key** is a combination of one or more attributes that uniquely identifies each tuple in the relation.  A relation can have multiple **candidate keys**, but one of them (usually the minimal super key) is promoted to be the primary key of the relation.
 
-
-### Example Output
-
-Here is example output from the script:
-
-
-|         ColumnList         | IsSuperKey | IsMinimalSuperKey | IsCandidateKey | NonPrimeAttributes   |
-|----------------------------|------------|-------------------|----------------|----------------------|
-| Tournament,Year            |          1 |                 1 |              1 | DOB,Winner           |
-| Tournament,Winner,Year     |          1 |                 0 |              0 | DOB                  |
-| DOB,Tournament,Year        |          1 |                 0 |              0 | Winner               |
-| DOB,Tournament,Winner,Year |          1 |                 0 |              0 | <NULL>               |
-| Tournament                 |          0 |                 0 |              0 | <NULL>               |
-| DOB                        |          0 |                 0 |              0 | <NULL>               |
-| Year                       |          0 |                 0 |              0 | <NULL>               |
-| Winner                     |          0 |                 0 |              0 | <NULL>               |
-| Winner,Year                |          0 |                 0 |              0 | <NULL>               |
-| DOB,Tournament             |          0 |                 0 |              0 | <NULL>               |
-| DOB,Winner                 |          0 |                 0 |              0 | <NULL>               |
-| Tournament,Winner          |          0 |                 0 |              0 | <NULL>               |
-| DOB,Year                   |          0 |                 0 |              0 | <NULL>               |
-| DOB,Winner,Year            |          0 |                 0 |              0 | <NULL>               |
-| DOB,Tournament,Winner      |          0 |                 0 |              0 | <NULL>               |
-
-  --------------------------------------------------------------
+--------------------------------------------------------------
 
 :mailbox:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;If you find any inaccuracies, misspellings, bugs, dead links, etc. please report an issue!  No detail is too small, and I appreciate all the help.
 
