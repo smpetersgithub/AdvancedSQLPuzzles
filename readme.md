@@ -24,9 +24,7 @@ The contents of this GitHub continue to expand, so check back often. Below are s
 
 ## About Me
 
-Greetings, I am Scott Peters, a resident of Austin, TX, and an accomplished database developer. I have a wealth of experience in this field, and one of my many enjoyments is crafting intricate SQL puzzles that challenge and engage fellow developers. If someone were to inform me that I've written the word "SELECT" at least 200,000 times, I wouldn't be surprised in the slightest. 
-
-I am always eager to collaborate with fellow SQL developers. If you would like to connect, feel free to drop me a line!
+Greetings, I am Scott Peters, a resident of Austin, TX.  I am always eager to collaborate with fellow SQL developers. If you would like to connect, feel free to drop me a line!
 
 ## Conclusion
 
