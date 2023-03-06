@@ -24,8 +24,6 @@ Note:
 
 This example is from the Wikipedia article on second normal form.
 
-https://en.wikipedia.org/wiki/Second_normal_form
-
 `DECLARE @vRun INTEGER = 1;`    
 
 | Manufacturer |    Model    | Country |
