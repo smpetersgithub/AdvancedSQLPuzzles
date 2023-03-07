@@ -2,7 +2,7 @@
 Scott Peters
 DDL for Advanced SQL Puzzles
 https://advancedsqlpuzzles.com
-Last Updated 02/14/2023
+Last Updated 03/07/2023
 Microsoft SQL Server T-SQL
 
 */----------------------------------------------------
@@ -1506,7 +1506,7 @@ Discount  VARCHAR(255)
 );
 GO
 
-INSERT INTO #Promotions (OrderNumber, Item, Discount) VALUES 
+INSERT INTO #Promotions (OrderID, Product, Discount) VALUES 
 (1, 'Item1', 'PROMO'),
 (1, 'Item1', 'PROMO'),
 (1, 'Item1', 'MARKDOWN'),
