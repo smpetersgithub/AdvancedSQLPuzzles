@@ -3074,5 +3074,194 @@ GROUP BY Equation;
 GO
 
 /*----------------------------------------------------
+DDL for Puzzle #59
+Balanced String
+*/----------------------------------------------------
+
+DROP TABLE IF EXISTS #BalancedString;
+GO
+
+CREATE TABLE #BalancedString
+(
+RowNumber INT IDENTITY(1,1) PRIMARY KEY,
+ExpectedOutcome VARCHAR(50),
+MatchString VARCHAR(50),
+UpdateString VARCHAR(50)
+);
+GO
+
+INSERT INTO #BalancedString (ExpectedOutcome, MatchString) VALUES
+('Balanced','( )'),
+('Balanced','[]'),
+('Balanced','{}'),
+('Balanced','( ( { [] } ) )'),
+('Balanced','( ) [ ]'),
+('Balanced','( { } )'),
+('Unbalanced','( { ) }'),
+('Unbalanced','( { ) }}}()'),
+('Unbalanced','}{()][');
+GO
+
+/*----------------------------------------------------
+DDL for Puzzle #60
+Products Without Duplicates
+*/----------------------------------------------------
+
+DROP TABLE IF EXISTS #Products;
+GO
+
+CREATE TABLE #Products
+(
+Product  VARCHAR(10),
+ProductCode VARCHAR(2),
+PRIMARY KEY (Product, ProductCode)
+);
+GO
+
+INSERT INTO #Products VALUES
+('Alpha','01'),
+('Alpha','02'),
+('Bravo','03'),
+('Bravo','04'),
+('Charlie','02'),
+('Delta','01'),
+('Echo','EE'),
+('Foxtrot','EE'),
+('Gulf','GG');
+GO
+
+WITH cte_Dups AS
+(
+SELECT Product
+FROM   #Products
+GROUP BY Product
+HAVING COUNT(*) >= 2
+),
+cte_ProductCodes AS
+(
+SELECT  ProductCode
+FROM    #Products
+WHERE   Product IN (SELECT Product FROM cte_Dups)
+)
+SELECT  DISTINCT ProductCode
+FROM    #Products
+WHERE   ProductCode NOT IN (SELECT ProductCode FROM cte_ProductCodes);
+GO
+
+/*----------------------------------------------------
+DDL for Puzzle #61
+Player Scores
+*/----------------------------------------------------
+
+DROP TABLE IF EXISTS #PlayerScores;
+GO
+
+CREATE TABLE #PlayerScores
+(
+AttemptID  INTEGER,
+PlayerID  INTEGER,
+Score    INTEGER,
+PRIMARY KEY (AttemptID, PlayerID)
+);
+GO
+
+INSERT INTO #PlayerScores (AttemptID, PlayerID, Score) VALUES
+(1,1001,2),(2,1001,7),(3,1001,8),(1,2002,6),(2,2002,9),(3,2002,7);
+GO
+
+WITH cte_FirstLastValues AS
+(
+SELECT  *
+        ,FIRST_VALUE(Score) OVER (PARTITION BY PlayerID ORDER BY AttemptID) AS FirstValue
+        ,LAST_VALUE(Score) OVER  (PARTITION BY PlayerID ORDER BY AttemptID
+                                  ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING) LastValue
+        ,LAG(Score,1,99999999) OVER (PARTITION BY PlayerID ORDER BY AttemptID) AS LagScore
+        ,CASE WHEN Score - LAG(Score,1,0) OVER (PARTITION BY PlayerID ORDER BY AttemptID) > 0 THEN 1 ELSE 0 END AS IsImproved
+FROM    #PlayerScores
+)
+SELECT
+        AttemptID
+       ,PlayerID
+       ,Score
+       ,Score - FirstValue AS Difference_First
+       ,Score - LastValue AS Difference_Last
+       ,IsImproved AS IsPreviousScoreLower
+       ,MIN(IsImproved) OVER (Partition BY PlayerID) AS IsOverallImproved
+FROM   cte_FirstLastValues;
+GO
+
+/*----------------------------------------------------
+DDL for Puzzle #62
+Car and Boat Purchase
+*/----------------------------------------------------
+
+DROP TABLE IF EXISTS #Vehicles;
+GO
+
+CREATE TABLE #Vehicles (
+VehicleID     INTEGER PRIMARY KEY,
+Type   VARCHAR(20),
+Model  VARCHAR(20),
+Price         MONEY
+);
+GO
+
+INSERT INTO #Vehicles (VehicleID, Type, Model, Price) VALUES
+(1, 'Car','Rolls-Royce Phantom', 460000),
+(2, 'Car','Cadillac CT5', 39000),
+(3, 'Car','Porsche Boxster', 63000),
+(4, 'Car','Lamborghini Spyder', 290000),
+(5, 'Boat','Malibu', 210000),
+(6, 'Boat', 'ATX 22-S', 85000),
+(7, 'Boat', 'Sea Ray SLX', 520000),
+(8, 'Boat', 'Mastercraft', 25000);
+GO
+
+SELECT  a.Model AS Car, 
+        b.Model AS Boat
+FROM    #Vehicles a CROSS JOIN
+        #Vehicles B 
+WHERE   a.Type = 'Car' AND 
+        b.Type = 'Boat' AND 
+		a.Price > b.Price + 200000
+ORDER BY 1,2;
+GO
+
+/*----------------------------------------------------
+DDL for Puzzle #63
+Promotions
+*/----------------------------------------------------
+
+DROP TABLE IF EXISTS #Promotions;
+GO
+
+CREATE TABLE #Promotions (
+OrderID   INTEGER NOT NULL,
+Product   VARCHAR(255) NOT NULL,
+Discount  VARCHAR(255)
+);
+GO
+
+INSERT INTO #Promotions (OrderID, Product, Discount) VALUES 
+(1, 'Item1', 'PROMO'),
+(1, 'Item1', 'PROMO'),
+(1, 'Item1', 'MARKDOWN'),
+(1, 'Item2', 'PROMO'),
+(2, 'Item2', NULL),
+(2, 'Item3', 'MARKDOWN'),
+(2, 'Item3', NULL),
+(3, 'Item1', 'PROMO'),
+(3, 'Item1', 'PROMO'),
+(3, 'Item1', 'PROMO');
+GO
+
+SELECT OrderID
+FROM   #Promotions
+WHERE  Discount = ALL(SELECT 'PROMO')
+GROUP BY OrderID
+HAVING COUNT(DISTINCT Product) = 1;
+GO
+
+/*----------------------------------------------------
 The End
 */----------------------------------------------------
