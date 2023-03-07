@@ -1387,5 +1387,138 @@ INSERT INTO #Equations (Equation) VALUES
 GO
 
 /*----------------------------------------------------
+DDL for Puzzle #59
+Balanced String
+*/----------------------------------------------------
+
+DROP TABLE IF EXISTS #BalancedString;
+GO
+
+CREATE TABLE #BalancedString
+(
+RowNumber INT IDENTITY(1,1) PRIMARY KEY,
+ExpectedOutcome VARCHAR(50),
+MatchString VARCHAR(50),
+UpdateString VARCHAR(50)
+);
+GO
+
+INSERT INTO #BalancedString (ExpectedOutcome, MatchString) VALUES
+('Balanced','( )'),
+('Balanced','[]'),
+('Balanced','{}'),
+('Balanced','( ( { [] } ) )'),
+('Balanced','( ) [ ]'),
+('Balanced','( { } )'),
+('Unbalanced','( { ) }'),
+('Unbalanced','( { ) }}}()'),
+('Unbalanced','}{()][');
+GO
+
+/*----------------------------------------------------
+DDL for Puzzle #60
+Products Without Duplicates
+*/----------------------------------------------------
+
+DROP TABLE IF EXISTS #Products;
+GO
+
+CREATE TABLE #Products
+(
+Product  VARCHAR(10),
+ProductCode VARCHAR(2),
+PRIMARY KEY (Product, ProductCode)
+);
+GO
+
+INSERT INTO #Products VALUES
+('Alpha','01'),
+('Alpha','02'),
+('Bravo','03'),
+('Bravo','04'),
+('Charlie','02'),
+('Delta','01'),
+('Echo','EE'),
+('Foxtrot','EE'),
+('Gulf','GG');
+GO
+
+/*----------------------------------------------------
+DDL for Puzzle #61
+Player Scores
+*/----------------------------------------------------
+
+DROP TABLE IF EXISTS #PlayerScores;
+GO
+
+CREATE TABLE #PlayerScores
+(
+AttemptID  INTEGER,
+PlayerID  INTEGER,
+Score    INTEGER,
+PRIMARY KEY (AttemptID, PlayerID)
+);
+GO
+
+INSERT INTO #PlayerScores (AttemptID, PlayerID, Score) VALUES
+(1,1001,2),(2,1001,7),(3,1001,8),(1,2002,6),(2,2002,9),(3,2002,7);
+GO
+
+/*----------------------------------------------------
+DDL for Puzzle #62
+Car and Boat Purchase
+*/----------------------------------------------------
+
+DROP TABLE IF EXISTS #Vehicles;
+GO
+
+CREATE TABLE #Vehicles (
+VehicleID     INTEGER PRIMARY KEY,
+Type   VARCHAR(20),
+Model  VARCHAR(20),
+Price         MONEY
+);
+GO
+
+INSERT INTO #Vehicles (VehicleID, Type, Model, Price) VALUES
+(1, 'Car','Rolls-Royce Phantom', 460000),
+(2, 'Car','Cadillac CT5', 39000),
+(3, 'Car','Porsche Boxster', 63000),
+(4, 'Car','Lamborghini Spyder', 290000),
+(5, 'Boat','Malibu', 210000),
+(6, 'Boat', 'ATX 22-S', 85000),
+(7, 'Boat', 'Sea Ray SLX', 520000),
+(8, 'Boat', 'Mastercraft', 25000);
+GO
+
+/*----------------------------------------------------
+DDL for Puzzle #63
+Promotions
+*/----------------------------------------------------
+
+DROP TABLE IF EXISTS #Promotions;
+GO
+
+CREATE TABLE #Promotions (
+OrderID   INTEGER NOT NULL,
+Product   VARCHAR(255) NOT NULL,
+Discount  VARCHAR(255)
+);
+GO
+
+INSERT INTO #Promotions (OrderNumber, Item, Discount) VALUES 
+(1, 'Item1', 'PROMO'),
+(1, 'Item1', 'PROMO'),
+(1, 'Item1', 'MARKDOWN'),
+(1, 'Item2', 'PROMO'),
+(2, 'Item2', NULL),
+(2, 'Item3', 'MARKDOWN'),
+(2, 'Item3', NULL),
+(3, 'Item1', 'PROMO'),
+(3, 'Item1', 'PROMO'),
+(3, 'Item1', 'PROMO');
+GO
+
+/*----------------------------------------------------
 The End
 */----------------------------------------------------
