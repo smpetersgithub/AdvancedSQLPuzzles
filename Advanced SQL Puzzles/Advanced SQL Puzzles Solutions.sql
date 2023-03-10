@@ -3186,7 +3186,7 @@ SELECT
        ,Score - FirstValue AS Difference_First
        ,Score - LastValue AS Difference_Last
        ,IsImproved AS IsPreviousScoreLower
-       ,MIN(IsImproved) OVER (Partition BY PlayerID) AS IsOverallImproved
+       ,MIN(IsImproved) OVER (PARTITION BY PlayerID) AS IsOverallImproved
 FROM   cte_FirstLastValues;
 GO
 
