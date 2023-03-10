@@ -2964,7 +2964,7 @@ INSERT INTO #Strings (String) VALUES
 ('SELECT EmpID, MngrID FROM Employees;'),('SELECT * FROM Transactions;');
 GO
 
---Dispaly the results using recursion
+--Display the results using recursion
 ;WITH cte_CAST AS
 (
 SELECT QuoteID, CAST(String AS VARCHAR(200)) AS String FROM #Strings
@@ -3030,9 +3030,9 @@ WHILE @@FETCH_STATUS = 0
     BEGIN
 
     SELECT  @vSQLStatement = CONCAT('SELECT @var = ',@vEquation);
-        
+
     EXECUTE sp_executesql @vSQLStatement, N'@var BIGINT OUTPUT', @var = @vSum OUTPUT;
-        
+
     UPDATE  #Equations
     SET     TotalSum = @vSum
     WHERE   Equation = @vEquation;
@@ -3217,13 +3217,13 @@ INSERT INTO #Vehicles (VehicleID, Type, Model, Price) VALUES
 (8, 'Boat', 'Mastercraft', 25000);
 GO
 
-SELECT  a.Model AS Car, 
+SELECT  a.Model AS Car,
         b.Model AS Boat
 FROM    #Vehicles a CROSS JOIN
-        #Vehicles B 
-WHERE   a.Type = 'Car' AND 
-        b.Type = 'Boat' AND 
-		a.Price > b.Price + 200000
+        #Vehicles B
+WHERE   a.Type = 'Car' AND
+        b.Type = 'Boat' AND
+        a.Price > b.Price + 200000
 ORDER BY 1,2;
 GO
 
