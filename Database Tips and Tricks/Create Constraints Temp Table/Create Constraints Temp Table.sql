@@ -51,14 +51,6 @@ temporary stored procedures, and intermediate results of queries.
 
 -----------------------------------------------
 -----------------------------------------------
---This example uses the sample table from the GitHub repository
-DROP TABLE IF EXISTS #EmployeePayRecords;
-SELECT * INTO #EmployeePayRecords FROM dbo.EmployeePayRecords;
-GO
------------------------------------------------
------------------------------------------------
-
-
 SET NOCOUNT ON;
 
 DROP TABLE IF EXISTS #DynamicSQL;
@@ -67,7 +59,6 @@ DROP TABLE IF EXISTS #NULLConstraints;
 DROP TABLE IF EXISTS #CheckConstraints;
 DROP TABLE IF EXISTS #ForeignPrimaryUniqueKeyConstraints;
 GO
-
 
 CREATE TABLE #DynamicSQL
 (
@@ -78,7 +69,7 @@ GO
 
 --Insert the values for Schema Name and Table Name
 DECLARE @vschema_name VARCHAR(100) = 'dbo';
-DECLARE @vtable_name VARCHAR(100) = 'EmployeePayRecords';
+DECLARE @vtable_name VARCHAR(100) = '__PayrollSummary';
 
 -------------------------------------------------------
 -------------------------------------------------------
@@ -89,38 +80,40 @@ WITH cte_Constraints AS
 (
 SELECT    o.type AS object_type
         , t.type AS table_type
-		, i.type AS index_type
-		, c.type AS column_type
-		, '--->' AS id
-		, o.name AS [object_name]
-		, s.name AS schema_name
-		, t.name AS table_name
-		, i.name AS index_name
-		, c.name AS key_constraints_table_name
-		, col.name AS column_name
-	    --Note you can also use this method
-		--, OBJECT_NAME(ic.object_id) AS index_columns_name
-		--, COL_NAME(ic.object_id,ic.column_id) AS column_name
+        , i.type AS index_type
+        , c.type AS column_type
+        , '--->' AS id
+        , o.name AS [object_name]
+        , s.name AS schema_name
+        , t.name AS table_name
+        , i.name AS index_name
+        , c.name AS key_constraints_table_name
+        , col.name AS column_name
+       --Note you can also use this method
+        --, OBJECT_NAME(ic.object_id) AS index_columns_name
+        --, COL_NAME(ic.object_id,ic.column_id) AS column_name
 FROM    sys.objects o
         LEFT OUTER JOIN
         sys.tables t ON o.object_id = t.object_id
-		LEFT OUTER JOIN
-		sys.indexes i ON t.object_id = i.object_id
-		LEFT OUTER JOIN
-		sys.key_constraints c ON i.object_id = c.parent_object_id AND i.index_id = c.unique_index_id
-		LEFT OUTER JOIN
+        LEFT OUTER JOIN
+        sys.indexes i ON t.object_id = i.object_id
+        LEFT OUTER JOIN
+        sys.key_constraints c ON i.object_id = c.parent_object_id AND i.index_id = c.unique_index_id
+        LEFT OUTER JOIN
         sys.index_columns ic ON i.object_id = ic.object_id AND i.index_id = ic.index_id
         LEFT OUTER JOIN
-		sys.columns col ON t.object_id = col.object_id
+        sys.columns col ON t.object_id = col.object_id
                                 AND ic.column_id = col.column_id
-	    LEFT OUTER JOIN
-		sys.schemas s on t.schema_id = s.schema_id
+        LEFT OUTER JOIN
+        sys.schemas s on t.schema_id = s.schema_id
 WHERE   t.name = @vtable_name and s.name = @vschema_name
 )
 SELECT object_type, table_type, index_type, column_type, object_name, schema_name, table_name, index_name, STRING_AGG(column_name,', ') AS column_name
 INTO   #PrimaryUniqueKeyConstraints
 FROM   cte_Constraints
 GROUP BY object_type, table_type, index_type, column_type, object_name, schema_name, table_name, index_name;
+
+SELECT * FROM #PrimaryUniqueKeyConstraints;
 
 -------------------------------------------------------
 -------------------------------------------------------
@@ -130,29 +123,30 @@ SELECT  1 AS type
         ,s.name as schema_name
         ,t.name AS table_name
         ,col.name AS column_name
-		,con.name AS constraint_name
-		,con.definition AS constraint_definition
+        ,con.name AS constraint_name
+        ,con.definition AS constraint_definition
 INTO   #CheckConstraints
 FROM   sys.tables t INNER JOIN
        sys.columns col ON t.object_id = col.object_id INNER JOIN
-	   sys.check_constraints con ON con.parent_column_id = col.column_id AND
-	                         con.parent_object_id = col.object_id INNER JOIN
-	   sys.schemas s on t.schema_id = s.schema_id
+       sys.check_constraints con ON con.parent_column_id = col.column_id AND
+                             con.parent_object_id = col.object_id INNER JOIN
+       sys.schemas s on t.schema_id = s.schema_id
 WHERE   t.name = @vtable_name AND s.name = @vschema_name
 UNION
-SELECT  
-        2 AS type
-		,s.name as schema_name
-		,t.name AS table_name
+SELECT  2 AS type
+        ,s.name as schema_name
+        ,t.name AS table_name
         ,NULL AS column_name
-		,con.name AS constraint_name
-		,con.definition AS constraint_definition
-FROM   sys.tables t INNER JOIN
-       sys.columns col ON t.object_id = col.object_id INNER JOIN
-	   sys.check_constraints con ON col.object_id = con.parent_object_id INNER JOIN
-	   sys.schemas s on t.schema_id = s.schema_id
+        ,con.name AS constraint_name
+        ,con.definition AS constraint_definition
+FROM    sys.tables t INNER JOIN
+        sys.columns col ON t.object_id = col.object_id INNER JOIN
+        sys.check_constraints con ON col.object_id = con.parent_object_id INNER JOIN
+        sys.schemas s on t.schema_id = s.schema_id
 WHERE   con.parent_column_id = 0 AND
         t.name = @vtable_name AND s.name = @vschema_name;
+
+SELECT * FROM #CheckConstraints;
 
 -------------------------------------------------------
 -------------------------------------------------------
@@ -162,14 +156,16 @@ WHERE   con.parent_column_id = 0 AND
 SELECT  s.name AS schema_name
         ,t.name AS table_name
         ,c.Name AS column_name
-		,c.is_nullable
-		,ty.name AS date_type
+        ,c.is_nullable
+        ,ty.name AS date_type
 INTO    #NULLConstraints
 FROM    sys.tables t INNER JOIN
-	    sys.columns c ON t.object_id = c.object_id INNER JOIN
-	   sys.schemas s ON t.schema_id = s.schema_id INNER JOIN
-	    sys.types ty ON c.user_type_id = ty.user_type_id
+        sys.columns c ON t.object_id = c.object_id INNER JOIN
+        sys.schemas s ON t.schema_id = s.schema_id INNER JOIN
+        sys.types ty ON c.user_type_id = ty.user_type_id
 WHERE   t.name = @vtable_name AND s.name = @vschema_name AND c.is_nullable = 0;
+
+SELECT * FROM #NULLConstraints;
 
 -------------------------------------------------------
 -------------------------------------------------------
@@ -184,23 +180,23 @@ SELECT  o.name AS object_name
 INTO   #ForeignPrimaryUniqueKeyConstraints
 FROM
        sys.foreign_key_columns f INNER JOIN
-	   sys.objects o ON f.constraint_object_id = o.object_id INNER JOIN
-	   sys.tables t1 ON f.parent_object_id = t1.object_id INNER JOIN
-	   sys.schemas s ON t1.schema_id = s.schema_id INNER JOIN
-	   sys.columns c1 ON parent_column_id = c1.column_id AND t1.object_id = c1.object_id INNER JOIN
-	   sys.tables t2 ON f.referenced_object_id = t2.object_id INNER JOIN
-	   sys.columns c2 ON c2.column_id = f.referenced_column_id AND t2.object_id = c2.object_id
+       sys.objects o ON f.constraint_object_id = o.object_id INNER JOIN
+       sys.tables t1 ON f.parent_object_id = t1.object_id INNER JOIN
+       sys.schemas s ON t1.schema_id = s.schema_id INNER JOIN
+       sys.columns c1 ON parent_column_id = c1.column_id AND t1.object_id = c1.object_id INNER JOIN
+       sys.tables t2 ON f.referenced_object_id = t2.object_id INNER JOIN
+       sys.columns c2 ON c2.column_id = f.referenced_column_id AND t2.object_id = c2.object_id
 WHERE  t1.name = @vtable_name AND s.name = @vschema_name;
 
--------------------------------------------------------
--------------------------------------------------------
--------------------------------------------------------
+SELECT * FROM #ForeignPrimaryUniqueKeyConstraints;
 
+-------------------------------------------------------
+-------------------------------------------------------
+-------------------------------------------------------
 
 --SELECT * FROM #NULLConstraints;
 INSERT INTO #DynamicSQL (SQLStatement)
 SELECT CONCAT('ALTER TABLE #', table_name, ' ALTER COLUMN ', column_name, ' ', date_type, ' NOT NULL;') FROM #NULLConstraints;
-
 
 --SELECT * FROM #PrimaryUniqueKeyConstraints;
 INSERT INTO #DynamicSQL (SQLStatement)
@@ -211,7 +207,6 @@ SELECT CONCAT('ALTER TABLE #', table_name, ' ADD UNIQUE (', column_name, ');') F
 --SELECT * FROM #CheckConstraints;
 INSERT INTO #DynamicSQL (SQLStatement)
 SELECT CONCAT('ALTER TABLE #', table_name, ' ADD CHECK (', constraint_definition, ');') FROM #CheckConstraints;
-
 
 --SELECT * FROM #ForeignPrimaryUniqueKeyConstraints;
 --FOREIGN KEY constraints are not enforced on local or global temporary tables.
