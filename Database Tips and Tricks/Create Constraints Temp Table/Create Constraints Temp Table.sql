@@ -2,7 +2,7 @@
 Scott Peters
 Create Constraints On A Temp Table
 https://advancedsqlpuzzles.com
-Last Updated: 02/07/2023
+Last Updated: 03/10/2023
 Microsoft SQL Server T-SQL
 
 This script creates several constraints on a temporary table, #EmployeePayRecords, that are 
