@@ -3130,7 +3130,7 @@ INSERT INTO #Products VALUES
 ('Gulf','GG');
 GO
 
-WITH cte_Dups AS
+WITH cte_Duplicates AS
 (
 SELECT Product
 FROM   #Products
@@ -3141,7 +3141,7 @@ cte_ProductCodes AS
 (
 SELECT  ProductCode
 FROM    #Products
-WHERE   Product IN (SELECT Product FROM cte_Dups)
+WHERE   Product IN (SELECT Product FROM cte_Duplicates)
 )
 SELECT  DISTINCT ProductCode
 FROM    #Products
