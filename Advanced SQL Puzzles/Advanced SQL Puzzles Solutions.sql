@@ -2,7 +2,7 @@
 Scott Peters
 Solutions for Advanced SQL Puzzles
 https://advancedsqlpuzzles.com
-Last Updated: 03/07/2023
+Last Updated: 03/10/2023
 Microsoft SQL Server T-SQL
 
 */----------------------------------------------------
@@ -3260,6 +3260,59 @@ FROM   #Promotions
 WHERE  Discount = ALL(SELECT 'PROMO')
 GROUP BY OrderID
 HAVING COUNT(DISTINCT Product) = 1;
+GO
+
+/*----------------------------------------------------
+Answer to Puzzle #64
+Between Quotes
+*/----------------------------------------------------
+
+DROP TABLE IF EXISTS #Strings;
+GO
+
+CREATE TABLE #Strings
+(
+ID  INTEGER IDENTITY(1,1),
+String VARCHAR(256) NOT NULL
+);
+GO
+
+INSERT INTO #Strings (String) VALUES
+('"12345678901234"'),
+('1"2345678901234"'),
+('123"45678"901234"'),
+('123"45678901234"'),
+('12345678901"234"'),
+('12345678901234');
+GO
+
+WITH cte_Strings AS
+(
+SELECT  ID,
+        String,
+        (CASE WHEN LEN(String) - LEN(REPLACE(String,'"','')) <> 2 THEN 'Error' END) AS Result
+FROM    #Strings
+),
+cte_StringSplit AS
+(
+SELECT  ROW_NUMBER() OVER (PARTITION BY String ORDER BY GETDATE()) AS RowNumber,
+        *
+FROM    cte_Strings CROSS APPLY
+        STRING_SPLIT(String,'"')
+)
+SELECT  ID,
+        String,
+        (CASE WHEN LEN(Value) > 10 THEN 'True' ELSE 'False' END) AS Result
+FROM    cte_StringSplit
+WHERE   Result IS NULL AND 
+        RowNumber = 2
+UNION
+SELECT  ID,
+        String,
+        Result
+FROM    cte_Strings
+WHERE  Result = 'Error'
+ORDER BY 1;
 GO
 
 /*----------------------------------------------------
