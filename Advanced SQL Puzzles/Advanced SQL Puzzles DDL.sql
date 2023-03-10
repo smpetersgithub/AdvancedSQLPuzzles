@@ -1396,10 +1396,10 @@ GO
 
 CREATE TABLE #BalancedString
 (
-RowNumber INT IDENTITY(1,1) PRIMARY KEY,
+RowNumber       INT IDENTITY(1,1) PRIMARY KEY,
 ExpectedOutcome VARCHAR(50),
-MatchString VARCHAR(50),
-UpdateString VARCHAR(50)
+MatchString     VARCHAR(50),
+UpdateString    VARCHAR(50)
 );
 GO
 
@@ -1425,7 +1425,7 @@ GO
 
 CREATE TABLE #Products
 (
-Product  VARCHAR(10),
+Product     VARCHAR(10),
 ProductCode VARCHAR(2),
 PRIMARY KEY (Product, ProductCode)
 );
@@ -1454,8 +1454,8 @@ GO
 CREATE TABLE #PlayerScores
 (
 AttemptID  INTEGER,
-PlayerID  INTEGER,
-Score    INTEGER,
+PlayerID   INTEGER,
+Score      INTEGER,
 PRIMARY KEY (AttemptID, PlayerID)
 );
 GO
@@ -1473,10 +1473,10 @@ DROP TABLE IF EXISTS #Vehicles;
 GO
 
 CREATE TABLE #Vehicles (
-VehicleID     INTEGER PRIMARY KEY,
-Type   VARCHAR(20),
-Model  VARCHAR(20),
-Price         MONEY
+VehicleID  INTEGER PRIMARY KEY,
+Type       VARCHAR(20),
+Model      VARCHAR(20),
+Price      MONEY
 );
 GO
 
