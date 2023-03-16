@@ -1571,7 +1571,7 @@ SELECT  StepNumber,
 FROM    #Groupings
 )
 SELECT  MIN(StepNumber) AS MinStepNumber,
-        MAX(StepNumber) as MaxStepNumber,
+        MAX(StepNumber) AS MaxStepNumber,
         [Status],
         COUNT(*) AS ConsecutiveCount,
         MAX(StepNumber) - MIN(StepNumber) + 1 AS ConsecutiveCount_MinMax
