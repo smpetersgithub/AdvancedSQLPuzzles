@@ -2,7 +2,7 @@
 Scott Peters
 Solutions for Advanced SQL Puzzles
 https://advancedsqlpuzzles.com
-Last Updated: 03/10/2023
+Last Updated: 03/16/2023
 Microsoft SQL Server T-SQL
 
 */----------------------------------------------------
