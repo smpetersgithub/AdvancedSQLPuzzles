@@ -258,7 +258,7 @@ Equivalent **TRUE** statement below.
 
 ```sql
 --TRUE
-IF 3 > (SELECT MIN(ID)a FROM (VALUES(1),(2),(3),(4)) AS a(ID)) 
+IF 3 > (SELECT MIN(ID) FROM (VALUES(1),(2),(3),(4)) AS a(ID)) 
 PRINT 'TRUE'
 ELSE  
 PRINT 'FALSE';
@@ -281,7 +281,7 @@ Equivalent **TRUE** statement below.
 
 ```sql
 --TRUE
-IF 3 < (SELECT MAX(ID)a FROM (VALUES(1),(2),(3),(4)) AS a(ID)) 
+IF 3 < (SELECT MAX(ID) FROM (VALUES(1),(2),(3),(4)) AS a(ID)) 
 PRINT 'TRUE'
 ELSE  
 PRINT 'FALSE';
@@ -499,10 +499,9 @@ SELECT  NULL,
         NULL
 FROM    cte_SalesRepsQuarter a
 WHERE   Region NOT IN (SELECT Region FROM #TopSellingProducts)
-----------------------------
 ORDER BY SalesQuarter, SalesRepID, Region, Commission;
 GO
-
+----------------------------
 SELECT  COALESCE(CAST(SUM(Commission) AS VARCHAR(100)),'Goat') AS Commission,
         SalesRepID,
         Region
