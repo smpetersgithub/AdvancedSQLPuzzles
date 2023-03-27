@@ -2,17 +2,13 @@
 Scott Peters
 Add The Numbers Up
 https://advancedsqlpuzzles.com
-Last Updated: 01/13/2023
+Last Updated: 03/27/2023
 
 This script is written in SQL Server's T-SQL
 
-This script creates and populates several tables in order to generate all possible 
-permutations of a set of numbers and determine which permutations do not have adjacent 
-numbers. The script uses a combination of CTEs, a WHILE loop, and dynamic SQL to generate 
-and filter the permutations. The script also creates and populates a table of operators (+ and -) 
-which is used in conjunction with the permutations to determine the sum of each permutation using 
-a cursor. It's important to note that the script has some limitations and the numbers table must 
-meet certain criteria for the script to work correctly.
+This SQL Server script aims to find all possible permutations of numbers 
+and arithmetic operations (+, -) on a given set of numbers, and then 
+calculate the result of each permutation.
 
 **********************************************************************/
 
