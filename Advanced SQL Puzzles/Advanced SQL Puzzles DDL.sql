@@ -2,11 +2,12 @@
 Scott Peters
 DDL for Advanced SQL Puzzles
 https://advancedsqlpuzzles.com
-Last Updated 03/07/2023
+Last Updated 03/29/2023
 Microsoft SQL Server T-SQL
 
 */----------------------------------------------------
-
+SET NOCOUNT ON;
+GO
 
 /*----------------------------------------------------
 DDL for Puzzle #1
@@ -559,7 +560,7 @@ GO
 
 CREATE TABLE #Orders
 (
-OrderID     VARCHAR(3) PRIMARY KEY,
+OrderID     INTEGER PRIMARY KEY,
 CustomerID  INTEGER NOT NULL,
 OrderDate   DATE NOT NULL,
 Amount      MONEY NOT NULL,
@@ -568,19 +569,19 @@ Amount      MONEY NOT NULL,
 GO
 
 INSERT INTO #Orders (OrderID, CustomerID, OrderDate, Amount, [State]) VALUES
-('AAA',1001,'1/1/2018',100,'TX'),
-('BBB',1001,'1/1/2018',150,'TX'),
-('CCC',1001,'1/1/2018',75,'TX'),
-('DDD',1001,'2/1/2018',100,'TX'),
-('EEE',1001,'3/1/2018',100,'TX'),
-('FFF',2002,'2/1/2018',75,'TX'),
-('GGG',2002,'2/1/2018',150,'TX'),
-('HHH',3003,'1/1/2018',100,'IA'),
-('III',3003,'2/1/2018',100,'IA'),
-('JJJ',3003,'3/1/2018',100,'IA'),
-('KKK',4004,'4/1/2018',100,'IA'),
-('LLL',4004,'5/1/2018',50,'IA'),
-('MMM',4004,'5/1/2018',100,'IA');
+(1,1001,'1/1/2018',100,'TX'),
+(2,1001,'1/1/2018',150,'TX'),
+(3,1001,'1/1/2018',75,'TX'),
+(4,1001,'2/1/2018',100,'TX'),
+(5,1001,'3/1/2018',100,'TX'),
+(6,2002,'2/1/2018',75,'TX'),
+(7,2002,'2/1/2018',150,'TX'),
+(8,3003,'1/1/2018',100,'IA'),
+(9,3003,'2/1/2018',100,'IA'),
+(10,3003,'3/1/2018',100,'IA'),
+(11,4004,'4/1/2018',100,'IA'),
+(12,4004,'5/1/2018',50,'IA'),
+(13,4004,'5/1/2018',100,'IA');
 GO
 
 /*----------------------------------------------------
@@ -595,12 +596,12 @@ CREATE TABLE #Orders
 (
 OrderID     INTEGER PRIMARY KEY,
 CustomerID  INTEGER NOT NULL,
-OrderCount  MONEY NOT NULL,
+[Count]  MONEY NOT NULL,
 Vendor      VARCHAR(100) NOT NULL
 );
 GO
 
-INSERT INTO #Orders (OrderID, CustomerID, OrderCount, Vendor) VALUES
+INSERT INTO #Orders (OrderID, CustomerID, [Count], Vendor) VALUES
 (1,1001,12,'Direct Parts'),
 (2,1001,54,'Direct Parts'),
 (3,1001,32,'ACME'),
@@ -1013,14 +1014,14 @@ GO
 
 CREATE TABLE #CustomerOrders
 (
-[Order]     INTEGER,
+OrderID     INTEGER,
 CustomerID  INTEGER,
 Quantity    INTEGER NOT NULL,
-PRIMARY KEY ([Order], CustomerID)
+PRIMARY KEY (OrderID, CustomerID)
 );
 GO
 
-INSERT INTO #CustomerOrders VALUES 
+INSERT INTO #CustomerOrders (OrderID, CustomerID, Quantity) VALUES 
 (1,1001,5),(2,1001,8),(3,1001,3),(4,1001,7),
 (1,2002,4),(2,2002,9);
 GO
@@ -1175,9 +1176,9 @@ GO
 
 CREATE TABLE #ElevatorOrder
 (
-[Name]     VARCHAR(100) PRIMARY KEY,
+LineOrder  INTEGER PRIMARY KEY,
+[Name]     VARCHAR(100) NOT NULL,
 [Weight]   INTEGER NOT NULL,
-LineOrder  INTEGER NOT NULL
 );
 GO
 
