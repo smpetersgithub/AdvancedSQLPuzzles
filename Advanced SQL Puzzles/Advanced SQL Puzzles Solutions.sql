@@ -2,7 +2,7 @@
 Scott Peters
 Solutions for Advanced SQL Puzzles
 https://advancedsqlpuzzles.com
-Last Updated: 03/16/2023
+Last Updated: 03/29/2023
 Microsoft SQL Server T-SQL
 
 */----------------------------------------------------
@@ -1243,7 +1243,7 @@ GO
 
 CREATE TABLE #Orders
 (
-OrderID     VARCHAR(3) PRIMARY KEY,
+OrderID     INTEGER PRIMARY KEY,
 CustomerID  INTEGER NOT NULL,
 OrderDate   DATE NOT NULL,
 Amount      MONEY NOT NULL,
@@ -1252,19 +1252,19 @@ Amount      MONEY NOT NULL,
 GO
 
 INSERT INTO #Orders (OrderID, CustomerID, OrderDate, Amount, [State]) VALUES
-('AAA',1001,'1/1/2018',100,'TX'),
-('BBB',1001,'1/1/2018',150,'TX'),
-('CCC',1001,'1/1/2018',75,'TX'),
-('DDD',1001,'2/1/2018',100,'TX'),
-('EEE',1001,'3/1/2018',100,'TX'),
-('FFF',2002,'2/1/2018',75,'TX'),
-('GGG',2002,'2/1/2018',150,'TX'),
-('HHH',3003,'1/1/2018',100,'IA'),
-('III',3003,'2/1/2018',100,'IA'),
-('JJJ',3003,'3/1/2018',100,'IA'),
-('KKK',4004,'4/1/2018',100,'IA'),
-('LLL',4004,'5/1/2018',50,'IA'),
-('MMM',4004,'5/1/2018',100,'IA');
+(1,1001,'1/1/2018',100,'TX'),
+(2,1001,'1/1/2018',150,'TX'),
+(3,1001,'1/1/2018',75,'TX'),
+(4,1001,'2/1/2018',100,'TX'),
+(5,1001,'3/1/2018',100,'TX'),
+(6,2002,'2/1/2018',75,'TX'),
+(7,2002,'2/1/2018',150,'TX'),
+(8,3003,'1/1/2018',100,'IA'),
+(9,3003,'2/1/2018',100,'IA'),
+(10,3003,'3/1/2018',100,'IA'),
+(11,4004,'4/1/2018',100,'IA'),
+(12,4004,'5/1/2018',50,'IA'),
+(13,4004,'5/1/2018',100,'IA');
 GO
 
 --Solution 1
@@ -1283,7 +1283,7 @@ SELECT  ROW_NUMBER() OVER (ORDER BY OrderID) AS RowNumber,
         OrderID, CustomerID, OrderDate, Amount, [State]
 FROM    #Orders
 )
-SELECT  OrderID, CustomerID, ORderDate, Amount, [State]
+SELECT  OrderID, CustomerID, OrderDate, Amount, [State]
 FROM    cte_RowNumber
 WHERE   RowNumber BETWEEN 5 AND 10;
 GO
@@ -1300,12 +1300,12 @@ CREATE TABLE #Orders
 (
 OrderID     INTEGER PRIMARY KEY,
 CustomerID  INTEGER NOT NULL,
-OrderCount  MONEY NOT NULL,
+[Count]     INTEGER NOT NULL,
 Vendor      VARCHAR(100) NOT NULL
 );
 GO
 
-INSERT INTO #Orders (OrderID, CustomerID, OrderCount, Vendor) VALUES
+INSERT INTO #Orders (OrderID, CustomerID, [Count], Vendor) VALUES
 (1,1001,12,'Direct Parts'),
 (2,1001,54,'Direct Parts'),
 (3,1001,32,'ACME'),
@@ -1318,13 +1318,13 @@ GO
 --MAX window function
 WITH cte_Max AS
 (
-SELECT  OrderID, CustomerID, OrderCount, Vendor,
-        MAX(OrderCount) OVER (PARTITION BY CustomerID ORDER BY CustomerID) AS MaxOrderCount
+SELECT  OrderID, CustomerID, [Count], Vendor,
+        MAX([Count]) OVER (PARTITION BY CustomerID ORDER BY CustomerID) AS MaxCount
 FROM    #Orders
 )
 SELECT  CustomerID, Vendor
 FROM    cte_Max
-WHERE   OrderCount = MaxOrderCount
+WHERE   [Count] = MaxCount
 ORDER BY 1, 2;
 GO
 
@@ -1334,9 +1334,9 @@ WITH cte_Rank AS
 (
 SELECT  CustomerID,
         Vendor,
-        RANK() OVER (PARTITION BY CustomerID ORDER BY OrderCount DESC) AS Rnk
+        RANK() OVER (PARTITION BY CustomerID ORDER BY [Count] DESC) AS Rnk
 FROM    #Orders
-GROUP BY CustomerID, Vendor, OrderCount
+GROUP BY CustomerID, Vendor, [Count]
 )
 SELECT  DISTINCT b.CustomerID, b.Vendor
 FROM    #Orders a INNER JOIN
@@ -1350,13 +1350,13 @@ GO
 WITH cte_Max AS
 (
 SELECT  CustomerID,
-        MAX(OrderCount) AS MaxOrderCount
+        MAX([Count]) AS MaxOrderCount
 FROM    #Orders
 GROUP BY CustomerID
 )
 SELECT  CustomerID, Vendor
 FROM    #Orders a
-WHERE   EXISTS (SELECT 1 FROM cte_Max b WHERE a.CustomerID = b.CustomerID and a.OrderCount = MaxOrderCount)
+WHERE   EXISTS (SELECT 1 FROM cte_Max b WHERE a.CustomerID = b.CustomerID and a.[Count] = MaxOrderCount)
 ORDER BY 1, 2;
 GO
 
@@ -1364,7 +1364,7 @@ GO
 --ALL Operator
 SELECT  CustomerID, Vendor
 FROM    #Orders a
-WHERE   OrderCount >= ALL(SELECT OrderCount FROM #Orders b WHERE a.CustomerID = b.CustomerID)
+WHERE   [Count] >= ALL(SELECT [Count] FROM #Orders b WHERE a.CustomerID = b.CustomerID)
 ORDER BY 1, 2;
 GO
 
@@ -1372,7 +1372,7 @@ GO
 --MAX Function
 SELECT  CustomerID, Vendor
 FROM    #Orders a
-WHERE   OrderCount >= (SELECT MAX(OrderCount) FROM #Orders b WHERE a.CustomerID = b.CustomerID)
+WHERE   [Count] >= (SELECT MAX([Count]) FROM #Orders b WHERE a.CustomerID = b.CustomerID)
 ORDER BY 1, 2;
 GO
 
@@ -2306,22 +2306,22 @@ GO
 
 CREATE TABLE #CustomerOrders
 (
-[Order]     INTEGER,
+OrderID     INTEGER,
 CustomerID  INTEGER,
 Quantity    INTEGER NOT NULL,
-PRIMARY KEY ([Order], CustomerID)
+PRIMARY KEY (OrderID, CustomerID)
 );
 GO
 
-INSERT INTO #CustomerOrders VALUES 
+INSERT INTO #CustomerOrders (OrderID, CustomerID, Quantity) VALUES 
 (1,1001,5),(2,1001,8),(3,1001,3),(4,1001,7),
 (1,2002,4),(2,2002,9);
 GO
 
-SELECT  [Order],
+SELECT  OrderID,
         CustomerID,
         Quantity,
-        MIN(Quantity) OVER (PARTITION by CustomerID ORDER BY [Order]) AS MinQuantity
+        MIN(Quantity) OVER (PARTITION by CustomerID ORDER BY OrderID) AS MinQuantity
 FROM    #CustomerOrders;
 GO
 
@@ -2605,9 +2605,10 @@ GO
 
 CREATE TABLE #ElevatorOrder
 (
-[Name]     VARCHAR(100) PRIMARY KEY,
+LineOrder  INTEGER PRIMARY KEY,
+[Name]     VARCHAR(100) NOT NULL,
 [Weight]   INTEGER NOT NULL,
-LineOrder  INTEGER NOT NULL
+
 );
 GO
 
