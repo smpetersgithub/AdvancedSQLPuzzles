@@ -93,7 +93,8 @@ INSERT INTO #DataProfilingSQL (DataProfilingType, OrderID, SQLLine) VALUES
 (5,7,')'),
 (5,8,'WHERE RowNumber = vRowNumber');
 
-DECLARE @vSQLStatement NVARCHAR(1000) = (SELECT STRING_AGG(SQLLine,' ') FROM #DataProfilingSQL WHERE DataProfilingType = 5);
+--From the above #DataProfilingSQL table, choose which statement to run.  The default is 1.
+DECLARE @vSQLStatement NVARCHAR(1000) = (SELECT STRING_AGG(SQLLine,' ') FROM #DataProfilingSQL WHERE DataProfilingType = 1); --default is 1
 PRINT @vSQLStatement;
 ----------------------------------------------------------------------------------------
 
