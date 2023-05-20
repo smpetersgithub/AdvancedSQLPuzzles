@@ -34,6 +34,35 @@ Copy the values into your SQL editor and then insert the values into a table.
 
 ------------------------------------------------
 
+## Python
+
+If you want to accomplish the same using Python, you can use the following script.
+
+```
+def print_columns_up_to(column_name):
+    column_name = column_name.upper()
+
+    def get_column_name(column_number):
+        column_name = ""
+        while column_number > 0:
+            column_number -= 1
+            column_name = chr((column_number % 26) + ord('A')) + column_name
+            column_number = column_number // 26
+        return column_name
+
+    target_column_number = 0
+    for i in range(len(column_name)):
+        target_column_number = target_column_number * 26 + (ord(column_name[i]) - ord('A') + 1)
+
+    columns = [get_column_name(i) for i in range(1, target_column_number + 1)]
+    formula = '="(\'' + '\',\''.join(['"&'+col+'2&"' for col in columns]) + '"),"'
+    print(formula)
+
+# Example usage:
+column_name = input("Enter the column name: ")
+print_columns_up_to(column_name)
+```
+
 :mailbox:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;If you find any inaccuracies, misspellings, bugs, dead links, etc. please report an issue!  No detail is too small, and I appreciate all the help.
 
 :smile:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Happy coding!
