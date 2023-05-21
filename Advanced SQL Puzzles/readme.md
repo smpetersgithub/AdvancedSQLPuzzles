@@ -3,6 +3,8 @@
 
 This directory contains my collection of SQL puzzles.  I hope you enjoy these puzzles as much as I have enjoyed creating them!
 
+To get started, download the `Advanced SQL Puzzles.pdf`. 
+
 :keyboard:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The solutions provided are written in Microsoft SQL Server T-SQL, but you can easily modify them to fit your flavor of SQL.
 
 :question:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;If you have any questions, please feel free to create a GitHub discussion.  I am always happy to help out and explain different solutions.
