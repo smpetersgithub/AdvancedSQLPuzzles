@@ -1,10 +1,14 @@
 # CROSS JOINS
 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;In Microsoft SQL Server, there are two join functions for peroforming a cross join, `CROSS JOIN` and `CROSS APPLY`.
+
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;A `CROSS JOIN` creates all permutations (i.e., a cartesian product) or combinations of the two joining tables.  It will produce a result set which is the number of rows in the first table multiplied by the number of rows in the second table.
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;It is important to be mindful of the number of rows in each table, because a cross join will return the product of the number of rows of both tables. If one table has 100 rows and the other has 1000 rows, a `CROSS JOIN` will return 100,000 rows. Therefore, `CROSS JOIN` can cause performance issues if used on large tables.
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Note, you can also use recursion to generate permutation sets.  The benefit of using recursion is when you have an unknown number of elements that you need to create permutations on, which you may not know at runtime.  With `CROSS JOIN` you need to manually create each join.
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Also of note is that in Microsoft SQL Server, there are two join functions for peroforming a cross join, `CROSS JOIN` and `CROSS APPLY`.  `CROSS JOIN` and `CROSS APPLY` both will both work when only dealing with tables, but `CROSS APPLY` will only work with table-valued functions and sub-queries, which I will deomonstrate below.
 
 #### Permutations vs Combinations
 
@@ -38,7 +42,8 @@ We will be using the following tables that contain types of fruits and their qua
         
 
 ---------------------------------------------------------------------------------
-
+### CROSS JOIN
+  
 Here is a simplest form of the `CROSS JOIN` that creates all permutations between two datasets.
 
 ```sql
@@ -179,7 +184,89 @@ WHERE   a.Fruit <> b.Fruit OR a.Fruit IS NULL OR b.Fruit IS NULL;
 | Peach  | <NULL> |
 
 ---------------------------------------------------------
+  
+### CROSS APPLY
+  
+In Microsoft SQL Server, the `CROSS APPLY` functions the same as `CROSS JOIN`.
+  
+```sql
+SELECT  a.ID,
+        a.Fruit,
+        b.ID,
+        b.Fruit
+FROM    ##TableA a CROSS APPLY
+        ##TableB b;
+```
+  
+| ID | Fruit  | ID | Fruit  |
+|----|--------|----|--------|
+|  1 | Apple  |  1 | Apple  |
+|  2 | Peach  |  1 | Apple  |
+|  3 | Mango  |  1 | Apple  |
+|  4 | <NULL> |  1 | Apple  |
+|  1 | Apple  |  2 | Peach  |
+|  2 | Peach  |  2 | Peach  |
+|  3 | Mango  |  2 | Peach  |
+|  4 | <NULL> |  2 | Peach  |
+|  1 | Apple  |  3 | Kiwi   |
+|  2 | Peach  |  3 | Kiwi   |
+|  3 | Mango  |  3 | Kiwi   |
+|  4 | <NULL> |  3 | Kiwi   |
+|  1 | Apple  |  4 | <NULL> |
+|  2 | Peach  |  4 | <NULL> |
+|  3 | Mango  |  4 | <NULL> |
+|  4 | <NULL> |  4 | <NULL> |
 
+
+---------------------------------------------------------
+  
+The `CROSS APPLY` is used when joining to a table-valued function.  Here is an example from my Calendar Table example located [here.](https://github.com/smpetersgithub/AdvancedSQLPuzzles/blob/main/Database%20Tips%20and%20Tricks/Calendar%20Table/FnReturnCalendarTable%20Example%20Use.sql)
+  
+This performs an `INNER JOIN` as the join logic is placed in the `WHERE` clause of the SQL statement.
+  
+```
+  --Create a view
+CREATE OR ALTER VIEW dbo.VwCalendarTable AS
+SELECT  ct.*
+FROM    CalendarDaysTemp cd CROSS APPLY
+        dbo.FnReturnCalendarTable(cd.CalendarDate) ct
+WHERE   cd.DateKey = ct.DateKey;
+```  
+---------------------------------------------------------  
+ 
+If you need to do a cross join on a sub-query, the `CROSS APPLY` operator must be used.
+  
+```sql
+SELECT  a.ID,
+        a.Fruit,
+        b.ID,
+        b.Fruit
+FROM    ##TableA a CROSS APPLY
+        (SELECT * FROM ##TableB) b
+WHERE   a.Fruit = b.Fruit;
+```
+  
+| ID | Fruit  | ID | Fruit  |
+|----|--------|----|--------|
+|  1 | Apple  |  1 | Apple  |
+|  2 | Peach  |  1 | Apple  |
+|  3 | Mango  |  1 | Apple  |
+|  4 | <NULL> |  1 | Apple  |
+|  1 | Apple  |  2 | Peach  |
+|  2 | Peach  |  2 | Peach  |
+|  3 | Mango  |  2 | Peach  |
+|  4 | <NULL> |  2 | Peach  |
+|  1 | Apple  |  3 | Kiwi   |
+|  2 | Peach  |  3 | Kiwi   |
+|  3 | Mango  |  3 | Kiwi   |
+|  4 | <NULL> |  3 | Kiwi   |
+|  1 | Apple  |  4 | <NULL> |
+|  2 | Peach  |  4 | <NULL> |
+|  3 | Mango  |  4 | <NULL> |
+|  4 | <NULL> |  4 | <NULL> |
+  
+--------------------------------------------------------- 
+  
 1. [Introduction](01%20-%20Introduction.md)
 2. [SQL Processing Order](02%20-%20SQL%20Query%20Processing%20Order.md)
 3. [Table Types](03%20-%20Table%20Types.md)
