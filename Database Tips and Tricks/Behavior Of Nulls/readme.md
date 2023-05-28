@@ -48,7 +48,7 @@ We will cover these aspects and many more in the following document.
 [15. Views](#views)    
 [16. Boolean Values](#boolean-values)    
 [17. Return Statement](#return)    
-[18. identity Columns](#identity-columns)    
+[18. Identity Columns](#identity-columns)    
 
 --------------------------------------------------------
 ### Brief History of Nulls 
@@ -1007,6 +1007,7 @@ The SQL Server error returned is.
 	
 Msg 339, Level 16, State 1, Line 6
 DEFAULT or NULL are not allowed as explicit identity values.	
+	
 --------------------------------------------------------- 
 ### Conclusion
 🔵&nbsp;&nbsp;&nbsp;[Table Of Contents](#table-of-contents)
