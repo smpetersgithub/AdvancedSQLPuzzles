@@ -47,6 +47,8 @@ We will cover these aspects and many more in the following document.
 [14. CONCAT](#concat)    
 [15. Views](#views)    
 [16. Boolean Values](#boolean-values)    
+[17. Return Statement](#return)    
+[18. identity Columns](#identity-columns)    
 
 --------------------------------------------------------
 ### Brief History of Nulls 
@@ -983,6 +985,28 @@ The `SpReturnStatement` procedure attempted to return a status of NULL, which is
 |---------------|
 |             0 |
 
+--------------------------------------------------------- 
+### Identity Columns
+🔵&nbsp;&nbsp;&nbsp;[Table Of Contents](#table-of-contents)
+        
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;In some relational databases like MYSQL, when you insert a NULL marker into an identity column, the identity column will take the next available value and not error.  However, in Microsoft SQL Server, an error is produced.
+
+```sql
+CREATE TABLE ##Identity 
+(
+Id INTEGER IDENTITY(1,2)
+);
+
+INSERT INTO ##Identity(Id) VALUES (NULL);
+
+SELECT Id
+FROM ##Identity;           
+```
+
+The SQL Server error returned is.
+	
+Msg 339, Level 16, State 1, Line 6
+DEFAULT or NULL are not allowed as explicit identity values.	
 --------------------------------------------------------- 
 ### Conclusion
 🔵&nbsp;&nbsp;&nbsp;[Table Of Contents](#table-of-contents)
