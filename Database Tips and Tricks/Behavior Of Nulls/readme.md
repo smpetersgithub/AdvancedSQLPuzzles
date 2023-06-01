@@ -202,8 +202,8 @@ INSERT INTO ##TableB VALUES(3,'Kiwi',20);
 INSERT INTO ##TableB VALUES(4,NULL,NULL);
 GO
 
-SELECT * FROM ##TableA
-SELECT * from ##TableB
+SELECT * FROM ##TableA;
+SELECT * from ##TableB;
 ```
 
 ---------------------------------------------------------
