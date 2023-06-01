@@ -48,7 +48,7 @@ We will cover these aspects and many more in the following document.
 [15. Views](#views)    
 [16. Boolean Values](#boolean-values)    
 [17. Return Statement](#return)    
-[18. Identity Columns](#identity-columns)    
+[18. Identity Columns](#identity-columns)
 
 --------------------------------------------------------
 ### Brief History of Nulls 
@@ -999,8 +999,8 @@ Id INTEGER IDENTITY(1,2)
 
 INSERT INTO ##Identity(Id) VALUES (NULL);
 
-SELECT Id
-FROM ##Identity;           
+SELECT  Id
+FROM    ##Identity;           
 ```
 
 The SQL Server error returned is.
