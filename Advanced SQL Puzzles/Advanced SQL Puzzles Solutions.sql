@@ -314,6 +314,16 @@ FROM    cte_PhoneNumbers
 GROUP BY CustomerID;
 GO
 
+--Solution 4
+--MAX and CASE
+SELECT  CustomerID,
+        MAX(CASE [Type] WHEN 'Cellular' THEN PhoneNumber END),
+        MAX(CASE [Type] WHEN 'Work' THEN PhoneNumber END),
+        MAX(CASE [Type] WHEN 'Home' THEN PhoneNumber END)
+FROM    #PhoneDirectory
+GROUP BY CustomerID;
+GO
+
 /*----------------------------------------------------
 Answer to Puzzle #6
 Workflow Steps
