@@ -406,24 +406,24 @@ In the following examples, we see the set operators treat the NULL markers diffe
 --------------------------------------------------------
 **UNION**
   
-The `UNION` operator demonstrates that NULL is not distinct from NULL, as the following returns only one NULL marker.
+When using `UNION`, the SQL standard dictates that duplicate rows should be removed from the result set. When dealing with NULL, however, NULL is considered to be unique and not a duplicate of another NULL.  Simply, NULL is not distinct from NULL.
 
 ```sql
-SELECT ID, Fruit FROM ##TableA
+SELECT Fruit FROM ##TableA
 UNION
-SELECT ID, Fruit FROM ##TableB;
+SELECT Fruit FROM ##TableB;
 ```
 
-| ID | Fruit  |
-|----|--------|
-|  1 | Apple  |
-|  2 | Peach  |
-|  3 | Kiwi   |
-|  3 | Mango  |
-|  4 | <NULL> |
-|  4 | Mango  |
-|  5 | <NULL> |
-|  6 | <NULL> |
+| Fruit  |
+|--------|
+| Apple  |
+| Peach  |
+| Kiwi   |
+| Mango  |
+| <NULL> |
+| Mango  |
+| <NULL> |
+| <NULL> |
 
 --------------------------------------------------------
 **UNION ALL**
@@ -431,23 +431,23 @@ SELECT ID, Fruit FROM ##TableB;
 The `UNION ALL` operator returns all values including each NULL marker.
 
 ```sql
-SELECT ID, Fruit FROM ##TableA
+SELECT Fruit FROM ##TableA
 UNION ALL
-SELECT ID, Fruit FROM ##TableB;
+SELECT Fruit FROM ##TableB;
 ```
 
-| ID | Fruit  |
-|----|--------|
-|  1 | Apple  |
-|  2 | Peach  |
-|  3 | Mango  |
-|  4 | Mango  |
-|  5 | <NULL> |
-|  6 | <NULL> |
-|  1 | Apple  |
-|  2 | Peach  |
-|  3 | Kiwi   |
-|  4 | <NULL> |
+| Fruit  |
+|--------|
+| Apple  |
+| Peach  |
+| Mango  |
+| Mango  |
+| <NULL> |
+| <NULL> |
+| Apple  |
+| Peach  |
+| Kiwi   |
+| <NULL> |
 
 --------------------------------------------------------
 **EXCEPT**
