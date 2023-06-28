@@ -14,7 +14,7 @@ Let’s look at a few examples.
 --------------------------------------------------------------
 #### Planes In The Hanger
 
-The most common example you will find on the internet is the airplanes in the hanger example.
+The most common example you will find on the internet is the airplanes in the hanger example.  Here you need to find all pilots that can fly all planes located in the hanger.
 
 **Pilot Skills**
 
