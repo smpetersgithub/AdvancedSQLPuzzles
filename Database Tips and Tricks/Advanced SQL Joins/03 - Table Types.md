@@ -8,7 +8,7 @@ Here are the 10 different types of tables you can create.
 |----|--------------------------------|---------------|--------------------------------------------------------------------------------------------------------------------------------------------|
 |  1 |  Table                         |  True         |  A regular table that is stored in the database.                                                                                           |
 |  2 |  View                          |  True         |  A virtual table that is based on the result of a SELECT statement.                                                                        |
-|  3 |  Values Constructor            |  True         |  The `VALUES` constructor can be used to create a derived table, which is a table that is created and used within a single SQL query.      |
+|  3 |  Values Constructor            |  False        |  The `VALUES` constructor can be used to create a derived table, which is a table that is created and used within a single SQL query.      |
 |  4 |  Table Valued Function         |  True         |  A function that returns a table as its result.                                                                                            |
 |  5 |  Subquery                      |  False        |  A query that is embedded within another query. The results of a subquery can be used in the outer query.                                  |
 |  6 |  Derived Table                 |  False        |  A special type of subquery that is defined in the `FROM` statement                                                                        |
