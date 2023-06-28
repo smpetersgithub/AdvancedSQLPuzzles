@@ -102,7 +102,7 @@ SELECT 3 WHERE NOT(1=2) AND NOT(NULL=1);
 | **1 <> NULL**          | UNKNOWN           | TRUE               |
 | **NULL > NULL**        | UNKNOWN           | UNKNOWN            |
 | **1 > NULL**           | UNKNOWN           | UNKNOWN            |
-| **NULL**               | TRUE              | TRUE               |
+| **NULL IS NULL**       | TRUE              | TRUE               |
 | **1 IS NULL**          | FALSE             | FALSE              |
 | **NULL IS NOT NULL**   | FALSE             | FALSE              |
 | **1 IS NOT NULL**      | TRUE              | TRUE               |
