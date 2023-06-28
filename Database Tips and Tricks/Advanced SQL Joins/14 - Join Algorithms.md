@@ -25,8 +25,7 @@ Upon running an SQL statement, the query becomes parsed and is checked for the f
 3.  Object existence: The database verifies that all the tables, views, and other objects mentioned in the query exist.
 4.  Data type compatibility: The database checks that the data types of the columns in the query match the data types in the database.
 5.  Semantic analysis: The database checks the logical validity of the query, such as the presence of any ambiguous references or circular dependencies.
-6.  Query optimization: The database optimizes the query to determine the most efficient way to retrieve the data. This includes choosing the appropriate join algorithms, indexes, and execution plans.
-
+   
 ---------------------------------------------------------------------
 ##### Developer Considerations
 
