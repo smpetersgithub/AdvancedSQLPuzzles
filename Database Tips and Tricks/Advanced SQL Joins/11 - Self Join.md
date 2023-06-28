@@ -259,7 +259,7 @@ SELECT AVG(Salary) AS Average FROM Employees
 SELECT  *
 FROM    Employees a CROSS JOIN
         cte_Average b
-WHERE   Salary > Average;
+WHERE   a.Salary > b.Average;
 ```
   
 ---------------------------------------------------------
