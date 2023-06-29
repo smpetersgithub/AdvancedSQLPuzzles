@@ -781,7 +781,7 @@ GO
 
 --Solution 1
 --STRING_AGG
-SELECT  STRING_AGG(CONVERT(NVARCHAR(MAX),String), ' ')
+SELECT  STRING_AGG(CONVERT(NVARCHAR(MAX),String), ' ') WITHIN GROUP (ORDER BY SequenceNumber ASC)
 FROM    #DMLTable;
 GO
 
@@ -3060,7 +3060,11 @@ GO
 
 --Solution 2
 --STRING_SPLIT
---This solution will work if you need to only add and subtract
+--This solution will work if you need to only add and subtract.
+--Note that STRING_SPLIT does not guarantee order.  Use enable_oridinal if you need to order the output.
+--The enable_ordinal argument and ordinal output column are currently supported in Azure SQL Database, Azure SQL Managed Instance, 
+--and Azure Synapse Analytics (serverless SQL pool only). Beginning with SQL Server 2022 (16.x), the argument and output column are available in SQL Server.
+	
 WITH cte_ReplacePositive AS
 (
 SELECT  Equation,
@@ -3297,6 +3301,9 @@ INSERT INTO #Strings (String) VALUES
 ('12345678901234');
 GO
 
+--Note that STRING_SPLIT does not guarantee order.  Use enable_oridinal if you need to order the output.
+--The enable_ordinal argument and ordinal output column are currently supported in Azure SQL Database, Azure SQL Managed Instance, 
+--and Azure Synapse Analytics (serverless SQL pool only). Beginning with SQL Server 2022 (16.x), the argument and output column are available in SQL Server.
 WITH cte_Strings AS
 (
 SELECT  ID,
