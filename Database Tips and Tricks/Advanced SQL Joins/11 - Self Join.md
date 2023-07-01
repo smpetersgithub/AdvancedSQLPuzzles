@@ -114,15 +114,14 @@ Because the `Customer` table does not have a foreign key relationship, the above
 ```sql
 WITH cte_CountCity AS
 (
-SELECT  ID,
-        City
-FROM    Customer
+SELECT  City
+FROM    Cities
 GROUP BY City
 HAVING  COUNT(City) > 1
 )
 SELECT  a.*
-FROM    cte_CountCity a INNER JOIN
-        Customer b ON a.ID = b.ID;  
+FROM    Cities a
+WHERE   City IN (SELECT City FROM cte_CountCity);
 ```
 
  ----------------------------------------------------
