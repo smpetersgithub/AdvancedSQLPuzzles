@@ -1854,6 +1854,7 @@ INSERT INTO #Orders VALUES
 (10,8008,67,'Domestic');
 GO
 
+--Solution 1 and 2 illustrate Morgan's Law	
 --Solution 1 
 --NOT
 SELECT  InvoiceID,
@@ -1863,7 +1864,16 @@ FROM    #Orders
 WHERE   NOT(SalesRepID = 1001 AND Amount = 50);
 GO
 
---Solution 2
+--Solution 2 
+--OR
+SELECT  InvoiceID,
+        SalesRepID,
+        Amount
+FROM    #Orders
+WHERE   SalesRepID <> 1001 OR Amount <> 50;
+GO
+
+--Solution 3
 --EXCEPT
 SELECT  InvoiceID,
         SalesRepID,
