@@ -1789,6 +1789,8 @@ WHERE   DaysToDeliver >= ALL(SELECT  DaysToManufacture
                               WHERE   a.Product = b.Product);
 GO
 
+
+
 /*----------------------------------------------------
 Answer to Puzzle #34
 Specific Exclusion
@@ -1809,6 +1811,9 @@ INSERT INTO #Orders (OrderID, CustomerID, Amount) VALUES
 (1,1001,25),(2,1001,50),(3,2002,65),(4,3003,50);
 GO
 
+--Solutions 1 and 2 show Morgan's Law.
+--Solution 1
+--NOT
 SELECT  OrderID,
         CustomerID,
         Amount
@@ -1816,12 +1821,27 @@ FROM    #Orders
 WHERE   NOT(CustomerID = 1001 AND Amount = 50);
 GO
 
+--Solution 2 
+--OR
 SELECT  OrderID,
         CustomerID,
         Amount
 FROM    #Orders
-WHERE   CONCAT(CustomerID, Amount)  <> '100150.00'
-ORDER BY 2
+WHERE   CustomerID <> 1001 OR Amount <> 50;
+GO
+
+--Solution 3
+--EXCEPT
+SELECT  OrderID,
+        CustomerID,
+        Amount
+FROM    #Orders
+EXCEPT
+SELECT  OrderID,
+        CustomerID,
+        Amount
+FROM    #Orders
+WHERE   CustomerID <> 1001 OR Amount <> 50
 GO
 
 /*----------------------------------------------------
@@ -1843,48 +1863,28 @@ GO
 
 INSERT INTO #Orders VALUES
 (1,1001,13454,'International'),
-(2,2002,3434,'International'),
-(3,4004,54645,'International'),
-(4,5005,234345,'International'),
-(5,7007,776,'International'),
+(2,1001,3434,'International'),
+(3,2002,54645,'International'),
+(4,3003,234345,'International'),
+(5,4004,776,'International'),
 (6,1001,4564,'Domestic'),
 (7,2002,34534,'Domestic'),
-(8,3003,345,'Domestic'),
-(9,6006,6543,'Domestic'),
-(10,8008,67,'Domestic');
+(8,2002,345,'Domestic'),
+(9,5005,6543,'Domestic'),
+(10,6006,67,'Domestic');
 GO
 
---Solution 1 and 2 illustrate Morgan's Law	
---Solution 1 
---NOT
-SELECT  InvoiceID,
-        SalesRepID,
-        Amount
+WITH cte_InterDomestic AS
+(
+SELECT  SalesRepID
 FROM    #Orders
-WHERE   NOT(SalesRepID = 1001 AND Amount = 50);
+GROUP BY SalesRepID
+HAVING   COUNT(DISTINCT SalesType) = 2
+)
+SELECT  DISTINCT SalesRepID
+FROM    #Orders 
+WHERE   SalesRepID NOT IN (SELECT SalesRepID FROM cte_InterDomestic);
 GO
-
---Solution 2 
---OR
-SELECT  InvoiceID,
-        SalesRepID,
-        Amount
-FROM    #Orders
-WHERE   SalesRepID <> 1001 OR Amount <> 50;
-GO
-
---Solution 3
---EXCEPT
-SELECT  InvoiceID,
-        SalesRepID,
-        Amount
-FROM    #Orders
-EXCEPT
-SELECT  InvoiceID,
-        SalesRepID,
-        Amount
-FROM    #Orders
-WHERE   SalesRepID = 1001 AND Amount = 50;
 
 /*----------------------------------------------------
 Answer to Puzzle #36
