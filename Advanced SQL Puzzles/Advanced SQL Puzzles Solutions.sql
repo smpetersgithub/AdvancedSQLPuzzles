@@ -2,7 +2,7 @@
 Scott Peters
 Solutions for Advanced SQL Puzzles
 https://advancedsqlpuzzles.com
-Last Updated: 03/29/2023
+Last Updated: 09/01/2023
 Microsoft SQL Server T-SQL
 
 */----------------------------------------------------
@@ -58,7 +58,7 @@ SELECT  a.Item AS Item1,
         b.Item AS Item2
 FROM    #Cart1 a 
         RIGHT JOIN #Cart2 b ON a.Item = b.Item;
-	
+
 --Solution 3
 --This solution does not use a FULL OUTER JOIN
 SELECT  a.Item AS Item1,
@@ -741,7 +741,7 @@ cte_StringAgg AS
 SELECT  Workflow,
         STRING_AGG(RunStatus,', ') AS RunStatus_Agg,
         COUNT(DISTINCT RunStatus) AS DistinctCount
-FROM	cte_Distinct
+FROM    cte_Distinct
 GROUP BY Workflow
 )
 SELECT  Workflow,
@@ -1455,7 +1455,7 @@ BEGIN
     SET @DynamicSQL =
     'SELECT [' + @CurrentYear + '],
             [' + @CurrentYearLag1 + '],
-            [' + @CurrentYearLag2 + '] 
+            [' + @CurrentYearLag2 + ']
     FROM #Sales 
     PIVOT (SUM(AMOUNT) FOR YEAR IN (
             [' + @CurrentYear + '],
@@ -2747,7 +2747,7 @@ INSERT INTO #Assembly (AssemblyID, Part) VALUES
 GO
 
 SELECT  HASHBYTES('SHA2_512',CONCAT(AssemblyID, Part)) AS ExampleUniqueID1,
-        CHECKSUM(CONCAT(AssemblyID, Part)) AS ExampleUniqueID1,
+        CHECKSUM(CONCAT(AssemblyID, Part)) AS ExampleUniqueID12,
         AssemblyID,
         Part
 FROM    #Assembly;
