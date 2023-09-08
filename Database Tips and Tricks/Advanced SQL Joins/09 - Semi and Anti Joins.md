@@ -121,7 +121,7 @@ WHERE   EXISTS (SELECT 1 FROM ##TableB b WHERE a.Fruit = b.Fruit);
 |  1 | Apple |
 |  2 | Peach |
 
-If you forget to provide a join between the tables in the correlated subquery, the query will equate to true.  The following SQL statement always returns true, so the output will be the contents of table `##TableA`.
+Be aware of a nuance when using correlated subqueries without a join condition; they will always evaluate to true. In the following SQL example, the subquery returns NULL but isn't joined to the main query. Despite the NOT EXISTS (SELECT NULL), the query retrieves all rows from ##TableA because the subquery will always be true in the absence of a join condition.
 
 ```sql
 SELECT  *
