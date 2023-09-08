@@ -107,7 +107,7 @@ WHERE   Fruit IN (SELECT Fruit FROM ##TableB b WHERE a.Quantity = b.Quantity);
 
 The `EXISTS` operator is used to test for the existence of any record in a subquery. The `EXISTS` operator returns TRUE if the subquery returns one or more records and the `EXISTS` operator treats NULL markers as neither equal to nor unequal to each other, they are unknown. 
 
-Because it checks for the existence of rows, you do not need to include any columns in the `SELECT` statement.  It is considered best practice to simply place an arbitrary "1" in this spot.
+Because it checks for the existence of rows, you do not need to include any columns in the `SELECT` statement. It is considered best practice to simply place an arbitrary "1" in this spot.
 
 ```sql
 SELECT  ID,
@@ -120,6 +120,41 @@ WHERE   EXISTS (SELECT 1 FROM ##TableB b WHERE a.Fruit = b.Fruit);
 |----|-------|
 |  1 | Apple |
 |  2 | Peach |
+
+If you forget to provide a join between the tables in the correlated subquery, the query will equate to true.  The following SQL statement always returns true, so the output will be the contents of table `##TableA`.
+
+```sql
+SELECT  *
+FROM    ##TableA
+WHERE   EXISTS (SELECT NULL);
+```
+
+| ID | Fruit  | Quantity |
+|----|--------|----------|
+|  1 | Apple  |       17 |
+|  2 | Peach  |       20 |
+|  3 | Mango  |       11 |
+|  4 | <NULL> |        5 |
+
+ 
+----------------------------------------------------------------------------------------
+
+Be cautious with the use of the IN operator, as it can lead to unexpected behavior. In the SQL snippet below, you might anticipate that the inner SELECT statement would produce an error since Column_AAA doesn't exist in @Table2. However, this query runs without issue and updates @Table1, setting Column_AAA to 3. This is because SQL Server treats it as a correlated subquery. To actually trigger a column reference error, you can use a table alias to explicitly refer to the column from @Table2.
+
+```sql
+DECLARE @Table1 TABLE (Column_AAA INT);
+DECLARE @Table2 TABLE (Column_BBB INT);
+
+INSERT @Table1 VALUES(1);
+INSERT @Table2 VALUES();
+
+UPDATE  @Table1
+SET     Column_AAA = 3
+WHERE   Column_AAA IN (SELECT Column_AAA FROM @Table2);
+
+SELECT  Column_AAA
+FROM    @Table1;
+```
 
 ----------------------------------------------------------------------------------------
 
