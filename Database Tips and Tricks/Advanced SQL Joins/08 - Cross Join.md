@@ -234,7 +234,7 @@ WHERE   cd.DateKey = ct.DateKey;
 ```  
 ---------------------------------------------------------  
  
-If you need to do a cross join on a sub-query, the `CROSS APPLY` operator must be used.
+If you need to do a cross join on a sub-query, the `CROSS APPLY` operator must be used.  Some databases like PostgreSQL have the `LATERAL` join instead of `CROSS APPLY`.
   
 ```sql
 SELECT  a.ID,
