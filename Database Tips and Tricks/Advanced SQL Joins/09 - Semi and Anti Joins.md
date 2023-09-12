@@ -139,7 +139,7 @@ WHERE   EXISTS (SELECT NULL);
  
 ----------------------------------------------------------------------------------------
 
-Be cautious with the use of the IN operator, as it can lead to unexpected behavior. In the SQL snippet below, you might anticipate that the inner SELECT statement would produce an error since Column_AAA doesn't exist in @Table2. However, this query runs without issue and updates @Table1, setting Column_AAA to 3. This is because SQL Server treats it as a correlated subquery. To actually trigger a column reference error, you can use a table alias to explicitly refer to the column from @Table2.
+Be cautious with the use of the IN operator, as it can lead to unexpected behavior. In the SQL snippet below, you might anticipate that the inner `SELECT` statement would produce an error since `Column_AAA` doesn't exist in `@Table2`. However, this query runs without issue and updates `@Table1`, setting `Column_AAA` to 3. This is because SQL Server treats it as a correlated subquery. To actually trigger a column reference error, you can use a table alias to explicitly refer to the column from @Table2.
 
 ```sql
 DECLARE @Table1 TABLE (Column_AAA INT);
