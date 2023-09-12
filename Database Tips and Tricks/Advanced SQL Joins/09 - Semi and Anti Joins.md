@@ -75,7 +75,7 @@ WHERE   Fruit IN ('Apple','Peach',NULL);
 
 ----------------------------------------------------------------------------------------
 
-Using the `IN` operator, this query will return results but does not return a NULL marker even though there is both a NULL marker in `TableA` and `TableB`.  The `NOT IN` operator treats NULL markers as neither equal to nor unequal to each other, they are unknown. 
+Using the `IN` operator, this query will return results but does not return a NULL marker even though there is both a NULL marker in `##TableA` and `##TableB`.  The `NOT IN` operator treats NULL markers as neither equal to nor unequal to each other, they are unknown. 
 
 ```sql
 SELECT  Fruit
@@ -123,7 +123,7 @@ WHERE   EXISTS (SELECT 1 FROM ##TableB b WHERE a.Fruit = b.Fruit);
 
 ----------------------------------------------------------------------------------------
 
-Be aware of a nuance when using correlated subqueries without a join condition; they will always evaluate to true. In the following SQL example, the subquery returns NULL but isn't joined to the main query. Despite the NOT EXISTS (SELECT NULL), the query retrieves all rows from ##TableA because the subquery will always be true in the absence of a join condition.
+Be aware of a nuance when using correlated subqueries without a join condition; they will always evaluate to true. In the following SQL example, the subquery returns NULL but isn't joined to the main query. Despite the `NOT EXISTS (SELECT NULL)`, the query retrieves all rows from `##TableA` because the subquery will always be true in the absence of a join condition.
 
 ```sql
 SELECT  *
