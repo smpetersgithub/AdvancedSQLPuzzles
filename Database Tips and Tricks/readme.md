@@ -11,7 +11,7 @@ Many of these items are solutions to everyday problems that I encounter in my da
 
 The items in this directory can be grouped into three categories:
 
-::point_right: &nbsp;&nbsp;**Database Writings**
+:point_right: &nbsp;&nbsp;**Database Writings**
 *  Advanced SQL Joins:
 *  Behavior of Nulls
 
