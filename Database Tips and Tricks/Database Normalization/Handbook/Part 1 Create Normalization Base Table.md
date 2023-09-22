@@ -13,8 +13,8 @@ For more information on normalization forms, see the following Wikipedia article
 *  [Fifth Normal Form](https://en.wikipedia.org/wiki/Fifth_normal_form)
 
 Note:
-*  Second, third, and Boyce–Codd normal forms are concerned with functional dependencies, forth normal form is concerned with a more general type of dependency known as a multivalued dependency.
-*  Fifth normal form is designed to remove redundancy in relational databases recording multi-valued facts by isolating semantically related multiple relationships.
+*  Second, third, and Boyce–Codd normal forms are concerned with functional dependencies, and the fourth normal form is concerned with a more general type of dependency known as a multivalued dependency.
+*  The fifth normal form is designed to remove redundancy in relational databases recording multi-valued facts by isolating semantically related multiple relationships.
 
 :exclamation:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;I do not specify the exact normal forms of the provided datasets in the following script. Instead, I describe the various keys, dependents and determinants, prime and non-prime attributes, trivial dependencies, and functional dependencies.
 
@@ -22,7 +22,7 @@ Note:
 
 ### Option 1    
 
-This example is from the Wikipedia article on second normal form.
+This example is from the Wikipedia article on the second normal form.
 
 `DECLARE @vRun INTEGER = 1;`    
 
@@ -41,7 +41,7 @@ This example is from the Wikipedia article on second normal form.
 
 ### Option 2
 
-This example is from the Wikipedia article on third normal form.
+This example is from the Wikipedia article on the third normal form.
 
 `DECLARE @vRun INTEGER = 2;`   
 
@@ -66,7 +66,7 @@ This example is the same as Option 2, but with an `ID` column added.
 
 `DECLARE @vRun INTEGER = 3;`
 
-:exclamation:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;I frequently describe database normalization as an instructive demonstration of common mistakes, as the examples often highlight glaring oversights, such as the absence of an `Identity` column. This particular instance illustrates how the introduction of an `ID` column alters the possible keys candidate keys and the functional dependencies surronding them.
+:exclamation:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;I frequently describe database normalization as an instructive demonstration of common mistakes, as the examples often highlight glaring oversights, such as the absence of an `Identity` column. This particular instance illustrates how the introduction of an `ID` column alters the possible candidate keys and the functional dependencies surrounding them.
 
 
 | ID | Tournament | Year | Winner |        DOB        |
@@ -85,7 +85,7 @@ This example is the same as Option 2, but with an `ID` column added.
 
 ### Option 4
 
-This example is from the Wikipedia article on forth normal form.
+This example is from the Wikipedia article on fourth normal form.
 
 `DECLARE @vRun INTEGER = 4;`
 
@@ -103,7 +103,7 @@ This example is from the Wikipedia article on forth normal form.
 
 ### Option 5
 
-This example is from the Wikipedia article on fifth normal form.
+This example is from the Wikipedia article on the fifth normal form.
 
 `DECLARE @vRun INTEGER = 5;`
 
