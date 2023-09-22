@@ -1,6 +1,6 @@
 # Table Types
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Within SQL, you can create a join to the following 10 table types. Table types can be schema bound objects, meaning they are saved as a database object within a named schema, or they are unbound and only durable for the life of an SQL statement or your current session.  Items that are not schema bound are created in the `tempdb` and do not have any data of their existence in the catalog views.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Within SQL, you can create a join to the following 10 table types. Table types can be schema-bound objects, meaning they are saved as a database object within a named schema, or they are unbound and only durable for the life of an SQL statement or your current session.  Items that are not schema-bound are created in the `tempdb` and do not have any data of their existence in the catalog views.
 
 Here are the 10 different types of tables you can create.
 
@@ -21,14 +21,14 @@ Here are the 10 different types of tables you can create.
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;It's important to note that the use of `tempdb` and the extent to which it's used can vary depending on the complexity of the query and other factors, such as the amount of memory available and the indexes present on the involved tables. However, it's a common practice for SQL Server to use `tempdb` when working with derived tables and subqueries.
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The most interesting of these table types in the `VALUES` keyword.  We often think the only use of the `VALUES` operator is using it with an `INSERT` statement, but it can be used to create a relation.  First though, lets create examples of each of the table types.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The most interesting of these table types is the `VALUES` keyword.  We often think the only use of the `VALUES` operator is using it with an `INSERT` statement, but it can be used to create a relation.  First, let's create examples of each of the table types.
 
 --------------------------------------------------------------------------------------------------------
 #### Table
 
-The type of table referred to below is a base table. A base table is a permanent table stored in the database and contains the actual data in the form of rows and columns. The `SELECT *` statement retrieves all columns and all rows from the table. It is a permanent table that stores data in the database.  On base tables you can implement `NOT NULL`, `UNIQUE`, `PRIMARY KEY`, `FOREIGN KEY`, `CHECK` and `DEFAULT` constraints.
+The type of table referred to below is a base table. A base table is a permanent table stored in the database and contains the actual data in the form of rows and columns. The `SELECT *` statement retrieves all columns and all rows from the table. It is a permanent table that stores data in the database.  On base tables, you can implement `NOT NULL`, `UNIQUE`, `PRIMARY KEY`, `FOREIGN KEY`, `CHECK`, and `DEFAULT` constraints.
 
-In this example we create a table named `Employees`, insert a record using the `VALUES` constructor, and then select from the table. 
+In this example, we create a table named `Employees`, insert a record using the `VALUES` constructor, and then select from the table. 
 
 ```sql
 CREATE TABLE Employees
@@ -55,9 +55,9 @@ SELECT * FROM Employees;
 --------------------------------------------------------------------------------------------------------
 #### View
 
-A SQL view is a virtual table that provides a specific, customized perspective of data from one or more tables in a database.  There are two main types of SQL views: materialized views and non-materialized (or simple) views. Materialized views store the result set of the view query, while non-materialized views do not store any data and dynamically retrieve data from the underlying tables each time the view is accessed.  You can issue `INSERT`, `UPDATE` and `DELETE` commands through views.
+An SQL view is a virtual table that provides a specific, customized perspective of data from one or more tables in a database.  There are two main types of SQL views: materialized views and non-materialized (or simple) views. Materialized views store the result set of the view query, while non-materialized views do not store any data and dynamically retrieve data from the underlying tables each time the view is accessed.  You can issue `INSERT`, `UPDATE`, and `DELETE` commands through views.
 
-In this example we create a view from the `Employees` table, insert a record into the table, and then select from the view;
+In this example, we create a view from the `Employees` table, insert a record into the table, and then select from the view;
 
 ```sql
 CREATE OR ALTER VIEW vwEmployees AS
@@ -133,11 +133,11 @@ FROM    Employees a CROSS JOIN
 
 
 --------------------------------------------------------------------------------------------------------
-#### Table Valued Function
+#### Table-Valued Function
 
-A table valued function acts much like a view with the added benefit of being parameterized.  
+A table-valued function acts much like a view with the added benefit of being parameterized.  
 
-For this example, we create a table valued function using the `Employees` table.  To use the table values function we can simply select from the function or use the `CROSS APPLY` to join to another table.
+For this example, we create a table-valued function using the `Employees` table.  To use the table values function we can simply select from the function or use the `CROSS APPLY` to join to another table.
         
 ```sql
  CREATE OR ALTER FUNCTION FnGetEmployees (@EmployeeID INTEGER)
@@ -211,7 +211,7 @@ FROM    (SELECT  EmployeeID, FirstName, LastName, Salary FROM Employees) e
 |          1 | John      | Wilson   | 100000.00 |          3 | 85000.00 |
 |          2 | Sarah     | Shultz   |  90000.00 |          3 | 85000.00 |
 
-In SQL Server, even when performing a `CROSS JOIN` the derived table must be aliased.  This statement will error if the table aliases is removed.  For brevity I only show the top two records.
+In SQL Server, even when performing a `CROSS JOIN` the derived table must be aliased.  This statement will error if the table alias is removed.  For brevity, I only show the top two records.
 
 ```sql
 SELECT  TOP 2 *
@@ -249,7 +249,7 @@ WHERE   EmployeeCount > 2;
 --------------------------------------------------------------------------------------------------------
 #### Temporary Table        
 
-The syntax for creating temporary tables is different for each database system.  These examples work in SQL Server.
+The syntax for creating temporary tables is different for each database system.  These examples work in `Microsoft SQL Server`.
 
 Session temporary tables and global temporary tables are two types of temporary tables in SQL. The main difference between them is their scope and visibility.  
 
@@ -258,7 +258,7 @@ Session temporary tables and global temporary tables are two types of temporary 
 *  Global temporary tables are available to every user's session.  
 *  You can place the same constraints, except for `FOREIGN KEY` constraints, on a temp table as you can on a permanent table.  
 *  Indexing is also allowed on temporary tables.
-*  Temporary tables reside in `tempdb` and you cannot see its meta data in the information schema.
+*  Temporary tables reside in `tempdb` and you cannot see its metadata in the information schema.
 
 This creates a session temporary table in SQL Server.
 
@@ -303,7 +303,7 @@ SELECT * FROM #Employees2
 --------------------------------------------------------------------------------------------------------
 #### Table Variable   
 
-Table variables are much like temporary tables.  They are often used when you need to pass a record set to a stored procedure.  Each database may implement table variables slightly different, but SQL Server has the following considerations.
+Table variables are much like temporary tables.  They are often used when you need to pass a record set to a stored procedure.  Each database may implement table variables slightly differently, but `Microsoft SQL Server` has the following considerations.
 
 *  You can place constraints on the table except for `FOREIGN KEY` constraints.
 *  The constraints must be placed on the table on creation.
