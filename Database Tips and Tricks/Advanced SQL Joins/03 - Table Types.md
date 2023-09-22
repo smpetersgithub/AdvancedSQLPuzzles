@@ -1,6 +1,6 @@
 # Table Types
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Within SQL, you can create a join to the following 10 table types, some of these objects are schema bound objects, meaning they are saved as a database object within a named schema, and others are unbound and only durable for the life of an SQL statement or your current session.  Items that are not schema bound are created in the `tempdb` and do not have any data of their existence in the catalog views.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Within SQL, you can create a join to the following 10 table types. Table types can be schema bound objects, meaning they are saved as a database object within a named schema, or they are unbound and only durable for the life of an SQL statement or your current session.  Items that are not schema bound are created in the `tempdb` and do not have any data of their existence in the catalog views.
 
 Here are the 10 different types of tables you can create.
 
@@ -55,7 +55,7 @@ SELECT * FROM Employees;
 --------------------------------------------------------------------------------------------------------
 #### View
 
-A SQL view is a virtual table that provides a specific, customized perspective of data from one or more tables in a database.  There are two main types of SQL views: materialized views and non-materialized (or simple) views. Materialized views store the result set of the view query, while non-materialized views do not store any data and dynamically retrieve data from the underlying tables each time the view is accessed.  You issue `INSERT` and `DELETE` commands through views.
+A SQL view is a virtual table that provides a specific, customized perspective of data from one or more tables in a database.  There are two main types of SQL views: materialized views and non-materialized (or simple) views. Materialized views store the result set of the view query, while non-materialized views do not store any data and dynamically retrieve data from the underlying tables each time the view is accessed.  You can issue `INSERT`, `UPDATE` and `DELETE` commands through views.
 
 In this example we create a view from the `Employees` table, insert a record into the table, and then select from the view;
 
@@ -116,7 +116,7 @@ FROM    Employees a INNER JOIN
 |          2 | Sarah     | Shultz   | Accounting |  90000.00 |
 
 
-You can also place functions into the `VALUES` constructor.  The `NEWID()` function creates a unique value of type `UNIQUEIDENTIFIER`.   Here you could easily just add the function to the `SELECT` statement, but this gives you an idea of the capabilities of the `VALUES` constructor.
+You can also place functions into the `VALUES` constructor.  The `NEWID()` function creates a unique value of type `UNIQUEIDENTIFIER`.
 
 ```sql
 SELECT  CONCAT(FirstName,' ',LastName) AS Name,
@@ -164,7 +164,11 @@ FROM    Employees a CROSS APPLY
 --------------------------------------------------------------------------------------------------------
 #### Subquery
 
-A subquery is a query nested within another query. Here are a few examples of subqueries using the `Employees` table:
+A subquery is a query nested within another query. 
+
+Subqueries can be used in various parts of a SQL query, such as the `SELECT`, `FROM`, and `WHERE` clauses. They are highly useful for performing operations that require multiple scans of the same or different tables, complex calculations, or referencing results that are not part of the main query. They are highly useful for performing operations that require multiple scans of the same or different tables, complex calculations, or referencing results that are not part of the main query.
+
+Here is an example of a subquery using the `Employees` table.
    
 ```sql
 SELECT  e.*
@@ -174,11 +178,9 @@ WHERE   e.Salary >  (SELECT AVG(Salary)
                      WHERE Department = e.Department);
 ```
 
-
 | EmployeeID | FirstName | LastName | Department |  Salary   |
 |------------|-----------|----------|------------|-----------|
 |          1 | John      | Wilson   | Accounting | 100000.00 |
-
 
 
 --------------------------------------------------------------------------------------------------------
@@ -189,7 +191,7 @@ A derived table is an expression that generates a table within the scope of the 
 A derived table has three characteristics:
 1) Defined in the `FROM` clause
 2) Surrounded in parenthesis
-3) Has a table alias.
+3) Has a table alias
 
 Here is an example of a derived table in SQL.
 
