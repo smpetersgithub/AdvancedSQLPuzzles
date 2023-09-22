@@ -11,7 +11,7 @@
 
 ## Creating a Simple Numbers Table
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;At the heart of these puzzles a numbers table is ultimately involved in creating the solution. Numbers tables are much like calendar tables, and can be used to fill in gaps, create ranges and tallies, provide custom sorting, and allow you to create set based solutions over iterative solutions.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;At the heart of these puzzles a numbers table is ultimately involved in creating the solution. Numbers tables are much like calendar tables and can be used to fill in gaps, create ranges and tallies, provide custom sorting, and allow you to create set-based solutions over iterative solutions.
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;A numbers tables can be created using recursion, and you will find that many of these puzzles can be solved using recursion for certain (if not all) aspects of the puzzle.
 
@@ -37,7 +37,7 @@ OPTION (MAXRECURSION 0)--A value of 0 means no limit to the recursion level
 
 -----------------------------------------
 
-Here is another little trick to create a numbers table in SQL Server. This will only work in a SQL script, as the `GO` command is not a T-SQL statement.
+Here is another little trick to create a numbers table in SQL Server. This will only work in an SQL script, as the `GO` command is not a `T-SQL` statement.
 
 ```sql
 SET NOCOUNT ON;
@@ -64,7 +64,7 @@ The `GENERATE_SERIES` function produces a set-based sequence of numeric values. 
 
 The arguments are:  `GENERATE_SERIES(START = <start>, STOP = <stop> [, STEP = <step>])`
 
-Here is a an example of creating the a numbers table.
+Here is an example of creating a numbers table.
 
 ```sql
 SELECT value FROM GENERATE_SERIES(START = 1, STOP = 5);
@@ -72,26 +72,26 @@ SELECT value FROM GENERATE_SERIES(START = 1, STOP = 5);
 
 ## Permutations and Combinations
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;A permutation is a way in which a set or number of things can be ordered or arranged.  With permutation, order matters. With combinations, order does not matter.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;A permutation is a way in which a set or number of things can be ordered or arranged.  With permutation, order matters. With combinations, the order does not matter.
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;We often use the work combination loosely without thinking order is important. A good example is the following:    
-*  “My cheeseburger has a combination of the toppings; lettuce, tomato, and onion”. Here we really do not care about order, it is the same cheeseburger if it was “onion, lettuce, and tomato” or “tomato, lettuce, and onion”. The same cheeseburger is described no matter the order of the ingredients.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;We often use the word combination loosely without thinking order is important. A good example is the following:    
+*  “My cheeseburger has a combination of the toppings; lettuce, tomato, and onion”. Here we really do not care about the order, it is the same cheeseburger if it was “onion, lettuce, and tomato” or “tomato, lettuce, and onion”. The same cheeseburger is described no matter the order of the ingredients.
 *  “The combination to my locker is 23-56-12”. Here order is important, and a combination lock is more accurately described as a “permutation lock”. A different arrangement would yield an inaccurate result for opening the lock.
 
 **Permutations can get very large!**
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;When calculating permutations, the number of permutations grows substantially with each additional element added. The number of permutations to arrange the numbers 1 through 9 can be calculated by 9! (9 factorial) and returns 362,880 permutations. Adding another element to this set (10!) causes the number of permutations to grow to 3,628,800.
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;When solving these puzzles, consider using a comma separated list to store the data (often referred to as zero normal form) and when needed you can pivot the data, which you have several options for. The solution to Puzzle #9 “Find the Spaces” can give you a recipe for pivoting the data using recursion or you can use the `STRING_SPLIT` function to perform this action. Please check out the documentation for the `STRING_SPLIT` function, as it does have several parameters.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;When solving these puzzles, consider using a comma-separated list to store the data (often referred to as zero normal form) and when needed you can pivot the data, which you have several options for. The solution to Puzzle #9 “Find the Spaces” can give you a recipe for pivoting the data using recursion or you can use the `STRING_SPLIT` function to perform this action. Please check out the documentation for the `STRING_SPLIT` function, as it does have several parameters.
 
 
 ## Sequences
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Microsoft’s T-SQL can create a `SEQUENCE` object, which creates a list of ordered numbers. The sequence of numeric values is generated in an ascending or descending order at a defined interval and can be configured to restart when exhausted. It acts much like an `IDENTITY` column, but a `SEQUENCE` object is schema bound (i.e., You use the syntax `CREATE SEQUENCE` to define the object).
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`Microsoft T-SQL` can create a `SEQUENCE` object, which creates a list of ordered numbers. The sequence of numeric values is generated in an ascending or descending order at a defined interval and can be configured to restart when exhausted. It acts much like an `IDENTITY` column, but a `SEQUENCE` object is schema-bound (i.e., You use the syntax `CREATE SEQUENCE` to define the object).
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The benefit of the `SEQUENCE` object is that generated values can be used across multiple tables or columns, and you can recycle the values and restart from the minimum value.
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The downside of using the `SEQUENCE` object is that it is 1) schema bound and 2) does not accept parameterization. The parameters (such as min and max values) must be hardcoded to a number, as you cannot set these via a variable. You can use dynamic SQL to create the `SEQUENCE` object to circumvent this issue, but it may be best to create your own sequence table using a `WHILE` loop (while also avoiding creating a schema bound object as you can use a temporary table).
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The downside of using the `SEQUENCE` object is that it is 1) schema bound and 2) does not accept parameterization. The parameters (such as min and max values) must be hardcoded to a number, as you cannot set these via a variable. You can use dynamic SQL to create the `SEQUENCE` object to circumvent this issue, but it may be best to create your own sequence table using a `WHILE` loop (while also avoiding creating a schema-bound object as you can use a temporary table).
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;A real-world example of using a sequence object is where you need to display a quote on a website for each day where you must cycle through the quotes when exhausted. Here you could create the following table that joins a calendar table, a sequence table, and a quotes table together.
 
@@ -135,7 +135,7 @@ I recommend the following syntax to generate random integers between 1 and n.
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;To determine if the random number generator truly is random, use the law of large numbers and generate enough numbers where the distribution should be even across all the numbers. For example, if you need to simulate dice rolls, run the random number generator 1,000 times, and ensure each value appears 1/6 of the time. If you want to measure the randomness using statistical measures, the Chi-Square test can be used to assess the goodness of fit between observed and expected values.
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Also, I recommend saving your random number generator as a function and create a stored procedure to validate the randomness of the function (which can then be reused when a new user needs to ensure it is truly random). Here is a quick script that creates a 1 million random numbers and checks the count of each number and the percentage of its occurrence.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Also, I recommend saving your random number generator as a function and creating a stored procedure to validate the randomness of the function (which can then be reused when a new user needs to ensure it is truly random). Here is a quick script that creates 1 million random numbers and checks the count of each number and the percentage of its occurrence.
 
 ```sql
 SET NOCOUNT ON;
@@ -162,7 +162,7 @@ FROM    cte_RandomNumber
 GROUP BY RandomNumber;
 ```
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;When solving such puzzles as the Dice Roll Game, many developers will think of creating a fully iterative based solutions rather than a set-based solution. The developer will write the code to roll the dice, perform any update or insert based upon the result, roll the dice again… and continue this loop until an exit condition is met. Instead, consider creating an initial set of dice rolls that far exceeds the number needed and use set based windowing techniques to create your answer. In this scenario you will need to provide a validation to ensure you have a large enough set of dice rolls, but it will provide a more elegant solution that executes faster.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;When solving such puzzles as the Dice Roll Game, many developers will think of creating a fully iterative based solutions rather than a set-based solution. The developer will write the code to roll the dice, perform any update or insert based on the result, roll the dice again… and continue this loop until an exit condition is met. Instead, consider creating an initial set of dice rolls that far exceeds the number needed and use set-based windowing techniques to create your answer. In this scenario, you will need to provide a validation to ensure you have a large enough set of dice rolls, but it will provide a more elegant solution that executes faster.
 
 
 ## Conclusion
@@ -171,7 +171,7 @@ GROUP BY RandomNumber;
 
 :smile:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Happy coding!
 
-I hope you find this repository to be useful and informative and I welcome any new puzzles or tips and tricks you may have. I also have a Wordpress site where you can find my data analytics projects, Python puzzles, and blog.
+I hope you find this repository to be useful and informative and I welcome any new puzzles or tips and tricks you may have. I also have a WordPress site where you can find my data analytics projects, Python puzzles, and blog.
 
 https://advancedsqlpuzzles.com
 
