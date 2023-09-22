@@ -4,9 +4,9 @@
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Complex joins in a descriptive term that refers to join operations that involve multiple tables and require more intricate join conditions than simple joins.  These joins can become quite complex when multiple conditions need to be met to return the desired result set. In such cases, multiple join clauses can be used to define the relationships between the tables.
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;To create complex joins, it's important to have a clear understanding of the relationships between the tables and the desired outcome. It is also important to use clear and concise syntax, such as using explicit join clauses, knowing when to use windowing, ranking, lag/lead functions etc. By breaking down complex joins into smaller, simpler join operations, it can be easier to understand and maintain the query.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;To create complex joins, it's important to have a clear understanding of the relationships between the tables and the desired outcome. It is also important to use clear and concise syntax, such as using explicit join clauses, knowing when to use windowing, ranking, lag/lead functions, etc. By breaking down complex joins into smaller, simpler join operations, it can be easier to understand and maintain the query.
 
-Overall, here are some tips I use to working with complex joins.
+Overall, here are some tips I use when working with complex joins.
 
 1.  **Break down the query into smaller parts**: Divide the query into smaller, more manageable parts. Start by understanding the different clauses and how they fit together.
 3.  **Know the database schema**: Understanding the structure of the database, including tables, columns, relationships, and constraints, is essential for understanding complex queries.
@@ -22,14 +22,14 @@ Overall, here are some tips I use to working with complex joins.
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;A driving table in SQL refers to the table that drives the execution of a query. In a query that involves multiple tables, the driving table determines the order in which the records are retrieved and processed and can have a significant impact on the performance of the query.
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The driving table is typically the table with the smallest number of records, or the table that has the most selective conditions applied to it. By starting with the driving table, the database can eliminate as many records as possible early in the processing, reducing the amount of data that needs to be further processed and improving the performance of the query.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The driving table is typically the table with the smallest number of records or the table that has the most selective conditions applied to it. By starting with the driving table, the database can eliminate as many records as possible early in the processing, reducing the amount of data that needs to be further processed and improving the performance of the query.
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;It is important to carefully consider the driving table when writing complex SQL queries to ensure optimal performance. A well-chosen driving table can help to minimize the amount of data that needs to be processed and can lead to much faster query execution times. On the other hand, a poorly chosen driving table can result in slow query performance and inefficiencies in the database processing.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;It is important to carefully consider the driving table when writing complex SQL queries to ensure optimal performance. A well-chosen driving table can help to minimize the amount of data that needs to be processed and can lead to much faster query execution times. On the other hand, a poorly chosen driving table can result in slow query performance and inefficiencies in database processing.
 
 -----------------------------------------------------
 #### Multiple Branches
 
-These types of SQL statements I like to refer to as branch joins.  First let's look at the SQL statement.
+These types of SQL statements I like to refer to as branch joins.  First, let's look at the SQL statement.
 
 ```sql
 SELECT  t.TransactionDate,
@@ -50,7 +50,7 @@ Breaking down the joins we have the following:
 *  `Users` -> `Transaction` -> `TransactionType`
 *  `Users` -> `SubUsers` -> `FeePlan`
 
-From this join breakdown we can see we have 1 root, 2 branches, and 2 leaf nodes.  The root table `Users` is our driving table.  Given this, here is a simpler way of writing the statement.
+From this join breakdown, we can see we have 1 root, 2 branches, and 2 leaf nodes.  The root table `Users` is our driving table.  Given this, here is a simpler way of writing the statement.
 
 ```sql
 WITH cte_Users AS
@@ -87,9 +87,8 @@ GROUP BY t.TransactionDate,
 -----------------------------------------------------
 #### Overlapping Time Periods
 
-This puzzle is called the Overlapping Time Periods, and I find this to be the most difficult puzzle to solve.
-
-For this example, I used temporary tables to avoid making a common table expression dependent on another common table expression.  This allows future developers to easy review the data sets in the step order and reverse engineer the statement.
+This puzzle is called Overlapping Time Periods, and I find this to be the most difficult puzzle to solve.
+For this example, I used temporary tables to avoid making a common table expression dependent on another common table expression.  This allows future developers to easily review the data sets in the step order and reverse engineer the statement.
 
 Here is the overlapping time period data.
 
@@ -101,8 +100,7 @@ Here is the overlapping time period data.
 | 2018-01-12 | 2018-01-16 |
 | 2018-01-15 | 2018-01-19 |
 
-
-And here is the expected output:
+Here is the expected output:
 
 | StartDate  |  EndDate   |
 |------------|------------|
@@ -168,13 +166,13 @@ GROUP BY MinEndDate_A;
 
 #### Programming Style
 
-Lastly when writing SQL, programming style goes a long way to readability.  
+Lastly, when writing SQL, programming style goes a long way to readability.  
 
 1.  Choose a more verbose solution over a concise solution where the intent of the SQL statement is more clear when possible.  
-2.  Understand the SQL language and its various functions, such as `LAG`, `LEAD`, `FIRST_VALUE`, `LAST_VALUE`, etc. and how to perform windowing.
+2.  Understand the SQL language and its various functions, such as `LAG`, `LEAD`, `FIRST_VALUE`, `LAST_VALUE`, etc., and how to perform windowing.
 3.  Understand the relation between the data, especially hierarchical data.  I often see bad implementations of hierarchical data structures.
 4.  Just because you can, doesn't mean you should.  For example, don't use a table variable if unneeded.
-5.  Write well formatted code.  I’m partial to keywords in upper case, column names in camel case, and my glyphs all spaces with nice white spacing.
+5.  Write well-formatted code.  I’m partial to keywords in upper case, column names in camel case, and my glyphs all spaces with nice white spacing.
 
 ---------------------------------------------------------
 
