@@ -2703,7 +2703,7 @@ SELECT  BatterID,
         SumBall,
         SumStrike,
         LAG(SumBall,1,0) OVER (PARTITION BY BatterID ORDER BY PitchNumber) AS SumBallLag,
-        (CASE   WHEN    Result IN ('Foul','In Play') AND
+        (CASE   WHEN    Result IN ('Foul','In-Play') AND
                         LAG(SumStrike,1,0) OVER (PARTITION BY BatterID ORDER BY PitchNumber) >= 3 THEN 2
                 WHEN    Result = 'Strike' AND SumStrike >= 2 THEN 2
                 ELSE    LAG(SumStrike,1,0) OVER (PARTITION BY BatterID ORDER BY PitchNumber)
@@ -2919,22 +2919,22 @@ SELECT  a.ProductName AS ProductNameA,
 FROM    #ProductsA a FULL OUTER JOIN
         #ProductsB b ON a.ProductName = b.ProductName
 )
-SELECT  'Matches In both tables' AS [Type],
+SELECT  'Matches in both table A and table B' AS [Type],
         ProductNameA
 FROM    cte_FullOuter
 WHERE   ProductNameA = ProductNameB
 UNION
-SELECT  'Product does not exist in Table B' AS [Type],
+SELECT  'Product does not exist in table B' AS [Type],
         ProductNameA
 FROM    cte_FullOuter
 WHERE   ProductNameB IS NULL
 UNION
-SELECT  'Product does not exist in Table A' AS [Type],
+SELECT  'Product does not exist in table A' AS [Type],
         ProductNameB
 FROM   cte_FullOuter
 WHERE  ProductNameA IS NULL
 UNION
-SELECT  'Quantities in Table A and Table B do not match' AS [Type],
+SELECT  'Quantities in table A and table B do not match' AS [Type],
         ProductNameA
 FROM    cte_FullOuter
 WHERE   QuantityA <> QuantityB;
