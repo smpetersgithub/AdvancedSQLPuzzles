@@ -29,7 +29,7 @@ There are several benefits of using anti-joins and semi-joins over `INNER JOINS`
 Semi-joins and anti-joins have some key differences and considerations.
 
 *  One difference is how they handle NULL markers. The `NOT IN` operator returns an empty set if the anti-join contains a NULL marker, whereas the `NOT EXISTS` operator implicitly handles NULL markers and it will not affect the result set.
-*  Another difference is that the `NOT EXISTS` and `EXIST` operators are correlated subqueries, meaning they must have a specified column to join between the outer and inner SQL statements, whereas the `IN` and `NOT IN` operators can contain a list of values and do not require a `SELECT` statement.
+*  Another difference is that the `NOT EXISTS` and `EXIST` operators are best used as correlated subqueries, meaning they have a specified column to join between the outer and inner SQL statements, whereas the `IN` and `NOT IN` operators can contain a list of values and do not require a `SELECT` statement or for the statement to be correlated.
 *  Additionally, the `IN` and `NOT IN` operators search for values in the result set of a subquery, whereas the `EXISTS` and `NOT EXISTS` operators check for the existence of rows.
 *  If you are performing an anti-join to a NULLable column in the inner query, consider using the `NOT EXISTS` operator over the `NOT` operator.
 *  When using semi or anti-joins, check execution plans for the most optimized usage method.  Because the `IN` and `NOT IN` operators check for values, and the `EXISTS` and `NOT EXISTS` check for rows, you will get two entirely different execution plans.
