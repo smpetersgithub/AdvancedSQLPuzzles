@@ -13,7 +13,7 @@ Here is a brief overview of each of the join algorithms.
 
 *  A hash join is used when large tables are joined, often where an index is not available.  The hash join builds a hash table in memory and then scans for matches.  It is the least efficient of the joins.
 
-Also, there are numerous factors that make tuning complex because there are so many individual items to addressed and so many ways they can interact for better or worse outcomes.  Factors can include the physical hardware and its configuration, the data model, and the volume of data, along with the traditional use of indexes and statistics, etc.
+Also, there are numerous factors that make tuning complex because there are so many individual items to address and so many ways they can interact for better or worse outcomes.  Factors can include the physical hardware and its configuration, the data model, and the volume of data, along with the traditional use of indexes and statistics, etc.
 
 ---------------------------------------------------------------------
 ##### Query Parsing
@@ -24,12 +24,12 @@ Upon running an SQL statement, the query becomes parsed and is checked for the f
 2.  Authorization: The database checks the user's credentials to see if they have the necessary permissions to run the query.
 3.  Object existence: The database verifies that all the tables, views, and other objects mentioned in the query exist.
 4.  Data type compatibility: The database checks that the data types of the columns in the query match the data types in the database.
-5.  Semantic analysis: The database checks the logical validity of the query, such as the presence of any ambiguous references or circular dependencies.
+5.  Semantic analysis: The database checks the logical validity of the query, such as the presence of ambiguous references or circular dependencies.
    
 ---------------------------------------------------------------------
 ##### Developer Considerations
 
-Overall, as a developer there are some ways to write the most optimized SQL from the start.
+Overall, as a developer, there are some ways to write the most optimized SQL from the start.
 1.  Use indexes: Indexes can greatly improve the speed of your queries. Make sure to use indexes on columns that are frequently used in `WHERE`, `JOIN`, and `ORDER BY` clauses.
 
 2.  Avoid using wildcard characters: Using wildcard characters in a `SELECT` statement can slow down your query. Instead, use specific column names.
@@ -46,7 +46,7 @@ Overall, as a developer there are some ways to write the most optimized SQL from
 
 8.  Monitor query performance: Regularly monitoring query performance is important for identifying performance issues and making necessary improvements. Use tools like the SQL Server Profiler or the EXPLAIN PLAN statement to monitor performance.
 
-9.  Keep statistics up to date: The database's optimizer uses statistics to determine the best execution plan for a query. Keeping statistics up to date can help ensure that the optimizer makes the best decision and your queries run efficiently.
+9.  Keep statistics up to date: The database's optimizer uses statistics to determine the best execution plan for a query. Keeping statistics up to date can help ensure that the optimizer makes the best decision and that your queries run efficiently.
 
 ---------------------------------------------------------
 
