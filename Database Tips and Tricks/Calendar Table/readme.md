@@ -20,7 +20,7 @@ Additionally, with a calendar table in place, it's easy to generate reports that
 Compile the `FnReturnCalendarTable.sql` script to create the function `FnReturnCalendarTable`.  
 
 **Step 2:**  
-View the `FnReturnCalendarTable Example Use.sql` script for example uses of the table-valued function.
+View the `FnReturnCalendarTable Example Use.sql` script for an example that uses the table-valued function.
 
 
 ## Example Usage    
