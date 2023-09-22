@@ -1,6 +1,6 @@
 # Table Validation
 
-This script compares two identical tables using `DYNAMIC SQL` and `FULL OUTER JOINS`.  This can be used to audit the differences between two datasets and display all columns which do not match.
+This script compares two identical tables using `DYNAMIC SQL` and `FULL OUTER JOIN`s.  This can be used to audit the differences between two datasets and display all columns that do not match.
 
 ⌨️&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;This script is written in Microsoft SQL Server T-SQL.
 
@@ -105,16 +105,16 @@ This script will generate an SQL statement that compares the tables using a `FUL
 
 **Notes:**  
 
-1)  Modify the `@vLookupID` variable appropriately. This variable is used to lookup the table information in `##TableInformation`.  
+1)  Modify the `@vLookupID` variable appropriately. This variable is used to look up the table information in `##TableInformation`.  
 
-2)  The dynamic SQL statement will be saved in the table `#SQLStatementFinal`. You can review this SQL statement and modify as needed.   
+2)  The dynamic SQL statement will be saved in the table `#SQLStatementFinal`. You can review this SQL statement and modify it as needed.   
 
 3)  The results from the dynamic SQL statement will be saved in the temporary table `##@vTableName1_TemporaryTemp` (which will be `##Sales_New_TemporaryTable` in
     our example).  
 
 4)  For each column there is a `Compare` field created that will be populated with a `1` if the fields are unequal, and a `0` if they are equal.   
 
-5)  The field `Compare_Summary` in the first column of the result set and gives an overall summary if the record matches between the two tables.   
+5)  The field `Compare_Summary` in the first column of the result set gives an overall summary if the record matches between the two tables.   
 
 6)  The result set also has information on which fields do not exist in its partner table, distinct counts, etc.….   
 
