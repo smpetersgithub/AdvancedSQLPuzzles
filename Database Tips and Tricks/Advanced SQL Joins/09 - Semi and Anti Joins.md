@@ -140,7 +140,7 @@ WHERE   EXISTS (SELECT NULL);
 
 ----------------------------------------------------------------------------------------
 
-Be cautious with the use of the IN operator, as it can lead to unexpected behavior!
+Be cautious with the use of the `IN` operator, as it can lead to unexpected behavior!
 
 In this example I use two table variables for demonstration.
 
