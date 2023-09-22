@@ -1,17 +1,17 @@
 # Subtracting Two Dates
 
-Anyone who has used Microsoft SQL Server T-SQL'S `DATEDIFF` function has probably been frustrated by its limitations. To solve this problem, I have created two functions (same logic, one returns a `TABLE` and the other returns a `VARCHAR`) to return the  years, months, day, minutes, seconds, and nano seconds between two dates.
+Anyone who has used Microsoft SQL Server T-SQL's `DATEDIFF` function has probably been frustrated by its limitations. To solve this problem, I have created two functions (same logic, one returns a `TABLE` and the other returns a `VARCHAR`) to return the years, months, day, minutes, seconds, and nanoseconds between two dates.
 
 ⌨️&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;This script is written in Microsoft SQL Server T-SQL.
 
 ## Overview 
 
-This directory contains two function, `FnDateDiffPartsChar.sql` and `FnDateDiffPartsTable.sql` to return the years, months, day, minutes, seconds, and nano seconds between two dates.  One function is a table-valued function, and the other is a scalar value function.
+This directory contains two functions, `FnDateDiffPartsChar.sql` and `FnDateDiffPartsTable.sql` to return the years, months, day, minutes, seconds, and nanoseconds between two dates.  One function is a table-valued function, and the other is a scalar value function.
 
 ## Installation
 
 **Step 1:**   
-Create the `FnDateDiffPartsChar` scalar valued function via the `FnDateDiffPartsChar.sql` script.
+Create the `FnDateDiffPartsChar` scalar-valued function via the `FnDateDiffPartsChar.sql` script.
 
 **Step 2:**  
 Create the `FnDateDiffPartsTable` table-valued function via the `FnDateDiffPartsTable.sql` script.
@@ -19,7 +19,7 @@ Create the `FnDateDiffPartsTable` table-valued function via the `FnDateDiffParts
 
 ## Example Usage
 
-Example usage of the scalar valued function `FnDateDiffPartsChar`.
+Example usage of the scalar-valued function `FnDateDiffPartsChar`.
 
 ```sql
 SELECT dbo.FnDateDiffPartsChar('20110619 00:00:00.0000001', '20110619 00:00:00.0000000') AS DateDifference
@@ -35,7 +35,7 @@ SELECT dbo.FnDateDiffPartsChar('20170518 00:00:00.0000001','20110619 00:00:00.11
 | 1y 11m 30d 0h 0m 0s 0n            |
 | 5y 10m 28d 23h 59m 59s 889000100n |
 
-Example usage of the scalar valued function `FnDateDiffPartsChar`.
+Example usage of the scalar-valued function `FnDateDiffPartsChar`.
 
 ```sql
 SELECT * FROM dbo.FnDateDiffPartsTable('20110619 00:00:00.0000001', '20110619 00:00:00.0000000');
