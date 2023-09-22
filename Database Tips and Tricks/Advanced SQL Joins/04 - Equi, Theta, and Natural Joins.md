@@ -16,7 +16,7 @@
 
 *  Equi-joins look for equality in the join condition.  It is a join operation that combines rows from two or more tables based on a matching value in one or more columns. This matching value is known as the join condition and is an equality condition. The term equi comes from the Latin word aequus, meaning equal.
 
-*  A theta-join, also known as a non-equi-join, is a type of join that uses an operator other than equality. These operators include both comparison and logical operators. The term "theta" is used to denote any non-equality comparison.  The terms equi-join and theta-join were coined by E.F. Codd in his seminal work on defining relational algebra, which serves as the foundation for SQL.
+*  A theta-join, also known as a non-equi-join, is a type of join that uses an operator other than equality. These operators include both comparison and logical operators. The term "theta" is used to denote any non-equality comparison.  The terms equi-join and theta-join was coined by E.F. Codd in his seminal work on defining relational algebra, which serves as the foundation for SQL.
 
 --------------------------------------------------------------------------------
 SQL has the following operators that can be used to join tables.
@@ -41,7 +41,7 @@ SQL has the following operators that can be used to join tables.
 
 *  Comparison operators test whether two expressions are the same. Comparison operators can be used on all expressions except expressions of the `text`, `ntext`, or `image` data types.
 
-*  The `IS [NOT] DISTINCT FROM` operator is relatively new feature being added to the various database systems.  I have set it to NULL as I have not been able to find any vendor documentation that categorizes this operator as logical or a comparison.
+*  The `IS [NOT] DISTINCT FROM` operator is a relatively new feature being added to the various database systems.  I have set it to NULL as I have not been able to find any vendor documentation that categorizes this operator as logical or a comparison.
  
 --------------------------------------------------------------------------------
 We will be using the following tables that contain types of fruits and their quantity.  
@@ -67,7 +67,7 @@ We will be using the following tables that contain types of fruits and their qua
 --------------------------------------------------------------------------------
 #### Equi-joins
 
-Equi-joins look for equality in a relationship.  They can be used with `INNER`, `OUTER`, `FULL OUTER`, and `CROSS JOINS`. The example below uses the `CROSS JOIN` syntax, but functions like and `INNER JOIN` because the join logic is in the `WHERE` clause.
+Equi-joins look for equality in a relationship.  They can be used with `INNER`, `OUTER`, `FULL OUTER`, and `CROSS JOINS`. The example below uses the `CROSS JOIN` syntax but functions like an `INNER JOIN` because the join logic is in the `WHERE` clause.
 
 ```sql
 SELECT  a.ID,
@@ -120,7 +120,7 @@ FROM    ##TableA a INNER JOIN
 
 A natural join in relational algebra is a type of join operation that combines two relational tables via an equi-join based on their common attributes. In a natural join, only the rows with matching values in the common columns are included in the result. The common columns of the two tables are used as the join criteria and the result set includes only one copy of these columns. The columns in the result set correspond to the combination of columns from both tables,
 
-`ORACLE` does is currently the only vendor that supports the `NATURAL JOIN` syntax.  It is considered a bad practice for the following reasons:
+`ORACLE` is currently the only vendor that supports the `NATURAL JOIN` syntax.  It is considered a bad practice for the following reasons:
 *  Ambiguity: Natural joins can cause ambiguity if two or more columns in the participating tables have the same name. This can lead to unexpected results and make the query difficult to understand and maintain.
 *  Maintenance: Natural joins can make the database schema more difficult to maintain because changes to the common columns in one of the participating tables will affect the result of the join.
 
@@ -144,7 +144,7 @@ FROM    ##TableA a NATURAL JOIN
 |  1 | Apple |       17 |
 
 
-Note, to counteract some of the bad practices for using the `NATURAL JOIN`, `ORACLE` and `MySQL` has the `USING` clause.  Below is the `ORACLE` implementation of the `USING` clause.
+Note, to counteract some of the bad practices for using the `NATURAL JOIN`, `ORACLE`, and `MySQL` has the `USING` clause.  Below is the `ORACLE` implementation of the `USING` clause.
 
 ```sql
 SELECT  *
