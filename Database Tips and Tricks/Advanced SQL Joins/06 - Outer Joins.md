@@ -107,7 +107,7 @@ WHERE   b.Fruit = 'Apple';
 
 -----------------------------------------------------------
   
-Joins can exist in the `SELECT`, `FROM` and `WHERE` clause of any SQL query. 
+Joins can exist in the `SELECT`, `FROM`, and `WHERE` clause of an SQL query. 
 
 You can also have nested `SELECT` statements which act as outer joins, as demonstrated below.
   
@@ -222,7 +222,7 @@ FROM    ##TableA a RIGHT OUTER JOIN
 
 -----------------------------------------------------------
 
-The plus sign is `Oracle` syntax for an outer join and is not ANSI standard.  The + sign determines which table is outer joined.
+The plus sign is `Oracle` syntax for an outer join and is not ANSI standard.  The `+` sign determines which table is outer joined.
   
   ```sql
   SELECT  a.ID,
