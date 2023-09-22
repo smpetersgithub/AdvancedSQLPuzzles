@@ -1,14 +1,14 @@
 # Pivoting Data
 
-The `PIVOT` operator is a powerful feature in SQL, but often goes unused due to its complicated syntax.  
+The `PIVOT` operator is a powerful feature in SQL but often goes unused due to its complicated syntax.  
 
 ⌨️&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;This script is written in Microsoft SQL Server T-SQL.
 
 ## Overview    
 
-In the script `SpPivotData.sql` we simplify the `PIVOT` table operator syntax by encapsulating the pivot into a stored procedure allowing us to easy automate the creation of pivoted datasets. 
+In the script `SpPivotData.sql` we simplify the `PIVOT` table operator syntax by encapsulating the pivot into a stored procedure allowing us to easily automate the creation of pivoted datasets. 
 
-Under the hood the stored procedure uses `XML` and `DYNAMIC SQL` to accomplish its goal.
+Under the hood, the stored procedure uses `XML` and `DYNAMIC SQL` to accomplish its goal.
 
 ## Installation
 
