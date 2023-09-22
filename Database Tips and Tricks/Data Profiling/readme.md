@@ -6,9 +6,9 @@ To address these issues, I created a data profiling script that allows me to ide
 
 ## Overview  
 
-The script updates a temporary table called `#DataProfiling` with a user supplied metric (such as `COUNT`, `AVG`, `MAX`, `MIN`, etc.) for a user-specified schema and table name. The script uses a cursor to iterate through each column in the specified table and executes an update statement for each column with a different metric specified.   This script creates a temporary table called `#DataProfilingSQL`, which contain the SQL statements that are used to update the `#DataProfiling` table.
+The script updates a temporary table called `#DataProfiling` with a user-supplied metric (such as `COUNT`, `AVG`, `MAX`, `MIN`, etc.) for a user-specified schema and table name. The script uses a cursor to iterate through each column in the specified table and executes an update statement for each column with a different metric specified.   This script creates a temporary table called `#DataProfilingSQL`, which contains the SQL statements that are used to update the `#DataProfiling` table.
 
-Example SQL statements are provided to find NULL markers, empty strings, keyword search, etc....
+Example SQL statements are provided to find NULL markers, empty strings, keyword searches, etc...
 
 ## Installation
 
@@ -28,8 +28,8 @@ WHERE   1=1 AND
         AND ty.Name NOT IN ('XML','uniqueidentifier')--Modify as needed
 ```
 **Step 3:**  
-I have provided several SQL statements for NULL markers, empty strings, keyword searches, etc... You may need to create your own profiling query based upon your needs.
-Here is an example of a profiling where I count the non-NULL values in the columns.
+I have provided several SQL statements for NULL markers, empty strings, keyword searches, etc... You may need to create your own profiling query based on your needs.
+Here is an example of profiling where I count the non-NULL values in the columns.
 
 ```sql
 INSERT INTO #DataProfilingSQL (DataProfilingType, OrderID, SQLLine) VALUES
