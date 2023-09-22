@@ -14,7 +14,7 @@
 For a join to be considered a semi or anti-join it must have the following three qualities:
 
 1)	The join cannot create duplicate rows from the outer table.
-2)	The joining table cannot be used in the queries projection (`SELECT` statement).
+2)	The joining table cannot be used in the query projection (`SELECT` statement).
 3)	The join predicate looks for equality (=) or in-equality (<>) and not a range (<, >, etc.).
 
 ---
@@ -142,7 +142,7 @@ WHERE   EXISTS (SELECT NULL);
 
 Be cautious with the use of the `IN` operator, as it can lead to unexpected behavior!
 
-In this example I use two table variables for demonstration.
+In this example, I use two table variables for demonstration.
 
 In the SQL snippet below, you might anticipate that the inner `SELECT` statement would produce an error since `Column_AAA` doesn't exist in `@Table2`. However, this query runs without issue and updates `@Table1`, setting `Column_AAA` to 3. This is because SQL Server treats it as a correlated subquery. To trigger a column reference error, you can use a table alias to explicitly refer to the column from `@Table2`.
 
