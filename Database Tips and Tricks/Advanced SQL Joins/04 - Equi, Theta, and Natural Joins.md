@@ -96,7 +96,7 @@ You can use the `LIKE` and `BETWEEN` operators with the `ON` statement, as well 
 SELECT  *
 FROM    ##TableA a INNER JOIN
         ##TableB b ON a.Quantity BETWEEN b.Quantity AND b.Quantity + 10
-                      AND a.Fruit LIKE b.Fruit;
+                      AND a.Fruit LIKE '%' + b.Fruit + '%';
 ```
 
 | ID | Fruit | Quantity | ID | Fruit | Quantity |
@@ -122,7 +122,6 @@ A natural join in relational algebra is a type of join operation that combines t
 
 `ORACLE` does is currently the only vendor that supports the `NATURAL JOIN` syntax.  It is considered a bad practice for the following reasons:
 *  Ambiguity: Natural joins can cause ambiguity if two or more columns in the participating tables have the same name. This can lead to unexpected results and make the query difficult to understand and maintain.
-*  Data Loss: In a natural join, only the rows with matching values in the common columns are included in the result set. This means that any data in the participating tables that doesn't match will be lost and not included in the result.
 *  Maintenance: Natural joins can make the database schema more difficult to maintain because changes to the common columns in one of the participating tables will affect the result of the join.
 
 For these reasons, it is generally recommended to use explicit join syntax and specify the join conditions explicitly, rather than relying on natural joins. This allows for more control over the join conditions and the resulting data and makes the query easier to understand and maintain.
