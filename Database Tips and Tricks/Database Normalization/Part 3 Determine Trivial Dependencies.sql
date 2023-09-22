@@ -1,6 +1,7 @@
 /*----------------------------------------------------------------------------------------------------------------------------
 Scott Peters
 Database Normalization
+Part 3
 https://advancedsqlpuzzles.com
 Last Updated: 02/28/2023
 Microsoft SQL Server T-SQL
