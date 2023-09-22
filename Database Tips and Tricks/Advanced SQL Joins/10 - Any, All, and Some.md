@@ -13,7 +13,7 @@
 
 Here are the 9 different comparison operators that can be used with `ANY`, `ALL`, and `SOME`.
 
-There are two usages, `<> ANY` and `= ALL`, that I will further elaborate on, as these have special use cases that I feel are best practice to use rather than their equivalents.
+There are two usages, `<> ANY` and `= ALL`, that I will further elaborate on, as these have special use cases that I feel are best practices to use rather than their equivalents.
 
 | Operator | Description                         |
 |----------|-------------------------------------|
@@ -207,7 +207,7 @@ ELSE
 PRINT 'FALSE';
 ```
 
-Equivalent **TRUE** statements below.
+Equivalent **TRUE** statements are below.
 
 ```sql
 --TRUE
@@ -378,9 +378,9 @@ Here is another (more elaborate) example using the `= ALL` operator with a corre
         
 Given the following tables: `Sales Representatives` and `Top Selling Products by Quarter`; calculate the following commissions for the year.
 
-*  If all the top selling products for the quarter are from one region only, all sales representatives from that region receive a $1000 bonus.
-*  If the top selling products for the quarter are from different regions, all sales representatives from those regions receive a $250 bonus.
-*  If a sales representative is assigned to a region that did not have a top selling product for the year, they receive a goat.
+*  If all the top-selling products for the quarter are from one region only, all sales representatives from that region receive a $1000 bonus.
+*  If the top-selling products for the quarter are from different regions, all sales representatives from those regions receive a $250 bonus.
+*  If a sales representative is assigned to a region that did not have a top-selling product for the year, they receive a goat.
 
 | SalesRepID | Region |
 |------------|--------|
@@ -409,8 +409,8 @@ Given the following tables: `Sales Representatives` and `Top Selling Products by
 
 *  For Q1, the North region had all the top selling products, therefore reps 1001 and 2002 each get a $1000 commission for that quarter. The North region also had sales in Q2, Q3, and Q4, getting $250 for each of these quarters.
 *  The South region had top selling products in Q2, Q3, and Q4, so they receive $750.
-*  The East region had a top selling product in Q3 only, so they receive $250.
-*  The West region did not have any top selling products for any of the quarters, therefore the sales reps get a goat as a commission.
+*  The East region had a top-selling product in Q3 only, so they receive $250.
+*  The West region did not have any top-selling products for any of the quarters, therefore the sales reps get a goat as a commission.
 
 Here is the SQL to produce the expected results.
 
