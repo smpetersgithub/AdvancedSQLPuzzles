@@ -1,6 +1,6 @@
 # INNER JOINS
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The `INNER JOIN` selects records from two tables given a join condition.  This type of join requires a comparison operator to combine rows from the participating tables based on a common field(s) in both tables.  Because of this, `INNER JOINS` act as a filter criteria.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The `INNER JOIN` selects records from two tables given a join condition.  This type of join requires a comparison operator to combine rows from the participating tables based on a common field(s) in both tables.  Because of this, `INNER JOIN` acts as a filter criteria.
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;We can use both equi-join and theta-join operators between the joining fields.  An equi-join is a type of join in which the join condition is based on equality between the values of the specified columns in the two tables being joined.  A theta-join, on the other hand, is a type of join in which the join condition is based on a comparison operator other than equality.
 
@@ -45,7 +45,7 @@ FROM    ##TableA a INNER JOIN
 |  2 | Peach |  2 | Peach |
 
 ---
-We can also specify the matching criteria in the `WHERE` clause without explicitly specify the `INNER JOIN` clause.
+We can also specify the matching criteria in the `WHERE` clause without explicitly specifying the `INNER JOIN` clause.
 
 ```sql
 SELECT  a.ID,
