@@ -62,7 +62,7 @@ PRINT 'FALSE'
 
 
 --------------------------------------------------------------
-#### ON EXISTS
+#### EXISTS
 
 Normally we use the `EXISTS` operator with the `WHERE` clause to create a correlated subquery.
 
