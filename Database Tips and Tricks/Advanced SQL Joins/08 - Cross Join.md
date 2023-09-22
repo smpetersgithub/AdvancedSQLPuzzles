@@ -1,14 +1,14 @@
 # CROSS JOINS
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;In Microsoft SQL Server, there are two join functions for peroforming a cross join, `CROSS JOIN` and `CROSS APPLY`.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;In `Microsoft SQL Server`, there are two join functions for performing a cross join, `CROSS JOIN` and `CROSS APPLY`.
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;A `CROSS JOIN` creates all permutations (i.e., a cartesian product) of the two joining tables.  It will produce a result set which is the number of rows in the first table multiplied by the number of rows in the second table.
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;It is important to be mindful of the number of rows in each table, because a cross join will return the product of the number of rows of both tables. If one table has 100 rows and the other has 1000 rows, a `CROSS JOIN` will return 100,000 rows. Therefore, `CROSS JOIN` can cause performance issues if used on large tables.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;It is important to be mindful of the number of rows in each table because a `CROSS JOIN` will return the product of the number of rows of both tables. If one table has 100 rows and the other has 1000 rows, a `CROSS JOIN` will return 100,000 rows. Therefore, `CROSS JOIN` can cause performance issues if used on large tables.
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Note, you can also use recursion to generate permutation sets.  The benefit of using recursion is when you have an unknown number of elements that you need to create permutations on, which you may not know at runtime.  With `CROSS JOIN` you need to manually create each join.
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Also of note is that in Microsoft SQL Server, there are two join functions for peroforming a cross join, `CROSS JOIN` and `CROSS APPLY`.  `CROSS JOIN` and `CROSS APPLY` both will both work when only dealing with tables, but `CROSS APPLY` will only work with table-valued functions and sub-queries, which I will deomonstrate below.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Also of note is that in Microsoft SQL Server, there are two join functions for performing a cross join, `CROSS JOIN` and `CROSS APPLY`.  `CROSS JOIN` and `CROSS APPLY` will both work when only dealing with tables, but `CROSS APPLY` will only work with table-valued functions and sub-queries, which I will demonstrate below.
 
 #### Permutations vs Combinations
 
@@ -44,7 +44,7 @@ We will be using the following tables that contain types of fruits and their qua
 ---------------------------------------------------------------------------------
 ### CROSS JOIN
   
-Here is a simplest form of the `CROSS JOIN` that creates all permutations between two datasets.
+Here is the simplest form of the `CROSS JOIN` that creates all permutations between two datasets.
 
 ```sql
 SELECT  a.ID,
@@ -126,9 +126,9 @@ WHERE   NOT EXISTS (SELECT 1 FROM ##TableB b where a.Fruit = b.Fruit);
 
 ---------------------------------------------------------------------------------
   
-The following produces all combinations (not permuations).
+The following produces all combinations (not permutations).
   
-Given all fruits in both `TableA` and `TableB`, here is a result set of all fruit combinations.  Because of the theta-join in the `WHERE` clause, the fruits are listed in alphabetical order left to right.  Note that NULL markers are not included in the result set, as NULL markers are not equal to each other nor are they equal to each other, they are unknown.
+Given all fruits in both `TableA` and `TableB`, here is a result set of all fruit combinations.  Because of the theta-join in the `WHERE` clause, the fruits are listed in alphabetical order from left to right.  Note that NULL markers are not included in the result set, as NULL markers are not equal to each other nor are they equal to each other, they are unknown.
   
 ```sql
 WITH cte_DistinctFruits as
@@ -234,7 +234,7 @@ WHERE   cd.DateKey = ct.DateKey;
 ```  
 ---------------------------------------------------------  
  
-If you need to do a cross join on a sub-query, the `CROSS APPLY` operator must be used.  Some databases like PostgreSQL have the `LATERAL` join instead of `CROSS APPLY`.
+If you need to do a `CROSS JOIN` on a sub-query, the `CROSS APPLY` operator must be used.  Some databases like `PostgreSQL` have the `LATERAL` join instead of `CROSS APPLY`.
   
 ```sql
 SELECT  a.ID,
