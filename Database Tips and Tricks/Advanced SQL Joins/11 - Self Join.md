@@ -1,6 +1,6 @@
 # Self Joins
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Self-joins in SQL are a type of join operation where a table is joined with itself. In a self-join, a table is aliased to give it a different name and then used twice in the same query, once as the left table and once as the right table. The join conditions in a self-join specify how to relate the rows of a table to itself. Self joins can be used to compare rows within a table, to create subsets of data based on certain conditions, or to combine information from multiple rows within a single table. The result of a self-join is a new table that contains the combined data from the two instances of the original table. Self joins can be useful when working with hierarchical data, or when you need to analyze data based on relationships within a table.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Self-joins in SQL is a type of join operation where a table is joined with itself. In a self-join, a table is aliased to give it a different name and then used twice in the same query, once as the left table and once as the right table. The join conditions in a self-join specify how to relate the rows of a table to itself. Self-joins can be used to compare rows within a table, to create subsets of data based on certain conditions, or to combine information from multiple rows within a single table. The result of a self-join is a new table that contains the combined data from the two instances of the original table. Self-joins can be useful when working with hierarchical data, or when you need to analyze data based on relationships within a table.
 
 ----------------------------------------------------
 
@@ -19,7 +19,7 @@ For the following table of `Managers` and `Employees`, determine each employee's
 |           5 | Director       | 3          |
   
 
-Note the table `Employees` is referenced twice, but given two different aliases name, `a` and `b`.
+Note the table `Employees` is referenced twice, but given two different aliases named `a` and `b`.
  
 ```sql
 SELECT  a.EmployeeID,
@@ -173,7 +173,7 @@ FROM    #Animals;
 
 #### Example 4: Relational Division
   
-Self joins are also used in relational division.
+Self-joins are also used in relational division.
 
 Given the following table of employees and their licenses, determine all employees who have matching licenses.
 
@@ -236,7 +236,7 @@ FROM    cte_CountWindow a INNER JOIN
   
 The following are **not** considered self-joins.
 
-Given a table of employees and their salary, write an SQL statement to return all employees who have a higher salary than the average salary of the company.
+Given a table of employees and their salaries, write an SQL statement to return all employees who have a higher salary than the average salary of the company.
   
 Although this SQL statement uses the `Employees` table twice, it does not join to itself.  In this example, the aggregation on the `Employees` table is used in the predicate logic and not joined to the `Employees` table.
   
