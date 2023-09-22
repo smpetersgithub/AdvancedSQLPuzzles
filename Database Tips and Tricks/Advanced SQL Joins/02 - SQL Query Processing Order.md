@@ -39,7 +39,11 @@ The four table operators and their subphases are:
 
 ---------------------------------------------------------
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The `PIVOT` and `UNPIVOT` are two operators in SQL Server that are used to generate multi-dimensional reports. The `APPLY` operator is used when you want to return values from a table-valued function.  From the diagram we can determine there is only one true type of table join, the cartesian product.  `INNER` and `OUTER JOINS` are restricted cartesian products where the `ON` predicate specifies the restriction.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;We can summarize the four table operators into the following:
+*  There is only one true type of table join, the cartesian product.  `INNER` and `OUTER JOINS` are restricted cartesian products where the `ON` predicate specifies the restriction.
+*  The `APPLY` operator is used when you want to return values from a table-valued function.
+*  The `PIVOT` and `UNPIVOT` are two operators in SQL Server that are used to generate multi-dimensional reports.
+
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;To best understand that joins are simply restricted cartesian products, the following two statements below produce the exact same result set.  The first statement uses an `INNER JOIN`, and the second statement uses the `CROSS JOIN` syntax.  
 *  If we were to remove the join logic from the `ON` clause on the `INNER JOIN`, an error would occur.  
