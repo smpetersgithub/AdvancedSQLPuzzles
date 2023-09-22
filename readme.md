@@ -1,8 +1,8 @@
 # Advanced SQL Puzzles
 
-This repository contains a collection of my SQL puzzles, tips and tricks, demos, and various writings.  Feel free to rummage around, and I am constantly updating this repository, so check back often.
+This repository contains a collection of my SQL puzzles, tips and tricks, demos, and various writings.  Feel free to rummage around, I am constantly updating this repository, so check back often.
 
-:keyboard:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;All SQL is written in Microsoft SQL Server T-SQL, unless otherwise noted.
+:keyboard:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;All SQL is written in `Microsoft SQL Server T-SQL`, unless otherwise noted.
 
 :star:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Please consider giving a star to this repository if you find its contents informative!
 
@@ -32,6 +32,6 @@ Greetings, I am Scott Peters, a resident of Austin, TX.  I am always eager to co
 
 :smile:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Happy coding!
 
-I hope you find this repository to be useful and informative and I welcome any new puzzles or tips and tricks you may have.  I also have a Wordpress site where you can find my data analytics projects, Python puzzles, and blog.    
+I hope you find this repository to be useful and informative and I welcome any new puzzles or tips and tricks you may have.  I also have a WordPress site where you can find my data analytics projects, Python puzzles, and blog.    
 
 **https://advancedsqlpuzzles.com**  
