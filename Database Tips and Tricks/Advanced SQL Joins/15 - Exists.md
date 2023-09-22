@@ -224,9 +224,9 @@ Note, missing from this above set is the following.
 |  2 | Peach  |       20 |  2 | Peach  | 25       |
 |  4 | <NULL> |        5 |  4 | <NULL> | <NULL>   |
  
-The equivalent statement for this below.
+The equivalent statement for this is below.
   
-``sql
+```sql
 SELECT  *
 FROM    ##TableA a CROSS JOIN
         ##TableB b
