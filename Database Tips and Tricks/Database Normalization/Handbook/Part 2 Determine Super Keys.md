@@ -1,6 +1,6 @@
 # Part 2: Determine Super Keys
 
-This script determines all the **Super Keys**, **Minimal Super Keys**, **Candidate Keys** and **Non-Prime Attributes** from the user created `NormalizationTest` table.
+This script determines all the **Super Keys**, **Minimal Super Keys**, **Candidate Keys** and **Non-Prime Attributes** from the user-created `NormalizationTest` table.
 
 #### Tables Used
 
@@ -17,7 +17,7 @@ This script determines all the **Super Keys**, **Minimal Super Keys**, **Candida
 
 | Step |        Table Created    |  Action  |                                                         Notes                                           |
 |------|-------------------------|----------|---------------------------------------------------------------------------------------------------------|
-|    1 | SuperKeys1_SysColumns   | `CREATE` | From the system tables, determines all the columns in the table `NormalizationTest`.                    |
+|    1 | SuperKeys1_SysColumns   | `CREATE` | From the system tables, determine all the columns in the table `NormalizationTest`.                    |
 |    2 | SuperKeys2_Permutations | `CREATE` | Seed the `SuperKeys2_Permutations` table from `SuperKeys1_SysColumns`.                                  |
 |    3 | SuperKeys2_Permutations | `INSERT` | Loop through `SuperKeys1_SysColumns` to determine the column list.                                      |
 |    4 | SuperKeys3_DynamicSQL   | `CREATE` | Creates the dynamic SQL statements to determine record counts for use in determining the super keys.    |
@@ -27,7 +27,7 @@ This script determines all the **Super Keys**, **Minimal Super Keys**, **Candida
 |    8 | SuperKeys5_StringSplit  | `CREATE` | Uses the `STRING_SPLIT` function to determine candidate keys.                                           |
 |    9 | SuperKeys6_CandidateKey | `CREATE` | Creates the table `SuperKeys6_CandidateKey` to determine the candiate keys.                             |
 |   10 | SuperKeys4_Final        | `UPDATE` | Updates the `SuperKeys5_Final.IsCandidateKey` column.                                                   |
-|   11 | SuperKeys7_NonPrime     | `CREATE` | Using the `STRING_AGG` function, determine non-prime attributes of the candidate keys.                  |
+|   11 | SuperKeys7_NonPrime     | `CREATE` | Using the `STRING_AGG` function, determine the non-prime attributes of the candidate keys.                  |
 |   12 | SuperKeys4_Final        | `UPDATE` | For all super keys, update the `NonPrimeAttributes` column in the `SuperKeys4_Final`table.              |
 
 
