@@ -1,6 +1,6 @@
 # Behavior of Nulls
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;To record missing or unknown values, users of relational databases can assign NULL markers as a value to a columns.  NULL is not a data value, but a marker representing the absence of a value.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;To record missing or unknown values, users of relational databases can assign NULL markers as a value to columns.  NULL is not a data value, but a marker representing the absence of a value.
 
 NULL markers can mean one of two things:
 1)  The column does not apply to the other columns in the record.
@@ -22,7 +22,7 @@ We will cover these aspects and many more in the following document.
 ---------------------------------------------------------
 ### Quick Notes
 
-:keyboard: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The examples provided are written in Microsoft SQL Server T-SQL.  The provided SQL statements can be easily modified to fit your flavor of SQL.
+:keyboard: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The examples provided are written in `Microsoft SQL Server T-SQL`.  The provided SQL statements can be easily modified to fit your flavor of SQL.
 
 :mailbox: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;I welcome any corrections, new tricks, new techniques, dead links, misspellings, or bugs!
 
@@ -64,7 +64,7 @@ We will cover these aspects and many more in the following document.
 ### Predicate Logic
 🔵&nbsp;&nbsp;&nbsp;[Table Of Contents](#table-of-contents)
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;To best understand NULL markers in SQL, we need to understand the three-valued logic outcomes of **TRUE**, **FALSE**, and **UNKNOWN**.  Unique to SQL, the logic result will always be **UNKNOWN** when comparing a NULL marker to any other value.   SQL’s use of the three-valued logic system presents a surprising amount of complexity into a seemingly straightforward query!
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;To best understand NULL markers in SQL, we need to understand the three-valued logic outcomes of **TRUE**, **FALSE**, and **UNKNOWN**.  Unique to SQL, the logic result will always be **UNKNOWN** when comparing a NULL marker to any other value.   SQL’s use of the three-valued logic system presents a surprising amount of complexity in a seemingly straightforward query!
 
 ---------------------------------------------------------
 **Three-Valued Logic**
@@ -73,7 +73,7 @@ The following truth tables display how the three-valued logic is applied.
 
 ![Truth Tables Three Valued Logic](/Database%20Tips%20and%20Tricks/Behavior%20Of%20Nulls/images/Truth_Tables_Three_Valued_Logic.png)
 
-A good example of the complexity is shown below in the following examples.  [De Morgan's Law](https://en.wikipedia.org/wiki/De_Morgan%27s_laws) is also included below as I show both version of negation.
+A good example of the complexity is shown below in the following examples.  [De Morgan's Law](https://en.wikipedia.org/wiki/De_Morgan%27s_laws) is also included below as I show both versions of negation.
 
 ```sql
 --TRUE OR UNKNOWN = TRUE
@@ -112,7 +112,7 @@ SELECT 3 WHERE NOT(1=2) AND NOT(NULL=1);
 ### IS NULL and IS NOT NULL
 🔵&nbsp;&nbsp;&nbsp;[Table Of Contents](#table-of-contents)
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;We can experiment with setting the `ANSI_NULLS` to `ON` and `OFF` to review how the behavior of NULL markers change.  In the following examples we will set the default `ANSI_NULLS` setting to `ON`.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;We can experiment with setting the `ANSI_NULLS` to `ON` and `OFF` to review how the behavior of NULL markers change.  In the following examples, we will set the default `ANSI_NULLS` setting to `ON`.
 
 SQL provides two functions for handling NULL markers, `IS NULL` and `IS NOT NULL` which we will also demonstrate below.
 
@@ -140,7 +140,7 @@ SELECT 1 WHERE 1 IS NULL;
 SELECT 1 WHERE NULL IS NOT NULL;
 ```
 
-Now that we have covered the basics of NULL markers, lets create two sample data tables and start working through examples.
+Now that we have covered the basics of NULL markers, let's create two sample data tables and start working through examples.
 
 ---------------------------------------------------------
 ### Sample Data
@@ -210,7 +210,7 @@ SELECT * from ##TableB;
 ### Join Syntax
 🔵&nbsp;&nbsp;&nbsp;[Table Of Contents](#table-of-contents)
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The standard ANSI:SQL joins are `INNER`, `LEFT OUTER JOIN`, `RIGHT OUTER JOIN`, `FULL OUTER JOIN`, and `CROSS JOIN`.  For NULL markers, all 5 of these joins treat the NULL marker as **UNKOWN**.  For this reason I do not demonstrate each of these joins, but only the relevant joins needed to understand the behavior of NULL markers.  Also, I include some alternative methods for joining if you need to treat NULL markers as equals, these methods use the `ISNULL`, `ON EXISTS`, and the `IS [NOT] DISTINCT FROM` clauses.  See my documentation **Advanced SQL Joins** for more examples of these clauses.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The standard ANSI:SQL joins are `INNER`, `LEFT OUTER JOIN`, `RIGHT OUTER JOIN`, `FULL OUTER JOIN`, and `CROSS JOIN`.  For NULL markers, all 5 of these joins treat the NULL marker as **UNKOWN**.  For this reason, I do not demonstrate each of these joins, but only the relevant joins needed to understand the behavior of NULL markers.  Also, I include some alternative methods for joining if you need to treat NULL markers as equals, these methods use the `ISNULL`, `ON EXISTS`, and the `IS [NOT] DISTINCT FROM` clauses.  See my documentation **Advanced SQL Joins** for more examples of these clauses.
 
 ---------------------------------------------------------
 **INNER JOIN**
@@ -317,7 +317,7 @@ There are several benefits of using anti-joins and semi-joins over `INNER JOINS`
 There are a few key differences between semi-joins and anti-joins:
 1.  The `NOT IN` operator will return an empty set if the anti-join contains a NULL marker.  The `NOT EXISTS` will return a dataset that contains a NULL marker if the anti-join contains a NULL marker.
 2.  The `IN` and `EXIST` operators will return a dataset if the semi-join contains a NULL marker.
-3.  The `IN` and `NOT IN` can take a list of arguments, or an SQL statement.  The SQL statement can return a set of values, or it can be a correlated subquery.  
+3.  The `IN` and `NOT IN` can take a list of arguments or an SQL statement.  The SQL statement can return a set of values, or it can be a correlated subquery.  
 4.  The `EXISTS` and `NOT EXITS` must be a correlated subquery.
      
 :small_red_triangle:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;If you are performing an anti-join to a NULLable column, consider using the `NOT EXISTS` operator over the `NOT` operator.
@@ -397,7 +397,7 @@ WHERE   NOT EXISTS (SELECT 1 FROM ##TableB b WHERE a.Fruit = b.Fruit AND a.Quant
 ### Set Operators
 🔵&nbsp;&nbsp;&nbsp;[Table Of Contents](#table-of-contents)
         
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The SQL standard for set operators does not use the term **EQUAL TO or NOT EQUAL TO** when describing their behavior.  Instead, it uses the terminology of **IS [NOT] DISTINCT FROM** and the following expressions are **TRUE** when using set operators.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The SQL standard for set operators does not use the term **EQUAL TO or NOT EQUAL TO** when describing their behavior.  Instead, it uses the terminology of **IS [NOT] DISTINCT FROM**, and the following expressions are **TRUE** when using set operators.
 *  NULL is not distinct from NULL
 *  NULL is distinct from "Apple".
 
@@ -506,7 +506,7 @@ GROUP BY Fruit;
 ### COUNT and AVERAGE Functions
 🔵&nbsp;&nbsp;&nbsp;[Table Of Contents](#table-of-contents)
 
-The `COUNT` and `AVG` functions have a few nuances to NULL markers as will demonstrate below.
+The `COUNT` and `AVG` functions have a few nuances to NULL markers as we will demonstrate below.
         
 ---------------------------------------------------------
 **COUNT**
@@ -531,7 +531,7 @@ GROUP BY Fruit;
 ---------------------------------------------------------
 **AVG**
         
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The `AVG` function will remove records with NULL markers in its calculation, as shown below.  For this example, we created the test data in the common table expression `cte_Average`, as this more easily demonstrates the functions behavior.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The `AVG` function will remove records with NULL markers in its calculation, as shown below.  For this example, we created the test data in the common table expression `cte_Average`, as this more easily demonstrates the function's behavior.
 
 In `SQL Server`, when performing division between integers, you will need to use the `CAST` or `CONVERT` function on the values as shown below.
 
@@ -633,7 +633,7 @@ SELECT * FROM ##CheckConstraints;
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;In the below example, we demonstrate that multiple NULL markers can be inserted into a child column that references another column only if the referenced column has a `UNIQUE CONSTRAINT` on the table.  
 
-Referential integrity cannot be created on temporary tables, so for this example we create two tables in the `dbo` schema named `Parent` and `Child`.
+Referential integrity cannot be created on temporary tables; for this example, we create two tables in the `dbo` schema named `Parent` and `Child`.
 
 ```sql
 DROP TABLE IF EXISTS dbo.Child;
@@ -684,7 +684,7 @@ SELECT * FROM dbo.Child;
 ### Computed Columns
 🔵&nbsp;&nbsp;&nbsp;[Table Of Contents](#table-of-contents)
         
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;A computed column is a virtual column that is not physically stored in a table.  A computed column expression can use data from other columns to calculate a value.  When an expression is applied to a column with a NULL marker, a NULL marker will be the return value.   Here we add the value `2` to a the `Quantity` field in `TableB` (which includes a NULL marker in the `Quantity` field.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;A computed column is a virtual column that is not physically stored in a table.  A computed column expression can use data from other columns to calculate a value.  When an expression is applied to a column with a NULL marker, a NULL marker will be the return value.   Here we add the value `2` to the `Quantity` field in `TableB` (which includes a NULL marker in the `Quantity` field.
 
 ```sql
 SELECT Fruit,
@@ -745,7 +745,7 @@ Besides the `IS NULL` and `IS NOT NULL` predicate logic constructs, SQL also pro
 The major differences between `COALESCE` and `ISNULL` from the documentation are:
 
 1.  `COALESCE` behaves the same as a `CASE` statement, and therefore can accept multiple parameters and return a NULL marker.  `ISNULL` cannot return a NULL marker and accepts only two parameters.
-2.  `COALESCE` determines the type of output based upon data type precedence.  ISNULL uses the data type of the first parameter.
+2.  `COALESCE` determines the type of output based on data type precedence.  ISNULL uses the data type of the first parameter.
 
 ---------------------------------------------------------
 **COALESCE**
@@ -783,7 +783,7 @@ SELECT  1 AS ID,
 ### Empty Strings, NULL, and ASCII VALUES
 🔵&nbsp;&nbsp;&nbsp;[Table Of Contents](#table-of-contents)
         
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;A useful feature to combat NULL markers in character fields is by using the empty string.  The empty string character is not an ASCII value, and the following function returns a NULL marker for both the empty string and the NULL marker parameters.  Also, you would assume the ASCII value for a NULL marker is 0 when reviewing an ASCII code chart, however this is not the case.  SQL does not use the standard ANSI NULL marker.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;A useful feature to combat NULL markers in character fields is by using the empty string.  The empty string character is not an ASCII value, and the following function returns a NULL marker for both the empty string and the NULL marker parameters.  Also, you would assume the ASCII value for a NULL marker is 0 when reviewing an ASCII code chart, however, this is not the case.  SQL does not use the standard ANSI NULL marker.
 
 ```sql
 SELECT  1 AS ID,
@@ -840,7 +840,7 @@ SELECT 1 AS ID, CONCAT(NULL,NULL,NULL) AS fnConcat;
 ---------------------------------------------------------
 **CONCAT Implicit Data Type Conversion**
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;This feature of `CONCAT` is especially helpful when you want to join to a table on multiple fields (with multiple data types) where NULL markers and empty strings are not used consistently in the tables, as shown below.  You can include fields with different data types into the `CONCAT` function as this function performs an implicit data type conversion.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;This feature of `CONCAT` is especially helpful when you want to join a table on multiple fields (with multiple data types) where NULL markers and empty strings are not used consistently in the tables, as shown below.  You can include fields with different data types into the `CONCAT` function as this function performs an implicit data type conversion.
  
 ```sql
 WITH
@@ -855,7 +855,7 @@ SELECT v1.A, v2.B, v2.C, v2.D
 FROM   cte_Values v1 INNER JOIN 
        cte_Values v2 ON CONCAT(v1.A, v1.B) = CONCAT(v2.C,v2.D);
 ```
-In query editors NULLS and empty strings will appear different (by default, SSMS shows yellow for NULLS and a blank for empty strings).
+In query editors, NULLS and empty strings will appear differently (by default, SSMS shows yellow for NULLS and a blank for empty strings).
 
 |  A     |  B     |       C         |      D         |
 |--------|--------|-----------------|----------------|
@@ -866,9 +866,9 @@ In query editors NULLS and empty strings will appear different (by default, SSMS
 ### Views
 🔵&nbsp;&nbsp;&nbsp;[Table Of Contents](#table-of-contents)
         
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;When creating a view, if you perform a `CAST` function or create a computed column on a column which has a `NOT NULL` constraint, the result will yield a NULLable column.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;When creating a view, if you perform a `CAST` function or create a computed column on a column that has a `NOT NULL` constraint, the result will yield a NULLable column.
 
-Here we create a table with `NOT NULL` constraints and then create a view where we perform a `CAST` and create a computed column.  From the resulting screen shot, we can see the columns are NULLable.
+Here we create a table with `NOT NULL` constraints and then create a view where we perform a `CAST` and create a computed column.  From the resulting screenshot, we can see the columns are NULLable.
 
 ```sql
 DROP TABLE IF EXISTS MyTable;
@@ -921,9 +921,9 @@ Here we will discuss two SQL constructs, the `BIT` data type and the `NOT` opera
 ------------------------------------------------------------------
 **BIT**    
         
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Often, we think of the `BIT` data type as being a Boolean value (true or false, yes or no, on or off, one or zero…), however NULL markers are allowed for the `BIT` data type making the possible values 1, 0 and NULL.  **The `BIT` data type in SQL is not a true Boolean value.**
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Often, we think of the `BIT` data type as being a Boolean value (true or false, yes or no, on or off, one or zero…), however, NULL markers are allowed for the `BIT` data type making the possible values 1, 0 and NULL.  **The `BIT` data type in SQL is not a true Boolean value.**
   
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Because the only acceptable values for the `BIT` data type is 1, 0 or NULL.  The `BIT` data type converts any nonzero value to `1`.  As discussed earlier, the NULL marker is neither a nonzero value nor a zero value, so it is not promoted to the value of `1`.  Here we can demonstrate that behavior.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Because the only acceptable values for the `BIT` data type are `1`, `0` or `NULL`.  The `BIT` data type converts any nonzero value to `1`.  As discussed earlier, the NULL marker is neither a nonzero value nor a zero value, so it is not promoted to the value of `1`.  Here we can demonstrate that behavior.
 
 ```sql   
 SELECT 1 AS ID, CAST(NULL AS BIT) AS Bit
@@ -960,7 +960,7 @@ WHERE   NOT(FRUIT = 'Mango');
 ### RETURN
 🔵&nbsp;&nbsp;&nbsp;[Table Of Contents](#table-of-contents)
         
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The `RETURN` statement exists unconditionally from a query or procedure.  All stored procedures return a value of 0 for a successful execution, and a nonzero value for a failure.  When the `RETURN` statement is used with a stored procedure, it cannot return a NULL marker.  If a procedure tries to return a NULL marker in the `RETURN` statement, a warning message is generated and a value of 0 is returned.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The `RETURN` statement exists unconditionally from a query or procedure.  All stored procedures return a value of 0 for a successful execution and a nonzero value for a failure.  When the `RETURN` statement is used with a stored procedure, it cannot return a NULL marker.  If a procedure tries to return a NULL marker in the `RETURN` statement, a warning message is generated and a value of 0 is returned.
 
 Here we will create a stored procedure that overrides the default `RETURN` value and attempt to return a NULL marker.
 
@@ -989,7 +989,7 @@ The `SpReturnStatement` procedure attempted to return a status of NULL, which is
 ### Identity Columns
 🔵&nbsp;&nbsp;&nbsp;[Table Of Contents](#table-of-contents)
         
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;In some relational databases like MYSQL, when you insert a NULL marker into an identity column, the identity column will take the next available value and not error.  However, in Microsoft SQL Server, an error is produced.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;In some relational databases like MYSQL, when you insert a NULL marker into an identity column, the identity column will take the next available value and not an error.  However, in `Microsoft SQL Server`, an error is produced.
 
 ```sql
 CREATE TABLE ##Identity 
