@@ -41,10 +41,10 @@ SQL has the following operators that can be used to join tables.
 
 *  Comparison operators test whether two expressions are the same. Comparison operators can be used on all expressions except expressions of the `text`, `ntext`, or `image` data types.
 
-*  The `IS [NOT] DISTINCT FROM` operator is a relatively new feature being added to the various database systems.  I have set it to NULL as I have not been able to find any vendor documentation that categorizes this operator as logical or a comparison.
+*  The `IS [NOT] DISTINCT FROM` operator is a relatively new feature being added to the various database systems.  I have set it to NULL as I have not found any vendor documentation categorizing this operator as logical or a comparison.
  
 --------------------------------------------------------------------------------
-We will be using the following tables that contain types of fruits and their quantity.  
+We will use the following tables that contain types of fruits and their quantity.  
 
 [The DDL to create these tables can be found here.](Sample%20Data.md)
 
@@ -103,7 +103,7 @@ FROM    ##TableA a INNER JOIN
 |----|-------|----------|----|-------|----------|
 |  1 | Apple |       17 |  1 | Apple |       17 |
  
-Here is an example where you would use the greater than operator.  Suppose you want to purchase two fruits, one fruit from `TableA` and one fruit from `TableB`, however, the quantity of the fruit in `TableA` needs to be larger than the quantity in `TableB`.  A common example you will see on the internet is the scenario where you need to purchase two items (such as a car and a boat) and one item (the car) must be of greater value than the other.
+Here is an example where you would use the greater than operator.  Suppose you want to purchase two fruits, one fruit from `TableA` and one fruit from `TableB`, however, the quantity of the fruit in `TableA` needs to be larger than the quantity in `TableB`.  A typical example you will see on the internet is when you need to purchase two items (such as a car and a boat), and one item (the car) must be of greater value than the other.
 
 ```sql
 SELECT  *
@@ -118,19 +118,19 @@ FROM    ##TableA a INNER JOIN
 --------------------------------------------------------------------------------
 #### Natural Joins Overview
 
-A natural join in relational algebra is a type of join operation that combines two relational tables via an equi-join based on their common attributes. In a natural join, only the rows with matching values in the common columns are included in the result. The common columns of the two tables are used as the join criteria and the result set includes only one copy of these columns. The columns in the result set correspond to the combination of columns from both tables,
+A natural join in relational algebra is a join operation that combines two relational tables via an equi-join based on their common attributes. In a natural join, only the rows with matching values in the common columns are included in the result. The common columns of the two tables are used as the join criteria, and the result set includes only one copy of these columns. The columns in the result set correspond to the combination of columns from both tables,
 
 `ORACLE` is currently the only vendor that supports the `NATURAL JOIN` syntax.  It is considered a bad practice for the following reasons:
 *  Ambiguity: Natural joins can cause ambiguity if two or more columns in the participating tables have the same name. This can lead to unexpected results and make the query difficult to understand and maintain.
-*  Maintenance: Natural joins can make the database schema more difficult to maintain because changes to the common columns in one of the participating tables will affect the result of the join.
+*  Maintenance: Natural joins can make the database schema more difficult to maintain because changes to the common columns in one of the participating tables will affect the join result.
 
-For these reasons, it is generally recommended to use explicit join syntax and specify the join conditions explicitly, rather than relying on natural joins. This allows for more control over the join conditions and the resulting data and makes the query easier to understand and maintain.
+For these reasons, it is generally recommended to use explicit join syntax and specify the join conditions explicitly rather than relying on natural joins. This allows for more control over the join conditions and the resulting data and makes the query easier to understand and maintain.
 
 ------------------------------------------------
 
 #### Natural Joins
 
-The use of an asterisk in the `SELECT` statement is mandatory and the output does not show duplicate column names. This query is the same as an equi-join on the `ID`, `Fruit` and `Quantity` columns between `TableA` and `TableB`.
+Using an asterisk in the `SELECT` statement is mandatory, and the output does not show duplicate column names. This query is the same as an equi-join on the `ID`, `Fruit`, and `Quantity` columns between `TableA` and `TableB`.
 
 ```sql
 SELECT  *
