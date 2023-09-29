@@ -5,7 +5,7 @@
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;It is best practice to use the `LEFT OUTER JOIN` over the `RIGHT OUTER JOIN`, as we naturally read from left to right.  The `LEFT OUTER JOIN` is more intuitive in terms of its behavior, as the left table is preserved, and the right table is optional. It's therefore more natural to think of it as "all rows from the left table, and any matching rows from the right table" which makes it more readable and easier to understand.  I will mainly demonstrate the `LEFT OUTER JOIN` for this reason.  Using `RIGHT OUTER JOIN` is considered a bad practice and should be avoided.
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;This document covers the `LEFT OUTER JOIN` and the `RIGHT OUTER JOIN`.  The `FULL OUTER JOIN` has its own separate document.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;This document covers the `LEFT OUTER JOIN,` and the `RIGHT OUTER JOIN`.  The `FULL OUTER JOIN` has its own separate document.
 
 -----------------------------------------------------------
 
@@ -53,7 +53,7 @@ FROM    ##TableA a LEFT OUTER JOIN
 
 ---
 
-A `LEFT OUTER JOIN` is one of several methods to determine records in `TableA` that do not exist in `TableB`.  The following statement returns all values in `TableA` that do not exist in `TableB`.  There are other (and possibly better) ways of writing this query which we will cover later.
+A `LEFT OUTER JOIN` is one of several methods to determine records in `TableA` that do not exist in `TableB`.  The following statement returns all values in `TableA` that do not exist in `TableB`.  There are other (and possibly better) ways of writing this query, which we will cover later.
 
 ```sql
 SELECT  a.*
@@ -69,7 +69,7 @@ WHERE   b.Fruit IS NULL;
 
 ---
 
-Predicate logic placed in the `ON` clause behaves differently than predicate logic in the `WHERE` clause.  Notice the difference in output between these two queries.
+Predicate logic in the `ON` clause behaves differently than predicate logic in the `WHERE` clause.  Notice the difference in output between these two queries.
 
 Placing predicate login in the `ON` statement preserves the outer join.
 
@@ -107,7 +107,7 @@ WHERE   b.Fruit = 'Apple';
 
 -----------------------------------------------------------
   
-Joins can exist in the `SELECT`, `FROM`, and `WHERE` clause of an SQL query. 
+Joins can exist in the `SELECT`, `FROM`, and `WHERE` clauses of an SQL query. 
 
 You can also have nested `SELECT` statements which act as outer joins, as demonstrated below.
   
