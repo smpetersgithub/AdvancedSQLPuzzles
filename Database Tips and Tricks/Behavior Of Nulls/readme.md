@@ -1,6 +1,6 @@
 # Behavior of Nulls
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;To record missing or unknown values, users of relational databases can assign NULL markers as a value to columns.  NULL is not a data value, but a marker representing the absence of a value.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;To record missing or unknown values, users of relational databases can assign NULL markers as a value to columns.  NULL is not a data value but a marker representing the absence of a value.
 
 NULL markers can mean one of two things:
 1)  The column does not apply to the other columns in the record.
@@ -58,13 +58,13 @@ We will cover these aspects and many more in the following document.
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Codd's work ensured data consistency and accuracy in relational databases, as they could better handle real-world scenarios where information may not always be complete. However, some critics argue that NULL markers can lead to ambiguity and confusion, lack of default values, performance issues, and affect data quality.
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Despite these criticisms, NULL markers are widely used and accepted, but must be used appropriately to understand their limitations and impact on data quality and performance. For further information, refer to C.J. Date's book, [Database in Depth: Relational Theory for Practitioners](https://www.amazon.com/Database-Depth-Relational-Theory-Practitioners/dp/0596100124).
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Despite these criticisms, NULL markers are widely used and accepted but must be used appropriately to understand their limitations and impact on data quality and performance. For further information, refer to C.J. Date's book, [Database in Depth: Relational Theory for Practitioners](https://www.amazon.com/Database-Depth-Relational-Theory-Practitioners/dp/0596100124).
 
 ---------------------------------------------------------
 ### Predicate Logic
 🔵&nbsp;&nbsp;&nbsp;[Table Of Contents](#table-of-contents)
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;To best understand NULL markers in SQL, we need to understand the three-valued logic outcomes of **TRUE**, **FALSE**, and **UNKNOWN**.  Unique to SQL, the logic result will always be **UNKNOWN** when comparing a NULL marker to any other value.   SQL’s use of the three-valued logic system presents a surprising amount of complexity in a seemingly straightforward query!
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;To best understand NULL markers in SQL, we need to understand the three-valued logic outcomes of **TRUE**, **FALSE**, and **UNKNOWN**.  Unique to SQL, the logic result will always be **UNKNOWN** when comparing a NULL marker to any other value.   SQL’s three-valued logic system presents a surprising amount of complexity in a seemingly straightforward query!
 
 ---------------------------------------------------------
 **Three-Valued Logic**
@@ -73,7 +73,7 @@ The following truth tables display how the three-valued logic is applied.
 
 ![Truth Tables Three Valued Logic](/Database%20Tips%20and%20Tricks/Behavior%20Of%20Nulls/images/Truth_Tables_Three_Valued_Logic.png)
 
-A good example of the complexity is shown below in the following examples.  [De Morgan's Law](https://en.wikipedia.org/wiki/De_Morgan%27s_laws) is also included below as I show both versions of negation.
+A good example of the complexity is shown below in the following examples.  [De Morgan's Law](https://en.wikipedia.org/wiki/De_Morgan%27s_laws) is also included below, as I show both versions of negation.
 
 ```sql
 --TRUE OR UNKNOWN = TRUE
@@ -90,7 +90,7 @@ SELECT 3 WHERE NOT(1=2) AND NOT(NULL=1);
 ### ANSI_NULLS
 🔵&nbsp;&nbsp;&nbsp;[Table Of Contents](#table-of-contents)
 
->:exclamation:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The standard setting for `ANSI_NULLS` is `ON`.  In a future version of Microsoft SQL Server `ANSI_NULLS` will always be `ON` and any applications that explicitly set the option to `OFF` will produce an error.  Avoid using this feature in new development work, and plan to modify applications that currently use this feature.
+>:exclamation:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The standard setting for `ANSI_NULLS` is `ON`.  In a future version of Microsoft SQL Server, `ANSI_NULLS` will always be `ON`, and any applications that explicitly set the option to `OFF` will produce an error.  Avoid using this feature in new development work, and plan to modify applications that currently use this feature.
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;In SQL Server, the `SET ANSI_NULLS` setting specifies the ISO compliant behavior of the equality (=) and inequality (<>) comparison operators.  The following table shows how the `ANSI_NULLS` session setting affects the results of Boolean expressions using NULL markers.  
 
@@ -114,7 +114,7 @@ SELECT 3 WHERE NOT(1=2) AND NOT(NULL=1);
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;We can experiment with setting the `ANSI_NULLS` to `ON` and `OFF` to review how the behavior of NULL markers change.  In the following examples, we will set the default `ANSI_NULLS` setting to `ON`.
 
-SQL provides two functions for handling NULL markers, `IS NULL` and `IS NOT NULL` which we will also demonstrate below.
+SQL provides two functions for handling NULL markers, `IS NULL` and `IS NOT NULL`, which we will also demonstrate below.
 
 ```sql
 --2.1
@@ -140,7 +140,7 @@ SELECT 1 WHERE 1 IS NULL;
 SELECT 1 WHERE NULL IS NOT NULL;
 ```
 
-Now that we have covered the basics of NULL markers, let's create two sample data tables and start working through examples.
+Now that we have covered the basics of NULL markers let's create two sample data tables and start working through examples.
 
 ---------------------------------------------------------
 ### Sample Data
@@ -210,12 +210,12 @@ SELECT * from ##TableB;
 ### Join Syntax
 🔵&nbsp;&nbsp;&nbsp;[Table Of Contents](#table-of-contents)
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The standard ANSI:SQL joins are `INNER`, `LEFT OUTER JOIN`, `RIGHT OUTER JOIN`, `FULL OUTER JOIN`, and `CROSS JOIN`.  For NULL markers, all 5 of these joins treat the NULL marker as **UNKOWN**.  For this reason, I do not demonstrate each of these joins, but only the relevant joins needed to understand the behavior of NULL markers.  Also, I include some alternative methods for joining if you need to treat NULL markers as equals, these methods use the `ISNULL`, `ON EXISTS`, and the `IS [NOT] DISTINCT FROM` clauses.  See my documentation **Advanced SQL Joins** for more examples of these clauses.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The standard ANSI:SQL joins are `INNER`, `LEFT OUTER JOIN`, `RIGHT OUTER JOIN`, `FULL OUTER JOIN`, and `CROSS JOIN`.  For NULL markers, all 5 of these joins treat the NULL marker as **UNKOWN**.  For this reason, I do not demonstrate each of these joins, but only the relevant joins needed to understand the behavior of NULL markers.  Also, I include some alternative methods for joining if you need to treat NULL markers as equals; these methods use the `ISNULL`, `ON EXISTS`, and the `IS [NOT] DISTINCT FROM` clauses.  See my documentation **Advanced SQL Joins** for more examples of these clauses.
 
 ---------------------------------------------------------
 **INNER JOIN**
            
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;NULL markers are neither equal to nor not equal to each other.  They are treated as **UNKNOWN**.  This is best demonstrated by the below `INNER JOIN` statement, where NULL markers are not present in the result set.  Note here we are looking for both equality and inequality on the `Fruit` column (and a `DISTINCT` is applied as well).
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;NULL markers are neither equal to nor not equal to each other.  They are treated as **UNKNOWN**.  This is best demonstrated by the below `INNER JOIN` statement, where NULL markers are absent in the result set.  Note here we are looking for both equality and inequality in the `Fruit` column (and a `DISTINCT` is applied as well).
 
 ```sql
 SELECT  a.ID,
@@ -244,7 +244,7 @@ FROM    ##TableA a INNER JOIN
 ---------------------------------------------------
 **FULL OUTER JOIN**
         
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The `FULL OUTER JOIN` will give an illusion that is matches on the NULL markers but looking closely at the number of NULL markers returned vs the number of NULL markers in our sample data, we can determine this is indeed not true.  Also, the below query demonstrates the `ORDER BY` sorts NULL markers in ascending order.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The `FULL OUTER JOIN` will give an illusion that it matches on the NULL markers, but looking closely at the number of NULL markers returned vs. the number of NULL markers in our sample data, we can determine this is indeed not true.  Also, the below query demonstrates the `ORDER BY` sorts NULL markers in ascending order.
 
 ```sql
 SELECT  a.ID,
@@ -306,7 +306,7 @@ WHERE   a.Fruit IS DISTINCT FROM b.Fruit;
 ### Semi and Anti Joins
 🔵&nbsp;&nbsp;&nbsp;[Table Of Contents](#table-of-contents)
         
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Semi-joins and anti-joins are two closely related join methods.  The semi-join and anti-join are types of joins between two tables where rows from the outer query are returned based upon the presence or absence of a matching row in the joined table.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Semi-joins and anti-joins are two closely related join methods.  The semi-join and anti-join are types of joins between two tables where rows from the outer query are returned based on the presence or absence of a matching row in the joined table.
 
 Anti-joins use the `NOT IN` or `NOT EXISTS` operators.  Semi-joins use the `IN` or `EXISTS` operators.
 
@@ -744,7 +744,7 @@ Besides the `IS NULL` and `IS NOT NULL` predicate logic constructs, SQL also pro
 
 The major differences between `COALESCE` and `ISNULL` from the documentation are:
 
-1.  `COALESCE` behaves the same as a `CASE` statement, and therefore can accept multiple parameters and return a NULL marker.  `ISNULL` cannot return a NULL marker and accepts only two parameters.
+1.  `COALESCE` behaves the same as a `CASE` statement, therefore can accept multiple parameters and return a NULL marker.  `ISNULL` cannot return a NULL marker and accepts only two parameters.
 2.  `COALESCE` determines the type of output based on data type precedence.  ISNULL uses the data type of the first parameter.
 
 ---------------------------------------------------------
@@ -783,7 +783,7 @@ SELECT  1 AS ID,
 ### Empty Strings, NULL, and ASCII VALUES
 🔵&nbsp;&nbsp;&nbsp;[Table Of Contents](#table-of-contents)
         
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;A useful feature to combat NULL markers in character fields is by using the empty string.  The empty string character is not an ASCII value, and the following function returns a NULL marker for both the empty string and the NULL marker parameters.  Also, you would assume the ASCII value for a NULL marker is 0 when reviewing an ASCII code chart, however, this is not the case.  SQL does not use the standard ANSI NULL marker.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;A useful feature to combat NULL markers in character fields is by using the empty string.  The empty string character is not an ASCII value, and the following function returns a NULL marker for both the empty string and the NULL marker parameters.  Also, you would assume the ASCII value for a NULL marker is 0 when reviewing an ASCII code chart. However, this is not the case.  SQL does not use the standard ANSI NULL marker.
 
 ```sql
 SELECT  1 AS ID,
@@ -823,7 +823,7 @@ FROM    ##TableA a INNER JOIN
 🔵&nbsp;&nbsp;&nbsp;[Table Of Contents](#table-of-contents)
 
         
-> :exclamation:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;In SQL Server, the `SET CONCAT_NULL_YIELDS_NULL` database setting controls whether concatenation results are treated as NULL or empty string values.  In a future version of SQL Server `CONCAT_NULL_YIELDS_NULL` will always be `ON` and any applications that explicitly set the option to `OFF` will generate an error. Avoid using this feature in new development work, and plan to modify applications that currently use this feature.
+> :exclamation:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;In SQL Server, the `SET CONCAT_NULL_YIELDS_NULL` database setting controls whether concatenation results are treated as NULL or empty string values.  In a future version of SQL Server, `CONCAT_NULL_YIELDS_NULL` will always be `ON`, and any applications that explicitly set the option to `OFF` will generate an error. Avoid using this feature in new development work, and plan to modify applications that currently use this feature.
        
 The `CONCAT` function will return an empty string if all the values are NULL.
   
