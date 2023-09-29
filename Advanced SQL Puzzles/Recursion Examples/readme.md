@@ -1,6 +1,6 @@
 # Recursion Examples
 
-In this directory you will find my collection of SQL scripts to solve various challenges using recursion.    
+In this directory, you will find my collection of SQL scripts to solve various challenges using recursion.    
 
 👓&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;I am always on the lookout for puzzles that can be solved using recursion.  If you have any ideas or scripts you want to add to my collection, please contact me!
 
@@ -13,12 +13,12 @@ In this directory you will find my collection of SQL scripts to solve various ch
 
 ❕&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Data can have an implicit or an explicit hierarchy.  
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;An example of an **explicit hierarchy** is an organizational chart in a company. Each employee has a direct manager, and the top-level manager is at the root of the hierarchy. In this scenario, the manager-employee relationship forms an implied hierarchy, with the manager being the parent and the employee being the child. This hierarchy can be used to traverse the entire organization, starting from the top-level manager and moving down to each employee and possibly further down to each employee's subordinates.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;An example of an **explicit hierarchy** is an organizational chart of a company. Each employee has a direct manager, and the top-level manager is at the root of the hierarchy.
 
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;An example of an **implicit hierarchy** where the data doesn't always show a hierarchy can be found in numbers, date, words, and sentences where the hierarchy can be inferred.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;An example of an **implicit hierarchy** can be found in numbers, dates, words, and sentences... where the hierarchy is inferred.
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;A numbers table can be considered to have an implicit hierarchy because each number depends on the previous number in the sequence. The hierarchy is implicit because it is not explicitly stored in the table but can be derived from the relationship between the numbers. This type of hierarchy can be useful when you need to perform operations on sequences of numbers, such as generating a series of dates or calculating the cumulative sum of values.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;A numbers table can be considered to have an implicit hierarchy because each number depends on the previous number in the sequence. The hierarchy is implicit because it is not explicitly stored in the table but can be derived from the relationship between the numbers. This type of hierarchy can be helpful when you need to perform operations on sequences of numbers, such as generating a series of dates or calculating the cumulative sum of values.
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dates, words, and sentences also have an implicit hierarchy.
 
@@ -36,6 +36,6 @@ Also, providing a solution using recursion rather than a loop-based solution isn
 
 :smile:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Happy coding!
 
-I hope you find this repository to be useful and informative, and I welcome any new puzzles or tips and tricks you may have. I also have a WordPress site where you can find my data analytics projects, Python puzzles, and blog.
+I hope you find this repository useful and informative, and I welcome any new puzzles or tips and tricks you may have. I also have a WordPress site where you can find my data analytics projects, Python puzzles, and blog.
 
 https://advancedsqlpuzzles.com
