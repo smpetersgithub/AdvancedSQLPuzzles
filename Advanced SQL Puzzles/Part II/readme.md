@@ -1,4 +1,4 @@
-# Permutations, Combinations, Sequences and Random Numbers
+# Permutations, Combinations, Sequences, and Random Numbers
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;This directory contains the SQL scripts to solve the puzzles for **Part II: Permutations, Combinations, Sequences, and Random Numbers**, which can be found in the [parent directory](/Advanced%20SQL%20Puzzles).  I hope you enjoy solving these puzzles as much as I have enjoyed creating them (and solving them myself).
 
