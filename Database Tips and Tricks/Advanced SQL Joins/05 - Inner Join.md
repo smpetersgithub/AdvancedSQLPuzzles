@@ -2,7 +2,7 @@
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The `INNER JOIN` selects records from two tables given a join condition.  This type of join requires a comparison operator to combine rows from the participating tables based on a common field(s) in both tables.  Because of this, `INNER JOIN` acts as a filter criteria.
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;We can use both equi-join and theta-join operators between the joining fields.  An equi-join is a type of join in which the join condition is based on equality between the values of the specified columns in the two tables being joined.  A theta-join, on the other hand, is a type of join in which the join condition is based on a comparison operator other than equality.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;We can use both equi-join and theta-join operators between the joining fields.  An equi-join is a type of join in which the join condition is based on equality between the values of the specified columns in the two joined tables.  Conversely, a theta-join is a type of join in which the join condition is based on a comparison operator other than equality.
 
 ---------------------------------------------------------------------------------
 
@@ -28,7 +28,7 @@ We will be using the following tables that contain types of fruits and their qua
 
 ---------------------------------------------------------------------------------
   
-To start, here is the most common join you will use, an `INNER JOIN` between two tables.  This join uses an equi-join as it looks for equality between the two fields.  Note the query does not return the NULL markers, as NULL markers are neither equal to nor not equal to each other, they are unknown.
+To start, here is the most common join you will use, an `INNER JOIN` between two tables.  This join uses an equi-join to look for equality between the two fields.  Note the query does not return the NULL markers, as NULL markers are neither equal to nor not equal to each other. They are unknown.
 
 ```sql
 SELECT  a.ID,
@@ -139,7 +139,7 @@ FROM    ##TableA a INNER JOIN
   
 ---------------------------------------------------------------------------------
   
-This query uses both an equi-join and a theta-join and functions similar to a `CROSS JOIN` but with one big difference, no NULL markers are returned.  Because we have NULL markers in the table, they are eradicated as NULL markers are neither equal to nor not equal to each other, they are unknown.
+This query uses an equi-join and a theta-join and functions similar to a `CROSS JOIN`, but with one big difference, no NULL markers are returned.  Because we have NULL markers in the table, they are eradicated as NULL markers are neither equal to nor not equal to each other. They are unknown.
 
 ```sql
 SELECT  a.ID,
@@ -182,7 +182,7 @@ FROM    ##TableA a INNER JOIN
 
 ---------------------------------------------------------------------------------
   
-This query uses an equi-join and a theta-join that is negated with a `NOT` operator. Determining if the `ID` is between the `Quantity` columns may be a somewhat absurd SQL statement to write, but this shows the possibilities in creating join logic.  We often forget we can use comparison operators such as `LIKE` or `BETWEEN` in the `ON` clause of an SQL statement and then negate it with `NOT`.
+This query uses an equi-join and a theta-join negated with a `NOT` operator. Determining if the `ID` is between the `Quantity` columns may be a somewhat absurd SQL statement to write, but this shows the possibilities in creating join logic.  We often forget we can use comparison operators such as `LIKE` or `BETWEEN` in an SQL statement's `ON` clause and then negate it with `NOT`.
   
 ```sql
 SELECT  a.ID,
@@ -218,7 +218,7 @@ FROM    ##TableA a INNER JOIN
 |  4 | <NULL> |  4 | <NULL> |
 
 ---------------------------------------------------------------------------------
-In `SQL Server` and `PostgreSQL`, you can also write the above query by using the `ON EXISTS` clause.  This is a little-known trick you can use that may (or may not) yield a bit better execution plan then the above statement, but it is worth checking.  I will cover the `ON EXISTS` syntax in another document, as it takes some thinking to understand its behavior. 
+In `SQL Server` and `PostgreSQL`, you can also write the above query using the `ON EXISTS` clause.  This is a little-known trick you can use that may (or may not) yield a bit better execution plan than the above statement, but it is worth checking.  I will cover the `ON EXISTS` syntax in another document, as it takes some thinking to understand its behavior. 
 
 ```sql
 SELECT  a.*,
@@ -234,7 +234,7 @@ FROM    ##TableA a INNER JOIN
 |  4 | <NULL> |        5 |  4 | <NULL> | <NULL>   |
 
 ---------------------------------------------------------------------------------
-You can use a `CASE` statement to specify the join condition in the `WHERE` clause.  This is considered a bad practice and you should find a better way of writing this query.
+You can use a `CASE` statement to specify the join condition in the `WHERE` clause.  This is considered a bad practice, and you should find a better way of writing this query.
         
 ```sql
  SELECT  a.ID,
@@ -254,7 +254,7 @@ WHERE   (CASE WHEN a.Fruit = 'Apple' THEN a.Fruit ELSE 'Peach' END) = b.Fruit;
 |  4 | <NULL> |  2 | Peach |
      
 --------------------------------------------------------------------------------- 
-This SQL statement works in `SQL Server` when joining three or more tables.  The `ON` clause must be in reverse order for this to work.
+When joining three or more statements, this SQL statement works in `SQL Server`.  The table referenced in the `ON` clause must be in reverse order for this to work.
 
 For this SQL statement, I am self-joining to `TableA` three times.
         
@@ -274,7 +274,7 @@ FROM    ##TableA a INNER JOIN
 |  3 | Mango |
 
 ---------------------------------------------------------------------------------
-In `MySQL` and `Oracle`, there is a `USING` clause that you can use to specify the joining columns.  Each vendor's implementation is slightly different, see your vendor's documentation for specifics.
+In `MySQL` and `Oracle`, there is a `USING` clause that you can use to specify the joining columns.  Each vendor's implementation is slightly different; see your vendor's documentation for specifics.
   
 The below SQL statement works in `MySQL`.
   
@@ -295,7 +295,7 @@ FROM    ##TableA a INNER JOIN
 ---------------------------------------------------------------------------------
 `ORACLE` supports the `NATURAL JOIN` syntax.  I classify the natural join as a model join as it was first conceived by E.F. Codd in his work on the Relational Model.  I cover natural joins in a separate document and why they should be considered bad practice to use.  
   
-The use of an asterisk in the `SELECT` statement is mandatory and the output does not show duplicate column names.  This query is the same as an equi-join on the `ID`, `Fruit`, and `Quantity` columns between `TableA` and `TableB`.
+The use of an asterisk in the `SELECT` statement is mandatory, and the output does not show duplicate column names.  This query is the same as an equi-join on the `ID`, `Fruit`, and `Quantity` columns between `TableA` and `TableB`.
 
 ```sql
 SELECT  *
