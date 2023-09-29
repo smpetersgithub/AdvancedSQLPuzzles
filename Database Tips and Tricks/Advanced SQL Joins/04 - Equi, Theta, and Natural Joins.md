@@ -16,7 +16,7 @@
 
 *  Equi-joins look for equality in the join condition.  It is a join operation that combines rows from two or more tables based on a matching value in one or more columns. This matching value is known as the join condition and is an equality condition. The term equi comes from the Latin word aequus, meaning equal.
 
-*  A theta-join, also known as a non-equi-join, is a type of join that uses an operator other than equality. These operators include both comparison and logical operators. The term "theta" is used to denote any non-equality comparison.  The terms equi-join and theta-join was coined by E.F. Codd in his seminal work on defining relational algebra, which serves as the foundation for SQL.
+*  A theta-join, also known as a non-equi-join, is a join that uses an operator other than equality. These operators include both comparison and logical operators. The term "theta" is used to denote any non-equality comparison.  The terms equi-join and theta-join was coined by E.F. Codd in his seminal work on defining relational algebra, which serves as the foundation for SQL.
 
 --------------------------------------------------------------------------------
 SQL has the following operators that can be used to join tables.
