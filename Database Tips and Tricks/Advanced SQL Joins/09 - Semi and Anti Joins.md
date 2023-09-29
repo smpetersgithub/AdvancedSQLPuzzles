@@ -22,7 +22,7 @@ For a join to be considered a semi or anti-join it must have the following three
 There are several benefits of using anti-joins and semi-joins over `INNER JOINS`:
 
 *  Semi-joins and anti-joins remove the risk of returning duplicate rows.
-*  Semi-joins and anti-joins increase readability as the result set can only contain the columns from the outer semi-joined table.
+*  Semi-joins and anti-joins increase readability as the result set only contains the columns from the outer semi-joined table.
 
 ---
 
@@ -31,12 +31,12 @@ Semi-joins and anti-joins have some key differences and considerations.
 *  One difference is how they handle NULL markers. The `NOT IN` operator returns an empty set if the anti-join contains a NULL marker, whereas the `NOT EXISTS` operator implicitly handles NULL markers and it will not affect the result set.
 *  Another difference is that the `NOT EXISTS` and `EXIST` operators are best used as correlated subqueries, meaning they have a specified column to join between the outer and inner SQL statements, whereas the `IN` and `NOT IN` operators can contain a list of values and do not require a `SELECT` statement or for the statement to be correlated.
 *  Additionally, the `IN` and `NOT IN` operators search for values in the result set of a subquery, whereas the `EXISTS` and `NOT EXISTS` operators check for the existence of rows.
-*  If you are performing an anti-join to a NULLable column in the inner query, consider using the `NOT EXISTS` operator over the `NOT` operator.
+*  If performing an anti-join to a NULLable column in the inner query, consider using the `NOT EXISTS` operator over the `NOT` operator.
 *  When using semi or anti-joins, check execution plans for the most optimized usage method.  Because the `IN` and `NOT IN` operators check for values, and the `EXISTS` and `NOT EXISTS` check for rows, you will get two entirely different execution plans.
 
 ----------------------------------------------------------------------------------------
 
-We will be using the following tables that contain types of fruits and their quantity.  
+We will use the following tables that contain types of fruits and their quantity.  
 
 [The DDL to create these tables can be found here.](Sample%20Data.md)
 
@@ -90,7 +90,7 @@ WHERE   Fruit IN (SELECT Fruit FROM ##TableB);
 
 ----------------------------------------------------------------------------------------
 
-Using the `IN` operator, you can also join the outer and inner `SELECT` statements creating a correlated subquery.
+Using the `IN` operator, you can join the outer and inner `SELECT` statements, creating a correlated subquery.
 
 ```sql
 SELECT  ID,
@@ -105,9 +105,9 @@ WHERE   Fruit IN (SELECT Fruit FROM ##TableB b WHERE a.Quantity = b.Quantity);
 
 ----------------------------------------------------------------------------------------
 
-The `EXISTS` operator is used to test for the existence of any record in a subquery. The `EXISTS` operator returns TRUE if the subquery returns one or more records and the `EXISTS` operator treats NULL markers as neither equal to nor unequal to each other, they are unknown. 
+The `EXISTS` operator is used to test for the existence of any record in a subquery. The `EXISTS` operator returns TRUE if the subquery returns one or more records, and the `EXISTS` operator treats NULL markers as neither equal to nor unequal to each other, they are unknown. 
 
-Because it checks for the existence of rows, you do not need to include any columns in the `SELECT` statement. It is considered best practice to simply place an arbitrary "1" in this spot.
+Because it checks for the existence of rows, you do not need to include any columns in the `SELECT` statement. It is considered best practice to place an arbitrary "1" in this spot simply.
 
 ```sql
 SELECT  ID,
@@ -123,7 +123,7 @@ WHERE   EXISTS (SELECT 1 FROM ##TableB b WHERE a.Fruit = b.Fruit);
 
 ----------------------------------------------------------------------------------------
 
-Be aware of a nuance when using correlated subqueries without a join condition; they will always evaluate to true. In the following SQL example, the subquery returns NULL but isn't joined to the main query. Despite the `NOT EXISTS (SELECT NULL)`, the query retrieves all rows from `##TableA` because the subquery will always be true in the absence of a join condition.
+Be aware that when using correlated subqueries without a join condition; they will always evaluate to true. In the following SQL example, the subquery returns NULL but isn't joined to the main query. Despite the `NOT EXISTS (SELECT NULL)`, the query retrieves all rows from `##TableA` because the subquery will always be true without a join condition.
 
 ```sql
 SELECT  *
@@ -140,11 +140,11 @@ WHERE   EXISTS (SELECT NULL);
 
 ----------------------------------------------------------------------------------------
 
-Be cautious with the use of the `IN` operator, as it can lead to unexpected behavior!
+Be cautious using the `IN` operator, as it can lead to unexpected behavior!
 
 In this example, I use two table variables for demonstration.
 
-In the SQL snippet below, you might anticipate that the inner `SELECT` statement would produce an error since `Column_AAA` doesn't exist in `@Table2`. However, this query runs without issue and updates `@Table1`, setting `Column_AAA` to 3. This is because SQL Server treats it as a correlated subquery. To trigger a column reference error, you can use a table alias to explicitly refer to the column from `@Table2`.
+In the SQL snippet below, you might anticipate that the inner `SELECT` statement would produce an error since `Column_AAA` doesn't exist in `@Table2`. However, this query runs without issue and updates `@Table1`, setting `Column_AAA` to 3. This is because SQL Server treats it as a correlated subquery. To trigger a column reference error, you can use a table alias to refer to the column from `@Table2 explicitly`.
 
 ```sql
 DECLARE @Table1 TABLE (Column_AAA INT);
@@ -180,7 +180,7 @@ Empty Data Set
 
 ----------------------------------------------------------------------------------------
 
-The `NOT EXISTS` operator handles NULL markers implicitly and will return a result set with a NULL marker.  The `NOT EXISTS` operator treats NULL markers as neither equal to nor unequal to each other, they are unknown. 
+The `NOT EXISTS` operator handles NULL markers implicitly and will return a result set with a NULL marker.  The `NOT EXISTS` operator treats NULL markers as neither equal to nor unequal to each other. They are unknown. 
 
 ```sql
 SELECT  ID,
