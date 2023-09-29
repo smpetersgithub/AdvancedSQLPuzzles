@@ -2,29 +2,29 @@
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;In this document we will define complex joins and highlight a few examples.
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Complex joins in a descriptive term that refers to join operations that involve multiple tables and require more intricate join conditions than simple joins.  These joins can become quite complex when multiple conditions need to be met to return the desired result set. In such cases, multiple join clauses can be used to define the relationships between the tables.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Complex joins is a descriptive term that refers to join operations that involve multiple tables and require more intricate join conditions than simple joins.  These joins can become quite complex when multiple conditions must be met to return the desired result set.
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;To create complex joins, it's important to have a clear understanding of the relationships between the tables and the desired outcome. It is also important to use clear and concise syntax, such as using explicit join clauses, knowing when to use windowing, ranking, lag/lead functions, etc. By breaking down complex joins into smaller, simpler join operations, it can be easier to understand and maintain the query.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;To create complex joins, it's essential to have a clear understanding of the relationships between the tables and the desired outcome. It is also essential to use clear and concise syntax, such as using explicit join clauses and knowing when to use windowing, ranking, lag/lead functions, etc... By breaking down complex joins into smaller, simpler join operations, it can be easier to understand and maintain the query.
 
 Overall, here are some tips I use when working with complex joins.
 
 1.  **Break down the query into smaller parts**: Divide the query into smaller, more manageable parts. Start by understanding the different clauses and how they fit together.
-3.  **Know the database schema**: Understanding the structure of the database, including tables, columns, relationships, and constraints, is essential for understanding complex queries.
-4.  **Identify the purpose of each clause**: Understand what each clause in the query is meant to do, and how it contributes to the overall result.
-5.  **Use diagrams or visual aids**: Draw a diagram of the relationships between tables or use other visual aids to help you understand the flow of data in the query.
-6.  **Test and validate the query**: Try running the query with a small subset of data to see the result and validate the output to make sure it matches your expectations.
+3.  **Know the database schema**: Understanding the database structure, including tables, columns, relationships, and constraints, is essential for understanding complex queries.
+4.  **Identify the purpose of each clause**: Understand what each clause in the query is meant to do and how it contributes to the overall result.
+5.  **Use diagrams or visual aids**: Draw a diagram of the relationships between tables or use other visual aids to help you understand the data flow in the query.
+6.  **Test and validate the query**: Try running the query with a small subset of data to see the result and validate the output to ensure it matches your expectations.
 
 -----------------------------------------------------
 
 #### Driving Tables
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;One important concept of good query planning is understanding a driving table.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; One crucial concept of good query planning is understanding a driving table.
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;A driving table in SQL refers to the table that drives the execution of a query. In a query that involves multiple tables, the driving table determines the order in which the records are retrieved and processed and can have a significant impact on the performance of the query.
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The driving table is typically the table with the smallest number of records or the table that has the most selective conditions applied to it. By starting with the driving table, the database can eliminate as many records as possible early in the processing, reducing the amount of data that needs to be further processed and improving the performance of the query.
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;It is important to carefully consider the driving table when writing complex SQL queries to ensure optimal performance. A well-chosen driving table can help to minimize the amount of data that needs to be processed and can lead to much faster query execution times. On the other hand, a poorly chosen driving table can result in slow query performance and inefficiencies in database processing.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;It is essential to carefully consider the driving table when writing complex SQL queries to ensure optimal performance. A well-chosen driving table can help to minimize the amount of data that needs to be processed and can lead to much faster query execution times. On the other hand, a poorly chosen driving table can result in slow query performance and inefficiencies in database processing.
 
 -----------------------------------------------------
 #### Multiple Branches
@@ -46,7 +46,7 @@ WHERE   fp.FeePlanType = 'Advantage' AND
         su.AccountStatus = 'Enrolled';
 ```
 
-Breaking down the joins we have the following:
+Breaking down the joins, we have the following:
 *  `Users` -> `Transaction` -> `TransactionType`
 *  `Users` -> `SubUsers` -> `FeePlan`
 
@@ -87,8 +87,8 @@ GROUP BY t.TransactionDate,
 -----------------------------------------------------
 #### Overlapping Time Periods
 
-This puzzle is called Overlapping Time Periods, and I find this to be the most difficult puzzle to solve.
-For this example, I used temporary tables to avoid making a common table expression dependent on another common table expression.  This allows future developers to easily review the data sets in the step order and reverse engineer the statement.
+This puzzle is called Overlapping Time Periods, and I find this to be the most challenging puzzle to solve.
+For this example, I used temporary tables to avoid making a common table expression dependent on another common table expression.  This allows future developers to quickly review the data sets in the step order and reverse engineer the statement.
 
 Here is the overlapping time period data.
 
@@ -168,10 +168,10 @@ GROUP BY MinEndDate_A;
 
 Lastly, when writing SQL, programming style goes a long way to readability.  
 
-1.  Choose a more verbose solution over a concise solution where the intent of the SQL statement is more clear when possible.  
+1.  Choose a more verbose solution over a concise solution where the intent of the SQL statement is more apparent when possible.  
 2.  Understand the SQL language and its various functions, such as `LAG`, `LEAD`, `FIRST_VALUE`, `LAST_VALUE`, etc., and how to perform windowing.
 3.  Understand the relation between the data, especially hierarchical data.  I often see bad implementations of hierarchical data structures.
-4.  Just because you can, doesn't mean you should.  For example, don't use a table variable if unneeded.
+4.  Just because you can doesn't mean you should.  For example, don't use a table variable if it is unneeded.
 5.  Write well-formatted code.  I’m partial to keywords in upper case, column names in camel case, and my glyphs all spaces with nice white spacing.
 
 ---------------------------------------------------------
