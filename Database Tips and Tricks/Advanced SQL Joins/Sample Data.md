@@ -1,6 +1,6 @@
 # Sample Data
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;For the following examples you will need to understand the behavior of NULL markers.  I’ve provided some rather simple tables with minimal records.  I've also included a few NULL markers so we can understand how the various joins treat this special case.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;For the following examples you will need to understand the behavior of NULL markers.  I’ve provided some rather simple tables with minimal records.  I've also included a few NULL markers to understand how the various joins treat this particular case.
 
 **Table A**
 | ID | Fruit  | Quantity |
@@ -18,7 +18,7 @@
 |  3 | Kiwi   | 20       |
 |  4 | <NULL> | <NULL>   |
   
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;In some statements the example data may not be sufficient.  Feel free to add your own data and experiment with the outcomes.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;In some statements, the example data may not be sufficient.  Feel free to add your own data and experiment with the outcomes.
 
 ```sql
 ------------------------
