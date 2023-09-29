@@ -1,6 +1,6 @@
 # Create Constraints on a Temp Table
 
-Often, I find myself in an environment where I have permission to create a temporary table, but not a persistent table.  To properly test any `UPDATE`, `INSERT`, `DELETE`, or `MERGE` statements on a table, I use this script to create a temporary table with the same constraints as the persistent table.  This way I can check my SQL statements to ensure no constraints are violated.
+Often, I find myself in an environment where I have permission to create a temporary table, but not a persistent table.  To properly test any `UPDATE`, `INSERT`, `DELETE`, or `MERGE` statements on a table, I use this script to create a temporary table with the same constraints as the persistent table.  This way, I can check my SQL statements to ensure no constraints are violated.
 
 ⌨️&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;This script is written in Microsoft SQL Server T-SQL.
 
