@@ -1,10 +1,10 @@
 # FULL OUTER JOIN
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;A `FULL OUTER JOIN` is a method of combining tables so that the result includes unmatched rows of both tables. It is an often-underutilized join that has a more specific use case than the other joins.  This join is best used to compare two similar tables as shown below.  Remember to use this type of join when you want to compare two shopping baskets.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;A `FULL OUTER JOIN` is a method of combining tables so that the result includes unmatched rows of both tables. It is an often-underutilized join with a more specific use case than the other joins.  This join best compares two similar tables, as shown below.
 
 ---------------------------------------------------------------------------------
 
-We will be using the following tables that contain types of fruits and their quantity.  
+We will use the following tables that contain types of fruits and their quantity.  
 
 [The DDL to create these tables can be found here.](Sample%20Data.md)
 
@@ -51,7 +51,7 @@ FROM    ##TableA a FULL OUTER JOIN
   
 You can use a `FULL OUTER JOIN` to find the symmetric difference of two datasets using the `ISNULL` function.
 
-This SQL statement returns the records that are in `TableA` but not in `TableB` along with the records in `TableB` that are not in `TableA`.  This is known in set theory as the symmetric difference.  The result set will include two NULL markers as NULLs are neither equal to nor not equal to each other, they are unknown.
+This SQL statement returns the records that are in `TableA` but not in `TableB` along with the records in `TableB` that are not in `TableA`.  This is known in set theory as the symmetric difference.  The result set will include two NULL markers, as NULLs are neither equal to nor not equal to each other. They are unknown.
  
 ```sql 
 SELECT  ISNULL(a.ID, b.ID) AS ID,
