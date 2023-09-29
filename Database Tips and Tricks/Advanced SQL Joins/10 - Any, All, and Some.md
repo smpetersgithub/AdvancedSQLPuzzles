@@ -515,7 +515,7 @@ GO
 
 ### Example 2: Use Cases for = ALL
 
-The task is to identify all Order Numbers that are linked to a single Item and have a "PROMO" discount value. If an Order Number is associated with multiple Items, it should not be included in the result.
+The task is to identify all Order Numbers that are linked to a single Item and have a "PROMO" discount value. If an Order Number is associated with multiple items, it should not be included in the result.
 
 For example, Order Number 33 meets these criteria because it has a connection to one Item and all the products linked to it have a discount value of "PROMO." On the other hand, Order Number 11 does not meet the criteria as it is linked to two different Items.
 
