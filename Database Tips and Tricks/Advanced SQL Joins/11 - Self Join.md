@@ -1,6 +1,6 @@
 # Self Joins
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Self-joins in SQL is a type of join operation where a table is joined with itself. In a self-join, a table is aliased to give it a different name and then used twice in the same query, once as the left table and once as the right table. The join conditions in a self-join specify how to relate the rows of a table to itself. Self-joins can be used to compare rows within a table, to create subsets of data based on certain conditions, or to combine information from multiple rows within a single table. The result of a self-join is a new table that contains the combined data from the two instances of the original table. Self-joins can be useful when working with hierarchical data, or when you need to analyze data based on relationships within a table.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Self-joins in SQL is a join operation where a table is joined with itself. In a self-join, a table is aliased to give it a different name and then used twice in the same query, once as the left table and once as the right table. The join conditions in a self-join specify how to relate the rows of a table to itself. Self-joins can be used to compare rows within a table, create subsets of data based on certain conditions, or combine information from multiple rows within a table. The result of a self-join is a new table that contains the combined data from the two instances of the original table. Self-joins can be useful when working with hierarchical data or when you need to analyze data based on relationships within a table.
 
 ----------------------------------------------------
 
@@ -19,7 +19,7 @@ For the following table of `Managers` and `Employees`, determine each employee's
 |           5 | Director       | 3          |
   
 
-Note the table `Employees` is referenced twice, but given two different aliases named `a` and `b`.
+Note the table `Employees` is referenced twice but given two different aliases named `a` and `b`.
  
 ```sql
 SELECT  a.EmployeeID,
@@ -129,9 +129,9 @@ WHERE   City IN (SELECT City FROM cte_CountCity);
 #### Example 3: Windowing
 
   
-Often, if you need to use a self-join there are options you can use (such as window functions) to avoid the use of a self-join.  Let’s look at an example.
+Often, if you need to use a self-join, you can use options (such as window functions) to avoid using a self-join.  Let’s look at an example.
 
-Given the below dataset consisting of the weight of various animals, create a cumulative total column summing the current row plus all previous rows.
+Given the dataset below consisting of various animals' weight, create a cumulative total column summing the current row plus all previous rows.
 
 | ID  |    Animal     | Weight |
 |-----|---------------|--------|
