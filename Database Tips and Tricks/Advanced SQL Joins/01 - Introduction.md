@@ -1,8 +1,8 @@
 # Welcome
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Besides the standard `INNER`, `LEFT OUTER`, `RIGHT OUTER`, `FULL OUTER` and `CROSS` joins that are specified in the ANSI SQL standard, there are a number of joins that are not part of the standard SQL join syntax, but rather ways to classify different types of joins based on their behavior and the condition used to join the tables.  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Besides the standard `INNER`, `LEFT OUTER`, `RIGHT OUTER`, `FULL OUTER` and `CROSS` joins that are specified in the ANSI SQL standard, there are several joins that are not part of the standard SQL join syntax, but rather ways to classify different types of joins based on their behavior and the condition used to join the tables.  
 
-I classify joins into the following 4 categories, Logical, Physical, Descriptive, and Model.  The term Model comes from the Relational Model that was developed by Edgar F. Codd in the 1970s which SQL is based on.  This name may warrant a rename if I can think of something better.
+I classify joins into the following 4 categories; Logical, Physical, Descriptive, and Model.  The term "Model" comes from the Relational Model developed by Edgar F. Codd in the 1970s, which SQL is based on.  This name may warrant a rename if I can think of something better.
 
 
 | ID |     Type     |                                                           Description                                                          |
@@ -10,32 +10,32 @@ I classify joins into the following 4 categories, Logical, Physical, Descriptive
 |  1 |  Logical     |  Joins that are part of the SQL ANSI syntax and are used to combine data from two or more tables based on filter criteria(s). |
 |  2 |  Physical    |  Implemented by the RDBMS and describe how the system will physically join the tables to create the desired results.            |
 |  3 |  Descriptive |  Used when discussing certain behavior or complexity of a join.                                                                |
-|  4 |  Model       |  Joins that are described in the Relational Model which SQL is based on.                                                       |
+|  4 |  Model       |  Joins described in the Relational Model, which SQL is based on.                                                       |
 
 
 Here is a brief description of each type of join:
 
 |  Type         |       Join       |                                                                                                              Description                                                                                                              |
 |---------------|------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-|  Logical      | INNER JOIN       |  An INNER JOIN returns only the rows that have matching values in both tables.                                                                                                                                                        |
+|  Logical      | INNER JOIN       |  An INNER JOIN returns only the rows with matching values in both tables.                                                                                                                                                        |
 |  Logical      | OUTER JOIN       |  An outer join (LEFT OUTER JOIN/RIGHT OUTER JOIN) returns all the rows from one table and any matching rows from the other table. If there is no match, the result will contain NULL values.                                         |
 |  Logical      | FULL OUTER JOIN  |  A FULL OUTER JOIN returns all the rows from both tables, where if there are no matching rows, the result will contain NULL markers.                                                                                                  |
 |  Logical      | CROSS JOIN       |  A CROSS JOIN returns the Cartesian product of the two tables, meaning it returns every possible combination of rows from the two tables.                                                                                             |
 |  Physical     | NESTED LOOP JOIN |  Nested loop join is a type of join algorithm that compares each row of one table with all the rows of another table.                                                                                                                 |
 |  Physical     | HASH JOIN        |  Hash join is a join algorithm that uses a hash table to quickly match rows from one table with rows from another table.                                                                                                              |
-|  Physical     | MERGE SORT JOIN  |  Merge sort join is a join algorithm that sorts both tables on the join column, and then merges the sorted rows together.                                                                                                             |
-|  Descriptive  | COMPLEX JOIN     |  A complex join is a type of join operation that combines multiple tables using various comparison operators, and often includes subqueries and aggregate functions, to retrieve and combine data from different tables.     |
-|  Descriptive  | SELF-JOIN        |  A self-join is used to join a table to itself, using the same table twice with different aliases.                                                                                                                                    |
-|  Model        | SEMI-JOIN        |  A semi-join returns only the rows from the first table that have matching values in the second table.                                                                                                                                |
+|  Physical     | MERGE SORT JOIN  |  Merge sort join is a join algorithm that sorts both tables on the join column and then merges the sorted rows together.                                                                                                             |
+|  Descriptive  | COMPLEX JOIN     |  A complex join is a type of join operation that combines multiple tables using various comparison operators and often includes subqueries and aggregate functions to retrieve and combine data from different tables.     |
+|  Descriptive  | SELF-JOIN        |  A self-join joins a table to itself, using the same table twice with different aliases.                                                                                                                                    |
+|  Model        | SEMI-JOIN        |  A semi-join returns only the rows from the first table with matching values in the second table.                                                                                                                                |
 |  Model        | ANTI-JOIN        |  An anti-join returns only the rows from the first table that do not have matching values in the second table.                                                                                                                        |
 |  Model        | EQUI-JOIN        |  An equi-join returns only the rows where the values in the specified columns of both tables are equal.                                                                                                                               |
 |  Model        | THETA-JOIN       |  A theta-join is a flexible type of join that allows you to join tables based on any type of condition, not just an equality condition.                                                                                               |
 |  Model        | NON-EQUI-JOIN    |  Interchangeable with theta-join  Some texts use the term theta-join, and others use non-equi-join.                                                                                                                                    |
-|  Model        | NATURAL JOIN     |  A NATURAL JOIN returns the rows where the values in the specified columns of both tables are equal, and the column names are the same.                                                                                               |
+|  Model        | NATURAL JOIN     |  A NATURAL JOIN returns the rows where the values in the specified columns of both tables are equal and the column names are the same.                                                                                               |
 
 ---------------------------------------------------------
 
-:electric_plug: I will cover all these types of joins and more in the following documents.  Continue reading with the below links.....
+:electric_plug: I will cover all these types of joins and more in the following documents.  Continue reading with the links below.....
 
 ⌨️ All SQL is written in **Microsoft SQL Server T-SQL**, unless otherwise noted.
 
