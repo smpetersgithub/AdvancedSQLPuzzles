@@ -6,9 +6,9 @@
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;It is important to be mindful of the number of rows in each table because a `CROSS JOIN` will return the product of the number of rows of both tables. If one table has 100 rows and the other has 1000 rows, a `CROSS JOIN` will return 100,000 rows. Therefore, `CROSS JOIN` can cause performance issues if used on large tables.
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Note, you can also use recursion to generate permutation sets.  The benefit of using recursion is when you have an unknown number of elements that you need to create permutations on, which you may not know at runtime.  With `CROSS JOIN` you need to manually create each join.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Note, you can also use recursion to generate permutation sets.  The benefit of using recursion is when you have an unknown number of elements you need to create permutations on, which you may not know at runtime.  With `CROSS JOIN`, you need to create each join manually.
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Also of note is that in Microsoft SQL Server, there are two join functions for performing a cross join, `CROSS JOIN` and `CROSS APPLY`.  `CROSS JOIN` and `CROSS APPLY` will both work when only dealing with tables, but `CROSS APPLY` will only work with table-valued functions and sub-queries, which I will demonstrate below.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Also of note is that in Microsoft SQL Server, there are two join functions for performing a cross join, `CROSS JOIN` and `CROSS APPLY`.  `CROSS JOIN` and `CROSS APPLY` will work when only dealing with tables, but `CROSS APPLY` will only work with table-valued functions and sub-queries, which I will demonstrate below.
 
 #### Permutations vs Combinations
 
@@ -16,11 +16,11 @@
 
 *  Permutations are a way of arranging a set of items in a specific order. For example, if you have the set of items {A, B, C}, there are 3! (3 factorial) or 6 possible permutations: ABC, ACB, BAC, BCA, CAB, CBA.
 
-*  Combinations, on the other hand, are a way of selecting a subset of items from a set, without regard to the order. For example, if you have the set of items {A, B, C}, there are 3 C 2 (read as "3 choose 2") or 3 possible combinations: AB, AC, BC.
+*  Combinations, conversely, are a way of selecting a subset of items from a set without regard to the order. For example, if you have the set of items {A, B, C}, there are 3 C 2 (read as "3 choose 2") or 3 possible combinations: AB, AC, BC.
 
 ---------------------------------------------------------------------------------
 
-We will be using the following tables that contain types of fruits and their quantity.  
+We will use the following tables that contain types of fruits and their quantity.  
 
 [The DDL to create these tables can be found here.](Sample%20Data.md)
 
@@ -128,7 +128,7 @@ WHERE   NOT EXISTS (SELECT 1 FROM ##TableB b where a.Fruit = b.Fruit);
   
 The following produces all combinations (not permutations).
   
-Given all fruits in both `TableA` and `TableB`, here is a result set of all fruit combinations.  Because of the theta-join in the `WHERE` clause, the fruits are listed in alphabetical order from left to right.  Note that NULL markers are not included in the result set, as NULL markers are not equal to each other nor are they equal to each other, they are unknown.
+Given all fruits in both `TableA` and `TableB`, here is a result set of all fruit combinations.  Because of the theta-join in the `WHERE` clause, the fruits are listed in alphabetical order from left to right.  Note that NULL markers are not included in the result set, as NULL markers are not equal to each other, nor are they equal to each other. They are unknown.
   
 ```sql
 WITH cte_DistinctFruits as
