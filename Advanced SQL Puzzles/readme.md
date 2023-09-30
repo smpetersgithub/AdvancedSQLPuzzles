@@ -1,4 +1,3 @@
-[
 # Advanced SQL Puzzles
 
 This directory contains my collection of SQL puzzles.  I hope you enjoy these puzzles as much as I have enjoyed creating them!
