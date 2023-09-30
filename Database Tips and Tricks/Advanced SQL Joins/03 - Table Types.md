@@ -7,7 +7,7 @@ Here are the 10 different types of tables you can create.
 | Id |              Name              |  Schema Bound |                                                                 Description                                                                |
 |----|--------------------------------|---------------|--------------------------------------------------------------------------------------------------------------------------------------------|
 |  1 |  Table                         |  True         |  A regular table that is stored in the database.                                                                                           |
-|  2 |  View                          |  True         |  A virtual table that is based on the result of a SELECT statement.                                                                        |
+|  2 |  View                          |  True         |  A virtual table that is based on the result of a `SELECT` statement.                                                                        |
 |  3 |  Values Constructor            |  False        |  The `VALUES` constructor can be used to create a derived table, which is a table that is created and used within a single SQL query.      |
 |  4 |  Table Valued Function         |  True         |  A function that returns a table as its result.                                                                                            |
 |  5 |  Subquery                      |  False        |  A query that is embedded within another query. The results of a subquery can be used in the outer query.                                  |
@@ -17,16 +17,16 @@ Here are the 10 different types of tables you can create.
 |  9 |  Table Variable                |  False        |  A variable that holds a table of data. It is similar to a temporary table, but it has some differences in terms of its behavior and scope. |
 | 10 |  External Tables               |  False        |  Used to access data stored externally, such as in a text file. They are created using the `CREATE EXTERNAL TABLE` statement.              |
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`Tempdb` is used by SQL Server to store intermediate results when processing queries, such as those created by derived tables and subqueries. For example, when you create a derived table or use a subquery, SQL Server may create a temporary table in `tempdb` to store the intermediate results. This allows the database engine to reuse the results multiple times in the same query instead of recomputing them each time they're needed.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`Tempdb` is used by SQL Server to store intermediate results when processing queries, such as those created by derived tables and subqueries. This allows the database engine to reuse the results multiple times in the same query instead of recomputing them each time they're needed. It's important to note that the use of `tempdb` and the extent to which it's used can vary depending on the complexity of the query and other factors, such as the amount of memory available and the indexes present on the involved tables.
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;It's important to note that the use of `tempdb` and the extent to which it's used can vary depending on the complexity of the query and other factors, such as the amount of memory available and the indexes present on the involved tables. However, it's a common practice for SQL Server to use `tempdb` when working with derived tables and subqueries.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The most interesting of these table types is the `VALUES` keyword.  We often think the only use of the `VALUES` operator is using it with an `INSERT` statement, but it can be used to create a relation.  
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The most interesting of these table types is the `VALUES` keyword.  We often think the only use of the `VALUES` operator is using it with an `INSERT` statement, but it can be used to create a relation.  First, let's create examples of each of the table types.
+First, let's create examples of each of the table types.
 
 --------------------------------------------------------------------------------------------------------
 #### Table
 
-The type of table referred to below is a base table. A base table is a permanent table stored in the database and contains the actual data in the form of rows and columns. The `SELECT *` statement retrieves all columns and all rows from the table. It is a permanent table that stores data in the database.  On base tables, you can implement `NOT NULL`, `UNIQUE`, `PRIMARY KEY`, `FOREIGN KEY`, `CHECK`, and `DEFAULT` constraints.
+The type of table referred to below is a base table. A base table is a permanent table stored in the database and contains the actual data in the form of rows and columns. The `SELECT *` statement retrieves all columns and all rows from the table. On base tables, you can implement `NOT NULL`, `UNIQUE`, `PRIMARY KEY`, `FOREIGN KEY`, `CHECK`, and `DEFAULT` constraints.
 
 In this example, we create a table named `Employees`, insert a record using the `VALUES` constructor, and then select from the table. 
 
@@ -55,7 +55,7 @@ SELECT * FROM Employees;
 --------------------------------------------------------------------------------------------------------
 #### View
 
-An SQL view is a virtual table that provides a specific, customized perspective of data from one or more tables in a database.  There are two main types of SQL views: materialized views and non-materialized (or simple) views. Materialized views store the result set of the view query, while non-materialized views do not store any data and dynamically retrieve data from the underlying tables each time the view is accessed.  You can issue `INSERT`, `UPDATE`, and `DELETE` commands through views.
+An SQL view is a virtual table that provides a specific, customized perspective of data from one or more tables in a database.  There are two main types of SQL views: materialized views and non-materialized (or simple) views. Materialized views store the result set of the view query, while non-materialized views do not store any data and dynamically retrieve data from the underlying tables each time the view is accessed.  You can issue `INSERT`, `UPDATE`, and `DELETE` commands through views and can manipulate the underlying table(s) in the view.
 
 In this example, we create a view from the `Employees` table, insert a record into the table, and then select from the view;
 
@@ -102,7 +102,7 @@ FROM    (VALUES (1, 2), (3, 4), (5, 6), (7, 8), (9, 10)) AS MyTable(a, b);
 | 7 |  8 |
 | 9 | 10 |
 
-Here is a more elaborate example where the `VALUES` constructor specifies the values to return.  This statement uses an `INNER JOIN`, but you can use a `LEFT OUTER JOIN`, `RIGHT OUTER JOIN`, `FULL OUTER JOIN`, or `CROSS JOIN`.
+Here is a more elaborate example where the `VALUES` constructor specifies the values to return.
 
 ```sql
 SELECT  a.*
@@ -140,14 +140,14 @@ A table-valued function acts much like a view with the added benefit of being pa
 For this example, we create a table-valued function using the `Employees` table.  To use the table values function we can simply select from the function or use the `CROSS APPLY` to join to another table.
         
 ```sql
- CREATE OR ALTER FUNCTION FnGetEmployees (@EmployeeID INTEGER)
+CREATE OR ALTER FUNCTION FnGetEmployees (@EmployeeID INTEGER)
 RETURNS TABLE
 AS
 RETURN
 (
-    SELECT EmployeeID, Name
-    FROM   Employees
-    WHERE EmployeeID = @EmployeeID
+SELECT EmployeeID, Name
+FROM   Employees
+WHERE  EmployeeID = @EmployeeID
 );
 
 SELECT * FROM fnGetEmployees(1);
@@ -168,8 +168,8 @@ A subquery is a query nested within another query.
 
 Subqueries can be used in various parts of a SQL query, such as the `SELECT`, `FROM`, and `WHERE` clauses. They are highly useful for performing operations that require multiple scans of the same or different tables, complex calculations, or referencing results that are not part of the main query. They are highly useful for performing operations that require multiple scans of the same or different tables, complex calculations, or referencing results that are not part of the main query.
 
-Here is an example of a subquery using the `Employees` table.
-   
+Here is an example of a correlated subquery using the `Employees` table.  We will talk more about correlated subqueries in the Semi and Anti join portion of this repository.
+
 ```sql
 SELECT  e.*
 FROM    Employees e
@@ -181,7 +181,6 @@ WHERE   e.Salary >  (SELECT AVG(Salary)
 | EmployeeID | FirstName | LastName | Department |  Salary   |
 |------------|-----------|----------|------------|-----------|
 |          1 | John      | Wilson   | Accounting | 100000.00 |
-
 
 --------------------------------------------------------------------------------------------------------
 #### Derived Table
@@ -211,7 +210,7 @@ FROM    (SELECT  EmployeeID, FirstName, LastName, Salary FROM Employees) e
 |          1 | John      | Wilson   | 100000.00 |          3 | 85000.00 |
 |          2 | Sarah     | Shultz   |  90000.00 |          3 | 85000.00 |
 
-In SQL Server, even when performing a `CROSS JOIN` the derived table must be aliased.  This statement will error if the table alias is removed.  For brevity, I only show the top two records.
+In Microsoft SQL Server, even when performing a `CROSS JOIN`, the derived table must be aliased.  This statement will error if the table alias is removed.  For brevity, I only show the top two records.
 
 ```sql
 SELECT  TOP 2 *
@@ -249,7 +248,7 @@ WHERE   EmployeeCount > 2;
 --------------------------------------------------------------------------------------------------------
 #### Temporary Table        
 
-The syntax for creating temporary tables is different for each database system.  These examples work in `Microsoft SQL Server`.
+The syntax for creating temporary tables is different for each database system.  These examples work in Microsoft SQL Server.
 
 Session temporary tables and global temporary tables are two types of temporary tables in SQL. The main difference between them is their scope and visibility.  
 
@@ -257,8 +256,8 @@ Session temporary tables and global temporary tables are two types of temporary 
 *  Session temporary tables are only visible to the user who created them and are automatically dropped when the user's session ends.  
 *  Global temporary tables are available to every user's session.  
 *  You can place the same constraints, except for `FOREIGN KEY` constraints, on a temp table as you can on a permanent table.  
-*  Indexing is also allowed on temporary tables.
-*  Temporary tables reside in `tempdb` and you cannot see its metadata in the information schema.
+*  Indexing is allowed on temporary tables.
+*  Temporary tables reside in `tempdb` and you cannot see the tables metadata in the information schema.
 
 This creates a session temporary table in SQL Server.
 
@@ -284,7 +283,7 @@ SELECT * FROM #Employees;
 |          2 | Sarah     | Shultz   |  90000.00 |          3 | 85000.00 |
 ```
 
-You can also create temporary tables via the `INTO` statement in a query.  This works in SQL Server and each database system has slightly different syntax for temporary tables.
+You can also create temporary tables via the `INTO` statement in a SQL statement.  This works in Microsoft SQL Server and each database system has slightly different syntax for temporary tables.
 
 ```sql
 SELECT  *
@@ -303,7 +302,7 @@ SELECT * FROM #Employees2
 --------------------------------------------------------------------------------------------------------
 #### Table Variable   
 
-Table variables are much like temporary tables.  They are often used when you need to pass a record set to a stored procedure.  Each database may implement table variables slightly differently, but `Microsoft SQL Server` has the following considerations.
+Table variables are much like temporary tables.  They are often used when you need to pass a record set to a stored procedure.  Each database may implement table variables slightly differently, but Microsoft SQL Server has the following considerations.
 
 *  You can place constraints on the table except for `FOREIGN KEY` constraints.
 *  The constraints must be placed on the table on creation.
@@ -338,11 +337,11 @@ SELECT * FROM @TableVariable;
 --------------------------------------------------------------------------------------------------------
 #### External Tables           
 
-External tables in SQL Server are tables that exist outside of the SQL Server database and are used to access data stored in external sources such as flat files, Hadoop, or Azure Blob storage. External tables provide a way to access external data as if it were a regular table within the SQL Server database, allowing you to use standard SQL queries to retrieve and manipulate data stored in external sources. This can be useful for tasks such as performing data integration, bulk data loading, and data archiving, as well as for querying and processing large datasets stored in external sources. However, external tables in SQL Server have some limitations such as limited indexing options and slower query performance compared to regular tables stored in the SQL Server database.
+External tables in Microsoft SQL Server exist outside of the database and are used to access data stored in external sources such as flat files, Hadoop, or Azure Blob storage. External tables provide a way to access external data as if it were a regular table within the database, allowing you to use standard SQL statements to retrieve and manipulate data stored in external sources. This can be useful for tasks such as performing data integration, bulk data loading, and data archiving, as well as for querying and processing large datasets stored in external sources. However, external tables in Microsoft SQL Server have some limitations such as limited indexing options and slower query performance compared to regular tables stored in the SQL Server database.
 
 See your vendor's documentation on external tables, as this will vary for each vendor.
 
-The SQL Server documentation has the following examples.
+The Microsoft SQL Server documentation has the following examples.
 
 ```sql
 CREATE EXTERNAL DATA SOURCE mydatasource
