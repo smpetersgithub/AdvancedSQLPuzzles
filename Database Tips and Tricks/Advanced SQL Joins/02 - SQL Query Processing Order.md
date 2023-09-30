@@ -1,8 +1,8 @@
-# SQL Query Processing Order
+foll# SQL Query Processing Order
 
 ---------------------------------------------------------
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;To best understand the processing order of an SQL statement, consider the diagram.     
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;To best understand the processing order of an SQL statement, consider the following diagram.     
 
 
 ![SQL Processing Order](/Database%20Tips%20and%20Tricks/Advanced%20SQL%20Joins/images/SQLQueryProcessingOrderPage.png)
@@ -18,9 +18,9 @@ Processing order of a SQL statement:
 |-------|-----------|---------------------------------------------------------------------------------------------|
 |     1 |  FROM     |  Specifies a table, view, table variable, or derived table source, with or without an alias |
 |     2 |  WHERE    |  Specifies the search condition for the rows returned by the query                          |
-|     3 |  GROUP BY |  Specifies the records in which to group on                                                 |
+|     3 |  GROUP BY |  Specifies the records to group on                                                          |
 |     4 |  HAVING   |  Restricts the results of a GROUP BY                                                        |
-|     5 |  SELECT   |  Specifies which values are to be returned                                                  |
+|     5 |  SELECT   |  Specifies which values are returned                                                        |
 |     6 |  ORDER BY |  Specifies which values to order the result set by                                          |
 |     7 |  LIMIT    |  Constrains the number of rows returned by a SELECT statement                               |
 
@@ -28,7 +28,7 @@ Processing order of a SQL statement:
 
 ---------------------------------------------------------
 
-The four table operators and their subphases are:
+The four table operators described in the previous diagram and their subphases are:
 
 | Operator |                      Subphases                          |
 |----------|---------------------------------------------------------|
@@ -67,9 +67,9 @@ FROM    Customers emp CROSS JOIN
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The most significant difference between `INNER`, `OUTER`, and `CROSS JOIN` is that the `INNER JOIN` acts as a **filtering criterion**, `OUTER JOIN` acts as a **matching criterion**, and a `CROSS JOIN` gives all possible combinations.
   
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;For `INNER` and `OUTER JOIN`, these types of joins require a comparison operator to equate rows from the participating tables based on a common field in both the tables.  These comparison operators are described as equi-joins, and theta-joins are rooted in Relational Algebra.  Introduced by Edgar F. Codd in 1970, Relational Algebra uses algebraic structures with well-founded semantics for modeling data and defining queries on it.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;For `INNER` and `OUTER JOIN`, these types of joins require a comparison operator to equate rows from the participating tables based on a common field in both tables. These comparison operators are described as equi-joins and theta-joins, which are rooted in Relational Algebra.  Introduced by Edgar F. Codd in 1970, Relational Algebra uses algebraic structures with well-founded semantics for modeling data and defining queries on it.
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Lastly, SQL is a declarative language, meaning you tell the SQL engine **WHAT** to do, and not **HOW** to do it.  When a table operation is performed, the SQL engine decides the best method for physically joining the tables (called a join algorithm).  These join algorithms are used to optimize the performance of a query when performing a join operation and are based on the table size, type of data they contain, available index, and table statistics.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Lastly, SQL is a declarative language, meaning you tell the SQL engine what to do, and not how to do it.  When a table operation is performed, the SQL engine decides the best method for physically joining the tables (called a join algorithm).  These join algorithms are used to optimize the performance of a query when performing a join operation and are based on the table size, type of data they contain, available index, and table statistics.
 
 ---------------------------------------------------------
 
