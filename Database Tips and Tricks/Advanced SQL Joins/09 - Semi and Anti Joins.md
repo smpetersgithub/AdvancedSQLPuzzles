@@ -41,20 +41,20 @@ We will use the following tables that contain types of fruits and their quantity
 [The DDL to create these tables can be found here.](Sample%20Data.md)
 
 **Table A**
-| ID | Fruit  | Quantity |
-|----|--------|----------|
-|  1 | Apple  |       17 |
-|  2 | Peach  |       20 |
-|  3 | Mango  |       11 |
-|  4 | <NULL> |        5 |
+| ID |  Fruit  | Quantity |
+|----|---------|----------|
+| 1  | Apple   | 17       |
+| 2  | Peach   | 20       |
+| 3  | Mango   | 11       |
+| 4  | \<NULL> | 5        |
   
 **Table B**
-| ID | Fruit  | Quantity |
-|----|--------|----------|
-|  1 | Apple  | 17       |
-|  2 | Peach  | 25       |
-|  3 | Kiwi   | 20       |
-|  4 | <NULL> | <NULL>   |
+| ID | Fruit   | Quantity |
+|----|---------|----------|
+| 1  | Apple   | 17       |
+| 2  | Peach   | 25       |
+| 3  | Kiwi    | 20       |
+| 4  | \<NULL> | \<NULL>  |
         
 ----------------------------------------------------------------------------------------
         
@@ -70,8 +70,8 @@ WHERE   Fruit IN ('Apple','Peach',NULL);
 
 | ID | Fruit |
 |----|-------|
-|  1 | Apple |
-|  2 | Peach |
+| 1  | Apple |
+| 2  | Peach |
 
 ----------------------------------------------------------------------------------------
 
@@ -85,8 +85,8 @@ WHERE   Fruit IN (SELECT Fruit FROM ##TableB);
 
 | ID | Fruit |
 |----|-------|
-|  1 | Apple |
-|  2 | Peach |
+| 1  | Apple |
+| 2  | Peach |
 
 ----------------------------------------------------------------------------------------
 
@@ -101,7 +101,7 @@ WHERE   Fruit IN (SELECT Fruit FROM ##TableB b WHERE a.Quantity = b.Quantity);
 
 | ID | Fruit |
 |----|-------|
-|  1 | Apple |
+| 1  | Apple |
 
 ----------------------------------------------------------------------------------------
 
@@ -118,8 +118,8 @@ WHERE   EXISTS (SELECT 1 FROM ##TableB b WHERE a.Fruit = b.Fruit);
 
 | ID | Fruit |
 |----|-------|
-|  1 | Apple |
-|  2 | Peach |
+| 1  | Apple |
+| 2  | Peach |
 
 ----------------------------------------------------------------------------------------
 
@@ -131,12 +131,12 @@ FROM    ##TableA
 WHERE   EXISTS (SELECT NULL);
 ```
 
-| ID | Fruit  | Quantity |
-|----|--------|----------|
-|  1 | Apple  |       17 |
-|  2 | Peach  |       20 |
-|  3 | Mango  |       11 |
-|  4 | <NULL> |        5 |
+| ID |  Fruit  | Quantity |
+|----|---------|----------|
+| 1  | Apple   | 17       |
+| 2  | Peach   | 20       |
+| 3  | Mango   | 11       |  
+| 4  | \<NULL> | 5        |
 
 ----------------------------------------------------------------------------------------
 
@@ -191,8 +191,8 @@ WHERE   NOT EXISTS (SELECT 1 FROM ##TableB b WHERE a.Fruit = b.Fruit);
 
 | ID | Fruit  |
 |----|--------|
-|  3 | Mango  |
-|  4 | <NULL> |
+| 3  | Mango  |
+| 4  | <NULL> |
 
 ---------------------------------------------------------
 
