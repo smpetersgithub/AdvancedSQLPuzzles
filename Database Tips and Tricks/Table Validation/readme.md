@@ -23,7 +23,7 @@ The scripts `Table Validation Part 1.sql` and `Table Validation Part 2.sql` will
 13.  `#SQLStatementFinal`
 
 
-I recommend running the `Table Validation Demo Tables.sql` first on the provided sample set.  There are a number of items in the setup of the script that need to be modified.  Once the final dataset is created, export to Microsoft Excel.
+I recommend running the `Table Validation Demo Tables.sql` first on the provided sample set.  There are several items in the setup of the script that need to be modified.  Once the final dataset is created, export to Microsoft Excel.
 
 ## Installation
 
@@ -71,7 +71,7 @@ The following tables will be created for our demo; `dbo.Sales_Old` and `dbo.Sale
 | 4        | 643     | West     | Spokane    | $ 44,981.23  | 7542       | Bronze       | 
 | 5        | 898     | East     | Toledo     | $ 53,432.78  | 9242       | Silver       | 
 
-Looking at this data we can see several differences between the tables; some values are different, the tables have different records, and the tables have duplicate rows. The Full Outer Join script will account for these scenarios. 
+Looking at this data, we can see several differences between the tables; some values are different, the tables have different records, and the tables have duplicate rows. The Full Outer Join script will account for these scenarios. 
 
 ---------------------------------------------------
 ### Step 2:    
