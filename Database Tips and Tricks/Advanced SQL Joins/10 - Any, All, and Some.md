@@ -32,15 +32,15 @@ I have found understanding these 9 operations will easily allow you to understan
 
 | Id |     Operation     |             Equivalent                                      |
 |----|-------------------|-------------------------------------------------------------|
-|  1 | = ALL             |  = MIN AND = MAX                                            |
-|  2 | <> ALL            |  NOT IN                                                     |
-|  3 | > ALL             |  > MAX                                                      |
-|  4 | < ALL             |  < MIN                                                      |
-|  5 | = ANY             |  IN                                                         |
-|  6 | <> ANY            |  NOT(= ALL), <> MIN OR <> MAX, TOP 1 using a theta-join     | 
-|  7 | > ANY             |  > MIN                                                      |
-|  8 | < ANY             |  < MAX                                                      |
-|  9 | >= ANY AND <= ANY |  BETWEEN and the MIN/MAX functions                          |
+| 1  | = ALL             |  = MIN AND = MAX                                            |
+| 2  | <> ALL            |  NOT IN                                                     |
+| 3  | > ALL             |  > MAX                                                      |
+| 4  | < ALL             |  < MIN                                                      |
+| 5  | = ANY             |  IN                                                         |
+| 6  | <> ANY            |  NOT(= ALL), <> MIN OR <> MAX, TOP 1 using a theta-join     | 
+| 7  | > ANY             |  > MIN                                                      |
+| 8  | < ANY             |  < MAX                                                      |
+| 9  | >= ANY AND <= ANY |  BETWEEN and the MIN/MAX functions                          |
 
 
 ---------------------------------------------------------------
@@ -329,19 +329,19 @@ This example table has statuses that are all completed.
 
 | ID |  Status   |
 |----|-----------|
-|  1 | Completed |
-|  2 | Completed |
-|  3 | Completed |
-|  4 | Completed |
+| 1  | Completed |
+| 2  | Completed |
+| 3  | Completed |
+| 4  | Completed |
 
 This example table has statuses that are not all completed.
 
 | ID |  Status   |
 |----|-----------|
-|  1 | Completed |
-|  2 | Completed |
-|  3 | Running   |
-|  4 | Completed |
+| 1  | Completed |
+| 2  | Completed |
+| 3  | Running   |
+| 4  | Completed |
 
 Here are the SQL statements (along with the DDL) that produce the required output.
 
@@ -384,12 +384,12 @@ Given the following tables: `Sales Representatives` and `Top Selling Products by
 
 | SalesRepID | Region |
 |------------|--------|
-|       1001 | North  |
-|       2002 | North  |
-|       3003 | South  |
-|       4004 | South  |
-|       5005 | East   |
-|       6006 | West   |
+| 1001       | North  |
+| 2002       | North  |
+| 3003       | South  |
+| 4004       | South  |
+| 5005       | East   |
+| 6006       | West   |
 
 
 | SalesQuarter | Region | Product |
@@ -520,18 +520,18 @@ The task is to identify all Order Numbers that are linked to a single Item and h
 For example, Order Number 33 meets these criteria because it has a connection to one Item and all the products linked to it have a discount value of "PROMO." On the other hand, Order Number 11 does not meet the criteria as it is linked to two different Items.
 
 
-| OrderNumber | Product  | Discount |
-|-------------|----------|----------|
-|    11       | Item1    | PROMO    |
-|    11       | Item1    | PROMO    |
-|    11       | Item1    | MARKDOWN |
-|    11       | Item2    | PROMO    |
-|    22       | Item2    | <null>   |
-|    22       | Item3    | MARKDOWN |
-|    22       | Item3    | <null>   |
-|    33       | Item1    | PROMO    |
-|    33       | Item1    | PROMO    |
-|    33       | Item1    | PROMO    |
+| OrderNumber | Product  |  Discount |
+|-------------|----------|-----------|
+| 11          | Item1    | PROMO     |
+| 11          | Item1    | PROMO     |
+| 11          | Item1    | MARKDOWN  |
+| 11          | Item2    | PROMO     |
+| 22          | Item2    | \<NULL>   |
+| 22          | Item3    | MARKDOWN  |
+| 22          | Item3    | \<NULL>   |
+| 33          | Item1    | PROMO     |
+| 33          | Item1    | PROMO     |
+| 33          | Item1    | PROMO     |
 
 ```sql
 DROP TABLE IF EXISTS ##OrderItem;
@@ -567,7 +567,7 @@ GO
 
 | OrderNumber |
 |-------------|
-|    33       |
+|  33         |
 
        
 ---------------------------------------------------------
