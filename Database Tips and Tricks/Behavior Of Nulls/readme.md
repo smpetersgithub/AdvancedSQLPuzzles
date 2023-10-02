@@ -149,22 +149,22 @@ Now that we have covered the basics of NULL markers let's create two sample data
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;We will use the following tables of fruits and their quantities in our quest to understand the behavior of NULL markers.  Using two tables of the same type gives us the best example for understanding NULL markers.  We will work with this data throughout these exercises.
 
 **##TableA**
-| ID | Fruit  | Quantity |
-|----|--------|----------|
-|  1 | Apple  |       17 |
-|  2 | Peach  |       20 |
-|  3 | Mango  |       11 |
-|  4 | Mango  |       15 |
-|  5 | <NULL> |        5 |
-|  6 | <NULL> |        3 |
+| ID |  Fruit  | Quantity |
+|----|---------|----------|
+|  1 | Apple   |       17 |
+|  2 | Peach   |       20 |
+|  3 | Mango   |       11 |
+|  4 | Mango   |       15 |
+|  5 | \<NULL> |        5 |
+|  6 | \<NULL> |        3 |
 
 **##TableB**
-| ID | Fruit  | Quantity |
-|----|--------|----------|
-|  1 | Apple  | 17       |
-|  2 | Peach  | 25       |
-|  3 | Kiwi   | 20       |
-|  4 | <NULL> | <NULL>   |
+| ID |  Fruit  |  Quantity |
+|----|---------|-----------|
+|  1 | Apple   | 17        |
+|  2 | Peach   | 25        |
+|  3 | Kiwi    | 20        |
+|  4 | \<NULL> | \<NULL>   |
 
 
 ```sql
@@ -256,16 +256,16 @@ FROM    ##TableA a FULL OUTER JOIN
 ORDER BY 1,2;
 ```
 
-|   ID   | Fruit  |   ID   | Fruit  |
-|--------|--------|--------|--------|
-| <NULL> | <NULL> | 3      | Kiwi   |
-| <NULL> | <NULL> | 4      | <NULL> |
-| 1      | Apple  | 1      | Apple  |
-| 2      | Peach  | 2      | Peach  |
-| 3      | Mango  | <NULL> | <NULL> |
-| 4      | Mango  | <NULL> | <NULL> |
-| 5      | <NULL> | <NULL> | <NULL> |
-| 6      | <NULL> | <NULL> | <NULL> |
+|    ID   |  Fruit  |   ID    |  Fruit  |
+|--- -----|---------|---------|---------|
+| \<NULL> | <NULL>  | 3       | Kiwi    |
+| \<NULL> | <NULL>  | 4       | \<NULL> |
+| 1       | Apple   | 1       | Apple   |
+| 2       | Peach   |  2      | Peach   |
+| 3       | Mango   | \<NULL> | \<NULL> |
+| 4       | Mango   | \<NULL> | \<NULL> |
+| 5       | \<NULL> | \<NULL> | \<NULL> |
+| 6       | \<NULL> | \<NULL> | \<NULL> |
 
 
 ---------------------------------------------------------
@@ -295,12 +295,12 @@ FROM    ##TableA a,
 WHERE   a.Fruit IS DISTINCT FROM b.Fruit;
 ```
 
-| ID | Fruit  | Quantity | ID | Fruit  | Quantity |
-|----|--------|----------|----|--------|----------|
-|  1 | Apple  |       17 |  1 | Apple  | 17       |
-|  2 | Peach  |       20 |  2 | Peach  | 25       |
-|  5 | <NULL> |        5 |  4 | <NULL> | <NULL>   |
-|  6 | <NULL> |        3 |  4 | <NULL> | <NULL>   |
+| ID |  Fruit  | Quantity | ID |  Fruit  | Quantity  |
+|----|---------|----------|----|---------|-----------|
+|  1 | Apple   |       17 |  1 | Apple   | 17        |
+|  2 | Peach   |       20 |  2 | Peach   | 25        |
+|  5 | \<NULL> |        5 |  4 | \<NULL> | \<NULL>   |
+|  6 | \<NULL> |        3 |  4 | \<NULL> | \<NULL>   |
 
 ---------------------------------------------------------
 ### Semi and Anti Joins
@@ -386,13 +386,13 @@ FROM    ##TableA a
 WHERE   NOT EXISTS (SELECT 1 FROM ##TableB b WHERE a.Fruit = b.Fruit AND a.Quantity = b.Quantity);
 ```
 
-| ID | Fruit  |
-|----|--------|
-|  2 | Peach  |
-|  3 | Mango  |
-|  4 | Mango  |
-|  5 | <NULL> |
-|  6 | <NULL> |
+| ID |  Fruit  |
+|----|---------|
+|  2 | Peach   |
+|  3 | Mango   |
+|  4 | Mango   |
+|  5 | \<NULL> |
+|  6 | \<NULL> |
 
 ---------------------------------------------------------
 ### Set Operators
@@ -415,16 +415,16 @@ UNION
 SELECT 1 AS Type, Fruit FROM ##TableB;
 ```
 
-| Type | Fruit  |
-|------|--------|
-| 1    | Apple  |
-| 1    | Peach  |
-| 1    | Kiwi   |
-| 1    | Mango  |
-| 1    | <NULL> |
-| 1    | Mango  |
-| 1    | <NULL> |
-| 1    | <NULL> |
+| Type |  Fruit  |
+|------|---------|
+| 1    | Apple   |
+| 1    | Peach   |
+| 1    | Kiwi    |
+| 1    | Mango   |
+| 1    | \<NULL> |
+| 1    | Mango   |
+| 1    | \<NULL> |
+| 1    | \<NULL> |
 
 --------------------------------------------------------
 **UNION ALL**
@@ -437,18 +437,18 @@ UNION ALL
 SELECT 1 AS Type, Fruit FROM ##TableB;
 ```
 
-| Type | Fruit  |
-|------|--------|
-| 1    | Apple  |
-| 1    | Peach  |
-| 1    | Mango  |
-| 1    | Mango  |
-| 1    | <NULL> |
-| 1    | <NULL> |
-| 1    | Apple  |
-| 1    | Peach  |
-| 1    | Kiwi   |
-| 1    | <NULL> |
+| Type |  Fruit  |
+|------|---------|
+| 1    | Apple   |
+| 1    | Peach   |
+| 1    | Mango   |
+| 1    | Mango   |
+| 1    | \<NULL> |
+| 1    | \<NULL> |
+| 1    | Apple   |
+| 1    | Peach   |
+| 1    | Kiwi    |
+| 1    | \<NULL> |
 
 --------------------------------------------------------
 **EXCEPT**
@@ -476,11 +476,11 @@ INTERSECT
 SELECT Fruit FROM ##TableB;
 ```
 
-| Fruit  |
-|--------|
-| <NULL> |
-| Apple  |
-| Peach  |
+|  Fruit  |
+|---------|
+| \<NULL> |
+| Apple   |
+| Peach   |
 
 ---------------------------------------------------------
 ### GROUP BY
@@ -496,12 +496,12 @@ FROM    ##TableA
 GROUP BY Fruit;
 ```
 
-| Fruit  | Count_Star | Count_Fruit |
-|--------|------------|-------------|
-| <NULL> |          2 |           0 |
-| Apple  |          1 |           1 |
-| Mango  |          2 |           2 |
-| Peach  |          1 |           1 |
+| F ruit  | Count_Star | Count_Fruit |
+|---------|------------|-------------|
+| \<NULL> |          2 |           0 |
+| Apple   |          1 |           1 |
+| Mango   |          2 |           2 |
+| Peach   |          1 |           1 |
 
 ---------------------------------------------------------
 ### COUNT and AVERAGE Functions
@@ -522,12 +522,12 @@ FROM    ##TableA
 GROUP BY Fruit;
 ```
 
-| Fruit  | Count_Star | Count_Fruit |
-|--------|------------|-------------|
-| <NULL> |          2 |           0 |
-| Apple  |          1 |           1 |
-| Mango  |          2 |           2 |
-| Peach  |          1 |           1 |
+|  Fruit  | Count_Star | Count_Fruit |
+|---------|------------|-------------|
+| \<NULL> |          2 |           0 |
+| Apple   |          1 |           1 |
+| Mango   |          2 |           2 |
+| Peach   |          1 |           1 |
 
 ---------------------------------------------------------
 **AVG**
@@ -555,7 +555,7 @@ FROM    cte_Average;
 
 | Average_CountStar | Average_CountId | Average_AvgFunction |
 |-------------------|-----------------|---------------------|
-|   112.50000000000 |      150.000000 |          150.000000 |
+| 112.50000000000   | 150.000000      | 150.000000          |
 
 --------------------------------------------------------- 
 ### CONSTRAINTS
@@ -620,9 +620,9 @@ GO
 SELECT * FROM ##CheckConstraints;
 ```
 
-| ID | MyField |
-|----|---------|
-|  1 | <NULL>  |
+| ID |  MyField |
+|----|----------|
+|  1 | \<NULL>  |
 
 ---------------------------------------------------------
 ### Referential Integrity
@@ -674,12 +674,12 @@ SELECT * FROM dbo.Child;
 |        5 |
   
 **Child**
-| RowNumber | ChildID |
-|-----------|---------|
-|         1 | 1       |
-|         2 | 2       |
-|         3 | <NULL>  |
-|         4 | <NULL>  |
+| RowNumber |  ChildID |
+|-----------|----------|
+|         1 | 1        |
+|         2 | 2        |
+|         3 | \<NULL>  |
+|         4 | \<NULL>  |
 
 ---------------------------------------------------------
 ### Computed Columns
@@ -694,12 +694,12 @@ FROM   ##TableB;
 ```
 
 
-| ID | Fruit  | QuantityPlus2 |
-|----|--------|---------------|
-|  1 | Apple  | 19            |
-|  2 | Peach  | 27            |
-|  3 | Kiwi   | 22            |
-|  4 | <NULL> | <NULL>        |
+| ID |  Fruit  | QuantityPlus2 |
+|----|---------|---------------|
+|  1 | Apple   | 19            |
+|  2 | Peach   | 27            |
+|  3 | Kiwi    | 22            |
+|  4 | \<NULL> | \<NULL>       |
 
 -------------------------------------------------------------
 **PERSISTED**
@@ -777,7 +777,7 @@ SELECT  1 AS ID,
 
 | Id | fnISNULL | fnCOALESCE | fnNULLIF |
 |----|----------|------------|----------|
-|  1 | foo      | foo        | <NULL>   |
+|  1 | foo      | foo        | \<NULL>  |
 
 
 ---------------------------------------------------------
@@ -794,7 +794,7 @@ SELECT  1 AS ID,
 
 | ID | ASCII_EmptyString | ASCII_NULL |
 |----|-------------------|------------|
-|  1 | <NULL>            | <NULL>     |
+|  1 | \<NULL>           | \<NULL>    |
 
 
 ---------------------------------------------------------
@@ -811,12 +811,12 @@ FROM    ##TableA a INNER JOIN
         ##TableB b ON ISNULL(a.Fruit,'') = ISNULL(b.Fruit,'');
 ```
 
-| ID | Fruit  | ID | Fruit  |
-|----|--------|----|--------|
-|  1 | Apple  |  1 | Apple  |
-|  2 | Peach  |  2 | Peach  |
-|  5 | <NULL> |  4 | <NULL> |
-|  6 | <NULL> |  4 | <NULL> |
+| ID |  Fruit  | ID |  Fruit  |
+|----|---------|----|---------|
+|  1 | Apple   |  1 | Apple   |
+|  2 | Peach   |  2 | Peach   |
+|  5 | \<NULL> |  4 | \<NULL> |
+|  6 | \<NULL> |  4 | \<NULL> |
   
 
 ---------------------------------------------------------
@@ -830,13 +830,11 @@ The `CONCAT` function will return an empty string if all the values are NULL.
   
  
 ```sql
-SELECT 1 AS ID, CONCAT(NULL,NULL,NULL) AS fnConcat;
-```
- 
-
-| ID |    fnConcat     |
-|----|-----------------|
-|  1 | \<empty string> |
+SELECT CONCAT(NULL,NULL,NULL) AS fnConcat;
+``` 
+|    fnConcat     |
+|-----------------|
+| \<Empty String> |
 
 ---------------------------------------------------------
 **CONCAT Implicit Data Type Conversion**
@@ -858,9 +856,9 @@ FROM   cte_Values v1 INNER JOIN
 ```
 In query editors, NULLS and empty strings will appear differently (by default, SSMS shows yellow for NULLS and a blank for empty strings).
 
-|  A     |  B     |       C         |      D         |
-|--------|--------|-----------------|----------------|
-| <NULL> | <NULL> | <Empty String>  | <Empty String> |
+|    A   |    B   |          C          |        D          |
+|--------|--------|---------------------|-------------------|
+| \<NULL> | \<NULL> | \<Empty String>     | \<Empty String> |
 
 
 ---------------------------------------------------------
@@ -932,10 +930,10 @@ UNION
 SELECT 2 AS ID, CAST(3 AS BIT) AS Bit;
 ```
 
-| ID |  Bit   |
-|----|--------|
-|  1 | <NULL> |
-|  2 | 1      |
+| ID |   Bit   |
+|----|---------|
+|  1 | \<NULL> |
+|  2 | 1       |
 
 
  ------------------------------------------------------------------   
@@ -984,7 +982,7 @@ The `SpReturnStatement` procedure attempted to return a status of NULL, which is
 
 | Return Status |
 |---------------|
-|             0 |
+| 0             |
 
 --------------------------------------------------------- 
 ### Identity Columns
