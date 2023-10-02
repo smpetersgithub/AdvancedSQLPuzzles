@@ -315,17 +315,18 @@ There are several benefits of using anti-joins and semi-joins over `INNER JOINS`
 2.  Semi-joins and anti-joins increase readability as the result set can only contain the columns from the outer semi-joined table.
 
 There are a few key differences between semi-joins and anti-joins:
-1.  The `NOT IN` operator will return an empty set if the anti-join contains a NULL marker.  The `NOT EXISTS` will return a dataset that contains a NULL marker if the anti-join contains a NULL marker.
-2.  The `IN` and `EXIST` operators will return a dataset if the semi-join contains a NULL marker.
-3.  The `IN` and `NOT IN` can take a list of arguments or an SQL statement.  The SQL statement can return a set of values, or it can be a correlated subquery.  
-4.  The `EXISTS` and `NOT EXITS` must be a correlated subquery.
+1.  The `NOT IN` operator will return an empty set if the set contains a NULL marker.
+2.  The `IN`, `EXISTS`, and `NOT EXISTS` operators will return a dataset if the join contains a NULL marker.
+3.  The `IN` and `NOT IN` can take 1) a list of arguments or 2) an SQL statement.
+
+Also, each of these joins can be used as a correlated subquery.  Using `EXISTS` and `NOT EXISTS` is not strictly required to be in the context of a correlated subquery. However, these operators are generally not practically useful unless employed as part of a correlated subquery.
      
 :small_red_triangle:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;If you are performing an anti-join to a NULLable column, consider using the `NOT EXISTS` operator over the `NOT` operator.
 
 --------------------------------------------------------
 **NOT IN**
 
-This statement returns an empty dataset as the anti-join contains a NULL marker.
+This statement returns an empty dataset as the anti-join contains a NULL marker.  Note that we are passing a set of parameters, and not an SQL statement to the `NOT IN` clause.
 
 ```sql
 SELECT  1 AS RowNumber,
@@ -343,7 +344,7 @@ WHERE   Fruit NOT IN ('Banana',NULL);
 --------------------------------------------------------
 **IN**   
   
-The opposite of anti-joins are semi-joins.  Using the `IN` operator, this query will return a result set.  A `NOT IN` operator would return an empty dataset.
+The opposite of anti-joins are semi-joins.  Using the `IN` operator, this query will return a result set.
 
 ```sql
 SELECT  ID,
@@ -360,7 +361,7 @@ WHERE   Fruit IN ('Apple','Peach',NULL);
 --------------------------------------------------------
 **EXISTS**
   
-`EXISTS` is much the same as `IN`.  But with `EXISTS` you must create a correlated subquery.
+`EXISTS` is much the same as `IN`.  But with `EXISTS`, you must create a correlated subquery for the join to be useful.
 
 ```sql
 SELECT  ID,
@@ -376,7 +377,7 @@ WHERE   EXISTS (SELECT 1 FROM ##TableB b WHERE a.Fruit = b.Fruit AND a.Quantity 
 --------------------------------------------------------
 **NOT EXISTS**
  
-Here is the usage of the `NOT EXISTS`.  A NULL marker is returned in the dataset (unlike the `IN` operator).
+Here is the usage of the `NOT EXISTS`.  NULL markers are returned in the dataset (unlike the `IN` operator).
 
 ```sql
 SELECT  a.ID,
