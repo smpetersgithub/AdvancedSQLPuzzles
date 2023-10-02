@@ -71,11 +71,11 @@ ORDER BY 1;
 
 | Employee ID |     Title      | Manager ID | Manager Title  | Depth |
 |-------------|----------------|------------|----------------|-------|
-|           1 | President      |  <NULL>    | <NULL>         |     0 |
-|           2 | Vice President | 1          | President      |     1 |
-|           3 | Vice President | 1          | President      |     1 |
-|           4 | Director       | 2          | Vice President |     2 |
-|           5 | Director       | 3          | Vice President |     2 |
+| 1           | President      | \<NULL>    | \<NULL>        | 0     |
+| 2           | Vice President | 1          | President      | 1     |
+| 3           | Vice President | 1          | President      | 1     |
+| 4           | Director       | 2          | Vice President | 2     |
+| 5           | Director       | 3          | Vice President | 2     |
 
 ----------------------------------------------------
 
@@ -106,8 +106,8 @@ The above query uses a self-join and returns the following result set.
   
 | ID |  City   |
 |----|---------|
-|  2 | Detroit |
-|  4 | Detroit |
+| 2  | Detroit |
+| 4  | Detroit |
 
 Because the `Customer` table does not have a foreign key relationship, the above query could (and most probably should) be written using the following syntax.  This statement is slightly more verbose, but the intent of the statement becomes a bit more obvious.
 
@@ -135,11 +135,11 @@ Given the dataset below consisting of various animals' weight, create a cumulati
 
 | ID  |    Animal     | Weight |
 |-----|---------------|--------|
-| 1   | Elephant      |  13000 |
-| 2   | Rhinoceros    |   8000 |
-| 3   | Hippopotamus  |   3000 |
-| 4   | Giraffe       |   2000 |
-| 5   | Water Buffalo |   2000 |
+| 1   | Elephant      | 13000  |
+| 2   | Rhinoceros    | 8000  |
+| 3   | Hippopotamus  | 3000  |
+| 4   | Giraffe       | 2000  |
+| 5   | Water Buffalo | 2000  |
 
 ```sql
 SELECT  a.ID
@@ -153,12 +153,12 @@ GROUP BY a.ID, a.Animal;
   
 
 | ID |    Animal     | Cumulative Weight |
-|----|---------------|--------------------|
-|  1 | Elephant      |              13000 |
-|  4 | Giraffe       |              26000 |
-|  3 | Hippopotamus  |              24000 |
-|  2 | Rhinoceros    |              21000 |
-|  5 | Water Buffalo |              28000 |
+|----|---------------|-------------------|
+| 1  | Elephant      | 13000             |
+| 4  | Giraffe       | 26000             |
+| 3  | Hippopotamus  | 24000             |
+| 2  | Rhinoceros    | 21000             |
+| 5  | Water Buffalo | 28000             |
 
 However, a better way to write this statement is by using a windowing function.
   
@@ -179,29 +179,29 @@ Given the following table of employees and their licenses, determine all employe
 
 | EmployeeID | License |
 |------------|---------|
-|       1001 | Class A |
-|       1001 | Class B |
-|       1001 | Class C |
-|       2002 | Class A |
-|       2002 | Class B |
-|       2002 | Class C |
-|       3003 | Class A |
-|       3003 | Class D |
-|       4004 | Class A |
-|       4004 | Class B |
-|       4004 | Class D |
-|       5005 | Class A |
-|       5005 | Class B |
-|       5005 | Class D |
+| 1001       | Class A |
+| 1001       | Class B |
+| 1001       | Class C |
+| 2002       | Class A |
+| 2002       | Class B |
+| 2002       | Class C |
+| 3003       | Class A |
+| 3003       | Class D |
+| 4004       | Class A |
+| 4004       | Class B |
+| 4004       | Class D |
+| 5005       | Class A |
+| 5005       | Class B |
+| 5005       | Class D |
 
 Here is the expected output; employees 1001 and 2002 have matching licenses, and employees 4004 and 5005 have matching licenses.
   
 | EmployeeID_A | EmployeeID_B | LicenseCount |
 |--------------|--------------|--------------|
-|         1001 |         2002 |            3 |
-|         2002 |         1001 |            3 |
-|         4004 |         5005 |            3 |
-|         5005 |         4004 |            3 |
+| 1001         | 2002         | 3            |
+| 2002         | 1001         | 3            |
+| 4004         | 5005         | 3            |
+| 5005         | 4004         | 3            |
 
 The SQL to generate the expected output uses a self-join.
   
