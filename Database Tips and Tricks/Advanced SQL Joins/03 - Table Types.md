@@ -6,16 +6,16 @@ Here are the 10 different types of tables you can create.
 
 | Id |              Name              |  Schema Bound |                                                                 Description                                                                |
 |----|--------------------------------|---------------|--------------------------------------------------------------------------------------------------------------------------------------------|
-|  1 |  Table                         |  True         |  A regular table that is stored in the database.                                                                                           |
-|  2 |  View                          |  True         |  A virtual table that is based on the result of a `SELECT` statement.                                                                        |
-|  3 |  Values Constructor            |  False        |  The `VALUES` constructor can be used to create a derived table, which is a table that is created and used within a single SQL query.      |
-|  4 |  Table Valued Function         |  True         |  A function that returns a table as its result.                                                                                            |
-|  5 |  Subquery                      |  False        |  A query that is embedded within another query. The results of a subquery can be used in the outer query.                                  |
-|  6 |  Derived Table                 |  False        |  A special type of subquery that is defined in the `FROM` statement                                                                        |
-|  7 |  Common Table Expression (CTE) |  False        |  A named temporary result set that can be used in a `SELECT`, `INSERT`, `UPDATE`, or `DELETE` statement.                                   |
-|  8 |  Temporary Table               |  False        |  A table that is created for a specific session or connection and is automatically dropped when the session or connection ends.            |
-|  9 |  Table Variable                |  False        |  A variable that holds a table of data. It is similar to a temporary table, but it has some differences in terms of its behavior and scope. |
-| 10 |  External Tables               |  False        |  Used to access data stored externally, such as in a text file. They are created using the `CREATE EXTERNAL TABLE` statement.              |
+| 1  | Table                          | True          | A regular table that is stored in the database.                                                                                            |
+| 2  | View                           | True          | A virtual table that is based on the result of a `SELECT` statement.                                                                       |
+| 3  | Values Constructor             | False         | The `VALUES` constructor can be used to create a derived table, which is a table that is created and used within a single SQL query.       |
+| 4  | Table Valued Function          | True          | A function that returns a table as its result.                                                                                             |
+| 5  | Subquery                       | False         | A query that is embedded within another query. The results of a subquery can be used in the outer query.                                   |
+| 6  | Derived Table                  | False         | A special type of subquery that is defined in the `FROM` statement                                                                         |
+| 7  | Common Table Expression (CTE)  | False         | A named temporary result set that can be used in a `SELECT`, `INSERT`, `UPDATE`, or `DELETE` statement.                                    |
+| 8  | Temporary Table                | False         | A table that is created for a specific session or connection and is automatically dropped when the session or connection ends.             |
+| 9  | Table Variable                 | False         | A variable that holds a table of data. It is similar to a temporary table, but it has some differences in behavior and scope.              |
+|10  | External Tables                | False         | Used to access data stored externally, such as in a text file. They are created using the `CREATE EXTERNAL TABLE` statement.               |
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`Tempdb` is used by SQL Server to store intermediate results when processing queries, such as those created by derived tables and subqueries. This allows the database engine to reuse the results multiple times in the same query instead of recomputing them each time they're needed. It's important to note that the use of `tempdb` and the extent to which it's used can vary depending on the complexity of the query and other factors, such as the amount of memory available and the indexes present on the involved tables.
 
