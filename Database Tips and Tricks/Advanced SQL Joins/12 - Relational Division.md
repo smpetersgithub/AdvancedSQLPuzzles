@@ -18,21 +18,21 @@ The most common example on the internet is the Airplanes in the Hangar example. 
 
 **Pilot Skills**
 
-| Pilot Name |   Plane Name    |
-|------------|-----------------|
-| Johnson    |  Piper Cub      |
-| Williams   |  B-52 Bomber    |
-| Williams   |  F-14 Fighter   |
-| Williams   |  Piper Cub      |
-| Roberts    |  B-52 Bomber    |
-| Roberts    |  F-14 Fighter   |
-| Jones      |  B-1 Bomber     |
-| Jones      |  B-52 Bomber    |
-| Jones      |  F-14 Fighter   |
-| Brown      |  B-1 Bomber     |
-| Brown      |  B-52 Bomber    |
-| Brown      |  F-14 Fighter   |
-| Brown      |  F-17 Fighter   |
+| Pilot Name |   Plane Name   |
+|------------|----------------|
+| Johnson    | Piper Cub      |
+| Williams   | B-52 Bomber    |
+| Williams   | F-14 Fighter   |
+| Williams   | Piper Cub      |
+| Roberts    | B-52 Bomber    |
+| Roberts    | F-14 Fighter   |
+| Jones      | B-1 Bomber     |
+| Jones      | B-52 Bomber    |
+| Jones      | F-14 Fighter   |
+| Brown      | B-1 Bomber     |
+| Brown      | B-52 Bomber    |
+| Brown      | F-14 Fighter   |
+| Brown      | F-17 Fighter   |
 
 **Hangar**
 |  Plane Name  |
@@ -86,7 +86,6 @@ HAVING  COUNT(ps.PlaneName) = (SELECT COUNT(PlaneName) FROM #Hangar);
 | Brown      |
 | Jones      |
 
-
 -------------------------------------------------------------------------
 #### Employees With Matching Licenses.
 
@@ -94,20 +93,20 @@ Another example is finding all employees who have the same licenses.
 
 | EmployeeID | License |
 |------------|---------|
-|       1001 | Class A |
-|       1001 | Class B |
-|       1001 | Class C |
-|       2002 | Class A |
-|       2002 | Class B |
-|       2002 | Class C |
-|       3003 | Class A |
-|       3003 | Class D |
-|       4004 | Class A |
-|       4004 | Class B |
-|       4004 | Class D |
-|       5005 | Class A |
-|       5005 | Class B |
-|       5005 | Class D |
+| 1001       | Class A |
+| 1001       | Class B |
+| 1001       | Class C |
+| 2002       | Class A |
+| 2002       | Class B |
+| 2002       | Class C |
+| 3003       | Class A |
+| 3003       | Class D |
+| 4004       | Class A |
+| 4004       | Class B |
+| 4004       | Class D |
+| 5005       | Class A |
+| 5005       | Class B |
+| 5005       | Class D |
 
 ```sql
 CREATE TABLE #Employees
@@ -160,10 +159,10 @@ FROM    cte_CountWindow a INNER JOIN
 
 | EmployeeID_A | EmployeeID_B | LicenseCount |
 |--------------|--------------|--------------|
-|         1001 |         2002 |            3 |
-|         2002 |         1001 |            3 |
-|         4004 |         5005 |            3 |
-|         5005 |         4004 |            3 |
+| 1001         | 2002         | 3            |
+| 2002         | 1001         | 3            |
+| 4004         | 5005         | 3            |
+| 5005         | 4004         | 3            |
 
 
 -------------------------------------------------------------------------
@@ -172,14 +171,14 @@ FROM    cte_CountWindow a INNER JOIN
 The last example shows all employees who have worked in all departments.
 
 **Department History**
-| Name  |  Department |  IsActive |
-|-------|-------------|-----------|
-| Chris |  Wardrobe   |         0 |
-| Chris |  Lighting   |         1 |
-| Chris |  Music      |         0 |
-| Nancy |  Wardrobe   |         1 |
-| Jim   |  Music      |         1 |
-| Jim   |  Wardrobe   |         0 |
+| Name  |  Department | IsActive |
+|-------|-------------|----------|
+| Chris | Wardrobe    | 0        |
+| Chris | Lighting    | 1        |
+| Chris | Music       | 0        |
+| Nancy | Wardrobe    | 1        |
+| Jim   | Music       | 1        |
+| Jim   | Wardrobe    | 0        |
 
 ```sql
 CREATE TABLE #DepartmentHistory
@@ -223,7 +222,7 @@ WHERE   DepartmentCount IN (SELECT DepartmentCount FROM cte_DistinctDepartments)
 
 | Name  | DepartmentCount |
 |-------|-----------------|
-| Chris |               3 |
+| Chris | 3               |
 
 ---------------------------------------------------------
 
