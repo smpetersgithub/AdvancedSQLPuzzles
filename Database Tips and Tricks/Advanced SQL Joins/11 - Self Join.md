@@ -12,11 +12,11 @@ For the following table of `Managers` and `Employees`, determine each employee's
 
 | Employee ID |      Title     | Manager ID |
 |-------------|----------------|------------|
-|           1 | President      | <NULL>     |
-|           2 | Vice President | 1          |
-|           3 | Vice President | 1          |
-|           4 | Director       | 2          |
-|           5 | Director       | 3          |
+| 1           | President      | \<NULL>    |
+| 2           | Vice President | 1          |
+| 3           | Vice President | 1          |
+| 4           | Director       | 2          |
+| 5           | Director       | 3          |
   
 
 Note the table `Employees` is referenced twice but given two different aliases named `a` and `b`.
@@ -30,12 +30,12 @@ FROM    Employees a INNER JOIN
         Employees b ON a.ManagerID = b.EmployeeID;
 ```
 
-| EmployeeID  |      Title     |  Manager ID |      Title     |
+| EmployeeID  |      Title     | Manager ID  |      Title     |
 |-------------|----------------|-------------|----------------|
-|           2 | Vice President |           1 | President      |
-|           3 | Vice President |           1 | President      |
-|           4 | Director       |           2 | Vice President |
-|           5 | Director       |           3 | Vice President |
+| 2           | Vice President | 1           | President      |
+| 3           | Vice President | 1           | President      |
+| 4           | Director       | 2           | Vice President |
+| 5           | Director       | 3           | Vice President |
 
 It is worth mentioning that because the `Employees` table is a hierarchical relationship, the problem lends itself to using a self-referencing common table expression (CTE) to determine the level of depth each employee has from the highest tier.
 
