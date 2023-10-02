@@ -176,7 +176,7 @@ WHERE   Fruit NOT IN (SELECT Fruit FROM ##TableB)
         OR
         Fruit NOT IN (NULL);
 ```
-Empty Data Set
+\<Empty Data Set>
 
 ----------------------------------------------------------------------------------------
 
@@ -189,10 +189,10 @@ FROM    ##TableA a
 WHERE   NOT EXISTS (SELECT 1 FROM ##TableB b WHERE a.Fruit = b.Fruit);
 ```
 
-| ID | Fruit  |
-|----|--------|
-| 3  | Mango  |
-| 4  | <NULL> |
+| ID |  Fruit  |
+|----|---------|
+| 3  | Mango   |
+| 4  | \<NULL> |
 
 ---------------------------------------------------------
 
