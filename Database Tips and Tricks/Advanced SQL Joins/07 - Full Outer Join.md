@@ -9,20 +9,20 @@ We will use the following tables that contain types of fruits and their quantity
 [The DDL to create these tables can be found here.](Sample%20Data.md)
 
 **Table A**
-| ID | Fruit  | Quantity |
-|----|--------|----------|
-|  1 | Apple  |       17 |
-|  2 | Peach  |       20 |
-|  3 | Mango  |       11 |
-|  4 | <NULL> |        5 |
+| ID |  Fruit  | Quantity |
+|----|---------|----------|
+| 1  | Apple   | 17       |
+| 2  | Peach   | 20       |
+| 3  | Mango   | 11       |
+| 4  | \<NULL> | 5        |
   
 **Table B**
-| ID | Fruit  | Quantity |
-|----|--------|----------|
-|  1 | Apple  | 17       |
-|  2 | Peach  | 25       |
-|  3 | Kiwi   | 20       |
-|  4 | <NULL> | <NULL>   |
+| ID |  Fruit  | Quantity  |
+|----|---------|-----------|
+| 1  | Apple   | 17        |
+| 2  | Peach   | 25        |
+| 3  | Kiwi    | 20        |
+| 4  | \<NULL> | \<NULL>   |
         
 
 ---------------------------------------------------------------------------------
@@ -38,14 +38,14 @@ FROM    ##TableA a FULL OUTER JOIN
         ##TableB b ON a.Fruit = b.Fruit;
 ```
 
-| ID     | Fruit  | ID     | Fruit  |
-|--------|--------|--------|--------|
-| 1      | Apple  | 1      | Apple  |
-| 2      | Peach  | 2      | Peach  |
-| 3      | Mango  | <NULL> | <NULL> |
-| 4      | <NULL> | <NULL> | <NULL> |
-| <NULL> | <NULL> | 3      | Kiwi   |
-| <NULL> | <NULL> | 4      | <NULL> |
+|    ID   |  Fruit  |    ID   |  Fruit  |
+|---------|---------|---------|---------|
+| 1       | Apple   | 1       | Apple   |
+| 2       | Peach   | 2       | Peach   |
+| 3       | Mango   | \<NULL> | \<NULL> |
+| 4       | \<NULL> | \<NULL> | \<NULL> |
+| \<NULL> | \<NULL> | 3       | Kiwi    |
+| \<NULL> | \<NULL> | 4       | \<NULL> |
 
 ---------------------------------------------------------------------------------
   
@@ -61,12 +61,12 @@ FROM    ##TableA a FULL OUTER JOIN
 WHERE   a.ID IS NULL OR B.ID IS NULL;
 ```
   
-|   ID   | Fruit  |
-|--------|--------|
-| 3      | Mango  |
-| 4      | <NULL> |
-| 3      | Kiwi   |
-| 4      | <NULL> |
+|   ID   |  Fruit  |
+|--------|---------|
+| 3      | Mango   |
+| 4      | \<NULL> |
+| 3      | Kiwi    |
+| 4      | \<NULL> |
   
 ---------------------------------------------------------------------------------
   
@@ -84,8 +84,8 @@ WHERE   a.ID IS NOT NULL AND b.ID IS NOT NULL;
 
 | ID | Fruit | ID | Fruit |
 |----|-------|----|-------|
-|  1 | Apple |  1 | Apple |
-|  2 | Peach |  2 | Peach |
+| 1  | Apple | 1  | Apple |
+| 2  | Peach | 2  | Peach |
 
 ---------------------------------------------------------------------------------
         
@@ -114,14 +114,14 @@ FROM    ##TableB a
 WHERE   NOT EXISTS (SELECT 1 FROM ##TableA b WHERE a.Fruit = b.Fruit); 
 ```        
  
-| ID     | Fruit  | ID     | Fruit  |
-|--------|--------|--------|--------|
-| 1      | Apple  | 1      | Apple  |
-| 2      | Peach  | 2      | Peach  |
-| 3      | Mango  | <NULL> | <NULL> |
-| 4      | <NULL> | <NULL> | <NULL> |
-| <NULL> | <NULL> | 3      | Kiwi   |
-| <NULL> | <NULL> | 4      | <NULL> |
+|   ID    |  Fruit  |    ID   |  Fruit  |
+|---------|---------|---------|---------|
+| 1       | Apple   | 1       | Apple   |
+| 2       | Peach   | 2       | Peach   |
+| 3       | Mango   | \<NULL> | \<NULL> |
+| 4       | \<NULL> | \<NULL> | \<NULL> |
+| \<NULL> | \<NULL> | 3       | Kiwi    |
+| \<NULL> | \<NULL> | 4       | \<NULL> |
 
 ---------------------------------------------------------------------------------
 
@@ -139,14 +139,14 @@ FROM    ##TableA a RIGHT JOIN
         ##TableB b ON a.Fruit = b.Fruit;
 ```
 
-| ID     | Fruit  | ID     | Fruit  |
-|--------|--------|--------|--------|
-| 1      | Apple  | 1      | Apple  |
-| 2      | Peach  | 2      | Peach  |
-| 3      | Mango  | <NULL> | <NULL> |
-| 4      | <NULL> | <NULL> | <NULL> |
-| <NULL> | <NULL> | 3      | Kiwi   |
-| <NULL> | <NULL> | 4      | <NULL> |
+|    ID   |  Fruit  |    ID   |  Fruit  |
+|---------|---------|---------|---------|
+| 1       | Apple   | 1       | Apple   |
+| 2       | Peach   | 2       | Peach   |
+| 3       | Mango   | \<NULL> | \<NULL> |
+| 4       | \<NULL> | \<NULL> | \<NULL> |
+| \<NULL> | \<NULL> | 3       | Kiwi    |
+| \<NULL> | \<NULL> | 4       | \<NULL> |
         
 ---------------------------------------------------------
 
