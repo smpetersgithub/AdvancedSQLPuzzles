@@ -14,20 +14,20 @@ We will be using the following tables that contain types of fruits and their qua
 [The DDL to create these tables can be found here.](Sample%20Data.md)
 
 **Table A**
-| ID | Fruit  | Quantity |
-|----|--------|----------|
-|  1 | Apple  |       17 |
-|  2 | Peach  |       20 |
-|  3 | Mango  |       11 |
-|  4 | <NULL> |        5 |
+| ID | Fruit   | Quantity |
+|----|---------|----------|
+| 1  | Apple   | 17       |
+| 2  | Peach   | 20       |
+| 3  | Mango   | 11       |
+| 4  | \<NULL> | 5        |
   
 **Table B**
-| ID | Fruit  | Quantity |
-|----|--------|----------|
-|  1 | Apple  | 17       |
-|  2 | Peach  | 25       |
-|  3 | Kiwi   | 20       |
-|  4 | <NULL> | <NULL>   |
+| ID |  Fruit  | Quantity  |
+|----|---------|-----------|
+|  1 | Apple   | 17        |
+|  2 | Peach   | 25        |
+|  3 | Kiwi    | 20        |
+|  4 | \<NULL> | \<NULL>   |
         
 -----------------------------------------------------------
         
@@ -44,12 +44,12 @@ FROM    ##TableA a LEFT OUTER JOIN
         ##TableB b ON a.Fruit = b.Fruit;
 ```
 
-| ID | Fruit   |  ID    | Fruit   |
-|----|---------|--------|---------|
-|  1 | Apple   | 1      | Apple   |
-|  2 | Peach   | 2      | Peach   |
-|  3 | Mango   | <NULL> | <NULL>  |
-|  4 | <NULL>  | <NULL> | <NULL>  |
+| ID |  Fruit  |    ID   |  Fruit  |
+|----|---------|---------|---------|
+| 1  | Apple   | 1       | Apple   |
+| 2  | Peach   | 2       | Peach   |
+| 3  | Mango   | \<NULL> | \<NULL> |
+| 4  | \<NULL> | \<NULL> | \<NULL> |
 
 ---
 
@@ -82,12 +82,12 @@ FROM    ##TableA a LEFT OUTER JOIN
         ##TableB b ON a.Fruit = b.Fruit AND b.Fruit = 'Apple';
 ```
 
-| ID | Fruit |   ID   | Fruit  |
-|----|-------|--------|--------|
-|  1 | Apple | 1      | Apple  |
-|  2 | Peach | <NULL> | <NULL> |
-|  3 | Mango | <NULL> | <NULL> |
-|  4 | <NULL>| <NULL> | <NULL> |
+| ID |  Fruit  |   ID    |  Fruit  |
+|----|---------|---------|---------|
+| 1  | Apple   | 1       | Apple   |
+| 2  | Peach   | \<NULL> | \<NULL> |
+| 3  | Mango   | \<NULL> | \<NULL> |
+| 4  | \<NULL> | \<NULL> | \<NULL> |
 
 Placing a predicate on the outer joined table in the `WHERE` clause causes this to function to act as an `INNER JOIN`. 
 
@@ -103,7 +103,7 @@ WHERE   b.Fruit = 'Apple';
 
 | ID | Fruit | ID | Fruit |
 |----|-------|----|-------|
-|  1 | Apple |  1 | Apple |
+| 1  | Apple | 1  | Apple |
 
 -----------------------------------------------------------
   
@@ -119,12 +119,12 @@ SELECT  a.ID,
 FROM    ##TableA a;
 ```
   
-| ID |  Fruit |   ID   |  Fruit |
-|----|--------|--------|--------|
-|  1 | Apple  | 1      | Apple  |
-|  2 | Peach  | 2      | Peach  |
-|  3 | Mango  | <NULL> | <NULL> |
-|  4 | <NULL> | <NULL> | <NULL> |
+| ID |   Fruit |   ID    |  Fruit  |
+|----|---------|---------|---------|
+| 1  | Apple   | 1       | Apple   |
+| 2  | Peach   | 2       | Peach   |
+| 3  | Mango   | \<NULL> | \<NULL> |
+| 4  | \<NULL> | \<NULL> | \<NULL> |
 
 Up to 32 levels of nesting is possible, although the limit varies based on available memory and the complexity of other expressions in the query. Individual queries may not support nesting up to 32 levels. A subquery can appear anywhere an expression can be used if it returns a single value
 
@@ -138,12 +138,12 @@ SELECT  a.ID,
 FROM    ##TableA a;
 ```
   
-| ID |  Fruit |   ID   |  Fruit |
-|----|--------|--------|--------|
-|  1 | Apple  | 1      | Apple  |
-|  2 | Peach  | 2      | Peach  |
-|  3 | Mango  | <NULL> | <NULL> |
-|  4 | <NULL> | <NULL> | <NULL> |
+| ID |  Fruit  |    ID   |  Fruit  |
+|----|---------|---------|---------|
+| 1 | Apple    | 1       | Apple   |
+| 2 | Peach    | 2       | Peach   |
+| 3 | Mango    | \<NULL> | \<NULL> |
+| 4 | \0<NULL> | \<NULL> | \<NULL> |
 
 -----------------------------------------------------------
    
@@ -167,10 +167,10 @@ FROM    ##TableA a;
 
 | ID | Fruit | Quantity |
 |----|-------|----------|
-|  1 | Apple |       17 |
-|  2 | Peach |       20 |
-|  3 | Mango |       11 |
-|  4 | Mango |        5 |
+| 1  | Apple | 17       |
+| 2  | Peach | 20       |
+| 3  | Mango | 11       |
+| 4  | Mango | 5        |
 
 Here the query can be written much cleaner using a window function.
 
@@ -192,10 +192,10 @@ ORDER BY ID;
 
 | ID | Fruit | Quantity |
 |----|-------|----------|
-|  1 | Apple |       17 |
-|  2 | Peach |       20 |
-|  3 | Mango |       11 |
-|  4 | Mango |        5 |
+| 1  | Apple | 17       |
+| 2  | Peach | 20       |
+| 3  | Mango | 11       |
+| 4  | Mango | 5        |
                                      
 -----------------------------------------------------------
 
@@ -213,12 +213,12 @@ FROM    ##TableA a RIGHT OUTER JOIN
         ##TableA c ON b.Fruit = c.Fruit;
 ```
 
-|   ID   | Fruit  | ID | Fruit  |   ID   | Fruit  |
-|--------|--------|----|--------|--------|--------|
-| 1      | Apple  |  1 | Apple  | 1      | Apple  |
-| 2      | Peach  |  2 | Peach  | 2      | Peach  |
-| <NULL> | <NULL> |  3 | Kiwi   | <NULL> | <NULL> |
-| <NULL> | <NULL> |  4 | <NULL> | <NULL> | <NULL> |
+|   ID    |  Fruit  | ID |  Fruit  |   ID    |  Fruit  |
+|---------|---------|----|---------|---------|---------|
+| 1       | Apple   | 1  | Apple   | 1       | Apple   |
+| 2       | Peach   | 2  | Peach   | 2       | Peach   |
+| \<NULL> | \<NULL> | 3  | Kiwi    | \<NULL> | \<NULL> |
+| \<NULL> | \<NULL> | 4  | \<NULL> | \<NULL> | \<NULL> |
 
 -----------------------------------------------------------
 
@@ -234,12 +234,12 @@ FROM    ##TableA a,
 WHERE   a.Fruit = b.Fruit(+)
 ```
   
-| ID |  Fruit |   ID   |  Fruit |
-|----|--------|--------|--------|
-|  1 | Apple  | 1      | Apple  |
-|  2 | Peach  | 2      | Peach  |
-|  3 | Mango  | <NULL> | <NULL> |
-|  4 | <NULL> | <NULL> | <NULL> |
+| ID |  Fruit  |   ID    |  Fruit  |
+|----|---------|---------|---------|
+| 1  | Apple   | 1       | Apple   |
+| 2  | Peach   | 2       | Peach   |
+| 3  | Mango   | \<NULL> | \<NULL> |
+| 4  | \<NULL> | \<NULL> | \<NULL> |
   
 ---------------------------------------------------------
 
