@@ -77,9 +77,9 @@ SELECT * FROM vwEmployees;
 
 | EmployeeID | FirstName | LastName | Department |  Salary   |
 |------------|-----------|----------|------------|-----------|
-|          1 | John      | Wilson   | Accounting | 100000.00 |
-|          2 | Sarah     | Shultz   | Accounting |  90000.00 |
-|          3 | Larry     | Johnson  | Accounting |  85000.00 |
+| 1          | John      | Wilson   | Accounting | 100000.00 |
+| 2          | Sarah     | Shultz   | Accounting |  90000.00 |
+| 3          | Larry     | Johnson  | Accounting |  85000.00 |
 
 --------------------------------------------------------------------------------------------------------
 #### VALUES Operator
@@ -96,10 +96,10 @@ FROM    (VALUES (1, 2), (3, 4), (5, 6), (7, 8), (9, 10)) AS MyTable(a, b);
 
 | a | b  |
 |---|----|
-| 1 |  2 |
-| 3 |  4 |
-| 5 |  6 |
-| 7 |  8 |
+| 1 | 2  |
+| 3 | 4  |
+| 5 | 6  |
+| 7 | 8  |
 | 9 | 10 |
 
 Here is a more elaborate example where the `VALUES` constructor specifies the values to return.
@@ -112,8 +112,8 @@ FROM    Employees a INNER JOIN
 
 | EmployeeID | FirstName | LastName | Department |  Salary   |
 |------------|-----------|----------|------------|-----------|
-|          1 | John      | Wilson   | Accounting | 100000.00 |
-|          2 | Sarah     | Shultz   | Accounting |  90000.00 |
+| 1          | John      | Wilson   | Accounting | 100000.00 |
+| 2          | Sarah     | Shultz   | Accounting |  90000.00 |
 
 
 You can also place functions into the `VALUES` constructor.  The `NEWID()` function creates a unique value of type `UNIQUEIDENTIFIER`.
@@ -159,7 +159,7 @@ FROM    Employees a CROSS APPLY
 
 | EmployeeID | FirstName | LastName | Department |  Salary   |
 |------------|-----------|----------|------------|-----------|
-|          1 | John      | Wilson   | Accounting | 100000.00 |
+| 1          | John      | Wilson   | Accounting | 100000.00 |
 
 --------------------------------------------------------------------------------------------------------
 #### Subquery
@@ -180,7 +180,7 @@ WHERE   e.Salary >  (SELECT AVG(Salary)
 
 | EmployeeID | FirstName | LastName | Department |  Salary   |
 |------------|-----------|----------|------------|-----------|
-|          1 | John      | Wilson   | Accounting | 100000.00 |
+| 1          | John      | Wilson   | Accounting | 100000.00 |
 
 --------------------------------------------------------------------------------------------------------
 #### Derived Table
@@ -206,9 +206,9 @@ FROM    (SELECT  EmployeeID, FirstName, LastName, Salary FROM Employees) e
 
 | EmployeeID | FirstName | LastName |  Salary   | EmployeeID |  Salary  |
 |------------|-----------|----------|-----------|------------|----------|
-|          1 | John      | Wilson   | 100000.00 |          2 | 90000.00 |
-|          1 | John      | Wilson   | 100000.00 |          3 | 85000.00 |
-|          2 | Sarah     | Shultz   |  90000.00 |          3 | 85000.00 |
+| 1          | John      | Wilson   | 100000.00 | 2          | 90000.00 |
+| 1          | John      | Wilson   | 100000.00 | 3          | 85000.00 |
+| 2          | Sarah     | Shultz   | 90000.00  | 3          | 85000.00 |
 
 In Microsoft SQL Server, even when performing a `CROSS JOIN`, the derived table must be aliased.  This statement will error if the table alias is removed.  For brevity, I only show the top two records.
 
@@ -221,8 +221,8 @@ FROM    (SELECT DISTINCT Salary FROM Employees) e
 
 |  Salary  | EmployeeID | FirstName | LastName | Department |  Salary   |
 |----------|------------|-----------|----------|------------|-----------|
-| 85000.00 |          1 | John      | Wilson   | Accounting | 100000.00 |
-| 85000.00 |          2 | Sarah     | Shultz   | Accounting |  90000.00 |
+| 85000.00 | 1          | John      | Wilson   | Accounting | 100000.00 |
+| 85000.00 | 2          | Sarah     | Shultz   | Accounting |  90000.00 |
   
 --------------------------------------------------------------------------------------------------------
 #### Common Table Expression (CTE) 
@@ -243,7 +243,7 @@ WHERE   EmployeeCount > 2;
 
 | Department | EmployeeCount |
 |------------|---------------|
-| Accounting |             3 |
+| Accounting | 3             |
 
 --------------------------------------------------------------------------------------------------------
 #### Temporary Table        
@@ -278,9 +278,9 @@ SELECT * FROM #Employees;
 
 | EmployeeID | FirstName | LastName |  Salary   | EmployeeID |  Salary  |
 |------------|-----------|----------|-----------|------------|----------|
-|          1 | John      | Wilson   | 100000.00 |          2 | 90000.00 |
-|          1 | John      | Wilson   | 100000.00 |          3 | 85000.00 |
-|          2 | Sarah     | Shultz   |  90000.00 |          3 | 85000.00 |
+| 1          | John      | Wilson   | 100000.00 | 2          | 90000.00 |
+| 1          | John      | Wilson   | 100000.00 | 3          | 85000.00 |
+| 2          | Sarah     | Shultz   | 90000.00  | 3          | 85000.00 |
 ```
 
 You can also create temporary tables via the `INTO` statement in a SQL statement.  This works in Microsoft SQL Server and each database system has slightly different syntax for temporary tables.
@@ -295,9 +295,9 @@ SELECT * FROM #Employees2
 
 | EmployeeID | FirstName | LastName |  Salary   | EmployeeID |  Salary  |
 |------------|-----------|----------|-----------|------------|----------|
-|          1 | John      | Wilson   | 100000.00 |          2 | 90000.00 |
-|          1 | John      | Wilson   | 100000.00 |          3 | 85000.00 |
-|          2 | Sarah     | Shultz   |  90000.00 |          3 | 85000.00 |
+| 1          | John      | Wilson   | 100000.00 | 2          | 90000.00 |
+| 1          | John      | Wilson   | 100000.00 | 3          | 85000.00 |
+| 2          | Sarah     | Shultz   | 90000.00  | 3          | 85000.00 |
 
 --------------------------------------------------------------------------------------------------------
 #### Table Variable   
@@ -330,9 +330,10 @@ SELECT * FROM @TableVariable;
 
 | EmployeeID | FirstName | LastName |  Salary   | EmployeeID |  Salary  |
 |------------|-----------|----------|-----------|------------|----------|
-|          1 | John      | Wilson   | 100000.00 |          2 | 90000.00 |
-|          1 | John      | Wilson   | 100000.00 |          3 | 85000.00 |
-|          2 | Sarah     | Shultz   |  90000.00 |          3 | 85000.00 |
+| 1          | John      | Wilson   | 100000.00 | 2          | 90000.00 |
+| 1          | John      | Wilson   | 100000.00 | 3          | 85000.00 |
+| 2          | Sarah     | Shultz   | 90000.00  | 3          | 85000.00 |
+
 
 --------------------------------------------------------------------------------------------------------
 #### External Tables           
