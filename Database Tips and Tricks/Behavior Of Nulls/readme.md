@@ -22,7 +22,7 @@ We will cover these aspects and many more in the following document.
 ---------------------------------------------------------
 ### Quick Notes
 
-:keyboard: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The examples provided are written in `Microsoft SQL Server T-SQL`.  The provided SQL statements can be easily modified to fit your flavor of SQL.
+:keyboard: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The examples provided are written in Microsoft SQL Server T-SQL.  The provided SQL statements can be easily modified to fit your flavor of SQL.
 
 :mailbox: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;I welcome any corrections, new tricks, new techniques, dead links, misspellings, or bugs!
 
@@ -534,7 +534,7 @@ GROUP BY Fruit;
         
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The `AVG` function will remove records with NULL markers in its calculation, as shown below.  For this example, we created the test data in the common table expression `cte_Average`, as this more easily demonstrates the function's behavior.
 
-In `SQL Server`, when performing division between integers, you will need to use the `CAST` or `CONVERT` function on the values as shown below.
+In Microsoft SQL Server, when performing division between integers, you will need to use the `CAST` or `CONVERT` function on the values as shown below.
 
 ```sql
 WITH cte_Average AS
@@ -630,7 +630,7 @@ SELECT * FROM ##CheckConstraints;
         
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Multiple NULL markers can be inserted into the child column or a `FOREIGN KEY` constraint.
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;In `SQL Server`, a `FOREIGN KEY` constraint must be linked to a column with either a `PRIMARY KEY` constraint or a `UNIQUE` constraint defined on the column.  A `PRIMARY KEY` constraint does not allow NULL markers, but a `UNIQUE` constraint allows one NULL marker.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;In Microsoft SQL Server, a `FOREIGN KEY` constraint must be linked to a column with either a `PRIMARY KEY` constraint or a `UNIQUE` constraint defined on the column.  A `PRIMARY KEY` constraint does not allow NULL markers, but a `UNIQUE` constraint allows one NULL marker.
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;In the below example, we demonstrate that multiple NULL markers can be inserted into a child column that references another column only if the referenced column has a `UNIQUE CONSTRAINT` on the table.  
 
@@ -917,14 +917,14 @@ ORDER BY 1,2,3;
         
 Here we will discuss two SQL constructs, the `BIT` data type and the `NOT` operator.
 
->❗&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Much like NULL markers and duplicate tuples, there is much debate in the SQL community if the BIT data type should be a permissible data type, as its allowance for the NULL marker does not mimic the real world.  Joe Celko and C.J. Date advocate against using the BIT data type and give further details of this in many of their writings.
+>❗&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Much like NULL markers and duplicate tuples, there is much debate in the SQL community if the `BIT` data type should be a permissible data type, as its allowance for the NULL marker does not mimic the real world.  Joe Celko and C.J. Date advocate against using the `BIT` data type and give further details in many of their writings.
         
 ------------------------------------------------------------------
 **BIT**    
         
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Often, we think of the `BIT` data type as being a Boolean value (true or false, yes or no, on or off, one or zero…), however, NULL markers are allowed for the `BIT` data type making the possible values 1, 0 and NULL.  **The `BIT` data type in SQL is not a true Boolean value.**
   
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Because the only acceptable values for the `BIT` data type are `1`, `0` or `NULL`.  The `BIT` data type converts any nonzero value to `1`.  As discussed earlier, the NULL marker is neither a nonzero value nor a zero value, so it is not promoted to the value of `1`.  Here we can demonstrate that behavior.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Because the only acceptable values for the `BIT` data type are `1`, `0` or `NULL`.  The `BIT` data type converts any nonzero value to `1`.  As discussed earlier, the NULL marker is neither a nonzero nor a zero value, so it is not promoted to the value of `1`.  Here we demonstrate that behavior.
 
 ```sql   
 SELECT 1 AS ID, CAST(NULL AS BIT) AS Bit
@@ -961,7 +961,7 @@ WHERE   NOT(FRUIT = 'Mango');
 ### RETURN
 🔵&nbsp;&nbsp;&nbsp;[Table Of Contents](#table-of-contents)
         
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The `RETURN` statement exists unconditionally from a query or procedure.  All stored procedures return a value of 0 for a successful execution and a nonzero value for a failure.  When the `RETURN` statement is used with a stored procedure, it cannot return a NULL marker.  If a procedure tries to return a NULL marker in the `RETURN` statement, a warning message is generated and a value of 0 is returned.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The `RETURN` statement exists unconditionally from a query or procedure.  All stored procedures return 0 for a successful execution and a nonzero value for a failure.  When the `RETURN` statement is used with a stored procedure, it cannot return a NULL marker.  If a procedure tries to return a NULL marker in the `RETURN` statement, a warning message is generated and a value of 0 is returned.
 
 Here we will create a stored procedure that overrides the default `RETURN` value and attempt to return a NULL marker.
 
@@ -990,7 +990,7 @@ The `SpReturnStatement` procedure attempted to return a status of NULL, which is
 ### Identity Columns
 🔵&nbsp;&nbsp;&nbsp;[Table Of Contents](#table-of-contents)
         
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;In some relational databases like MYSQL, when you insert a NULL marker into an identity column, the identity column will take the next available value and not an error.  However, in `Microsoft SQL Server`, an error is produced.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;In some relational databases like MYSQL, when you insert a NULL marker into an identity column, the identity column will take the next available value and not an error.  However, in Microsoft SQL Server, an error is produced.
 
 ```sql
 CREATE TABLE ##Identity 
@@ -1004,7 +1004,7 @@ SELECT  Id
 FROM    ##Identity;           
 ```
 
-The SQL Server error returned is.
+The Microsoft SQL Server error returned is.
 	
 Msg 339, Level 16, State 1, Line 6
 DEFAULT or NULL are not allowed as explicit identity values.	
