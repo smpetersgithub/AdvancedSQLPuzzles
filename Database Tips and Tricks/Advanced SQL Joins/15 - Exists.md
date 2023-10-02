@@ -17,7 +17,7 @@ We will be using the following tables that contain types of fruits and their qua
 |  1 | Apple  |       17 |
 |  2 | Peach  |       20 |
 |  3 | Mango  |       11 |
-|  4 | <NULL> |        5 |
+|  4 | \<NULL> |        5 |
   
 **Table B**
 | ID | Fruit  | Quantity |
@@ -25,7 +25,7 @@ We will be using the following tables that contain types of fruits and their qua
 |  1 | Apple  | 17       |
 |  2 | Peach  | 25       |
 |  3 | Kiwi   | 20       |
-|  4 | <NULL> | <NULL>   |
+|  4 | \<NULL> | \<NULL>   |
   
 #### IF EXISTS
 
@@ -91,7 +91,7 @@ WHERE   NOT EXISTS (SELECT 1 FROM ##TableB b WHERE a.Fruit = b.Fruit);
 | ID | Fruit   | Quantity |
 |----|---------|----------|
 |  3 | Mango   |       11 |
-|  4 | <NULL>  |        5 |
+|  4 | \<NULL>  |        5 |
 
   
 --------------------------------------------------------------
@@ -115,24 +115,24 @@ FROM    ##TableA a INNER JOIN
 ORDER BY 1,2;
 ```    
 
-| ID | Fruit  | Quantity | ID | Fruit  | Quantity |
-|----|--------|----------|----|--------|----------|
-|  1 | Apple  |       17 |  1 | Apple  | 17       |
-|  1 | Apple  |       17 |  2 | Peach  | 25       |
-|  1 | Apple  |       17 |  3 | Kiwi   | 20       |
-|  1 | Apple  |       17 |  4 | NULL   | <NULL>   |
-|  2 | Peach  |       20 |  1 | Apple  | 17       |
-|  2 | Peach  |       20 |  2 | Peach  | 25       |
-|  2 | Peach  |       20 |  3 | Kiwi   | 20       |
-|  2 | Peach  |       20 |  4 | <NULL> | <NULL>   |
-|  3 | Mango  |       11 |  1 | Apple  | 17       |
-|  3 | Mango  |       11 |  2 | Peach  | 25       |
-|  3 | Mango  |       11 |  3 | Kiwi   | 20       |
-|  3 | Mango  |       11 |  4 | <NULL> | <NULL>   |
-|  4 | <NULL> |        5 |  1 | Apple  | 17       |
-|  4 | <NULL> |        5 |  2 | Peach  | 25       |
-|  4 | <NULL> |        5 |  3 | Kiwi   | 20       |
-|  4 | <NULL> |        5 |  4 | <NULL> | <NULL>   |
+| ID |  Fruit  | Quantity | ID |  Fruit  | Quantity |
+|----|---------|----------|----|---------|----------|
+| 1  | Apple   | 17       | 1  | Apple   | 17       |
+| 1  | Apple   | 17       | 2  | Peach   | 25       |
+| 1  | Apple   | 17       | 3  | Kiwi    | 20       |
+| 1  | Apple   | 17       | 4  | \<NULL> | \<NULL>  |
+| 2  | Peach   | 20       | 1  | Apple   | 17       |
+| 2  | Peach   | 20       | 2  | Peach   | 25       |
+| 2  | Peach   | 20       | 3  | Kiwi    | 20       |
+| 2  | Peach   | 20       | 4  | \<NULL> | \<NULL>  |
+| 3  | Mango   | 11       | 1  | Apple   | 17       |
+| 3  | Mango   | 11       | 2  | Peach   | 25       |
+| 3  | Mango   | 11       | 3  | Kiwi    | 20       |
+| 3  | Mango   | 11       | 4  | \<NULL> | \<NULL>  |
+| 4  | \<NULL> | 5        | 1  | Apple   | 17       |
+| 4  | \<NULL> | 5        | 2  | Peach   | 25       |
+| 4  | \<NULL> | 5        | 3  | Kiwi    | 20       |
+| 4  | \<NULL> | 5        | 4  | \<NULL> | \<NULL>  |
 
 ----------------------------------------------------
 
@@ -147,12 +147,11 @@ FROM    ##TableA a INNER JOIN
         ##TableB b ON EXISTS(SELECT a.Fruit INTERSECT SELECT b.Fruit);
 ```
 
-
-| ID | Fruit  | Quantity | ID | Fruit  | Quantity |
-|----|--------|----------|----|--------|----------|
-|  1 | Apple  |       17 |  1 | Apple  | 17       |
-|  2 | Peach  |       20 |  2 | Peach  | 25       |
-|  4 | <NULL> |        5 |  4 | <NULL> | <NULL>   |
+| ID | Fruit   | Quantity | ID |  Fruit  | Quantity |
+|----|---------|----------|----|---------|----------|
+|  1 | Apple   | 17       | 1  | Apple   | 17       |
+|  2 | Peach   | 20       | 2  | Peach   | 25       |
+|  4 | \<NULL> | 5        | 4  | \<NULL> | \<NULL>  |
 
   
 A similar statement to the above would be the following where we must explicitly handle NULL markers.
@@ -164,11 +163,11 @@ FROM    ##TableA a CROSS JOIN
 WHERE   ISNULL(a.Fruit,'') = ISNULL(b.Fruit,'');
 ```
 
-| ID | Fruit  | Quantity | ID | Fruit  | Quantity |
-|----|--------|----------|----|--------|----------|
-|  1 | Apple  |       17 |  1 | Apple  | 17       |
-|  2 | Peach  |       20 |  2 | Peach  | 25       |
-|  4 | <NULL> |        5 |  4 | <NULL> | <NULL>   |
+| ID |  Fruit  | Quantity | ID |  Fruit  | Quantity |
+|----|---------|----------|----|---------|----------|
+|  1 | Apple   | 17       | 1  | Apple   | 17       |
+|  2 | Peach   | 20       | 2  | Peach   | 25       |
+|  4 | \<NULL> | 5        | 4  | \<NULL> | \<NULL>  |
   
   
 We can also apply De Morgan's law and use the `NOT EXISTS` and the `EXCEPT` operators.
@@ -180,11 +179,11 @@ FROM    ##TableA a INNER JOIN
         ##TableB b ON NOT EXISTS(SELECT a.Fruit EXCEPT SELECT b.Fruit);
 ```
 
-| ID | Fruit  | Quantity | ID | Fruit  | Quantity |
-|----|--------|----------|----|--------|----------|
-|  1 | Apple  |       17 |  1 | Apple  | 17       |
-|  2 | Peach  |       20 |  2 | Peach  | 25       |
-|  4 | <NULL> |        5 |  4 | <NULL> | <NULL>   |
+| ID |  Fruit  | Quantity | ID |  Fruit  | Quantity |
+|----|---------|----------|----|---------|----------|
+|  1 | Apple   | 17       | 1  | Apple   | 17       |
+|  2 | Peach   | 20       | 2  | Peach   | 25       |
+|  4 | \<NULL> | 5        | 4  | \<NULL> | \<NULL>  |
   
 
 -----------------------------------------------------------------------------------------
@@ -200,29 +199,29 @@ FROM    ##TableA a INNER JOIN
         ##TableB b ON EXISTS(SELECT a.Fruit EXCEPT SELECT b.Fruit);
 ```
 
-| ID | Fruit  | Quantity | ID | Fruit  | Quantity |
-|----|--------|----------|----|--------|----------|
-| 1  | Apple  | 17       | 2  | Peach  | 25       |
-| 1  | Apple  | 17       | 3  | Kiwi   | 20       |
-| 1  | Apple  | 17       | 4  | <NULL> | <NULL>   |
-| 2  | Peach  | 20       | 1  | Apple  | 17       |
-| 2  | Peach  | 20       | 3  | Kiwi   | 20       |
-| 2  | Peach  | 20       | 4  | <NULL> | <NULL>   |
-| 3  | Mango  | 11       | 1  | Apple  | 17       |
-| 3  | Mango  | 11       | 2  | Peach  | 25       |
-| 3  | Mango  | 11       | 3  | Kiwi   | 20       |
-| 3  | Mango  | 11       | 4  | <NULL> | <NULL>   |
-| 4  | <NULL> | 5        | 1  | Apple  | 17       |
-| 4  | <NULL> | 5        | 2  | Peach  | 25       |
-| 4  | <NULL> | 5        | 3  | Kiwi   | 20       |
+| ID |  Fruit  | Quantity | ID |  Fruit  | Quantity |
+|----|---------|----------|----|---------|----------|
+| 1  | Apple   | 17       | 2  | Peach   | 25       |
+| 1  | Apple   | 17       | 3  | Kiwi    | 20       |
+| 1  | Apple   | 17       | 4  | \<NULL> | \<NULL>  |
+| 2  | Peach   | 20       | 1  | Apple   | 17       |
+| 2  | Peach   | 20       | 3  | Kiwi    | 20       |
+| 2  | Peach   | 20       | 4  | <NULL>  | \<NULL>  |
+| 3  | Mango   | 11       | 1  | Apple   | 17       |
+| 3  | Mango   | 11       | 2  | Peach   | 25       |
+| 3  | Mango   | 11       | 3  | Kiwi    | 20       |
+| 3  | Mango   | 11       | 4  | \<NULL> | \<NULL>  |
+| 4  | \<NULL> | 5        | 1  | Apple   | 17       |
+| 4  | \<NULL> | 5        | 2  | Peach   | 25       |
+| 4  | \<NULL> | 5        | 3  | Kiwi    | 20       |
 
 Note, missing from this above set is the following.
 
-| ID | Fruit  | Quantity | ID | Fruit  | Quantity |
-|----|--------|----------|----|--------|----------|
-|  1 | Apple  |       17 |  1 | Apple  | 17       |
-|  2 | Peach  |       20 |  2 | Peach  | 25       |
-|  4 | <NULL> |        5 |  4 | <NULL> | <NULL>   |
+| ID |  Fruit  | Quantity | ID |  Fruit  | Quantity |
+|----|---------|----------|----|---------|----------|
+| 1  | Apple   | 17       | 1  | Apple   | 17       |
+| 2  | Peach   | 20       | 2  | Peach   | 25       |
+| 4  | \<NULL> | 5        | 4  | \<NULL> | \<NULL>  |
  
 The equivalent statement for this is below.
   
@@ -233,21 +232,21 @@ FROM    ##TableA a CROSS JOIN
 WHERE   NOT(ISNULL(a.Fruit,'') = ISNULL(b.Fruit,''));
 ```
   
-| ID | Fruit  | Quantity | ID | Fruit  | Quantity |  
-|----|--------|----------|----|--------|----------|
-| 1  | Apple  | 17       | 2  | Peach  | 25       |
-| 1  | Apple  | 17       | 3  | Kiwi   | 20       |
-| 1  | Apple  | 17       | 4  | <NULL> | <NULL>   |
-| 2  | Peach  | 20       | 1  | Apple  | 17       |
-| 2  | Peach  | 20       | 3  | Kiwi   | 20       |
-| 2  | Peach  | 20       | 4  | <NULL> | <NULL>   |
-| 3  | Mango  | 11       | 1  | Apple  | 17       |
-| 3  | Mango  | 11       | 2  | Peach  | 25       |
-| 3  | Mango  | 11       | 3  | Kiwi   | 20       |
-| 3  | Mango  | 11       | 4  | <NULL> | <NULL>   |
-| 4  | <NULL> | 5        | 1  | Apple  | 17       |
-| 4  | <NULL> | 5        | 2  | Peach  | 25       |
-| 4  | <NULL> | 5        | 3  | Kiwi   | 20       |
+| ID |  Fruit  | Quantity | ID |  Fruit  | Quantity |  
+|----|---------|----------|----|---------|----------|
+| 1  | Apple   | 17       | 2  | Peach   | 25       |
+| 1  | Apple   | 17       | 3  | Kiwi    | 20       |
+| 1  | Apple   | 17       | 4  | \<NULL> | \<NULL>  |
+| 2  | Peach   | 20       | 1  | Apple   | 17       |
+| 2  | Peach   | 20       | 3  | Kiwi    | 20       |
+| 2  | Peach   | 20       | 4  | \<NULL> | \<NULL>  |
+| 3  | Mango   | 11       | 1  | Apple   | 17       |
+| 3  | Mango   | 11       | 2  | Peach   | 25       |
+| 3  | Mango   | 11       | 3  | Kiwi    | 20       |
+| 3  | Mango   | 11       | 4  | \<NULL> | \<NULL>  |
+| 4  | \<NULL> | 5        | 1  | Apple   | 17       |
+| 4  | \<NULL> | 5        | 2  | Peach   | 25       |
+| 4  | \<NULL> | 5        | 3  | Kiwi    | 20       |
 
   
 De Morgan's Law is in effect, and you can accomplish the above with the `NOT EXISTS` and the `INTERSECT` statements.
@@ -259,21 +258,21 @@ FROM    ##TableA a INNER JOIN
         ##TableB b ON NOT EXISTS(SELECT a.Fruit INTERSECT SELECT b.Fruit);
 ```
 
-| ID | Fruit  | Quantity | ID | Fruit  | Quantity |  
-|----|--------|----------|----|--------|----------|
-| 1  | Apple  | 17       | 2  | Peach  | 25       |
-| 1  | Apple  | 17       | 3  | Kiwi   | 20       |
-| 1  | Apple  | 17       | 4  | <NULL> | <NULL>   |
-| 2  | Peach  | 20       | 1  | Apple  | 17       |
-| 2  | Peach  | 20       | 3  | Kiwi   | 20       |
-| 2  | Peach  | 20       | 4  | <NULL> | <NULL>   |
-| 3  | Mango  | 11       | 1  | Apple  | 17       |
-| 3  | Mango  | 11       | 2  | Peach  | 25       |
-| 3  | Mango  | 11       | 3  | Kiwi   | 20       |
-| 3  | Mango  | 11       | 4  | <NULL> | <NULL>   |
-| 4  | <NULL> | 5        | 1  | Apple  | 17       |
-| 4  | <NULL> | 5        | 2  | Peach  | 25       |
-| 4  | <NULL> | 5        | 3  | Kiwi   | 20       |
+| ID |  Fruit  | Quantity | ID |  Fruit  | Quantity |  
+|----|---------|----------|----|---------|----------|
+| 1  | Apple   | 17       | 2  | Peach   | 25       |
+| 1  | Apple   | 17       | 3  | Kiwi    | 20       |
+| 1  | Apple   | 17       | 4  | \<NULL> | \<NULL>  |
+| 2  | Peach   | 20       | 1  | Apple   | 17       |
+| 2  | Peach   | 20       | 3  | Kiwi    | 20       |
+| 2  | Peach   | 20       | 4  | \<NULL> | \<NULL>  |
+| 3  | Mango   | 11       | 1  | Apple   | 17       |
+| 3  | Mango   | 11       | 2  | Peach   | 25       |
+| 3  | Mango   | 11       | 3  | Kiwi    | 20       |
+| 3  | Mango   | 11       | 4  | \<NULL> | \<NULL>  |
+| 4  | \<NULL> | 5        | 1  | Apple   | 17       |
+| 4  | \<NULL> | 5        | 2  | Peach   | 25       |
+| 4  | \<NULL> | 5        | 3  | Kiwi    | 20       |
   
 ---------------------------------------------------------
 
