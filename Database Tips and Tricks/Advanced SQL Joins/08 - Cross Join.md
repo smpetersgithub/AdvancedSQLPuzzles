@@ -25,20 +25,20 @@ We will use the following tables that contain types of fruits and their quantity
 [The DDL to create these tables can be found here.](Sample%20Data.md)
 
 **Table A**
-| ID | Fruit  | Quantity |
-|----|--------|----------|
-|  1 | Apple  |       17 |
-|  2 | Peach  |       20 |
-|  3 | Mango  |       11 |
-|  4 | <NULL> |        5 |
+| ID |  Fruit  | Quantity |
+|----|---------|----------|
+| 1  | Apple   | 17       |
+| 2  | Peach   | 20       |
+| 3  | Mango   | 11       |
+| 4  | \<NULL> | 5        |
   
 **Table B**
-| ID | Fruit  | Quantity |
-|----|--------|----------|
-|  1 | Apple  | 17       |
-|  2 | Peach  | 25       |
-|  3 | Kiwi   | 20       |
-|  4 | <NULL> | <NULL>   |
+| ID |  Fruit  |  Quantity |
+|----|---------|-----------|
+| 1  | Apple   | 17        |
+| 2  | Peach   | 25        |
+| 3  | Kiwi    | 20        |
+| 4  | \<NULL> | \<NULL>   |
         
 
 ---------------------------------------------------------------------------------
@@ -55,24 +55,24 @@ FROM    ##TableA a CROSS JOIN
         ##TableB b;
 ```
 
-| ID | Fruit  | ID | Fruit  |
-|----|--------|----|--------|
-|  1 | Apple  |  1 | Apple  |
-|  2 | Peach  |  1 | Apple  |
-|  3 | Mango  |  1 | Apple  |
-|  4 | <NULL> |  1 | Apple  |
-|  1 | Apple  |  2 | Peach  |
-|  2 | Peach  |  2 | Peach  |
-|  3 | Mango  |  2 | Peach  |
-|  4 | <NULL> |  2 | Peach  |
-|  1 | Apple  |  3 | Kiwi   |
-|  2 | Peach  |  3 | Kiwi   |
-|  3 | Mango  |  3 | Kiwi   |
-|  4 | <NULL> |  3 | Kiwi   |
-|  1 | Apple  |  4 | <NULL> |
-|  2 | Peach  |  4 | <NULL> |
-|  3 | Mango  |  4 | <NULL> |
-|  4 | <NULL> |  4 | <NULL> |
+| ID |  Fruit  | ID |  Fruit  |
+|----|---------|----|---------|
+| 1  | Apple   | 1  | Apple   |
+| 2  | Peach   | 1  | Apple   |
+| 3  | Mango   | 1  | Apple   |
+| 4  | \<NULL> | 1  | Apple   |
+| 1  | Apple   | 2  | Peach   |
+| 2  | Peach   | 2  | Peach   |
+| 3  | Mango   | 2  | Peach   |
+| 4  | \<NULL> | 2  | Peach   |
+| 1  | Apple   | 3  | Kiwi    |
+| 2  | Peach   | 3  | Kiwi    |
+| 3  | Mango   | 3  | Kiwi    |
+| 4  | \<NULL> | 3  | Kiwi    |
+| 1  | Apple   | 4  | \<NULL> |
+| 2  | Peach   | 4  | \<NULL> |
+| 3  | Mango   | 4  | \<NULL> |
+| 4  | \<NULL> | 4  | \<NULL> |
 
 
 ---------------------------------------------------------------------------------
@@ -91,8 +91,8 @@ WHERE   a.Fruit = b.Fruit;
   
 | ID | Fruit | ID | Fruit |
 |----|-------|----|-------|
-|  1 | Apple |  1 | Apple |
-|  2 | Peach |  2 | Peach |  
+| 1  | Apple | 1  | Apple |
+| 2  | Peach | 2  | Peach |  
  
 
 ---------------------------------------------------------------------------------
@@ -116,12 +116,12 @@ FROM    ##TableA a
 WHERE   NOT EXISTS (SELECT 1 FROM ##TableB b where a.Fruit = b.Fruit);
 ```
 
-| ID | Fruit  |   ID   | Fruit  |
-|----|--------|--------|--------|
-|  1 | Apple  | 1      | Apple  |
-|  2 | Peach  | 2      | Peach  |
-|  3 | Mango  | <NULL> | <NULL> |
-|  4 | <NULL> | <NULL> | <NULL> |
+| ID |  Fruit  |    ID   |  Fruit  |
+|----|---------|---------|---------|
+| 1  | Apple   | 1       |  Apple  |
+| 2  | Peach   | 2       |  Peach  |
+| 3  | Mango   | \<NULL> | \<NULL> |
+| 4  | \<NULL> | \<NULL> | \<NULL> |
 
 
 ---------------------------------------------------------------------------------
@@ -167,21 +167,21 @@ FROM    ##TableA a CROSS JOIN
 WHERE   a.Fruit <> b.Fruit OR a.Fruit IS NULL OR b.Fruit IS NULL;
 ```
 
-| Fruit  | Fruit  |
-|--------|--------|
-| <NULL> | <NULL> |
-| <NULL> | Apple  |
-| <NULL> | Mango  |
-| <NULL> | Peach  |
-| Apple  | <NULL> |
-| Apple  | Kiwi   |
-| Apple  | Mango  |
-| Apple  | Peach  |
-| Kiwi   | <NULL> |
-| Kiwi   | Mango  |
-| Kiwi   | Peach  |
-| Mango  | Peach  |
-| Peach  | <NULL> |
+|  Fruit  |  Fruit  |
+|---------|---------|
+| \<NULL> | <NULL>  |
+| \<NULL> | Apple   |
+| \<NULL> | Mango   |
+| \<NULL> | Peach   |
+| Apple   | \<NULL> |
+| Apple   | Kiwi    |
+| Apple   | Mango   |
+| Apple   | Peach   |
+| Kiwi    | \<NULL> |
+| Kiwi    | Mango   |
+| Kiwi    | Peach   |
+| Mango   | Peach   |
+| Peach   | \<NULL> |
 
 ---------------------------------------------------------
   
@@ -198,24 +198,24 @@ FROM    ##TableA a CROSS APPLY
         ##TableB b;
 ```
   
-| ID | Fruit  | ID | Fruit  |
-|----|--------|----|--------|
-|  1 | Apple  |  1 | Apple  |
-|  2 | Peach  |  1 | Apple  |
-|  3 | Mango  |  1 | Apple  |
-|  4 | <NULL> |  1 | Apple  |
-|  1 | Apple  |  2 | Peach  |
-|  2 | Peach  |  2 | Peach  |
-|  3 | Mango  |  2 | Peach  |
-|  4 | <NULL> |  2 | Peach  |
-|  1 | Apple  |  3 | Kiwi   |
-|  2 | Peach  |  3 | Kiwi   |
-|  3 | Mango  |  3 | Kiwi   |
-|  4 | <NULL> |  3 | Kiwi   |
-|  1 | Apple  |  4 | <NULL> |
-|  2 | Peach  |  4 | <NULL> |
-|  3 | Mango  |  4 | <NULL> |
-|  4 | <NULL> |  4 | <NULL> |
+| ID |  Fruit  | ID |  Fruit  |
+|----|---------|----|---------|
+| 1  | Apple   | 1  | Apple   |
+| 2  | Peach   | 1  | Apple   |
+| 3  | Mango   | 1  | Apple   |
+| 4  | \<NULL> | 1  | Apple   |
+| 1  | Apple   | 2  | Peach   |
+| 2  | Peach   | 2  | Peach   |
+| 3  | Mango   | 2  | Peach   |
+| 4  | \<NULL> | 2  | Peach   |
+| 1  | Apple   | 3  | Kiwi    |
+| 2  | Peach   | 3  | Kiwi    |
+| 3  | Mango   | 3  | Kiwi    |
+| 4  | \<NULL> | 3  | Kiwi    |
+| 1  | Apple   | 4  | \<NULL> |
+| 2  | Peach   | 4  | \<NULL> |
+| 3  | Mango   | 4  | \<NULL> |
+| 4  | \<NULL> | 4  | \<NULL> |
 
 
 ---------------------------------------------------------
@@ -246,24 +246,24 @@ FROM    ##TableA a CROSS APPLY
 WHERE   a.Fruit = b.Fruit;
 ```
   
-| ID | Fruit  | ID | Fruit  |
-|----|--------|----|--------|
-|  1 | Apple  |  1 | Apple  |
-|  2 | Peach  |  1 | Apple  |
-|  3 | Mango  |  1 | Apple  |
-|  4 | <NULL> |  1 | Apple  |
-|  1 | Apple  |  2 | Peach  |
-|  2 | Peach  |  2 | Peach  |
-|  3 | Mango  |  2 | Peach  |
-|  4 | <NULL> |  2 | Peach  |
-|  1 | Apple  |  3 | Kiwi   |
-|  2 | Peach  |  3 | Kiwi   |
-|  3 | Mango  |  3 | Kiwi   |
-|  4 | <NULL> |  3 | Kiwi   |
-|  1 | Apple  |  4 | <NULL> |
-|  2 | Peach  |  4 | <NULL> |
-|  3 | Mango  |  4 | <NULL> |
-|  4 | <NULL> |  4 | <NULL> |
+| ID |  Fruit  | ID |  Fruit  |
+|----|---------|----|---------|
+| 1  | Apple   | 1  | Apple   |
+| 2  | Peach   | 1  | Apple   |
+| 3  | Mango   | 1  | Apple   |
+| 4  | \<NULL> | 1  | Apple   |
+| 1  | Apple   | 2  | Peach   |
+| 2  | Peach   | 2  | Peach   |
+| 3  | Mango   | 2  | Peach   |
+| 4  | <NULL>  | 2  | Peach   |
+| 1  | Apple   | 3  | Kiwi    |
+| 2  | Peach   | 3  | Kiwi    |
+| 3  | Mango   | 3  | Kiwi    |
+| 4  | \<NULL> | 3  | Kiwi    |
+| 1  | Apple   | 4  | \<NULL> |
+| 2  | Peach   | 4  | \<NULL> |
+| 3  | Mango   | 4  | \<NULL> |
+| 4  | \<NULL> | 4  | \<NULL> |
   
 --------------------------------------------------------- 
   
