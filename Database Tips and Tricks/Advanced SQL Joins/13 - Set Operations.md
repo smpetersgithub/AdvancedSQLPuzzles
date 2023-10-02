@@ -24,20 +24,20 @@ We will use the following tables that contain types of fruits and their quantity
 [The DDL to create these tables can be found here.](Sample%20Data.md)
 
 **Table A**
-| ID | Fruit  | Quantity |
-|----|--------|----------|
-|  1 | Apple  |       17 |
-|  2 | Peach  |       20 |
-|  3 | Mango  |       11 |
-|  4 | <NULL> |        5 |
+| ID |  Fruit  | Quantity |
+|----|---------|----------|
+| 1  | Apple   | 17       |
+| 2  | Peach   | 20       |
+| 3  | Mango   | 11       |
+| 4  | \<NULL> | 5        |
   
 **Table B**
-| ID | Fruit  | Quantity |
-|----|--------|----------|
-|  1 | Apple  | 17       |
-|  2 | Peach  | 25       |
-|  3 | Kiwi   | 20       |
-|  4 | <NULL> | <NULL>   |
+| ID |  Fruit  | Quantity |
+|----|---------|----------|
+| 1  | Apple   | 17       |
+| 2  | Peach   | 25       |
+| 3  | Kiwi    | 20       |
+| 4  | \<NULL> | \<NULL>  |
   
 -----------------------------------------------------------------
 #### UNION
@@ -53,11 +53,11 @@ SELECT ID, Fruit FROM ##TableB;
 
 | ID | Fruit |
 |----|-------|
-|  1 | Apple |
-|  2 | Peach |
-|  3 | Kiwi  |
-|  3 | Mango |
-|  4 | NULL  |
+| 1  | Apple |
+| 2  | Peach |
+| 3  | Kiwi  |
+| 3  | Mango |
+| 4  | \<NULL>  |
 
 -----------------------------------------------------------------
   
@@ -71,16 +71,16 @@ UNION ALL
 SELECT ID, Fruit FROM ##TableB
 ``` 
   
-| ID | Fruit |
-|----|-------|
-|  1 | Apple |
-|  1 | Apple |
-|  2 | Peach |
-|  2 | Peach |
-|  3 | Kiwi  |
-|  3 | Mango |
-|  4 | NULL  |
-|  4 | NULL  |
+| ID |  Fruit  |
+|----|---------|
+| 1  | Apple   |
+| 1  | Apple   |
+| 2  | Peach   |
+| 2  | Peach   |
+| 3  | Kiwi    |
+| 3  | Mango   |
+| 4  | \<NULL> |
+| 4  | \<NULL> |
 
 ---------------------------------------------------------------------
 
@@ -93,11 +93,11 @@ SELECT ID, Fruit FROM ##TableB
 ```
 
   
-| ID | Fruit |
-|----|-------|
-|  1 | Apple |
-|  2 | Peach |
-|  4 | NULL  |
+| ID |  Fruit  |
+|----|---------|
+| 1  | Apple   |
+| 2  | Peach   |
+| 4  | \<NULL> |
 
 ---------------------------------------------------------------------
 
@@ -111,7 +111,7 @@ SELECT ID, Fruit FROM ##TableB;
   
 | ID | Fruit |
 |----|-------|
-|  3 | Mango |
+| 3  | Mango |
 
 ---------------------------------------------------------------------
 
@@ -129,12 +129,12 @@ FROM    ##TableA a FULL OUTER JOIN
 WHERE   a.ID IS NULL OR B.ID IS NULL;
 ```
     
-| ID | Fruit |
-|----|-------|
-|  3 | Mango |
-|  4 |       |
-|  3 | Kiwi  |
-|  4 |       |
+| ID |  Fruit  |
+|----|---------|
+| 3  | Mango   |
+| 4  | \<NULL> |
+| 3  | Kiwi    |
+| 4  | \<NULL> |
 
 ---------------------------------------------------------
 
