@@ -14,15 +14,15 @@ foll# SQL Query Processing Order
 
 Processing order of a SQL statement:
 
-| Order |   Syntax  |                                         Description                                         |
-|-------|-----------|---------------------------------------------------------------------------------------------|
-|     1 |  FROM     |  Specifies a table, view, table variable, or derived table source, with or without an alias |
-|     2 |  WHERE    |  Specifies the search condition for the rows returned by the query                          |
-|     3 |  GROUP BY |  Specifies the records to group on                                                          |
-|     4 |  HAVING   |  Restricts the results of a GROUP BY                                                        |
-|     5 |  SELECT   |  Specifies which values are returned                                                        |
-|     6 |  ORDER BY |  Specifies which values to order the result set by                                          |
-|     7 |  LIMIT    |  Constrains the number of rows returned by a SELECT statement                               |
+| Order |   Syntax |                                         Description                                        |
+|-------|----------|--------------------------------------------------------------------------------------------|
+| 1     | FROM     | Specifies a table, view, table variable, or derived table source, with or without an alias |
+| 2     | WHERE    | Specifies the search condition for the rows returned by the query                          |
+| 3     | GROUP BY | Specifies the records to group on                                                          |
+| 4     | HAVING   | Restricts the results of a GROUP BY                                                        |
+| 5     | SELECT   | Specifies which values are returned                                                        |
+| 6     | ORDER BY | Specifies which values to order the result set by                                          |
+| 7     | LIMIT    | Constrains the number of rows returned by a SELECT statement                               |
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The database engine parses each clause of the query individually and creates an execution plan for each clause. These execution plans are then combined to form a final execution plan, which is used to retrieve the desired data from the database.
 
@@ -30,12 +30,12 @@ Processing order of a SQL statement:
 
 The four table operators described in the previous diagram and their subphases are:
 
-| Operator |                      Subphases                          |
-|----------|---------------------------------------------------------|
-| JOIN     |  1) Cartesian Product 2) ON Predicate 3) Add Outer Rows |
-| APPLY    |  1) Apply Table Expression 2) Add Outer Rows            |
-| PIVOT    |  1) Group 2) Spread 3) Aggregate                        |
-| UNPIVOT  |  1) Generate Copies 2) Extract Element 3) Remove NULLs  |
+| Operator |                     Subphases                          |
+|----------|--------------------------------------------------------|
+| JOIN     | 1) Cartesian Product 2) ON Predicate 3) Add Outer Rows |
+| APPLY    | 1) Apply Table Expression 2) Add Outer Rows            |
+| PIVOT    | 1) Group 2) Spread 3) Aggregate                        |
+| UNPIVOT  | 1) Generate Copies 2) Extract Element 3) Remove NULLs  |
 
 ---------------------------------------------------------
 
