@@ -256,16 +256,16 @@ FROM    ##TableA a FULL OUTER JOIN
 ORDER BY 1,2;
 ```
 
-|    ID   |  Fruit  |   ID    |  Fruit  |
-|--- -----|---------|---------|---------|
-| \<NULL> | <NULL>  | 3       | Kiwi    |
-| \<NULL> | <NULL>  | 4       | \<NULL> |
-| 1       | Apple   | 1       | Apple   |
-| 2       | Peach   |  2      | Peach   |
-| 3       | Mango   | \<NULL> | \<NULL> |
-| 4       | Mango   | \<NULL> | \<NULL> |
-| 5       | \<NULL> | \<NULL> | \<NULL> |
-| 6       | \<NULL> | \<NULL> | \<NULL> |
+|    ID   |  Fruit   |   ID    |  Fruit  |
+|--- -----|----------|---------|---------|
+| \<NULL> | \<NULL>  | 3       | Kiwi    |
+| \<NULL> | \<NULL>  | 4       | \<NULL> |
+| 1       | Apple    | 1       | Apple   |
+| 2       | Peach    |  2      | Peach   |
+| 3       | Mango    | \<NULL> | \<NULL> |
+| 4       | Mango    | \<NULL> | \<NULL> |
+| 5       | \<NULL>  | \<NULL> | \<NULL> |
+| 6       | \<NULL>  | \<NULL> | \<NULL> |
 
 
 ---------------------------------------------------------
@@ -856,9 +856,9 @@ FROM   cte_Values v1 INNER JOIN
 ```
 In query editors, NULLS and empty strings will appear differently (by default, SSMS shows yellow for NULLS and a blank for empty strings).
 
-|    A   |    B   |          C          |        D          |
-|--------|--------|---------------------|-------------------|
-| \<NULL> | \<NULL> | \<Empty String>     | \<Empty String> |
+|    A   |    B   |          C        |        D        |
+|--------|--------|-------------------|-----------------|
+| \<NULL> | \<NULL> | \<Empty String> | \<Empty String> |
 
 
 ---------------------------------------------------------
