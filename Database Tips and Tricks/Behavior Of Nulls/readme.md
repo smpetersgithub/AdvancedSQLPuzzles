@@ -257,11 +257,11 @@ ORDER BY 1,2;
 ```
 
 |    ID   |  Fruit   |   ID    |  Fruit  |
-|--- -----|----------|---------|---------|
+|---------|----------|---------|---------|
 | \<NULL> | \<NULL>  | 3       | Kiwi    |
 | \<NULL> | \<NULL>  | 4       | \<NULL> |
 | 1       | Apple    | 1       | Apple   |
-| 2       | Peach    |  2      | Peach   |
+| 2       | Peach    | 2       | Peach   |
 | 3       | Mango    | \<NULL> | \<NULL> |
 | 4       | Mango    | \<NULL> | \<NULL> |
 | 5       | \<NULL>  | \<NULL> | \<NULL> |
