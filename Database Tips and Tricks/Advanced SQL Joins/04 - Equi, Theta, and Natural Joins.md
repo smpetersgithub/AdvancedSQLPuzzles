@@ -21,21 +21,21 @@
 --------------------------------------------------------------------------------
 SQL has the following operators that can be used to join tables.
 
-| Type       |       Operator        |                                     Description       |
-|------------|-----------------------|-------------------------------------------------------|
-| Comparison |  =                    |  Equal To                                             |
-| Comparison |  <>                   |  Not Equal To                                         |
-| Comparison |  !=                   |  Not Equal To (not ISO standard)                      |
-| Comparison |  >                    |  Greater Than                                         |
-| Comparison |  !<                   |  Not less than (not ISO standard)                     |
-| Comparison |  <                    |  Less Than                                            |
-| Comparison |  !>                   |Not greater than (not ISO standard)                    |
-| Comparison |  >=                   |  Greater Than or Equal To                             |
-| Comparison |  <=                   |  Less Than or Equal To                                |
-| Logical    |  BETWEEN              |  Defines a range and is inclusive                     |
-| Logical    |  LIKE                 |  Matches a string value to a specified pattern        |
-|            |  IS DISTINCT FROM     |  Treats NULLs as known values for comparing equality  |
-|            |  IS NOT DISTINCT FROM |  Treats NULLs as known values for comparing equality  |
+| Type       |       Operator       |                     Description                     |
+|------------|----------------------|-----------------------------------------------------|
+| Comparison | =                    | Equal To                                            |
+| Comparison | <>                   | Not Equal To                                        |
+| Comparison | !=                   | Not Equal To (not ISO standard)                     |
+| Comparison | >                    | Greater Than                                        |
+| Comparison | !<                   | Not less than (not ISO standard)                    |
+| Comparison | <                    | Less Than                                           |
+| Comparison | !>                   | Not greater than (not ISO standard)                 |
+| Comparison | >=                   | Greater Than or Equal To                            |
+| Comparison | <=                   | Less Than or Equal To                               |
+| Logical    | BETWEEN              | Defines a range and is inclusive                    |
+| Logical    | LIKE                 | Matches a string value to a specified pattern       |
+|            | IS DISTINCT FROM     | Treats NULLs as known values for comparing equality |
+|            | IS NOT DISTINCT FROM | Treats NULLs as known values for comparing equality |
 
 *  Logical operators test for the truth of some condition. Logical operators, like comparison operators, return a Boolean data type with a value of **TRUE**, **FALSE**, or **UNKNOWN**.
 
@@ -49,20 +49,20 @@ We will use the following tables that contain types of fruits and their quantity
 [The DDL to create these tables can be found here.](Sample%20Data.md)
 
 **Table A**
-| ID | Fruit  | Quantity |
-|----|--------|----------|
-|  1 | Apple  |       17 |
-|  2 | Peach  |       20 |
-|  3 | Mango  |       11 |
-|  4 | <NULL> |        5 |
+| ID |  Fruit  | Quantity |
+|----|---------|----------|
+| 1  | Apple   | 17       |
+| 2  | Peach   | 20       |
+| 3  | Mango   | 11       |
+| 4  | \<NULL> | 5        |
   
 **Table B**
-| ID | Fruit  | Quantity |
-|----|--------|----------|
-|  1 | Apple  | 17       |
-|  2 | Peach  | 25       |
-|  3 | Kiwi   | 20       |
-|  4 | <NULL> | <NULL>   |
+| ID |  Fruit  | Quantity |
+|----|---------|----------|
+| 1  | Apple   | 17       |
+| 2  | Peach   | 25       |
+| 3  | Kiwi    | 20       |
+| 4  | \<NULL> | \<NULL>  |
  
 --------------------------------------------------------------------------------
 #### Equi-joins
@@ -81,8 +81,8 @@ WHERE   a.Fruit = b.Fruit;
 
 | ID | Fruit | ID | Fruit |
 |----|-------|----|-------|
-|  1 | Apple |  1 | Apple |
-|  2 | Peach |  2 | Peach |
+| 1  | Apple | 1  | Apple |
+| 2  | Peach | 2  | Peach |
 
 --------------------------------------------------------------------------------
 #### Theta-joins
@@ -101,9 +101,9 @@ FROM    ##TableA a INNER JOIN
 
 | ID | Fruit | Quantity | ID | Fruit | Quantity |
 |----|-------|----------|----|-------|----------|
-|  1 | Apple |       17 |  1 | Apple |       17 |
+| 1  | Apple | 17       | 1  | Apple | 17       |
  
-Here is an example where you would use the greater than operator.  Suppose you want to purchase two fruits, one fruit from `TableA` and one fruit from `TableB`, however, the quantity of the fruit in `TableA` needs to be larger than the quantity in `TableB`.  A typical example you will see on the internet is when you need to purchase two items (such as a car and a boat), and one item (the car) must be of greater value than the other.
+Here is an example where you would use the greater than operator.  Suppose you want to purchase two fruits, one fruit from `TableA` and one fruit from `TableB`, however, the quantity of the fruit in `TableA` needs to be larger than the quantity in `TableB`.  A typical example on the internet is when you need to purchase two items (such as a car and a boat), and one item (the car) must be of greater value than the other.
 
 ```sql
 SELECT  *
@@ -113,15 +113,15 @@ FROM    ##TableA a INNER JOIN
 
 | ID | Fruit | Quantity | ID | Fruit | Quantity |
 |----|-------|----------|----|-------|----------|
-|  2 | Peach |       20 |  1 | Apple |       17 |
+|  2 | Peach | 20       | 1  | Apple | 17       |
 
 --------------------------------------------------------------------------------
 #### Natural Joins Overview
 
 A natural join in relational algebra is a join operation that combines two relational tables via an equi-join based on their common attributes. In a natural join, only the rows with matching values in the common columns are included in the result. The common columns of the two tables are used as the join criteria, and the result set includes only one copy of these columns. The columns in the result set correspond to the combination of columns from both tables,
 
-`ORACLE` is currently the only vendor that supports the `NATURAL JOIN` syntax.  It is considered a bad practice for the following reasons:
-*  Ambiguity: Natural joins can cause ambiguity if two or more columns in the participating tables have the same name. This can lead to unexpected results and make the query difficult to understand and maintain.
+ORACLE is currently the only vendor that supports the `NATURAL JOIN` syntax.  It is considered a bad practice for the following reasons:
+*  Ambiguity: Natural joins can cause ambiguity if two or more columns in the participating tables have the same name. This can lead to unexpected results and make the SQL statement difficult to understand and maintain.
 *  Maintenance: Natural joins can make the database schema more difficult to maintain because changes to the common columns in one of the participating tables will affect the join result.
 
 For these reasons, it is generally recommended to use explicit join syntax and specify the join conditions explicitly rather than relying on natural joins. This allows for more control over the join conditions and the resulting data and makes the query easier to understand and maintain.
@@ -141,10 +141,10 @@ FROM    ##TableA a NATURAL JOIN
 
 | ID | Fruit | Quantity |
 |----|-------|----------|
-|  1 | Apple |       17 |
+| 1  | Apple | 17       |
 
 
-Note, to counteract some of the bad practices for using the `NATURAL JOIN`, `ORACLE`, and `MySQL` has the `USING` clause.  Below is the `ORACLE` implementation of the `USING` clause.
+Note, to counteract some of the bad practices for using the `NATURAL JOIN`, ORACLE and MySQL have the `USING` clause.  Below is the ORACLE implementation of the `USING` clause.
 
 ```sql
 SELECT  *
@@ -154,7 +154,7 @@ FROM    ##TableA a JOIN
 
 | ID | Fruit | Quantity |
 |----|-------|----------|
-|  1 | Apple |       17 |
+| 1  | Apple | 17       |
 
 ---------------------------------------------------------
 1. [Introduction](01%20-%20Introduction.md)
