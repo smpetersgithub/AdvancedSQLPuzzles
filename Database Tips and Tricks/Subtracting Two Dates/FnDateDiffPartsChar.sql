@@ -7,8 +7,8 @@ https://advancedsqlpuzzles.com
 Last Updated: 01/12/2023
 Microsoft SQL Server T-SQL
 
-This script creates a scalar valued function that returns the difference between two datetime values,
-broken down into year, month, day, hour, minute, second and nano second parts.
+This script creates a scalar-valued function that returns the difference between two DATETIME values,
+broken down into years, months, days, hours, minutes, seconds, and nano seconds.
 
 Example usage:
 SELECT dbo.FnDateDiffPartsChar('20110619 00:00:00.0000001', '20110619 00:00:00.0000000');
