@@ -1,6 +1,6 @@
 # Self Joins
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Self-joins in SQL is a join operation where a table is joined with itself. In a self-join, a table is aliased to give it a different name and then used twice in the same query, once as the left table and once as the right table. The join conditions in a self-join specify how to relate the rows of a table to itself. Self-joins can be used to compare rows within a table, create subsets of data based on certain conditions, or combine information from multiple rows within a table. The result of a self-join is a new table that contains the combined data from the two instances of the original table. Self-joins can be useful when working with hierarchical data or when you need to analyze data based on relationships within a table.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;A Self-join in SQL is a join operation where a table is joined with itself. In a self-join, a table is aliased to give it a different name and then used twice in the same query, once as the left table and once as the right table. The join conditions in a self-join specify how to relate the rows of a table to itself. Self-joins can be used to compare rows within a table, create subsets of data based on certain conditions, or combine information from multiple rows within a table. The result of a self-join is a new table that contains the combined data from the two instances of the original table. Self-joins can be useful when working with hierarchical data or when analyzing data based on relationships within a table.
 
 ----------------------------------------------------
 
@@ -23,7 +23,7 @@ Note the table `Employees` is referenced twice but given two different aliases n
  
 ```sql
 SELECT  a.EmployeeID,
-        a.Title ,
+        a.Title,
         a.ManagerID,
         b.Title
 FROM    Employees a INNER JOIN
@@ -81,7 +81,7 @@ ORDER BY 1;
 
 #### Example 2: Finding Pairs
 
-  Here is another example problem that can be solved with a self-join.  Unlike the above problem, this table does not have a foreign key that references its primary key.
+Here is another example problem that can be solved with a self-join.  Unlike the above problem, this table does not have a foreign key that references its primary key.
 
 List all cities that have more than one customer along with the customer details.
 
@@ -129,7 +129,7 @@ WHERE   City IN (SELECT City FROM cte_CountCity);
 #### Example 3: Windowing
 
   
-Often, if you need to use a self-join, you can use options (such as window functions) to avoid using a self-join.  Let’s look at an example.
+Often, if you need to use a self-join, you can use options (such as window functions) to avoid using a self-join. Let’s look at an example.
 
 Given the dataset below consisting of various animals' weight, create a cumulative total column summing the current row plus all previous rows.
 
@@ -175,7 +175,7 @@ FROM    #Animals;
   
 Self-joins are also used in relational division.
 
-Given the following table of employees and their licenses, determine all employees who have matching licenses.
+Given the following table of employees and their licenses, determine all employees with matching licenses.
 
 | EmployeeID | License |
 |------------|---------|
@@ -236,7 +236,7 @@ FROM    cte_CountWindow a INNER JOIN
   
 The following are **not** considered self-joins.
 
-Given a table of employees and their salaries, write an SQL statement to return all employees who have a higher salary than the average salary of the company.
+Given a table of employees and their salaries, write an SQL statement to return all employees with a higher salary than the average salary of the company.
   
 Although this SQL statement uses the `Employees` table twice, it does not join to itself.  In this example, the aggregation on the `Employees` table is used in the predicate logic and not joined to the `Employees` table.
   
