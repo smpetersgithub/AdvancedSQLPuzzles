@@ -5,14 +5,14 @@ https://advancedsqlpuzzles.com
 Last Updated: 03/10/2023
 Microsoft SQL Server T-SQL
 
-This script creates several constraints on a temporary table, #EmployeePayRecords, that are 
+This script creates several constraints on a temporary table, #EmployeePayRecords, that is 
 identical to the constraints on the persistent table EmployeePayRecords in the dbo schema.
 
 It should be noted that the script uses the specific example table "EmployeePayRecords" and Schema "dbo", and the user should adjust 
 the variables @vschema_name and @vtable_name to the appropriate names of the desired table to use.
 
 Also, temporary tables are only available while the SQL Server instance is running, and the data is not persisted across restarts, 
-therefore it should not be used for any type of permanent data storage or as a permanent solution.
+therefore, it should not be used for any type of permanent data storage or as a permanent solution.
 
 The script creates several temporary tables to store the SQL statements that will create the different types of constraints on the temporary table.
 #DynamicSQL
@@ -25,7 +25,7 @@ It then populates the #DynamicSQL table with a set of SQL statements generated f
 in the system tables of the SQL Server instance, such as sys.tables, sys.indexes and sys.key_constraints.
 
 The SQL statements in the #DynamicSQL table are then executed to create the NOT NULL, UNIQUE, PRIMARY KEY, and CHECK constraints 
-on the #EmployeePayRecords temporary table, though FOREIGN KEY constraints cannot be created on temp table, 
+on the #EmployeePayRecords temporary table, though FOREIGN KEY constraints cannot be created on a temp table, 
 due to the limitation of the temp table only being stored on the tempdb.
 
 Instructions:
@@ -36,15 +36,15 @@ Step 2  Change the variables @vschema_name and @vtable_name to the appropriate n
 Notes:
 Temporary tables in SQL Server are stored in the tempdb database, which is a system database that 
 is recreated every time the SQL Server instance is started. This means that the data in tempdb is 
-only available while the SQL Server instance is running and the data is not persisted across restarts.
+only available while the SQL Server instance is running, and the data is not persisted across restarts.
 
 The reason temp tables are stored in tempdb is to separate them from other user databases, as temporary 
 tables are only used for the duration of a session or a transaction and are not meant to be permanent. 
-For this reason, the metadata for temporary tables are not stored in the normal system tables.
+For this reason, the metadata for temporary tables is not stored in the normal system tables.
 
-Storing temporary tables in tempdb allows SQL Server to more easily manage and maintain them, and can 
-also improve performance as it is separate from other databases, helping reduce contention for resources. 
-Additionally, SQL Server uses tempdb to store various other internal objects such as temporary tables, 
+Storing temporary tables in tempdb allows SQL Server to more easily manage and maintain them. It can 
+also improve performance as it is separate from other databases, helping reduce resource contention. 
+Additionally, Microsoft SQL Server uses tempdb to store various other internal objects such as temporary tables, 
 temporary stored procedures, and intermediate results of queries.
 
 **********************************************************************/
