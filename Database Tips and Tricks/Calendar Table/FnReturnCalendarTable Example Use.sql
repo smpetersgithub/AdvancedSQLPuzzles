@@ -5,7 +5,7 @@ https://advancedsqlpuzzles.com
 Last Updated: 01/11/2023
 Microsoft SQL Server T-SQL
 
-This script shows example usage of the function FnReturnCalendarTable.
+This script shows an example usage of the function FnReturnCalendarTable.
 
 */-----------------------------------------------------------------------
 
