@@ -84,7 +84,7 @@ WHERE   a.Fruit = b.Fruit;
 
 ---------------------------------------------------------------------------------
   
-In `MySQL`, the following SQL statement will work and mimic an `INNER JOIN`.   This SQL statement has an `ON` clause of `1=1` and a `WHERE` clause specifying the join criteria.  If you remove the `WHERE` clause, this statement will work in both MySQL and SQLite to return a full Cartesian product.
+In MySQL, the following SQL statement will work and mimic an `INNER JOIN`.   This SQL statement has an `ON` clause of `1=1` and a `WHERE` clause specifying the join criteria.  If you remove the `WHERE` clause, this statement will work in both MySQL and SQLite to return a full Cartesian product.
 
 ```sql
 SELECT a.ID,
