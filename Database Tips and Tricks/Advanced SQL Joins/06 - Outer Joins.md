@@ -3,13 +3,13 @@
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Outer Joins consist of `LEFT`, `RIGHT`, and `FULL OUTER JOIN`.  `LEFT OUTER JOIN` and `RIGHT OUTER JOIN` function the same; the `LEFT OUTER JOIN` returns all records from the left table, and the `RIGHT OUTER JOIN` returns all records from the right table.
 
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;It is best practice to use the `LEFT OUTER JOIN` over the `RIGHT OUTER JOIN`, as we naturally read from left to right.  The `LEFT OUTER JOIN` is more intuitive in terms of its behavior, as the left table is preserved, and the right table is optional. It's therefore more natural to think of it as "all rows from the left table, and any matching rows from the right table" which makes it more readable and easier to understand.  I will mainly demonstrate the `LEFT OUTER JOIN` for this reason.  Using `RIGHT OUTER JOIN` is considered a bad practice and should be avoided.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;It is best practice to use the `LEFT OUTER JOIN` over the `RIGHT OUTER JOIN`, as we naturally read from left to right.  The `LEFT OUTER JOIN` is more intuitive in terms of its behavior, as the left table is preserved, and the right table is optional.  I will mainly demonstrate the `LEFT OUTER JOIN` for this reason.  Using `RIGHT OUTER JOIN` is considered a bad practice and should be avoided.
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;This document covers the `LEFT OUTER JOIN,` and the `RIGHT OUTER JOIN`.  The `FULL OUTER JOIN` has its own separate document.
 
 -----------------------------------------------------------
 
-We will be using the following tables that contain types of fruits and their quantity.  
+We will use the following tables that contain types of fruits and their quantity.  
 
 [The DDL to create these tables can be found here.](Sample%20Data.md)
 
@@ -107,7 +107,7 @@ WHERE   b.Fruit = 'Apple';
 
 -----------------------------------------------------------
   
-Joins can exist in the `SELECT`, `FROM`, and `WHERE` clauses of an SQL query. 
+Joins can exist in the `SELECT`, `FROM`, and `WHERE` clauses of an SQL statement. 
 
 You can also have nested `SELECT` statements which act as outer joins, as demonstrated below.
   
@@ -126,7 +126,7 @@ FROM    ##TableA a;
 | 3  | Mango   | \<NULL> | \<NULL> |
 | 4  | \<NULL> | \<NULL> | \<NULL> |
 
-Up to 32 levels of nesting is possible, although the limit varies based on available memory and the complexity of other expressions in the query. Individual queries may not support nesting up to 32 levels. A subquery can appear anywhere an expression can be used if it returns a single value
+In Microsoft SQL Server, up to 32 levels of nesting is possible, although the limit varies based on available memory and the complexity of other expressions in the query. Individual queries may not support nesting up to 32 levels. A subquery can appear anywhere an expression can be used if it returns a single value
 
 Here is a `SELECT`, within a `SELECT`, within a `SELECT` statement.  Nesting SQL statements can make them difficult to read and should be avoided if possible.
 
@@ -147,9 +147,9 @@ FROM    ##TableA a;
 
 -----------------------------------------------------------
    
-Windowing functions were added to the `ANSI/ISO Standard SQL:2003` and then extended in `ANSI/ISO Standard SQL:2008`. `SQL Server` did not implement window functions until `SQL Server 2012`.
+Windowing functions were added to the `ANSI/ISO Standard SQL:2003` and then extended in `ANSI/ISO Standard SQL:2008`.  Microsoft SQL Server did not implement window functions until SQL Server 2012.
 
-Because of SQL Server's delay in implementation, you may see statements such as below that were used to mimic window functions.  This statement is often called a "Flash Fill" or "Data Smudge".
+Because of Microsoft SQL Server's delay in implementation, you may see statements such as below that were used to mimic window functions.  This statement is often called a "Flash Fill" or "Data Smudge".
 
 This SQL statement will populate the NULL markers in the `Fruit` column with the nearest prior value.
 
@@ -222,7 +222,7 @@ FROM    ##TableA a RIGHT OUTER JOIN
 
 -----------------------------------------------------------
 
-The plus sign is `Oracle` syntax for an outer join and is not ANSI standard.  The `+` sign determines which table is outer joined.
+The plus sign is Oracle syntax for an outer join and is not ANSI standard.  The `+` sign determines which table is outer joined.
   
   ```sql
   SELECT  a.ID,
