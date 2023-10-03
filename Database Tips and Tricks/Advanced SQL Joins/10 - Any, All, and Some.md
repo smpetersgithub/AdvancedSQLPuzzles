@@ -5,13 +5,13 @@
 `ANY`, `ALL`, and `SOME` compare a scalar value with a single column set of values. 
 
 ---------------------------------------------------------
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Because `ANY`, `ALL`, and `SOME` can be used with the 9 different logical operators below, there can be a total of 27 combinations.  Plus they can be negated with the `NOT` operator leading to even more combinations.  Most of the usages have equivalents that are easy to understand, and I have found the best way to understand `ANY`, `ALL`, and `SOME` is by using the `IF` keyword to review their usage and provide an equivalent statement.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Because `ANY`, `ALL`, and `SOME` can be used with the nine different logical operators below, there can be a total of 27 combinations.  Plus they can be negated with the `NOT` operator leading to even more combinations.  Most of the usages have equivalents that are easy to understand, and I have found the best way to understand `ANY`, `ALL`, and `SOME` is by using the `IF` keyword to review their usage and provide an equivalent statement.
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`ANY`, `ALL`, and `SOME` are not join types, but rather methods for creating predicate logic between tables. They can be utilized in correlated subqueries, where the outer query is joined to the subquery involved in the `ANY`, `ALL`, or `SOME` statement. These methods are similar to semi and anti-joins in that they cannot be used in the `SELECT` clause and do not introduce duplicates. However, they differ in that they allow for comparisons between a range of values, rather than only equality or inequality.
 
 ---------------------------------------------------------
 
-Here are the 9 different comparison operators that can be used with `ANY`, `ALL`, and `SOME`.
+Here are the nine different comparison operators that can be used with `ANY`, `ALL`, and `SOME`.
 
 There are two usages, `<> ANY` and `= ALL`, that I will further elaborate on, as these have special use cases that I feel are best practices to use rather than their equivalents.
 
@@ -28,7 +28,7 @@ There are two usages, `<> ANY` and `= ALL`, that I will further elaborate on, as
 | !>       | Not Greater Than (not ISO standard) |
 
 
-I have found understanding these 9 operations will easily allow you to understand any combination you will see in your daily SQL activities.  I have included the SQL statements below to review these operations.
+I have found understanding these nine operations will easily allow you to understand any combination you will see in your daily SQL activities.  I have included the SQL statements below to review these operations.
 
 | Id |     Operation     |             Equivalent                                      |
 |----|-------------------|-------------------------------------------------------------|
@@ -320,7 +320,7 @@ PRINT 'FALSE';
 
 The following are examples of the `= ALL` and `<> ANY` operators.
 
-You are given the following example table of runtime statuses, provide an SQL statement that generates the required output.
+You are given the following example table of runtime statuses. Provide an SQL statement that generates the required output.
 
 *  If all the statuses are completed, print "True", else print "False"
 *  If all the statuses are not completed, print "True", else print "False".
