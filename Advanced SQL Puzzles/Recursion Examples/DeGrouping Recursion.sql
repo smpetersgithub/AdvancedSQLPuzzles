@@ -3,6 +3,7 @@ Scott Peters
 Associates
 https://advancedsqlpuzzles.com
 Last Updated: 01/13/2023
+
 This script uses recursion to group hierarchies together.
 */----------------------------------------------------
 
@@ -30,10 +31,10 @@ GO
 ---------------------
 WITH cte_Recursion AS
     (
-    SELECT  ProductDescription,Quantity 
+    SELECT  ProductDescription, Quantity 
     FROM    #Ungroup
     UNION ALL
-    SELECT  ProductDescription,Quantity-1
+    SELECT  ProductDescription, Quantity-1
     FROM    cte_Recursion
     WHERE   Quantity >= 2
     )
