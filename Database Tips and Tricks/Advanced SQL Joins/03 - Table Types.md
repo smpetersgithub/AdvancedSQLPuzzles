@@ -252,12 +252,12 @@ The syntax for creating temporary tables is different for each database system. 
 
 Session temporary tables and global temporary tables are two types of temporary tables in SQL. The main difference between them is their scope and visibility.  
 
-*  In SQL Server you can use a single octothorpe (#) for a session temporary table, and two octothorpes (##) for a global session table.
+*  In Microsoft SQL Server, you can use a single octothorpe (#) for a session temporary table and two octothorpes (##) for a global session table.
 *  Session temporary tables are only visible to the user who created them and are automatically dropped when the user's session ends.  
 *  Global temporary tables are available to every user's session.  
 *  You can place the same constraints, except for `FOREIGN KEY` constraints, on a temp table as you can on a permanent table.  
 *  Indexing is allowed on temporary tables.
-*  Temporary tables reside in `tempdb` and you cannot see the tables metadata in the information schema.
+*  Temporary tables reside in `tempdb`, and you cannot see the table's metadata in the information schema.
 
 This creates a session temporary table in SQL Server.
 
@@ -283,7 +283,7 @@ SELECT * FROM #Employees;
 | 2          | Sarah     | Shultz   | 90000.00  | 3          | 85000.00 |
 ```
 
-You can also create temporary tables via the `INTO` statement in a SQL statement.  This works in Microsoft SQL Server and each database system has slightly different syntax for temporary tables.
+You can also create temporary tables via the `INTO` statement in a SQL statement.  This works in Microsoft SQL Server, and each database system has slightly different syntax for temporary tables.
 
 ```sql
 SELECT  *
@@ -302,13 +302,13 @@ SELECT * FROM #Employees2
 --------------------------------------------------------------------------------------------------------
 #### Table Variable   
 
-Table variables are much like temporary tables.  They are often used when you need to pass a record set to a stored procedure.  Each database may implement table variables slightly differently, but Microsoft SQL Server has the following considerations.
+Table variables are much like temporary tables.  They are used when passing a record set to a stored procedure.  Each database may implement table variables slightly differently, but Microsoft SQL Server has the following considerations.
 
 *  You can place constraints on the table except for `FOREIGN KEY` constraints.
 *  The constraints must be placed on the table on creation.
 *  You cannot alter the table variable once it is created.
 *  You cannot create an explicit index on a table variable.
-*  When creating a `PRIMARY KEY` or a `UNIQUE` constraint an index is created.
+*  When creating a `PRIMARY KEY` or a `UNIQUE` constraint, an index is created.
 *  The `TRUNCATE` statement does not work on table variables.
 *  Table variables are stored in `tempdb`.
 
@@ -338,7 +338,7 @@ SELECT * FROM @TableVariable;
 --------------------------------------------------------------------------------------------------------
 #### External Tables           
 
-External tables in Microsoft SQL Server exist outside of the database and are used to access data stored in external sources such as flat files, Hadoop, or Azure Blob storage. External tables provide a way to access external data as if it were a regular table within the database, allowing you to use standard SQL statements to retrieve and manipulate data stored in external sources. This can be useful for tasks such as performing data integration, bulk data loading, and data archiving, as well as for querying and processing large datasets stored in external sources. However, external tables in Microsoft SQL Server have some limitations such as limited indexing options and slower query performance compared to regular tables stored in the SQL Server database.
+External tables in Microsoft SQL Server exist outside of the database and are used to access data stored in external sources such as flat files, Hadoop, or Azure Blob storage. External tables provide a way to access external data as if it were a regular table within the database, allowing you to use standard SQL statements to retrieve and manipulate data stored in external sources. This can be useful for tasks such as performing data integration, bulk data loading, and data archiving, as well as for querying and processing large datasets stored in external sources. However, external tables in Microsoft SQL Server have limitations such as limited indexing options and slower query performance compared to regular tables stored in the SQL Server database.
 
 See your vendor's documentation on external tables, as this will vary for each vendor.
 
