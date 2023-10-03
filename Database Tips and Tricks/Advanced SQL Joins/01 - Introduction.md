@@ -30,7 +30,7 @@ Here is a brief description of each type of join:
 | Model       | ANTI-JOIN        | An anti-join returns only the rows from the first table that do not have matching values in the second table.                                                                                                         |
 | Model       | EQUI-JOIN        | An equi-join returns only the rows where the values in the specified columns of both tables are equal.                                                                                                                |
 | Model       | THETA-JOIN       | A theta-join is a flexible type of join that allows you to join tables based on any type of condition, not just an equality condition.                                                                                |
-| Model       | NON-EQUI-JOIN    | Interchangeable with theta-join  Some texts use the term theta-join, and others use non-equi-join.                                                                                                                    |
+| Model       | NON-EQUI-JOIN    | Interchangeable with theta-join.  Some texts use the term theta-join, and others use non-equi-join.                                                                                                                    |
 | Model       | NATURAL JOIN     | A NATURAL JOIN returns the rows where the values in the specified columns of both tables are equal and the column names are the same.                                                                                 |
 
 ---------------------------------------------------------
