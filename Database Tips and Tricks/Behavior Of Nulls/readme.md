@@ -210,7 +210,7 @@ SELECT * from ##TableB;
 ### Join Syntax
 🔵&nbsp;&nbsp;&nbsp;[Table Of Contents](#table-of-contents)
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The standard ANSI:SQL joins are `INNER`, `LEFT OUTER JOIN`, `RIGHT OUTER JOIN`, `FULL OUTER JOIN`, and `CROSS JOIN`.  For NULL markers, all 5 of these joins treat the NULL marker as **UNKOWN**.  For this reason, I do not demonstrate each of these joins, but only the relevant joins needed to understand the behavior of NULL markers.  Also, I include some alternative methods for joining if you need to treat NULL markers as equals; these methods use the `ISNULL`, `ON EXISTS`, and the `IS [NOT] DISTINCT FROM` clauses.  See my documentation **Advanced SQL Joins** for more examples of these clauses.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The standard ANSI:SQL joins are `INNER`, `LEFT OUTER JOIN`, `RIGHT OUTER JOIN`, `FULL OUTER JOIN`, and `CROSS JOIN`.  For NULL markers, all five of these joins treat the NULL marker as **UNKOWN**.  For this reason, I do not demonstrate each of these joins, but only the relevant joins needed to understand the behavior of NULL markers.  Also, I include some alternative methods for joining if you need to treat NULL markers as equals; these methods use the `ISNULL`, `ON EXISTS`, and the `IS [NOT] DISTINCT FROM` clauses.  See my documentation **Advanced SQL Joins** for more examples of these clauses.
 
 ---------------------------------------------------------
 **INNER JOIN**
@@ -326,7 +326,7 @@ Also, each of these joins can be used as a correlated subquery.  Using `EXISTS` 
 --------------------------------------------------------
 **NOT IN**
 
-This statement returns an empty dataset as the anti-join contains a NULL marker.  Note that we are passing a set of parameters, and not an SQL statement to the `NOT IN` clause.
+This statement returns an empty dataset as the anti-join contains a NULL marker.  Note that we are passing a set of parameters and not an SQL statement to the `NOT IN` clause.
 
 ```sql
 SELECT  1 AS RowNumber,
@@ -824,7 +824,7 @@ FROM    ##TableA a INNER JOIN
 🔵&nbsp;&nbsp;&nbsp;[Table Of Contents](#table-of-contents)
 
         
-> :exclamation:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;In SQL Server, the `SET CONCAT_NULL_YIELDS_NULL` database setting controls whether concatenation results are treated as NULL or empty string values.  In a future version of SQL Server, `CONCAT_NULL_YIELDS_NULL` will always be `ON`, and any applications that explicitly set the option to `OFF` will generate an error. Avoid using this feature in new development work, and plan to modify applications that currently use this feature.
+> :exclamation:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;In Microsoft SQL Server, the `SET CONCAT_NULL_YIELDS_NULL` database setting controls whether concatenation results are treated as NULL or empty string values.  In a future version of SQL Server, `CONCAT_NULL_YIELDS_NULL` will always be `ON`, and any applications that explicitly set the option to `OFF` will generate an error. Avoid using this feature in new development work, and plan to modify applications that currently use this feature.
        
 The `CONCAT` function will return an empty string if all the values are NULL.
   
@@ -941,7 +941,7 @@ SELECT 2 AS ID, CAST(3 AS BIT) AS Bit;
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The `NOT` operator negates a Boolean input.
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Here we can see how the `NOT` operator acts on our test data.  Placing the `NOT` operator on the predicate logic will not return a NULL marker.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Here, we can see how the `NOT` operator acts on our test data.  Placing the `NOT` operator on the predicate logic will not return a NULL marker.
 
 ```sql
 --15.2
@@ -1015,7 +1015,7 @@ DEFAULT or NULL are not allowed as explicit identity values.
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The most important concept to understand with NULL markers is the three-valued logic, where statements can equate to **TRUE**, **FALSE**, or **UNKNOWN**.  Understanding the three-valued logic is instrumental in understanding the behavior of NULL markers.  **TRUE OR UNKNOWN** equates to **TRUE**, and **TRUE AND UNKNOWN** equates to **UNKNOWN**.
  
-:mailbox:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;If you find any inaccuracies, misspellings, bugs, dead links, etc. please report an issue!  No detail is too small, and I appreciate all the help.
+:mailbox:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;If you find any inaccuracies, misspellings, bugs, dead links, etc., please report an issue!  No detail is too small, and I appreciate all the help.
 
 :smile:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Happy coding!
 
