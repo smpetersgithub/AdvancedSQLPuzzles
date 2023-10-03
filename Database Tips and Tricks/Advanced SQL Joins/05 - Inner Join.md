@@ -28,7 +28,7 @@ We will be using the following tables that contain types of fruits and their qua
 
 ---------------------------------------------------------------------------------
   
-To start, here is the most common join you will use, an `INNER JOIN` between two tables.  This join uses an equi-join to look for equality between the two fields.  Note the query does not return the NULL markers, as NULL markers are neither equal to nor not equal to each other. They are unknown.
+To start, here is the most common join you will use, an `INNER JOIN` between two tables.  This join uses an equi-join to look for equality between the two fields.  Note the query does not return NULL markers, as NULL markers are neither equal to nor not equal to each other. They are unknown.
 
 ```sql
 SELECT  a.ID,
@@ -64,7 +64,7 @@ WHERE   a.Fruit = b.Fruit;
 
 ---------------------------------------------------------------------------------
   
-Remembering that all types of joins are restricted cartesian products, the following `CROSS JOIN` produces the same results as above as it establishes the join predicate in the `WHERE` clause.
+Remembering that all types of joins are restricted Cartesian products, the following `CROSS JOIN` produces the same results as above as it establishes the join predicate in the `WHERE` clause.
 
 ```sql
 SELECT  a.ID,
@@ -84,7 +84,7 @@ WHERE   a.Fruit = b.Fruit;
 
 ---------------------------------------------------------------------------------
   
-In `MySQL` the following SQL statement will work and mimic an `INNER JOIN`.   This SQL statement has an `ON` clause of `1=1` and a `WHERE` clause specifying the join criteria.  If you remove the `WHERE` clause, this statement will work in both `MySQL` and `SQLite` to return a full Cartesian product.
+In `MySQL`, the following SQL statement will work and mimic an `INNER JOIN`.   This SQL statement has an `ON` clause of `1=1` and a `WHERE` clause specifying the join criteria.  If you remove the `WHERE` clause, this statement will work in both MySQL and SQLite to return a full Cartesian product.
 
 ```sql
 SELECT a.ID,
@@ -103,7 +103,7 @@ WHERE  a.Fruit = b.Fruit;
    
 ---------------------------------------------------------------------------------
   
-This `LEFT OUTER JOIN` acts as an `INNER JOIN` because we specify a predicate in the `WHERE` clause on the outer joined table (`TableB`).
+This `LEFT OUTER JOIN` acts as an `INNER JOIN` because we specify a predicate in the `WHERE` clause on the outer joined table, `TableB`.
 
 ```sql
 SELECT  a.ID,
@@ -138,7 +138,7 @@ FROM    ##TableA a INNER JOIN
 
 ---------------------------------------------------------------------------------
   
-This query uses an equi-join and a theta-join and functions similar to a `CROSS JOIN`, but with one big difference, no NULL markers are returned.  Because we have NULL markers in the table, they are eradicated as NULL markers are neither equal to nor not equal to each other. They are unknown.
+This query uses an equi-join and a theta-join and functions similar to a `CROSS JOIN`, but with one big difference, NULL markers are not returned.  NULL markers are neither equal to nor not equal to each other. They are unknown.
 
 ```sql
 SELECT  a.ID,
@@ -181,7 +181,7 @@ FROM    ##TableA a INNER JOIN
 
 ---------------------------------------------------------------------------------
   
-This query uses an equi-join and a theta-join negated with a `NOT` operator. Determining if the `ID` is between the `Quantity` columns may be a somewhat absurd SQL statement to write, but this shows the possibilities in creating join logic.  We often forget we can use comparison operators such as `LIKE` or `BETWEEN` in an SQL statement's `ON` clause and then negate it with `NOT`.
+This query uses an equi-join and a theta-join negated with a `NOT` operator.  Determining if the `ID` is between the `Quantity` columns may be a somewhat absurd SQL statement to write, but this shows the possibilities in creating join logic. We often forget we can use comparison operators such as `LIKE` or `BETWEEN` in an SQL statement's `ON` clause and then negate it with `NOT`.
   
 ```sql
 SELECT  a.ID,
@@ -217,7 +217,7 @@ FROM    ##TableA a INNER JOIN
 |  4 | \<NULL> | 4  | \<NULL> |
 
 ---------------------------------------------------------------------------------
-In `SQL Server` and `PostgreSQL`, you can also write the above query using the `ON EXISTS` clause.  This is a little-known trick you can use that may (or may not) yield a bit better execution plan than the above statement, but it is worth checking.  I will cover the `ON EXISTS` syntax in another document, as it takes some thinking to understand its behavior. 
+In Microsoft SQL Server and PostgreSQL, you can also write the above query using the `ON EXISTS` clause. This is a little-known trick you can use that may (or may not) yield a bit better execution plan than the above statement, but it is worth checking.  I will cover the `ON EXISTS` syntax in another document, as it takes some thinking to understand its behavior. 
 
 ```sql
 SELECT  a.*,
@@ -273,9 +273,9 @@ FROM    ##TableA a INNER JOIN
 | 3  | Mango |
 
 ---------------------------------------------------------------------------------
-In `MySQL` and `Oracle`, there is a `USING` clause that you can use to specify the joining columns.  Each vendor's implementation is slightly different; see your vendor's documentation for specifics.
+In MySQL and Oracle, there is a `USING` clause that you can use to specify the joining columns.  Each vendor's implementation is slightly different; see your vendor's documentation for specifics.
   
-The below SQL statement works in `MySQL`.
+The below SQL statement works in MySQL.
   
 ```sql
 SELECT  a.ID,
@@ -292,7 +292,7 @@ FROM    ##TableA a INNER JOIN
 | 2  | Peach | 2  | Peach |
   
 ---------------------------------------------------------------------------------
-`ORACLE` supports the `NATURAL JOIN` syntax.  I classify the natural join as a model join as it was first conceived by E.F. Codd in his work on the Relational Model.  I cover natural joins in a separate document and why they should be considered bad practice to use.  
+ORACLE supports the `NATURAL JOIN` syntax.  I classify the natural join as a model join as E.F. Codd first conceived it in his work on the Relational Model.
   
 The use of an asterisk in the `SELECT` statement is mandatory, and the output does not show duplicate column names.  This query is the same as an equi-join on the `ID`, `Fruit`, and `Quantity` columns between `TableA` and `TableB`.
 
@@ -306,7 +306,7 @@ FROM    ##TableA a NATURAL JOIN
 |----|-------|----------|
 | 1  | Apple | 17       |
   
-The below `ORACLE` SQL statement uses the `USING` clause and mimics the `NATURAL JOIN`.
+The below ORACLE SQL statement uses the `USING` clause and mimics the `NATURAL JOIN`.
   
 ```sql
 SELECT  *
