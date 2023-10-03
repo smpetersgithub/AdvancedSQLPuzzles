@@ -1,4 +1,4 @@
-foll# SQL Query Processing Order
+# SQL Query Processing Order
 
 ---------------------------------------------------------
 
