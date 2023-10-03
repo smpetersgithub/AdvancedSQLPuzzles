@@ -27,10 +27,10 @@ Greetings. I am Scott Peters, a resident of Austin, TX. I am always eager to col
 
 ## Conclusion
 
-:mailbox:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;If you find any inaccuracies, misspellings, bugs, dead links, etc..., please report an issue! No detail is too small, and I appreciate all the help.
+:mailbox:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;If you find any inaccuracies, misspellings, bugs, dead links, etc., please report an issue! No detail is too small, and I appreciate all the help.
 
 :smile:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Happy coding!
 
-I hope you find this repository useful and informative and welcome any new puzzles or tips and tricks you may have. I also have a WordPress site where you can find my data analytics projects, Python puzzles, and blog.    
+I hope you find this repository useful and informative, and I welcome any new puzzles or tips and tricks you may have. I also have a WordPress site where you can find my data analytics projects, Python puzzles, and blog.    
 
 **https://advancedsqlpuzzles.com**  
