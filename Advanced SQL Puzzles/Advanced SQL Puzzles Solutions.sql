@@ -2982,38 +2982,26 @@ String   VARCHAR(100) NOT NULL
 GO
 
 INSERT INTO #Strings (String) VALUES
-('SELECT EmpID, MngrID FROM Employees;'),('SELECT * FROM Transactions;');
+('SELECT EmpID FROM Employees;'),('SELECT * FROM Transactions;');
 GO
 
---Display the results using recursion
-;WITH cte_CAST AS
+WITH cte_StringSplit AS
 (
-SELECT QuoteID, CAST(String AS VARCHAR(200)) AS String FROM #Strings
-),
-cte_Anchor AS
-(
-SELECT QuoteID,
-       String,
-       1 AS Starts,
-       CHARINDEX(' ', String) AS Position
-FROM   cte_CAST
-UNION ALL
-SELECT QuoteID,
-       String,
-       Position + 1,
-       CHARINDEX(' ', String, Position + 1)
-FROM   cte_Anchor
-WHERE  Position > 0
+SELECT b.Ordinal as RowNumber,
+       a.QuoteId,
+       a.String,
+       b.[Value] AS Word,
+       LEN(b.[Value]) AS WordLength
+FROM   #Strings a CROSS APPLY
+       STRING_SPLIT(String,' ', 1) b
 )
-SELECT  ROW_NUMBER() OVER (PARTITION BY QuoteID ORDER BY Starts) AS RowNumber,
-        QuoteID,
-        String,
-        Starts,
-        Position,
-        SUBSTRING(String, Starts, CASE WHEN Position > 0 THEN Position - Starts ELSE LEN(String) END) Word,
-        LEN(String) - LEN(REPLACE(String,' ','')) AS TotalSpaces
-FROM    cte_Anchor
-ORDER BY QuoteID, Starts;
+SELECT RowNumber,
+       QuoteID,
+       String,
+       CHARINDEX(Word, String) AS Starts,
+       (CHARINDEX(Word, String) + WordLength) - 1 AS Ends,
+       Word
+FROM cte_StringSplit;
 GO
 
 /*----------------------------------------------------
