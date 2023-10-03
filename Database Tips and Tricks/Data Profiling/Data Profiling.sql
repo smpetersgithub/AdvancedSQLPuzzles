@@ -11,10 +11,10 @@ supplied metric (such as COUNT, AVG, MAX, MIN) for a user-specified schema and t
 The script uses a cursor to iterate through each column in the specified table, and 
 execute an update statement for each column with a different metric specified. 
 
-This script creates a temporary table called #DataProfilingSQL, which contain the 
-SQL statements that used to update the #DataProfiling table.
+This script creates a temporary table called #DataProfilingSQL, which contains the 
+SQL statements that are used to update the #DataProfiling table.
 
-Example SQL statements are provided to find NULL markers, empty strings, keywords, etc....
+Example SQL statements are provided to find NULL markers, empty strings, keywords, etc.
 
 **********************************************************************/
 
@@ -40,7 +40,7 @@ DECLARE @vSchemaName NVARCHAR(100) = 'Your Schema Name Here';---------------Need
 DECLARE @vTableName NVARCHAR(100) = 'Your Table Name Here'; ----------------Need to set
 
 ----------------------------------------------------------------------------------------
---This SQL statement determines record count of the column
+--This SQL statement determines the record count of the column
 INSERT INTO #DataProfilingSQL (DataProfilingType, OrderID, SQLLine) VALUES
 (1,1,'UPDATE #DataProfiling SET RecordCount ='),
 (1,2,'('),
