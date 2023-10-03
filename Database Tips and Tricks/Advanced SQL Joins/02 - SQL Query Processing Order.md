@@ -1,7 +1,5 @@
 # SQL Query Processing Order
 
----------------------------------------------------------
-
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;To best understand the processing order of an SQL statement, consider the following diagram.     
 
 
