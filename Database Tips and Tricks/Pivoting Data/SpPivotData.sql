@@ -29,8 +29,7 @@ BEGIN TRY
     @vColumns AS NVARCHAR(MAX),
     @vNewLine AS NVARCHAR(2) = NCHAR(13) + NCHAR(10);
 
-    --If input is a valid table or view
-    -- construct a SELECT statement against it
+    --If the input is a valid table or view, construct a SELECT statement
     IF COALESCE(OBJECT_ID(@vQuery, 'U'), OBJECT_ID(@vQuery, 'V')) IS NOT NULL
         SET @vQuery = 'SELECT * FROM ' + @vQuery;
 
@@ -40,7 +39,7 @@ BEGIN TRY
     -- Handle * input in @vAggColumns
     IF @vAggColumns = '*' SET @vAggColumns = '1';
 
-    -- Construct column list
+    -- Construct a column list
     SET @vSql =
                 'SET @result = '                                      + @vNewLine +
                 '  STUFF('                                            + @vNewLine +
