@@ -10,12 +10,12 @@ This script creates a table-valued function called "FnReturnCalendarTable" that 
 and returns a table with various date-related information.
 
 The table returned by the function includes various date-related columns such as the date key, calendar date, 
-different date styles and month/year/week related columns. It also includes some calculated columns like 
-First day of Quarter, Last Day of Quarter, Month Long and Short Name and Month of the Quarter.
+different date styles, and month/year/week-related columns. It also includes some calculated columns, like 
+First day of Quarter, Last Day of Quarter, Month Long and Short Name, and Month of the Quarter.
 
-It also uses some date-related T-SQL functions such as MONTH, YEAR, DATEPART, DATEDIFF, DATEADD and EOMONTH 
+It also uses some date-related T-SQL functions such as MONTH, YEAR, DATEPART, DATEDIFF, DATEADD, and EOMONTH 
 to calculate the values of these columns.  It is important to note that the specific date style columns 
-may not be necessary for all use cases, feel free to remove any column you do not need and use the function that suits your needs.
+may not be necessary for all use cases. Feel free to remove any column you do not need and use the function that suits your needs.
 
 */----------------------------------------------------------------------------------------------------------------------------
 (@vInputDate DATE) RETURNS TABLE AS
