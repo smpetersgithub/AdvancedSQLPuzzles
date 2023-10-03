@@ -23,11 +23,11 @@ The scripts `Table Validation Part 1.sql` and `Table Validation Part 2.sql` will
 13.  `#SQLStatementFinal`
 
 
-I recommend running the `Table Validation Demo Tables.sql` first on the provided sample set.  There are several items in the setup of the script that need to be modified.  Once the final dataset is created, export to Microsoft Excel.
+I recommend running the `Table Validation Demo Tables.sql` first on the provided sample set.  There are several items in the setup of the script that need to be modified.  Once the final dataset is created, export it to Microsoft Excel.
 
 ## Installation
 
-Inside this GitHub repository you will find the following SQL scripts:
+Inside this GitHub repository, you will find the following SQL scripts:
 
 1)  `Table Validation Demo Tables.sql`    
 A script that creates the test data for demo purposes. 
@@ -88,13 +88,13 @@ This script will populate the table `##TableInformation` with the following valu
 | Exists1     | CONCAT(t1.CustID, t1.Region, t1.City)     |
 | Exists2     | CONCAT(t2.CustID, t2.Region, t2.City)     |
 
-The table `##TableInformation` is used to store the schemas, table names, and the join conditions between the two tables. You will need to modify this table according to the tables you want to audit. 
+The table `##TableInformation` stores the schemas, table names, and the join conditions between the two tables. You will need to modify this table according to the tables you want to audit. 
 
-The join between the two tables is created in the fields `Exists1` and `Exists2`, where a `CONCAT` function is used to group the values together.  If the join criteria is on multiple columns, use a `CONCAT` function to join the columns together.  You can remove the `CONCAT` if the join criteria is on one column.  
+The join between the two tables is created in the fields `Exists1` and `Exists2`, where a `CONCAT` function groups the values together.  If the join criteria is on multiple columns, use a `CONCAT` function to join the columns together.  You can remove the `CONCAT` if the join criteria is on one column.  
 
 :exclamation:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The `t1` and `t2` difference between the fields `Exists1` and `Exists2`. This can be easily overlooked when inserting your join criteria.
 
-You can store multiple reconciliation scenarios in this table, simply input the values and increment the `LookupID` value.
+You can store multiple reconciliation scenarios in this table; simply input the values and increment the `LookupID` value.
 
 ---------------------------------------------------
 ### Step 3:  
@@ -112,7 +112,7 @@ This script will generate an SQL statement that compares the tables using a `FUL
 3)  The results from the dynamic SQL statement will be saved in the temporary table `##@vTableName1_TemporaryTemp` (which will be `##Sales_New_TemporaryTable` in
     our example).  
 
-4)  For each column there is a `Compare` field created that will be populated with a `1` if the fields are unequal, and a `0` if they are equal.   
+4)  For each column, there is a `Compare` field created that will be populated with a `1` if the fields are unequal and a `0` if they are equal.   
 
 5)  The field `Compare_Summary` in the first column of the result set gives an overall summary if the record matches between the two tables.   
 
