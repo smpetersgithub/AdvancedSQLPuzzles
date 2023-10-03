@@ -1365,7 +1365,7 @@ String   VARCHAR(100) NOT NULL
 GO
 
 INSERT INTO #Strings (String) VALUES
-('SELECT EmpID, MngrID FROM Employees;'),('SELECT * FROM Transactions;');
+('SELECT EmpID FROM Employees;'),('SELECT * FROM Transactions;');
 GO
 
 /*----------------------------------------------------
