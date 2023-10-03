@@ -50,7 +50,7 @@ Breaking down the joins, we have the following:
 *  `Users` -> `Transaction` -> `TransactionType`
 *  `Users` -> `SubUsers` -> `FeePlan`
 
-From this join breakdown, we can see we have 1 root, 2 branches, and 2 leaf nodes.  The root table `Users` is our driving table.  Given this, here is a simpler way of writing the statement.
+From this join breakdown, we can see we have one root, two branches, and two leaf nodes.  The root table `Users` is our driving table.  Given this, here is a simpler way of writing the statement.
 
 ```sql
 WITH cte_Users AS
@@ -87,7 +87,7 @@ GROUP BY t.TransactionDate,
 -----------------------------------------------------
 #### Overlapping Time Periods
 
-This puzzle is called Overlapping Time Periods, and I find this to be the most challenging puzzle to solve.
+This puzzle is called "Overlapping Time Periods", and I find this to be the most challenging puzzle to solve.
 For this example, I used temporary tables to avoid making a common table expression dependent on another common table expression.  This allows future developers to quickly review the data sets in the step order and reverse engineer the statement.
 
 Here is the overlapping time period data.
