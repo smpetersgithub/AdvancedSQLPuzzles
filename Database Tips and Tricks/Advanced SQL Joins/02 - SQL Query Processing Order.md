@@ -2,9 +2,7 @@
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;To best understand the processing order of an SQL statement, consider the following diagram.     
 
-
 ![SQL Processing Order](/Database%20Tips%20and%20Tricks/Advanced%20SQL%20Joins/images/SQLQueryProcessingOrderPage.png)
-
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SQL does not process the query in the order in which it is written, as the `SELECT` statement is processed almost last.  The correct processing order is `FROM`, `WHERE`, `GROUP BY`, `HAVING`, `SELECT`, `ORDER BY`, and `LIMIT`.  Once a query first enters the `FROM` statement, there are four types of table operators, `JOIN`, `APPLY`, `PIVOT`, and `UNPIVOT` that can be performed, and each of these operators has a series of subphases.
 
