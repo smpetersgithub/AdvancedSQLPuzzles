@@ -4,7 +4,7 @@
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;This document will concentrate on the `EXISTS` statement with the `ON` clause.  Strangely, I cannot find any documentation with Microsoft or PostgreSQL for the usage of `ON EXISTS`.  Itzik Ben-Gan does mention it in passing in an article [here](https://sqlperformance.com/2019/12/t-sql-queries/null-complexities-part-1) about its usage, and he does mention it in the [T-SQL Fundamentals](https://www.amazon.com/T-SQL-Fundamentals-3rd-Itzik-Ben-Gan/dp/150930200X/ref=sr_1_1?adgrpid=1331509151302817&hvadid=83219393942729&hvbmt=be&hvdev=c&hvlocphy=66021&hvnetw=o&hvqmt=e&hvtargid=kwd-83219680138630%3Aloc-190&hydadcr=16377_10417921&keywords=t-sql+fundamentals&qid=1675204165&sr=8-1) book.
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;First let's look at some examples of the `EXISTS`.  It is important to remember that the `EXISTS` clause returns TRUE or FALSE and not a result set.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;First, let's look at some examples of the `EXISTS`.  It is important to remember that the `EXISTS` clause returns TRUE or FALSE and not a result set.
 
 --------------------------------------------------------------------------------
 We will be using the following tables that contain types of fruits and their quantity.  
@@ -29,7 +29,7 @@ We will be using the following tables that contain types of fruits and their qua
   
 #### IF EXISTS
 
-Here we have an example of using `EXISTS` with the `IF` statement to check for the existence of records.  
+Here, we have an example of using `EXISTS` with the `IF` statement to check for the existence of records.  
 
 This statement will return TRUE, as there are records in `TableA`.
 
@@ -64,9 +64,9 @@ PRINT 'FALSE'
 --------------------------------------------------------------
 #### EXISTS
 
-Normally we use the `EXISTS` operator with the `WHERE` clause to create a correlated subquery.
+Normally, we use the `EXISTS` operator with the `WHERE` clause to create a correlated subquery.
 
-The query acts the same as the `INNER JOIN` and only returns records from `TableA`.
+The query acts the same as the `INNER JOIN`, and only returns records from `TableA`.
 
 ```sql
 SELECT  *
@@ -78,7 +78,6 @@ WHERE   EXISTS (SELECT 1 FROM ##TableB b WHERE a.Fruit = b.Fruit);
 |----|-------|----------|
 |  1 | Apple |       17 |
 |  2 | Peach |       20 |
-
 
 When we use negation (the `NOT` operator) with the `EXISTS` clause, we return the records in `TableA` but not in `TableB`.
 
@@ -154,7 +153,7 @@ FROM    ##TableA a INNER JOIN
 |  4 | \<NULL> | 5        | 4  | \<NULL> | \<NULL>  |
 
   
-A similar statement to the above would be the following where we must explicitly handle NULL markers.
+A similar statement to the above would be the following, where we must explicitly handle NULL markers.
 
 ```sql
 SELECT  *
