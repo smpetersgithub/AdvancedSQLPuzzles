@@ -9,7 +9,7 @@ In this directory, you will find my collection of SQL scripts to solve various c
 
 ## About
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Recursion in SQL is a technique used to process hierarchical data, where a query can reference itself in order to process data in a recursive manner. It is commonly used in cases where a single row of data has multiple relationships with other rows in the same table, creating a parent-child relationship. The process starts with an initial query that returns a base case, and subsequent queries use the results of the previous query to process the data until a stop condition is reached. Recursion in SQL is implemented using Common Table Expressions (CTEs), which are temporary result sets defined within a `SELECT` statement and can be referenced within the same `SELECT` statement to perform the recursion.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Recursion in SQL is a technique used to process hierarchical data, where a query can reference itself to process data in a recursive manner. It is commonly used in cases where a single row of data has multiple relationships with other rows in the same table, creating a parent-child relationship. The process starts with an initial query that returns a base case, and subsequent queries use the results of the previous query to process the data until a stop condition is reached. Recursion in SQL is implemented using Common Table Expressions (CTEs), which are temporary result sets defined within a `SELECT` statement and can be referenced within the same `SELECT` statement to perform the recursion.
 
 ❕&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Data can have an implicit or an explicit hierarchy.  
 
@@ -32,7 +32,7 @@ Also, providing a solution using recursion rather than a loop-based solution isn
 
 ## Conclusion
 
-:mailbox:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;If you find any inaccuracies, misspellings, bugs, dead links, etc... please report an issue!  No detail is too small, and I appreciate all the help.
+:mailbox:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;If you find any inaccuracies, misspellings, bugs, dead links, etc., please report an issue!  No detail is too small, and I appreciate all the help.
 
 :smile:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Happy coding!
 
