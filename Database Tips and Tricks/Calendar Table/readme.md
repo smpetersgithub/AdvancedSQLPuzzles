@@ -6,7 +6,7 @@ Here is a nifty trick for creating a calendar table (or in this case, a calendar
 
 ## Overview
 
-We typically use table-valued functions as parameterized views. In comparison with stored procedures, the table-valued functions are more flexible as we can use them wherever tables are used.
+We typically use table-valued functions as parameterized views. Compared with stored procedures, the table-valued functions are more flexible as we can use them wherever tables are used.
 
 If you are unfamiliar with a calendar table, it is a type of database table that contains a record of dates and associated information, such as the day of the week, the week of the year, and whether the date is a holiday or a weekend. This table can be immensely useful for a variety of purposes, particularly in the context of reporting and data analysis.
 
