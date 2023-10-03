@@ -1,6 +1,6 @@
 # Join Algorithms
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;There are several types of join algorithms that the SQL Server optimizer can choose from, including nested loop join, hash join, and merge join. The choice of the join algorithm depends on various factors, such as the size of the datasets, the presence of indexes, and the distribution of data. The optimizer makes a cost-based decision to choose the most efficient algorithm for the given query in order to return the results in the quickest possible time.  These types of joins are created by the optimizer and not the developer (although you can add query hints).
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;There are several types of join algorithms that the SQL Server optimizer can choose from, including nested loop join, hash join, and merge join. The choice of the join algorithm depends on various factors, such as the size of the datasets, the presence of indexes, and the distribution of data. The optimizer makes a cost-based decision to choose the most efficient algorithm for the given query to return the results in the quickest possible time.  These types of joins are created by the optimizer and not the developer (although you can add query hints).
 
 ---------------------------------------------------------------------
 ##### Types Of Join Algorithms
@@ -40,7 +40,7 @@ Overall, as a developer, there are some ways to write the most optimized SQL fro
 
 5.  Use temporary tables: Temporary tables can store intermediate results, which can be used in subsequent queries. This can help to simplify complex queries and improve performance.
 
-6.  Write efficient joins: The way in which you join tables can significantly impact query performance. Use inner joins instead of outer joins, and use the appropriate join conditions.
+6.  Write efficient joins: How you join tables can significantly impact query performance. Use inner joins instead of outer joins, and use the appropriate join conditions.
 
 7.  Use aggregate functions wisely: Aggregate functions can be slow, especially when used on large datasets. Avoid using them on large datasets, or use them with caution.
 
