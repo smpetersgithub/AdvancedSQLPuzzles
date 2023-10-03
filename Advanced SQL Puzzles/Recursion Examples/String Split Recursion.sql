@@ -5,8 +5,8 @@ https://advancedsqlpuzzles.com
 Last Updated: 01/13/2023
 Microsoft SQL Server T-SQL
 
-This script uses recursion to split a string into rows of substrings, based on a specified separator character 
-This script provides the same functionality of the STRING_SPLIT function.
+This script uses recursion to split a string into rows of substrings based on a specified separator character 
+This script provides the same functionality as the STRING_SPLIT function.
 
 */----------------------------------------------------
 
@@ -46,8 +46,7 @@ FROM   cte_Recursion
 WHERE  Position > 0
 )
 SELECT  ROW_NUMBER() OVER (PARTITION BY Id ORDER BY Starts) AS RowNumber,
-        *,
-        SUBSTRING(String, Starts, CASE WHEN Position > 0 THEN Position - Starts ELSE LEN(String) END) Word,
-        LEN(String) - LEN(REPLACE(String,' ','')) AS TotalSpaces
+        String,
+        SUBSTRING(String, Starts, CASE WHEN Position > 0 THEN Position - Starts ELSE LEN(String) END) Word
 FROM   cte_Recursion
 ORDER BY Id, Starts;
