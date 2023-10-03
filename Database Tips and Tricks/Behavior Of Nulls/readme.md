@@ -92,7 +92,7 @@ SELECT 3 WHERE NOT(1=2) AND NOT(NULL=1);
 
 >:exclamation:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The standard setting for `ANSI_NULLS` is `ON`.  In a future version of Microsoft SQL Server, `ANSI_NULLS` will always be `ON`, and any applications that explicitly set the option to `OFF` will produce an error.  Avoid using this feature in new development work, and plan to modify applications that currently use this feature.
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;In SQL Server, the `SET ANSI_NULLS` setting specifies the ISO compliant behavior of the equality (=) and inequality (<>) comparison operators.  The following table shows how the `ANSI_NULLS` session setting affects the results of Boolean expressions using NULL markers.  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;In Microsoft SQL Server, the `SET ANSI_NULLS` setting specifies the ISO compliant behavior of the equality (=) and inequality (<>) comparison operators.  The following table shows how the `ANSI_NULLS` session setting affects the results of Boolean expressions using NULL markers.  
 
 | Boolean Expression     | SET ANSI_NULLS ON | SET ANSI_NULLS OFF |
 |------------------------|-------------------|--------------------|
@@ -274,8 +274,8 @@ ORDER BY 1,2;
 There are a few methods for returning NULL markers in a join, as shown below.
 
 1.  The first method uses the `ISNULL` function and sets the NULL markers to an empty string.
-2.  The second method uses the `ON EXISTS` clause.  `ON EXISTS` is only available in SQL Server and PostgreSQL.
-3.  New to SQL Server 2022, the third method uses the `IS [NOT] DISTINCT FROM` clause.
+2.  The second method uses the `ON EXISTS` clause.  `ON EXISTS` is only available in Microsoft SQL Server and PostgreSQL.
+3.  New to Microsoft SQL Server 2022, the third method uses the `IS [NOT] DISTINCT FROM` clause.
 
 ```sql
 --Method 1
@@ -429,7 +429,7 @@ SELECT Fruit FROM ##TableB;
 --------------------------------------------------------
 **UNION ALL**
 
-The `UNION ALL` operator returns all values including each NULL marker.
+The `UNION ALL` operator returns all values, including each NULL marker.
 
 ```sql
 SELECT Fruit FROM ##TableA
@@ -582,7 +582,7 @@ ADD CONSTRAINT PK_NULLConstraints PRIMARY KEY CLUSTERED (Fruit);
 --------------------------------------------------------- 
 **UNIQUE**
 
-To demonstrate that a `UNIQUE CONSTRAINT` allows only one NULL marker we can run the following statement.  We add a `UNIQUE CONSTRAINT` to `##TableB`, which already includes a NULL marker in the column Fruit. 
+To demonstrate that a `UNIQUE CONSTRAINT` allows only one NULL marker, we can run the following statement.  We add a `UNIQUE CONSTRAINT` to `##TableB`, which already includes a NULL marker in the column Fruit. 
 
 ```sql
 ALTER TABLE ##TableB
@@ -824,7 +824,7 @@ FROM    ##TableA a INNER JOIN
 🔵&nbsp;&nbsp;&nbsp;[Table Of Contents](#table-of-contents)
 
         
-> :exclamation:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;In Microsoft SQL Server, the `SET CONCAT_NULL_YIELDS_NULL` database setting controls whether concatenation results are treated as NULL or empty string values.  In a future version of SQL Server, `CONCAT_NULL_YIELDS_NULL` will always be `ON`, and any applications that explicitly set the option to `OFF` will generate an error. Avoid using this feature in new development work, and plan to modify applications that currently use this feature.
+> :exclamation:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;In Microsoft SQL Server, the `SET CONCAT_NULL_YIELDS_NULL` database setting controls whether concatenation results are treated as NULL or empty string values.  In a future version of Microsoft SQL Server, `CONCAT_NULL_YIELDS_NULL` will always be `ON`, and any applications that explicitly set the option to `OFF` will generate an error. Avoid using this feature in new development work, and plan to modify applications that currently use this feature.
        
 The `CONCAT` function will return an empty string if all the values are NULL.
   
