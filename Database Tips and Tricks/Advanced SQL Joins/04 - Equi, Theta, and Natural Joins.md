@@ -118,7 +118,7 @@ FROM    ##TableA a INNER JOIN
 --------------------------------------------------------------------------------
 #### Natural Joins Overview
 
-A natural join in relational algebra is a join operation that combines two relational tables via an equi-join based on their common attributes. In a natural join, only the rows with matching values in the common columns are included in the result. The common columns of the two tables are used as the join criteria, and the result set includes only one copy of these columns. The columns in the result set correspond to the combination of columns from both tables,
+A natural join in relational algebra is a join operation that combines two relational tables via an equi-join based on their common attributes. In a natural join, only the rows with matching values in the common columns are included in the result. The common columns of the two tables are used as the join criteria, and the result set includes only one copy of these columns. The columns in the result set correspond to the combination of columns from both tables.
 
 ORACLE is currently the only vendor that supports the `NATURAL JOIN` syntax.  It is considered a bad practice for the following reasons:
 *  Ambiguity: Natural joins can cause ambiguity if two or more columns in the participating tables have the same name. This can lead to unexpected results and make the SQL statement difficult to understand and maintain.
