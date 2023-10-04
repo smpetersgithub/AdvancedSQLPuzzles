@@ -402,7 +402,7 @@ The SQL standard for set operators does not use the term **EQUAL TO or NOT EQUAL
 *  NULL is not distinct from NULL
 *  NULL is distinct from "Apple".
 
-In the following examples, we see the set operators treat the NULL markers differently than the join syntax.
+In the following examples, we see the set operators treat NULL markers differently than the join syntax.
 
 --------------------------------------------------------
 **UNION**
@@ -507,7 +507,7 @@ GROUP BY Fruit;
 ### COUNT and AVERAGE Functions
 🔵&nbsp;&nbsp;&nbsp;[Table Of Contents](#table-of-contents)
 
-The `COUNT` and `AVG` functions have a few nuances to NULL markers as we will demonstrate below.
+The `COUNT` and `AVG` functions have a few nuances when handling NULL markers, as we will demonstrate below.
         
 ---------------------------------------------------------
 **COUNT**
@@ -628,11 +628,11 @@ SELECT * FROM ##CheckConstraints;
 ### Referential Integrity
 🔵&nbsp;&nbsp;&nbsp;[Table Of Contents](#table-of-contents)
         
-Multiple NULL markers can be inserted into the child column or a `FOREIGN KEY` constraint.
+Multiple NULL markers can be inserted into the child column that has a foreign key constraint.
 
 In Microsoft SQL Server, a `FOREIGN KEY` constraint must be linked to a column with either a `PRIMARY KEY` constraint or a `UNIQUE` constraint defined on the column.  A `PRIMARY KEY` constraint does not allow NULL markers, but a `UNIQUE` constraint allows one NULL marker.
 
-In the following example, we show that it's possible to insert multiple NULL values into the Child.ParentID column. This reflects the unfortunate reality that a child may be orphaned and therefore not have an associated parent.
+In the following example, we show that it's possible to insert multiple NULL markers into the Child.ParentID column. This reflects the unfortunate reality that a child may be orphaned and therefore not have an associated parent.
 
 Referential integrity cannot be created on temporary tables; for this example, we create two tables, `Parent` and `Child`.
 
