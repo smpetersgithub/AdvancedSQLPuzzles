@@ -867,7 +867,7 @@ In query editors, NULL markers and empty strings will appear differently (by def
         
 When creating a view, if you perform a `CAST` function or create a computed column on a column that has a `NOT NULL` constraint, the result will yield a NULLable column.
 
-Here we create a table with `NOT NULL` constraints and then create a view where we perform a `CAST` and create a computed column.  From the resulting screenshot, we can see the columns are NULLable.
+Here we create a table with `NOT NULL` constraints and then create a view where we perform a `CAST` and create a computed column.  When we query the table's metadata, we can see the columns are NULLable.
 
 ```sql
 DROP TABLE IF EXISTS MyTable;
