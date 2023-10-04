@@ -468,7 +468,7 @@ SELECT Fruit FROM ##TableA;
 --------------------------------------------------------
 **INTERSECT**
 
-The `INTERSECT` returns the following records.
+The `INTERSECT` operator treats the NULL markers as being not distinct from each other.
 
 ```sql
 SELECT Fruit FROM ##TableA
@@ -632,7 +632,7 @@ Multiple NULL markers can be inserted into the child column or a `FOREIGN KEY` c
 
 In Microsoft SQL Server, a `FOREIGN KEY` constraint must be linked to a column with either a `PRIMARY KEY` constraint or a `UNIQUE` constraint defined on the column.  A `PRIMARY KEY` constraint does not allow NULL markers, but a `UNIQUE` constraint allows one NULL marker.
 
-In the below example, we demonstrate that multiple NULL markers can be inserted into a child column that references another column only if the referenced column has a `UNIQUE CONSTRAINT` on the table.  
+In the following example, we show that it's possible to insert multiple NULL values into the Child.ParentID column. This reflects the unfortunate reality that a child may be orphaned and therefore not have an associated parent.
 
 Referential integrity cannot be created on temporary tables; for this example, we create two tables, `Parent` and `Child`.
 
@@ -643,21 +643,21 @@ GO
 
 CREATE TABLE Parent
 (
-ParentID INTEGER PRIMARY KEY
+ParentID INTEGER UNIQUE
 );
 GO
 
 CREATE TABLE Child
 (
-RowNumber INTEGER IDENTITY(1,1) UNIQUE NOT NULL,
-ChildID INTEGER FOREIGN KEY REFERENCES dbo.Parent (ParentID)
+ChildID INTEGER IDENTITY(1,1),
+ParentID INTEGER FOREIGN KEY REFERENCES Parent (ParentID)
 );
 GO
 
-INSERT INTO Parent VALUES (1),(2),(3),(4),(5);
+INSERT INTO Parent (ParentID) VALUES (1),(2),(3),(4),(5);
 GO
 
-INSERT INTO Child VALUES (1),(2),(NULL),(NULL);
+INSERT INTO Child (ParentID) VALUES (1),(2),(NULL),(NULL);
 GO
 
 SELECT * FROM Parent;
@@ -674,12 +674,12 @@ SELECT * FROM Child;
 | 5        |
   
 **Child**
-| RowNumber |  ChildID |
-|-----------|----------|
-| 1         | 1        |
-| 2         | 2        |
-| 3         | \<NULL>  |
-| 4         | \<NULL>  |
+| RowNumber |  ParentID |
+|-----------|-----------|
+| 1         | 1         |
+| 2         | 2         |
+| 3         | \<NULL>   |
+| 4         | \<NULL>   |
 
 ---------------------------------------------------------
 ### Computed Columns
