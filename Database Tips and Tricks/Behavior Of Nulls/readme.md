@@ -988,7 +988,7 @@ The `SpReturnStatement` procedure attempted to return a status of NULL, which is
 ### Identity Columns
 🔵&nbsp;&nbsp;&nbsp;[Table Of Contents](#table-of-contents)
         
-In some databases like MYSQL, when you insert a NULL marker into an identity column, the identity column will take the next available value and not an error.  However, in Microsoft SQL Server, an error is produced.
+In some databases like MYSQL, when you insert a NULL marker into an identity column, the identity column will take the next available value.  In Microsoft SQL Server an error is produced, as demonstrated below.
 
 ```sql
 CREATE TABLE ##Identity 
