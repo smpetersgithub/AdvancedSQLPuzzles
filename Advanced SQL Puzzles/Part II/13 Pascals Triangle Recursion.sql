@@ -12,20 +12,20 @@ The position is determined by the user-specified variables @vRowNumber and @vPos
 which correspond to the row and position of the value in the triangle, respectively. 
 The script uses zero-based indexing, so the first row is row 0, and the first position is position 0.
 
-The script first checks if the value of the position is 1, if the value is 1 then it returns 1. 
+The script first checks if the value of the position is one. If the value is 1, it will return 1. 
 If the value is not 1, the script uses common table expressions (CTEs) and the recursion to 
 calculate the factorials of the specified row, position, and row minus position. 
 Then the script calculates the final value of the position using the formula (Row! / (Position! * (Row-Position)!)). 
 Finally, the script prints the final result of the calculated value of the position in Pascal's Triangle.
 
 
-Pascal's Triangle uses 0 based indexing.
+Pascal's Triangle uses 0-based indexing.
 The first row is row 0.
 The first position is position 0.
 The factorial of 0! is 1.
 ------
 
-Here is the first eight rows.
+Here are the first eight rows.
 
 0   |   1  |
 1   |   1  |  1  |
@@ -43,13 +43,13 @@ Pos.    0  |  1  |  2  |  3  |  4  |  5  | 6  | 7  |
 **********************************************************************/
 
 --Set your row and position
---Remember to use 0 based indexing
+--Remember to use 0-based indexing
 DECLARE @vRowNumber INTEGER = 4;
 DECLARE @vPositionNumber INTEGER = 3;
 
 -------------------------------
 -------------------------------
---Variables to hold the Row, Position and RowMinusPosition factorials
+--Variables to hold the Row, Position, and RowMinusPosition factorials
 --Factorial examples : 3! is 6, 4! is 24
 DECLARE @vRowFactorial INTEGER;
 DECLARE @vPositionFactorial INTEGER;
