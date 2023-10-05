@@ -10,11 +10,11 @@ This script shows an example usage of the function FnReturnCalendarTable.
 */-----------------------------------------------------------------------
 
 SET NOCOUNT ON;
-DROP TABLE IF EXISTS dbo.CalendarDaysTemp;
+DROP TABLE IF EXISTS CalendarDaysTemp;
 GO
 
 --Create a temporary calendar table
-CREATE TABLE dbo.CalendarDaysTemp
+CREATE TABLE CalendarDaysTemp
 (
 DateKey INT NOT NULL PRIMARY KEY,
 CalendarDate DATE NOT NULL
@@ -41,15 +41,15 @@ WHILE @vStartDate <> '2021-01-01'
 --Basic usage with CROSS APPLY
 SELECT  ct.*
 FROM    CalendarDaysTemp cd CROSS APPLY
-        dbo.FnReturnCalendarTable(cd.CalendarDate) ct
+        FnReturnCalendarTable(cd.CalendarDate) ct
 WHERE   cd.DateKey = ct.DateKey;
 GO
 
 --Create a view
-CREATE OR ALTER VIEW dbo.VwCalendarTable AS
+CREATE OR ALTER VIEW VwCalendarTable AS
 SELECT  ct.*
 FROM    CalendarDaysTemp cd CROSS APPLY
-        dbo.FnReturnCalendarTable(cd.CalendarDate) ct
+        FnReturnCalendarTable(cd.CalendarDate) ct
 WHERE   cd.DateKey = ct.DateKey;
 GO
 
