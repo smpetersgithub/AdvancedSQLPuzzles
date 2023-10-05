@@ -10,7 +10,7 @@ The first query uses the LEAD() window function to find the gaps in the seat num
 returns the gap start and gap end values. 
 
 The second query uses a common table expression (CTE) and the ROW_NUMBER() function to find 
-the missing seat numbers by ranking the seat numbers and calculating the difference 
+the missing seat numbers by ranking them and calculating the difference 
 between each seat number and its rank. The last query uses the COUNT() function and 
 a CASE statement to determine the number of odd and even seat numbers in the #SeatingChart table.
 
