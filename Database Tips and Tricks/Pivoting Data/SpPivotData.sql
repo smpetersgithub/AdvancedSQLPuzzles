@@ -60,15 +60,15 @@ BEGIN TRY
 
     --Create the PIVOT query
     SET @vSql = 
-                N'SELECT *'                                           + @vNewLine +
-                N'FROM (SELECT '                                      +
+                'SELECT *'                                           + @vNewLine +
+                'FROM (SELECT '                                      +
                 @vOnRows +
-                N', ' + @vOnColumns + N' AS pivot_col'                +
-                N', ' + @vAggColumns + N' AS agg_col'                 + @vNewLine +
-                N'      FROM ' + @vQuery + N')' +
-                N' AS PivotInput'                                     + @vNewLine +
-                N'  PIVOT(' + @vAggFunction + N'(agg_col)'            + @vNewLine +
-                N'    FOR pivot_col IN(' + @vColumns + N')) AS PivotOutput;';
+                ', ' + @vOnColumns + N' AS pivot_col'                +
+                ', ' + @vAggColumns + N' AS agg_col'                 + @vNewLine +
+                '      FROM ' + @vQuery + N')' +
+                ' AS PivotInput'                                     + @vNewLine +
+                '  PIVOT(' + @vAggFunction + N'(agg_col)'            + @vNewLine +
+                '    FOR pivot_col IN(' + @vColumns + N')) AS PivotOutput;';
 
     EXEC SP_EXECUTESQL @vSql;
 
