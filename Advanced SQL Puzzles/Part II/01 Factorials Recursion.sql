@@ -6,9 +6,9 @@ Last Updated: 01/13/2023
 Microsoft SQL Server T-SQL
 
 The script creates a temporary table called #Numbers that contains the 
-factorials of a range of numbers, specified by the variable @vTotalNumbers. 
+factorials of a range of numbers specified by the variable @vTotalNumbers. 
 The script uses a common table expression (CTE) with recursion to calculate the factorials, 
-starting with the number 1 and incrementing by 1 until the value of @vTotalNumbers is reached. 
+starting with the number one and incrementing by one until the value of @vTotalNumbers is reached. 
 The results of the CTE are then inserted into the #Numbers table and displayed at the end. 
 The OPTION (MAXRECURSION 0) setting ensures that there is no limit to the recursion level.
 
