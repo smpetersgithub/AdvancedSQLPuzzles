@@ -6,10 +6,10 @@ Last Updated: 02/07/2023
 Microsoft SQL Server T-SQL
 
 The script generates all the permutations of numbers from 1 to @vTotalNumbers (inclusive). 
-It first creates a table called #Numbers which contains a column of numbers from 1 to @vTotalNumbers. 
-Then it uses a recursive CTE to generate all the permutations by iterating through the #Numbers 
+It first creates a table called #Numbers, which contains a column of numbers from 1 to @vTotalNumbers. 
+Then, it uses a recursive CTE to generate all the permutations by iterating through the #Numbers 
 table and concatenating the numbers to form unique permutations. The output is saved in the temporary 
-table #Permutations and the results can be viewed by running a SELECT statement on it. The script 
+table #Permutations, and the results can be viewed by running a SELECT statement on it. The script 
 uses bitwise operators to speed up the calculation, but it can take a significant amount of time 
 to generate all permutations, especially with larger values of @vTotalNumbers.
 
