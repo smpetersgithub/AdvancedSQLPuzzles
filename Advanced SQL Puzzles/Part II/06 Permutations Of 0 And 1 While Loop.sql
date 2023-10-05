@@ -3,12 +3,11 @@ Scott Peters
 Permutations of 0 and 1
 https://advancedsqlpuzzles.com
 Last Updated: 01/13/2023
-
-This script is written in SQL Server's T-SQL
+Microsoft SQL Server
 
 This script creates a temporary table #Permutations and inserts 0 and 1 as initial values. 
-It then declares a variable @vPermutationLength which is used to set the length of the permutation string.
-Then using a while loop, it repeatedly concatenates the current permutations in the table 
+It then declares a variable @vPermutationLength, which is used to set the length of the permutation string.
+Then, using a while loop, it repeatedly concatenates the current permutations in the table 
 to create new permutations until the maximum length of the permutation column in the table 
 equals the value of @vPermutationLength. Finally, it selects and displays distinct permutations 
 of the desired length from the #Permutations table, ordered by the permutation values.
