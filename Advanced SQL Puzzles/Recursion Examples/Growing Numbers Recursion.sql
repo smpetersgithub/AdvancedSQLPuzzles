@@ -22,7 +22,6 @@ GO
 
 ---------------------
 ---------------------
---For this puzzle I manually create the #Numbers table to provide special testing cases (rather than using recursion)
 CREATE TABLE #Numbers
 (
 Number INTEGER NOT NULL
