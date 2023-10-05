@@ -9,10 +9,10 @@ This script runs an iteration of the Josephus Problem.
 https://en.wikipedia.org/wiki/Josephus_problem
 
 This script creates and populates a table of soldiers using a sequence. 
-It then uses a while loop to determine which soldier is eliminated in each iteration, 
+It then uses a while loop to determine which soldier is eliminated in each iteration 
 based on a specified cycle value. The script keeps track of the soldiers who have 
-been eliminated and the order they were eliminated in and returns the soldier 
-who is the last one remaining as the winner. The number of soldiers and the cycle 
+been eliminated and the order in which they were eliminated and returns the soldier 
+who remains the winner. The number of soldiers and the cycle 
 value can be adjusted by changing the MAXVALUE of the sequence and the @vCycle 
 variable respectively. The script also displays the result in order of 
 elimination and indicates the winner.
@@ -37,7 +37,7 @@ CREATE SEQUENCE dbo.JosephusSequence AS TINYINT
     START WITH 1
     INCREMENT BY 1
     MINVALUE 1
-    MAXVALUE 14----------------------------------------------------Set to number of soldiers!
+    MAXVALUE 14----------------------------------------------------Set to the number of soldiers!
     CYCLE;
 GO
 
@@ -139,7 +139,7 @@ GO
 
 /*
 You can also solve the Josephus problem via this simple loop,
-but you will not be able to determine which order each soldier was killed.
+but you will be unable to determine in which order each soldier was killed.
 
 SET NOCOUNT ON;
 GO
