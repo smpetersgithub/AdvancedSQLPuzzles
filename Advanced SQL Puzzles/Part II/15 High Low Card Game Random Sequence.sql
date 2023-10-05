@@ -6,7 +6,7 @@ Last Updated: 01/13/2023
 Microsoft SQL Server T-SQL
 
 This script implements a card game called High-Low, where an initial card is
-dealt face up and the script predicts if the next card is higher or lower. 
+dealt face up, and the script predicts if the next card is higher or lower. 
 
 This script uses various temporary tables, a sequence, and a while loop to simulate the 
 game for a set number of iterations. The script starts by creating and populating
@@ -14,9 +14,9 @@ a temporary table called #Numbers, then creates a sequence called dbo.CardDeckSe
 and creates several other temporary tables such as #CardShuffle, #CardShuffle2, 
 #CardShuffle3, #CardShuffle4, #CardShuffle5, and #CardShuffleResults. The script then 
 uses various INSERT and SELECT statements to perform calculations and store the results 
-in the temporary tables, and uses a WHILE loop to perform the simulation for the 
+in the temporary tables and uses a WHILE loop to perform the simulation for the 
 specified number of iterations.  The script also uses various control flow statements 
-such as IF and CASE to make predictions about the outcome of the game.
+such as IF and CASE to predict the game's outcome.
 
 **********************************************************************/
 
