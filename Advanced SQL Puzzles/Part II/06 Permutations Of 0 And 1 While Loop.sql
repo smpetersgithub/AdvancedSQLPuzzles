@@ -3,7 +3,7 @@ Scott Peters
 Permutations of 0 and 1
 https://advancedsqlpuzzles.com
 Last Updated: 01/13/2023
-Microsoft SQL Server
+Microsoft SQL Server T-SQL
 
 This script creates a temporary table #Permutations and inserts 0 and 1 as initial values. 
 It then declares a variable @vPermutationLength, which is used to set the length of the permutation string.
