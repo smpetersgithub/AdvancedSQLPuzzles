@@ -5,17 +5,17 @@ https://advancedsqlpuzzles.com
 Last Updated: 02/07/2023
 Microsoft SQL Server T-SQL
 
-This script solves the "Four Vehicles Puzzle" which is about assigning 5 children and 5 adults to 4 
+This script solves the "Four Vehicles Puzzle", which is about assigning five children and five adults to four 
 different vehicles (Motorcycle, Sidecar, Golf Cart, Car) with different seating capacities (1, 2, 3, 4).
-The script starts by dropping and creating several tables, one of which is the #Passengers table that 
+The script starts by dropping and creating several tables, one of which is the #Passengers table, which 
 stores information about the passengers (name and type). The script then populates the #Passengers table 
-with 5 children and 5 adults.  The script then creates 4 additional tables (#Motorcycle, #Sidecar, #Golfcart, #Car) 
+with five children and five adults.  The script then creates four additional tables (#Motorcycle, #Sidecar, #Golfcart, #Car) 
 that are used to store the permutations of the passengers assigned to each vehicle. The script uses common 
 table expressions (CTEs) and CROSS JOINs to generate all possible permutations of the passengers for each 
 vehicle and stores them in the appropriate table. The script also uses CASE statements to treat reciprocals 
 and sorts the passenger names alphabetically.  The final query uses a CROSS JOIN between the #Motorcycle, 
-#Sidecar, #Golfcart, and #Car table to produce the final set of permutations. Each table is hard coded 
-to the number of seats in each vehicle and the number of children and adults is also hard coded in the script.
+#Sidecar, #Golfcart, and #Car table to produce the final set of permutations. Each table is hardcoded 
+to the number of seats in each vehicle, and the number of children and adults is also hardcoded in the script.
 
 **********************************************************************/
 
@@ -68,7 +68,7 @@ GO
 ----------------------------------------------------
 ----------------------------------------------------
 ----------------------------------------------------
---Two seat sidecar
+--Two-seat sidecar
 WITH
 cte_drivers AS
 (
@@ -92,7 +92,7 @@ GO
 ----------------------------------------------------
 ----------------------------------------------------
 ----------------------------------------------------
---Three seat golf cart
+--Three-seat golf cart
 WITH
 cte_drivers AS
 (
@@ -136,7 +136,7 @@ GO
 ----------------------------------------------------
 ----------------------------------------------------
 ----------------------------------------------------
---Four seat car
+--Four-seat car
 WITH
 cte_drivers AS
 (
@@ -227,8 +227,6 @@ GO
 ----------------------------------------------------
 ----------------------------------------------------
 --The following creates the predicate logic that I copy and paste into the next query
---This is a one time execution
-
 /*
 ;WITH cte_predicate_permutations AS
 (
@@ -296,7 +294,7 @@ FROM    #Motorcycle a CROSS JOIN
 SELECT  DISTINCT *
 FROM    cte_dataset
 WHERE
---Below is copied and pasted from the above commented out query
+--Below is copied and pasted from the above commented-out query
 CarDriverName <> CarPassengerName_1 AND
 CarDriverName <> CarPassengerName_2 AND
 CarDriverName <> CarPassengerName_3 AND
