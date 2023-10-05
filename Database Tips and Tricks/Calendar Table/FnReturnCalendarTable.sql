@@ -1,4 +1,4 @@
-CREATE OR ALTER FUNCTION dbo.FnReturnCalendarTable
+CREATE OR ALTER FUNCTION FnReturnCalendarTable
 /*----------------------------------------------------------------------------------------------------------------------------
 Scott Peters
 Creating a Calendar Table
