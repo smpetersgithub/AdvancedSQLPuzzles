@@ -8,7 +8,7 @@ Microsoft SQL Server T-SQL
 This script runs a simulation of the 100 Prisoners Problem.
 https://en.wikipedia.org/wiki/100_prisoners_problem
 
-The script creates and uses several temporary tables to store the results of the simulation. 
+The script creates and uses several temporary tables to store the simulation results. 
 The script begins by initializing variables that control the number of iterations and the 
 range of numbers used in the simulation. It then enters a while loop that runs for a specified
 number of iterations. In each iteration, it creates and populates a temporary table called #Drawers 
@@ -18,7 +18,7 @@ it creates and populates two more temporary tables called #Drawers2 and #Drawers
 specific columns from #Drawers and using a recursive common table expression (CTE) to traverse 
 the drawer numbers and prisoner numbers. It then inserts the results of this iteration into a 
 table called #Results. After all the iterations are completed, the script uses a CTE to group 
-the results by iteration and loop cycle length, and then selects the count of loops for each 
+the results by iteration and loop cycle length and then selects the count of loops for each 
 cycle length. It also uses a second CTE to group the results by iteration and selects the largest 
 loop cycle for each iteration.
 
@@ -148,7 +148,7 @@ GO
 
 ----------------------------
 ----------------------------
---Count of largest loop cycle for each iteration
+--Count the largest loop cycle for each iteration
 WITH cte_MaxDepth AS
 (
 SELECT Iteration,
@@ -165,7 +165,7 @@ GO
 
 ----------------------------
 ----------------------------
---% of iterations that have a loop less thant 50
+--% of iterations that have a loop less than 50
 WITH cte_Iterations_Under50 AS
 (
 SELECT  Iteration,
@@ -222,7 +222,7 @@ GO
 
 ----------------------------
 ----------------------------
---Count of largest loop cycle for each iteration
+--Count the largest loop cycle for each iteration
 WITH cte_MaxDepth AS
 (
 SELECT Iteration,
