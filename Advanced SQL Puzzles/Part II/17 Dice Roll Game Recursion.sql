@@ -5,8 +5,8 @@ https://advancedsqlpuzzles.com
 Last Updated: 01/13/2023
 Microsoft SQL Server T-SQL
 
-The script simulateS a game in which the player rolls a dice repeatedly, and the 
-game ends when the player reaches a certain score, which is set by the @vDesiredScore variable.
+The script simulates a game in which the player rolls a dice repeatedly and ends when the player 
+reaches a certain score, which is set by the @vDesiredScore variable.
 
 The script starts by declaring and setting some variables, including the desired 
 score for the game, the number of iterations the game should run, and the assumption 
