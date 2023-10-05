@@ -3,12 +3,12 @@ Scott Peters
 Permutations 1 Through 10 (Cross Join)
 https://advancedsqlpuzzles.com
 Last Updated: 01/13/2023
-Microsoft SQL Server T-SQL
+Microsoft SQL Server
 
 This script generates permutations of digits from 1 to 10. It uses a table called #Numbers 
 which is populated with the numbers 1 through 10. The script then uses CROSS JOINs to 
 join the #Numbers table multiple times to generate permutations of various lengths 
-(2 digits, 3 digits, 4 digits etc.) with the result set in the format of a concatenated 
+(two digits, three digits, four digits, etc.) with the result set in the format of a concatenated 
 string (e.g. "1,2,3"). The final query in each block filters out the permutations where 
 the same number is repeated in the permutation. The script can be modified to generate 
 permutations of any desired length by adding or removing CROSS JOINs and adjusting the 
