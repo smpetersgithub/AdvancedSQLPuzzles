@@ -8,20 +8,20 @@ This script solves for a Markov Chain.
 https://en.wikipedia.org/wiki/Markov_chain
 
 Problem:
-In Probability Land, on a sunny day there is an equal probability of the next day being sunny or rainy. 
-On a rainy day, there is a 70% chance it will rain the next day, and a 30% chance it will be sunny the next day.
+In Probability Land, on a sunny day, there is an equal probability of the next day being sunny or rainy. 
+On a rainy day, there is a 70% chance it will rain the next day and a 30% chance it will be sunny the next day.
 
 On average, how many rainy days are there in Probability Land?
 
 The script first creates and populates the #Probabilities table with the probabilities of the next
-day being sunny or rainy given the current day's weather. Then it creates and populates a #Numbers table 
+day being sunny or rainy, given the current day's weather. Then, it creates and populates a #Numbers table 
 with a specified number of days to simulate. Using these two tables, the script generates a #RandomNumbers 
 table with a column for the current state of the weather, which is seeded as "rainy", and a column for the 
 probability of the next day's weather, which is generated randomly.  Finally, the script uses a recursive 
 CTE to generate a #ProbabilitiesFinal table, which shows the weather for each day of the simulation. 
-The script then displays a summary of the counts of rainy and sunny days.
+The script then summarizes the counts of rainy and sunny days.
 
-It is important to note that this simulation is based on random numbers and therefore the results may vary when running the script multiple times.
+It is important to note that this simulation is based on random numbers. The results may vary when running the script multiple times.
 
 */----------------------------------------------------
 
