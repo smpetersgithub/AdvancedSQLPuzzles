@@ -75,14 +75,14 @@ SELECT value FROM GENERATE_SERIES(START = 1, STOP = 5);
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;A permutation is a way in which a set or number of things can be ordered or arranged.  With permutation, order matters. With combinations, the order does not matter.
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;We often use the word combination loosely without thinking order is important. A good example is the following:    
-*  “My cheeseburger has a combination of the toppings lettuce, tomato, and onion”. Here we do not care about the order, it is the same cheeseburger if it was “onion, lettuce, and tomato” or “tomato, lettuce, and onion”. The same cheeseburger is described no matter the order of the ingredients.
+*  “My cheeseburger has a combination of the toppings lettuce, tomato, and onion”. Here, we do not care about the order. It is the same cheeseburger if the order was “onion, lettuce, and tomato” or “tomato, lettuce, and onion”. The same cheeseburger is described no matter the order of the ingredients.
 *  “The combination to my locker is 23-56-12”. Here, the order is important, and a combination lock is more accurately described as a “permutation lock”. A different arrangement would yield an inaccurate result for opening the lock.
 
 **Permutations can get very large!**
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;When calculating permutations, the number of permutations grows substantially with each additional element added. The number of permutations to arrange the numbers 1 through 9 can be calculated by 9! (9 factorial) and returns 362,880 permutations. Adding another element to this set (10!) causes the number of permutations to grow to 3,628,800.
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;When solving these puzzles, consider using a comma-separated list to store the data (often referred to as zero normal form), and when needed, you can pivot the data, which you have several options for. The solution to Puzzle #9 “Find the Spaces” can give you a recipe for pivoting the data using recursion, or you can use the `STRING_SPLIT` function to perform this action. Please check out the documentation for the `STRING_SPLIT` function, as it does have several parameters.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;When solving these puzzles, consider using a comma-separated list to store the data (often referred to as zero normal form), and when needed, you can pivot the data, which you have several options for. The solution to Puzzle #9, “Find the Spaces”, can give you a recipe for pivoting the data using recursion, or you can use the `STRING_SPLIT` function to perform this action. Please check out the documentation for the `STRING_SPLIT` function, as it does have several parameters.
 
 
 ## Sequences
@@ -167,11 +167,11 @@ GROUP BY RandomNumber;
 
 ## Conclusion
 
-:mailbox:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;If you find any inaccuracies, misspellings, bugs, dead links, etc. please report an issue!  No detail is too small, and I appreciate all the help.
+:mailbox:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;If you find any inaccuracies, misspellings, bugs, dead links, etc., please report an issue!  No detail is too small, and I appreciate all the help.
 
 :smile:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Happy coding!
 
-I hope you find this repository to be useful and informative, and I welcome any new puzzles or tips and tricks you may have. I also have a WordPress site where you can find my data analytics projects, Python puzzles, and blog.
+I hope you find this repository useful and informative, and I welcome any new puzzles or tips and tricks you may have. I also have a WordPress site where you can find my data analytics projects, Python puzzles, and blog.
 
 https://advancedsqlpuzzles.com
 
