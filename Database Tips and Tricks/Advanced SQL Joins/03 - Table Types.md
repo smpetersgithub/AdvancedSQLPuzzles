@@ -15,7 +15,7 @@ Here are the 10 different types of tables you can create.
 | 7  | Common Table Expression (CTE)  | False         | A named temporary result set that can be used in a `SELECT`, `INSERT`, `UPDATE`, or `DELETE` statement.                                    |
 | 8  | Temporary Table                | False         | A table that is created for a specific session or connection and is automatically dropped when the session or connection ends.             |
 | 9  | Table Variable                 | False         | A variable that holds a table of data. It is similar to a temporary table, but it has some differences in behavior and scope.              |
-|10  | External Tables                | False         | Used to access data stored externally, such as in a text file. They are created using the `CREATE EXTERNAL TABLE` statement.               |
+|10  | External Tables                | False         | Used to access data stored externally, such as Hadoop or Azure Blob storage. They are created using the `CREATE EXTERNAL TABLE` statement.               |
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`Tempdb` is used by SQL Server to store intermediate results when processing queries, such as those created by derived tables and subqueries. This allows the database engine to reuse the results multiple times in the same query instead of recomputing them each time they're needed. It's important to note that the use of `tempdb` and the extent to which it's used can vary depending on the complexity of the query and other factors, such as the amount of memory available and the indexes present on the involved tables.
 
@@ -55,7 +55,7 @@ SELECT * FROM Employees;
 --------------------------------------------------------------------------------------------------------
 #### View
 
-An SQL view is a virtual table that provides a specific, customized perspective of data from one or more tables in a database.  There are two main types of SQL views: materialized views and non-materialized (or simple) views. Materialized views store the result set of the view query, while non-materialized views do not store any data and dynamically retrieve data from the underlying tables each time the view is accessed.  You can issue `INSERT`, `UPDATE`, and `DELETE` commands through views and can manipulate the underlying table(s) in the view.
+An SQL view is a virtual table that provides a specific, customized data perspective from one or more tables in a database.  There are two main types of SQL views: materialized views and non-materialized (or simple) views. Materialized views store the result set of the view query, while non-materialized views do not store any data and dynamically retrieve data from the underlying tables each time the view is accessed.  You can issue `INSERT`, `UPDATE`, and `DELETE` commands through views and can manipulate the underlying table(s) in the view.
 
 In this example, we create a view from the `Employees` table, insert a record into the table, and then select from the view;
 
@@ -84,7 +84,7 @@ SELECT * FROM vwEmployees;
 --------------------------------------------------------------------------------------------------------
 #### VALUES Operator
 
-The `VALUES` constructor has a few considerations that are often overlooked and deserve its own recognition.  The `VALUES` constructor specifies a set of row value expressions to be constructed into a table and allows multiple sets of values to be specified in a single DML statement.  Normally we use the `VALUES` constructor to specify the data to insert into a table, as we initially did with our test data, but it can also be used as a derived table in an SQL statement.
+The `VALUES` constructor has a few considerations that are often overlooked and deserve its own recognition.  The `VALUES` constructor specifies a set of row value expressions to be constructed into a table and allows multiple sets of values to be specified in a single DML statement.  Normally, we use the `VALUES` constructor to specify the data to insert into a table, as we initially did with our test data, but it can also be used as a derived table in an SQL statement.
 
 Here is a basic example of using the `VALUES` constructor as a derived table.
 
@@ -135,9 +135,9 @@ FROM    Employees a CROSS JOIN
 --------------------------------------------------------------------------------------------------------
 #### Table-Valued Function
 
-A table-valued function acts much like a view with the added benefit of being parameterized.  
+A table-valued function acts like a view with the added benefit of being parameterized.  
 
-For this example, we create a table-valued function using the `Employees` table.  To use the table values function we can simply select from the function or use the `CROSS APPLY` to join to another table.
+For this example, we create a table-valued function using the `Employees` table.  To use the table values function, we can simply select from the function or use the `CROSS APPLY` join operation.
         
 ```sql
 CREATE OR ALTER FUNCTION FnGetEmployees (@EmployeeID INTEGER)
@@ -338,7 +338,7 @@ SELECT * FROM @TableVariable;
 --------------------------------------------------------------------------------------------------------
 #### External Tables           
 
-External tables in Microsoft SQL Server exist outside of the database and are used to access data stored in external sources such as flat files, Hadoop, or Azure Blob storage. External tables provide a way to access external data as if it were a regular table within the database, allowing you to use standard SQL statements to retrieve and manipulate data stored in external sources. This can be useful for tasks such as performing data integration, bulk data loading, and data archiving, as well as for querying and processing large datasets stored in external sources. However, external tables in Microsoft SQL Server have limitations such as limited indexing options and slower query performance compared to regular tables stored in the SQL Server database.
+External tables in Microsoft SQL Server exist outside of the database and are used to access data stored in external sources such as Hadoop or Azure Blob storage. External tables provide a way to access external data as if it were a regular table within the database, allowing you to use standard SQL statements to retrieve and manipulate data stored in external sources. This can be useful for tasks such as performing data integration, bulk data loading, and data archiving, as well as for querying and processing large datasets stored in external sources. However, external tables in Microsoft SQL Server have limitations such as limited indexing options and slower query performance compared to regular tables stored in the SQL Server database.
 
 See your vendor's documentation on external tables, as this will vary for each vendor.
 
