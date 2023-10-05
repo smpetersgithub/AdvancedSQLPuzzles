@@ -5,7 +5,7 @@ https://advancedsqlpuzzles.com
 Last Updated: 01/13/2023
 Microsoft SQL Server T-SQL
 
-This script generates permutations of a set of numbers using a bit mask. The script starts by 
+This script generates permutations of a set of numbers using a bitmask. The script starts by 
 declaring a variable for the length of numbers that will be used in the permutations and then 
 creates a table called #Numbers that is populated with a set of numbers. The script then uses 
 common table expressions (CTEs) and bitwise operators to generate permutations of the numbers 
@@ -78,7 +78,7 @@ WHERE   Bitmask = POWER(2, (SELECT COUNT(*) FROM cte_Numbers)) - 1
 -------------------------------
 -------------------------------
 --Creates table #PermutationsPosition
---Determines position of commas
+--Determines the position of commas
 ;WITH cte_CAST AS
 (
 SELECT Id, CAST(Permutation AS VARCHAR(20)) AS Permutation FROM #Permutations
