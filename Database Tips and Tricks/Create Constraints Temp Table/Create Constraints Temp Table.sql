@@ -5,11 +5,11 @@ https://advancedsqlpuzzles.com
 Last Updated: 03/10/2023
 Microsoft SQL Server T-SQL
 
-This script creates several constraints on a temporary table, #EmployeePayRecords, that is 
+This script creates several constraints on a temporary table, #EmployeePayRecords, which is 
 identical to the constraints on the persistent table EmployeePayRecords in the dbo schema.
 
-It should be noted that the script uses the specific example table "EmployeePayRecords" and Schema "dbo", and the user should adjust 
-the variables @vschema_name and @vtable_name to the appropriate names of the desired table to use.
+It should be noted that the script uses the specific example table "EmployeePayRecords" and the schema "dbo". 
+The user should adjust the variables @vschema_name and @vtable_name to the appropriate names of the desired table to use.
 
 Also, temporary tables are only available while the SQL Server instance is running, and the data is not persisted across restarts, 
 therefore, it should not be used for any type of permanent data storage or as a permanent solution.
@@ -22,7 +22,7 @@ The script creates several temporary tables to store the SQL statements that wil
 #ForeignPrimaryUniqueKeyConstraints
 
 It then populates the #DynamicSQL table with a set of SQL statements generated from information 
-in the system tables of the SQL Server instance, such as sys.tables, sys.indexes and sys.key_constraints.
+in the system tables of the SQL Server instance, such as sys.tables, sys.indexes, and sys.key_constraints.
 
 The SQL statements in the #DynamicSQL table are then executed to create the NOT NULL, UNIQUE, PRIMARY KEY, and CHECK constraints 
 on the #EmployeePayRecords temporary table, though FOREIGN KEY constraints cannot be created on a temp table, 
