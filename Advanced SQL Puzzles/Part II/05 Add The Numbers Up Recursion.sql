@@ -3,12 +3,11 @@ Scott Peters
 Add The Numbers Up
 https://advancedsqlpuzzles.com
 Last Updated: 03/27/2023
+Microsoft SQL Server
 
-This script is written in SQL Server's T-SQL
-
-This SQL Server script aims to find all possible permutations of numbers 
+This script finds all possible permutations of numbers 
 and arithmetic operations (+, -) on a given set of numbers, and then 
-calculate the result of each permutation.
+calculates the result of each permutation.
 
 **********************************************************************/
 
@@ -35,7 +34,7 @@ INSERT INTO #Operators VALUES ('-'),('+');
 GO
 -------------------------------
 -------------------------------
---For this puzzle I manually create the #Numbers table to provide special testing cases (rather than using recursion)
+--For this puzzle, I manually create the #Numbers table to provide special testing cases (rather than using recursion)
 CREATE TABLE #Numbers
 (
 Number INTEGER NOT NULL
