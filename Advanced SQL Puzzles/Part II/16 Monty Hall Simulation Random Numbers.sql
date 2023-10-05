@@ -10,11 +10,8 @@ https://en.wikipedia.org/wiki/Monty_Hall_problem
 
 The script creates a table called #WinningProbability and uses a while loop to simulate 
 the game for a set number of iterations. Before the loop, the script declares and sets 
-a number of variables, such as the number of doors, goats, and prize, number of doors 
-the host will reveal, number of doors the contestant will choose, number of doors the 
-contestant will switch, and number of prize doors in final selection for the contestant 
-to be considered a winner. Then, the script uses various conditional statements to 
-check if the variables are valid, then it uses various insert and select statement 
+several variables.  The script uses various conditional statements to 
+check if the variables are valid. It then uses various INSERT and SELECT statements
 to perform the simulation and store the results in the #WinningProbability table.
 
 **********************************************************************/
@@ -64,14 +61,14 @@ DECLARE @vNumberContestantDoors INTEGER = 1;
 --When the contestant switches doors, they will switch ALL currently selected doors for new doors
 DECLARE @vNumberOfDoorsSwitch INTEGER = @vNumberContestantDoors;
 
---The number of prize doors in final selection for the contestant to be considered a winner
+--The number of prize doors in the final selection for the contestant to be considered a winner
 DECLARE @vNumberOfPrizeDoorsSelectedNeededToWin INTEGER = 1; 
 ---------------------
 ---------------------
 
 --Validation checks
 --The number of doors needs to be greater than or equal to the sum of the 
---1) the number of the doors the host will reveal plus 
+--1) the number of doors the host will reveal
 --2) the number of doors the contestant will choose 
 --3) the number of doors the contestant will switch
 IF  NOT(@vNumberDoors >= @vNumberHostDoors + @vNumberContestantDoors + @vNumberOfDoorsSwitch)
@@ -81,16 +78,16 @@ IF  NOT(@vNumberDoors >= @vNumberHostDoors + @vNumberContestantDoors + @vNumberO
     END
 
 --The number of goats needs to be less than 
---1) the number of the doors in the simulation
+--1) the number of doors in the simulation
 IF  NOT(@vNumberGoats <  @vNumberDoors)
     BEGIN
     PRINT 'Fail 2'
     RETURN
     END
 
---There has to be enough goats in order to ensure the host can reveal the needed number of goats
+--There has to be enough goats to ensure the host can reveal the needed number of goats
 --The number of goats needs to be greater than or equal to the sum of 
---1) the number of the doors the host will reveal plus 
+--1) the number of doors the host will reveal
 --2) the number of doors the contestant will choose 
 IF  NOT(@vNumberGoats >=  @vNumberHostDoors + @vNumberContestantDoors)
     BEGIN
@@ -193,7 +190,7 @@ SET     ContestantSwitchFlag = 1
 WHERE   RowNumber <= @vNumberHostDoors;
 
 
---Determine WinningProbability
+--Determine winning probability
 INSERT INTO #WinningProbability
 (
 NumberOfDoorsNeededToWin,
