@@ -6,7 +6,7 @@ This script compares two identical tables using `DYNAMIC SQL` and `FULL OUTER JO
 
 ## Overview
 
-The scripts `Table Validation Part 1.sql` and `Table Validation Part 2.sql` will create the following thirteen temporary tables in order to arrive at the final temporary table `#SQLStatementFinal`.  The SQL statement in the table `#SQLStatementFinal` will then be executed via `DYNAMIC SQL`.  
+The scripts `Table Validation Part 1.sql` and `Table Validation Part 2.sql` will create the following thirteen temporary tables to arrive at the final temporary table `#SQLStatementFinal`.  The SQL statement in the table `#SQLStatementFinal` will then be executed via `DYNAMIC SQL`.  
 
 1.  `##TableInformation`   
 2.  `#Select`   
@@ -183,7 +183,7 @@ FROM    CTE_SQLStatement;
 
 --------------------------------------------------------------
 
-:mailbox:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;If you find any inaccuracies, misspellings, bugs, dead links, etc. please report an issue!  No detail is too small, and I appreciate all the help.
+:mailbox:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;If you find any inaccuracies, misspellings, bugs, dead links, etc., please report an issue!  No detail is too small, and I appreciate all the help.
 
 :smile:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Happy coding!
 
