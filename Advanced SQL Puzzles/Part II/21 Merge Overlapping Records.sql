@@ -7,15 +7,15 @@ Microsoft SQL Server T-SQL
 
 This script is used to merge overlapping records. The script creates and populates 
 several temporary tables to aid in the merging process. The script first creates 
-and populates a table called #Numbers which holds the start and end integers of 
+and populates a table called #Numbers, which holds the start and end integers of 
 the records to be merged. It then uses a SELECT DISTINCT statement to create and 
 populate a table called #Distinct_StartIntegers with the distinct start integers 
-from #Numbers table. Next, it creates and populates a table called #OuterJoin by 
+from the #Numbers table. Next, it creates and populates a table called #OuterJoin by 
 performing a left outer join on the #Numbers table with itself, using the condition 
 that the end integer of one record is greater than or equal to the start integer of 
-another record, but less than its end integer. It then creates and populates a 
+another record but less than its end integer. It then creates and populates a 
 table called #DetermineValidEndIntegers by selecting the end integers from #OuterJoin 
-where the start integer of the second record is null and grouping by end integer. 
+where the start integer of the second record is NULL and grouped by the end integer. 
 It then creates and populates a table called #DetermineValidEndIntegers2 by selecting 
 the start integers from #Distinct_StartIntegers and joining it with #DetermineValidEndIntegers, 
 and then grouping by start integer. Finally, it selects the minimum start integer 
