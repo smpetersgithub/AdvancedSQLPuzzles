@@ -11,9 +11,9 @@ This script creates a scalar-valued function that returns the difference between
 broken down into year, month, day, hour, minute, second, and nano-second parts.
 
 Example usage:
-SELECT dbo.FnDateDiffPartsChar('20110619 00:00:00.0000001', '20110619 00:00:00.0000000');
-SELECT dbo.FnDateDiffPartsChar('20171231', '20160101 00:00:00.0000000');
-SELECT dbo.FnDateDiffPartsChar('20170518 00:00:00.0000001','20110619 00:00:00.1110000');
+SELECT FnDateDiffPartsChar('20110619 00:00:00.0000001', '20110619 00:00:00.0000000');
+SELECT FnDateDiffPartsChar('20171231', '20160101 00:00:00.0000000');
+SELECT FnDateDiffPartsChar('20170518 00:00:00.0000001','20110619 00:00:00.1110000');
 
 */----------------------------------------------------
 AS
