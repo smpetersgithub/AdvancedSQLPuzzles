@@ -8,8 +8,8 @@ Microsoft SQL Server T-SQL
 This script uses recursion to solve a Markov Chain.
 https://en.wikipedia.org/wiki/Markov_chain
 
-In Probability Land, on a sunny day there is an equal probability of the next day being sunny or rainy. 
-On a rainy day, there is a 70% chance it will rain the next day, and a 30% chance it will be sunny the next day.
+In Probability Land, on a sunny day, there is an equal probability of the next day being sunny or rainy. 
+On a rainy day, there is a 70% chance it will rain the next day and a 30% chance it will be sunny the next day.
 
 On average, how many rainy days are there in Probability Land?
 
