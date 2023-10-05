@@ -6,10 +6,10 @@ Last Updated: 01/13/2023
 Microsoft SQL Server T-SQL
 
 The script creates two temporary tables: #Groupings and #Groupings2. 
-The #Groupings table is populated with test case information, including a step number, 
+The #Groupings table contains test case information, including a step number, 
 test case name, and status (Passed or Failed).
 
-The script then uses a SELECT statement to insert data into #Groupings2 table, 
+The script then uses a SELECT statement to insert data into the #Groupings2 table, 
 which includes the StepNumber, Status, and a calculated column Rnk. 
 The Rnk column is calculated using the ROW_NUMBER() function with a window frame 
 defined by the "PARTITION BY [Status] ORDER BY StepNumber" clause. 
