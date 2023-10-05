@@ -19,7 +19,7 @@ This script creates a table-valued function that returns the difference between 
 broken down into year, month, day, hour, minute, second, and nano-second parts.
 
 Example usage:
-SELECT * FROM dbo.FnDateDiffPartsTable('20130518 00:00:00.0000001','20110619 00:00:00.1110000');
+SELECT * FROM FnDateDiffPartsTable('20130518 00:00:00.0000001','20110619 00:00:00.1110000');
 
 **********************************************************************/
 AS
