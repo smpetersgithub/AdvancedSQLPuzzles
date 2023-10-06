@@ -10,7 +10,7 @@ This repository contains a collection of my SQL puzzles, tips and tricks, demos,
 
 ## Getting Started
 
-To get started, clone or download the repository to your local machine. I have included readme files for each directory that describes its contents. If anything is unclear, please contact me and I would be happy to assist.
+To get started, clone or download the repository to your local machine. I have included readme files for each directory that describes its contents. If anything is unclear, please contact me, and I would be happy to assist.
 
 ## About Me
 
