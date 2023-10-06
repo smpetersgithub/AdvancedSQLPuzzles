@@ -1,6 +1,6 @@
 # Advanced SQL Puzzles
 
-This repository contains a collection of my SQL puzzles, tips and tricks, demos, and various writings. Feel free to rummage around, I am constantly updating this repository, so check back often.
+This repository contains a collection of my SQL puzzles and various writings. Feel free to rummage around, I am constantly updating this repository, so check back often.
 
 :keyboard:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;All SQL is written in `Microsoft SQL Server T-SQL`, unless otherwise noted.
 
