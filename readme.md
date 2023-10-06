@@ -14,7 +14,7 @@ To get started, clone or download the repository to your local machine. I have i
 
 ## About Me
 
-Greetings. I am Scott Peters, a resident of Austin, TX. I am always eager to collaborate with fellow SQL developers. I've probably written the word "SELECT" 200,000 times.  If you would like to connect, please drop me a line.
+Greetings. I am Scott Peters, a resident of Austin, TX. I am always eager to collaborate with fellow SQL developers. I've probably written the word "SELECT" two-hundred thousand times.  If you would like to connect, please drop me a line.
 
 ## Conclusion
 
