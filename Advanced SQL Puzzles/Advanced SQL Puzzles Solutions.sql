@@ -444,7 +444,6 @@ INSERT INTO #WorkflowCases (Workflow, Case1, Case2, Case3) VALUES
 ('Alpha',0,0,0),('Bravo',0,1,1),('Charlie',1,0,0),('Delta',0,0,0);
 GO
 
-
 --Solution 1
 --Add each column
 SELECT  Workflow,
@@ -520,7 +519,7 @@ GO
 
 /*----------------------------------------------------
 Answer to Puzzle #10
-Mean, Median, Mode and Range
+Mean, Median, Mode, and Range
 */----------------------------------------------------
 
 DROP TABLE IF EXISTS #SampleData;
@@ -1573,6 +1572,7 @@ INSERT INTO #Groupings (StepNumber, TestCase, [Status]) VALUES
 (12,'Test Case 12','Passed');
 GO
 
+--Solution 1
 WITH cte_Groupings AS
 (
 SELECT  StepNumber,
@@ -1589,6 +1589,28 @@ FROM    cte_Groupings
 GROUP BY Rnk,
         [Status]
 ORDER BY 1, 2;
+GO
+
+--Solution 2
+WITH cte_Lag AS
+(
+SELECT  *,
+        LAG([Status]) OVER(ORDER BY StepNumber) AS PreviousStatus
+FROM    #Groupings
+),
+cte_Groupings AS
+(
+SELECT  *,
+        SUM(CASE WHEN PreviousStatus <> [Status] THEN 1 ELSE 0 END) OVER (ORDER BY StepNumber) AS GroupNumber
+FROM    cte_Lag
+)
+SELECT  MIN(StepNumber) AS MinStepNumber,
+        MAX(StepNumber) AS MaxStepNumber,
+        [Status],
+        COUNT(*) AS ConsecutiveCount,
+        MAX(StepNumber) - MIN(StepNumber) + 1 AS ConsecutiveCount_MinMax
+FROM    cte_Groupings
+GROUP BY [Status], GroupNumber
 GO
 
 /*----------------------------------------------------
@@ -1629,38 +1651,83 @@ INSERT INTO #SampleData (IntegerValue) VALUES
 GO
 
 --Solution 1
---Correlated Subquery
-SELECT  IntegerValue
-FROM    #SampleData a
-WHERE   2 = (SELECT COUNT(IntegerValue)
-            FROM    #SampleData b
-            WHERE   a.IntegerValue <= b.IntegerValue);
+--RANK
+WITH cte_Rank AS
+(
+SELECT  RANK() OVER (ORDER BY IntegerValue DESC) AS MyRank,
+        *
+FROM    #SampleData
+)
+SELECT  *
+FROM    cte_Rank
+WHERE   MyRank = 2;
 GO
 
 --Solution 2
---OFFSET
-SELECT  IntegerValue
-FROM    #SampleData a
-ORDER BY IntegerValue DESC
-OFFSET 1 ROWS FETCH NEXT 1 ROWS ONLY;
+--Top 1 and Max
+SELECT  TOP 1 *
+FROM    #SampleData
+WHERE   IntegerValue <> (SELECT MAX(IntegerValue) FROM #SampleData)
+ORDER BY IntegerValue DESC;
 GO
 
 --Solution 3
---MAX
-SELECT  MAX(IntegerValue)
+--Offset and Fetch
+SELECT  *
 FROM    #SampleData
-WHERE   IntegerValue < (SELECT MAX(IntegerValue) FROM #SampleData);
+ORDER BY IntegerValue DESC
+OFFSET 1 ROWS
+FETCH NEXT 1 ROWS ONLY;
 GO
 
 --Solution 4
---TOP
-WITH cte_Top2 AS
+--Top 1 and Top 2
+SELECT  TOP 1 *
+FROM    (
+        SELECT  TOP 2 *
+        FROM    #SampleData
+        ORDER BY IntegerValue DESC
+        ) a
+ORDER BY IntegerValue ASC;
+GO
+
+--Solution 5
+--Min and Top 2
+WITH cte_TopMin AS
 (
-SELECT  TOP(2) IntegerValue
-FROM    #SampleData
-ORDER BY IntegerValue DESC
+SELECT  MIN(IntegerValue) AS MinIntegerValue
+FROM   (
+       SELECT  TOP 2 *
+       FROM    #SampleData
+       ORDER BY IntegerValue DESC
+       ) a
 )
-SELECT  MIN(IntegerValue) FROM cte_Top2;
+SELECT  *
+FROM    #SampleData
+WHERE   IntegerValue IN (SELECT MinIntegerValue FROM cte_TopMin);
+GO
+
+--Solution 6
+--Correlated Sub-Query
+SELECT  *
+FROM    #SampleData a
+WHERE   2 = (SELECT COUNT(DISTINCT b.IntegerValue)
+             FROM #SampleData b
+             WHERE a.IntegerValue <= b.IntegerValue);
+GO
+
+--Solution 7
+--Top 1 and Lag
+WITH cte_LeadLag AS
+(
+SELECT  *,
+        LAG(IntegerValue, 1, NULL) OVER (ORDER BY IntegerValue DESC) AS PreviousValue
+FROM    #SampleData
+)
+SELECT  TOP 1 *
+FROM    cte_LeadLag
+WHERE   PreviousValue IS NOT NULL
+ORDER BY IntegerValue DESC;
 GO
 
 /*----------------------------------------------------
