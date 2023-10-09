@@ -64,14 +64,15 @@ Despite these criticisms, NULL markers are widely used and accepted but must be 
 ### Predicate Logic
 🔵&nbsp;&nbsp;&nbsp;[Table Of Contents](#table-of-contents)
 
-To best understand NULL markers in SQL, we need to understand the three-valued logic outcomes of **TRUE**, **FALSE**, and **UNKNOWN**.  Unique to SQL, the logic result will always be **UNKNOWN** when comparing a NULL marker to any other value.   SQL’s three-valued logic system presents a surprising amount of complexity in a seemingly straightforward query!
+To best understand NULL markers in SQL, we must understand the three-valued logic outcomes of **TRUE**, **FALSE**, and **UNKNOWN**.  Unique to SQL, the logic result will always be **UNKNOWN** when comparing a NULL marker to any other value.   SQL’s three-valued logic system presents a surprising amount of complexity in a seemingly straightforward query!
 
 ---------------------------------------------------------
 **Three-Valued Logic**
 
 The following truth tables display how the three-valued logic is applied.
 
-![Truth Tables Three Valued Logic](/Database%20Tips%20and%20Tricks/Behavior%20Of%20Nulls/images/Truth_Tables_Three_Valued_Logic.png)
+![Truth Tables Three Valued Logic](/Database%20Articles/Behavior%20Of%20Nulls/images/Truth_Tables_Three_Valued_Logic.png)
+
 
 A good example of the complexity is shown below in the following examples.  [De Morgan's Law](https://en.wikipedia.org/wiki/De_Morgan%27s_laws) is also included below, as I show both versions of negation.
 
