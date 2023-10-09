@@ -1,6 +1,6 @@
 # Table Types
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Within SQL, you can create a join to the following 10 table types. Table types can be schema-bound objects, meaning they are saved as a database object within a named schema, or they are unbound and only durable for the life of an SQL statement or your current session.  Items that are not schema-bound are created in the `tempdb` and do not have any data of their existence in the catalog views.
+Within SQL, you can create a join to the following 10 table types. Table types can be schema-bound objects, meaning they are saved as a database object within a named schema, or they are unbound and only durable for the life of an SQL statement or your current session.  Items that are not schema-bound are created in the `tempdb` and do not have any data of their existence in the catalog views.
 
 Here are the 10 different types of tables you can create.
 
@@ -15,11 +15,11 @@ Here are the 10 different types of tables you can create.
 | 7  | Common Table Expression (CTE)  | False         | A named temporary result set that can be used in a `SELECT`, `INSERT`, `UPDATE`, or `DELETE` statement.                                    |
 | 8  | Temporary Table                | False         | A table that is created for a specific session or connection and is automatically dropped when the session or connection ends.             |
 | 9  | Table Variable                 | False         | A variable that holds a table of data. It is similar to a temporary table, but it has some differences in behavior and scope.              |
-|10  | External Tables                | False         | Used to access data stored externally, such as Hadoop or Azure Blob storage. They are created using the `CREATE EXTERNAL TABLE` statement.               |
+|10  | External Tables                | False         | Used to access external data, such as Hadoop or Azure Blob storage. They are created using the `CREATE EXTERNAL TABLE` statement.               |
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`Tempdb` is used by SQL Server to store intermediate results when processing queries, such as those created by derived tables and subqueries. This allows the database engine to reuse the results multiple times in the same query instead of recomputing them each time they're needed. It's important to note that the use of `tempdb` and the extent to which it's used can vary depending on the complexity of the query and other factors, such as the amount of memory available and the indexes present on the involved tables.
+`Tempdb` is used by SQL Server to store intermediate results when processing queries, such as those created by derived tables and subqueries. This allows the database engine to reuse the results multiple times in the same query instead of recomputing them each time they're needed. It's important to note that the use of `tempdb` and the extent to which it's used can vary depending on the complexity of the query and other factors, such as the amount of memory available and the indexes present on the involved tables.
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The most interesting of these table types is the `VALUES` keyword.  We often think the only use of the `VALUES` operator is using it with an `INSERT` statement, but it can be used to create a relation.  
+The most interesting of these table types is the `VALUES` keyword.  We often think the only use of the `VALUES` operator is using it with an `INSERT` statement, but it can be used to create a relation.  
 
 First, let's create examples of each of the table types.
 
