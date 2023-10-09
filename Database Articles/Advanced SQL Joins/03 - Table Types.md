@@ -1,8 +1,8 @@
 # Table Types
 
-Within SQL, you can create a join to the following 10 table types. Table types can be schema-bound objects, meaning they are saved as a database object within a named schema, or they are unbound and only durable for the life of an SQL statement or your current session.  Items that are not schema-bound are created in the `tempdb` and do not have any data of their existence in the catalog views.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Within SQL, you can create a join to the following 10 table types. Table types can be schema-bound objects, meaning they are saved as a database object within a named schema, or they are unbound and only durable for the life of an SQL statement or your current session.  Items that are not schema-bound are created in the `tempdb` and do not have any data of their existence in the catalog views.
 
-Here are the 10 different types of tables you can create.
+Here are the ten different types of tables you can create.
 
 | Id |              Name              |  Schema Bound |                                                                 Description                                                                |
 |----|--------------------------------|---------------|--------------------------------------------------------------------------------------------------------------------------------------------|
@@ -17,16 +17,16 @@ Here are the 10 different types of tables you can create.
 | 9  | Table Variable                 | False         | A variable that holds a table of data. It is similar to a temporary table, but it has some differences in behavior and scope.              |
 |10  | External Tables                | False         | Used to access external data, such as Hadoop or Azure Blob storage. They are created using the `CREATE EXTERNAL TABLE` statement.               |
 
-`Tempdb` is used by SQL Server to store intermediate results when processing queries, such as those created by derived tables and subqueries. This allows the database engine to reuse the results multiple times in the same query instead of recomputing them each time they're needed. It's important to note that the use of `tempdb` and the extent to which it's used can vary depending on the complexity of the query and other factors, such as the amount of memory available and the indexes present on the involved tables.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`Tempdb` is used by SQL Server to store intermediate results when processing queries, such as those created by derived tables and subqueries. This allows the database engine to reuse the results multiple times in the same query instead of recomputing them each time they're needed. It's important to note that the use of `tempdb` and the extent to which it's used can vary depending on the complexity of the query and other factors, such as the amount of memory available and the indexes present on the involved tables.
 
-The most interesting of these table types is the `VALUES` keyword.  We often think the only use of the `VALUES` operator is using it with an `INSERT` statement, but it can be used to create a relation.  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The most interesting of these table types is the `VALUES` keyword.  We often think the only use of the `VALUES` operator is using it with an `INSERT` statement, but it can be used to create a relation.  
 
 First, let's create examples of each of the table types.
 
 --------------------------------------------------------------------------------------------------------
 #### Table
 
-The type of table referred to below is a base table. A base table is a permanent table stored in the database and contains the actual data in the form of rows and columns. The `SELECT *` statement retrieves all columns and all rows from the table. On base tables, you can implement `NOT NULL`, `UNIQUE`, `PRIMARY KEY`, `FOREIGN KEY`, `CHECK`, and `DEFAULT` constraints.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The type of table referred to below is a base table. A base table is a permanent table stored in the database and contains the actual data in the form of rows and columns. The `SELECT *` statement retrieves all columns and all rows from the table. On base tables, you can implement `NOT NULL`, `UNIQUE`, `PRIMARY KEY`, `FOREIGN KEY`, `CHECK`, and `DEFAULT` constraints.
 
 In this example, we create a table named `Employees`, insert a record using the `VALUES` constructor, and then select from the table. 
 
@@ -55,7 +55,7 @@ SELECT * FROM Employees;
 --------------------------------------------------------------------------------------------------------
 #### View
 
-An SQL view is a virtual table that provides a specific, customized data perspective from one or more tables in a database.  There are two main types of SQL views: materialized views and non-materialized (or simple) views. Materialized views store the result set of the view query, while non-materialized views do not store any data and dynamically retrieve data from the underlying tables each time the view is accessed.  You can issue `INSERT`, `UPDATE`, and `DELETE` commands through views and can manipulate the underlying table(s) in the view.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;An SQL view is a virtual table that provides a specific, customized data perspective from one or more tables in a database.  There are two main types of SQL views: materialized views and non-materialized (or simple) views. Materialized views store the result set of the view query, while non-materialized views do not store any data and dynamically retrieve data from the underlying tables each time the view is accessed.  You can issue `INSERT`, `UPDATE`, and `DELETE` commands through views and can manipulate the underlying table(s) in the view.
 
 In this example, we create a view from the `Employees` table, insert a record into the table, and then select from the view;
 
@@ -84,7 +84,7 @@ SELECT * FROM vwEmployees;
 --------------------------------------------------------------------------------------------------------
 #### VALUES Operator
 
-The `VALUES` constructor has a few considerations that are often overlooked and deserve its own recognition.  The `VALUES` constructor specifies a set of row value expressions to be constructed into a table and allows multiple sets of values to be specified in a single DML statement.  Normally, we use the `VALUES` constructor to specify the data to insert into a table, as we initially did with our test data, but it can also be used as a derived table in an SQL statement.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The `VALUES` constructor has a few considerations that are often overlooked and deserve its own recognition.  The `VALUES` constructor specifies a set of row value expressions to be constructed into a table and allows multiple sets of values to be specified in a single DML statement.  Normally, we use the `VALUES` constructor to specify the data to insert into a table, as we initially did with our test data, but it can also be used as a derived table in an SQL statement.
 
 Here is a basic example of using the `VALUES` constructor as a derived table.
 
@@ -164,9 +164,7 @@ FROM    Employees a CROSS APPLY
 --------------------------------------------------------------------------------------------------------
 #### Subquery
 
-A subquery is a query nested within another query. 
-
-Subqueries can be used in various parts of a SQL query, such as the `SELECT`, `FROM`, and `WHERE` clauses. They are highly useful for performing operations that require multiple scans of the same or different tables, complex calculations, or referencing results that are not part of the main query. They are highly useful for performing operations that require multiple scans of the same or different tables, complex calculations, or referencing results that are not part of the main query.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;A subquery is a query nested within another query. Subqueries can be used in various parts of a SQL query, such as the `SELECT`, `FROM`, and `WHERE` clauses. They are highly useful for performing operations that require multiple scans of the same or different tables, complex calculations, or referencing results that are not part of the main query. They are highly useful for performing operations that require multiple scans of the same or different tables, complex calculations, or referencing results that are not part of the main query.
 
 Here is an example of a correlated subquery using the `Employees` table.  We will talk more about correlated subqueries in the Semi and Anti join portion of this repository.
 
@@ -302,7 +300,7 @@ SELECT * FROM #Employees2
 --------------------------------------------------------------------------------------------------------
 #### Table Variable   
 
-Table variables are much like temporary tables.  They are used when passing a record set to a stored procedure.  Each database may implement table variables slightly differently, but Microsoft SQL Server has the following considerations.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Table variables are much like temporary tables.  They are used when passing a record set to a stored procedure.  Each database may implement table variables slightly differently, but Microsoft SQL Server has the following considerations.
 
 *  You can place constraints on the table except for `FOREIGN KEY` constraints.
 *  The constraints must be placed on the table on creation.
@@ -338,7 +336,7 @@ SELECT * FROM @TableVariable;
 --------------------------------------------------------------------------------------------------------
 #### External Tables           
 
-External tables in Microsoft SQL Server exist outside of the database and are used to access data stored in external sources such as Hadoop or Azure Blob storage. External tables provide a way to access external data as if it were a regular table within the database, allowing you to use standard SQL statements to retrieve and manipulate data stored in external sources. This can be useful for tasks such as performing data integration, bulk data loading, and data archiving, as well as for querying and processing large datasets stored in external sources. However, external tables in Microsoft SQL Server have limitations such as limited indexing options and slower query performance compared to regular tables stored in the SQL Server database.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;External tables in Microsoft SQL Server exist outside of the database and are used to access data stored in external sources such as Hadoop or Azure Blob storage. External tables provide a way to access external data as if it were a regular table within the database, allowing you to use standard SQL statements to retrieve and manipulate data stored in external sources. This can be useful for tasks such as performing data integration, bulk data loading, and data archiving, as well as for querying and processing large datasets stored in external sources. However, external tables in Microsoft SQL Server have limitations such as limited indexing options and slower query performance compared to regular tables stored in the SQL Server database.
 
 See your vendor's documentation on external tables, as this will vary for each vendor.
 
