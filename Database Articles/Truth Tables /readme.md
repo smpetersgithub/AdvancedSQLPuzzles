@@ -63,28 +63,19 @@ Now that we have this out of the way, let’s build the following truth table.
 
 Before we look at the SQL statement to generate the truth table. Propositional logic consists of several fundamental laws that are crucial for logical reasoning and manipulation of logical expressions. These laws are important because they provide a framework for constructing valid arguments, proving theorems, and simplifying logical statements. 
 
-Here are some key laws:
+Here are some key laws.
 
-|      Law Name       |             Formula             |
-|---------------------|---------------------------------|
-| Identity Law        | p ∧ T = p                       |
-|                     | p ∨ F = p                       |
-| Domination Law      | p ∨ T = T                       |
-|                     | p ∧ F = F                       |
-| Idempotent Law      | p ∨ p = p                       |
-|                     | p ∧ p = p                       |
-| Complement Law      | p ∨ ¬p = T                      |
-|                     | p ∧ ¬p = F                      |
-| Double Negation Law | ¬(¬p) = p                       |
-
-| Commutative Law     | p ∨ q = q ∨ p                   |
-|                     | p ∧ q = q ∧ p                   |
-| Associative Law     | (p ∨ q) ∨ r = p ∨ (q ∨ r)       |
-|                     | (p ∧ q) ∧ r = p ∧ (q ∧ r)       |
-| Distributive Law    | p ∧ (q ∨ C) = (p ∧ q) ∨ (p ∧ r) |
-|                     | p ∨ (q ∧ C) = (p ∨ q) ∧ (p ∨ r) |
-| De Morgan's Law     | ¬(p ∧ q) = ¬p ∨ ¬q              |
-|                     | ¬(p ∨ q) = ¬p ∧ ¬q              |
+|      Law Name        |             Formula              |
+|----------------------|----------------------------------|
+| Identity Law         | p ∧ T ⇔ p<br>p ∨ F ⇔ p         |
+| Domination Law       | p ∨ T ⇔ T<br>p ∧ F ⇔ F         |
+| Idempotent Law       | p ∨ p ⇔ p<br>p ∧ p ⇔ p         |
+| Complement Law       | p ∨ ¬p ⇔ T<br>p ∧ ¬p ⇔ F       |
+| Double Negation Law  | ¬(¬p) ⇔ p                       |
+| Commutative Law      | p ∨ q ⇔ q ∨ p<br>p ∧ q ⇔ q ∧ p |
+| Associative Law      | (p ∨ q) ∨ r ⇔ p ∨ (q ∨ r)<br>(p ∧ q) ∧ r ⇔ p ∧ (q ∧ r)             |
+| Distributive Law     | p ∧ (q ∨ C) ⇔ (p ∧ q) ∨ (p ∧ r)<br>p ∨ (q ∧ C) ⇔ (p ∨ q) ∧ (p ∨ r) |
+| De Morgan's Law      | ¬(p ∧ q) ⇔ ¬p ∨ ¬q<br>¬(p ∨ q) ⇔ ¬p ∧ ¬q                            |
 
 Here is the SQL to build the truth table.  Once we establish the truth table, we can then use SQL proofs to prove these laws are correct, or maybe a better statement is that we can prove that our SQL statement has implemented these laws correctly.
 
