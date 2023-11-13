@@ -2,12 +2,12 @@
 
 This exploration delves into the unique intersection of propositional logic and SQL, showcasing how truth tables can be effectively created using SQL.
 
-| p | q | p ∧ q | p ∨ q | ¬p | ¬(¬p) |
-|---|---|-------|-------|----|-------|
-| 1 | 1 | 1     | 1     | 0  | 1     |
-| 1 | 0 | 0     | 1     | 0  | 1     |
-| 0 | 1 | 0     | 1     | 1  | 0     |
-| 0 | 0 | 0     | 0     | 1  | 0     |
+| p | q | p ∧ q | p ∨ q | ¬p | ¬¬p |
+|---|---|-------|-------|----|-----|
+| 1 | 1 | 1     | 1     | 0  | 1   |
+| 1 | 0 | 0     | 1     | 0  | 1   |
+| 0 | 1 | 0     | 1     | 1  | 0   |
+| 0 | 0 | 0     | 0     | 1  | 0   |
 
 A truth table is a mathematical table utilized in logic, particularly relevant to Boolean algebra, Boolean functions, and propositional calculus. This table methodically displays the output values of logical expressions based on various combinations of input values (True or False) assigned to their logical variables. Moreover, truth tables serve as a tool to determine if a given propositional expression consistently yields a true outcome across all possible legitimate input values, thereby establishing its logical validity.
 
@@ -33,17 +33,17 @@ In our example above, we would assign the uppercase P to “It is sunny” and t
 
 Like any branch of mathematics, a set of symbols and terms needs to be defined.  Here is a summary of the different symbols and terms and examples of how they are used in everyday English statements. 
 
-| Logical Operation       | Symbol | ASCII  |   English Language Usage     |
-|-------------------------|--------|--------|------------------------------|
-| Negation (NOT)          | ¬      | ~ or ! | Not p                        |
-| Conjunction (AND)       | ∧      | &      | p and q                      |
-| Disjunction (OR)        | ∨      | |      | p or q                       |
-| Implication (IF...THEN) | →      | ->     | If p, then q                 |
-| Biconditional (IFF)     | ↔      | <->    | p if and only if q           |
-| Tautology (True)        | ⊤      | T      | Always True                  |
-| Contradiction (False)   | ⊥      | F      | Always False                 |
-| Exclusive Or (XOR)      | ⊕     | ^      | Either p or q, but not both  |
-| Logical Equivalant      | ⇔     | =      | 2+3 is the equivalant of 4+1 |
+| Logical Operation       | Symbol |   English Language Usage     |
+|-------------------------|--------|------------------------------|
+| Negation (NOT)          | ¬      | Not p                        |
+| Conjunction (AND)       | ∧      | p and q                      |
+| Disjunction (OR)        | ∨      | p or q                       |
+| Implication (IF...THEN) | →      | If p, then q                 |
+| Biconditional (IFF)     | ↔      | p if and only if q           |
+| Tautology (True)        | ⊤      | Always True                  |
+| Contradiction (False)   | ⊥      | Always False                 |
+| Exclusive Or (XOR)      | ⊕     | Either p or q, but not both  |
+| Logical Equivalant      | ⇔     | 2+3 is the equivalant of 4+1 |
 
 Now that we have this out of the way, let’s build the following truth table.
 
