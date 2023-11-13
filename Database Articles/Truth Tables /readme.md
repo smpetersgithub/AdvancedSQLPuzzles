@@ -136,12 +136,10 @@ Here are some key laws that we will provide SQL proofs for.
 | Double Negation Law  | ¬(¬p) ⇔ p                       |
 | Commutative Law      | p ∨ q ⇔ q ∨ p<br>p ∧ q ⇔ q ∧ p |
 | Associative Law      | (p ∨ q) ∨ r ⇔ p ∨ (q ∨ r)<br>(p ∧ q) ∧ r ⇔ p ∧ (q ∧ r)             |
-| Distributive Law     | p ∧ (q ∨ C) ⇔ (p ∧ q) ∨ (p ∧ r)<br>p ∨ (q ∧ C) ⇔ (p ∨ q) ∧ (p ∨ r) |
+| Distributive Law     | p ∧ (q ∨ r) ⇔ (p ∧ q) ∨ (p ∧ r)<br>p ∨ (q ∧ r) ⇔ (p ∨ q) ∧ (p ∨ r) |
 | De Morgan's Law      | ¬(p ∧ q) ⇔ ¬p ∨ ¬q<br>¬(p ∨ q) ⇔ ¬p ∧ ¬q                            |
 
 ---------------
-
-Note, to veiw the SQL statements, see the relevant SQL file in the GitHub repository. 
 
 ### Identity Law
 
@@ -215,9 +213,33 @@ The complement law states that a term ANDed with its complement equals 0, and a 
 | p = 1, q = 0| ¬p∨p ⇔ T      |  1   | 1 |
 | p = 1, q = 1| ¬p∨p ⇔ T      |  1   | 1 |
 
+| RowID       | ComplementLaw | ¬p∧p | F |
+|-------------|---------------|------|---|
+| p = 0, q = 0| ¬p∧p ⇔ F      |  0   | 0 |
+| p = 0, q = 1| ¬p∧p ⇔ F      |  0   | 0 |
+| p = 1, q = 0| ¬p∧p ⇔ F      |  0   | 0 |
+| p = 1, q = 1| ¬p∧p ⇔ F      |  0   | 0 |
+
 
 
 ---------------
 
+#### Double Negation Law
+
+The Double Negation Law in propositional logic states that if you negate a negation of a statement, you return to the original statement. In other words, negating a statement twice leaves the statement's truth value unchanged. 
+
+| RowID       | DoubleNegationLaw | ¬¬p | p |
+|-------------|-------------------|-----|---|
+| p = 0, q = 0| ¬¬p ⇔ p           |  0  | 0 |
+| p = 0, q = 1| ¬¬p ⇔ p           |  0  | 0 |
+| p = 1, q = 0| ¬¬p ⇔ p           |  1  | 1 |
+| p = 1, q = 1| ¬¬p ⇔ p           |  1  | 1 |
+
+
 ---------------
+
+#### Commutative Law
+
+The Commutative Law in propositional logic refers to the principle that the order of the operands does not affect the outcome of logical operations. Specifically, it applies to the operations of conjunction (AND) and disjunction (OR):
+
 
