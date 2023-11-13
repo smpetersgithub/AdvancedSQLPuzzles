@@ -1,15 +1,5 @@
 # Creating Truth Tables Using SQL
 
-```diff
-- text in red
-+ text in green
-! text in orange
-# text in gray
-@@ text in purple (and bold)@@
-```
-
-$${\color{red}Welcome \space \color{lightblue}To \space \color{lightgreen}Github}$$ :
-
 | p | q | p ∧ q | p ∨ q | ¬p | ¬¬p |
 |---|---|-------|-------|----|-----|
 | 1 | 1 | 1     | 1     | 0  | 1   |
@@ -79,30 +69,22 @@ Here are some key laws:
 |---------------------|---------------------------------|
 | Identity Law        | p ∧ T = p                       |
 |                     | p ∨ F = p                       |
-|---------------------|---------------------------------|
 | Domination Law      | p ∨ T = T                       |
 |                     | p ∧ F = F                       |
-|---------------------|---------------------------------|
 | Idempotent Law      | p ∨ p = p                       |
 |                     | p ∧ p = p                       |
-|---------------------|---------------------------------|
 | Complement Law      | p ∨ ¬p = T                      |
 |                     | p ∧ ¬p = F                      |
-|---------------------|---------------------------------|
 | Double Negation Law | ¬(¬p) = p                       |
-|---------------------|---------------------------------|
+
 | Commutative Law     | p ∨ q = q ∨ p                   |
 |                     | p ∧ q = q ∧ p                   |
-|---------------------|---------------------------------|
 | Associative Law     | (p ∨ q) ∨ r = p ∨ (q ∨ r)       |
 |                     | (p ∧ q) ∧ r = p ∧ (q ∧ r)       |
-|---------------------|---------------------------------|
 | Distributive Law    | p ∧ (q ∨ C) = (p ∧ q) ∨ (p ∧ r) |
 |                     | p ∨ (q ∧ C) = (p ∨ q) ∧ (p ∨ r) |
-|---------------------|---------------------------------|
 | De Morgan's Law     | ¬(p ∧ q) = ¬p ∨ ¬q              |
 |                     | ¬(p ∨ q) = ¬p ∧ ¬q              |
-
 
 Here is the SQL to build the truth table.  Once we establish the truth table, we can then use SQL proofs to prove these laws are correct, or maybe a better statement is that we can prove that our SQL statement has implemented these laws correctly.
 
