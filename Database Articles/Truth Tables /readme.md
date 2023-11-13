@@ -125,7 +125,7 @@ SELECT * FROM #TruthTable;
 
 Propositional logic consists of several fundamental laws that are crucial for logical reasoning and manipulation of logical expressions. These laws are important because they provide a framework for constructing valid arguments, proving theorems, and simplifying logical statements. 
 
-Here are some key laws.
+Here are some key laws that we will provide SQL proofs for.
 
 |      Law Name        |             Formula              |
 |----------------------|----------------------------------|
@@ -139,11 +139,55 @@ Here are some key laws.
 | Distributive Law     | p ∧ (q ∨ C) ⇔ (p ∧ q) ∨ (p ∧ r)<br>p ∨ (q ∧ C) ⇔ (p ∨ q) ∧ (p ∨ r) |
 | De Morgan's Law      | ¬(p ∧ q) ⇔ ¬p ∨ ¬q<br>¬(p ∨ q) ⇔ ¬p ∧ ¬q                            |
 
-Here is the SQL to build the truth table.  Once we establish the truth table, we can then use SQL proofs to prove these laws are correct, or maybe a better statement is that we can prove that our SQL statement has implemented these laws correctly.
 
-INSERT SQL TABLE HERE
+### Identity Law
 
+The Identity Law asserts that conjoining a statement with true, or disjoining it with false, does not alter its truth value.
 
+The following SQL proofs show that the Identity Law is indeed true.
+```
+WITH
+cte_Identity AS
+(
+SELECT  ROW_NUMBER() OVER (ORDER BY RowID) AS RowNumber,
+        RowID, "p∧T", p
+FROM    #TruthTable
+WHERE   "p∧T" = p
+)
+SELECT  RowID,
+        N'p∧T ⇔ p' AS IdentityLaw,
+        "p∧T",
+        p
+FROM    cte_Identity
+WHERE   (SELECT COUNT(*) FROM #TruthTable) = (SELECT MAX(RowNumber) FROM cte_Identity);
 
+WITH
+cte_Identity AS
+(
+SELECT  ROW_NUMBER() OVER (ORDER BY RowID) AS RowNumber,
+        RowID, "p∨F", p
+FROM    #TruthTable
+WHERE   "p∨F" = p
+)
+SELECT  RowID,
+        N'"p∨F" ⇔ p' AS IdentityLaw,
+        "p∨F",
+        p
+FROM    cte_Identity
+WHERE   (SELECT COUNT(*) FROM #TruthTable) = (SELECT MAX(RowNumber) FROM cte_Identity);
+```
 
+|     RowID    | IdentityLaw | p∧T | p |
+|--------------|-------------|-----|---|
+| p = 0, q = 0 | p∧T ⇔ p    | 0   | 0 |
+| p = 0, q = 1 | p∧T ⇔ p    | 0   | 0 |
+| p = 1, q = 0 | p∧T ⇔ p    | 1   | 1 |
+| p = 1, q = 1 | p∧T ⇔ p    | 1   | 1 |
+
+| RowID        | IdentityLaw | p∨F | p |
+|--------------|-------------|-----|---|
+| p = 0, q = 0 | p∨F ⇔ p    | 0   | 0 |
+| p = 0, q = 1 | p∨F ⇔ p    | 0   | 0 |
+| p = 1, q = 0 | p∨F ⇔ p    | 1   | 1 |
+| p = 1, q = 1 | p∨F ⇔ p    | 1   | 1 |
 
