@@ -139,6 +139,9 @@ Here are some key laws that we will provide SQL proofs for.
 | Distributive Law     | p ∧ (q ∨ C) ⇔ (p ∧ q) ∨ (p ∧ r)<br>p ∨ (q ∧ C) ⇔ (p ∨ q) ∧ (p ∨ r) |
 | De Morgan's Law      | ¬(p ∧ q) ⇔ ¬p ∨ ¬q<br>¬(p ∨ q) ⇔ ¬p ∧ ¬q                            |
 
+---------------
+
+Note, for the following I have 
 
 ### Identity Law
 
@@ -190,4 +193,16 @@ WHERE   (SELECT COUNT(*) FROM #TruthTable) = (SELECT MAX(RowNumber) FROM cte_Ide
 | p = 0, q = 1 | p∨F ⇔ p    | 0   | 0 |
 | p = 1, q = 0 | p∨F ⇔ p    | 1   | 1 |
 | p = 1, q = 1 | p∨F ⇔ p    | 1   | 1 |
+
+---------------
+
+### Domination Law
+
+---------------
+
+---------------
+
+---------------
+
+---------------
 
