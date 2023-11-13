@@ -61,7 +61,69 @@ Now that we have this out of the way, let’s build the following truth table.
 | p = 1, q = 1  | 1 | 1 | 1 | 0 | 0 |  0  | 1   | 1   | 1   | 1   | 1   | 1   | 0       | 0    |  1  |  1  |  1   |  1   |  1   |  0    |  1   |  1  |  1  |  1  |  0    |
 
 
-Before we look at the SQL statement to generate the truth table. Propositional logic consists of several fundamental laws that are crucial for logical reasoning and manipulation of logical expressions. These laws are important because they provide a framework for constructing valid arguments, proving theorems, and simplifying logical statements. 
+```
+DROP TABLE IF EXISTS #LogicValues;
+DROP TABLE IF EXISTS #TruthTable;
+GO
+
+SELECT  *,
+        1 AS T,
+        0 AS F
+INTO    #LogicValues
+FROM    (SELECT p FROM (VALUES (0),(1)) AS MyTable(p)) a CROSS JOIN
+        (SELECT q FROM (VALUES (0),(1)) AS MyTable2(q)) b;
+
+
+SELECT  CONCAT('p = ',p,',',' q = ',q) AS RowId
+        --------------------------------------------
+       ,p
+       ,q
+       ,T
+       ,F
+       --------------------------------------------
+       --Negation
+       ,(CASE p WHEN 0 THEN T ELSE F END) AS "¬p"
+       ,(CASE q WHEN 0 THEN T ELSE F END) AS "¬q"
+       --------------------------------------------
+       --Double Negation
+       ,(CASE WHEN NOT(NOT(p = 1)) THEN T ELSE F END) AS "¬¬p"
+       ,(CASE WHEN NOT(NOT(q = 1)) THEN T ELSE F END) AS "¬¬q"
+       --------------------------------------------
+       --And
+       ,(CASE WHEN p + q > 1 THEN T ELSE F END) AS "p∧q"
+       ,(CASE WHEN q + p > 1 THEN T ELSE F END) AS "q∧p"       
+       ,(CASE WHEN p + p > 1 THEN T ELSE F END) AS "p∧p"
+       ,(CASE WHEN p + T > 1 THEN T ELSE F END) AS "p∧T"
+       ,(CASE WHEN NOT(p = T  AND q = T) THEN T ELSE F END) AS "¬(p∧q)"
+       ,(CASE WHEN NOT(p = T) AND p = T  THEN T ELSE F END) AS "¬p∧p"
+       --------------------------------------------
+       --Or
+       ,(CASE WHEN p + q >= 1 THEN T ELSE F END) AS "p∨q"
+       ,(CASE WHEN p + q >= 1 THEN T ELSE F END) AS "q∨p"
+       ,(CASE WHEN p + F >= 1 THEN T ELSE F END) AS "p∨F"
+       ,(CASE WHEN NOT(p = T) OR q = T THEN T ELSE F END) AS "¬p∨q"
+       ,(CASE WHEN NOT(q = T) OR p = T THEN T ELSE F END) AS "¬q∨p"
+       ,(CASE WHEN NOT(p = T) OR NOT(q = T) THEN T ELSE F END) AS "¬p∨¬q"
+       ,(CASE WHEN NOT(p = T) OR p = T THEN T ELSE F END) AS "¬p∨p"
+       --------------------------------------------
+       --Implies (If..Then)
+       ,(CASE WHEN p <= q THEN T ELSE F END) AS "p→q"
+       ,(CASE WHEN q <= p THEN T ELSE F END) AS "q→p"
+       --------------------------------------------
+       --Biconditional (If And Only If)
+       ,(CASE WHEN p = q THEN T ELSE F END) AS "p↔q"
+       --------------------------------------------
+       --XOR (Exclusive OR)
+       ,(CASE WHEN p + q = T THEN T ELSE F END) AS "p⊕q"	
+INTO   #TruthTable
+FROM   #LogicValues
+ORDER BY p DESC, q DESC;
+GO
+
+SELECT * FROM #TruthTable;
+```
+
+Propositional logic consists of several fundamental laws that are crucial for logical reasoning and manipulation of logical expressions. These laws are important because they provide a framework for constructing valid arguments, proving theorems, and simplifying logical statements. 
 
 Here are some key laws.
 
