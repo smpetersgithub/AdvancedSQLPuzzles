@@ -31,7 +31,7 @@ In our example above, we would assign the uppercase P to “It is sunny” and t
 
 ! As mentioned earlier, a discrete mathematics course is highly recommended if you are unfamiliar with propositional logic.
 
-Like any branch of mathematics, a set of symbols and terms needs to be defined.  Here is a summary of the different symbols and terms and examples of how they are used in everyday English statements.
+Like any branch of mathematics, a set of symbols and terms needs to be defined.  Here is a summary of the different symbols and terms and examples of how they are used in everyday English statements.  The Often the ASCII representation of the symbol is used, as 
 
 | Logical Operation       | Symbol | ASCII  |   English Language Usage     |
 |-------------------------|--------|--------|------------------------------|
@@ -43,6 +43,7 @@ Like any branch of mathematics, a set of symbols and terms needs to be defined. 
 | Tautology (True)        | ⊤      | T      | Always True                  |
 | Contradiction (False)   | ⊥      | F      | Always False                 |
 | Exclusive Or (XOR)      | ⊕     | ^      | Either p or q, but not both  |
+| Logical Equivalant      | ⇔     | =      | 2+3 is the equivalant of 4+1 |
 
 Now that we have this out of the way, let’s build the following truth table.
 
