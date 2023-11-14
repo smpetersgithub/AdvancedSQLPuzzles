@@ -31,11 +31,9 @@ Additionally, before we begin, a few tidbits of SQL should be mentioned.
 
 Now, let’s dive into truth tables and propositional statements.
 
-A propositional statement is a statement that can be either true or false.  Often, we think of propositional statements in terms of English statements, such as: “When it is sunny, I wear my sunglasses”.  However, we often use a more generic form in discrete math and don’t assign statements to each proposition variable. The variables most used are P, R, and Q for English statements, and lowercase p, q, and r are used for generic statements.
+A propositional statement is a statement that can be either true or false.  Often, we think of propositional statements in terms of English statements, such as: “When it is sunny, I wear my sunglasses”.  However, we often use a more generic form in discrete math and don’t assign statements to each proposition variable. The variables most used are P, Q, and R for English statements, and lowercase p, q, and r are used for generic statements.
 
 In our example above, we would assign the uppercase P to “It is sunny” and the uppercase Q to “I wear my sunglasses".  We then would have a conditional statement of "If P, then Q", or "P → Q".
-
-:electric_plug: As mentioned earlier, a discrete mathematics course is highly recommended if you are unfamiliar with propositional logic.
 
 Like any branch of mathematics, a set of symbols and terms needs to be defined.  Here is a summary of the different symbols and terms and examples of how they are used in everyday English statements. 
 
@@ -53,12 +51,13 @@ Like any branch of mathematics, a set of symbols and terms needs to be defined. 
 
 Now that we have this out of the way, let’s build the following truth table.
 
-| RowId         | p | q | T | F | ¬p | ¬q | ¬¬p | ¬¬q | p∧q | q∧p | p∧p | p∧T | ¬(p∧q) | ¬p∧p | p∨q | q∨p | p∨F | ¬p∨q | ¬q∨p | ¬p∨¬q | ¬p∨p | p→q | q→p | p↔q | p⊕q |
-|---------------|---|---|---|---|----|----|---  |-----|-----|-----|-----|-----|---------|------|-----|-----|------|------|------|-------|------|-----|-----|-----|-------|
-| p = 0, q = 0  | 0 | 0 | 1 | 0 | 1 |  1  | 0   | 0   | 0   | 0   | 0   | 0   | 1       | 0    |  0  |  0  |  0   |  1   |  1   |  1    |  1   |  1  |  1  |  1  |  0    |
-| p = 0, q = 1  | 0 | 1 | 1 | 0 | 1 |  0  | 0   | 1   | 0   | 0   | 0   | 0   | 1       | 0    |  1  |  1  |  0   |  1   |  0   |  1    |  1   |  1  |  0  |  0  |  1    |
-| p = 1, q = 0  | 1 | 0 | 1 | 0 | 0 |  1  | 1   | 0   | 0   | 0   | 1   | 1   | 1       | 0    |  1  |  1  |  1   |  0   |  1   |  1    |  1   |  0  |  1  |  0  |  1    |
-| p = 1, q = 1  | 1 | 1 | 1 | 0 | 0 |  0  | 1   | 1   | 1   | 1   | 1   | 1   | 0       | 0    |  1  |  1  |  1   |  1   |  1   |  0    |  1   |  1  |  1  |  1  |  0    |
+| RowId       | p | q | T | F | ¬p | ¬q | ¬¬p | ¬¬q | p∧q | p∧p | q∧q | p∧T | p∧F | q∧T | q∧F | ¬p∧¬q | ¬p∧¬p | ¬q∧¬q | ¬p∧p | ¬p∧q | ¬q∧q | ¬q∧p | p∨q | q∨p | p∨p | q∨q | p∨T | p∨F | q∨T | q∨F | ¬p∨¬q | ¬p∨¬p | ¬q∨¬q | ¬p∨p | ¬p∨q | ¬q∨q | ¬q∨p | p→q | q→p | p↔q | p⊕q |
+|-------------|---|---|---|---|----|----|-----|-----|-----|-----|-----|-----|-----|-----|-----|-------|-------|-------|------|------|------|------|-----|-----|-----|-----|-----|-----|-----|-----|-------|-------|-------|------|------|------|------|-----|-----|-----|------|
+| p = 0, q = 0| 0 | 0 | 1 | 0 |  1 |  1 |   0 |   0 |   0 |   0 |   0 |   0 |   0 |   0 |   0 |     1 |     1 |     1 |    0 |    0 |    0 |    0 |   0 |   0 |   0 |   0 |   1 |   0 |   1 |   0 |     1 |     1 |     1 |    1 |    1 |    1 |    1 |   1 |   1 |   1 |    0 |
+| p = 0, q = 1| 0 | 1 | 1 | 0 |  1 |  0 |   0 |   1 |   0 |   0 |   1 |   0 |   0 |   1 |   0 |     1 |     1 |     0 |    0 |    1 |    1 |    1 |   1 |   1 |   0 |   1 |   1 |   0 |   1 |   1 |     0 |     1 |     1 |    1 |    1 |    1 |    1 |   1 |   0 |   0 |    1 |
+| p = 1, q = 0| 1 | 0 | 1 | 0 |  0 |  1 |   1 |   0 |   0 |   1 |   0 |   1 |   0 |   0 |   0 |     1 |     0 |     1 |    0 |    0 |    0 |    0 |   1 |   1 |   1 |   0 |   1 |   1 |   1 |   0 |     0 |     0 |     1 |    1 |    1 |    0 |    0 |   0 |   0 |   1 |    0 |
+| p = 1, q = 1| 1 | 1 | 1 | 0 |  0 |  0 |   1 |   1 |   1 |   1 |   1 |   1 |   0 |   1 |   0 |     0 |     0 |     0 |    0 |    0 |    0 |    0 |   1 |   1 |   1 |   1 |   1 |   1 |   1 |   1 |     0 |     0 |     0 |    0 |    1 |    1 |    1 |   1 |   1 |   1 |    0 |
+
 
 
 ```
@@ -123,9 +122,7 @@ GO
 SELECT * FROM #TruthTable;
 ```
 
-Propositional logic consists of several fundamental laws that are crucial for logical reasoning and manipulation of logical expressions. These laws are important because they provide a framework for constructing valid arguments, proving theorems, and simplifying logical statements. 
-
-Here are some key laws that we will provide SQL proofs for.
+Propositional logic consists of several fundamental laws that are crucial for logical reasoning and manipulation of logical expressions. These laws are important because they provide a framework for constructing valid arguments, proving theorems, and simplifying logical statements. The following are the most popular laws, but there are several more.
 
 |      Law Name        |             Formula              |
 |----------------------|----------------------------------|
@@ -140,106 +137,3 @@ Here are some key laws that we will provide SQL proofs for.
 | De Morgan's Law      | ¬(p ∧ q) ⇔ ¬p ∨ ¬q<br>¬(p ∨ q) ⇔ ¬p ∧ ¬q                            |
 
 ---------------
-
-### Identity Law
-
-The Identity Law asserts that conjoining a statement with true, or disjoining it with false, does not alter its truth value and retains its identity.
-
-|     RowID    | IdentityLaw | p∧T | p |
-|--------------|-------------|-----|---|
-| p = 0, q = 0 | p∧T ⇔ p    | 0   | 0 |
-| p = 0, q = 1 | p∧T ⇔ p    | 0   | 0 |
-| p = 1, q = 0 | p∧T ⇔ p    | 1   | 1 |
-| p = 1, q = 1 | p∧T ⇔ p    | 1   | 1 |
-
-| RowID        | IdentityLaw | p∨F | p |
-|--------------|-------------|-----|---|
-| p = 0, q = 0 | p∨F ⇔ p    | 0   | 0 |
-| p = 0, q = 1 | p∨F ⇔ p    | 0   | 0 |
-| p = 1, q = 0 | p∨F ⇔ p    | 1   | 1 |
-| p = 1, q = 1 | p∨F ⇔ p    | 1   | 1 |
-
----------------
-
-### Domination Law
-
-The Domination Law in propositional logic states that any statement using OR with 'True' always results in 'True', and any statement using AND with 'False' always results in 'False', essentially dominating the outcome of the expression.
-
-| RowID       | Domination Law | p∨T | T |
-|-------------|---------------|-----|---|
-| p = 0, q = 0| p∨T ⇔ T       |  1  | 1 |
-| p = 0, q = 1| p∨T ⇔ T       |  1  | 1 |
-| p = 1, q = 0| p∨T ⇔ T       |  1  | 1 |
-| p = 1, q = 1| p∨T ⇔ T       |  1  | 1 |
-
-| RowID       | Domination Law | p∧F | F |
-|-------------|-------------|-----|---|
-| p = 0, q = 0| p∧F ⇔ F     |  0  | 0 |
-| p = 0, q = 1| p∧F ⇔ F     |  0  | 0 |
-| p = 1, q = 0| p∧F ⇔ F     |  0  | 0 |
-| p = 1, q = 1| p∧F ⇔ F     |  0  | 0 |
-
----------------
-
-### Idempotent Law
-
-Idempotence is any function that can be executed several times without changing the final result beyond its first iteration.  The Idempotent Law in propositional logic asserts that a statement combined with itself through a logical operation does not change.
-
-| RowID       | IdempotentLaw | p∨p | p |
-|-------------|---------------|-----|---|
-| p = 0, q = 0| p∨p ⇔ p       |  0  | 0 |
-| p = 0, q = 1| p∨p ⇔ p       |  0  | 0 |
-| p = 1, q = 0| p∨p ⇔ p       |  1  | 1 |
-| p = 1, q = 1| p∨p ⇔ p       |  1  | 1 |
-
-| RowID       | IdempotentLaw | p∧p | p |
-|-------------|-------------|-----|---|
-| p = 0, q = 0| p∧p ⇔ p     |  0  | 0 |
-| p = 0, q = 1| p∧p ⇔ p     |  0  | 0 |
-| p = 1, q = 0| p∧p ⇔ p     |  1  | 1 |
-| p = 1, q = 1| p∧p ⇔ p     |  1  | 1 |
-
-
----------------
-
-#### Complement Law
-
-The complement law states that a term ANDed with its complement equals 0, and a term ORed with its complement equals 1 
-
-| RowID       | ComplementLaw | ¬p∨p | T |
-|-------------|---------------|------|---|
-| p = 0, q = 0| ¬p∨p ⇔ T      |  1   | 1 |
-| p = 0, q = 1| ¬p∨p ⇔ T      |  1   | 1 |
-| p = 1, q = 0| ¬p∨p ⇔ T      |  1   | 1 |
-| p = 1, q = 1| ¬p∨p ⇔ T      |  1   | 1 |
-
-| RowID       | ComplementLaw | ¬p∧p | F |
-|-------------|---------------|------|---|
-| p = 0, q = 0| ¬p∧p ⇔ F      |  0   | 0 |
-| p = 0, q = 1| ¬p∧p ⇔ F      |  0   | 0 |
-| p = 1, q = 0| ¬p∧p ⇔ F      |  0   | 0 |
-| p = 1, q = 1| ¬p∧p ⇔ F      |  0   | 0 |
-
-
-
----------------
-
-#### Double Negation Law
-
-The Double Negation Law in propositional logic states that if you negate a negation of a statement, you return to the original statement. In other words, negating a statement twice leaves the statement's truth value unchanged. 
-
-| RowID       | DoubleNegationLaw | ¬¬p | p |
-|-------------|-------------------|-----|---|
-| p = 0, q = 0| ¬¬p ⇔ p           |  0  | 0 |
-| p = 0, q = 1| ¬¬p ⇔ p           |  0  | 0 |
-| p = 1, q = 0| ¬¬p ⇔ p           |  1  | 1 |
-| p = 1, q = 1| ¬¬p ⇔ p           |  1  | 1 |
-
-
----------------
-
-#### Commutative Law
-
-The Commutative Law in propositional logic refers to the principle that the order of the operands does not affect the outcome of logical operations. Specifically, it applies to the operations of conjunction (AND) and disjunction (OR):
-
-
