@@ -7,7 +7,7 @@
 | 0 | 1 | 0     | 1     | 1  | 0   |
 | 0 | 0 | 0     | 0     | 1  | 0   |
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;This exploration ventures into the intriguing crossroads of propositional logic and SQL, uncovering their interconnectedness. It focuses on demonstrating the capability of SQL in constructing comprehensive truth tables, a fundamental aspect of logical reasoning. This journey not only reveals the practical application of SQL in logical operations but also deepens the understanding of how these two domains complement each other.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;This exploration ventures into the intriguing crossroads of propositional logic and SQL, uncovering their interconnectedness. It focuses on demonstrating the capability of SQL in constructing comprehensive truth tables, a fundamental aspect of logical reasoning. This article not only reveals the practical application of SQL in logical operations but also deepens the understanding of how these two domains complement each other.
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;A truth table is a mathematical table utilized in logic, particularly relevant to Boolean algebra, Boolean functions, and propositional calculus. This table methodically displays the output values of logical expressions based on various combinations of input values (True or False) assigned to their logical variables. Moreover, truth tables serve as a tool to determine if a given propositional expression consistently yields a true outcome across all possible legitimate input values, thereby establishing its logical validity.
 
@@ -23,11 +23,13 @@ Additionally, before we begin, a few tidbits of SQL should be mentioned.
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;•	SQL includes the possibility of NULL markers when creating predicate logic statements.   Propositional logic does not incorporate the concept of NULL markers into its paradigm.  We will be ignoring the concept of NULL markers entirely for this article.
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;•	The BIT data type in SQL is not an accurate Boolean representation, as it has three possible values: True, False, and NULL.  Many SQL experts recommend not to use the BIT data type because of this.  Also, using the BIT data type, where True is 1 and False is 0, allows us to create mathematical expressions that we can use to resolve truths.   
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;•	The `BIT` data type in SQL is not an accurate Boolean representation, as it has three possible values: True, False, and NULL.  Many SQL experts recommend not to use the `BIT` data type because of this, and instead use the `SMALLINT` data type and set the permissible values to 0 and 1.  Also, SQL Server does not allow math operations on the `BIT` data type; using the `SMALLINT` datatype allows us to create mathematical expressions that we can use to resolve truths.   
 
 ❗To learn more about NULL markers and their effect on predicate logic, check out my article Behavior of NULLS.
 
 -----------------------------------
+
+### Truth Table
 
 Now, let’s dive into truth tables and propositional statements.
 
@@ -137,6 +139,8 @@ ORDER BY p DESC, q DESC;
 GO
 ```
 
+## Logic Laws
+
 Propositional logic consists of several fundamental laws that are crucial for logical reasoning and manipulation of logical expressions. These laws are important because they provide a framework for constructing valid arguments, proving theorems, and simplifying logical statements. The following are the most popular laws, but there are several more.
 
 |      Law Name        |             Formula              |
@@ -151,4 +155,79 @@ Propositional logic consists of several fundamental laws that are crucial for lo
 | Distributive Law     | p ∧ (q ∨ r) ⇔ (p ∧ q) ∨ (p ∧ r)<br>p ∨ (q ∧ r) ⇔ (p ∨ q) ∧ (p ∨ r) |
 | De Morgan's Law      | ¬(p ∧ q) ⇔ ¬p ∨ ¬q<br>¬(p ∨ q) ⇔ ¬p ∧ ¬q                            |
 
+Many of these laws may seem trivial in nature, but the most important one for SQL developers to understand is De Morgan's law.
+
+### De Morgan's Law
+
+De Morgan's Laws are two transformation rules that are used in propositional logic and Boolean algebra. They state that:
+
+1. The negation of a conjunction is the disjunction of the negations: ¬(p ∧ q) ⇔ ¬p ∨ ¬q
+2. The negation of a disjunction is the conjunction of the negations: ¬(p ∨ q) ⇔ ¬p ∧ ¬q
+
+These laws are important because they allow for the expression of logical statements in different forms, which can be very useful in various logical and computational applications, such as simplifying logical expressions and digital circuit design.
+
+The following SQL statement can be used to prove De Morgan's Law from the truth table we created.
+
+```
+SELECT  'Negation of Conjunction' AS [Description],
+        RowId,
+        "¬(p∧q)",
+        "¬p∨¬q"
+FROM    #TruthTable
+WHERE  "¬(p∧q)" = "¬p∨¬q";
+
+SELECT  'Negation of Disjunction' AS [Description],
+        RowId,
+        "¬(p∨q)",
+        "¬p∧¬q"
+FROM    #TruthTable
+WHERE  "¬(p∨q)" = "¬p∧¬q";
+```
+
 ---------------
+
+| Description            | RowId       | ¬(p∧q) | ¬p∨¬q |
+|------------------------|-------------|--------|-------|
+| Negation of Conjunction| p = 0, q = 0|   1    |   1   |
+| Negation of Conjunction| p = 0, q = 1|   1    |   1   |
+| Negation of Conjunction| p = 1, q = 0|   1    |   1   |
+| Negation of Conjunction| p = 1, q = 1|   0    |   0   |
+
+
+| Description            | RowId       | ¬(p∨q) | ¬p∧¬q |
+|------------------------|-------------|--------|-------|
+| Negation of Disjunction| p = 0, q = 0|   1    |   1   |
+| Negation of Disjunction| p = 0, q = 1|   0    |   0   |
+| Negation of Disjunction| p = 1, q = 0|   0    |   0   |
+| Negation of Disjunction| p = 1, q = 1|   0    |   0   |
+
+---------------
+
+### Analysing the Truth Table
+
+To analyse the truth table to find easily find such things as all statements that are always true or false (tautology/contradiction) or which statements have matching/unmatching outcomes, it is easiest if we pivot the table using the following SQL statement.
+
+```
+
+--Pivot the data
+SELECT operation, [p = 0, q = 0],[p = 0, q = 1],[p = 1, q = 0],[p = 1, q = 1]
+FROM
+    (SELECT RowId,
+            operation,
+            value
+     FROM #TruthTable
+     UNPIVOT
+     (
+         value
+         FOR operation IN ("p", "q", "T", "F", "¬p", "¬q", "¬¬p", "¬¬q", "p∧q", "q∧p", "p∧p", "q∧q", "p∧T", "p∧F", "q∧T", "q∧F", "¬(p∧q)", "¬(p∧p)", "¬(q∧q)", "¬p∧p", "¬p∧q", "¬q∧q", "¬q∧p", "¬p∧¬q", "p∨q", "q∨p", "p∨p", "q∨q", "p∨T", "p∨F", "q∨T", "q∨F", "¬(p∨q)", "¬(p∨p)", "¬(q∨q)", "¬p∨p", "¬p∨q", "¬q∨q", "¬q∨p", "p→q", "q→p", "p↔q", "p⊕q"
+)
+     ) AS unpvt) AS src
+PIVOT
+(
+    MAX(value)
+    FOR RowId IN ([p = 0, q = 0],[p = 0, q = 1],[p = 1, q = 0],[p = 1, q = 1])
+) AS pvt
+ORDER BY 2,3,4,5,1;
+```
+
+
