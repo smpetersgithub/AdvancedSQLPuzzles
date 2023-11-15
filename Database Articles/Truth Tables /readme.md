@@ -145,15 +145,16 @@ Propositional logic consists of several fundamental laws that are crucial for lo
 
 |      Law Name        |             Formula              |
 |----------------------|----------------------------------|
-| Identity Law         | p ∧ T ⇔ p<br>p ∨ F ⇔ p         |
-| Domination Law       | p ∨ T ⇔ T<br>p ∧ F ⇔ F         |
-| Idempotent Law       | p ∨ p ⇔ p<br>p ∧ p ⇔ p         |
-| Complement Law       | p ∨ ¬p ⇔ T<br>p ∧ ¬p ⇔ F       |
-| Double Negation Law  | ¬(¬p) ⇔ p                       |
-| Commutative Law      | p ∨ q ⇔ q ∨ p<br>p ∧ q ⇔ q ∧ p |
-| Associative Law      | (p ∨ q) ∨ r ⇔ p ∨ (q ∨ r)<br>(p ∧ q) ∧ r ⇔ p ∧ (q ∧ r)             |
+| Identity Law         | p ∧ T ⇔ p<br>p ∨ F ⇔ p          |
+| Domination Law       | p ∨ T ⇔ T<br>p ∧ F ⇔ F          |
+| Idempotent Law       | p ∨ p ⇔ p<br>p ∧ p ⇔ p          |
+| Complement Law       | p ∨ ¬p ⇔ T<br>p ∧ ¬p ⇔ F        |
+| Double Negation Law  | ¬(¬p) ⇔ p                        |
+| Commutative Law      | p ∨ q ⇔ q ∨ p<br>p ∧ q ⇔ q ∧ p  |
+| Associative Law      | (p ∨ q) ∨ r ⇔ p ∨ (q ∨ r)<br>(p ∧ q) ∧ r ⇔ p ∧ (q ∧ r)            |
 | Distributive Law     | p ∧ (q ∨ r) ⇔ (p ∧ q) ∨ (p ∧ r)<br>p ∨ (q ∧ r) ⇔ (p ∨ q) ∧ (p ∨ r) |
-| De Morgan's Law      | ¬(p ∧ q) ⇔ ¬p ∨ ¬q<br>¬(p ∨ q) ⇔ ¬p ∧ ¬q                            |
+| De Morgan's Law      | ¬(p ∧ q) ⇔ ¬p ∨ ¬q<br>¬(p ∨ q) ⇔ ¬p ∧ ¬q                          |
+| Implication Law      | p → q ⇔ ¬p ∨ q                   |
 
 Many of these laws may seem trivial in nature, but the most important one for SQL developers to understand is De Morgan's law.
 
