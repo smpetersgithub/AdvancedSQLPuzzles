@@ -31,9 +31,9 @@ Additionally, before we begin, a few tidbits of SQL should be mentioned.
 
 ### Propositional Statements
 
-A propositional statement is a statement that can be either true or false.  Often, we think of propositional statements in terms of English statements, such as: “When it is sunny, I wear my sunglasses”.  However, we often use a more generic form in discrete math and don’t assign statements to each proposition variable. The variables most used are P, Q, and R for English statements, and lowercase p, q, and r are used for generic statements.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Propositional statements form the core of logical reasoning in both natural language and mathematical logic. These statements, characterized by their ability to be distinctly true or false, are the building blocks of logical expressions. Commonly, in everyday language, we encounter propositions in statements like "If it is sunny, I wear my sunglasses." In this case, the proposition "It is sunny" is represented by the uppercase variable P, and "I wear my sunglasses" by Q. In the realm of discrete mathematics, these propositions are often denoted more abstractly with lowercase variables such as p, q, and r.
 
-In our example above, we would assign the uppercase P to “It is sunny” and the uppercase Q to “I wear my sunglasses".  We then would have a conditional statement of `If P, then Q`, or `P → Q`.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The relationship between these propositions can be articulated through logical connectives. In the provided example, the conditional "If P, then Q" (symbolized as `P → Q`) establishes a logical link between the two propositions. This implies that the occurrence of Q (wearing sunglasses) is contingent upon P (it being sunny). The use of such propositional variables and logical connectives allows for a formal and systematic approach to dissecting and understanding the structure of arguments and logical processes.
 
 #### Logic Symbols
 
@@ -250,7 +250,7 @@ SELECT * FROM #TruthTable_Pivot;
 | 5         | 48        | 1111          | q∨T           | 1            | 1            | 1            | 1            |
 
 
-## Logic Laws
+### Logic Laws
 
 Propositional logic consists of several fundamental laws that are crucial for logical reasoning and manipulation of logical expressions. These laws are important because they provide a framework for constructing valid arguments, proving theorems, and simplifying logical statements. The following are the most popular laws, but there are several more.
 
