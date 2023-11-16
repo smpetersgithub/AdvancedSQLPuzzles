@@ -29,7 +29,7 @@ Additionally, before we begin, a few tidbits of SQL should be mentioned.
 
 -----------------------------------
 
-### Truth Table
+### Logic Symbols
 
 Now, let’s dive into truth tables and propositional statements.
 
@@ -51,8 +51,10 @@ Like any branch of mathematics, a set of symbols and terms needs to be defined. 
 | Exclusive Or (XOR)      | ⊕     | Either p or q, but not both  |
 | Logical Equivalant      | ⇔     | 2+3 is the equivalant of 4+1 |
 
-Now that we have this out of the way, let’s build the following truth table.  Given the number of columns we are generating, I find it easier to pivot the data.
-  1 |   1 |   1 |   1 |   1 |   1 |     0 |     0 |     0 |    0 |    1 |    1 |    1 |   1 |   1 |   1 |    0 |
+-----------------------------------
+
+### Truth Table
+Here is the SQL to generate the truth table.  I find pivoting the data and sorting by the outcome the best method to view the table given the number of columns.
 
 ```
 DROP TABLE IF EXISTS #TruthTable;
@@ -306,8 +308,6 @@ WHERE  "¬(p∨q)" = "¬p∧¬q";
 
 To analyse the truth table to find easily find such things as all statements that are always true or false (tautology/contradiction) or which statements have matching/unmatching outcomes, it is easiest if we pivot the table using the following SQL statement.
 
-
-
 A closer examination of logical laws reveals that various logical truths can be expressed in multiple ways. Notably, the XOR (Exclusive Or) operation, represented as `p ⊕ q`, is equivalent to the conjunction of the implications `¬p → ¬q ∧ ¬q → ¬p`.
 
 | p | q | p⊕q | ¬p→¬q ∧ ¬q→¬p |
@@ -331,4 +331,5 @@ Also, the conditional statement `p → q` has a contrapositive of `¬p → ¬q`,
 
 #### Conclusion
 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;In conclusion, the exploration of logical operations and their corresponding truth tables offers insightful perspectives into the foundations of propositional logic. By systematically breaking down complex logical expressions into simpler components, we can discern the underlying principles governing logical reasoning. This analysis not only reinforces the fundamental concepts of logic, such as negation, conjunction, and disjunction, but also elucidates the more intricate aspects like implications and biconditional relationships. The ability to translate these logical operations into a structured format like truth tables is a valuable skill, enhancing our understanding of logical processes and their applications in various fields.
 
