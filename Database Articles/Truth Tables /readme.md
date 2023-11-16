@@ -1,5 +1,7 @@
 # Creating Truth Tables Using SQL
 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;A truth table is a mathematical table utilized in logic, particularly relevant to Boolean algebra, Boolean functions, and propositional calculus. This table methodically displays the output values of logical expressions based on various combinations of input values (True or False) assigned to their logical variables. Moreover, truth tables serve as a tool to determine if a given propositional expression consistently yields a true outcome across all possible legitimate input values, thereby establishing its logical validity.
+
 | p | q | p ∧ q | p ∨ q | ¬p | ¬¬p |
 |---|---|-------|-------|----|-----|
 | 1 | 1 | 1     | 1     | 0  | 1   |
@@ -8,8 +10,6 @@
 | 0 | 0 | 0     | 0     | 1  | 0   |
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;This exploration ventures into the intriguing crossroads of propositional logic and SQL, uncovering their interconnectedness. It focuses on demonstrating the capability of SQL in constructing comprehensive truth tables, a fundamental aspect of logical reasoning. This article not only reveals the practical application of SQL in logical operations but also deepens the understanding of how these two domains complement each other.
-
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;A truth table is a mathematical table utilized in logic, particularly relevant to Boolean algebra, Boolean functions, and propositional calculus. This table methodically displays the output values of logical expressions based on various combinations of input values (True or False) assigned to their logical variables. Moreover, truth tables serve as a tool to determine if a given propositional expression consistently yields a true outcome across all possible legitimate input values, thereby establishing its logical validity.
 
 ----------
 
@@ -51,30 +51,22 @@ Like any branch of mathematics, a set of symbols and terms needs to be defined. 
 | Exclusive Or (XOR)      | ⊕     | Either p or q, but not both  |
 | Logical Equivalant      | ⇔     | 2+3 is the equivalant of 4+1 |
 
-Now that we have this out of the way, let’s build the following truth table.
-
-| RowId       | p | q | T | F | ¬p | ¬q | ¬¬p | ¬¬q | p∧q | p∧p | q∧q | p∧T | p∧F | q∧T | q∧F | ¬p∧¬q | ¬p∧¬p | ¬q∧¬q | ¬p∧p | ¬p∧q | ¬q∧q | ¬q∧p | p∨q | q∨p | p∨p | q∨q | p∨T | p∨F | q∨T | q∨F | ¬p∨¬q | ¬p∨¬p | ¬q∨¬q | ¬p∨p | ¬p∨q | ¬q∨q | ¬q∨p | p→q | q→p | p↔q | p⊕q |
-|-------------|---|---|---|---|----|----|-----|-----|-----|-----|-----|-----|-----|-----|-----|-------|-------|-------|------|------|------|------|-----|-----|-----|-----|-----|-----|-----|-----|-------|-------|-------|------|------|------|------|-----|-----|-----|------|
-| p = 0, q = 0| 0 | 0 | 1 | 0 |  1 |  1 |   0 |   0 |   0 |   0 |   0 |   0 |   0 |   0 |   0 |     1 |     1 |     1 |    0 |    0 |    0 |    0 |   0 |   0 |   0 |   0 |   1 |   0 |   1 |   0 |     1 |     1 |     1 |    1 |    1 |    1 |    1 |   1 |   1 |   1 |    0 |
-| p = 0, q = 1| 0 | 1 | 1 | 0 |  1 |  0 |   0 |   1 |   0 |   0 |   1 |   0 |   0 |   1 |   0 |     1 |     1 |     0 |    0 |    1 |    1 |    1 |   1 |   1 |   0 |   1 |   1 |   0 |   1 |   1 |     0 |     1 |     1 |    1 |    1 |    1 |    1 |   1 |   0 |   0 |    1 |
-| p = 1, q = 0| 1 | 0 | 1 | 0 |  0 |  1 |   1 |   0 |   0 |   1 |   0 |   1 |   0 |   0 |   0 |     1 |     0 |     1 |    0 |    0 |    0 |    0 |   1 |   1 |   1 |   0 |   1 |   1 |   1 |   0 |     0 |     0 |     1 |    1 |    1 |    0 |    0 |   0 |   0 |   1 |    0 |
-| p = 1, q = 1| 1 | 1 | 1 | 0 |  0 |  0 |   1 |   1 |   1 |   1 |   1 |   1 |   0 |   1 |   0 |     0 |     0 |     0 |    0 |    0 |    0 |    0 |   1 |   1 |   1 |   1 |   1 |   1 |   1 |   1 |     0 |     0 |     0 |    0 |    1 |    1 |    1 |   1 |   1 |   1 |    0 |
-
-
+Now that we have this out of the way, let’s build the following truth table.  Given the number of columns we are generating, I find it easier to pivot the data.
+  1 |   1 |   1 |   1 |   1 |   1 |     0 |     0 |     0 |    0 |    1 |    1 |    1 |   1 |   1 |   1 |    0 |
 
 ```
-DROP TABLE IF EXISTS #LogicValues;
 DROP TABLE IF EXISTS #TruthTable;
 GO
 
-SELECT  *,
-        1 AS T,
-        0 AS F
-INTO    #LogicValues
+WITH cte_LogicValues AS
+(
+SELECT  CAST(p AS SMALLINT) AS p,
+        CAST(q AS SMALLINT) AS q,
+        CAST(1 AS SMALLINT) AS T,
+        CAST(0 AS SMALLINT) AS F
 FROM    (SELECT p FROM (VALUES (0),(1)) AS MyTable(p)) a CROSS JOIN
-        (SELECT q FROM (VALUES (0),(1)) AS MyTable2(q)) b;
-
-
+        (SELECT q FROM (VALUES (0),(1)) AS MyTable2(q)) b
+)
 SELECT  CONCAT('p = ',p,',',' q = ',q) AS RowId
         --------------------------------------------
        ,p
@@ -83,61 +75,167 @@ SELECT  CONCAT('p = ',p,',',' q = ',q) AS RowId
        ,F
        --------------------------------------------
        --Negation
-       ,(CASE p WHEN 0 THEN T ELSE F END) AS "¬p"
-       ,(CASE q WHEN 0 THEN T ELSE F END) AS "¬q"
+       ,(CASE p WHEN 0 THEN T ELSE F END) AS [¬p]
+       ,(CASE q WHEN 0 THEN T ELSE F END) AS [¬q]
        --------------------------------------------
        --Double Negation
-       ,(CASE WHEN NOT(NOT(p = 1)) THEN T ELSE F END) AS "¬¬p"
-       ,(CASE WHEN NOT(NOT(q = 1)) THEN T ELSE F END) AS "¬¬q"
+       ,(CASE WHEN NOT(NOT(p = 1)) THEN T ELSE F END) AS [¬¬p]
+       ,(CASE WHEN NOT(NOT(q = 1)) THEN T ELSE F END) AS [¬¬q]
        --------------------------------------------
        --And
-       ,(CASE WHEN p + q = 2 THEN T ELSE F END) AS "p∧q"
-       ,(CASE WHEN q + p = 2 THEN T ELSE F END) AS "q∧p"
-       ,(CASE WHEN p + p = 2 THEN T ELSE F END) AS "p∧p"
-       ,(CASE WHEN q + q = 2 THEN T ELSE F END) AS "q∧q"
-       ,(CASE WHEN p + T = 2 THEN T ELSE F END) AS "p∧T"
-       ,(CASE WHEN p + F = 2 THEN T ELSE F END) AS "p∧F"
-       ,(CASE WHEN q + T = 2 THEN T ELSE F END) AS "q∧T"
-       ,(CASE WHEN q + F = 2 THEN T ELSE F END) AS "q∧F"
-       ,(CASE WHEN NOT(p = T  AND q = T) THEN T ELSE F END) AS "¬p∧¬q"
-       ,(CASE WHEN NOT(p = T  AND p = T) THEN T ELSE F END) AS "¬p∧¬p"
-       ,(CASE WHEN NOT(q = T  AND q = T) THEN T ELSE F END) AS "¬q∧¬q"
-       ,(CASE WHEN NOT(p = T) AND p = T  THEN T ELSE F END) AS "¬p∧p"
-       ,(CASE WHEN NOT(p = T) AND q = T  THEN T ELSE F END) AS "¬p∧q"
-       ,(CASE WHEN NOT(p = T) AND q = T  THEN T ELSE F END) AS "¬q∧q"
-       ,(CASE WHEN NOT(p = T) AND q = T  THEN T ELSE F END) AS "¬q∧p"
-       --------------------------------------------
+       ,(CASE WHEN p + q = 2 THEN T ELSE F END) AS [p∧q]
+       ,(CASE WHEN q + p = 2 THEN T ELSE F END) AS [q∧p]
+       ,(CASE WHEN p + p = 2 THEN T ELSE F END) AS [p∧p]
+       ,(CASE WHEN q + q = 2 THEN T ELSE F END) AS [q∧q]
+       ,(CASE WHEN p + T = 2 THEN T ELSE F END) AS [p∧T]
+       ,(CASE WHEN p + F = 2 THEN T ELSE F END) AS [p∧F]
+       ,(CASE WHEN q + T = 2 THEN T ELSE F END) AS [q∧T]
+       ,(CASE WHEN q + F = 2 THEN T ELSE F END) AS [q∧F]
+       ,(CASE WHEN NOT(p = T  AND q = T) THEN T ELSE F END) AS [¬(p∧q)]
+       ,(CASE WHEN NOT(p = T  AND p = T) THEN T ELSE F END) AS [¬(p∧p)]
+       ,(CASE WHEN NOT(q = T  AND q = T) THEN T ELSE F END) AS [¬(q∧q)]
+       ,(CASE WHEN NOT(p = T) AND p = T  THEN T ELSE F END) AS [¬p∧p]
+       ,(CASE WHEN NOT(p = T) AND q = T  THEN T ELSE F END) AS [¬p∧q]
+       ,(CASE WHEN NOT(q = T) AND q = T  THEN T ELSE F END) AS [¬q∧q]
+       ,(CASE WHEN NOT(p = T) AND q = T  THEN T ELSE F END) AS [¬q∧p]
+       ,(CASE WHEN NOT(p = T) AND NOT(q = T) THEN T ELSE F END) AS [¬p∧¬q]
+        --------------------------------------------
        --Or
-       ,(CASE WHEN p + q >= 1 THEN T ELSE F END) AS "p∨q"
-       ,(CASE WHEN q + p >= 1 THEN T ELSE F END) AS "q∨p"
-       ,(CASE WHEN p + p >= 1 THEN T ELSE F END) AS "p∨p"
-       ,(CASE WHEN q + q >= 1 THEN T ELSE F END) AS "q∨q"
-       ,(CASE WHEN p + T >= 1 THEN T ELSE F END) AS "p∨T"
-       ,(CASE WHEN p + F >= 1 THEN T ELSE F END) AS "p∨F"
-       ,(CASE WHEN q + T >= 1 THEN T ELSE F END) AS "q∨T"
-       ,(CASE WHEN q + F >= 1 THEN T ELSE F END) AS "q∨F"
-       ,(CASE WHEN NOT(p = T  OR q = T) THEN T ELSE F END) AS "¬p∨¬q"
-       ,(CASE WHEN NOT(p = T  OR p = T) THEN T ELSE F END) AS "¬p∨¬p"
-       ,(CASE WHEN NOT(q = T  OR q = T) THEN T ELSE F END) AS "¬q∨¬q"
-       ,(CASE WHEN NOT(p = T) OR p = T  THEN T ELSE F END) AS "¬p∨p"
-       ,(CASE WHEN NOT(p = T) OR q = T  THEN T ELSE F END) AS "¬p∨q"
-       ,(CASE WHEN NOT(p = T) OR q = T  THEN T ELSE F END) AS "¬q∨q"
-       ,(CASE WHEN NOT(p = T) OR q = T  THEN T ELSE F END) AS "¬q∨p"
+       ,(CASE WHEN p + q >= 1 THEN T ELSE F END) AS [p∨q]
+       ,(CASE WHEN q + p >= 1 THEN T ELSE F END) AS [q∨p]
+       ,(CASE WHEN p + p >= 1 THEN T ELSE F END) AS [p∨p]
+       ,(CASE WHEN q + q >= 1 THEN T ELSE F END) AS [q∨q]
+       ,(CASE WHEN p + T >= 1 THEN T ELSE F END) AS [p∨T]
+       ,(CASE WHEN p + F >= 1 THEN T ELSE F END) AS [p∨F]
+       ,(CASE WHEN q + T >= 1 THEN T ELSE F END) AS [q∨T]
+       ,(CASE WHEN q + F >= 1 THEN T ELSE F END) AS [q∨F]
+       ,(CASE WHEN NOT(p = T  OR q = T) THEN T ELSE F END) AS [¬(p∨q)]
+       ,(CASE WHEN NOT(p = T  OR p = T) THEN T ELSE F END) AS [¬(p∨p)]
+       ,(CASE WHEN NOT(q = T  OR q = T) THEN T ELSE F END) AS [¬(q∨q)]
+       ,(CASE WHEN NOT(p = T) OR p = T  THEN T ELSE F END) AS [¬p∨p]
+       ,(CASE WHEN NOT(p = T) OR q = T  THEN T ELSE F END) AS [¬p∨q]
+       ,(CASE WHEN NOT(q = T) OR q = T  THEN T ELSE F END) AS [¬q∨q]
+       ,(CASE WHEN NOT(q = T) OR p = T  THEN T ELSE F END) AS [¬q∨p]
+       ,(CASE WHEN NOT(p = T) OR NOT(q = T) THEN T ELSE F END) AS [¬p∨¬q]
        --------------------------------------------
        --Implies (If..Then)
-       ,(CASE WHEN p <= q THEN T ELSE F END) AS "p→q"
-       ,(CASE WHEN q <= p THEN T ELSE F END) AS "q→p"
-       --------------------------------------------
+       ,(CASE WHEN p <= q THEN T ELSE F END) AS [p→q]
+       ,(CASE WHEN q <= p THEN T ELSE F END) AS [q→p]
+       ,(CASE WHEN p <= q AND q <= p THEN T ELSE F END) AS [p→q∧q→p]
+	   ,(CASE WHEN p <= q OR  q <= p THEN T ELSE F END) AS [p→q∨q→p]
+	   ,(CASE WHEN NOT(p <= q AND q <= p) THEN T ELSE F END) AS [¬(p→q∧q→p)]
+	   ,(CASE WHEN NOT(p <= q OR  q <= p) THEN T ELSE F END) AS [¬(p→q∨q→p)]
+	   ,(CASE WHEN (CASE WHEN p = T THEN 0 ELSE 1 END) <= (CASE WHEN q = T THEN 0 ELSE 1 END) THEN T ELSE F END) AS [¬p→¬q]
+	   ,(CASE WHEN (CASE WHEN q = T THEN 0 ELSE 1 END) <= (CASE WHEN p = T THEN 0 ELSE 1 END) THEN T ELSE F END) AS [¬q→¬p]	   
+	   --------------------------------------------
        --Biconditional (If And Only If)
-       ,(CASE WHEN p = q THEN T ELSE F END) AS "p↔q"
-       --------------------------------------------
+       ,(CASE WHEN p = q THEN T ELSE F END) AS [p↔q]
+       ,(CASE WHEN NOT(p = q) THEN T ELSE F END) AS [¬(p↔q)]
+       
+	   --------------------------------------------
        --XOR (Exclusive OR)
-       ,(CASE WHEN p + q = 1 THEN T ELSE F END) AS "p⊕q"	
+       ,(CASE WHEN p + q = 1 THEN T ELSE F END) AS [p⊕q]
+	   ,(CASE WHEN NOT(p + q = 1) THEN T ELSE F END) AS [¬(p⊕q)]
 INTO   #TruthTable
-FROM   #LogicValues
+FROM   cte_LogicValues
 ORDER BY p DESC, q DESC;
 GO
+
+SELECT * FROM #TruthTable;
 ```
+
+```
+--Pivot the data
+WITH cte_Pivot AS
+(
+SELECT  operation, [p = 0, q = 0],[p = 0, q = 1],[p = 1, q = 0],[p = 1, q = 1]
+FROM
+    (SELECT RowId,
+            operation,
+            value
+     FROM #TruthTable
+     UNPIVOT
+     (
+         value
+         FOR operation IN 
+		 ([¬p], [¬q], [¬¬p], [¬¬q], [p∧q], [q∧p], [p∧p], [q∧q], [p∧T], [p∧F], [q∧T], [q∧F], [¬(p∧q)], [¬(p∧p)], [¬(q∧q)], [¬p∧p], [¬p∧q], [¬q∧q], [¬q∧p], [¬p∧¬q], [p∨q], [q∨p], [p∨p], [q∨q], [p∨T], [p∨F], [q∨T], [q∨F], [¬(p∨q)], [¬(p∨p)], [¬(q∨q)], [¬p∨p], [¬p∨q], [¬q∨q], [¬q∨p], [¬p∨¬q], [p→q], [q→p], 
+		 [p↔q], [p⊕q],[p→q∧q→p], [p→q∨q→p],[¬(p→q∧q→p)], [¬(p→q∨q→p)], [¬(p↔q)],[¬(p⊕q)],[¬p→¬q],[¬q→¬p]
+		 )																				   	
+		
+     ) AS unpvt) AS src
+PIVOT
+(
+    MAX(value)
+    FOR RowId IN ([p = 0, q = 0],[p = 0, q = 1],[p = 1, q = 0],[p = 1, q = 1])
+) AS pvt
+),
+cte_RowNumber AS
+(
+SELECT  ROW_NUMBER() OVER (ORDER BY [p = 0, q = 0],[p = 0, q = 1],[p = 1, q = 0],[p = 1, q = 1], Operation) AS RowNumber,
+        CONCAT([p = 0, q = 0],[p = 0, q = 1],[p = 1, q = 0],[p = 1, q = 1]) AS LogicIdentity,
+        *
+FROM cte_Pivot
+)
+SELECT  DENSE_RANK() OVER (PARTITION BY LogicIdentity ORDER BY RowNumber) AS DenseRank
+        ,*
+INTO    #TruthTable_Pivot
+FROM    cte_RowNumber;
+GO
+
+SELECT * FROM #TruthTable_Pivot;
+```
+
+| DenseRank | RowNumber | LogicIdentity | operation     | p = 0, q = 0 | p = 0, q = 1 | p = 1, q = 0 | p = 1, q = 1 |
+|-----------|-----------|---------------|---------------|--------------|--------------|--------------|--------------|
+| 1         | 1         | 0000          | ¬(p→q∨q→p)    | 0            | 0            | 0            | 0            |
+| 2         | 2         | 0000          | ¬p∧p          | 0            | 0            | 0            | 0            |
+| 3         | 3         | 0000          | ¬q∧q          | 0            | 0            | 0            | 0            |
+| 4         | 4         | 0000          | p∧F           | 0            | 0            | 0            | 0            |
+| 5         | 5         | 0000          | q∧F           | 0            | 0            | 0            | 0            |
+| 1         | 6         | 0001          | p∧q           | 0            | 0            | 0            | 1            |
+| 2         | 7         | 0001          | q∧p           | 0            | 0            | 0            | 1            |
+| 1         | 8         | 0011          | ¬¬p           | 0            | 0            | 1            | 1            |
+| 2         | 9         | 0011          | p∧p           | 0            | 0            | 1            | 1            |
+| 3         | 10        | 0011          | p∧T           | 0            | 0            | 1            | 1            |
+| 4         | 11        | 0011          | p∨F           | 0            | 0            | 1            | 1            |
+| 5         | 12        | 0011          | p∨p           | 0            | 0            | 1            | 1            |
+| 1         | 13        | 0100          | ¬p∧q          | 0            | 1            | 0            | 0            |
+| 2         | 14        | 0100          | ¬q∧p          | 0            | 1            | 0            | 0            |
+| 1         | 15        | 0101          | ¬¬q           | 0            | 1            | 0            | 1            |
+| 2         | 16        | 0101          | q∧q           | 0            | 1            | 0            | 1            |
+| 3         | 17        | 0101          | q∧T           | 0            | 1            | 0            | 1            |
+| 4         | 18        | 0101          | q∨F           | 0            | 1            | 0            | 1            |
+| 5         | 19        | 0101          | q∨q           | 0            | 1            | 0            | 1            |
+| 1         | 20        | 0110          | ¬(p→q∧q→p)    | 0            | 1            | 1            | 0            |
+| 2         | 21        | 0110          | ¬(p↔q)        | 0            | 1            | 1            | 0            |
+| 3         | 22        | 0110          | p⊕q          | 0            | 1            | 1            | 0            |
+| 1         | 23        | 0111          | p∨q           | 0            | 1            | 1            | 1            |
+| 2         | 24        | 0111          | q∨p           | 0            | 1            | 1            | 1            |
+| 1         | 25        | 1000          | ¬(p∨q)        | 1            | 0            | 0            | 0            |
+| 2         | 26        | 1000          | ¬p∧¬q         | 1            | 0            | 0            | 0            |
+| 1         | 27        | 1001          | ¬(p⊕q)       | 1            | 0            | 0            | 1            |
+| 2         | 28        | 1001          | p→q∧q→p       | 1            | 0            | 0            | 1            |
+| 3         | 29        | 1001          | p↔q           | 1            | 0            | 0            | 1            |
+| 1         | 30        | 1010          | ¬(q∧q)        | 1            | 0            | 1            | 0            |
+| 2         | 31        | 1010          | ¬(q∨q)        | 1            | 0            | 1            | 0            |
+| 3         | 32        | 1010          | ¬q            | 1            | 0            | 1            | 0            |
+| 1         | 33        | 1011          | ¬p→¬q         | 1            | 0            | 1            | 1            |
+| 2         | 34        | 1011          | ¬q∨p          | 1            | 0            | 1            | 1            |
+| 3         | 35        | 1011          | q→p           | 1            | 0            | 1            | 1            |
+| 1         | 36        | 1100          | ¬(p∧p)        | 1            | 1            | 0            | 0            |
+| 2         | 37        | 1100          | ¬(p∨p)        | 1            | 1            | 0            | 0            |
+| 3         | 38        | 1100          | ¬p            | 1            | 1            | 0            | 0            |
+| 1         | 39        | 1101          | ¬p∨q          | 1            | 1            | 0            | 1            |
+| 2         | 40        | 1101          | ¬q→¬p         | 1            | 1            | 0            | 1            |
+| 3         | 41        | 1101          | p→q           | 1            | 1            | 0            | 1            |
+| 1         | 42        | 1110          | ¬(p∧q)        | 1            | 1            | 1            | 0            |
+| 2         | 43        | 1110          | ¬p∨¬q         | 1            | 1            | 1            | 0            |
+| 1         | 44        | 1111          | ¬p∨p          | 1            | 1            | 1            | 1            |
+| 2         | 45        | 1111          | ¬q∨q          | 1            | 1            | 1            | 1            |
+| 3         | 46        | 1111          | p∨T           | 1            | 1            | 1            | 1            |
+| 4         | 47        | 1111          | p→q∨q→p       | 1            | 1            | 1            | 1            |
+| 5         | 48        | 1111          | q∨T           | 1            | 1            | 1            | 1            |
+
 
 ## Logic Laws
 
@@ -208,74 +306,6 @@ WHERE  "¬(p∨q)" = "¬p∧¬q";
 
 To analyse the truth table to find easily find such things as all statements that are always true or false (tautology/contradiction) or which statements have matching/unmatching outcomes, it is easiest if we pivot the table using the following SQL statement.
 
-```
-
---Pivot the data
-SELECT operation, [p = 0, q = 0],[p = 0, q = 1],[p = 1, q = 0],[p = 1, q = 1]
-FROM
-    (SELECT RowId,
-            operation,
-            value
-     FROM #TruthTable
-     UNPIVOT
-     (
-         value
-         FOR operation IN ("p", "q", "T", "F", "¬p", "¬q", "¬¬p", "¬¬q", "p∧q", "q∧p", "p∧p", "q∧q", "p∧T", "p∧F", "q∧T", "q∧F", "¬(p∧q)", "¬(p∧p)", "¬(q∧q)", "¬p∧p", "¬p∧q", "¬q∧q", "¬q∧p", "¬p∧¬q", "p∨q", "q∨p", "p∨p", "q∨q", "p∨T", "p∨F", "q∨T", "q∨F", "¬(p∨q)", "¬(p∨p)", "¬(q∨q)", "¬p∨p", "¬p∨q", "¬q∨q", "¬q∨p", "p→q", "q→p", "p↔q", "p⊕q"
-)
-     ) AS unpvt) AS src
-PIVOT
-(
-    MAX(value)
-    FOR RowId IN ([p = 0, q = 0],[p = 0, q = 1],[p = 1, q = 0],[p = 1, q = 1])
-) AS pvt
-ORDER BY 2,3,4,5,1;
-```
-
-| operation | p = 0, q = 0 | p = 0, q = 1 | p = 1, q = 0 | p = 1, q = 1 |
-|-----------|--------------|--------------|--------------|--------------|
-| ¬p∧p      |      0       |      0       |      0       |      0       |
-| F         |      0       |      0       |      0       |      0       |
-| p∧F       |      0       |      0       |      0       |      0       |
-| q∧F       |      0       |      0       |      0       |      0       |
-| p∧q       |      0       |      0       |      0       |      1       |
-| q∧p       |      0       |      0       |      0       |      1       |
-| ¬¬p       |      0       |      0       |      1       |      1       |
-| p         |      0       |      0       |      1       |      1       |
-| p∧p       |      0       |      0       |      1       |      1       |
-| p∧T       |      0       |      0       |      1       |      1       |
-| p∨F       |      0       |      0       |      1       |      1       |
-| p∨p       |      0       |      0       |      1       |      1       |
-| ¬p∧q      |      0       |      1       |      0       |      0       |
-| ¬q∧p      |      0       |      1       |      0       |      0       |
-| ¬q∧q      |      0       |      1       |      0       |      0       |
-| ¬¬q       |      0       |      1       |      0       |      1       |
-| q         |      0       |      1       |      0       |      1       |
-| q∧q       |      0       |      1       |      0       |      1       |
-| q∧T       |      0       |      1       |      0       |      1       |
-| q∨F       |      0       |      1       |      0       |      1       |
-| q∨q       |      0       |      1       |      0       |      1       |
-| p⊕q      |      0       |      1       |      1       |      0       |
-| p∨q       |      0       |      1       |      1       |      1       |
-| q∨p       |      0       |      1       |      1       |      1       |
-| ¬(p∨q)    |      1       |      0       |      0       |      0       |
-| ¬p∧¬q     |      1       |      0       |      0       |      0       |
-| p↔q       |      1       |      0       |      0       |      1       |
-| ¬(q∧q)    |      1       |      0       |      1       |      0       |
-| ¬(q∨q)    |      1       |      0       |      1       |      0       |
-| ¬q        |      1       |      0       |      1       |      0       |
-| q→p       |      1       |      0       |      1       |      1       |
-| ¬(p∧p)    |      1       |      1       |      0       |      0       |
-| ¬(p∨p)    |      1       |      1       |      0       |      0       |
-| ¬p        |      1       |      1       |      0       |      0       |
-| ¬p∨q      |      1       |      1       |      0       |      1       |
-| ¬q∨p      |      1       |      1       |      0       |      1       |
-| ¬q∨q      |      1       |      1       |      0       |      1       |
-| p→q       |      1       |      1       |      0       |      1       |
-| ¬(p∧q)    |      1       |      1       |      1       |      0       |
-| ¬p∨p      |      1       |      1       |      1       |      1       |
-| p∨T       |      1       |      1       |      1       |      1       |
-| q∨T       |      1       |      1       |      1       |      1       |
-| T         |      1       |      1       |      1       |      1       |
 
 
 A closer examination of logical laws reveals that various logical truths can be expressed in multiple ways. Notably, the XOR (Exclusive Or) operation, represented as `p ⊕ q`, is equivalent to the conjunction of the implications `¬p → ¬q ∧ ¬q → ¬p`.
@@ -298,5 +328,7 @@ Also, the conditional statement `p → q` has a contrapositive of `¬p → ¬q`,
 | 1 | 0 |  0  |   1   |  1  |   0   |
 | 0 | 1 |  1  |   0   |  0  |   1   |
 | 0 | 0 |  1  |   1   |  1  |   1   |
+
+#### Conclusion
 
 
