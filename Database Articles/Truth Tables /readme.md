@@ -285,8 +285,6 @@ FROM    #TruthTable
 WHERE  "¬(p∨q)" = "¬p∧¬q";
 ```
 
----------------
-
 | Description            | RowId       | ¬(p∧q) | ¬p∨¬q |
 |------------------------|-------------|--------|-------|
 | Negation of Conjunction| p = 0, q = 0|   1    |   1   |
