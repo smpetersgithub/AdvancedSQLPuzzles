@@ -29,13 +29,13 @@ Additionally, before we begin, a few tidbits of SQL should be mentioned.
 
 -----------------------------------
 
-### Logic Symbols
-
-Now, let’s dive into truth tables and propositional statements.
+### Propositional Statements
 
 A propositional statement is a statement that can be either true or false.  Often, we think of propositional statements in terms of English statements, such as: “When it is sunny, I wear my sunglasses”.  However, we often use a more generic form in discrete math and don’t assign statements to each proposition variable. The variables most used are P, Q, and R for English statements, and lowercase p, q, and r are used for generic statements.
 
 In our example above, we would assign the uppercase P to “It is sunny” and the uppercase Q to “I wear my sunglasses".  We then would have a conditional statement of `If P, then Q`, or `P → Q`.
+
+#### Logic Symbols
 
 Like any branch of mathematics, a set of symbols and terms needs to be defined.  Here is a summary of the different symbols and terms and examples of how they are used in everyday English statements. 
 
@@ -54,7 +54,18 @@ Like any branch of mathematics, a set of symbols and terms needs to be defined. 
 -----------------------------------
 
 ### Truth Table
+
 Here is the SQL to generate the truth table.  I find pivoting the data and sorting by the outcome the best method to view the table given the number of columns.
+
+| RowId       | p | q | T | F | ¬p | ¬q | ¬¬p | ¬¬q | p∧q | q∧p | p∧p | q∧q | p∧T | p∧F | q∧T | q∧F | ¬(p∧q) | ¬(p∧p) | ¬(q∧q) | ¬p∧p | ¬p∧q | ¬q∧q | ¬q∧p | ¬p∧¬q | p∨q | q∨p | p∨p | q∨q | p∨T | p∨F | q∨T | q∨F | ¬(p∨q) | ¬(p∨p) | ¬(q∨q) | ¬p∨p | ¬p∨q | ¬q∨q | ¬q∨p | ¬p∨¬q | p→q | q→p | p→q∧q→p | p→q∨q→p | ¬(p→q∧q→p) | ¬(p→q∨q→p) | ¬p→¬q | ¬q→¬p | p↔q | ¬(p↔q) | p⊕q | ¬(p⊕q) |
+|-------------|---|---|---|---|----|----|-----|-----|-----|-----|-----|-----|-----|-----|-----|-----|--------|--------|--------|------|------|------|------|-------|-----|-----|-----|-----|-----|-----|-----|-----|-------|-------|-------|------|------|------|------|-------|-----|-----|----------|----------|--------------|--------------|--------|--------|-----|---------|-----|---------|
+| p = 0, q = 0| 0 | 0 | 1 | 0 |  1 |  1 |   0 |   0 |   0 |   0 |   0 |   0 |   0 |   0 |   0 |   0 |   1    |   1    |   1    |   0  |   0  |   0  |   0  |   1   |   0 |   0 |   0 |   0 |   1 |   0 |   1 |   0 |    1    |    1    |    1    |   1   |   1   |   1   |   1   |    1   |   1  |   1  |     1     |     1     |       0       |       0       |    1   |    1   |   1  |    0    |   0  |    1    |
+| p = 0, q = 1| 0 | 1 | 1 | 0 |  1 |  0 |   0 |   1 |   0 |   0 |   0 |   1 |   0 |   0 |   1 |   0 |   1    |   1    |   0    |   0  |   1  |   0  |   1  |   0   |   1 |   1 |   0 |   1 |   1 |   0 |   1 |   1 |    0    |    1    |    0    |   1   |   1   |   0   |   1   |    1   |   0  |   1  |     0     |     1     |       1       |       0       |    1   |    0   |   0  |    1    |   1  |    0    |
+| p = 1, q = 0 | 1 | 0 | 1 | 0 | 0 | 1 | 1 | 0 | 0 | 0 | 1 | 0 | 1 | 0 | 0 | 0 | 1 | 0 | 1 | 0 | 0 | 0 | 0 | 0 | 1 | 1 | 1 | 0 | 1 | 1 | 1 | 0 | 0 | 0 | 1 | 1 | 0 | 1 | 1 | 1 | 0 | 1 | 0 | 1 | 1 | 0 | 1 | 0 | 0 | 1 | 1 | 0 |
+| p = 1, q = 1 | 1 | 1 | 1 | 0 | 0 | 0 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 0 | 1 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 0 | 0 | 0 | 1 | 1 | 1 | 1 | 0 | 1 | 1 | 1 | 1 | 0 | 0 | 1 | 1 | 1 | 0 | 0 | 1 |
+
+
+
 
 ```
 DROP TABLE IF EXISTS #TruthTable;
