@@ -327,9 +327,8 @@ A closer examination of logical laws reveals that various logical truths can be 
 | 0 | 0 |  0  |       0        |
 
 
-Furthermore, the conditional statement `p → q` possesses several related forms: its contrapositive `¬q → ¬p`, its converse `q → p`, and its inverse `¬p → ¬q`. Each of these forms offers a different perspective on the same underlying logical relationship.
+The conditional statement `p → q` possesses several related forms: its contrapositive `¬q → ¬p`, its converse `q → p`, and its inverse `¬p → ¬q`. Each of these forms offers a different perspective on the same underlying logical relationship.
 
-Also, the conditional statement `p → q` has a contrapositive of `¬p → ¬q`, the converse of `q → p` and the inverse of `¬p → ¬q`.
 
 | p | q | p→q<br>Conditional | ¬q→¬p<br>Converse | q→p<br>Contrapositive | ¬p→¬q<br>Inverse |
 |---|---|-----|-------|-----|-------|
@@ -337,6 +336,23 @@ Also, the conditional statement `p → q` has a contrapositive of `¬p → ¬q`,
 | 1 | 0 |  0  |   1   |  1  |   0   |
 | 0 | 1 |  1  |   0   |  0  |   1   |
 | 0 | 0 |  1  |   1   |  1  |   1   |
+
+Tautology and contradiction are fundamental concepts in propositional logic. A tautology is a statement that is always true, regardless of the truth values of its components. It represents a universal truth and is used to express logical certainties. On the other hand, a contradiction is a statement that is always false, no matter what the truth values of its components are. It symbolizes an inherent inconsistency and is used to denote logical impossibilities. Both concepts are crucial in logical reasoning, helping to understand and define the limits of logical arguments and 
+
+| p | q | ¬p∨p | ¬q∨q | p∨T | p→q∨q→p | q∨T |
+|---|---|------|------|-----|---------|-----|
+| 0 | 0 |  1   |  1   |  1  |    1    |  1  |
+| 0 | 1 |  1   |  1   |  1  |    1    |  1  |
+| 1 | 0 |  1   |  1   |  1  |    1    |  1  |
+| 1 | 1 |  1   |  1   |  1  |    1    |  1  |
+
+| p | ¬(p→q∨q→p) | ¬p∧p | ¬q∧q | p∧F | q∧F |
+|---|------------|------|------|-----|-----|
+| 0 |     0      |   0  |   0  |  0  |  0  |
+| 0 |     1      |   0  |   0  |  0  |  0  |
+| 1 |     0      |   0  |   0  |  0  |  0  |
+| 1 |     1      |   0  |   0  |  0  |  0  |
+
 
 #### Conclusion
 
