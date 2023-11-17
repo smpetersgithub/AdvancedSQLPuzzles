@@ -1036,22 +1036,60 @@ RESPECT NULLS - Respect null values in the dataset when computing first value ov
 Note, there was a bug fix in SQL Server 2022 CU4 related to IGNORE NULLS in LAG and LEAD.
 
 ```
+WITH cte_Lag_Lead AS
+(
+SELECT 1 AS ID, 100 AS MyValue
+UNION 
+SELECT 2 AS ID, 200 AS MyValue
+UNION 
+SELECT 3 AS ID, NULL AS MyValue
+UNION 
+SELECT NULL AS ID, 300 AS MyValue
+)
 SELECT  *,
-        LAG(Fruit,1,'Strawberry') IGNORE NULLS OVER (ORDER BY ID) AS LagIgnoreNulls,
-        LEAD(Fruit,1,'Strawberry') IGNORE NULLS OVER (ORDER BY ID) AS LeadIgnoreNulls,
-        LAG(Fruit,1,'Strawberry') RESPECT NULLS OVER (ORDER BY ID) AS LagRespectNulls,
-        LEAD(Fruit,1,'Strawberry') RESPECT NULLS OVER (ORDER BY ID) AS LeadRespectNulls
-FROM    ##TableA;
+        LAG(MyValue,1,0) IGNORE NULLS OVER (ORDER BY ID) AS LagIgnoreNulls,
+        LEAD(MyValue,1,0) IGNORE NULLS OVER (ORDER BY ID) AS LeadIgnoreNulls,
+        LAG(MyValue,1,0) RESPECT NULLS OVER (ORDER BY ID) AS LagRespectNulls,
+        LEAD(MyValue,1,0) RESPECT NULLS OVER (ORDER BY ID) AS LeadRespectNulls
+FROM    cte_Lag_Lead
+ORDER BY ID;
 ```
 
-| ID | Fruit  | Quantity | LagIgnoreNulls | LeadIgnoreNulls | LagRespectNulls | LeadRespectNulls |
-|----|--------|----------|----------------|-----------------|-----------------|------------------|
-| 1  | Apple  | 17       | Strawberry     | Strawberry      | Strawberry      | Peach            |
-| 2  | Peach  | 20       | Apple          | Apple           | Apple           | Mango            |
-| 3  | Mango  | 11       | Peach          | Peach           | Peach           | Mango            |
-| 4  | Mango  | 15       | Mango          | Mango           | Mango           | NULL             |
-| 5  | NULL   | 5        | Mango          | Mango           | Mango           | NULL             |
-| 6  | NULL   | 3        | Mango          | Mango           | NULL            | Strawberry       |
+However, if you notice, the `LeadIgnoreNulls` column is the same value as `LagIgnoreNulls`.  It appears you cannot have a `LAG` and `LEAD` function with `IGNORE NULLS` in the same statement.
+
+|   ID    | MyValue | LagIgnoreNulls | LeadIgnoreNulls | LagRespectNulls | LeadRespectNulls |
+|---------|---------|----------------|-----------------|-----------------|------------------|
+| \<NULL> | 300     | 0              | 0               | 0               | 100              |
+| 1       | 100     | 300            | 300             | 300             | 200              |
+| 2       | 200     | 100            | 100             | 100             | \<NULL>          |
+| 3       | \<NULL> | 200            | 200             | 200             | 0                |
+
+If we create separate statements, we get the proper values.  I am not sure if this is a bug.
+
+```
+WITH cte_Lag_Lead AS
+(
+SELECT 1 AS ID, 100 AS MyValue
+UNION 
+SELECT 2 AS ID, 200 AS MyValue
+UNION 
+SELECT 3 AS ID, NULL AS MyValue
+UNION 
+SELECT 4 AS ID, 300 AS MyValue
+)
+SELECT  *,
+        LEAD(MyValue,1,0) IGNORE NULLS OVER (ORDER BY ID) AS LeadIgnoreNulls,
+        LEAD(MyValue,1,0) RESPECT NULLS OVER (ORDER BY ID) AS LeadRespectNulls
+FROM    cte_Lag_Lead
+ORDER BY ID;
+```
+
+| ID | MyValue | LeadIgnoreNulls | LeadRespectNulls |
+|----|---------|-----------------|------------------|
+|  1 | 100     | 200             | 200              |
+|  2 | 200     | 300             | \<NULL>          |
+|  3 | \<NULL> | 300             | 300              |
+|  4 | 300     | 0               | 0                |
 
 --------------------------------------------------------- 
 ### Conclusion
