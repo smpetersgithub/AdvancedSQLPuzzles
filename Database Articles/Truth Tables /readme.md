@@ -341,7 +341,7 @@ The conditional statement `p → q` possesses several related forms: its contrap
 | 0 | 1 |  1  |   0   |  0  |   1   |
 | 0 | 0 |  1  |   1   |  1  |   1   |
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tautology and contradiction are fundamental concepts in propositional logic. A tautology is a statement that is always true, regardless of the truth values of its components. It represents a universal truth and is used to express logical certainties. On the other hand, a contradiction is a statement that is always false, no matter what the truth values of its components are. It symbolizes an inherent inconsistency and is used to denote logical impossibilities. Both concepts are crucial in logical reasoning, helping to understand and define the limits of logical arguments and 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tautology (⊤) and contradiction (⊥) are fundamental concepts in propositional logic. A tautology is a statement that is always true, regardless of the truth values of its components. It represents a universal truth and is used to express logical certainties. On the other hand, a contradiction is a statement that is always false, no matter what the truth values of its components are. It symbolizes an inherent inconsistency and is used to denote logical impossibilities. Both concepts are crucial in logical reasoning, helping to understand and define the limits of logical arguments and 
 
 | p | q | ¬p∨p | ¬q∨q | p∨T | p→q∨q→p | q∨T |
 |---|---|------|------|-----|---------|-----|
