@@ -38,7 +38,7 @@ We will cover these aspects and many more in the following document.
 [5. Join Syntax](#join-syntax)    
 [6. Semi and Anti Joins](#semi-and-anti-joins)    
 [7. Set Operators](#set-operators)    
-[8. COUNT and AVERAGE Functions](#count-and-average-functions)    
+[8. COUNT, AVERAGE, MINIMUM, MAXIMUM Functions](#count-average-min-and-max-functions)    
 [9. Constraints](#constraints)    
 [10. Referential Integrity](#referential-integrity)    
 [11. Computed Columns](#computed-columns)    
@@ -505,7 +505,7 @@ GROUP BY Fruit;
 | Peach   | 1          | 1           |
 
 ---------------------------------------------------------
-### COUNT and AVERAGE Functions
+### COUNT, AVERAGE, MIN, and MAX Functions
 🔵&nbsp;&nbsp;&nbsp;[Table Of Contents](#table-of-contents)
 
 The `COUNT` and `AVG` functions have a few nuances when handling NULL markers, as we will demonstrate below.
@@ -557,6 +557,21 @@ FROM    cte_Average;
 | Average_CountStar | Average_CountId | Average_AvgFunction |
 |-------------------|-----------------|---------------------|
 | 112.50000000000   | 150.000000      | 150.000000          |
+
+---------------------------------------------------------
+**MIN and MAX**
+        
+The `MIN` AND `MAX` functions will remove records with NULL markers in its calculation, as shown below.
+
+```sql
+SELECT  Max(Quantity) AS Minimum,
+        Min(Quantity) AS Maximum
+FROM    ##TableA;
+```
+
+| Minimum | Maximum |
+|---------|---------|
+| 20      | 3       |
 
 --------------------------------------------------------- 
 ### CONSTRAINTS
