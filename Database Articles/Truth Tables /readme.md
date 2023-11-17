@@ -35,7 +35,9 @@ Additionally, before we begin, a few tidbits of SQL should be mentioned.
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The relationship between these propositions can be articulated through logical connectives. In the provided example, the conditional "If P, then Q" (symbolized as `P → Q`) establishes a logical link between the two propositions. This implies that the occurrence of Q (wearing sunglasses) is contingent upon P (it being sunny). The use of such propositional variables and logical connectives allows for a formal and systematic approach to dissecting and understanding the structure of arguments and logical processes.
 
-#### Logic Symbols
+-----------------------------------
+
+### Logic Symbols
 
 Like any branch of mathematics, a set of symbols and terms needs to be defined.  Here is a summary of the different symbols and terms and examples of how they are used in everyday English statements. 
 
@@ -273,8 +275,8 @@ Many of these laws may seem trivial in nature, but the most important one for SQ
 
 De Morgan's Laws are two transformation rules that are used in propositional logic and Boolean algebra. They state that:
 
-1. The negation of a conjunction is the disjunction of the negations: ¬(p ∧ q) ⇔ ¬p ∨ ¬q
-2. The negation of a disjunction is the conjunction of the negations: ¬(p ∨ q) ⇔ ¬p ∧ ¬q
+1. The negation of a conjunction is the disjunction of the negations: `¬(p ∧ q) ⇔ ¬p ∨ ¬q`
+2. The negation of a disjunction is the conjunction of the negations: `¬(p ∨ q) ⇔ ¬p ∧ ¬q`
 
 These laws are important because they allow for the expression of logical statements in different forms, which can be very useful in various logical and computational applications, such as simplifying logical expressions and digital circuit design.
 
@@ -296,26 +298,28 @@ FROM    #TruthTable
 WHERE  "¬(p∨q)" = "¬p∧¬q";
 ```
 
-| Description            | RowId       | ¬(p∧q) | ¬p∨¬q |
-|------------------------|-------------|--------|-------|
-| Negation of Conjunction| p = 0, q = 0|   1    |   1   |
-| Negation of Conjunction| p = 0, q = 1|   1    |   1   |
-| Negation of Conjunction| p = 1, q = 0|   1    |   1   |
-| Negation of Conjunction| p = 1, q = 1|   0    |   0   |
+Negation of Conjunction
 
+| p | q | ¬(p∧q) | ¬p∨¬q |
+|---|---|--------|-------|
+| 0 | 0 |   1    |   1   |
+| 0 | 1 |   1    |   1   |
+| 1 | 0 |   1    |   1   |
+| 1 | 1 |   0    |   0   |
 
-| Description            | RowId       | ¬(p∨q) | ¬p∧¬q |
-|------------------------|-------------|--------|-------|
-| Negation of Disjunction| p = 0, q = 0|   1    |   1   |
-| Negation of Disjunction| p = 0, q = 1|   0    |   0   |
-| Negation of Disjunction| p = 1, q = 0|   0    |   0   |
-| Negation of Disjunction| p = 1, q = 1|   0    |   0   |
+ Negation of Disjunction
+
+| p | q | ¬(p∨q) | ¬p∧¬q |
+|---|---|--------|-------|
+| 0 | 0 |   1    |   1   |
+| 0 | 1 |   0    |   0   |
+| 1 | 0 |   0    |   0   |
+| 1 | 1 |   0    |   0   |
+
 
 ---------------
 
 ### Analysing the Truth Table
-
-To analyse the truth table to find easily find such things as all statements that are always true or false (tautology/contradiction) or which statements have matching/unmatching outcomes, it is easiest if we pivot the table using the following SQL statement.
 
 A closer examination of logical laws reveals that various logical truths can be expressed in multiple ways. Notably, the XOR (Exclusive Or) operation, represented as `p ⊕ q`, is equivalent to the conjunction of the implications `¬p → ¬q ∧ ¬q → ¬p`.
 
@@ -337,7 +341,7 @@ The conditional statement `p → q` possesses several related forms: its contrap
 | 0 | 1 |  1  |   0   |  0  |   1   |
 | 0 | 0 |  1  |   1   |  1  |   1   |
 
-Tautology and contradiction are fundamental concepts in propositional logic. A tautology is a statement that is always true, regardless of the truth values of its components. It represents a universal truth and is used to express logical certainties. On the other hand, a contradiction is a statement that is always false, no matter what the truth values of its components are. It symbolizes an inherent inconsistency and is used to denote logical impossibilities. Both concepts are crucial in logical reasoning, helping to understand and define the limits of logical arguments and 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tautology and contradiction are fundamental concepts in propositional logic. A tautology is a statement that is always true, regardless of the truth values of its components. It represents a universal truth and is used to express logical certainties. On the other hand, a contradiction is a statement that is always false, no matter what the truth values of its components are. It symbolizes an inherent inconsistency and is used to denote logical impossibilities. Both concepts are crucial in logical reasoning, helping to understand and define the limits of logical arguments and 
 
 | p | q | ¬p∨p | ¬q∨q | p∨T | p→q∨q→p | q∨T |
 |---|---|------|------|-----|---------|-----|
