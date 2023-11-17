@@ -249,6 +249,7 @@ SELECT * FROM #TruthTable_Pivot;
 | 4         | 47        | 1111          | p→q∨q→p       | 1            | 1            | 1            | 1            |
 | 5         | 48        | 1111          | q∨T           | 1            | 1            | 1            | 1            |
 
+---------------
 
 ### Logic Laws
 
@@ -268,6 +269,8 @@ Propositional logic consists of several fundamental laws that are crucial for lo
 | Implication Law      | p → q ⇔ ¬p ∨ q                   |
 
 Many of these laws may seem trivial in nature, but the most important one for SQL developers to understand is De Morgan's law.
+
+---------------
 
 ### De Morgan's Law
 
@@ -314,7 +317,6 @@ Negation of Conjunction
 | 1 | 0 |   0    |   0   |
 | 1 | 1 |   0    |   0   |
 
-
 ---------------
 
 ### Analysing the Truth Table
@@ -341,6 +343,7 @@ The conditional statement `p → q` possesses several related forms: its contrap
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tautology (⊤) and contradiction (⊥) are fundamental concepts in propositional logic. A tautology is a statement that is always true, regardless of the truth values of its components. It represents a universal truth and is used to express logical certainties. On the other hand, a contradiction is a statement that is always false, no matter what the truth values of its components are. It symbolizes an inherent inconsistency and is used to denote logical impossibilities. Both concepts are crucial in logical reasoning, helping to understand and define the limits of logical arguments and 
 
+Tautology (⊤)
 | p | q | ¬p∨p | ¬q∨q | p∨T | p→q∨q→p | q∨T |
 |---|---|------|------|-----|---------|-----|
 | 0 | 0 |  1   |  1   |  1  |    1    |  1  |
@@ -348,12 +351,14 @@ The conditional statement `p → q` possesses several related forms: its contrap
 | 1 | 0 |  1   |  1   |  1  |    1    |  1  |
 | 1 | 1 |  1   |  1   |  1  |    1    |  1  |
 
-| p | ¬(p→q∨q→p) | ¬p∧p | ¬q∧q | p∧F | q∧F |
-|---|------------|------|------|-----|-----|
-| 0 |     0      |   0  |   0  |  0  |  0  |
-| 0 |     1      |   0  |   0  |  0  |  0  |
-| 1 |     0      |   0  |   0  |  0  |  0  |
-| 1 |     1      |   0  |   0  |  0  |  0  |
+Contradiction (⊥)
+| p | q | ¬(p→q∨q→p) | ¬p∧p | ¬q∧q | p∧F | q∧F |
+|---|---|------------|------|------|-----|-----|
+| 0 | 0 |     0      |   0  |   0  |  0  |  0  |
+| 0 | 1 |     0      |   0  |   0  |  0  |  0  |
+| 1 | 0 |     0      |   0  |   0  |  0  |  0  |
+| 1 | 1 |     0      |   0  |   0  |  0  |  0  |
+
 
 
 #### Conclusion
