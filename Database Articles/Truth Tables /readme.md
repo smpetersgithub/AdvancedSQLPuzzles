@@ -39,7 +39,7 @@ Additionally, before we begin, a few tidbits of SQL should be mentioned.
 
 ### Logic Symbols
 
-Like any branch of mathematics, a set of symbols and terms needs to be defined.  Here is a summary of the different symbols and terms and examples of how they are used in everyday English statements. 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Like any branch of mathematics, a set of symbols and terms needs to be defined.  Here is a summary of the different symbols and terms and examples of how they are used in everyday English statements. 
 
 | Logical Operation       | Symbol |   English Language Usage     |
 |-------------------------|--------|------------------------------|
@@ -57,7 +57,7 @@ Like any branch of mathematics, a set of symbols and terms needs to be defined. 
 
 ### Truth Table
 
-Here is the SQL to generate the truth table.  I find pivoting the data and sorting by the outcome the best method to view the table given the number of columns.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Here is the SQL to generate the truth table.  I find pivoting the data and sorting by the outcome the best method to view the table given the number of columns.
 
 | RowId       | p | q | T | F | ¬p | ¬q | ¬¬p | ¬¬q | p∧q | q∧p | p∧p | q∧q | p∧T | p∧F | q∧T | q∧F | ¬(p∧q) | ¬(p∧p) | ¬(q∧q) | ¬p∧p | ¬p∧q | ¬q∧q | ¬q∧p | ¬p∧¬q | p∨q | q∨p | p∨p | q∨q | p∨T | p∨F | q∨T | q∨F | ¬(p∨q) | ¬(p∨p) | ¬(q∨q) | ¬p∨p | ¬p∨q | ¬q∨q | ¬q∨p | ¬p∨¬q | p→q | q→p | p→q∧q→p | p→q∨q→p | ¬(p→q∧q→p) | ¬(p→q∨q→p) | ¬p→¬q | ¬q→¬p | p↔q | ¬(p↔q) | p⊕q | ¬(p⊕q) |
 |-------------|---|---|---|---|----|----|-----|-----|-----|-----|-----|-----|-----|-----|-----|-----|--------|--------|--------|------|------|------|------|-------|-----|-----|-----|-----|-----|-----|-----|-----|-------|-------|-------|------|------|------|------|-------|-----|-----|----------|----------|--------------|--------------|--------|--------|-----|---------|-----|---------|
@@ -255,7 +255,7 @@ Here is the truth table pivoted, with a dense rank and row number added.
 
 ### Logic Laws
 
-Propositional logic consists of several fundamental laws that are crucial for logical reasoning and manipulation of logical expressions. These laws are important because they provide a framework for constructing valid arguments, proving theorems, and simplifying logical statements. The following are the most popular laws, but there are several more.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Propositional logic consists of several fundamental laws that are crucial for logical reasoning and manipulation of logical expressions. These laws are important because they provide a framework for constructing valid arguments, proving theorems, and simplifying logical statements. The following are the most popular laws, but there are several more.
 
 |      Law Name        |             Formula              |
 |----------------------|----------------------------------|
@@ -270,18 +270,18 @@ Propositional logic consists of several fundamental laws that are crucial for lo
 | De Morgan's Law      | ¬(p ∧ q) ⇔ ¬p ∨ ¬q<br>¬(p ∨ q) ⇔ ¬p ∧ ¬q                          |
 | Implication Law      | p → q ⇔ ¬p ∨ q                   |
 
-Many of these laws may seem trivial in nature, but the most important one for SQL developers to understand is De Morgan's law.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Many of these laws may seem trivial in nature, but the most important one for SQL developers to understand is De Morgan's law.
 
 ---------------
 
 ### De Morgan's Law
 
-De Morgan's Laws are two transformation rules that are used in propositional logic and Boolean algebra. They state that:
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;De Morgan's Laws are two transformation rules that are used in propositional logic and Boolean algebra. They state that:
 
 1. The negation of a conjunction is the disjunction of the negations: `¬(p ∧ q) ⇔ ¬p ∨ ¬q`
 2. The negation of a disjunction is the conjunction of the negations: `¬(p ∨ q) ⇔ ¬p ∧ ¬q`
 
-These laws are important because they allow for the expression of logical statements in different forms, which can be very useful in various logical and computational applications, such as simplifying logical expressions and digital circuit design.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;These laws are important because they allow for the expression of logical statements in different forms, which can be very useful in various logical and computational applications, such as simplifying logical expressions and digital circuit design.
 
 #### Negation of Conjunction
 
@@ -307,7 +307,7 @@ These laws are important because they allow for the expression of logical statem
 
 #### Exclusive OR (p⊕q)
 
-A closer examination of logical laws reveals that various logical truths can be expressed in multiple ways. Notably, the XOR (Exclusive Or) operation, represented as `p ⊕ q`, is equivalent to the conjunction of the implications `¬p → ¬q ∧ ¬q → ¬p`.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;A closer examination of logical laws reveals that various logical truths can be expressed in multiple ways. Notably, the XOR (Exclusive Or) operation, represented as `p ⊕ q`, is equivalent to the conjunction of the implications `¬p → ¬q ∧ ¬q → ¬p`.
 
 | p | q | p⊕q | ¬p→¬q ∧ ¬q→¬p |
 |---|---|-----|----------------|
@@ -320,7 +320,7 @@ A closer examination of logical laws reveals that various logical truths can be 
 
 #### Conditional Statements
 
-The conditional statement `p → q` possesses several related forms: its contrapositive `¬q → ¬p`, its converse `q → p`, and its inverse `¬p → ¬q`. Each of these forms offers a different perspective on the same underlying logical relationship.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The conditional statement `p → q` possesses several related forms: its contrapositive `¬q → ¬p`, its converse `q → p`, and its inverse `¬p → ¬q`. Each of these forms offers a different perspective on the same underlying logical relationship.
 
 | p | q | p→q<br>Conditional | ¬q→¬p<br>Converse | q→p<br>Contrapositive | ¬p→¬q<br>Inverse |
 |---|---|-----|-------|-----|-------|
