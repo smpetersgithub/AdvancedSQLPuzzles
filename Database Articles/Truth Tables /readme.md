@@ -281,25 +281,7 @@ De Morgan's Laws are two transformation rules that are used in propositional log
 
 These laws are important because they allow for the expression of logical statements in different forms, which can be very useful in various logical and computational applications, such as simplifying logical expressions and digital circuit design.
 
-The following SQL statement can be used to prove De Morgan's Law from the truth table we created.
-
-```
-SELECT  'Negation of Conjunction' AS [Description],
-        RowId,
-        "¬(p∧q)",
-        "¬p∨¬q"
-FROM    #TruthTable
-WHERE  "¬(p∧q)" = "¬p∨¬q";
-
-SELECT  'Negation of Disjunction' AS [Description],
-        RowId,
-        "¬(p∨q)",
-        "¬p∧¬q"
-FROM    #TruthTable
-WHERE  "¬(p∨q)" = "¬p∧¬q";
-```
-
-Negation of Conjunction
+#### Negation of Conjunction
 
 | p | q | ¬(p∧q) | ¬p∨¬q |
 |---|---|--------|-------|
@@ -308,7 +290,7 @@ Negation of Conjunction
 | 1 | 0 |   1    |   1   |
 | 1 | 1 |   0    |   0   |
 
- Negation of Disjunction
+####  Negation of Disjunction
 
 | p | q | ¬(p∨q) | ¬p∧¬q |
 |---|---|--------|-------|
@@ -323,6 +305,8 @@ Negation of Conjunction
 
 A closer examination of logical laws reveals that various logical truths can be expressed in multiple ways. Notably, the XOR (Exclusive Or) operation, represented as `p ⊕ q`, is equivalent to the conjunction of the implications `¬p → ¬q ∧ ¬q → ¬p`.
 
+#### Exclusive OR (p⊕q)
+
 | p | q | p⊕q | ¬p→¬q ∧ ¬q→¬p |
 |---|---|-----|----------------|
 | 1 | 1 |  0  |       0        |
@@ -333,6 +317,7 @@ A closer examination of logical laws reveals that various logical truths can be 
 
 The conditional statement `p → q` possesses several related forms: its contrapositive `¬q → ¬p`, its converse `q → p`, and its inverse `¬p → ¬q`. Each of these forms offers a different perspective on the same underlying logical relationship.
 
+#### Conditional Statements
 
 | p | q | p→q<br>Conditional | ¬q→¬p<br>Converse | q→p<br>Contrapositive | ¬p→¬q<br>Inverse |
 |---|---|-----|-------|-----|-------|
@@ -343,7 +328,8 @@ The conditional statement `p → q` possesses several related forms: its contrap
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tautology (⊤) and contradiction (⊥) are fundamental concepts in propositional logic. A tautology is a statement that is always true, regardless of the truth values of its components. It represents a universal truth and is used to express logical certainties. On the other hand, a contradiction is a statement that is always false, no matter what the truth values of its components are. It symbolizes an inherent inconsistency and is used to denote logical impossibilities. Both concepts are crucial in logical reasoning, helping to understand and define the limits of logical arguments and 
 
-Tautology (⊤)
+#### Tautology (⊤)
+
 | p | q | ¬p∨p | ¬q∨q | p∨T | p→q∨q→p | q∨T |
 |---|---|------|------|-----|---------|-----|
 | 0 | 0 |  1   |  1   |  1  |    1    |  1  |
@@ -351,7 +337,8 @@ Tautology (⊤)
 | 1 | 0 |  1   |  1   |  1  |    1    |  1  |
 | 1 | 1 |  1   |  1   |  1  |    1    |  1  |
 
-Contradiction (⊥)
+#### Contradiction (⊥)
+
 | p | q | ¬(p→q∨q→p) | ¬p∧p | ¬q∧q | p∧F | q∧F |
 |---|---|------------|------|------|-----|-----|
 | 0 | 0 |     0      |   0  |   0  |  0  |  0  |
@@ -359,9 +346,7 @@ Contradiction (⊥)
 | 1 | 0 |     0      |   0  |   0  |  0  |  0  |
 | 1 | 1 |     0      |   0  |   0  |  0  |  0  |
 
-
-
-#### Conclusion
+### Conclusion
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;In conclusion, the exploration of logical operations and their corresponding truth tables offers insightful perspectives into the foundations of propositional logic. By systematically breaking down complex logical expressions into simpler components, we can discern the underlying principles governing logical reasoning. This analysis not only reinforces the fundamental concepts of logic, such as negation, conjunction, and disjunction, but also elucidates the more intricate aspects like implications and biconditional relationships. The ability to translate these logical operations into a structured format like truth tables is a valuable skill, enhancing our understanding of logical processes and their applications in various fields.
 
