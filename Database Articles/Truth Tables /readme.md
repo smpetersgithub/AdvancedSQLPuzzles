@@ -13,7 +13,7 @@
 
 ----------
 
-🔌This article is not meant to be a lesson in propositional logic but simply an exploration of how to create truth tables using SQL.  If you are unfamiliar with propositional logic, I recommend taking a discrete mathematics course to understand the principles.
+❗This article is not meant to be a lesson in propositional logic but simply an exploration of how to create truth tables using SQL.  If you are unfamiliar with propositional logic, I recommend taking a discrete mathematics course to understand the principles.
 
 ----------
 
@@ -25,7 +25,7 @@ Additionally, before we begin, a few tidbits of SQL should be mentioned.
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;•	The `BIT` data type in SQL is not an accurate Boolean representation, as it has three possible values: True, False, and NULL.  Many SQL experts recommend not to use the `BIT` data type because of this, and instead use the `SMALLINT` data type and set the permissible values to 0 and 1.  Also, SQL Server does not allow math operations on the `BIT` data type; using the `SMALLINT` datatype allows us to create mathematical expressions that we can use to resolve truths.   
 
-❗To learn more about NULL markers and their effect on predicate logic, check out my article Behavior of NULLS.
+🔌To learn more about NULL markers and their effect on predicate logic, check out my article Behavior of NULLS.
 
 -----------------------------------
 
