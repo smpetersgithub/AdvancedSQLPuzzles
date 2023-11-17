@@ -137,20 +137,19 @@ SELECT  CONCAT('p = ',p,',',' q = ',q) AS RowId
        ,(CASE WHEN p <= q THEN T ELSE F END) AS [p→q]
        ,(CASE WHEN q <= p THEN T ELSE F END) AS [q→p]
        ,(CASE WHEN p <= q AND q <= p THEN T ELSE F END) AS [p→q∧q→p]
-	   ,(CASE WHEN p <= q OR  q <= p THEN T ELSE F END) AS [p→q∨q→p]
-	   ,(CASE WHEN NOT(p <= q AND q <= p) THEN T ELSE F END) AS [¬(p→q∧q→p)]
-	   ,(CASE WHEN NOT(p <= q OR  q <= p) THEN T ELSE F END) AS [¬(p→q∨q→p)]
-	   ,(CASE WHEN (CASE WHEN p = T THEN 0 ELSE 1 END) <= (CASE WHEN q = T THEN 0 ELSE 1 END) THEN T ELSE F END) AS [¬p→¬q]
-	   ,(CASE WHEN (CASE WHEN q = T THEN 0 ELSE 1 END) <= (CASE WHEN p = T THEN 0 ELSE 1 END) THEN T ELSE F END) AS [¬q→¬p]	   
-	   --------------------------------------------
+       ,(CASE WHEN p <= q OR  q <= p THEN T ELSE F END) AS [p→q∨q→p]
+       ,(CASE WHEN NOT(p <= q AND q <= p) THEN T ELSE F END) AS [¬(p→q∧q→p)]
+       ,(CASE WHEN NOT(p <= q OR  q <= p) THEN T ELSE F END) AS [¬(p→q∨q→p)]
+       ,(CASE WHEN (CASE WHEN p = T THEN 0 ELSE 1 END) <= (CASE WHEN q = T THEN 0 ELSE 1 END) THEN T ELSE F END) AS [¬p→¬q]
+       ,(CASE WHEN (CASE WHEN q = T THEN 0 ELSE 1 END) <= (CASE WHEN p = T THEN 0 ELSE 1 END) THEN T ELSE F END) AS [¬q→¬p]	   
+       --------------------------------------------
        --Biconditional (If And Only If)
        ,(CASE WHEN p = q THEN T ELSE F END) AS [p↔q]
        ,(CASE WHEN NOT(p = q) THEN T ELSE F END) AS [¬(p↔q)]
-       
-	   --------------------------------------------
+        --------------------------------------------
        --XOR (Exclusive OR)
        ,(CASE WHEN p + q = 1 THEN T ELSE F END) AS [p⊕q]
-	   ,(CASE WHEN NOT(p + q = 1) THEN T ELSE F END) AS [¬(p⊕q)]
+       ,(CASE WHEN NOT(p + q = 1) THEN T ELSE F END) AS [¬(p⊕q)]
 INTO   #TruthTable
 FROM   cte_LogicValues
 ORDER BY p DESC, q DESC;
@@ -161,7 +160,7 @@ SELECT * FROM #TruthTable;
 
 ```
 --Pivot the data
-WITH cte_Pivot AS
+;WITH cte_Pivot AS
 (
 SELECT  operation, [p = 0, q = 0],[p = 0, q = 1],[p = 1, q = 0],[p = 1, q = 1]
 FROM
@@ -173,10 +172,9 @@ FROM
      (
          value
          FOR operation IN 
-		 ([¬p], [¬q], [¬¬p], [¬¬q], [p∧q], [q∧p], [p∧p], [q∧q], [p∧T], [p∧F], [q∧T], [q∧F], [¬(p∧q)], [¬(p∧p)], [¬(q∧q)], [¬p∧p], [¬p∧q], [¬q∧q], [¬q∧p], [¬p∧¬q], [p∨q], [q∨p], [p∨p], [q∨q], [p∨T], [p∨F], [q∨T], [q∨F], [¬(p∨q)], [¬(p∨p)], [¬(q∨q)], [¬p∨p], [¬p∨q], [¬q∨q], [¬q∨p], [¬p∨¬q], [p→q], [q→p], 
-		 [p↔q], [p⊕q],[p→q∧q→p], [p→q∨q→p],[¬(p→q∧q→p)], [¬(p→q∨q→p)], [¬(p↔q)],[¬(p⊕q)],[¬p→¬q],[¬q→¬p]
-		 )																				   	
-		
+        ([¬p], [¬q], [¬¬p], [¬¬q], [p∧q], [q∧p], [p∧p], [q∧q], [p∧T], [p∧F], [q∧T], [q∧F], [¬(p∧q)], [¬(p∧p)], [¬(q∧q)], [¬p∧p], [¬p∧q], [¬q∧q], [¬q∧p], [¬p∧¬q], [p∨q], [q∨p], [p∨p], [q∨q], [p∨T], [p∨F], [q∨T], [q∨F], [¬(p∨q)], [¬(p∨p)], [¬(q∨q)], [¬p∨p], [¬p∨q], [¬q∨q], [¬q∨p], [¬p∨¬q], [p→q], [q→p], 
+         [p↔q], [p⊕q],[p→q∧q→p], [p→q∨q→p],[¬(p→q∧q→p)], [¬(p→q∨q→p)], [¬(p↔q)],[¬(p⊕q)],[¬p→¬q],[¬q→¬p]
+        )
      ) AS unpvt) AS src
 PIVOT
 (
