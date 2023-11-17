@@ -198,6 +198,8 @@ GO
 SELECT * FROM #TruthTable_Pivot;
 ```
 
+Here is the truth table pivoted, with a dense rank and row number added.
+
 | DenseRank | RowNumber | LogicIdentity | operation     | p = 0, q = 0 | p = 0, q = 1 | p = 1, q = 0 | p = 1, q = 1 |
 |-----------|-----------|---------------|---------------|--------------|--------------|--------------|--------------|
 | 1         | 1         | 0000          | ¬(p→q∨q→p)    | 0            | 0            | 0            | 0            |
@@ -303,9 +305,9 @@ These laws are important because they allow for the expression of logical statem
 
 ### Analysing the Truth Table
 
-A closer examination of logical laws reveals that various logical truths can be expressed in multiple ways. Notably, the XOR (Exclusive Or) operation, represented as `p ⊕ q`, is equivalent to the conjunction of the implications `¬p → ¬q ∧ ¬q → ¬p`.
-
 #### Exclusive OR (p⊕q)
+
+A closer examination of logical laws reveals that various logical truths can be expressed in multiple ways. Notably, the XOR (Exclusive Or) operation, represented as `p ⊕ q`, is equivalent to the conjunction of the implications `¬p → ¬q ∧ ¬q → ¬p`.
 
 | p | q | p⊕q | ¬p→¬q ∧ ¬q→¬p |
 |---|---|-----|----------------|
@@ -314,10 +316,11 @@ A closer examination of logical laws reveals that various logical truths can be 
 | 0 | 1 |  1  |       1        |
 | 0 | 0 |  0  |       0        |
 
-
-The conditional statement `p → q` possesses several related forms: its contrapositive `¬q → ¬p`, its converse `q → p`, and its inverse `¬p → ¬q`. Each of these forms offers a different perspective on the same underlying logical relationship.
+-----
 
 #### Conditional Statements
+
+The conditional statement `p → q` possesses several related forms: its contrapositive `¬q → ¬p`, its converse `q → p`, and its inverse `¬p → ¬q`. Each of these forms offers a different perspective on the same underlying logical relationship.
 
 | p | q | p→q<br>Conditional | ¬q→¬p<br>Converse | q→p<br>Contrapositive | ¬p→¬q<br>Inverse |
 |---|---|-----|-------|-----|-------|
@@ -326,10 +329,13 @@ The conditional statement `p → q` possesses several related forms: its contrap
 | 0 | 1 |  1  |   0   |  0  |   1   |
 | 0 | 0 |  1  |   1   |  1  |   1   |
 
+-----
+
+#### Tautology (⊤) and Contradiction (⊥)
+
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tautology (⊤) and contradiction (⊥) are fundamental concepts in propositional logic. A tautology is a statement that is always true, regardless of the truth values of its components. It represents a universal truth and is used to express logical certainties. On the other hand, a contradiction is a statement that is always false, no matter what the truth values of its components are. It symbolizes an inherent inconsistency and is used to denote logical impossibilities. Both concepts are crucial in logical reasoning, helping to understand and define the limits of logical arguments and 
 
-#### Tautology (⊤)
-
+#### Tautology
 | p | q | ¬p∨p | ¬q∨q | p∨T | p→q∨q→p | q∨T |
 |---|---|------|------|-----|---------|-----|
 | 0 | 0 |  1   |  1   |  1  |    1    |  1  |
