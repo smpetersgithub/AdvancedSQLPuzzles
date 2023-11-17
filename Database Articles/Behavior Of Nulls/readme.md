@@ -1030,7 +1030,8 @@ DEFAULT or NULL are not allowed as explicit identity values.
 
 SQL Server now supports ignoring or respecting NULLS.
 
-IGNORE NULLS - Ignore null values in the dataset when computing the first value over a partition.
+IGNORE NULLS - Ignore null values in the dataset when computing the first value over a partition.    
+
 RESPECT NULLS - Respect null values in the dataset when computing first value over a partition. RESPECT NULLS is the default behavior if a NULLS option is not specified.
 
 Note, there was a bug fix in SQL Server 2022 CU4 related to IGNORE NULLS in LAG and LEAD.
