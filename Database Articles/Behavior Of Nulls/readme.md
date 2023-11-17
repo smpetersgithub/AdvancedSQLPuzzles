@@ -49,6 +49,7 @@ We will cover these aspects and many more in the following document.
 [16. Boolean Values](#boolean-values)    
 [17. Return Statement](#return)    
 [18. Identity Columns](#identity-columns)
+[19. LAG and LEAD functions](#lag-and-lead-functions)
 
 --------------------------------------------------------
 ### Brief History of Nulls 
@@ -1022,7 +1023,36 @@ Microsoft SQL Server returns the following error.
 	
 Msg 339, Level 16, State 1, Line 6
 DEFAULT or NULL are not allowed as explicit identity values.	
-	
+
+--------------------------------------------------------- 
+### LAG and LEAD Functions
+🔵&nbsp;&nbsp;&nbsp;[Table Of Contents](#table-of-contents)
+
+SQL Server now supports ignoring or respecting NULLS.
+
+IGNORE NULLS - Ignore null values in the dataset when computing the first value over a partition.
+RESPECT NULLS - Respect null values in the dataset when computing first value over a partition. RESPECT NULLS is the default behavior if a NULLS option is not specified.
+
+Note, there was a bug fix in SQL Server 2022 CU4 related to IGNORE NULLS in LAG and LEAD.
+
+```
+SELECT  *,
+        LAG(Fruit,1,'Strawberry') IGNORE NULLS OVER (ORDER BY ID) AS LagIgnoreNulls,
+        LEAD(Fruit,1,'Strawberry') IGNORE NULLS OVER (ORDER BY ID) AS LeadIgnoreNulls,
+        LAG(Fruit,1,'Strawberry') RESPECT NULLS OVER (ORDER BY ID) AS LagRespectNulls,
+        LEAD(Fruit,1,'Strawberry') RESPECT NULLS OVER (ORDER BY ID) AS LeadRespectNulls
+FROM    ##TableA;
+```
+
+| ID | Fruit  | Quantity | LagIgnoreNulls | LeadIgnoreNulls | LagRespectNulls | LeadRespectNulls |
+|----|--------|----------|----------------|-----------------|-----------------|------------------|
+| 1  | Apple  | 17       | Strawberry     | Strawberry      | Strawberry      | Peach            |
+| 2  | Peach  | 20       | Apple          | Apple           | Apple           | Mango            |
+| 3  | Mango  | 11       | Peach          | Peach           | Peach           | Mango            |
+| 4  | Mango  | 15       | Mango          | Mango           | Mango           | NULL             |
+| 5  | NULL   | 5        | Mango          | Mango           | Mango           | NULL             |
+| 6  | NULL   | 3        | Mango          | Mango           | NULL            | Strawberry       |
+
 --------------------------------------------------------- 
 ### Conclusion
 🔵&nbsp;&nbsp;&nbsp;[Table Of Contents](#table-of-contents)
