@@ -306,7 +306,7 @@ Here is the truth table pivoted, with a dense rank and row number added.
 | 1 | 0 |   0    |   0   |
 | 1 | 1 |   0    |   0   |
 
-#### Biconditional Law
+#### Exclusive Or Law (XOR)
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;A closer examination of logical laws reveals that various logical truths can be expressed in multiple ways. Notably, the XOR (Exclusive Or) operation, represented as `p ⊕ q`, is equivalent to the conjunction of the implications `¬p → ¬q ∧ ¬q → ¬p`.
 
