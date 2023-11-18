@@ -275,7 +275,7 @@ Here is the truth table pivoted, with a dense rank and row number added.
 | Exclusive Or Law     | p ⊕ q ⇔ (p ∨ q) ∧ ¬(p ∧ q)       |
 
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Many of these laws may seem trivial in nature, but the most important one for SQL developers to understand is De Morgan's law.  We will look at this law along with 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Many of these laws may seem trivial in nature, but the most important one for SQL developers to understand is De Morgan's law.  We will look at this law along with a few others.
 
 ---------------
 
