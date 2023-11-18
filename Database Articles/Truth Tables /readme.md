@@ -257,20 +257,25 @@ Here is the truth table pivoted, with a dense rank and row number added.
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Propositional logic consists of several fundamental laws that are crucial for logical reasoning and manipulation of logical expressions. These laws are important because they provide a framework for constructing valid arguments, proving theorems, and simplifying logical statements. The following are the most popular laws, but there are several more.
 
-|      Law Name        |             Formula              |
-|----------------------|----------------------------------|
+|      Law Name        |    Formula                        |
+|----------------------|-----------------------------------|
 | Identity Law         | p ∧ T ⇔ p<br>p ∨ F ⇔ p          |
 | Domination Law       | p ∨ T ⇔ T<br>p ∧ F ⇔ F          |
 | Idempotent Law       | p ∨ p ⇔ p<br>p ∧ p ⇔ p          |
 | Complement Law       | p ∨ ¬p ⇔ T<br>p ∧ ¬p ⇔ F        |
 | Double Negation Law  | ¬(¬p) ⇔ p                        |
 | Commutative Law      | p ∨ q ⇔ q ∨ p<br>p ∧ q ⇔ q ∧ p  |
-| Associative Law      | (p ∨ q) ∨ r ⇔ p ∨ (q ∨ r)<br>(p ∧ q) ∧ r ⇔ p ∧ (q ∧ r)            |
+| Associative Law      | (p ∨ q) ∨ r ⇔ p ∨ (q ∨ r)<br>(p ∧ q) ∧ r ⇔ p ∧ (q ∧ r) |
 | Distributive Law     | p ∧ (q ∨ r) ⇔ (p ∧ q) ∨ (p ∧ r)<br>p ∨ (q ∧ r) ⇔ (p ∨ q) ∧ (p ∨ r) |
-| De Morgan's Law      | ¬(p ∧ q) ⇔ ¬p ∨ ¬q<br>¬(p ∨ q) ⇔ ¬p ∧ ¬q                          |
+| De Morgan's Law      | ¬(p ∧ q) ⇔ ¬p ∨ ¬q<br>¬(p ∨ q) ⇔ ¬p ∧ ¬q |
 | Implication Law      | p → q ⇔ ¬p ∨ q                   |
+| Absorption Law       | p ∨ (p ∧ q) ⇔ p<br>p ∧ (p ∨ q) ⇔ p |
+| Contraposition Law   | p → q ⇔ ¬q → ¬p                   |
+| Biconditional Law    | p ↔ q ⇔ (p → q) ∧ (q → p)<br>p ↔ q ⇔ ¬p ↔ ¬q |
+| Exclusive Or Law     | p ⊕ q ⇔ (p ∨ q) ∧ ¬(p ∧ q)       |
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Many of these laws may seem trivial in nature, but the most important one for SQL developers to understand is De Morgan's law.
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Many of these laws may seem trivial in nature, but the most important one for SQL developers to understand is De Morgan's law.  We will look at this law along with 
 
 ---------------
 
@@ -301,20 +306,16 @@ Here is the truth table pivoted, with a dense rank and row number added.
 | 1 | 0 |   0    |   0   |
 | 1 | 1 |   0    |   0   |
 
----------------
-
-### Analysing the Truth Table
-
-#### Exclusive OR (p⊕q)
+#### Biconditional Law
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;A closer examination of logical laws reveals that various logical truths can be expressed in multiple ways. Notably, the XOR (Exclusive Or) operation, represented as `p ⊕ q`, is equivalent to the conjunction of the implications `¬p → ¬q ∧ ¬q → ¬p`.
 
 | p | q | p⊕q | ¬p→¬q ∧ ¬q→¬p |
 |---|---|-----|----------------|
-| 1 | 1 |  0  |       0        |
-| 1 | 0 |  1  |       1        | 
-| 0 | 1 |  1  |       1        |
-| 0 | 0 |  0  |       0        |
+| 1 | 1 | 0   |       0        |
+| 1 | 0 | 1   |       1        | 
+| 0 | 1 | 1   |       1        |
+| 0 | 0 | 0   |       0        |
 
 -----
 
@@ -323,11 +324,11 @@ Here is the truth table pivoted, with a dense rank and row number added.
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The conditional statement `p → q` possesses several related forms: its contrapositive `¬q → ¬p`, its converse `q → p`, and its inverse `¬p → ¬q`. Each of these forms offers a different perspective on the same underlying logical relationship.
 
 | p | q | p→q<br>Conditional | ¬q→¬p<br>Converse | q→p<br>Contrapositive | ¬p→¬q<br>Inverse |
-|---|---|-----|-------|-----|-------|
-| 1 | 1 |  1  |   1   |  1  |   1   |
-| 1 | 0 |  0  |   1   |  1  |   0   |
-| 0 | 1 |  1  |   0   |  0  |   1   |
-| 0 | 0 |  1  |   1   |  1  |   1   |
+|---|---|--------------------|-------------------|-----------------------|------------------|
+| 1 | 1 | 1                  | 1                 | 1                     | 1                |
+| 1 | 0 | 0                  | 1                 | 1                     | 0                |
+| 0 | 1 | 1                  | 0                 | 0                     | 1                |
+| 0 | 0 | 1                  | 1                 | 1                     | 1                |
 
 -----
 
