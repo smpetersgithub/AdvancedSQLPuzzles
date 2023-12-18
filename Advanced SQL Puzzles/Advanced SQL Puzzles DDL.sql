@@ -1628,5 +1628,32 @@ INSERT INTO #Students (StudentName, Birthday) VALUES
 GO
 
 /*----------------------------------------------------
+DDL for Puzzle #68
+Removing Outliers
+*/----------------------------------------------------
+
+DROP TABLE IF EXISTS #Teams;
+GO
+
+CREATE TABLE #Teams (
+Team  VARCHAR(50),
+Year  INTEGER,
+Score INTEGER,
+PRIMARY KEY (Team, Year)
+);
+GO
+
+INSERT INTO #Teams (Team, Year, Score) VALUES 
+('Cougars', 2015, 50),
+('Cougars', 2016, 45),
+('Cougars', 2017, 65),
+('Cougars', 2018, 92),
+('Bulldogs', 2015, 65),
+('Bulldogs', 2016, 60),
+('Bulldogs', 2017, 58),
+('Bulldogs', 2018, 12);
+GO
+
+/*----------------------------------------------------
 The End
 */----------------------------------------------------
