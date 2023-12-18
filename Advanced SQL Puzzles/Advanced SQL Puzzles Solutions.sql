@@ -2,7 +2,7 @@
 Scott Peters
 Solutions for Advanced SQL Puzzles
 https://advancedsqlpuzzles.com
-Last Updated: 09/01/2023
+Last Updated: 12/18/2023
 Microsoft SQL Server T-SQL
 
 */----------------------------------------------------
@@ -3398,6 +3398,44 @@ WHERE  Result = 'Error'
 ORDER BY 1;
 GO
 
+/*----------------------------------------------------
+Answer to Puzzle #65
+Home Listings
+*/----------------------------------------------------
+
+DROP TABLE IF EXISTS #HomeListings;
+GO
+
+CREATE TABLE #HomeListings
+(
+ListingID INTEGER PRIMARY KEY,
+HomeID    VARCHAR(50),
+Status    VARCHAR(50)
+);
+GO
+
+INSERT INTO #HomeListings (ListingID, HomeID, Status) VALUES 
+(1, 'Home A', 'New Listing'),
+(2, 'Home A', 'Pending'),
+(3, 'Home A', 'Relisted'),
+(4, 'Home B', 'New Listing'),
+(5, 'Home B', 'Under Contract'),
+(6, 'Home B', 'Relisted'),
+(7, 'Home C', 'New Listing'),
+(8, 'Home C', 'Under Contract'),
+(9, 'Home C', 'Closed');
+GO
+
+WITH cte_Case AS
+(
+SELECT  *,
+        (CASE WHEN Status IN ('New Listing', 'Relisted') THEN 1 END) AS IsNewOrRelisted
+FROM    #HomeListings
+)
+SELECT  ListingID, HomeID, Status,
+        SUM(IsNewOrRelisted) OVER (ORDER BY ListingID) AS GroupingID
+FROM    cte_Case;
+GO
 /*----------------------------------------------------
 The End
 */----------------------------------------------------
