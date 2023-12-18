@@ -2,7 +2,7 @@
 Scott Peters
 DDL for Advanced SQL Puzzles
 https://advancedsqlpuzzles.com
-Last Updated 03/29/2023
+Last Updated 12/18/2023
 Microsoft SQL Server T-SQL
 
 */----------------------------------------------------
@@ -1518,6 +1518,58 @@ INSERT INTO #Promotions (OrderID, Product, Discount) VALUES
 (3, 'Item1', 'PROMO'),
 (3, 'Item1', 'PROMO'),
 (3, 'Item1', 'PROMO');
+GO
+
+/*----------------------------------------------------
+DDL for Puzzle #64
+Between Quotes
+*/----------------------------------------------------
+
+DROP TABLE IF EXISTS #Strings;
+GO
+
+CREATE TABLE #Strings
+(
+ID     INTEGER IDENTITY(1,1),
+String VARCHAR(256) NOT NULL
+);
+GO
+
+INSERT INTO #Strings (String) VALUES
+('"12345678901234"'),
+('1"2345678901234"'),
+('123"45678"901234"'),
+('123"45678901234"'),
+('12345678901"234"'),
+('12345678901234');
+GO
+       
+/*----------------------------------------------------
+DDL for Puzzle #65
+Home Listings
+*/----------------------------------------------------
+       
+DROP TABLE IF EXISTS #HomeListings;
+GO
+
+CREATE TABLE #HomeListings
+(
+ListingID INTEGER PRIMARY KEY,
+HomeID    VARCHAR(50),
+Status    VARCHAR(50)
+);
+GO
+
+INSERT INTO #HomeListings (ListingID, HomeID, Status) VALUES 
+(1, 'Home A', 'New Listing'),
+(2, 'Home A', 'Pending'),
+(3, 'Home A', 'Relisted'),
+(4, 'Home B', 'New Listing'),
+(5, 'Home B', 'Under Contract'),
+(6, 'Home B', 'Relisted'),
+(7, 'Home C', 'New Listing'),
+(8, 'Home C', 'Under Contract'),
+(9, 'Home C', 'Closed');
 GO
 
 /*----------------------------------------------------
