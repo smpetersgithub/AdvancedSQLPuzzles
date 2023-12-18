@@ -3513,5 +3513,51 @@ HAVING  COUNT(*) > 1;
 GO
 
 /*----------------------------------------------------
+Answer to Puzzle #68
+Removing Outliers
+*/----------------------------------------------------
+
+DROP TABLE IF EXISTS #Teams;
+GO
+
+CREATE TABLE #Teams (
+Team  VARCHAR(50),
+Year  INTEGER,
+Score INTEGER,
+PRIMARY KEY (Team, Year)
+);
+GO
+
+INSERT INTO #Teams (Team, Year, Score) VALUES 
+('Cougars', 2015, 50),
+('Cougars', 2016, 45),
+('Cougars', 2017, 65),
+('Cougars', 2018, 92),
+('Bulldogs', 2015, 65),
+('Bulldogs', 2016, 60),
+('Bulldogs', 2017, 58),
+('Bulldogs', 2018, 12);
+GO
+
+WITH
+cte_SummaryStatistics AS
+(
+SELECT  AVG(Score) OVER (PARTITION BY Team) AS AverageScore
+       ,a.*
+FROM   #Teams a
+),
+cte_RowNumber AS
+(
+SELECT  ROW_NUMBER() OVER (PARTITION BY Team ORDER BY ABS(Score - AverageScore) DESC) AS RowNumber,
+        *
+FROM    cte_SummaryStatistics
+)
+SELECT Team, AVG(Score) AS Score
+FROM   cte_RowNumber
+WHERE  RowNumber <> 1
+GROUP BY Team;
+GO
+
+/*----------------------------------------------------
 The End
 */----------------------------------------------------
