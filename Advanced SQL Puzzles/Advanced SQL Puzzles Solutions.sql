@@ -3409,8 +3409,8 @@ GO
 CREATE TABLE #HomeListings
 (
 ListingID INTEGER PRIMARY KEY,
-HomeID    VARCHAR(50),
-Status    VARCHAR(50)
+HomeID    VARCHAR(100),
+Status    VARCHAR(100)
 );
 GO
 
@@ -3436,6 +3436,49 @@ SELECT  ListingID, HomeID, Status,
         SUM(IsNewOrRelisted) OVER (ORDER BY ListingID) AS GroupingID
 FROM    cte_Case;
 GO
+
+/*----------------------------------------------------
+Answer to Puzzle #66
+Matching Parts
+*/----------------------------------------------------
+
+DROP TABLE IF EXISTS #Parts;
+GO
+
+CREATE TABLE #Parts 
+(
+SerialNumber    VARCHAR(100) PRIMARY KEY,
+ManufactureDay  INTEGER,
+Product         VARCHAR(100)
+);
+GO
+
+INSERT INTO #Parts (SerialNumber, ManufactureDay, Product) VALUES 
+('A111', 1, 'Bolt'),
+('B111', 3, 'Bolt'),
+('C111', 5, 'Bolt'),
+('D222', 2, 'Washer'),
+('E222', 4, 'Washer'),
+('F222', 6, 'Washer'),
+('G333', 3, 'Nut'),
+('H333', 5, 'Nut'),
+('I333', 7, 'Nut');
+GO
+
+WITH cte_RowNumber AS
+(
+SELECT  ROW_NUMBER() OVER (PARTITION BY Product ORDER BY ManufactureDay) AS RowNumber,
+        *
+FROM    #Parts
+)
+SELECT  a.SerialNumber AS Bolt,
+        b.SerialNumber AS Washer,
+        c.SerialNumber AS Nut
+FROM    (SELECT * FROM cte_RowNumber WHERE Product = 'Bolt') a INNER JOIN
+        (SELECT * FROM cte_RowNumber WHERE Product = 'Washer') b ON a.RowNumber = b.RowNumber INNER JOIN
+        (SELECT * FROM cte_RowNumber WHERE Product = 'Nut') c ON a.RowNumber = c.RowNumber;
+GO
+
 /*----------------------------------------------------
 The End
 */----------------------------------------------------
