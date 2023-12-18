@@ -1555,8 +1555,8 @@ GO
 CREATE TABLE #HomeListings
 (
 ListingID INTEGER PRIMARY KEY,
-HomeID    VARCHAR(50),
-Status    VARCHAR(50)
+HomeID    VARCHAR(100),
+Status    VARCHAR(100)
 );
 GO
 
@@ -1570,6 +1570,34 @@ INSERT INTO #HomeListings (ListingID, HomeID, Status) VALUES
 (7, 'Home C', 'New Listing'),
 (8, 'Home C', 'Under Contract'),
 (9, 'Home C', 'Closed');
+GO
+
+/*----------------------------------------------------
+DDL for Puzzle #66
+Matching Parts
+*/----------------------------------------------------
+
+DROP TABLE IF EXISTS #Parts;
+GO
+
+CREATE TABLE #Parts 
+(
+SerialNumber    VARCHAR(100) PRIMARY KEY,
+ManufactureDay  INTEGER,
+Product         VARCHAR(100)
+);
+GO
+
+INSERT INTO #Parts (SerialNumber, ManufactureDay, Product) VALUES 
+('A111', 1, 'Bolt'),
+('B111', 3, 'Bolt'),
+('C111', 5, 'Bolt'),
+('D222', 2, 'Washer'),
+('E222', 4, 'Washer'),
+('F222', 6, 'Washer'),
+('G333', 3, 'Nut'),
+('H333', 5, 'Nut'),
+('I333', 7, 'Nut');
 GO
 
 /*----------------------------------------------------
