@@ -3154,7 +3154,7 @@ GROUP BY Equation;
 GO
 
 /*----------------------------------------------------
-DDL for Puzzle #59
+Answer to Puzzle #59
 Balanced String
 */----------------------------------------------------
 
@@ -3183,7 +3183,7 @@ INSERT INTO #BalancedString (ExpectedOutcome, MatchString) VALUES
 GO
 
 /*----------------------------------------------------
-DDL for Puzzle #60
+Answer to Puzzle #60
 Products Without Duplicates
 */----------------------------------------------------
 
@@ -3229,7 +3229,7 @@ WHERE   ProductCode NOT IN (SELECT ProductCode FROM cte_ProductCodes);
 GO
 
 /*----------------------------------------------------
-DDL for Puzzle #61
+Answer to Puzzle #61
 Player Scores
 */----------------------------------------------------
 
@@ -3271,7 +3271,7 @@ FROM   cte_FirstLastValues;
 GO
 
 /*----------------------------------------------------
-DDL for Puzzle #62
+Answer to Puzzle #62
 Car and Boat Purchase
 */----------------------------------------------------
 
@@ -3308,7 +3308,7 @@ ORDER BY 1,2;
 GO
 
 /*----------------------------------------------------
-DDL for Puzzle #63
+Answer to Puzzle #63
 Promotions
 */----------------------------------------------------
 
@@ -3477,6 +3477,39 @@ SELECT  a.SerialNumber AS Bolt,
 FROM    (SELECT * FROM cte_RowNumber WHERE Product = 'Bolt') a INNER JOIN
         (SELECT * FROM cte_RowNumber WHERE Product = 'Washer') b ON a.RowNumber = b.RowNumber INNER JOIN
         (SELECT * FROM cte_RowNumber WHERE Product = 'Nut') c ON a.RowNumber = c.RowNumber;
+GO
+
+/*----------------------------------------------------
+Answer to Puzzle #67
+Matching Birthdays
+*/----------------------------------------------------
+
+DROP TABLE IF EXISTS #Students;
+GO
+
+CREATE TABLE #Students
+(
+StudentName VARCHAR(50) PRIMARY KEY,
+Birthday    DATE
+);
+GO
+
+INSERT INTO #Students (StudentName, Birthday) VALUES 
+('Susan', '2015-04-15'),
+('Tim', '2015-04-15'),
+('Jacob', '2015-04-15'),
+('Earl', '2015-02-05'),
+('Mike', '2015-05-23'),
+('Angie', '2015-05-23'),
+('Jenny', '2015-11-19'),
+('Michelle', '2015-12-12'),
+('Aaron', '2015-12-18');
+GO
+
+SELECT  Birthday, STRING_AGG(StudentName, ', ') AS Students
+FROM    #Students
+GROUP BY Birthday
+HAVING  COUNT(*) > 1;
 GO
 
 /*----------------------------------------------------
