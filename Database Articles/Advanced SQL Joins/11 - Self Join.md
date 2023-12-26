@@ -232,7 +232,7 @@ FROM    cte_CountWindow a INNER JOIN
 ```
 ----------------------------------------------------
   
-#### Example of what is not a self-join.
+#### Examples of what is not a self-join
   
 The following are **not** considered self-joins.
 
