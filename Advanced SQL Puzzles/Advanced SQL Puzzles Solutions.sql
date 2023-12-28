@@ -1999,7 +1999,7 @@ UNION ALL
 SELECT  m.Nodes + 1 AS Nodes,
         r.ArrivalCity AS LastNode,
         CAST(m.NodeMap + r.ArrivalCity + '\' AS VARCHAR(MAX)) AS NodeMap,
-		m.Cost + r.Cost AS Cost
+        m.Cost + r.Cost AS Cost
 FROM    cteMap AS m INNER JOIN
         #Routes AS r ON r.DepartureCity = m.LastNode
 WHERE   m.NodeMap NOT LIKE '\%' + r.ArrivalCity + '%\'
