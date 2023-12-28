@@ -2694,8 +2694,7 @@ CREATE TABLE #ElevatorOrder
 (
 LineOrder  INTEGER PRIMARY KEY,
 [Name]     VARCHAR(100) NOT NULL,
-[Weight]   INTEGER NOT NULL,
-
+[Weight]   INTEGER NOT NULL
 );
 GO
 
