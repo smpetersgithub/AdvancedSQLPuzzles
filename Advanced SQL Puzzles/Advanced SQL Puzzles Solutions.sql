@@ -2,7 +2,7 @@
 Scott Peters
 Solutions for Advanced SQL Puzzles
 https://advancedsqlpuzzles.com
-Last Updated: 12/18/2023
+Last Updated: 12/28/2023
 Microsoft SQL Server T-SQL
 
 */----------------------------------------------------
@@ -1140,9 +1140,10 @@ GO
 WITH cte_AvgMonthlySalesCustomer AS
 (
 SELECT  CustomerID,
-        AVG(b.Amount) AS AverageValue,
-        [State]
-FROM    #Orders b
+        OrderDate,
+        [State],
+        AVG(Amount) AS AverageValue
+FROM    #Orders
 GROUP BY CustomerID,OrderDate,[State]
 ),
 cte_MinAverageValueState AS
@@ -1491,6 +1492,9 @@ SELECT  ROW_NUMBER() OVER (PARTITION BY IntegerValue ORDER BY IntegerValue) AS R
 FROM    #SampleData
 )
 DELETE FROM cte_Duplicates WHERE Rnk > 1
+GO
+
+SELECT * FROM #SampleData;
 GO
 
 /*----------------------------------------------------
