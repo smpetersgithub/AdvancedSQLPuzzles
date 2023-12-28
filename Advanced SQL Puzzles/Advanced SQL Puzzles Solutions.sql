@@ -2566,7 +2566,7 @@ Work Schedule
 DROP TABLE IF EXISTS #Schedule;
 DROP TABLE IF EXISTS #Activity;
 DROP TABLE IF EXISTS #ScheduleTimes;
-DROP TABLE IF EXISTS #ActivityCoalesce
+DROP TABLE IF EXISTS #ActivityCoalesce;
 GO
 
 CREATE TABLE #Schedule
