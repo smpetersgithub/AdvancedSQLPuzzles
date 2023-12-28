@@ -1610,7 +1610,7 @@ SELECT  MIN(StepNumber) AS MinStepNumber,
         COUNT(*) AS ConsecutiveCount,
         MAX(StepNumber) - MIN(StepNumber) + 1 AS ConsecutiveCount_MinMax
 FROM    cte_Groupings
-GROUP BY [Status], GroupNumber
+GROUP BY [Status], GroupNumber;
 GO
 
 /*----------------------------------------------------
