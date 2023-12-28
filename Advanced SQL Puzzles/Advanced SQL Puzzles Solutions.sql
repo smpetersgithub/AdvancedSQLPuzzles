@@ -1908,7 +1908,7 @@ SELECT  OrderID,
         CustomerID,
         Amount
 FROM    #Orders
-WHERE   CustomerID <> 1001 OR Amount <> 50
+WHERE   CustomerID <> 1001 OR Amount <> 50;
 GO
 
 /*----------------------------------------------------
