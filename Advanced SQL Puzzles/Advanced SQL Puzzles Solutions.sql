@@ -1477,7 +1477,7 @@ GO
 
 CREATE TABLE #SampleData
 (
-IntegerValue  INTEGER NOT NULL,
+IntegerValue  INTEGER NOT NULL
 );
 GO
 
