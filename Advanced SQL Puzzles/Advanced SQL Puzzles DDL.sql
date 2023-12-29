@@ -2,7 +2,7 @@
 Scott Peters
 DDL for Advanced SQL Puzzles
 https://advancedsqlpuzzles.com
-Last Updated 12/18/2023
+Last Updated 12/29/2023
 Microsoft SQL Server T-SQL
 
 */----------------------------------------------------
@@ -113,9 +113,9 @@ GO
 
 CREATE TABLE #PhoneDirectory
 (
-CustomerID  INTEGER,
-[Type]      VARCHAR(100),
-PhoneNumber VARCHAR(12) NOT NULL,
+CustomerID   INTEGER,
+[Type]       VARCHAR(100),
+PhoneNumber  VARCHAR(12) NOT NULL,
 PRIMARY KEY (CustomerID, [Type])
 );
 GO
@@ -163,8 +163,8 @@ GO
 
 CREATE TABLE #Candidates
 (
-CandidateID INTEGER,
-Occupation  VARCHAR(100),
+CandidateID  INTEGER,
+Occupation   VARCHAR(100),
 PRIMARY KEY (CandidateID, Occupation)
 );
 GO
@@ -177,11 +177,11 @@ GO
 
 CREATE TABLE #Requirements
 (
-Requirement VARCHAR(100) PRIMARY KEY
+Requirement  VARCHAR(100) PRIMARY KEY
 );
 GO
 
-INSERT INTO #Requirements VALUES
+INSERT INTO #Requirements (Requirement) VALUES
 ('Geologist'),('Astrogator'),('Technician');
 GO
 
@@ -244,7 +244,7 @@ IntegerValue  INTEGER NOT NULL
 );
 GO
 
-INSERT INTO #SampleData VALUES
+INSERT INTO #SampleData (IntegerValue) VALUES
 (5),(6),(10),(10),(13),(14),(17),(20),(81),(90),(76);
 GO
 
@@ -258,7 +258,7 @@ GO
 
 CREATE TABLE #TestCases
 (
-TestCase   VARCHAR(1) PRIMARY KEY
+TestCase  VARCHAR(1) PRIMARY KEY
 );
 GO
 
@@ -596,7 +596,7 @@ CREATE TABLE #Orders
 (
 OrderID     INTEGER PRIMARY KEY,
 CustomerID  INTEGER NOT NULL,
-[Count]  MONEY NOT NULL,
+[Count]     MONEY NOT NULL,
 Vendor      VARCHAR(100) NOT NULL
 );
 GO
@@ -648,7 +648,7 @@ IntegerValue  INTEGER NOT NULL
 );
 GO
 
-INSERT INTO #SampleData VALUES
+INSERT INTO #SampleData (IntegerValue) VALUES
 (1),(1),(2),(3),(3),(4);
 GO
 
@@ -777,9 +777,9 @@ GO
 
 CREATE TABLE #Orders
 (
-OrderID    INTEGER PRIMARY KEY,
-Product    VARCHAR(100) NOT NULL REFERENCES #ManufacturingTimes (Product),
-DaysToDeliver INTEGER NOT NULL
+OrderID        INTEGER PRIMARY KEY,
+Product        VARCHAR(100) NOT NULL REFERENCES #ManufacturingTimes (Product),
+DaysToDeliver  INTEGER NOT NULL
 );
 GO
 
@@ -856,13 +856,7 @@ PRIMARY KEY (DepartureCity, ArrivalCity)
 );
 GO
 
-INSERT #Routes (RouteID, DepartureCity, ArrivalCity, Cost)
-OUTPUT INSERTED.RouteID AS RouteID,
-       INSERTED.ArrivalCity AS DepartureCity,
-       INSERTED.DepartureCity AS ArrivalCity,
-       INSERTED.Cost
-INTO   #Routes (RouteID, DepartureCity, ArrivalCity, Cost)
-VALUES
+INSERT INTO #Routes (RouteID, DepartureCity, ArrivalCity, Cost) VALUES
 (1,'Austin','Dallas',100),
 (2,'Dallas','Memphis',200),
 (3,'Memphis','Des Moines',300),
@@ -938,7 +932,7 @@ IntegerValue  INTEGER PRIMARY KEY
 );
 GO
 
-INSERT INTO #PrimeNumbers VALUES
+INSERT INTO #PrimeNumbers (IntegerValue) VALUES
 (1),(2),(3),(4),(5),(6),(7),(8),(9),(10);
 GO
 
@@ -952,7 +946,7 @@ GO
 
 CREATE TABLE #SortOrder
 (
-City VARCHAR(100) PRIMARY KEY
+City  VARCHAR(100) PRIMARY KEY
 );
 GO
 
@@ -999,7 +993,7 @@ PRIMARY KEY (Friend1, Friend2)
 );
 GO
 
-INSERT INTO #Friends VALUES
+INSERT INTO #Friends (Friend1, Friend2) VALUES
 ('Jason','Mary'),('Mike','Mary'),('Mike','Jason'),
 ('Susan','Jason'),('John','Mary'),('Susan','Mary');
 GO
@@ -1125,10 +1119,10 @@ GO
 
 CREATE TABLE #Activity
 (
-ScheduleID   CHAR(1) REFERENCES #Schedule (ScheduleID),
-ActivityName VARCHAR(100),
-StartTime    DATETIME,
-EndTime      DATETIME,
+ScheduleID    CHAR(1) REFERENCES #Schedule (ScheduleID),
+ActivityName  VARCHAR(100),
+StartTime     DATETIME,
+EndTime       DATETIME,
 PRIMARY KEY (ScheduleID, ActivityName, StartTime, EndTime)
 );
 GO
@@ -1264,7 +1258,7 @@ PRIMARY KEY (PrimaryID, SpouseID)
 );
 GO
 
-INSERT INTO #Spouses VALUES
+INSERT INTO #Spouses (PrimaryID, SpouseID) VALUES
 ('Pat','Charlie'),('Jordan','Casey'),
 ('Ashley','Dee'),('Charlie','Pat'),
 ('Casey','Jordan'),('Dee','Ashley');
@@ -1291,8 +1285,8 @@ GO
 
 CREATE TABLE #LotteryTickets
 (
-TicketID    VARCHAR(3),
-Number      INTEGER,
+TicketID  VARCHAR(3),
+Number    INTEGER,
 PRIMARY KEY (TicketID, Number)
 );
 GO
@@ -1397,10 +1391,10 @@ GO
 
 CREATE TABLE #BalancedString
 (
-RowNumber       INTEGER IDENTITY(1,1) PRIMARY KEY,
-ExpectedOutcome VARCHAR(50),
-MatchString     VARCHAR(50),
-UpdateString    VARCHAR(50)
+RowNumber        INTEGER IDENTITY(1,1) PRIMARY KEY,
+ExpectedOutcome  VARCHAR(50),
+MatchString      VARCHAR(50),
+UpdateString     VARCHAR(50)
 );
 GO
 
@@ -1426,13 +1420,13 @@ GO
 
 CREATE TABLE #Products
 (
-Product     VARCHAR(10),
-ProductCode VARCHAR(2),
+Product      VARCHAR(10),
+ProductCode  VARCHAR(2),
 PRIMARY KEY (Product, ProductCode)
 );
 GO
 
-INSERT INTO #Products VALUES
+INSERT INTO #Products (Product, ProductCode) VALUES
 ('Alpha','01'),
 ('Alpha','02'),
 ('Bravo','03'),
@@ -1475,13 +1469,13 @@ GO
 
 CREATE TABLE #Vehicles (
 VehicleID  INTEGER PRIMARY KEY,
-Type       VARCHAR(20),
+[Type]     VARCHAR(20),
 Model      VARCHAR(20),
 Price      MONEY
 );
 GO
 
-INSERT INTO #Vehicles (VehicleID, Type, Model, Price) VALUES
+INSERT INTO #Vehicles (VehicleID, [Type], Model, Price) VALUES
 (1, 'Car','Rolls-Royce Phantom', 460000),
 (2, 'Car','Cadillac CT5', 39000),
 (3, 'Car','Porsche Boxster', 63000),
@@ -1530,8 +1524,8 @@ GO
 
 CREATE TABLE #Strings
 (
-ID     INTEGER IDENTITY(1,1) PRIMARY KEY,
-String VARCHAR(256) NOT NULL
+ID      INTEGER IDENTITY(1,1) PRIMARY KEY,
+String  VARCHAR(256) NOT NULL
 );
 GO
 
@@ -1554,9 +1548,9 @@ GO
 
 CREATE TABLE #HomeListings
 (
-ListingID INTEGER PRIMARY KEY,
-HomeID    VARCHAR(100),
-Status    VARCHAR(100)
+ListingID  INTEGER PRIMARY KEY,
+HomeID     VARCHAR(100),
+Status     VARCHAR(100)
 );
 GO
 
@@ -1610,8 +1604,8 @@ GO
 
 CREATE TABLE #Students
 (
-StudentName VARCHAR(50) PRIMARY KEY,
-Birthday    DATE
+StudentName  VARCHAR(50) PRIMARY KEY,
+Birthday     DATE
 );
 GO
 
@@ -1636,14 +1630,14 @@ DROP TABLE IF EXISTS #Teams;
 GO
 
 CREATE TABLE #Teams (
-Team  VARCHAR(50),
-Year  INTEGER,
-Score INTEGER,
+Team    VARCHAR(50),
+[Year]  INTEGER,
+Score   INTEGER,
 PRIMARY KEY (Team, Year)
 );
 GO
 
-INSERT INTO #Teams (Team, Year, Score) VALUES 
+INSERT INTO #Teams (Team, [Year], Score) VALUES
 ('Cougars', 2015, 50),
 ('Cougars', 2016, 45),
 ('Cougars', 2017, 65),
