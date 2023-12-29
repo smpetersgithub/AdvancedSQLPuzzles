@@ -245,7 +245,7 @@ GO
 
 --Solution 1
 --PIVOT
-SELECT  CustomerID,[Cellular],[Work],[Home]
+SELECT  CustomerID, [Cellular], [Work], [Home]
 FROM    #PhoneDirectory PIVOT
        (MAX(PhoneNumber) FOR [Type] IN ([Cellular],[Work],[Home])) AS PivotClause;
 GO
@@ -296,29 +296,29 @@ WITH cte_PhoneNumbers AS
 (
 SELECT  CustomerID,
         PhoneNumber AS Cellular,
-        NULL AS work,
-        NULL AS home
+        NULL AS Work,
+        NULL AS Home
 FROM    #PhoneDirectory
 WHERE   [Type] = 'Cellular'
 UNION
 SELECT  CustomerID,
-        NULL Cellular,
+        NULL AS Cellular,
         PhoneNumber AS Work,
-        NULL home
+        NULL AS Home
 FROM    #PhoneDirectory
 WHERE   [Type] = 'Work'
 UNION
 SELECT  CustomerID,
-        NULL Cellular,
-        NULL Work,
+        NULL AS Cellular,
+        NULL AS Work,
         PhoneNumber AS Home
 FROM    #PhoneDirectory
 WHERE   [Type] = 'Home'
 )
 SELECT  CustomerID,
-        MAX(Cellular),
-        MAX(Work),
-        MAX(Home)
+        MAX(Cellular) AS Cellular,
+        MAX(Work) AS Work,
+        MAX(Home) AS Home
 FROM    cte_PhoneNumbers
 GROUP BY CustomerID;
 GO
