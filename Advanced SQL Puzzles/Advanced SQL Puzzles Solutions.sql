@@ -2,7 +2,7 @@
 Scott Peters
 Solutions for Advanced SQL Puzzles
 https://advancedsqlpuzzles.com
-Last Updated: 12/28/2023
+Last Updated: 12/29/2023
 Microsoft SQL Server T-SQL
 
 */----------------------------------------------------
@@ -412,7 +412,7 @@ Requirement VARCHAR(100) PRIMARY KEY
 );
 GO
 
-INSERT INTO #Requirements VALUES
+INSERT INTO #Requirements (Requirement) VALUES
 ('Geologist'),('Astrogator'),('Technician');
 GO
 
@@ -531,7 +531,7 @@ IntegerValue  INTEGER NOT NULL
 );
 GO
 
-INSERT INTO #SampleData VALUES
+INSERT INTO #SampleData (IntegerValue) VALUES
 (5),(6),(10),(10),(13),(14),(17),(20),(81),(90),(76);
 GO
 
@@ -919,7 +919,7 @@ INSERT INTO #SeatingChart (SeatNumber) VALUES
 GO
 
 --Place a value of 0 in the SeatingChart table
-INSERT INTO #SeatingChart VALUES (0);
+INSERT INTO #SeatingChart (SeatNumber) VALUES (0);
 GO
 
 -------------------
@@ -1482,7 +1482,7 @@ IntegerValue  INTEGER NOT NULL
 );
 GO
 
-INSERT INTO #SampleData VALUES
+INSERT INTO #SampleData (IntegerValue) VALUES
 (1),(1),(2),(3),(3),(4);
 GO
 
@@ -1932,7 +1932,7 @@ SalesType   VARCHAR(100) NOT NULL
 );
 GO
 
-INSERT INTO #Orders VALUES
+INSERT INTO #Orders (InvoiceId, SalesRepID, Amount, SalesType) VALUES
 (1,1001,13454,'International'),
 (2,1001,3434,'International'),
 (3,2002,54645,'International'),
@@ -1962,7 +1962,6 @@ Answer to Puzzle #36
 Traveling Salesman
 */----------------------------------------------------
 
-DROP TABLE IF EXISTS #TravelingSalesman;
 DROP TABLE IF EXISTS #Routes;
 GO
 
@@ -1976,13 +1975,7 @@ PRIMARY KEY (DepartureCity, ArrivalCity)
 );
 GO
 
-INSERT #Routes (RouteID, DepartureCity, ArrivalCity, Cost)
-OUTPUT INSERTED.RouteID AS RouteID,
-       INSERTED.ArrivalCity AS DepartureCity,
-       INSERTED.DepartureCity AS ArrivalCity,
-       INSERTED.Cost
-INTO   #Routes (RouteID, DepartureCity, ArrivalCity, Cost)
-VALUES
+INSERT INTO #Routes (RouteID, DepartureCity, ArrivalCity, Cost) VALUES
 (1,'Austin','Dallas',100),
 (2,'Dallas','Memphis',200),
 (3,'Memphis','Des Moines',300),
@@ -2070,7 +2063,7 @@ BEGIN
      FROM    #RoutesList
      WHERE   LastArrival <> 'Des Moines'
      )
-     INSERT INTO #RoutesList  (RouteInsertID, RoutePath, TotalCost, LastArrival)
+     INSERT INTO #RoutesList (RouteInsertID, RoutePath, TotalCost, LastArrival)
      SELECT  @vRouteInsertID
              ,CONCAT(a.RoutePath,',',b.ArrivalCity)
              ,a.TotalCost + b.Cost
@@ -2200,7 +2193,7 @@ IntegerValue  INTEGER PRIMARY KEY
 );
 GO
 
-INSERT INTO #PrimeNumbers VALUES
+INSERT INTO #PrimeNumbers (IntegerValue) VALUES
 (1),(2),(3),(4),(5),(6),(7),(8),(9),(10);
 GO
 
@@ -2322,7 +2315,7 @@ PRIMARY KEY (Friend1, Friend2)
 );
 GO
 
-INSERT INTO #Friends VALUES
+INSERT INTO #Friends (Friend1, Friend2) VALUES
 ('Jason','Mary'),('Mike','Mary'),('Mike','Jason'),
 ('Susan','Jason'),('John','Mary'),('Susan','Mary');
 GO
@@ -2867,7 +2860,7 @@ PRIMARY KEY (PrimaryID, SpouseID)
 );
 GO
 
-INSERT INTO #Spouses VALUES
+INSERT INTO #Spouses (PrimaryID, SpouseID) VALUES
 ('Pat','Charlie'),('Jordan','Casey'),
 ('Ashley','Dee'),('Charlie','Pat'),
 ('Casey','Jordan'),('Dee','Ashley');
@@ -3201,7 +3194,7 @@ PRIMARY KEY (Product, ProductCode)
 );
 GO
 
-INSERT INTO #Products VALUES
+INSERT INTO #Products (Product, ProductCode) VALUES
 ('Alpha','01'),
 ('Alpha','02'),
 ('Bravo','03'),
