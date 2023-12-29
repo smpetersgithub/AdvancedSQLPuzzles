@@ -4,6 +4,7 @@ Solutions for Advanced SQL Puzzles
 https://advancedsqlpuzzles.com
 Last Updated: 12/29/2023
 Microsoft SQL Server T-SQL
+
 */----------------------------------------------------
 
 SET NOCOUNT ON;
@@ -245,7 +246,7 @@ GO
 
 --Solution 1
 --PIVOT
-SELECT  CustomerID, [Cellular], [Work], [Home]
+SELECT  CustomerID,[Cellular],[Work],[Home]
 FROM    #PhoneDirectory PIVOT
        (MAX(PhoneNumber) FOR [Type] IN ([Cellular],[Work],[Home])) AS PivotClause;
 GO
@@ -296,29 +297,29 @@ WITH cte_PhoneNumbers AS
 (
 SELECT  CustomerID,
         PhoneNumber AS Cellular,
-        NULL AS Work,
-        NULL AS Home
+        NULL AS work,
+        NULL AS home
 FROM    #PhoneDirectory
 WHERE   [Type] = 'Cellular'
 UNION
 SELECT  CustomerID,
-        NULL AS Cellular,
+        NULL Cellular,
         PhoneNumber AS Work,
-        NULL AS Home
+        NULL home
 FROM    #PhoneDirectory
 WHERE   [Type] = 'Work'
 UNION
 SELECT  CustomerID,
-        NULL AS Cellular,
-        NULL AS Work,
+        NULL Cellular,
+        NULL Work,
         PhoneNumber AS Home
 FROM    #PhoneDirectory
 WHERE   [Type] = 'Home'
 )
 SELECT  CustomerID,
-        MAX(Cellular) AS Cellular,
-        MAX(Work) AS Work,
-        MAX(Home) AS Home
+        MAX(Cellular),
+        MAX(Work),
+        MAX(Home)
 FROM    cte_PhoneNumbers
 GROUP BY CustomerID;
 GO
@@ -721,7 +722,7 @@ SELECT  a.Workflow,
              WHEN b.ErrorState = 'Error' THEN 'Indeterminate'
              WHEN b.RunningState = 'Running' THEN b.RunningState END AS RunStatus
 FROM    cte_MinMax a LEFT OUTER JOIN
-        cte_Error b on a.WorkFlow = b.WorkFlow
+        cte_Error b ON a.WorkFlow = b.WorkFlow
 ORDER BY 1;
 GO
 
@@ -1098,7 +1099,7 @@ GROUP BY ProductID
 )
 SELECT  a.*
 FROM    #ValidPrices a INNER JOIN
-        cte_MaxEffectiveDate b on a.EffectiveDate = b.MaxEffectiveDate AND a.ProductID = b.ProductID;
+        cte_MaxEffectiveDate b ON a.EffectiveDate = b.MaxEffectiveDate AND a.ProductID = b.ProductID;
 GO
 
 /*----------------------------------------------------
@@ -2673,7 +2674,7 @@ SELECT  a.SalesID,
         b.[Year],
         DATEPART(YY,GETDATE()) - 2 AS Year_Start
 FROM    cte_Current_Year a INNER JOIN
-        #Sales b on a.SalesID = b.SalesID
+        #Sales b ON a.SalesID = b.SalesID
 WHERE   b.[Year] = DATEPART(YY,GETDATE()) - 2
 )
 SELECT  DISTINCT SalesID
@@ -2927,7 +2928,7 @@ WITH cte_Ticket AS
 SELECT  TicketID,
         COUNT(*) AS MatchingNumbers
 FROM    #LotteryTickets a INNER JOIN
-        #WinningNumbers b on a.Number = b.Number
+        #WinningNumbers b ON a.Number = b.Number
 GROUP BY TicketID
 ),
 cte_Payout AS
