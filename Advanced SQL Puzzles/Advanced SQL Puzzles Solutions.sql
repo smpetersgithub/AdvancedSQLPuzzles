@@ -4,7 +4,6 @@ Solutions for Advanced SQL Puzzles
 https://advancedsqlpuzzles.com
 Last Updated: 12/29/2023
 Microsoft SQL Server T-SQL
-
 */----------------------------------------------------
 
 SET NOCOUNT ON;
@@ -228,9 +227,9 @@ GO
 
 CREATE TABLE #PhoneDirectory
 (
-CustomerID  INTEGER,
-[Type]      VARCHAR(100),
-PhoneNumber VARCHAR(12) NOT NULL,
+CustomerID   INTEGER,
+[Type]       VARCHAR(100),
+PhoneNumber  VARCHAR(12) NOT NULL,
 PRIMARY KEY (CustomerID, [Type])
 );
 GO
@@ -252,6 +251,16 @@ FROM    #PhoneDirectory PIVOT
 GO
 
 --Solution 2
+--MAX and CASE
+SELECT  CustomerID,
+        MAX(CASE [Type] WHEN 'Cellular' THEN PhoneNumber END),
+        MAX(CASE [Type] WHEN 'Work' THEN PhoneNumber END),
+        MAX(CASE [Type] WHEN 'Home' THEN PhoneNumber END)
+FROM    #PhoneDirectory
+GROUP BY CustomerID;
+GO
+
+--Solution 3
 --OUTER JOIN
 WITH cte_Cellular AS
 (
@@ -281,7 +290,7 @@ FROM    (SELECT DISTINCT CustomerID FROM #PhoneDirectory) a LEFT OUTER JOIN
         cte_Home d ON a.CustomerID = d.CustomerID;
 GO
 
---Solution 3
+--Solution 4
 --MAX
 WITH cte_PhoneNumbers AS
 (
@@ -311,16 +320,6 @@ SELECT  CustomerID,
         MAX(Work),
         MAX(Home)
 FROM    cte_PhoneNumbers
-GROUP BY CustomerID;
-GO
-
---Solution 4
---MAX and CASE
-SELECT  CustomerID,
-        MAX(CASE [Type] WHEN 'Cellular' THEN PhoneNumber END),
-        MAX(CASE [Type] WHEN 'Work' THEN PhoneNumber END),
-        MAX(CASE [Type] WHEN 'Home' THEN PhoneNumber END)
-FROM    #PhoneDirectory
 GROUP BY CustomerID;
 GO
 
@@ -394,8 +393,8 @@ GO
 
 CREATE TABLE #Candidates
 (
-CandidateID INTEGER,
-Occupation  VARCHAR(100),
+CandidateID  INTEGER,
+Occupation   VARCHAR(100),
 PRIMARY KEY (CandidateID, Occupation)
 );
 GO
@@ -408,7 +407,7 @@ GO
 
 CREATE TABLE #Requirements
 (
-Requirement VARCHAR(100) PRIMARY KEY
+Requirement  VARCHAR(100) PRIMARY KEY
 );
 GO
 
@@ -579,7 +578,7 @@ GO
 
 CREATE TABLE #TestCases
 (
-TestCase   VARCHAR(1) PRIMARY KEY
+TestCase  VARCHAR(1) PRIMARY KEY
 );
 GO
 
@@ -786,8 +785,7 @@ GO
 
 --Solution 2
 --Recursion
-WITH
-cte_DMLGroupConcat(String2,Depth) AS
+WITH cte_DMLGroupConcat(String2,Depth) AS
 (
 SELECT  CAST('' AS NVARCHAR(MAX)),
         CAST(MAX(SequenceNumber) AS INTEGER)
@@ -887,13 +885,13 @@ GO
 --Solution 2
 --Recursion
 WITH cte_Recursion AS
-    (
-    SELECT  ProductDescription,Quantity 
-    FROM    #Ungroup
-    UNION ALL
-    SELECT  ProductDescription,Quantity-1 
-    FROM    cte_Recursion
-    WHERE   Quantity >= 2
+(
+SELECT  ProductDescription,Quantity 
+FROM    #Ungroup
+UNION ALL
+SELECT  ProductDescription,Quantity-1 
+FROM    cte_Recursion
+WHERE   Quantity >= 2
     )
 SELECT  ProductDescription,1 AS Quantity
 FROM   cte_Recursion
@@ -1410,13 +1408,13 @@ INSERT INTO #Sales ([Year], Amount) VALUES
 (YEAR(DATEADD(YEAR,-3,GETDATE())),111894);
 GO
 
---Solution 1
+--Solution 1 (This has hardcoded dates)
 --PIVOT
-SELECT [2018],[2017],[2016] FROM #Sales
-PIVOT (SUM(Amount) FOR [Year] IN ([2018],[2017],[2016])) AS PivotClause;
+SELECT [2023],[2022],[2021] FROM #Sales
+PIVOT (SUM(Amount) FOR [Year] IN ([2023],[2022],[2021])) AS PivotClause;
 GO
 
---Solution 2
+--Solution 2 (This has hardcoded dates)
 --LAG
 WITH cte_AggregateTotal AS
 (
@@ -1433,11 +1431,11 @@ SELECT  [Year],
         LAG(Amount,2,0) OVER (ORDER BY Year) AS Lag2
 FROM    cte_AggregateTotal
 )
-SELECT  Amount AS '2018',
-        Lag1 AS '2017',
-        Lag2 AS '2016'
+SELECT  Amount AS '2023',
+        Lag1 AS '2022',
+        Lag2 AS '2021'
 FROM    cte_Lag
-WHERE   [Year] = 2018;
+WHERE   [Year] = 2023;
 GO
 
 --Solution 3
@@ -1509,8 +1507,8 @@ GO
 
 CREATE TABLE #Gaps
 (
-RowNumber   INTEGER PRIMARY KEY,
-TestCase    VARCHAR(100) NULL
+RowNumber  INTEGER PRIMARY KEY,
+TestCase   VARCHAR(100) NULL
 );
 GO
 
@@ -1984,8 +1982,11 @@ GO
 
 --Solution 1
 --Recursion
-WITH cteMap(Nodes, LastNode, NodeMap, Cost)
-AS (
+DROP TABLE IF EXISTS #TravelingSalesman;
+GO
+
+WITH cte_Map (Nodes, LastNode, NodeMap, Cost) AS 
+(
 SELECT  2 AS Nodes,
         ArrivalCity,
         CAST('\' + DepartureCity + '\' + ArrivalCity + '\' AS VARCHAR(MAX)) AS NodeMap,
@@ -1997,13 +1998,13 @@ SELECT  m.Nodes + 1 AS Nodes,
         r.ArrivalCity AS LastNode,
         CAST(m.NodeMap + r.ArrivalCity + '\' AS VARCHAR(MAX)) AS NodeMap,
         m.Cost + r.Cost AS Cost
-FROM    cteMap AS m INNER JOIN
+FROM    cte_Map AS m INNER JOIN
         #Routes AS r ON r.DepartureCity = m.LastNode
 WHERE   m.NodeMap NOT LIKE '\%' + r.ArrivalCity + '%\'
 )
 SELECT  NodeMap, Cost
 INTO    #TravelingSalesman
-FROM    cteMap
+FROM    cte_Map
 OPTION (MAXRECURSION 0);
 GO
 
@@ -2220,7 +2221,7 @@ GO
 
 CREATE TABLE #SortOrder
 (
-City VARCHAR(100) PRIMARY KEY
+City  VARCHAR(100) PRIMARY KEY
 );
 GO
 
@@ -2909,8 +2910,8 @@ GO
 
 CREATE TABLE #LotteryTickets
 (
-TicketID    VARCHAR(3),
-Number      INTEGER,
+TicketID  VARCHAR(3),
+Number    INTEGER,
 PRIMARY KEY (TicketID, Number)
 );
 GO
@@ -3008,25 +3009,26 @@ Answer to Puzzle #56
 Numbers Using Recursion
 */----------------------------------------------------
 
-DROP TABLE IF EXISTS #Numbers;
 DECLARE @vTotalNumbers INTEGER = 10;
 
-WITH cte_Number (Number)
-AS  (
-    SELECT 1 AS Number
-    UNION ALL
-    SELECT  Number + 1
-    FROM    cte_Number
-    WHERE   Number < @vTotalNumbers
-    )
+--Solution 1
+--SQL Server has GENERATE SERIES begining with version 2022
+SELECT value
+FROM GENERATE_SERIES(1, 10);
+
+--Solution 2
+--Recursion
+WITH cte_Number (Number) AS 
+(
+SELECT  1 AS Number
+UNION ALL
+SELECT  Number + 1
+FROM    cte_Number
+WHERE   Number < @vTotalNumbers
+)
 SELECT  Number
-INTO    #Numbers
 FROM    cte_Number
 OPTION (MAXRECURSION 0);--A value of 0 means no limit to the recursion level
-GO
-
-SELECT Number
-FROM   #Numbers;
 GO
 
 /*----------------------------------------------------
@@ -3188,8 +3190,8 @@ GO
 
 CREATE TABLE #Products
 (
-Product     VARCHAR(10),
-ProductCode VARCHAR(2),
+Product      VARCHAR(10),
+ProductCode  VARCHAR(2),
 PRIMARY KEY (Product, ProductCode)
 );
 GO
@@ -3276,13 +3278,13 @@ GO
 
 CREATE TABLE #Vehicles (
 VehicleID  INTEGER PRIMARY KEY,
-Type       VARCHAR(20),
+[Type]     VARCHAR(20),
 Model      VARCHAR(20),
 Price      MONEY
 );
 GO
 
-INSERT INTO #Vehicles (VehicleID, Type, Model, Price) VALUES
+INSERT INTO #Vehicles (VehicleID, [Type], Model, Price) VALUES
 (1, 'Car','Rolls-Royce Phantom', 460000),
 (2, 'Car','Cadillac CT5', 39000),
 (3, 'Car','Porsche Boxster', 63000),
@@ -3348,8 +3350,8 @@ GO
 
 CREATE TABLE #Strings
 (
-ID     INTEGER IDENTITY(1,1) PRIMARY KEY,
-String VARCHAR(256) NOT NULL
+ID      INTEGER IDENTITY(1,1) PRIMARY KEY,
+String  VARCHAR(256) NOT NULL
 );
 GO
 
@@ -3404,13 +3406,13 @@ GO
 
 CREATE TABLE #HomeListings
 (
-ListingID INTEGER PRIMARY KEY,
-HomeID    VARCHAR(100),
-Status    VARCHAR(100)
+ListingID  INTEGER PRIMARY KEY,
+HomeID     VARCHAR(100),
+[Status]     VARCHAR(100)
 );
 GO
 
-INSERT INTO #HomeListings (ListingID, HomeID, Status) VALUES 
+INSERT INTO #HomeListings (ListingID, HomeID, [Status]) VALUES 
 (1, 'Home A', 'New Listing'),
 (2, 'Home A', 'Pending'),
 (3, 'Home A', 'Relisted'),
@@ -3441,7 +3443,7 @@ Matching Parts
 DROP TABLE IF EXISTS #Parts;
 GO
 
-CREATE TABLE #Parts 
+CREATE TABLE #Parts
 (
 SerialNumber    VARCHAR(100) PRIMARY KEY,
 ManufactureDay  INTEGER,
@@ -3449,7 +3451,7 @@ Product         VARCHAR(100)
 );
 GO
 
-INSERT INTO #Parts (SerialNumber, ManufactureDay, Product) VALUES 
+INSERT INTO #Parts (SerialNumber, ManufactureDay, Product) VALUES
 ('A111', 1, 'Bolt'),
 ('B111', 3, 'Bolt'),
 ('C111', 5, 'Bolt'),
@@ -3485,12 +3487,12 @@ GO
 
 CREATE TABLE #Students
 (
-StudentName VARCHAR(50) PRIMARY KEY,
-Birthday    DATE
+StudentName  VARCHAR(50) PRIMARY KEY,
+Birthday     DATE
 );
 GO
 
-INSERT INTO #Students (StudentName, Birthday) VALUES 
+INSERT INTO #Students (StudentName, Birthday) VALUES
 ('Susan', '2015-04-15'),
 ('Tim', '2015-04-15'),
 ('Jacob', '2015-04-15'),
@@ -3517,14 +3519,14 @@ DROP TABLE IF EXISTS #Teams;
 GO
 
 CREATE TABLE #Teams (
-Team  VARCHAR(50),
-Year  INTEGER,
-Score INTEGER,
+Team    VARCHAR(50),
+[Year]  INTEGER,
+Score   INTEGER,
 PRIMARY KEY (Team, Year)
 );
 GO
 
-INSERT INTO #Teams (Team, Year, Score) VALUES 
+INSERT INTO #Teams (Team, [Year], Score) VALUES 
 ('Cougars', 2015, 50),
 ('Cougars', 2016, 45),
 ('Cougars', 2017, 65),
