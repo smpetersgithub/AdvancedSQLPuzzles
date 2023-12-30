@@ -762,42 +762,42 @@ DDL for Puzzle #33
 Deadlines
 */----------------------------------------------------
 
-DROP TABLE IF EXISTS #ManufacturingTimes;
 DROP TABLE IF EXISTS #Orders;
-GO
-
-CREATE TABLE #ManufacturingTimes
-(
-PartID             VARCHAR(100),
-Product            VARCHAR(100),
-DaysToManufacture  INTEGER NOT NULL,
-PRIMARY KEY (PartID, Product)
-);
+DROP TABLE IF EXISTS #ManufacturingTimes;
 GO
 
 CREATE TABLE #Orders
 (
 OrderID        INTEGER PRIMARY KEY,
-Product        VARCHAR(100) NOT NULL REFERENCES #ManufacturingTimes (Product),
+Product        VARCHAR(100) NOT NULL,
 DaysToDeliver  INTEGER NOT NULL
 );
 GO
 
-INSERT INTO #ManufacturingTimes (PartID, Product, DaysToManufacture) VALUES
-('AA-111','Widget',7),
-('BB-222','Widget',2),
-('CC-333','Widget',3),
-('DD-444','Widget',1),
-('AA-111','Gizmo',7),
-('BB-222','Gizmo',2),
-('AA-111','Doodad',7),
-('DD-444','Doodad',1);
+CREATE TABLE #ManufacturingTimes
+(
+Product            VARCHAR(100)  REFERENCES #ManufacturingTimes (Product),
+Component          VARCHAR(100),
+DaysToManufacture  INTEGER NOT NULL,
+PRIMARY KEY (Product, Component)
+);
 GO
 
 INSERT INTO #Orders (OrderID, Product, DaysToDeliver) VALUES
-(1,'Widget',7),
-(2,'Gizmo',3),
-(3,'Doodad',9);
+(1, 'Aurora', 7),
+(2, 'Twilight', 3),
+(3, 'SunRay', 9);
+GO
+
+INSERT INTO #ManufacturingTimes (Product, Component, DaysToManufacture) VALUES
+('Aurora', 'Photon Coil', 7),
+('Aurora', 'Filament', 2),
+('Aurora', 'Shine Capacitor', 3),
+('Aurora', 'Glow Sphere', 1),
+('Twilight', 'Photon Coil', 7),
+('Twilight', 'Filament', 2),
+('SunRay', 'Shine Capacitor', 3),
+('SunRay', 'Photon Coil', 1);
 GO
 
 /*----------------------------------------------------
