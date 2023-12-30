@@ -1235,7 +1235,7 @@ INSERT INTO #PlayerScores (PlayerID, Score) VALUES
 (5005,6832);
 GO
 
-SELECT  NTILE(2) OVER (ORDER BY Score DESC) as Quartile,
+SELECT  NTILE(2) OVER (ORDER BY Score DESC) AS Quartile,
         PlayerID,
         Score
 FROM    #PlayerScores a
@@ -1779,87 +1779,61 @@ Answer to Puzzle #33
 Deadlines
 */----------------------------------------------------
 
-DROP TABLE IF EXISTS #ManufacturingTimes;
 DROP TABLE IF EXISTS #Orders;
-GO
-
-CREATE TABLE #ManufacturingTimes
-(
-PartID             VARCHAR(100),
-Product            VARCHAR(100),
-DaysToManufacture  INTEGER NOT NULL,
-PRIMARY KEY (PartID, Product)
-);
+DROP TABLE IF EXISTS #ManufacturingTimes;
 GO
 
 CREATE TABLE #Orders
 (
-OrderID    INTEGER PRIMARY KEY,
-Product    VARCHAR(100) NOT NULL REFERENCES #ManufacturingTimes (Product),
-DaysToDeliver INTEGER NOT NULL
+OrderID        INTEGER PRIMARY KEY,
+Product        VARCHAR(100) NOT NULL,
+DaysToDeliver  INTEGER NOT NULL
 );
 GO
 
-INSERT INTO #ManufacturingTimes (PartID, Product, DaysToManufacture) VALUES
-('AA-111','Widget',7),
-('BB-222','Widget',2),
-('CC-333','Widget',3),
-('DD-444','Widget',1),
-('AA-111','Gizmo',7),
-('BB-222','Gizmo',2),
-('AA-111','Doodad',7),
-('DD-444','Doodad',1);
+CREATE TABLE #ManufacturingTimes
+(
+Product            VARCHAR(100)  REFERENCES #ManufacturingTimes (Product),
+Component          VARCHAR(100),
+DaysToManufacture  INTEGER NOT NULL,
+PRIMARY KEY (Product, Component)
+);
 GO
 
 INSERT INTO #Orders (OrderID, Product, DaysToDeliver) VALUES
-(1,'Widget',7),
-(2,'Gizmo',3),
-(3,'Doodad',9);
+(1, 'Aurora', 7),
+(2, 'Twilight', 3),
+(3, 'SunRay', 9);
 GO
 
---Solution 1
---MAX with INNER JOIN
+INSERT INTO #ManufacturingTimes (Product, Component, DaysToManufacture) VALUES
+('Aurora', 'Photon Coil', 7),
+('Aurora', 'Filament', 2),
+('Aurora', 'Shine Capacitor', 3),
+('Aurora', 'Glow Sphere', 1),
+('Twilight', 'Photon Coil', 7),
+('Twilight', 'Filament', 2),
+('SunRay', 'Shine Capacitor', 3),
+('SunRay', 'Photon Coil', 1);
+GO
+
 WITH cte_Max AS
 (
 SELECT  Product,
-        MAX(DaysToManufacture) AS MaxDaysToManufacture
+        MAX(DaysToManufacture) AS DaysToBuild
 FROM    #ManufacturingTimes b
 GROUP BY Product
 )
 SELECT  a.OrderID,
-        a.Product
+        a.Product,
+        b.DaystoBuild,
+        a.DaysToDeliver,
+        CASE WHEN b.DaystoBuild = DaystoDeliver THEN 'On Schedule'
+             WHEN b.DaystoBuild < DaystoDeliver THEN 'Ahead of Schedule'
+             WHEN b.DaystoBuild > DaystoDeliver THEN 'Behind Schedule' END AS Schedule
 FROM    #Orders a INNER JOIN
-        cte_Max b ON a.Product = b.Product AND a.DaysToDeliver >= b.MaxDaysToManufacture;
+        cte_Max b ON a.Product = b.Product;
 GO
-
---Solution 2
---MAX with correlated subquery
-WITH cte_Max AS
-(
-SELECT  Product, MAX(DaysToManufacture) AS MaxDaysToManufacture
-FROM    #ManufacturingTimes b
-GROUP BY Product
-)
-SELECT  OrderID,
-        Product
-FROM    #Orders a
-WHERE   EXISTS (SELECT  1
-                FROM    cte_Max b 
-                WHERE   a.Product = b.Product AND
-                        a.DaysToDeliver >= b.MaxDaysToManufacture);
-GO
-
---Solution 3
---ALL
-SELECT  OrderID,
-        Product
-FROM    #Orders a
-WHERE   DaysToDeliver >= ALL(SELECT  DaysToManufacture 
-                              FROM    #ManufacturingTimes b 
-                              WHERE   a.Product = b.Product);
-GO
-
-
 
 /*----------------------------------------------------
 Answer to Puzzle #34
@@ -2628,7 +2602,7 @@ WITH cte_Lead AS
 (
 SELECT  ScheduleID,
         ActivityName,
-        ScheduleTime as StartTime,
+        ScheduleTime AS StartTime,
         LEAD(ScheduleTime) OVER (PARTITION BY ScheduleID ORDER BY ScheduleTime) AS EndTime
 FROM    #ActivityCoalesce
 )
@@ -3053,7 +3027,7 @@ GO
 
 WITH cte_StringSplit AS
 (
-SELECT b.Ordinal as RowNumber,
+SELECT b.Ordinal AS RowNumber,
        a.QuoteId,
        a.String,
        b.[Value] AS Word,
@@ -3081,7 +3055,7 @@ GO
 CREATE TABLE #Equations
 (
 Equation  VARCHAR(200) PRIMARY KEY,
-TotalSum  INT NULL
+TotalSum  INTEGER NULL
 );
 GO
 
