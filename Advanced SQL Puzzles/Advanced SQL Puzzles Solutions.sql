@@ -1793,7 +1793,7 @@ GO
 
 CREATE TABLE #ManufacturingTimes
 (
-Product            VARCHAR(100)  REFERENCES #ManufacturingTimes (Product),
+Product            VARCHAR(100),
 Component          VARCHAR(100),
 DaysToManufacture  INTEGER NOT NULL,
 PRIMARY KEY (Product, Component)
