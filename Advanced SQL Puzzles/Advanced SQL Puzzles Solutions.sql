@@ -3532,5 +3532,319 @@ GROUP BY Team;
 GO
 
 /*----------------------------------------------------
+Answer to Puzzle #69
+Splitting a Hierarchy
+*/----------------------------------------------------
+
+DROP TABLE IF EXISTS #OrganizationChart;
+GO
+
+CREATE TABLE #OrganizationChart
+(
+ManagerID   CHAR(1),
+EmployeeID  CHAR(1) NOT NULL PRIMARY KEY
+);
+GO
+
+INSERT INTO #OrganizationChart (ManagerID, EmployeeID) VALUES
+(NULL, 'A'),
+('A', 'B'),
+('A', 'C'),
+('B', 'D'),
+('B', 'E'),
+('D', 'G'),
+('C', 'F');
+GO
+
+DROP TABLE IF EXISTS #OrganizationChartSummary;
+GO
+
+CREATE TABLE #OrganizationChartSummary
+(
+Summary  VARCHAR(5000) NOT NULL PRIMARY KEY
+);
+GO
+
+--Seed the table
+INSERT INTO #OrganizationChartSummary (Summary)
+SELECT  EmployeeID
+FROM    #OrganizationChart 
+WHERE   ManagerID IS NULL;
+GO
+
+WHILE @@RowCount >= 1
+BEGIN
+INSERT INTO #OrganizationChartSummary (Summary)
+SELECT  CONCAT(a.Summary, ' / ', b.EmployeeID)
+FROM    #OrganizationChartSummary a INNER JOIN
+        #OrganizationChart b ON RIGHT(a.Summary,1) = b.ManagerID 
+WHERE   CONCAT(a.Summary, ' / ', b.EmployeeID) NOT IN (SELECT Summary FROM #OrganizationChartSummary);
+END;
+GO
+
+WITH cte_GroupID AS
+(
+SELECT  ROW_NUMBER() OVER (ORDER BY Summary) AS GroupID, 
+        *
+FROM    #OrganizationChartSummary
+WHERE   LEN(Summary) = LEN(REPLACE(Summary,'/','')) + 1 AND
+        LEN(Summary) > 1
+),
+cte_Like AS
+(
+SELECT  a.GroupID, b.*
+FROM    cte_GroupID a INNER JOIN
+        #OrganizationChartSummary b ON b.Summary LIKE '%' + a.Summary + '%'
+)
+SELECT  DISTINCT
+        a.GroupID,
+        TRIM(b.value) AS EmployeeID
+FROM    cte_Like a
+        CROSS APPLY STRING_SPLIT(a.Summary, '/') b
+ORDER BY 1,2;
+GO
+
+/*----------------------------------------------------
+Answer to Puzzle #70
+Student Facts
+*/----------------------------------------------------
+
+DROP TABLE IF EXISTS #Students;
+GO
+
+CREATE TABLE #Students
+(
+ParentID  INTEGER NOT NULL,
+ChildID   CHAR(1) PRIMARY KEY,
+Age       INTEGER NOT NULL,
+Gender    CHAR(1) NOT NULL
+);
+GO
+
+INSERT INTO #Students (ParentID, ChildID, Age, Gender)
+VALUES 
+    (1001, 'A', 8, 'M'),
+    (1001, 'B', 12, 'F'),
+    (2002, 'C', 7, 'F'),
+    (2002, 'D', 9, 'F'),
+    (2002, 'E', 14, 'M'),
+    (3003, 'F', 12, 'F'),
+    (3003, 'G', 14, 'M'),
+    (4004, 'H', 7, 'M');
+GO
+
+WITH cte_LagAgeGap AS
+(
+SELECT  --ROW_NUMBER() OVER (PARTITION BY ParentID ORDER BY Age) AS RowNumber,
+        ParentID,
+        AGE - LAG(AGE,1) OVER (PARTITION BY ParentID ORDER BY AGE) AS AgeDifference
+FROM    #Students
+GROUP BY ParentID, Age
+),
+cte_MaxAgeGap AS
+(
+SELECT  ParentID,
+        MAX(AgeDifference) AS MaxAgeDifference
+FROM    cte_LagAgeGap
+GROUP BY ParentID
+HAVING COUNT(*) >= 2
+)
+SELECT  a.ParentID,
+        COUNT(*) AS NumberChildren,
+        AVG(CAST(a.Age AS FLOAT)) AS AverageAge,
+        CASE WHEN COUNT(*) = 1 THEN NULL ELSE MAX(a.Age) - MIN(Age) END AS AgeDifference,
+        b.MaxAgeDifference,
+        MIN(a.Age) AS YoungestAge,
+        MAX(a.Age) AS OldestAge,
+        STRING_AGG(a.Gender, ', ') AS Genders
+FROM    #Students a LEFT OUTER JOIN
+        cte_MaxAgeGap b ON a.ParentID = b.ParentID
+GROUP BY a.ParentID, b.MaxAgeDifference
+ORDER BY 1;
+GO
+
+/*----------------------------------------------------
+Answer to Puzzle #71
+Employee Validation
+*/----------------------------------------------------
+
+--Note this puzzle uses permanant tables
+--Setting the database to use "test" to avoid possible issues
+
+USE test;
+GO
+
+DROP TABLE IF EXISTS TemporaryEmployees;
+DROP TABLE IF EXISTS PermanentEmployees;
+DROP TABLE IF EXISTS Employees;
+GO
+
+CREATE TABLE TemporaryEmployees
+(
+EmployeeID  INTEGER PRIMARY KEY,
+Department  VARCHAR(50) NOT NULL
+);
+GO
+
+CREATE TABLE PermanentEmployees
+(
+EmployeeID  INTEGER PRIMARY KEY,
+Department  VARCHAR(50) NOT NULL
+);
+GO
+
+CREATE TABLE Employees
+(
+EmployeeID  INTEGER PRIMARY KEY,
+[Name]      VARCHAR(50) NOT NULL
+);
+GO
+
+INSERT INTO TemporaryEmployees (EmployeeID, Department) VALUES
+(1001, 'Engineering'),
+(2002, 'Sales'),
+(3003, 'Marketing');
+GO
+
+INSERT INTO PermanentEmployees (EmployeeID, Department) VALUES
+(4004, 'Marketing'),
+(5005, 'Accounting'),
+(6006, 'Accounting');
+GO
+
+INSERT INTO Employees (EmployeeID, [Name]) VALUES
+(1001, 'John'),
+(2002, 'Eric'),
+(3003, 'Jennifer'),
+(4004, 'Bob'),
+(5005, 'Stuart'),
+(6006, 'Angie');
+GO
+
+CREATE TRIGGER trg_CheckPermanentBeforeInsertOnTemporary
+ON TemporaryEmployees
+AFTER INSERT
+AS
+BEGIN
+    -- Check if the inserted Employee ID exists in PermanentEmployees
+    IF EXISTS (SELECT 1 FROM PermanentEmployees WHERE EmployeeID IN (SELECT EmployeeID FROM inserted))
+    BEGIN
+        RAISERROR ('Employee ID already exists in PermanentEmployees.', 16, 1);
+        ROLLBACK TRANSACTION;
+    END
+END;
+GO
+
+CREATE TRIGGER trg_CheckTemporaryBeforeInsertOnPermanant
+ON PermanentEmployees
+AFTER INSERT
+AS
+BEGIN
+    -- Check if the inserted Employee ID exists in TemporaryEmployees
+    IF EXISTS (SELECT 1 FROM TemporaryEmployees WHERE EmployeeID IN (SELECT EmployeeID FROM inserted))
+    BEGIN
+        RAISERROR ('Employee ID already exists in TemporaryEmployees.', 16, 1);
+        ROLLBACK TRANSACTION;
+    END
+END;
+GO
+
+ALTER TABLE PermanentEmployees
+ADD CONSTRAINT FK_PermanentEmployees
+FOREIGN KEY (EmployeeID) REFERENCES Employees(EmployeeID);
+GO
+
+ALTER TABLE TemporaryEmployees
+ADD CONSTRAINT FK_TemporaryEmployees
+FOREIGN KEY (EmployeeID) REFERENCES Employees(EmployeeID);
+GO
+
+--The following statements will successfully fail.
+
+/*
+INSERT INTO TemporaryEmployees (EmployeeID, Department) VALUES (4004,'Marketing');
+GO
+
+INSERT INTO PermanentEmployees (EmployeeID, Department)VALUES (1001,'Engineering');
+GO
+
+INSERT INTO TemporaryEmployees (EmployeeID, Department) VALUES (7007,'Sales');
+GO
+
+INSERT INTO PermanentEmployees (EmployeeID, Department) VALUES (7007,'Sales');
+GO
+
+*/
+
+/*----------------------------------------------------
+Answer to Puzzle #72
+Under Warranty
+*/----------------------------------------------------
+
+DROP TABLE IF EXISTS #Repairs;
+GO
+
+CREATE TABLE #Repairs (
+RepairID    INTEGER PRIMARY KEY,
+CustomerID  CHAR(1) NOT NULL,
+RepairDate  DATE NOT NULL
+);
+GO
+
+INSERT INTO #Repairs (RepairID, CustomerID, RepairDate) VALUES
+(1001,'A','2023-01-01'),
+(2002,'A','2023-01-15'),
+(3003,'A','2023-01-17'),
+(4004,'A','2023-03-24'),
+(5005,'A','2023-04-01'),
+(6006,'B','2023-06-22'),
+(7007,'B','2023-06-23'),
+(8008,'B','2023-09-01');
+GO
+
+WITH cte_Lag AS
+(
+SELECT  *,
+        LAG(RepairDate,1) OVER (PARTITION BY CustomerID ORDER BY RepairDate) AS LagRepairDate,
+        LAG(RepairID,1) OVER   (PARTITION BY CustomerID ORDER BY RepairDate) AS LagRepairID
+FROM    #Repairs
+),
+cte_DateDiff AS
+(
+SELECT  DATEDIFF(DAY, LagRepairDate, RepairDate) AS LagDateDiff,
+        ROW_NUMBER() OVER (ORDER BY RepairDate) AS RowNumber,
+        *
+FROM cte_Lag
+),
+cte_GroupKey AS
+(
+SELECT  CASE WHEN LagDateDiff > 30 THEN 1 END AS GroupKey, -----@ReadmitPeriodDays is referenced here!!!
+        *
+FROM    cte_DateDiff
+),
+cte_Sum AS
+(
+SELECT  *,
+        SUM(GroupKey) OVER (PARTITION BY CustomerID ORDER BY RowNumber) AS GroupingID
+FROM    cte_GroupKey
+),
+cte_RowNumber AS
+(
+SELECT  *
+        ,ROW_NUMBER() OVER (PARTITION BY CustomerID, GroupingID ORDER BY GroupingID, RepairDate) - 1 AS SequenceNumber
+FROM    cte_Sum
+)
+SELECT  CustomerID
+        ,RepairID
+        ,LagRepairID AS PreviousRepaidID
+        ,RepairDate
+        ,LagRepairDate AS PreviousRepairDate
+        ,SequenceNumber
+        ,LagDateDiff AS RepaidGapDays
+FROM    cte_RowNumber
+WHERE   SequenceNumber <> 0;
+GO
+
+/*----------------------------------------------------
 The End
 */----------------------------------------------------
