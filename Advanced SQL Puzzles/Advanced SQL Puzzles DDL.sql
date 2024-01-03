@@ -1649,5 +1649,142 @@ INSERT INTO #Teams (Team, [Year], Score) VALUES
 GO
 
 /*----------------------------------------------------
+DDL for Puzzle #69
+Splitting a Hierarchy
+*/----------------------------------------------------
+
+DROP TABLE IF EXISTS #OrganizationChart;
+GO
+
+CREATE TABLE #OrganizationChart
+(
+ManagerID   CHAR(1),
+EmployeeID  CHAR(1) NOT NULL PRIMARY KEY
+);
+GO
+
+INSERT INTO #OrganizationChart (ManagerID, EmployeeID) VALUES
+(NULL, 'A'),
+('A', 'B'),
+('A', 'C'),
+('B', 'D'),
+('B', 'E'),
+('D', 'G'),
+('C', 'F');
+GO
+
+/*----------------------------------------------------
+DDL for Puzzle #70
+Student Facts
+*/----------------------------------------------------
+
+DROP TABLE IF EXISTS #Students;
+GO
+
+CREATE TABLE #Students
+(
+ParentID  INTEGER NOT NULL,
+ChildID   CHAR(1) PRIMARY KEY,
+Age       INTEGER NOT NULL,
+Gender    CHAR(1) NOT NULL
+);
+GO
+
+INSERT INTO #Students (ParentID, ChildID, Age, Gender) VALUES
+(1001, 'A', 8, 'M'),
+(1001, 'B', 12, 'F'),
+(2002, 'C', 7, 'F'),
+(2002, 'D', 9, 'F'),
+(2002, 'E', 14, 'M'),
+(3003, 'F', 12, 'F'),
+(3003, 'G', 14, 'M'),
+(4004, 'H', 7, 'M');
+GO
+
+/*----------------------------------------------------
+DDL for Puzzle #71
+Employee Validation
+*/----------------------------------------------------
+
+--Note this puzzle uses permanent tables
+--Setting the database to use "test" to avoid possible issues
+
+USE test;
+GO
+
+DROP TABLE IF EXISTS TemporaryEmployees;
+DROP TABLE IF EXISTS PermanentEmployees;
+DROP TABLE IF EXISTS Employees;
+GO
+
+CREATE TABLE TemporaryEmployees
+(
+EmployeeID  INTEGER PRIMARY KEY,
+Department  VARCHAR(50) NOT NULL
+);
+GO
+
+CREATE TABLE PermanentEmployees
+(
+EmployeeID  INTEGER PRIMARY KEY,
+Department  VARCHAR(50) NOT NULL
+);
+GO
+
+CREATE TABLE Employees
+(
+EmployeeID  INTEGER PRIMARY KEY,
+[Name]      VARCHAR(50) NOT NULL
+);
+GO
+
+INSERT INTO TemporaryEmployees (EmployeeID, Department) VALUES
+(1001, 'Engineering'),
+(2002, 'Sales'),
+(3003, 'Marketing');
+GO
+
+INSERT INTO PermanentEmployees (EmployeeID, Department) VALUES
+(4004, 'Marketing'),
+(5005, 'Accounting'),
+(6006, 'Accounting');
+GO
+
+INSERT INTO Employees (EmployeeID, [Name]) VALUES
+(1001, 'John'),
+(2002, 'Eric'),
+(3003, 'Jennifer'),
+(4004, 'Bob'),
+(5005, 'Stuart'),
+(6006, 'Angie');
+GO
+
+/*----------------------------------------------------
+DDL for Puzzle #72
+Under Warranty
+*/----------------------------------------------------
+
+DROP TABLE IF EXISTS #Repairs;
+GO
+
+CREATE TABLE #Repairs (
+RepairID    INTEGER PRIMARY KEY,
+CustomerID  CHAR(1) NOT NULL,
+RepairDate  DATE NOT NULL
+);
+GO
+
+INSERT INTO #Repairs (RepairID, CustomerID, RepairDate) VALUES
+(1001,'A','2023-01-01'),
+(2002,'A','2023-01-15'),
+(3003,'A','2023-01-17'),
+(4004,'A','2023-03-24'),
+(5005,'A','2023-04-01'),
+(6006,'B','2023-06-22'),
+(7007,'B','2023-06-23'),
+(8008,'B','2023-09-01');
+GO
+
+/*----------------------------------------------------
 The End
 */----------------------------------------------------
