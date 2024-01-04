@@ -38,7 +38,7 @@ We will cover these aspects and many more in the following document.
 [5. Join Syntax](#join-syntax)     
 [6. Semi and Anti Joins](#semi-and-anti-joins)     
 [7. Set Operators](#set-operators)     
-[8. Aggregate Functions](#Aggregate-Functions)     
+[8. Aggregate Functions](#aggregate-functions)     
 [9. Constraints](#constraints)     
 [10. Referential Integrity](#referential-integrity)     
 [11. Computed Columns](#computed-columns)     
@@ -50,6 +50,7 @@ We will cover these aspects and many more in the following document.
 [17. Return Statement](#return)     
 [18. Identity Columns](#identity-columns)     
 [19. LAG and LEAD functions](#lag-and-lead-functions)     
+[20. Arithmetic Operators](#arithmetic-operators)     
 
 --------------------------------------------------------
 ### Brief History of Nulls
@@ -1180,6 +1181,8 @@ ORDER BY ID;
 
 ---------------------------------------------------------
 
+## Arithmetic Operators
+🔵&nbsp;&nbsp;&nbsp;[Table Of Contents](#table-of-contents)
 Lastly, arithmetic operations that involve a NULL marker will return a NULL marker.
 
 ```sql
