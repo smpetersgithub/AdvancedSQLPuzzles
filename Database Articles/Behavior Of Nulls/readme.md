@@ -1183,6 +1183,7 @@ ORDER BY ID;
 
 ## Arithmetic Operators
 🔵&nbsp;&nbsp;&nbsp;[Table Of Contents](#table-of-contents)
+
 Lastly, arithmetic operations that involve a NULL marker will return a NULL marker.
 
 ```sql
