@@ -1661,14 +1661,15 @@ SELECT  RANK() OVER (ORDER BY IntegerValue DESC) AS MyRank,
         *
 FROM    #SampleData
 )
-SELECT  *
+SELECT  IntegerValue
 FROM    cte_Rank
 WHERE   MyRank = 2;
 GO
 
 --Solution 2
 --Top 1 and Max
-SELECT  TOP 1 *
+SELECT  TOP 1
+        IntegerValue
 FROM    #SampleData
 WHERE   IntegerValue <> (SELECT MAX(IntegerValue) FROM #SampleData)
 ORDER BY IntegerValue DESC;
@@ -1676,7 +1677,7 @@ GO
 
 --Solution 3
 --Offset and Fetch
-SELECT  *
+SELECT  IntegerValue
 FROM    #SampleData
 ORDER BY IntegerValue DESC
 OFFSET 1 ROWS
@@ -1685,7 +1686,8 @@ GO
 
 --Solution 4
 --Top 1 and Top 2
-SELECT  TOP 1 *
+SELECT  TOP 1
+        IntegerValue
 FROM    (
         SELECT  TOP 2 *
         FROM    #SampleData
@@ -1705,14 +1707,14 @@ FROM   (
        ORDER BY IntegerValue DESC
        ) a
 )
-SELECT  *
+SELECT  IntegerValue
 FROM    #SampleData
 WHERE   IntegerValue IN (SELECT MinIntegerValue FROM cte_TopMin);
 GO
 
 --Solution 6
 --Correlated Sub-Query
-SELECT  *
+SELECT  IntegerValue
 FROM    #SampleData a
 WHERE   2 = (SELECT COUNT(DISTINCT b.IntegerValue)
              FROM #SampleData b
@@ -1727,7 +1729,8 @@ SELECT  *,
         LAG(IntegerValue, 1, NULL) OVER (ORDER BY IntegerValue DESC) AS PreviousValue
 FROM    #SampleData
 )
-SELECT  TOP 1 *
+SELECT  TOP 1
+        IntegerValue
 FROM    cte_LeadLag
 WHERE   PreviousValue IS NOT NULL
 ORDER BY IntegerValue DESC;
