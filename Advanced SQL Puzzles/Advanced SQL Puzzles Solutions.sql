@@ -961,9 +961,15 @@ GO
 
 -------------------
 --Odd and even number count
+WITH cte_Seats AS
+(
+SELECT  *
+FROM    #SeatingChart
+WHERE   SeatNumber > 0
+)
 SELECT  (CASE SeatNumber%2 WHEN 1 THEN 'Odd' WHEN 0 THEN 'Even' END) AS Modulus,
         COUNT(*) AS [Count]
-FROM    #SeatingChart
+FROM    cte_Seats
 GROUP BY (CASE SeatNumber%2 WHEN 1 THEN 'Odd' WHEN 0 THEN 'Even' END);
 GO
 
