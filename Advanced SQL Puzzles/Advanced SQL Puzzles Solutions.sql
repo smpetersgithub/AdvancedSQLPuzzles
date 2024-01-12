@@ -803,6 +803,7 @@ GO
 
 --Solution 3
 --XML Path
+--There is an error; the ">" gets converted to "&gt;".
 SELECT  DISTINCT
         STUFF((
             SELECT  CAST(' ' AS VARCHAR(MAX)) + String
@@ -3163,6 +3164,48 @@ INSERT INTO #BalancedString (ExpectedOutcome, MatchString) VALUES
 ('Unbalanced','( { ) }}}()'),
 ('Unbalanced','}{()][');
 GO
+
+--Remove any spaces
+--Populates the column UpdateString that we will manipulate with the below UPDATE statements
+UPDATE #BalancedString
+SET MatchString = REPLACE(MatchString,' ',''),
+    UpdateString = REPLACE(MatchString,' ','');
+
+--Set a Loop Counter
+DECLARE @vLoop INTEGER = 1;
+WHILE @vLoop <> 0
+
+    --Update the UpdateString column to remove any matching objects
+    BEGIN
+    ------------------
+    UPDATE  #BalancedString
+    SET UpdateString = REPLACE(UpdateString,'()','');
+    ------------------
+    UPDATE  #BalancedString
+    SET UpdateString = REPLACE(UpdateString,'[]','');
+    -------------------
+    UPDATE  #BalancedString
+    SET UpdateString = REPLACE(UpdateString,'{}','');
+    -------------------
+
+    --Determine if there are any more matching objects to update
+    WITH cte_Charindex AS
+    (
+    SELECT CHARINDEX('()',UpdateString) AS LoopDetermine FROM #BalancedString
+    UNION
+    SELECT CHARINDEX('[]',UpdateString) AS LoopDetermine FROM #BalancedString
+    UNION
+    SELECT CHARINDEX('{}',UpdateString) AS LoopDetermine FROM #BalancedString
+    )
+    SELECT @vLoop = MAX(LoopDetermine) FROM cte_Charindex;
+    -------------------
+
+    END;
+
+--If the UpdateString column is empty, then it is a balanced string 
+SELECT  *, CASE WHEN UpdateString = '' THEN 'Balanced' ELSE 'Unbalanced' END AS FinalResult 
+FROM    #BalancedString;
+
 
 /*----------------------------------------------------
 Answer to Puzzle #60
