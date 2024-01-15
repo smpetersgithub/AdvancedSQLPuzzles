@@ -410,7 +410,7 @@ In the following examples, we see the set operators treat NULL markers different
 --------------------------------------------------------
 **UNION**
 
-When using `UNION`, the SQL standard dictates that duplicate rows should be removed from the result set. When dealing with NULL, however, NULL is considered to be unique and not a duplicate of another NULL.  Simply, NULL is not distinct from NULL.
+When using `UNION`, the SQL standard dictates that duplicate rows should be removed from the result set.
 
 ```sql
 SELECT Fruit FROM ##TableA
@@ -424,9 +424,6 @@ SELECT Fruit FROM ##TableB;
 | Peach   |
 | Kiwi    |
 | Mango   |
-| \<NULL> |
-| Mango   |
-| \<NULL> |
 | \<NULL> |
 
 --------------------------------------------------------
