@@ -825,7 +825,7 @@ CREATE TABLE MyComputed
 (
 Int1 INTEGER NOT NULL,
 Int2 INTEGER NOT NULL,
-Int3 AS MyInt1 + MyInt2 PERSISTED NOT NULL
+Int3 AS Int1 + Int2 PERSISTED NOT NULL
 );
 
 ALTER TABLE MyComputed ADD PRIMARY KEY CLUSTERED (Int3);
@@ -877,7 +877,7 @@ Below I provide a few quick examples to note their behavior.
 SELECT  1 AS ID,
         ISNULL(NULL, 'foo') AS fnISNULL,
         COALESCE(NULL, NULL, 'foo') AS fnCOALESCE,
-        NULLIF('foo', 'foo') AS fnNULLIF
+        NULLIF('foo', 'foo') AS fnNULLIF;
 ```
 
 | Id | fnISNULL | fnCOALESCE | fnNULLIF |
