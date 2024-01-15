@@ -247,7 +247,7 @@ FROM    ##TableA a INNER JOIN
 ---------------------------------------------------
 **FULL OUTER JOIN**
 
-The `FULL OUTER JOIN` will give an illusion that it matches on the NULL markers, but looking closely at the number of NULL markers returned vs. the number of NULL markers in our sample data, we can determine this is indeed not true.  Also, the below query demonstrates the `ORDER BY` sorts NULL markers in ascending order.
+The `FULL OUTER JOIN` will give an illusion that it matches the NULL markers, but looking closely at the number of NULL markers returned vs. the number of NULL markers in our sample data, we can determine this is indeed not true.  Also, the below query demonstrates the `ORDER BY` sorts NULL markers in ascending order.
 
 ```sql
 SELECT  a.ID,
@@ -405,7 +405,7 @@ The SQL standard for set operators does not use the term **EQUAL TO or NOT EQUAL
 *  NULL is not distinct from NULL
 *  NULL is distinct from "Apple".
 
-In the following examples, we see the set operators treat NULL markers differently than the join syntax.
+The following examples show that set operators treat NULL markers differently than the join syntax.
 
 --------------------------------------------------------
 **UNION**
@@ -540,9 +540,9 @@ FROM    ##TableB;
 |--------------|
 | 62           |
 
-Interestingly, the `SUM` function will work on a temporary or permanant table that contains NULL markers, but errors when creating the data as a Common Table Expression or using the `VALUES` keyword.
+Interestingly, the `SUM` function will work on a temporary or permanent table that contains NULL markers, but errors when creating the data as a Common Table Expression or using the `VALUES` keyword.
 
-The following summation will not error, but produces a result set with the `NULL` marker.
+The following summation will not error and produces a result set with the `NULL` marker.
 
 ```sql
 CREATE TABLE ##Test
@@ -597,7 +597,7 @@ FROM    ##TableA;
 |---------|-------|
 | 6       | 6     |
 
-However, given an empty dataset, the two operations return vary different answers.  The `SUM` function returns a NULL marker, while the `COUNT` function returns a value of 0.
+However, the two operations return very different answers given an empty dataset.  The `SUM` function returns a NULL marker, while the `COUNT` function returns a value of 0.
 
 ```sql
 CREATE TABLE ##Test
@@ -619,9 +619,9 @@ FROM   ##Test;
 ---------------------------------------------------------
 **AVG**
 
-The `AVG` function will remove records with NULL markers in its calculation, as shown below.  For this example, we created the test data in the common table expression `cte_Average`, as this more easily demonstrates the function's behavior.
+As shown below, the `AVG` function will remove records with NULL markers in its calculation.  For this example, we created the test data in the common table expression `cte_Average`, as this more easily demonstrates the function's behavior.
 
-In Microsoft SQL Server, when performing division between integers, you will need to use the `CAST` or `CONVERT` function on the values as shown below.
+In Microsoft SQL Server, when performing division between integers, you must use the `CAST` or `CONVERT` function on the values shown below.
 
 ```sql
 WITH cte_Average AS
@@ -647,7 +647,7 @@ FROM    cte_Average;
 ---------------------------------------------------------
 **MIN and MAX**
 
-The `MIN` AND `MAX` functions will remove records with NULL markers in its calculation, as shown below.
+The `MIN` AND `MAX` functions will remove records with NULL markers in their calculation, as shown below.
 
 ```sql
 SELECT  Max(Quantity) AS Minimum,
@@ -668,7 +668,7 @@ SQL provides the following constraints; `NOT NULL`, `PRIMARY KEY`, `FOREIGN KEY`
 ---------------------------------------------------------
 **PRIMARY KEYS**
 
-The `PRIMARY KEY` syntax will create a `CLUSTERED INDEX` unless specified otherwise.  The following statements will error as a `PRIMARY KEY` does not allow for NULL markers.
+Unless specified otherwise, the `PRIMARY KEY` syntax will create a `CLUSTERED INDEX`.  The following statements will error as a `PRIMARY KEY` does not allow for NULL markers.
 
 ```sql
 ALTER TABLE ##TableA
@@ -684,7 +684,7 @@ ADD CONSTRAINT PK_NULLConstraints PRIMARY KEY CLUSTERED (Fruit);
 ---------------------------------------------------------
 **UNIQUE**
 
-To demonstrate that a `UNIQUE CONSTRAINT` allows only a single NULL marker, we can run the following statement.  We add a `UNIQUE CONSTRAINT` to `##TableB`, which already includes a NULL marker in the column `Fruit`.
+We can run the following statement to demonstrate that a `UNIQUE CONSTRAINT` allows only a single NULL marker.  We add a `UNIQUE CONSTRAINT` to `##TableB`, which already includes a NULL marker in the column `Fruit`.
 
 ```sql
 ALTER TABLE ##TableB
@@ -702,7 +702,7 @@ Violation of `UNIQUE KEY` constraint `UNIQUE_NULLConstraints`. Cannot insert dup
 --------------------------------------------------------
 **CHECK CONSTRAINTS**
 
-To demonstrate `CHECK CONSTRAINTS`, let's start by creating a new table with the constraints.  The below insert does not error and allows for the operation to take place.
+Let's start by creating a new table with the constraints to demonstrate' CHECK CONSTRAINTS'.  The below insert does not error and allows the operation to occur.
 
 ```sql
 DROP TABLE IF EXISTS ##CheckConstraints;
@@ -734,7 +734,7 @@ Multiple NULL markers can be inserted into the child column that has a foreign k
 
 In Microsoft SQL Server, a `FOREIGN KEY` constraint must be linked to a column with either a `PRIMARY KEY` constraint or a `UNIQUE` constraint defined on the column.  A `PRIMARY KEY` constraint does not allow NULL markers, but a `UNIQUE` constraint allows one NULL marker.
 
-In the following example, we show that it's possible to insert multiple NULL markers into the Child.ParentID column. This reflects the unfortunate reality that a child may be orphaned and therefore not have an associated parent.
+In the following example, we show that inserting multiple NULL markers into the Child is possible.ParentID column. This reflects the unfortunate reality that a child may be orphaned and, therefore, not have an associated parent.
 
 Referential integrity cannot be created on temporary tables; for this example, we create two tables, `Parent` and `Child`.
 
@@ -787,7 +787,7 @@ SELECT * FROM Child;
 ## Computed Columns
 🔵&nbsp;&nbsp;&nbsp;[Table Of Contents](#table-of-contents)
 
-A computed column is a virtual column that is not physically stored in a table.  A computed column expression can use data from other columns to calculate a value.  When an expression is applied to a column with a NULL marker, a NULL marker will be the return value.   Here we add the value `2` to the `Quantity` field in `TableB` (which includes a NULL marker in the `Quantity` field.
+A computed column is a virtual column that is not physically stored in a table.  A computed column expression can use data from other columns to calculate a value.  When an expression is applied to a column with a NULL marker, a NULL marker will be the return value.   Here, we add the value `2` to the `Quantity` field in `TableB` (which includes a NULL marker in the `Quantity` field.
 
 ```sql
 SELECT Fruit,
@@ -812,7 +812,7 @@ When creating a table with a non-NULLable computed column, you must create the c
 
 From this error message, we can see there are several rules we need to follow on computed columns if we want to add `UNIQUE`, `PRIMARY KEY`, `FOREIGN KEY`, `CHECK`, and `NOT NULL` constraints.
 
-Here we add a `NOT NULL` constraint to a `PERSISTED` computed column and add a `PRIMARY KEY` to the column.
+Here, we add a `NOT NULL` constraint to a `PERSISTED` computed column and add a `PRIMARY KEY` to the column.
 
 ```sql
 DROP TABLE IF EXISTS MyComputed;
@@ -857,7 +857,7 @@ The major differences between `COALESCE` and `ISNULL` from the documentation are
 
 ---------------------------------------------------------
 **ISNULL**
- *  The `ISNULL` function replaces NULL with the specified replacement value.
+*  The `ISNULL` function replaces NULL with the specified replacement value.
 *  The basic usage of the function is `ISNULL(check_expression , replacement_value)`
 
 ---------------------------------------------------------
@@ -868,7 +868,7 @@ The major differences between `COALESCE` and `ISNULL` from the documentation are
 ---------------------------------------------------------
 **SQL Function Examples**
 
-Below I provide a few quick examples to note their behavior.
+Below, I provide a few quick examples to note their behavior.
 
 ```sql
 SELECT  1 AS ID,
@@ -886,7 +886,7 @@ SELECT  1 AS ID,
 ## Empty Strings, NULL, and ASCII VALUES
 🔵&nbsp;&nbsp;&nbsp;[Table Of Contents](#table-of-contents)
 
-A useful feature to combat NULL markers in character fields is by using the empty string.  The empty string character is not an ASCII value, and the following function returns a NULL marker for both the empty string and the NULL marker parameters.  Also, you would assume the ASCII value for a NULL marker is 0 when reviewing an ASCII code chart. However, this is not the case.  SQL does not use the standard ANSI NULL marker.
+Using the empty string is a useful feature to combat NULL markers in character fields.  The empty string character is not an ASCII value, and the following function returns a NULL marker for both the empty string and the NULL marker parameters.  Also, when reviewing an ASCII code chart, you would assume the ASCII value for a NULL marker is 0. However, this is not the case.  SQL does not use the standard ANSI NULL marker.
 
 ```sql
 SELECT  1 AS ID,
@@ -902,7 +902,7 @@ SELECT  1 AS ID,
 ---------------------------------------------------------
 **ISNULL**
 
-Any queries that join on a field with an empty string will equate to true.  Commonly the empty string is used with the `ISNULL` function, such as the following query.
+Any queries that join on a field with an empty string will equate to true.  The empty string is commonly used with the `ISNULL` function, such as the following query.
 
 ```sql
 SELECT  a.ID,
@@ -969,7 +969,7 @@ In query editors, NULL markers and empty strings will appear differently (by def
 
 When creating a view, if you perform a `CAST` function or create a computed column on a column that has a `NOT NULL` constraint, the result will yield a NULLable column.
 
-Here we create a table with `NOT NULL` constraints and then create a view where we perform a `CAST` and create a computed column.  When we query the table's metadata, we can see the columns are NULLable.
+Here, we create a table with `NOT NULL` constraints and then create a view where we perform a `CAST` and create a computed column.  When we query the table's metadata, we can see the columns are NULLable.
 
 ```sql
 DROP TABLE IF EXISTS MyTable;
@@ -1022,9 +1022,9 @@ Here we will discuss two SQL constructs, the `BIT` data type and the `NOT` opera
 ------------------------------------------------------------------
 **BIT**
 
-Often, we think of the `BIT` data type as being a Boolean value (true or false, yes or no, on or off, one or zero…), however, NULL markers are allowed for the `BIT` data type making the possible values 1, 0 and NULL.  **The `BIT` data type in SQL is not a true Boolean value.**
+Often, we think of the `BIT` data type as being a Boolean value (true or false, yes or no, on or off, one or zero…); however, NULL markers are allowed for the `BIT` data type, making the possible values 1, 0 and NULL.  **The `BIT` data type in SQL is not a true Boolean value.**
 
-Because the only acceptable values for the `BIT` data type are 1, 0, or NULL.  The `BIT` data type converts any nonzero value to 1.  As discussed earlier, the NULL marker is neither a nonzero nor a zero value, so it is not promoted to the value of 1.  Here we demonstrate that behavior.
+Because the only acceptable values for the `BIT` data type are 1, 0, or NULL.  The `BIT` data type converts any nonzero value to 1.  As discussed earlier, the NULL marker is neither a nonzero nor a zero value, so it is not promoted to the value of 1.  Here, we demonstrate that behavior.
 
 ```sql
 SELECT 1 AS ID, CAST(NULL AS BIT) AS Bit
@@ -1042,7 +1042,7 @@ SELECT 2 AS ID, CAST(3 AS BIT) AS Bit;
 
 The `NOT` operator negates a Boolean input.
 
-Here, we can see how the `NOT` operator acts on our test data.  Placing the `NOT` operator on the predicate logic will not return a NULL marker.
+We can see how the `NOT` operator acts on our test data here.  Placing the `NOT` operator on the predicate logic will not return a NULL marker.
 
 ```sql
 --15.2
@@ -1060,9 +1060,9 @@ WHERE   NOT(FRUIT = 'Mango');
 ## RETURN
 🔵&nbsp;&nbsp;&nbsp;[Table Of Contents](#table-of-contents)
 
-The `RETURN` statement exists unconditionally from a query or procedure.  All stored procedures return 0 for a successful execution and a nonzero value for a failure.  When the `RETURN` statement is used with a stored procedure, it cannot return a NULL marker.  If a procedure tries to return a NULL marker in the `RETURN` statement, a warning message is generated and a value of 0 is returned.
+The `RETURN` statement exists unconditionally from a query or procedure.  All stored procedures return 0 for a successful execution and a nonzero value for a failure.  When the `RETURN` statement is used with a stored procedure, it cannot return a NULL marker.  If a procedure tries to return a NULL marker in the `RETURN` statement, a warning message is generated, and a value of 0 is returned.
 
-Here we will create a stored procedure that overrides the default `RETURN` value and attempt to return a NULL marker.
+Here, we will create a stored procedure that overrides the default `RETURN` value and attempt to return a NULL marker.
 
 ```sql
 CREATE OR ALTER PROCEDURE SpReturnStatement
@@ -1118,7 +1118,7 @@ IGNORE NULLS - Ignore null values in the dataset when computing the first value 
 
 RESPECT NULLS - Respect null values in the dataset when computing the first value over a partition. RESPECT NULLS is the default behavior if a NULLS option is not specified.
 
-Note, there was a bug fix in SQL Server 2022 CU4 related to IGNORE NULLS in LAG and LEAD.
+Note that there was a bug fix in SQL Server 2022 CU4 related to IGNORE NULLS in LAG and LEAD.
 
 ```
 WITH cte_Lag_Lead AS
