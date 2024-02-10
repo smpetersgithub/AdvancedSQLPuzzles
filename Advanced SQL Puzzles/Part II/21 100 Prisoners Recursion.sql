@@ -13,11 +13,10 @@ The script begins by initializing variables that control the number of iteration
 range of numbers used in the simulation. It then enters a while loop that runs for a specified
 number of iterations. In each iteration, it creates and populates a temporary table called #Drawers 
 which assigns a random number between 1 and 100 to each of the 100 prisoners. It then enters another 
-while loop that runs until all prisoners have been processed. In each iteration of this loop, 
-it creates and populates two more temporary tables called #Drawers2 and #Drawers3 by selecting 
+while loop that runs until all prisoners have been processed. Each iteration of this loop creates and populates two more temporary tables called #Drawers2 and #Drawers3 by selecting 
 specific columns from #Drawers and using a recursive common table expression (CTE) to traverse 
 the drawer numbers and prisoner numbers. It then inserts the results of this iteration into a 
-table called #Results. After all the iterations are completed, the script uses a CTE to group 
+table called #Results. After completing all the iterations, the script uses a CTE to group 
 the results by iteration and loop cycle length and then selects the count of loops for each 
 cycle length. It also uses a second CTE to group the results by iteration and selects the largest 
 loop cycle for each iteration.
