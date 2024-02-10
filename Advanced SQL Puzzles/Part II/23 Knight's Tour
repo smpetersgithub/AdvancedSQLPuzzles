@@ -1,3 +1,15 @@
+/*********************************************************************
+Scott Peters
+Knight's Tour
+https://advancedsqlpuzzles.com
+Last Updated: 02/10/2024
+
+This SQL statement solves a variation of the Knight's Tour problem.
+
+Microsoft SQL Server T-SQL
+
+**********************************************************************/
+
 DECLARE @CurrentPosition VARCHAR(2);
 SET @CurrentPosition = '4D'; -- Example starting position
 
