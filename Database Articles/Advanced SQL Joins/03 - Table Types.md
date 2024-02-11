@@ -1,6 +1,6 @@
 # Table Types
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Within SQL, you can create a join to the following 10 table types. Table types can be schema-bound objects, meaning they are saved as a database object within a named schema, or they are unbound and only durable for the life of an SQL statement or your current session.  Items that are not schema-bound are created in the `tempdb` and do not have any data of their existence in the catalog views.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Within SQL Server, you can create a join to the following 11 table types. Table types can be schema-bound objects, meaning they are saved as a database object within a named schema, or they are unbound and only durable for the life of an SQL statement or your current session.  Items that are not schema-bound are created in the `tempdb` and do not have any data of their existence in the catalog views.
 
 Here are the ten different types of tables you can create.
 
@@ -13,13 +13,14 @@ Here are the ten different types of tables you can create.
 | 5  | Subquery                       | False         | A query that is embedded within another query. The results of a subquery can be used in the outer query.                                   |
 | 6  | Derived Table                  | False         | A special type of subquery that is defined in the `FROM` statement                                                                         |
 | 7  | Common Table Expression (CTE)  | False         | A named temporary result set that can be used in a `SELECT`, `INSERT`, `UPDATE`, or `DELETE` statement.                                    |
-| 8  | Temporary Table                | False         | A table that is created for a specific session or connection and is automatically dropped when the session or connection ends.             |
+| 8  | Temporary Table                | False         | A table created for a specific session or connection and is automatically dropped when the session or connection ends.                     |
 | 9  | Table Variable                 | False         | A variable that holds a table of data. It is similar to a temporary table, but it has some differences in behavior and scope.              |
-|10  | External Tables                | False         | Used to access external data, such as Hadoop or Azure Blob storage. They are created using the `CREATE EXTERNAL TABLE` statement.               |
+| 10 | User-Defined Table             | False         | Used as parameters when you pass tabular data into stored procedures or user-defined functions.                                            |
+| 11 | External Tables                | False         | Used to access external data, such as Hadoop or Azure Blob storage. They are created using the `CREATE EXTERNAL TABLE` statement.          |
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`Tempdb` is used by SQL Server to store intermediate results when processing queries, such as those created by derived tables and subqueries. This allows the database engine to reuse the results multiple times in the same query instead of recomputing them each time they're needed. It's important to note that the use of `tempdb` and the extent to which it's used can vary depending on the complexity of the query and other factors, such as the amount of memory available and the indexes present on the involved tables.
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The most interesting of these table types is the `VALUES` keyword.  We often think the only use of the `VALUES` operator is using it with an `INSERT` statement, but it can be used to create a relation.  
+& nbsp; & nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The most interesting of these table types is the `VALUES` keyword. We often think the only use of the `VALUES` operator is with an `INSERT` statement, but it can also be used to create a relation.  
 
 First, let's create examples of each of the table types.
 
@@ -56,6 +57,16 @@ SELECT * FROM Employees;
 #### View
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;An SQL view is a virtual table that provides a specific, customized data perspective from one or more tables in a database.  There are two main types of SQL views: materialized views and non-materialized (or simple) views. Materialized views store the result set of the view query, while non-materialized views do not store any data and dynamically retrieve data from the underlying tables each time the view is accessed.  You can issue `INSERT`, `UPDATE`, and `DELETE` commands through views and can manipulate the underlying table(s) in the view.
+
+In SQL Server, we have the following options that can be set for views.
+
+[ WITH <view_attribute> [ ,...n ] ]
+*  ENCRYPTION: Hides the text of the view definition from being viewed by using the sys.sql_modules catalog view or the OBJECT_DEFINITION function. It provides a layer of security against viewing the view's SQL syntax.
+*  SCHEMABINDING: Binds the view to the schema of the underlying tables. This prevents modifications to the underlying tables that would affect the view, ensuring the view's definition remains valid and unchanged.
+*  VIEW_METADATA: This setting causes the metadata about the view returned by metadata functions, like sp_help, to be the same as if the view were a base table. It affects how certain permissions and metadata are displayed for the view.
+
+[ WITH CHECK OPTION ]
+Ensures that all data modifications through the view comply with the view's SELECT statement. If a row is modified through the view that would not be selected by the view's SELECT statement, the modification is disallowed. This maintains data integrity by ensuring only valid data is entered through the view.
 
 In this example, we create a view from the `Employees` table, insert a record into the table, and then select from the view;
 
@@ -255,7 +266,7 @@ Session temporary tables and global temporary tables are two types of temporary 
 *  Global temporary tables are available to every user's session.  
 *  You can place the same constraints, except for `FOREIGN KEY` constraints, on a temp table as you can on a permanent table.  
 *  Indexing is allowed on temporary tables.
-*  Temporary tables reside in `tempdb`, and you cannot see the table's metadata in the information schema.
+*  Temporary tables reside in `tempdb`, and their metadata cannot be seen in the information schema.
 
 This creates a session temporary table in SQL Server.
 
@@ -274,12 +285,11 @@ INSERT INTO #Employees SELECT * FROM Employees;
 SELECT * FROM #Employees;
 ```sql
 
-| EmployeeID | FirstName | LastName |  Salary   | EmployeeID |  Salary  |
-|------------|-----------|----------|-----------|------------|----------|
-| 1          | John      | Wilson   | 100000.00 | 2          | 90000.00 |
-| 1          | John      | Wilson   | 100000.00 | 3          | 85000.00 |
-| 2          | Sarah     | Shultz   | 90000.00  | 3          | 85000.00 |
-```
+| EmployeeID | FirstName | LastName | Department |  Salary   |
+|------------|-----------|----------|------------|-----------|
+| 1          | John      | Wilson   | Accounting | 100000.00 |
+| 2          | Sarah     | Shultz   | Accounting |  90000.00 |
+| 3          | Larry     | Johnson  | Accounting |  85000.00 |
 
 You can also create temporary tables via the `INTO` statement in a SQL statement.  This works in Microsoft SQL Server, and each database system has slightly different syntax for temporary tables.
 
@@ -306,18 +316,18 @@ SELECT * FROM #Employees2
 *  The constraints must be placed on the table on creation.
 *  You cannot alter the table variable once it is created.
 *  You cannot create an explicit index on a table variable.
-*  When creating a `PRIMARY KEY` or a `UNIQUE` constraint, an index is created.
+*  An index is created when creating a `PRIMARY KEY` or a `UNIQUE` constraint.
 *  The `TRUNCATE` statement does not work on table variables.
 *  Table variables are stored in `tempdb`.
 
 ```sql
-DECLARE @TableVariable Table
+DECLARE @TableVariable TABLE
 (
 EmployeeID INTEGER PRIMARY KEY,
 FirstName  VARCHAR(100) NOT NULL,
 LastName   VARCHAR(100) NOT NULL,
-Department VARCHAR(100) NOT NULL,
-Salary     MONEY NOT NULL
+Department VARCHAR(100) NOT NULL CHECK (Department IN ('Engineering', 'Accounting', 'Finance')),
+Salary     MONEY NOT NULL DEFAULT 0
 );
 
 INSERT INTO @TableVariable
