@@ -20,7 +20,7 @@ Here are the ten different types of tables you can create.
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`Tempdb` is used by SQL Server to store intermediate results when processing queries, such as those created by derived tables and subqueries. This allows the database engine to reuse the results multiple times in the same query instead of recomputing them each time they're needed. It's important to note that the use of `tempdb` and the extent to which it's used can vary depending on the complexity of the query and other factors, such as the amount of memory available and the indexes present on the involved tables.
 
-& nbsp; & nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The most interesting of these table types is the `VALUES` keyword. We often think the only use of the `VALUES` operator is with an `INSERT` statement, but it can also be used to create a relation.  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The most interesting of these table types is the `VALUES` keyword. We often think the only use of the `VALUES` operator is with an `INSERT` statement, but it can also be used to create a relation.  
 
 First, let's create examples of each of the table types.
 
