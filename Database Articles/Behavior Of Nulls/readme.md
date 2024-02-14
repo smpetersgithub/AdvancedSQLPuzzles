@@ -77,7 +77,7 @@ The following truth tables display how the three-valued logic is applied.
 ![Truth Tables Three Valued Logic](/Database%20Articles/Behavior%20Of%20Nulls/images/Truth_Tables_Three_Valued_Logic.png)
 
 
-A good example of the complexity is shown below in the following examples.  [De Morgan's Law](https://en.wikipedia.org/wiki/De_Morgan%27s_laws) is also included below, as I show both versions of negation.
+A good example of the complexity is shown below.  [De Morgan's Law](https://en.wikipedia.org/wiki/De_Morgan%27s_laws) is also included below, as I show both versions of negation.
 
 ```sql
 --TRUE OR UNKNOWN = TRUE
@@ -96,7 +96,7 @@ SELECT 3 WHERE NOT(1=2) AND NOT(NULL=1);
 
 >:exclamation:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The standard setting for `ANSI_NULLS` is `ON`.  In a future version of Microsoft SQL Server, `ANSI_NULLS` will always be `ON`, and any applications that explicitly set the option to `OFF` will produce an error.  Avoid using this feature in new development work, and plan to modify applications that currently use this feature.
 
-In Microsoft SQL Server, the `SET ANSI_NULLS` setting specifies the ISO compliant behavior of the equality (=) and inequality (<>) comparison operators.  The following table shows how the `ANSI_NULLS` session setting affects the results of Boolean expressions using NULL markers.
+In Microsoft SQL Server, the `SET ANSI_NULLS` setting specifies the ISO-compliant behavior of the equality (=) and inequality (<>) comparison operators.  The following table shows how the `ANSI_NULLS` session setting affects the results of Boolean expressions using NULL markers.
 
 | Boolean Expression     | SET ANSI_NULLS ON | SET ANSI_NULLS OFF |
 |------------------------|-------------------|--------------------|
@@ -219,7 +219,7 @@ The standard ANSI:SQL joins are `INNER`, `LEFT OUTER JOIN`, `RIGHT OUTER JOIN`, 
 ---------------------------------------------------------
 **INNER JOIN**
 
-NULL markers are neither equal to nor not equal to each other.  They are treated as **UNKNOWN**.  This is best demonstrated by the below `INNER JOIN` statement, where NULL markers are absent in the result set.  Note here we are looking for both equality and inequality in the `Fruit` column.
+NULL markers are neither equal to nor not equal to each other.  They are treated as **UNKNOWN**.  This is best demonstrated by the below `INNER JOIN` statement, where NULL markers are absent in the result set.  Note that we are looking for both equality and inequality in the `Fruit` column.
 
 ```sql
 SELECT  a.ID,
@@ -248,7 +248,7 @@ FROM    ##TableA a INNER JOIN
 ---------------------------------------------------
 **FULL OUTER JOIN**
 
-The `FULL OUTER JOIN` will give an illusion that it matches the NULL markers, but looking closely at the number of NULL markers returned vs. the number of NULL markers in our sample data, we can determine this is indeed not true.  Also, the below query demonstrates the `ORDER BY` sorts NULL markers in ascending order.
+The `FULL OUTER JOIN` will give an illusion that it matches the NULL markers, but looking closely at the number of NULL markers returned vs. the number of NULL markers in our sample data, we can determine this is indeed not true.  Also, the query below demonstrates the `ORDER BY` sorting NULL markers in ascending order.
 
 ```sql
 SELECT  a.ID,
@@ -310,7 +310,7 @@ WHERE   a.Fruit IS DISTINCT FROM b.Fruit;
 ## Semi and Anti Joins
 🔵&nbsp;&nbsp;&nbsp;[Table Of Contents](#table-of-contents)
 
-Semi-joins and anti-joins are two closely related join methods.  The semi-join and anti-join are types of joins between two tables where rows from the outer query are returned based on the presence or absence of a matching row in the joined table.
+Semi-joins and anti-joins are two closely related join methods.  Semi-joins and anti-joins are types of joins between two tables where rows from the outer query are returned based on the presence or absence of a matching row in the joined table.
 
 Anti-joins use the `NOT IN` or `NOT EXISTS` operators.  Semi-joins use the `IN` or `EXISTS` operators.
 
@@ -330,7 +330,7 @@ Also, each of these joins can be used as a correlated subquery.  Using `EXISTS` 
 --------------------------------------------------------
 **NOT IN**
 
-This statement returns an empty dataset as the anti-join contains a NULL marker.  Note that we are passing a set of parameters and not an SQL statement to the `NOT IN` clause.
+This statement returns an empty dataset as the anti-join contains a NULL marker.  Note that we are passing a set of parameters, not an SQL statement, to the `NOT IN` clause.
 
 ```sql
 SELECT  1 AS RowNumber,
@@ -689,7 +689,9 @@ ORDER BY Fruit, RowNumber;
 
 ---------------------------------------------------------
 
-The following two SQL statements return the same results when using SUM, COUNT, AVG, MIN, MAX, etc.
+The following two SQL statements return the same results when using `SUM`, `COUNT`, `AVG`, `MIN`, `MAX`, etc.  For this example, we will use the `SUM` function.
+
+When you do not specify an `ORDER BY` clause with a `SUM` windowing function, a total by the partitioning column is created.  Using `SELECT NULL` in the `ORDER BY` produces the same results.
 
 ```sql
 SELECT  *, 
@@ -810,7 +812,7 @@ Multiple NULL markers can be inserted into the child column that has a foreign k
 
 In Microsoft SQL Server, a `FOREIGN KEY` constraint must be linked to a column with either a `PRIMARY KEY` constraint or a `UNIQUE` constraint defined on the column.  A `PRIMARY KEY` constraint does not allow NULL markers, but a `UNIQUE` constraint allows one NULL marker.
 
-In the following example, we show that inserting multiple NULL markers into the Child is possible.ParentID column. This reflects the unfortunate reality that a child may be orphaned and, therefore, not have an associated parent.
+The following example shows that inserting multiple NULL markers into the Child is possible.ParentID column. This reflects the unfortunate reality that a child may be orphaned and, therefore, not have an associated parent.
 
 Referential integrity cannot be created on temporary tables; for this example, we create two tables, `Parent` and `Child`.
 
@@ -888,7 +890,7 @@ When creating a table with a non-NULLable computed column, you must create the c
 
 From this error message, we can see there are several rules we need to follow on computed columns if we want to add `UNIQUE`, `PRIMARY KEY`, `FOREIGN KEY`, `CHECK`, and `NOT NULL` constraints.
 
-Here, we add a `NOT NULL` constraint to a `PERSISTED` computed column and add a `PRIMARY KEY` to the column.
+Here, we add a `NOT NULL` constraint to a `PERSISTED` computed column and then run an 'ALTER TABLE' to create a `PRIMARY KEY` on the column.
 
 ```sql
 DROP TABLE IF EXISTS MyComputed;
