@@ -702,7 +702,9 @@ Violation of `UNIQUE KEY` constraint `UNIQUE_NULLConstraints`. Cannot insert dup
 --------------------------------------------------------
 **CHECK CONSTRAINTS**
 
-Let's start by creating a new table with the constraints to demonstrate' CHECK CONSTRAINTS'.  The below insert does not error and allows the operation to occur.
+A check constraint on a table column will still allow for the insertion of NULL markers. 
+
+The below insert does not error and allows the operation to occur.
 
 ```sql
 DROP TABLE IF EXISTS ##CheckConstraints;
@@ -725,6 +727,26 @@ SELECT * FROM ##CheckConstraints;
 | ID |  MyField |
 |----|----------|
 | 1  | \<NULL>  |
+
+You can mimic a NOT NULL constraint using a check constraint, as demonstrated below.
+
+```sql
+CREATE TABLE ##TableA
+(
+ID          INTEGER,
+Fruit       VARCHAR(255),
+Quantity    INTEGER,
+CONSTRAINT chk_Quantity1 CHECK (Quantity IS NOT NULL)
+);
+```
+
+The `ALTER TABLE` statement to add the `CHECK` constraint enforcing Fruit IS NOT NULL will fail. The failure occurs because existing data violates the constraint we are attempting to add. SQL Server checks existing data against the new constraint when it is created, and if any row violates the constraint, the statement fails.
+
+```sql
+ALTER TABLE ##TableA ADD CONSTRAINT CK_Quantity_NOT_NULL CHECK (Fruit IS NOT NULL);
+```
+
+The ALTER TABLE statement conflicted with the CHECK constraint "CK_Quantity_NOT_NULL". The conflict occurred in database "tempdb", table "dbo.##TableA", column 'Fruit'.
 
 ---------------------------------------------------------
 ## Referential Integrity
