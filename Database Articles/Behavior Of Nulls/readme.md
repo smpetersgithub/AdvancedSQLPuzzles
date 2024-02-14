@@ -660,6 +660,59 @@ FROM    ##TableA;
 | 20      | 3       |
 
 ---------------------------------------------------------
+## Windowing Functions
+🔵&nbsp;&nbsp;&nbsp;[Table Of Contents](#table-of-contents)
+
+When working with window functions, we can use the NULL marker when order is not important.
+
+---------------------------------------------------------
+
+If you want to provide a row number/ranking partition on a dataset but do not care about the order, you can use `SELECT NULL` within the window function.
+
+```sql
+SELECT  *,
+        ROW_NUMBER() OVER (PARTITION BY Fruit ORDER BY (SELECT NULL)) AS RowNumber
+FROM    ##TableA
+ORDER BY Fruit, RowNumber;
+```
+
+
+| ID | Fruit | Quantity | RowNumber |
+|----|-------|----------|-----------|
+| 5  | NULL  | 5        | 1         |
+| 6  | NULL  | 3        | 2         |
+| 1  | Apple | 17       | 1         |
+| 3  | Mango | 11       | 1         |
+| 4  | Mango | 15       | 2         |
+| 2  | Peach | 20       | 1         |
+
+---------------------------------------------------------
+
+The following two SQL statements return the same results when using SUM, COUNT, AVG, MIN, MAX, etc.
+
+```sql
+SELECT  *, 
+        SUM(Quantity) OVER (PARTITION BY Fruit) AS TotalSum
+FROM    ##TableA
+ORDER BY Fruit, ID;
+
+SELECT  *,
+        SUM(Quantity) OVER (PARTITION BY Fruit ORDER BY (SELECT NULL)) AS TotalSum
+FROM    ##TableA
+ORDER BY Fruit, ID;
+```
+
+| ID | Fruit | Quantity | TotalSum |
+|----|-------|----------|----------|
+| 5  | NULL  | 5        | 8        |
+| 6  | NULL  | 3        | 8        |
+| 1  | Apple | 17       | 17       |
+| 3  | Mango | 11       | 26       |
+| 4  | Mango | 15       | 26       |
+| 2  | Peach | 20       | 20       |
+
+---------------------------------------------------------
+
 ## CONSTRAINTS
 🔵&nbsp;&nbsp;&nbsp;[Table Of Contents](#table-of-contents)
 
