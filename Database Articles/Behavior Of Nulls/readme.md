@@ -39,6 +39,7 @@ We will cover these aspects and many more in the following document.
 [6. Semi and Anti Joins](#semi-and-anti-joins)     
 [7. Set Operators](#set-operators)     
 [8. Aggregate Functions](#aggregate-functions)     
+[8. Windowing Functions](#windowing-functions)     
 [9. Constraints](#constraints)     
 [10. Referential Integrity](#referential-integrity)     
 [11. Computed Columns](#computed-columns)     
