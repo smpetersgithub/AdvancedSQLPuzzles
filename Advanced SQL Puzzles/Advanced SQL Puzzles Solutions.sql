@@ -3933,10 +3933,10 @@ GO
 Answer to Puzzle #74
 Bowling League
 */----------------------------------------------------
-DROP TABLE IF EXISTS ##BowlingResults;
+DROP TABLE IF EXISTS #BowlingResults;
 GO
 
-CREATE TABLE ##BowlingResults 
+CREATE TABLE #BowlingResults 
 (
 GameID  INTEGER,
 Bowler  VARCHAR(50),
@@ -3945,7 +3945,7 @@ PRIMARY KEY (GameID, Bowler)
 );
 GO
 
-INSERT INTO ##BowlingResults (GameID, Bowler, Score) VALUES
+INSERT INTO #BowlingResults (GameID, Bowler, Score) VALUES
 (1, 'John', 167),
 (1, 'Susan', 139),
 (1, 'Ralph', 95),
@@ -3960,7 +3960,7 @@ WITH cte_Lead AS
 (
 SELECT  *,
         LEAD(Bowler,1) OVER (PARTITION BY GameID ORDER BY Score DESC) AS LeadBowler
-FROM    ##BowlingResults
+FROM    #BowlingResults
 ),
 cte_Least_Greatest AS
 (
@@ -3981,10 +3981,10 @@ GO
 Answer to Puzzle #75
 Symmetric Matches
 */----------------------------------------------------
-DROP TABLE IF EXISTS ##Boxes;
+DROP TABLE IF EXISTS #Boxes;
 GO
 
-CREATE TABLE ##Boxes 
+CREATE TABLE #Boxes 
 (
 Box      CHAR(1),
 [Length] INTEGER,
@@ -3993,7 +3993,7 @@ Height   INTEGER
 );
 GO
 
-INSERT INTO ##Boxes (Box, [Length], Width, Height) VALUES
+INSERT INTO #Boxes (Box, [Length], Width, Height) VALUES
 ('A', 10, 25, 15),
 ('B', 15, 10, 25),
 ('C', 10, 15, 25),
@@ -4005,7 +4005,7 @@ WITH cte_SumDimensions AS
 (
 SELECT Box,
        [Length] + Width + Height AS SumDimensions
-FROM   ##Boxes
+FROM   #Boxes
 )
 SELECT Box,
        DENSE_RANK() OVER (ORDER BY SumDimensions) AS GroupingID
@@ -4017,11 +4017,11 @@ GO
 Answer to Puzzle #76
 Determine Batches
 */----------------------------------------------------
-DROP TABLE IF EXISTS ##BatchStarts;
-DROP TABLE IF EXISTS ##BatchLines;
+DROP TABLE IF EXISTS #BatchStarts;
+DROP TABLE IF EXISTS #BatchLines;
 GO
 
-CREATE TABLE ##BatchStarts
+CREATE TABLE #BatchStarts
 (
 Batch       CHAR(1),
 BatchStart  INTEGER,
@@ -4029,7 +4029,7 @@ PRIMARY KEY (Batch, BatchStart)
 );
 GO
 
-CREATE TABLE ##BatchLines
+CREATE TABLE #BatchLines
 (
 Batch   CHAR(1),
 Line    INTEGER,
@@ -4038,12 +4038,12 @@ PRIMARY KEY (Batch, Line)
 );
 GO
 
-INSERT INTO ##BatchStarts (Batch, BatchStart) VALUES
+INSERT INTO #BatchStarts (Batch, BatchStart) VALUES
 ('A', 1),
 ('A', 5);
 GO
 
-INSERT INTO ##BatchLines (Batch, Line, Syntax) VALUES
+INSERT INTO #BatchLines (Batch, Line, Syntax) VALUES
 ('A', 1, 'SELECT *'),
 ('A', 2, 'FROM Account;'),
 ('A', 3, 'GO'),
@@ -4054,9 +4054,9 @@ GO
 
 SELECT  a.*,
         b.MinLine
-FROM    ##BatchStarts a CROSS APPLY
+FROM    #BatchStarts a CROSS APPLY
         (SELECT  MIN(Line) AS MinLine
-         FROM    ##BatchLines b
+         FROM    #BatchLines b
          WHERE   b.Line >= a.BatchStart AND Syntax = 'GO' AND a.Batch = b.Batch) b;
 GO
 
