@@ -2,7 +2,7 @@
 Scott Peters
 DDL for Advanced SQL Puzzles
 https://advancedsqlpuzzles.com
-Last Updated 12/29/2023
+Last Updated 02/18/2024
 Microsoft SQL Server T-SQL
 
 */----------------------------------------------------
@@ -1783,6 +1783,122 @@ INSERT INTO #Repairs (RepairID, CustomerID, RepairDate) VALUES
 (6006,'B','2023-06-22'),
 (7007,'B','2023-06-23'),
 (8008,'B','2023-09-01');
+GO
+
+/*----------------------------------------------------
+DDL for Puzzle #73
+Distinct Statuses
+*/----------------------------------------------------
+DROP TABLE IF EXISTS #WorkflowSteps;
+GO
+
+CREATE TABLE #WorkflowSteps
+(
+StepID    INTEGER PRIMARY KEY,
+Workflow  VARCHAR(50),
+[Status]  VARCHAR(50)
+);
+GO
+
+INSERT INTO #WorkflowSteps (StepID, Workflow, [Status]) VALUES
+(1, 'Alpha', 'Open'),
+(2, 'Alpha', 'Open'),
+(3, 'Alpha', 'Inactive'),
+(4, 'Alpha', 'Open'),
+(5, 'Bravo', 'Closed'),
+(6, 'Bravo', 'Closed'),
+(7, 'Bravo', 'Open'),
+(8, 'Bravo', 'Inactive');
+GO
+
+/*----------------------------------------------------
+DDL for Puzzle #74
+Bowling League
+*/----------------------------------------------------
+DROP TABLE IF EXISTS ##BowlingResults;
+GO
+
+CREATE TABLE ##BowlingResults 
+(
+GameID  INTEGER,
+Bowler  VARCHAR(50),
+Score   INTEGER,
+PRIMARY KEY (GameID, Bowler)
+);
+GO
+
+INSERT INTO ##BowlingResults (GameID, Bowler, Score) VALUES
+(1, 'John', 167),
+(1, 'Susan', 139),
+(1, 'Ralph', 95),
+(1, 'Mary', 90),
+(2, 'Susan', 187),
+(2, 'John', 155),
+(2, 'Dennis', 100),
+(2, 'Anthony', 78);
+GO
+
+/*----------------------------------------------------
+DDL for Puzzle #75
+Symmetric Matches
+*/----------------------------------------------------
+DROP TABLE IF EXISTS ##Boxes;
+GO
+
+CREATE TABLE ##Boxes 
+(
+Box      CHAR(1),
+[Length] INTEGER,
+Width    INTEGER,
+Height   INTEGER
+);
+GO
+
+INSERT INTO ##Boxes (Box, [Length], Width, Height) VALUES
+('A', 10, 25, 15),
+('B', 15, 10, 25),
+('C', 10, 15, 25),
+('D', 20, 30, 30),
+('E', 30, 30, 20);
+GO
+
+/*----------------------------------------------------
+DDL for Puzzle #76
+Determine Batches
+*/----------------------------------------------------
+DROP TABLE IF EXISTS ##BatchStarts;
+DROP TABLE IF EXISTS ##BatchLines;
+GO
+
+CREATE TABLE ##BatchStarts
+(
+Batch       CHAR(1),
+BatchStart  INTEGER,
+PRIMARY KEY (Batch, BatchStart)
+);
+GO
+
+CREATE TABLE ##BatchLines
+(
+Batch   CHAR(1),
+Line    INTEGER,
+Syntax  VARCHAR(MAX),
+PRIMARY KEY (Batch, Line)
+);
+GO
+
+INSERT INTO ##BatchStarts (Batch, BatchStart) VALUES
+('A', 1),
+('A', 5);
+GO
+
+INSERT INTO ##BatchLines (Batch, Line, Syntax) VALUES
+('A', 1, 'SELECT *'),
+('A', 2, 'FROM Account;'),
+('A', 3, 'GO'),
+('A', 4, ''),
+('A', 5, 'TRUNCATE TABLE Accounts;'),
+('A', 6, 'GO');
 GO
 
 /*----------------------------------------------------
