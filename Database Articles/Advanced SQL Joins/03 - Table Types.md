@@ -15,7 +15,7 @@ Here are the ten different types of tables you can create.
 | 7  | Common Table Expression (CTE)  | False         | A named temporary result set that can be used in a `SELECT`, `INSERT`, `UPDATE`, or `DELETE` statement.                                    |
 | 8  | Temporary Table                | False         | A table created for a specific session or connection and is automatically dropped when the session or connection ends.                     |
 | 9  | Table Variable                 | False         | A variable that holds a table of data. It is similar to a temporary table, but it has some differences in behavior and scope.              |
-| 10 | User-Defined Table             | False         | Used as parameters when you pass tabular data into stored procedures or user-defined functions.                                            |
+| 10 | User-Defined Table Type        | True          | Used as parameters when you pass tabular data into stored procedures or user-defined functions.                                            |
 | 11 | External Tables                | False         | Used to access external data, such as Hadoop or Azure Blob storage. They are created using the `CREATE EXTERNAL TABLE` statement.          |
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`Tempdb` is used by SQL Server to store intermediate results when processing queries, such as those created by derived tables and subqueries. This allows the database engine to reuse the results multiple times in the same query instead of recomputing them each time they're needed. It's important to note that the use of `tempdb` and the extent to which it's used can vary depending on the complexity of the query and other factors, such as the amount of memory available and the indexes present on the involved tables.
@@ -342,6 +342,21 @@ SELECT * FROM @TableVariable;
 | 1          | John      | Wilson   | 100000.00 | 3          | 85000.00 |
 | 2          | Sarah     | Shultz   | 90000.00  | 3          | 85000.00 |
 
+--------------------------------------------------------------------------------------------------------
+#### User-Defined Table Types
+
+User-defined table types (UDTTs) are a special kind of user-defined type in SQL Server that allows for the definition of table structures. These structures can be used as parameters in stored procedures or functions, allowing for the passage of multiple rows of data in a single parameter. Essentially, UDTTs let you define a "template" for a table, which can then be instantiated as Table-Valued Parameters (TVPs) in your T-SQL code.
+
+They function the same as table variables, but are schema bound and can be used with stored procedures and functions.  By defining a specific structure for the table data being passed, table types enforce a level of data integrity and consistency. This ensures that the data conforms to the expected format, reducing errors and improving reliability.
+
+```sql
+CREATE TYPE MyTableType AS TABLE
+(
+    ID INT,
+    Name VARCHAR(100),
+    Value DECIMAL(10, 2)
+);
+```
 
 --------------------------------------------------------------------------------------------------------
 #### External Tables           
