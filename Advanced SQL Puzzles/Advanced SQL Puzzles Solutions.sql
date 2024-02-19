@@ -4052,6 +4052,21 @@ INSERT INTO #BatchLines (Batch, Line, Syntax) VALUES
 ('A', 6, 'GO');
 GO
 
+--Solution 1
+--CTE with MIN
+WITH cte_BatchLines_Go AS
+(
+SELECT  *
+FROM    ##BatchLines
+WHERE   Syntax = 'GO'
+)
+SELECT  a.Batch, a.BatchStart, MIN(b.Line) AS MinLine
+FROM    ##BatchStarts a LEFT JOIN
+        cte_BatchLines_Go b ON b.Line >= a.BatchStart AND a.Batch = b.Batch
+GROUP BY a.Batch, a.BatchStart;
+
+--Solution 2
+--Correlated Subquery
 SELECT  a.*,
         b.MinLine
 FROM    #BatchStarts a CROSS APPLY
@@ -4059,6 +4074,7 @@ FROM    #BatchStarts a CROSS APPLY
          FROM    #BatchLines b
          WHERE   b.Line >= a.BatchStart AND Syntax = 'GO' AND a.Batch = b.Batch) b;
 GO
+
 
 /*----------------------------------------------------
 The End
