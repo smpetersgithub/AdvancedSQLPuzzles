@@ -1902,5 +1902,24 @@ INSERT INTO #BatchLines (Batch, Line, Syntax) VALUES
 GO
 
 /*----------------------------------------------------
+DDL for Puzzle #77
+Interpolation
+*/----------------------------------------------------
+DROP TABLE IF EXISTS #Temp;
+GO
+
+CREATE TABLE #Temp
+(
+RowID    INTEGER PRIMARY KEY,
+myValue  INTEGER NULL
+);
+GO
+
+INSERT INTO #Temp (RowID, myValue) VALUES
+(1,100),(2,NULL),(3,NULL),(4,200),(5,NULL),(6,300),
+(7,NULL),(8,100),(9,NULL),(10,200),(11,NULL),(12,300);
+GO
+
+/*----------------------------------------------------
 The End
 */----------------------------------------------------
