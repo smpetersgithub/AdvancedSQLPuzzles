@@ -1507,7 +1507,9 @@ GO
 Answer to Puzzle #28
 Fill the Gaps
 
-This is often called a Flash Fill or a Data Smudge
+This is often called a Flash Fill or a Data Smudge.
+	
+Tags: Flash Fill, Data Smudge, Gaps and Islands
 */----------------------------------------------------
 
 DROP TABLE IF EXISTS #Gaps;
@@ -1551,6 +1553,18 @@ SELECT  a.RowNumber,
                     WHERE c.RowNumber <= a.RowNumber AND c.TestCase != '')) TestCase
 FROM #Gaps a;
 GO
+
+--Solution 3
+--LAG with IGNORE NULLS
+WITH cte_Lag AS
+(
+SELECT  *,
+         LAG(TestCase) IGNORE NULLS OVER (ORDER BY RowNumber) AS LagIgnoreNulls
+FROM    #Gaps
+)
+SELECT  RowNumber,
+        (CASE WHEN TestCase IS NOT NULL THEN TestCase ELSE LagIgnoreNulls END) AS TestCase
+FROM    cte_Lag;	
 
 /*----------------------------------------------------
 Answer to Puzzle #29
@@ -4075,6 +4089,46 @@ FROM    #BatchStarts a CROSS APPLY
          WHERE   b.Line >= a.BatchStart AND Syntax = 'GO' AND a.Batch = b.Batch) b;
 GO
 
+/*----------------------------------------------------
+Answer to Puzzle #77
+Interpolation
+
+Tags: Gaps and Islands
+*/----------------------------------------------------
+DROP TABLE IF EXISTS #Temp;
+GO
+
+CREATE TABLE #Temp
+(
+RowID    INTEGER PRIMARY KEY,
+myValue  INTEGER NULL
+);
+GO
+
+INSERT INTO #Temp (RowID, myValue) VALUES
+(1,100),(2,NULL),(3,NULL),(4,200),(5,NULL),(6,300),
+(7,NULL),(8,100),(9,NULL),(10,200),(11,NULL),(12,300);
+GO
+
+--LAG/LEAD with IGNORE NULLS
+WITH cte_Lag AS
+(
+SELECT  *,
+        LAG(myValue) IGNORE NULLS OVER (ORDER BY RowID) AS LagIgnoreNulls
+FROM    #Temp
+),
+cte_Lead AS
+(
+SELECT  *,
+        LEAD(myValue) IGNORE NULLS OVER (ORDER BY RowID) AS LeadIgnoreNulls
+FROM    #Temp
+)
+SELECT  a.RowID,
+        a.myValue,
+        GREATEST(a.LagIgnoreNulls, b.LeadIgnoreNulls) AS NewValue
+FROM    cte_Lag a INNER JOIN
+        cte_Lead b on a.RowID = b.RowID
+ORDER BY 1;
 
 /*----------------------------------------------------
 The End
