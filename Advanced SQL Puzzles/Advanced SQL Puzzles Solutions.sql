@@ -4125,10 +4125,11 @@ FROM    #Temp
 )
 SELECT  a.RowID,
         a.myValue,
-        GREATEST(a.LagIgnoreNulls, b.LeadIgnoreNulls) AS NewValue
+        COALESCE(a.myValue, GREATEST(a.LagIgnoreNulls, b.LeadIgnoreNulls)) AS NewValue
 FROM    cte_Lag a INNER JOIN
         cte_Lead b on a.RowID = b.RowID
 ORDER BY 1;
+GO
 
 /*----------------------------------------------------
 The End
