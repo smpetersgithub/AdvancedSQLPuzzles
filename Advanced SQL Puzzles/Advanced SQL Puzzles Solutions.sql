@@ -2,7 +2,7 @@
 Scott Peters
 Solutions for Advanced SQL Puzzles
 https://advancedsqlpuzzles.com
-Last Updated: 02/24/2024
+Last Updated: 02/28/2024
 Microsoft SQL Server T-SQL
 
 */----------------------------------------------------
@@ -4091,43 +4091,41 @@ GO
 
 /*----------------------------------------------------
 Answer to Puzzle #77
-Interpolation
+Temperature Readings
 
 Tags: Gaps and Islands
 */----------------------------------------------------
-DROP TABLE IF EXISTS #Temp;
+DROP TABLE IF EXISTS #TemperatureData;
 GO
 
-CREATE TABLE #Temp
+CREATE TABLE #TemperatureData
 (
-RowID    INTEGER PRIMARY KEY,
-myValue  INTEGER NULL
+TempID     INTEGER PRIMARY KEY,
+TempValue  INTEGER NULL
 );
 GO
 
-INSERT INTO #Temp (RowID, myValue) VALUES
-(1,100),(2,NULL),(3,NULL),(4,200),(5,NULL),(6,300),
-(7,NULL),(8,100),(9,NULL),(10,200),(11,NULL),(12,300);
+INSERT INTO #TemperatureData (TempID, TempValue) VALUES
+(1,52),(2,NULL),(3,NULL),(4,65),(5,NULL),(6,72),
+(7,NULL),(8,70),(9,NULL),(10,75),(11,NULL),(12,80);
 GO
 
---LAG/LEAD with IGNORE NULLS
 WITH cte_Lag AS
 (
 SELECT  *,
-        LAG(myValue) IGNORE NULLS OVER (ORDER BY RowID) AS LagIgnoreNulls
-FROM    #Temp
+        LAG(TempValue) IGNORE NULLS OVER (ORDER BY TempID) AS LagIgnoreNulls
+FROM    #TemperatureData
 ),
 cte_Lead AS
 (
 SELECT  *,
-        LEAD(myValue) IGNORE NULLS OVER (ORDER BY RowID) AS LeadIgnoreNulls
-FROM    #Temp
+        LEAD(TempValue) IGNORE NULLS OVER (ORDER BY TempID) AS LeadIgnoreNulls
+FROM    #TemperatureData
 )
-SELECT  a.RowID,
-        a.myValue,
-        COALESCE(a.myValue, GREATEST(a.LagIgnoreNulls, b.LeadIgnoreNulls)) AS NewValue
+SELECT  a.TempID,
+        COALESCE(a.TempValue, GREATEST(a.LagIgnoreNulls, b.LeadIgnoreNulls)) AS TempValue
 FROM    cte_Lag a INNER JOIN
-        cte_Lead b on a.RowID = b.RowID
+        cte_Lead b ON a.TempID = b.TempID
 ORDER BY 1;
 GO
 
