@@ -1903,21 +1903,21 @@ GO
 
 /*----------------------------------------------------
 DDL for Puzzle #77
-Interpolation
+Temperature Readings
 */----------------------------------------------------
-DROP TABLE IF EXISTS #Temp;
+DROP TABLE IF EXISTS #TemperatureData;
 GO
 
-CREATE TABLE #Temp
+CREATE TABLE #TemperatureData
 (
-RowID    INTEGER PRIMARY KEY,
-myValue  INTEGER NULL
+TempID     INTEGER PRIMARY KEY,
+TempValue  INTEGER NULL
 );
 GO
 
-INSERT INTO #Temp (RowID, myValue) VALUES
-(1,100),(2,NULL),(3,NULL),(4,200),(5,NULL),(6,300),
-(7,NULL),(8,100),(9,NULL),(10,200),(11,NULL),(12,300);
+INSERT INTO #TemperatureData (TempID, TempValue) VALUES
+(1,52),(2,NULL),(3,NULL),(4,65),(5,NULL),(6,72),
+(7,NULL),(8,70),(9,NULL),(10,75),(11,NULL),(12,80);
 GO
 
 /*----------------------------------------------------
