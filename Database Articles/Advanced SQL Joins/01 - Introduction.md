@@ -18,20 +18,22 @@ Here is a brief description of each type of join:
 |     Type    |       Join       |                                                                                                             Description                                                                                               |
 |-------------|------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | Logical     | INNER JOIN       | An INNER JOIN returns only the rows with matching values in both tables.                                                                                                                                              |
-| Logical     | OUTER JOIN       | An outer join (LEFT OUTER JOIN/RIGHT OUTER JOIN) returns all the rows from one table and any matching rows from the other table. If there is no match, the result will contain NULL markers.                          |
-| Logical     | FULL OUTER JOIN  | A FULL OUTER JOIN returns all the rows from both tables.  If there are no matching rows, the result will contain NULL markers.                                                                                        |
-| Logical     | CROSS JOIN       | A CROSS JOIN returns the Cartesian product of the two tables and returns every possible combination of rows from the two tables.                                                                                      |
-| Physical    | NESTED LOOP JOIN | Nested loop join is a type of join algorithm that compares each row of one table with all rows of another table.                                                                                                      |
-| Physical    | HASH JOIN        | Hash join is a join algorithm that uses a hash table to quickly match rows from one table with rows from another table.                                                                                               |
-| Physical    | MERGE SORT JOIN  | Merge sort join is a join algorithm that sorts both tables on the join column and then merges the sorted rows together.                                                                                               |
-| Descriptive | COMPLEX JOIN     | A complex join is a type of join operation that combines multiple tables using various comparison operators and often includes subqueries and aggregate functions to retrieve and combine data from different tables. |
-| Descriptive | SELF-JOIN        | A self-join joins a table to itself, using the same table twice with different aliases.                                                                                                                               |
-| Model       | SEMI-JOIN        | A semi-join returns only the rows from the first table with matching values in the second table.                                                                                                                      |
-| Model       | ANTI-JOIN        | An anti-join returns only the rows from the first table that do not have matching values in the second table.                                                                                                         |
-| Model       | EQUI-JOIN        | An equi-join returns only the rows where the values in the specified columns of both tables are equal.                                                                                                                |
-| Model       | THETA-JOIN       | A theta-join is a flexible type of join that allows you to join tables based on any type of condition, not just an equality condition.                                                                                |
-| Model       | NON-EQUI-JOIN    | Interchangeable with theta-join.  Some texts use the term theta-join, and others use non-equi-join.                                                                                                                    |
-| Model       | NATURAL JOIN     | A NATURAL JOIN returns the rows where the values in the specified columns of both tables are equal and the column names are the same.                                                                                 |
+| Logical     | OUTER JOIN       | An outer join (LEFT OUTER JOIN/RIGHT OUTER JOIN) returns all the rows from one table and any matching rows from the other table. If there is no match, the result will contain NULL markers. |
+| Logical     | FULL OUTER JOIN  | A FULL OUTER JOIN returns all the rows from both tables.  If there are no matching rows, the result will contain NULL markers.  |
+| Logical     | CROSS JOIN       | A CROSS JOIN returns the Cartesian product of the two tables and returns every possible combination of rows from the two tables. |
+| Physical    | NESTED LOOP JOIN | Nested loop join is a type of join algorithm that compares each row of one table with all rows of another table. |
+| Physical    | HASH JOIN        | Hash join is a join algorithm that uses a hash table to quickly match rows from one table with rows from another table.  |
+| Physical    | MERGE SORT JOIN  | Merge sort join is a join algorithm that sorts both tables on the join column and then merges the sorted rows. |
+| Descriptive | COMPLEX JOIN     | A complex join is a join operation that combines multiple tables using various comparison operators and often includes subqueries and aggregate functions to retrieve and combine data from different tables. |
+| Descriptive | COMPOSITE JOIN   | A composite join is a join that uses multiple attributes from each table to retrieve and combine data from different tables. |
+| Descriptive | MULTI-JOIN       | A multi-join refers to a query that involves joining more than two tables together |
+| Descriptive | SELF-JOIN        | A self-join joins a table to itself, using the same table twice with different aliases. |
+| Model       | SEMI-JOIN        | A semi-join returns only the rows from the first table with matching values in the second table. |
+| Model       | ANTI-JOIN        | An anti-join returns only the rows from the first table that do not have matching values in the second table. |
+| Model       | THETA-JOIN       | A theta-join is a join based on a binary operator (equality or inequality).  Both equi and non-equi-joins are theta joins. |
+| Model       | EQUI-JOIN        | An equi-join is a join condition that involves only an equality operator. |
+| Model       | NON-EQUI-JOIN    | A non-equi-join is a join condition that involves any operator besides equality. |
+| Model       | NATURAL JOIN     | A NATURAL JOIN returns the rows where the values in the specified columns of both tables are equal and the column names are the same. |
 
 ---------------------------------------------------------
 
