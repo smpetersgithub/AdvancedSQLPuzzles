@@ -1,22 +1,20 @@
 # Equi, Theta, and Natural Joins
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Equi, theta, and natural joins were introduced by E.F. Codd in his seminal work on defining relational algebra, which serves as the foundation for SQL.
-
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SQL is considered a lenient interpretation of relational algebra because it deviates from the strict mathematical principles of relational algebra in some ways. While relational algebra provides a rigorous mathematical foundation for relational database management, SQL is a more practical, user-friendly language for querying and manipulating data in relational databases.
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SQL has added various features and capabilities beyond those found in relational algebra, such as aggregate functions, subqueries, and the ability to manipulate data directly. It also provides a way to work with NULL markers, which are not part of the mathematical model of relational algebra. Additionally, SQL uses a syntax that is more accessible and easier to read than the mathematical notation used in relational algebra.
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;However, the basic principles of relational algebra still form the basis of SQL, and many SQL operations can be directly mapped to relational algebra operations. This means that understanding relational algebra can help to understand SQL more deeply and improve the ability to write effective and efficient SQL queries. Nevertheless, SQL remains a lenient interpretation of relational algebra, as it deviates from the mathematical principles to provide a practical and user-friendly way to work with relational databases.
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;We will first look at equi and theta-joins, and then move on to the natural join.
-
 ----------------------------------
 
 #### Equi and Theta-joins Overview
 
-*  Equi-joins look for equality in the join condition.  It is a join operation that combines rows from two or more tables based on a matching value in one or more columns. This matching value is known as the join condition and is an equality condition. The term equi comes from the Latin word aequus, meaning equal.
+*  A theta-join is a join with an explicit join predicate based on a binary operator. These operators include both comparison and logical operators.  Theta-joins can be broken into equi-joins which look for equality, and non-equi-joins are joins that use an operator other than equality.
+  
+*  Equi-joins look for equality in the join condition.  It is a join operation that combines rows from two or more tables based on a matching value in one or more columns. This matching value is known as the join condition and is an equality condition. The term "equi" comes from the Latin word aequus, meaning equal.
 
-*  A theta-join, also known as a non-equi-join, is a join that uses an operator other than equality. These operators include both comparison and logical operators. The term "theta" is used to denote any non-equality comparison.  The terms equi-join and theta-join was coined by E.F. Codd in his seminal work on defining relational algebra, which serves as the foundation for SQL.
+*  A non-equi-join is a join that uses an operator other than equality. It is the opposite of an equi-join.
 
 --------------------------------------------------------------------------------
 SQL has the following operators that can be used to join tables.
@@ -37,7 +35,7 @@ SQL has the following operators that can be used to join tables.
 |            | IS DISTINCT FROM     | Treats NULLs as known values for comparing equality |
 |            | IS NOT DISTINCT FROM | Treats NULLs as known values for comparing equality |
 
-*  Logical operators test for the truth of some condition. Logical operators, like comparison operators, return a Boolean data type with a value of **TRUE**, **FALSE**, or **UNKNOWN**.
+*  Logical operators test for the truth of some condition. Like comparison operators, logical operators return a Boolean data type with a value of **TRUE**, **FALSE**, or **UNKNOWN**.
 
 *  Comparison operators test whether two expressions are the same. Comparison operators can be used on all expressions except expressions of the `text`, `ntext`, or `image` data types.
 
@@ -85,8 +83,8 @@ WHERE   a.Fruit = b.Fruit;
 | 2  | Peach | 2  | Peach |
 
 --------------------------------------------------------------------------------
-#### Theta-joins
-Theta-joins looks for any non-equality comparison.  Sometimes this join is called a non-equi-join.  They can be used with `INNER`, `OUTER`, `FULL OUTER`, and `CROSS JOINS`.
+#### Non-equi-joins
+Non-equi-joins look for any non-equality comparison.  They can be used with `INNER`, `OUTER`, `FULL OUTER`, and `CROSS JOINS`.
 
 Here are some examples that you may not have realized are possible.
 
