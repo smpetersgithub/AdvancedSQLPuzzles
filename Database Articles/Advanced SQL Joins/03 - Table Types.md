@@ -56,7 +56,7 @@ SELECT * FROM Employees;
 --------------------------------------------------------------------------------------------------------
 #### View
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;An SQL view is a virtual table that provides a specific, customized data perspective from one or more tables in a database.  There are two main types of SQL views: materialized views and non-materialized (or simple) views. Materialized views store the result set of the view query, while non-materialized views do not store any data and dynamically retrieve data from the underlying tables each time the view is accessed.  You can issue `INSERT`, `UPDATE`, and `DELETE` commands through views and can manipulate the underlying table(s) in the view.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;An SQL view is a virtual table that provides a specific, customized data perspective from one or more tables in a database.  There are two main types of SQL views: materialized views and non-materialized (or simple) views. Materialized views store the result set of the view query. In contrast, non-materialized views do not store data and dynamically retrieve data from the underlying tables each time the view is accessed.  You can issue `INSERT`, `UPDATE`, and `DELETE` commands through views and can manipulate the underlying table(s) in the view.
 
 In SQL Server, we have the following options that can be set for views.
 
@@ -95,7 +95,7 @@ SELECT * FROM vwEmployees;
 --------------------------------------------------------------------------------------------------------
 #### VALUES Operator
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The `VALUES` constructor has a few considerations that are often overlooked and deserve its own recognition.  The `VALUES` constructor specifies a set of row value expressions to be constructed into a table and allows multiple sets of values to be specified in a single DML statement.  Normally, we use the `VALUES` constructor to specify the data to insert into a table, as we initially did with our test data, but it can also be used as a derived table in an SQL statement.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The `VALUES` constructor has a few considerations that are often overlooked and deserve its own recognition.  The `VALUES` constructor specifies a set of row value expressions to be constructed into a table and allows multiple sets of values to be specified in a single DML statement.  Typically, we use the `VALUES` constructor to specify the data to insert into a table, as we initially did with our test data. Still, it can also be used as a derived table in an SQL statement.
 
 Here is a basic example of using the `VALUES` constructor as a derived table.
 
@@ -177,7 +177,7 @@ FROM    Employees a CROSS APPLY
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;A subquery is a query nested within another query. Subqueries can be used in various parts of a SQL query, such as the `SELECT`, `FROM`, and `WHERE` clauses. They are highly useful for performing operations that require multiple scans of the same or different tables, complex calculations, or referencing results that are not part of the main query. They are highly useful for performing operations that require multiple scans of the same or different tables, complex calculations, or referencing results that are not part of the main query.
 
-Here is an example of a correlated subquery using the `Employees` table.  We will talk more about correlated subqueries in the Semi and Anti join portion of this repository.
+Here is an example of a correlated subquery using the `Employees` table.  We will discuss correlated subqueries more in the semi and anti-join portion of this repository.
 
 ```sql
 SELECT  e.*
@@ -194,7 +194,7 @@ WHERE   e.Salary >  (SELECT AVG(Salary)
 --------------------------------------------------------------------------------------------------------
 #### Derived Table
 
-A derived table is an expression that generates a table within the scope of the `FROM` clause.  It is a special type of subquery.  
+A derived table is a special type of subquery. It is an expression that generates a table within the scope of the `FROM` clause.  
 
 A derived table has three characteristics:
 1) Defined in the `FROM` clause
@@ -283,7 +283,8 @@ Salary     MONEY NOT NULL
 INSERT INTO #Employees SELECT * FROM Employees;
 
 SELECT * FROM #Employees;
-```sql
+
+```
 
 | EmployeeID | FirstName | LastName | Department |  Salary   |
 |------------|-----------|----------|------------|-----------|
@@ -318,7 +319,8 @@ SELECT * FROM #Employees2
 *  You cannot create an explicit index on a table variable.
 *  An index is created when creating a `PRIMARY KEY` or a `UNIQUE` constraint.
 *  The `TRUNCATE` statement does not work on table variables.
-*  Table variables are stored in `tempdb`.
+*  Table variables are stored in `tempdb`. 
+*  Table variables are not affected by rollbacks. Temporary tables can be rolled back as they are part of the transaction log.
 
 ```sql
 DECLARE @TableVariable TABLE
@@ -347,7 +349,7 @@ SELECT * FROM @TableVariable;
 
 User-defined table types (UDTTs) are a special kind of user-defined type in SQL Server that allows for the definition of table structures. These structures can be used as parameters in stored procedures or functions, allowing for the passage of multiple rows of data in a single parameter. Essentially, UDTTs let you define a "template" for a table, which can then be instantiated as Table-Valued Parameters (TVPs) in your T-SQL code.
 
-They function the same as table variables, but are schema bound and can be used with stored procedures and functions.  By defining a specific structure for the table data being passed, table types enforce a level of data integrity and consistency. This ensures that the data conforms to the expected format, reducing errors and improving reliability.
+They function the same as table variables but are schema-bound and can be used with stored procedures and functions.  By defining a specific structure for the table data being passed, table types enforce a level of data integrity and consistency. This ensures that the data conforms to the expected format, reducing errors and improving reliability.
 
 ```sql
 CREATE TYPE MyTableType AS TABLE
