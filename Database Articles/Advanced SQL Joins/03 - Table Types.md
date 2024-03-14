@@ -347,9 +347,9 @@ SELECT * FROM @TableVariable;
 --------------------------------------------------------------------------------------------------------
 #### User-Defined Table Types
 
-User-defined table types (UDTTs) are a special kind of user-defined type in SQL Server that allows for the definition of table structures. These structures can be used as parameters in stored procedures or functions, allowing for the passage of multiple rows of data in a single parameter. Essentially, UDTTs let you define a "template" for a table, which can then be instantiated as Table-Valued Parameters (TVPs) in your T-SQL code.
+User-defined table types are a special type in SQL Server that allows for the definition of table structures. These structures can be used as parameters in stored procedures or functions, allowing for the passage of multiple rows of data in a single parameter. 
 
-They function the same as table variables but are schema-bound and can be used with stored procedures and functions.  By defining a specific structure for the table data being passed, table types enforce a level of data integrity and consistency. This ensures that the data conforms to the expected format, reducing errors and improving reliability.
+They function the same as table variables but are schema-bound and can be used with stored procedures and functions.  By defining a specific structure for the table data being passed, table types enforce a level of data integrity and consistency. This ensures the data conforms to the expected format, reducing errors and improving reliability.
 
 ```sql
 CREATE TYPE MyTableType AS TABLE
