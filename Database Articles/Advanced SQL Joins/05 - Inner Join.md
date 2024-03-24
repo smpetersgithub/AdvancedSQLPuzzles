@@ -6,7 +6,7 @@
 
 ---------------------------------------------------------------------------------
 
-We will be using the following tables that contain types of fruits and their quantity.  
+We will use the following tables that contain types of fruits and their quantity.  
 
 [The DDL to create these tables can be found here.](Sample%20Data.md)
 
@@ -121,9 +121,9 @@ WHERE   b.Fruit = 'Apple'
 
 ---------------------------------------------------------------------------------
   
-This following statement incorporates an `INNER JOIN` with a theta-join, which looks for inequality between two fields.
+This following statement incorporates an `INNER JOIN` with a non-equi-join.
 
-An excellent example of using a theta-join is when someone wants to pair two different fruits of different quantities.
+An excellent example of using a non-equi-join is when someone wants to pair two different fruits of different quantities.
 
 ```sql
 SELECT  a.ID,
@@ -138,7 +138,7 @@ FROM    ##TableA a INNER JOIN
 
 ---------------------------------------------------------------------------------
   
-This query uses an equi-join and a theta-join and functions similar to a `CROSS JOIN`, but with one big difference, NULL markers are not returned.  NULL markers are neither equal to nor not equal to each other. They are unknown.
+This query uses an equi-join and a non-equi-join and functions similar to a `CROSS JOIN`, but with one big difference, NULL markers are not returned.  NULL markers are neither equal to nor not equal to each other. They are unknown.
 
 ```sql
 SELECT  a.ID,
@@ -163,7 +163,7 @@ FROM    ##TableA a INNER JOIN
 
 ---------------------------------------------------------------------------------
   
-Here are some other examples of `INNER JOINS` using theta-joins.
+Here are some other examples of `INNER JOINS` using non-equi-joins.
 
 This query looks for all values where the quantity in `TableA` is greater than or equal to a quantity in the corresponding `TableB`.
 
@@ -181,7 +181,7 @@ FROM    ##TableA a INNER JOIN
 
 ---------------------------------------------------------------------------------
   
-This query uses an equi-join and a theta-join negated with a `NOT` operator.  Determining if the `ID` is between the `Quantity` columns may be a somewhat absurd SQL statement to write, but this shows the possibilities in creating join logic. We often forget we can use comparison operators such as `LIKE` or `BETWEEN` in an SQL statement's `ON` clause and then negate it with `NOT`.
+This query uses an equi-join and a non-equi-join negated with a `NOT` operator.  Determining if the `ID` is between the `Quantity` columns may be an absurd SQL statement to write, but this shows the possibilities in creating join logic. We often forget we can use comparison operators such as `LIKE` or `BETWEEN` in an SQL statement's `ON` clause and then negate it with `NOT`.
   
 ```sql
 SELECT  a.ID,
@@ -199,7 +199,7 @@ FROM    ##TableA a INNER JOIN
 |  4 | \<NULL> | 5        | 4  | \<NULL> | \<NULL>  |
 
 ---  
-Functions can be used in the join condition as well.  Assigning the empty string to a NULL value via the `ISNULL` function causes the NULLs to now equate to each other.
+Functions can also be used in the join condition. Assigning the empty string to a NULL value via the `ISNULL` function causes the NULLs to equate to each other.
 
 ```sql
 SELECT  a.ID,
@@ -253,7 +253,7 @@ WHERE   (CASE WHEN a.Fruit = 'Apple' THEN a.Fruit ELSE 'Peach' END) = b.Fruit;
 | 4  | \<NULL> | 2  | Peach |
      
 --------------------------------------------------------------------------------- 
-When joining three or more statements, this SQL statement works in `SQL Server`.  The table referenced in the `ON` clause must be in reverse order for this to work.
+This SQL statement works in `SQL Server` when joining three or more statements.  The table referenced in the `ON` clause must be in reverse order for this to work.
 
 For this SQL statement, I am self-joining to `TableA` three times.
         
