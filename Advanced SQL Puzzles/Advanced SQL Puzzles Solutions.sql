@@ -2985,7 +2985,7 @@ FROM    #ProductsA a FULL OUTER JOIN
 SELECT  'Matches in both table A and table B' AS [Type],
         ProductNameA
 FROM    cte_FullOuter
-WHERE   ProductNameA = ProductNameB
+WHERE   ProductNameA = ProductNameB AND QuantityA = QuantityB
 UNION
 SELECT  'Product does not exist in table B' AS [Type],
         ProductNameA
@@ -3000,7 +3000,7 @@ UNION
 SELECT  'Quantities in table A and table B do not match' AS [Type],
         ProductNameA
 FROM    cte_FullOuter
-WHERE   QuantityA <> QuantityB;
+WHERE   ProductNameA = ProductNameB AND QuantityA <> QuantityB;
 GO
 
 /*----------------------------------------------------
