@@ -1,11 +1,10 @@
 /*----------------------------------------------------
 Scott Peters
-Associates
+DeGrouping
 https://advancedsqlpuzzles.com
 Last Updated: 01/13/2023
 Microsoft SQL Server T-SQL
 
-This script uses recursion to group hierarchies together.
 */----------------------------------------------------
 
 ---------------------
