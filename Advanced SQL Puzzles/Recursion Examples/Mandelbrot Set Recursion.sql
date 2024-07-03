@@ -1,11 +1,14 @@
 /*----------------------------------------------------
 Scott Peters
-Sudoku
+Mandelbrot Set
 https://advancedsqlpuzzles.com
-Last Updated: 01/17/2023
+Last Updated: 07/03/2023
 Microsoft SQL Server T-SQL
 
 This script uses recursion to create a Mandelbrot set.
+
+See the link below for the original author of the SQL code.
+https://thedailywtf.com/articles/stupid-coding-tricks-the-tsql-madlebrot
 
 */----------------------------------------------------
 
