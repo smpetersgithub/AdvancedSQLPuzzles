@@ -4071,11 +4071,11 @@ GO
 WITH cte_BatchLines_Go AS
 (
 SELECT  *
-FROM    ##BatchLines
+FROM    #BatchLines
 WHERE   Syntax = 'GO'
 )
 SELECT  a.Batch, a.BatchStart, MIN(b.Line) AS MinLine
-FROM    ##BatchStarts a LEFT JOIN
+FROM    #BatchStarts a LEFT JOIN
         cte_BatchLines_Go b ON b.Line >= a.BatchStart AND a.Batch = b.Batch
 GROUP BY a.Batch, a.BatchStart;
 
