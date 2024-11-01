@@ -65,7 +65,7 @@ GO
 USE foo;
 GO
 
-DECLARE @vTruncate SMALLINT = 0;
+DECLARE @vTruncate SMALLINT = 1;
 IF @vTruncate = 1
 BEGIN
      TRUNCATE TABLE foo.dbo.sql_expression_dependencies;
@@ -92,7 +92,7 @@ GO
 USE foo;
 GO
 
-DECLARE @vDropObjects SMALLINT = 0;
+DECLARE @vDropObjects SMALLINT = 1;
 IF @vDropObjects = 1
 BEGIN
      DROP TABLE IF EXISTS dbo.tbl_example_27;

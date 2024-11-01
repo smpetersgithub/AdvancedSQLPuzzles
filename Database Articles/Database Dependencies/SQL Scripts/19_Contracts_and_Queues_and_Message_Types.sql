@@ -92,7 +92,7 @@ GO
 USE foo;
 GO
 
-DECLARE @vTruncate SMALLINT = 0;
+DECLARE @vTruncate SMALLINT = 1;
 IF @vTruncate = 1
 BEGIN
      TRUNCATE TABLE foo.dbo.sql_expression_dependencies;
@@ -120,7 +120,7 @@ GO
 
 
 --drop service
-DECLARE @vDropObjects SMALLINT = 0;
+DECLARE @vDropObjects SMALLINT = 1;
 IF EXISTS (SELECT 1 FROM sys.services WHERE [name] = 'service_example_19')
 BEGIN
      DROP SERVICE service_example_19;
@@ -128,7 +128,7 @@ END;
 GO
 
 --drop queue
-DECLARE @vDropObjects SMALLINT = 0;
+DECLARE @vDropObjects SMALLINT = 1;
 IF EXISTS (SELECT 1 FROM sys.service_queues WHERE [name] = 'queue_example_19') AND @vDropObjects = 1
 BEGIN
      DROP QUEUE queue_example_19;
@@ -136,7 +136,7 @@ END;
 GO
 
 --drop contract
-DECLARE @vDropObjects SMALLINT = 0;
+DECLARE @vDropObjects SMALLINT = 1;
 IF EXISTS (SELECT 1 FROM sys.service_contracts WHERE [name] = 'contract_example_19') AND @vDropObjects = 1
 BEGIN
      DROP CONTRACT contract_example_19;
@@ -144,7 +144,7 @@ END;
 GO
 
 --drop message type
-DECLARE @vDropObjects SMALLINT = 0;
+DECLARE @vDropObjects SMALLINT = 1;
 IF EXISTS (SELECT 1 FROM sys.service_message_types WHERE name = 'msg_type_example_19') AND @vDropObjects = 1
 BEGIN
      DROP MESSAGE TYPE msg_type_example_19;

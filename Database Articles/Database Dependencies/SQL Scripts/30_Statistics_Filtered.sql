@@ -42,7 +42,7 @@ GO
 USE foo;
 GO
 
-DECLARE @vTruncate SMALLINT = 0;
+DECLARE @vTruncate SMALLINT = 1;
 IF @vTruncate = 1
 BEGIN
      TRUNCATE TABLE foo.dbo.sql_expression_dependencies;
@@ -69,14 +69,14 @@ GO
 USE foo;
 GO
 
-DECLARE @vDropObjects SMALLINT = 0;
+DECLARE @vDropObjects SMALLINT = 1;
 IF EXISTS (SELECT  1 FROM  sys.stats AS s WHERE name = 'stat_example_30') AND @vDropObjects = 1
 BEGIN
     DROP STATISTICS dbo.tbl_example_30.stat_example_30;
 END
 GO
 
-DECLARE @vDropObjects SMALLINT = 0;
+DECLARE @vDropObjects SMALLINT = 1;
 IF @vDropObjects = 1
 BEGIN
      DROP TABLE IF EXISTS dbo.tbl_example_30;

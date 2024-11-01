@@ -56,7 +56,7 @@ GO
 USE foo;
 GO
 
-DECLARE @vTruncate SMALLINT = 0;
+DECLARE @vTruncate SMALLINT = 1;
 IF @vTruncate = 1
 BEGIN
      TRUNCATE TABLE foo.dbo.sql_expression_dependencies;
@@ -83,7 +83,7 @@ GO
 USE foo;
 GO
 
-DECLARE @vDropObjects SMALLINT = 0;
+DECLARE @vDropObjects SMALLINT = 1;
 IF @vDropObjects = 1
 BEGIN
      DROP PROCEDURE IF EXISTS dbo.sp_example_31;
@@ -91,14 +91,14 @@ BEGIN
 END;
 GO
 
-DECLARE @vDropObjects SMALLINT = 0;
+DECLARE @vDropObjects SMALLINT = 1;
 IF EXISTS (SELECT * FROM sys.xml_schema_collections WHERE name = 'xml_schema_collection_example_31') AND @vDropObjects = 1
 BEGIN
      DROP XML SCHEMA COLLECTION dbo.xml_schema_collection_example_31;
 END;
 GO
 
-DECLARE @vDropObjects SMALLINT = 0;
+DECLARE @vDropObjects SMALLINT = 1;
 IF EXISTS (SELECT * FROM sys.xml_schema_collections WHERE name = 'xml_schema_collection_example_31') AND @vDropObjects = 1
 BEGIN
      DROP XML SCHEMA COLLECTION dbo.xml_schema_collection_example_31;
