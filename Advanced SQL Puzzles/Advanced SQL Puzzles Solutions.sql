@@ -938,6 +938,21 @@ WHERE Gap > 1;
 GO
 
 -------------------
+--Sequence start and sequence End
+WITH cte_Sequences AS 
+(
+SELECT  SeatNumber,
+        SeatNumber - ROW_NUMBER() OVER (ORDER BY SeatNumber) AS GroupID
+FROM    #SeatingChart
+)
+SELECT  MIN(SeatNumber) AS SequenceStart,
+        MAX(SeatNumber) AS SequenceEnd
+FROM    cte_Sequences
+GROUP BY GroupID
+ORDER BY SequenceStart;
+GO
+
+-------------------
 --Missing Numbers
 --Solution 1
 --This solution provides a method if you need to window/partition the records
