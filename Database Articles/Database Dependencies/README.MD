@@ -4,7 +4,7 @@ The following documentation is designed to help developers understand the `sys.s
 
 For this documentation, I chose to use GitBook, which you can access with the following link.
 
-[https://advanced-sql-puzzles.gitbook.io/database-dependencies].
+https://advanced-sql-puzzles.gitbook.io/database-dependencies
 
 The documentation covers the following dependencies and their interactions with the `sys.sql_expression_dependencies` table.
 
