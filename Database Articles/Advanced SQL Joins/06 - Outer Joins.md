@@ -1,7 +1,9 @@
 # OUTER JOINS
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Outer Joins consist of `LEFT`, `RIGHT`, and `FULL OUTER JOIN`.  `LEFT OUTER JOIN` and `RIGHT OUTER JOIN` function the same; the `LEFT OUTER JOIN` returns all records from the left table, and the `RIGHT OUTER JOIN` returns all records from the right table.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Outer joins include `LEFT OUTER JOIN`, `RIGHT OUTER JOIN`, and `FULL OUTER JOIN`.
 
+*  `LEFT OUTER JOIN` returns all records from the left table and matching records from the right table. If no matches exist, `NULL` markers are returned for the right table's columns. If multiple matching records are present in the right table, multiple rows will appear in the result set.    
+*  `RIGHT OUTER JOIN` operates similarly, returning all records from the right table and matching records from the left table. If no matches exist, `NULL` markers are returned for the left table's columns. If multiple matching records are present in the left table, multiple rows will appear in the result set.
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;It is best practice to use the `LEFT OUTER JOIN` over the `RIGHT OUTER JOIN`, as we naturally read from left to right.  The `LEFT OUTER JOIN` is more intuitive in terms of its behavior, as the left table is preserved, and the right table is optional.  I will mainly demonstrate the `LEFT OUTER JOIN` for this reason.  Using `RIGHT OUTER JOIN` is considered a bad practice and should be avoided.
 
