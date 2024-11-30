@@ -13,9 +13,6 @@ One allows you to determine if you want to truncate the `foo.dbo.sql_expression_
 
 Here is the additional logic that I have included in each script.  
 
-USE foo;
-GO
-
 ```sql
 USE foo;
 GO
@@ -36,8 +33,8 @@ SELECT  '05', COALESCE(c.type, d.type, e.type) AS referencing_object_type, @@SER
 FROM    sys.sql_expression_dependencies a LEFT OUTER JOIN
         sys.objects b ON a.referenced_id = b.object_id LEFT OUTER JOIN
         sys.objects c ON a.referencing_id = c.object_id LEFT OUTER JOIN
-		sys.triggers d ON a.referencing_id = d.object_id LEFT OUTER JOIN
-		sys.server_triggers e ON a.referencing_id = e.object_id;
+        sys.triggers d ON a.referencing_id = d.object_id LEFT OUTER JOIN
+        sys.server_triggers e ON a.referencing_id = e.object_id;
 GO
 
 INSERT INTO foo.dbo.system_objects (table_name, object_id, server_name, database_name, schema_name, name, principal_id, schema_id, parent_object_id, type, type_desc, create_date, modify_date, is_ms_shipped, is_published, is_schema_published) 
