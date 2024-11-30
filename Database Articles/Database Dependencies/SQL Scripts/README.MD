@@ -7,7 +7,9 @@ These scripts include the additional logic I used to perform the analysis, which
 *  `IF @vTruncate = 1`
 *  `IF @vDropObjects = 1`
 
-One allows you to determine if you want to truncate the `foo.dbo.sql_expression_dependency` table, and the second determines if you wish to drop the created objects at the end of the script.
+One allows you to determine if you want to truncate the `foo.dbo.sql_expression_dependency` table, and the second determines if you wish to drop the created objects at the end of the script.  When performing the analysis, I found it easiest to create the objects, then insert the information into the local table `foo.dbo.sql_expression_dependency` and the `foo.dbo.system_objects` table, and then lastly delete the objects.
+
+The scripts to create the tables mentioned above are included and are located in the Additional SQL Scripts folder.  Included in this folder are scripts to 1) create the database, schemas, and tables, 2) deploy the scripts via `sqlcmd` mode, and 3) a script to kill any open sessions (which I needed to perform regularly when dropping and recreating the databases in my development work).
 
 ------
 
