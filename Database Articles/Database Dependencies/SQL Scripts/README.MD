@@ -31,6 +31,7 @@ BEGIN
      TRUNCATE TABLE foo.dbo.sql_expression_dependencies;
 END;
 GO
+
 -------------------------------------------------------
 USE foo;
 GO
