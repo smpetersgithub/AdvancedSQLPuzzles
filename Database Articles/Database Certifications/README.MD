@@ -1,6 +1,6 @@
 #### Last updated 11/13/2023
 
-# Database Certificaiton List
+# Database Certification List
 
 :star: If you enjoy this list, please consider giving my GitHub a star!
 
