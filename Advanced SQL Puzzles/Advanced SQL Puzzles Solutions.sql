@@ -1207,6 +1207,20 @@ INSERT INTO #ProcessLog (Workflow, LogMessage, Occurrences) VALUES
 GO
 
 --Solution 1
+--Rank 
+WITH cte_RankedMessages AS 
+(
+SELECT  Workflow,
+        LogMessage,
+        Occurrences,
+        RANK() OVER (PARTITION BY LogMessage ORDER BY Occurrences DESC) AS rnk
+FROM #ProcessLog
+)
+SELECT Workflow, LogMessage, Occurrences
+FROM   cte_RankedMessages
+WHERE rnk = 1;
+
+--Solution 2
 --MAX
 WITH cte_LogMessageCount AS
 (
@@ -1224,15 +1238,22 @@ FROM    #ProcessLog a INNER JOIN
 ORDER BY 1;
 GO
 
---Solution 2
+--Solution 3
+--Correlated Subquery
+SELECT Workflow, LogMessage, Occurrences
+FROM #ProcessLog p
+WHERE Occurrences = (SELECT MAX(Occurrences) FROM #ProcessLog WHERE LogMessage = p.LogMessage);
+	
+--Solution 4
 --ALL
+--Correlated Subquery
 SELECT  WorkFlow,
         LogMessage,
         Occurrences
 FROM    #ProcessLog AS e1
 WHERE   Occurrences > ALL(SELECT    e2.Occurrences
                             FROM    #ProcessLog AS e2
-                            WHERE   e2.LogMessage = e1.LogMessage AND
+                           WHERE    e2.LogMessage = e1.LogMessage AND
                                     e2.WorkFlow <> e1.WorkFlow);
 GO
 
@@ -4147,3 +4168,4 @@ GO
 /*----------------------------------------------------
 The End
 */----------------------------------------------------
+
