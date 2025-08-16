@@ -1413,7 +1413,7 @@ ORDER BY 1, 2;
 GO
 
 --Solution 4
---ALL Operator
+--ALL Operator with Correlated Subquery
 SELECT  CustomerID, Vendor
 FROM    #Orders a
 WHERE   [Count] >= ALL(SELECT [Count] FROM #Orders b WHERE a.CustomerID = b.CustomerID)
@@ -1421,7 +1421,7 @@ ORDER BY 1, 2;
 GO
 
 --Solution 5
---MAX Function
+--MAX Functionr with Correlated Subquery
 SELECT  CustomerID, Vendor
 FROM    #Orders a
 WHERE   [Count] >= (SELECT MAX([Count]) FROM #Orders b WHERE a.CustomerID = b.CustomerID)
@@ -1815,6 +1815,24 @@ INSERT INTO #Personal (SpacemanID, JobDescription, MissionCount) VALUES
 (7007,'Technician',13),(8008,'Technician',2),(9009,'Technician',7);
 GO
 
+--Solution 1
+--ROW_NUMBER, MAX, CASE
+WITH RankedExperience AS 
+(
+SELECT  JobDescription,
+        SpacemanID,
+        MissionCount,
+        ROW_NUMBER() OVER (PARTITION BY JobDescription ORDER BY MissionCount DESC) AS rn_max,
+        ROW_NUMBER() OVER (PARTITION BY JobDescription ORDER BY MissionCount ASC) AS rn_min
+FROM #Personal
+)
+SELECT  MAX(CASE WHEN rn_max = 1 THEN JobDescription END) AS [Job Description],
+        MAX(CASE WHEN rn_max = 1 THEN SpacemanID END) AS [Most Experienced],
+        MAX(CASE WHEN rn_min = 1 THEN SpacemanID END) AS [Least Experienced]
+FROM    RankedExperience
+GROUP BY JobDescription;
+
+--Solution 2
 --MIN and MAX
 WITH cte_MinMax AS
 (
@@ -1834,6 +1852,24 @@ FROM    cte_MinMax a INNER JOIN
                        a.MinMissionCount = c.MissionCount;
 GO
 
+--Solution 3
+--Correlated Subquery
+SELECT  s.JobDescription,
+        -- Most Experienced
+        (SELECT  TOP 1 SpacemanID 
+         FROM    Spacemen 
+         WHERE   JobDescription = s.JobDescription 
+         ORDER BY MissionCount DESC) AS [Most Experienced],
+     
+        -- Least Experienced
+        (SELECT TOP 1 SpacemanID 
+         FROM Spacemen 
+         WHERE JobDescription = s.JobDescription 
+         ORDER BY MissionCount ASC) AS [Least Experienced]
+FROM Spacemen s
+GROUP BY s.JobDescription;
+
+    
 /*----------------------------------------------------
 Answer to Puzzle #33
 Deadlines
@@ -1978,17 +2014,10 @@ INSERT INTO #Orders (InvoiceId, SalesRepID, Amount, SalesType) VALUES
 (10,6006,67,'Domestic');
 GO
 
-WITH cte_InterDomestic AS
-(
 SELECT  SalesRepID
 FROM    #Orders
 GROUP BY SalesRepID
-HAVING   COUNT(DISTINCT SalesType) = 2
-)
-SELECT  DISTINCT SalesRepID
-FROM    #Orders 
-WHERE   SalesRepID NOT IN (SELECT SalesRepID FROM cte_InterDomestic);
-GO
+HAVING   COUNT(DISTINCT SalesType) = 1;
 
 /*----------------------------------------------------
 Answer to Puzzle #36
@@ -4168,4 +4197,5 @@ GO
 /*----------------------------------------------------
 The End
 */----------------------------------------------------
+
 
