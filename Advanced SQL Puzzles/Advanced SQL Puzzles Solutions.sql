@@ -2262,18 +2262,16 @@ INSERT INTO #PrimeNumbers (IntegerValue) VALUES
 (1),(2),(3),(4),(5),(6),(7),(8),(9),(10);
 GO
 
-WITH cte_Mod AS
-(
-SELECT  a.IntegerValue, a.IntegerValue % b.IntegerValue AS Modulus
-FROM    #PrimeNumbers a INNER JOIN
-        #PrimeNumbers b ON a.IntegerValue >= b.IntegerValue
-)
-SELECT IntegerValue AS PrimeNumber
-FROM   cte_Mod
-WHERE  Modulus = 0
-GROUP BY IntegerValue
-HAVING COUNT(*) = 2;
-GO
+SELECT  IntegerValue
+FROM    #PrimeNumbers p
+WHERE   IntegerValue > 1
+AND NOT EXISTS (
+    SELECT  1
+    FROM    #PrimeNumbers d
+    WHERE   d.IntegerValue > 1
+      AND   d.IntegerValue < p.IntegerValue
+      AND   p.IntegerValue % d.IntegerValue = 0
+);
 
 /*----------------------------------------------------
 Answer to Puzzle #40
@@ -2606,7 +2604,7 @@ WHERE   AccountID NOT IN (SELECT AccountID FROM #AccountBalances WHERE Balance >
 GO
 
 --Solution 4
---NOT EXISTS
+--NOT EXISTS with Correlated Subquery
 SELECT  DISTINCT AccountID
 FROM    #AccountBalances a
 WHERE   NOT EXISTS (SELECT AccountID FROM #AccountBalances b WHERE Balance > 0 AND a.AccountID = b.AccountID);
@@ -2704,7 +2702,7 @@ GO
 Answer to Puzzle #48
 Consecutive Sales
 */----------------------------------------------------
-
+	
 DROP TABLE IF EXISTS #Sales;
 GO
 
@@ -2721,27 +2719,13 @@ INSERT INTO #Sales (SalesID, [Year]) VALUES
 (3003,2018),(3003,2020),(3003,2021),(4004,2019),(4004,2020),(4004,2021);
 GO
 
---Current Year
-WITH cte_Current_Year AS
-(
-SELECT  SalesID,
-        [Year]
+SELECT  SalesID
 FROM    #Sales
-WHERE   [Year] = DATEPART(YY,GETDATE())
-GROUP BY SalesID, [Year]
-)
---Previous Years
-,cte_Determine_Lag AS
-(
-SELECT  a.SalesID,
-        b.[Year],
-        DATEPART(YY,GETDATE()) - 2 AS Year_Start
-FROM    cte_Current_Year a INNER JOIN
-        #Sales b ON a.SalesID = b.SalesID
-WHERE   b.[Year] = DATEPART(YY,GETDATE()) - 2
-)
-SELECT  DISTINCT SalesID
-FROM    cte_Determine_Lag;
+GROUP BY SalesID
+HAVING  SUM(CASE WHEN [Year] = '2021'     THEN 1 ELSE 0 END) > 0
+    AND SUM(CASE WHEN [Year] = '2021' - 1 THEN 1 ELSE 0 END) > 0
+    AND SUM(CASE WHEN [Year] = '2021' - 2 THEN 1 ELSE 0 END) > 0
+ORDER BY SalesID;
 GO
 
 /*----------------------------------------------------
@@ -3933,7 +3917,7 @@ WITH cte_Lag AS
 (
 SELECT  *,
         LAG(RepairDate,1) OVER (PARTITION BY CustomerID ORDER BY RepairDate) AS LagRepairDate,
-        LAG(RepairID,1) OVER   (PARTITION BY CustomerID ORDER BY RepairDate) AS LagRepairID
+        LAG(RepairID,1)   OVER (PARTITION BY CustomerID ORDER BY RepairDate) AS LagRepairID
 FROM    #Repairs
 ),
 cte_DateDiff AS
@@ -3945,7 +3929,7 @@ FROM cte_Lag
 ),
 cte_GroupKey AS
 (
-SELECT  CASE WHEN LagDateDiff > 30 THEN 1 END AS GroupKey, -----@ReadmitPeriodDays is referenced here!!!
+SELECT  CASE WHEN LagDateDiff > 30 THEN 1 END AS GroupKey,
         *
 FROM    cte_DateDiff
 ),
@@ -4197,5 +4181,6 @@ GO
 /*----------------------------------------------------
 The End
 */----------------------------------------------------
+
 
 
