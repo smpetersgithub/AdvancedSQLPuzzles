@@ -218,6 +218,20 @@ WHERE   DeliveryState = 'TX' AND
         CustomerID IN (SELECT b.CustomerID FROM cte_CA b);
 GO
 
+--Solution 3
+--COUNT
+WITH cte_distinct AS
+(
+SELECT DISTINCT CustomerID, DeliveryState
+FROM   #Orders
+WHERE  DeliveryState IN ('CA','TX')
+)
+SELECT CustomerID
+FROM   cte_distinct
+GROUP BY CustomerID
+HAVING COUNT(*) = 2;
+GO
+	
 /*----------------------------------------------------
 Answer to Puzzle #5
 Phone Directory
@@ -4181,6 +4195,7 @@ GO
 /*----------------------------------------------------
 The End
 */----------------------------------------------------
+
 
 
 
