@@ -2277,13 +2277,60 @@ Here is the expected output.
 
 --------
 
+<h1 align="center">Puzzle #1</h1>
+<h1 align="center">Factorials</h1>
 
+Create a numbers table of 1 through 10 and their factorial.
+
+Here is the expected output.
+
+| Number | Factorial |
+|--------|-----------|
+| 1      | 1         |
+| 2      | 2         |
+| 3      | 6         |
+| 4      | 24        |
+| 5      | 120       |
+| 6      | 720       |
+| 7      | 5,040     |
+| 8      | 40,320    |
+| 9      | 362,880   |
+| 10     | 3,628,800 |
 
 --------
 
+<h1 align="center">Puzzle #2</h1>
+<h1 align="center">All Permutations</h1>
+
+Create a numbers table of all permutations of n distinct numbers. The example below uses the set {1, 2, 3}.
+
+Here is the expected output.
+
+| Max Number | Permutation |
+|------------|-------------|
+| 3          | 1,2,3       |
+| 3          | 1,3,2       |
+| 3          | 2,1,3       |
+| 3          | 2,3,1       |
+| 3          | 3,1,2       |
+| 3          | 3,2,1       |
 
 --------
 
+<h1 align="center">Puzzle #3</h1>
+<h1 align="center">Growing Numbers</h1>
+
+Generate a sequence where each row shows the concatenation of numbers from 1 up to n, incrementally adding the next integer in order.
+
+Here is the expected output.
+
+| Permutation |
+|-------------|
+| 1           |
+| 12          |
+| 123         |
+| 1234        |
+| 12345       |
 
 --------
 
