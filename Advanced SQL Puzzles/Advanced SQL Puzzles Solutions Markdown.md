@@ -2272,7 +2272,7 @@ Here is the expected output.
 --------
 
 <br/>
-<h1 align="center">PART II - Permutations, Combinations, Sequences and Random Numbers: Building Complex Numbers Table </h1>
+<h1 align="center">PART II - Permutations, Combinations, Sequences and Random Numbers</h1>
 <br/>
 
 --------
