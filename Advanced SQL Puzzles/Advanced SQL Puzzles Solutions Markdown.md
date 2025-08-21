@@ -1833,7 +1833,7 @@ Here is the expected outcome.
 Identify all orders linked to a single product with a "PROMO" discount value. If an order is associated with multiple products or multiple discounts, it should not be included in the result.
 
 | Order ID | Product | Discount |
-|---------:|---------|----------|
+|----------|---------|----------|
 | 1        | Item 1  | PROMO    |
 | 1        | Item 1  | PROMO    |
 | 1        | Item 1  | MARKDOWN |
@@ -1848,7 +1848,7 @@ Identify all orders linked to a single product with a "PROMO" discount value. If
 Here is the expected output.
 
 | Order ID |
-|---------:|
+|----------|
 | 3        |
 
 - Order ID **3** meets these criteria because it has a connection to only **one product (Item 1)**, and all the products linked to it have a discount value of **"PROMO"**.  
@@ -1856,6 +1856,34 @@ Here is the expected output.
 
 --------
 
+<h1 align="center">Puzzle #64</h1>
+<h1 align="center">Between Quotes</h1>
+
+Given the following table of strings that have embedded quotes, return the result based on the following:
+
+1. If the string has more than two quotes or has zero quotes, return “Error”.
+2. If the string has two quotes and more than 10 characters between the quotes, return “True”.
+3. If the string has two quotes and fewer than or equal to 10 characters between the quotes, return “False”.
+
+| ID | String                | Result |
+|---:|-----------------------|:------:|
+| 1  | "12345678901234"      | True   |
+| 2  | 1"12345678901234"     | True   |
+| 3  | 123"45678"901234"     | Error  |
+| 4  | 123"45678901234"      | True   |
+| 5  | 12345678901"234"      | False  |
+| 6  | 12345678901234        | Error  |
+
+Here is the expected output.
+
+| ID | String                | Result |
+|:---:|-----------------------|:------:|
+| 1  | "12345678901234"      | True   |
+| 2  | 1"12345678901234"     | True   |
+| 3  | 123"45678"901234"     | Error  |
+| 4  | 123"45678901234"      | True   |
+| 5  | 12345678901"234"      | False  |
+| 6  | 12345678901234        | Error  |
 
 --------
 
