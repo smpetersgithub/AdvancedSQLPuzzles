@@ -2446,11 +2446,33 @@ Here is the expected output.
 |--------------------|
 | 7,200              |
 
-We can determine there are 7,200 arrangements by using the following equation.
+We can determine there are 7,200 arrangements by using the following equation.    
 `Total Arrangements = (5! / 1!) × (6! / (3! × 2! × 1! × 0!)) = 7,200`
 
 --------
 
+<h1 align="center">Puzzle #9</h1>
+<h1 align="center">Find the Spaces</h1>
+
+Given the following table of SQL statements, provide a numbers table that displays a summary of the space character for each SQL statement.
+
+|        Statement        |
+|-------------------------|
+| SELECT EmpID FROM Emps; |
+| SELECT * FROM Trans;    |
+
+Here is the expected output.
+
+| RowNumber | Id |         String          | Starts | Position |  Word  | TotalSpaces |
+|---- ------|----|-------------------------|-------------------|--------|-------------|
+| 1         | 1  | SELECT EmpID FROM Emps; | 1      | 7        | SELECT | 3           |
+| 2         | 1  | SELECT EmpID FROM Emps; | 8      | 13       | EmpID  | 3           |
+| 3         | 1  | SELECT EmpID FROM Emps; | 14     | 18       | FROM   | 3           |
+| 4         | 1  | SELECT EmpID FROM Emps; | 19     | 0        | Emps;  | 3           |
+| 1         | 2  | SELECT * FROM Trans;    | 1      | 7        | SELECT | 3           |
+| 2         | 2  | SELECT * FROM Trans;    | 8      | 9        | *      | 3           |
+| 3         | 2  | SELECT * FROM Trans;    | 10     | 14       | FROM   | 3           |
+| 4         | 2  | SELECT * FROM Trans;    | 15     | 0        | Trans; | 3           |
 
 --------
 
