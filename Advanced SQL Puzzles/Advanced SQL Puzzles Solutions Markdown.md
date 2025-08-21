@@ -1512,24 +1512,196 @@ The goal here is to create a single column that is unique and re-creatable. The 
 
 --------
 
+<h1 align="center">Puzzle #52</h1>
+<h1 align="center">Phone Numbers Table</h1>
+
+You are creating a table that customer agents will use to enter customer phone numbers.
+
+Create a table with the columns Customer ID and Phone Number, where the Phone Number column must be formatted as (999)-999-9999.
+
+Agents will enter phone numbers into this table via a form, and it is imperative that phone numbers are formatted correctly when inputted. Create a table that meets these requirements.
+
+Here are a few sample records.
+
+| Customer ID | Phone Number   |
+|------------:|----------------|
+| 1001        | (555)-555-5555 |
+| 2002        | (555)-555-5555 |
+| 3003        | (555)-555-5555 |
 
 --------
 
+<h1 align="center">Puzzle #53</h1>
+<h1 align="center">Spouse IDs</h1>
+
+You are given the following table of individuals and their spouses. Every individual exists both as a Primary ID and a Spouse ID. You need to create a group criteria key to match the associated records.
+
+| Primary ID | Spouse ID |
+|------------|-----------|
+| Pat        | Charlie   |
+| Jordan     | Casey     |
+| Ashley     | Dee       |
+| Charlie    | Pat       |
+| Casey      | Jordan    |
+| Dee        | Ashley    |
+
+Here is the expected output.
+
+| Group ID | Primary ID | Spouse ID |
+|---------:|------------|-----------|
+| 1        | Ashley     | Dee       |
+| 1        | Dee        | Ashley    |
+| 2        | Jordan     | Casey     |
+| 2        | Casey      | Jordan    |
+| 3        | Charlie    | Pat       |
+| 3        | Pat        | Charlie   |
 
 --------
 
+<h1 align="center">Puzzle #54</h1>
+<h1 align="center">Winning the Lottery</h1>
+
+You are part of an office lottery pool where you keep a table of the winning lottery numbers along with a table of each ticket’s chosen numbers. If a ticket has some but not all the winning numbers, you win $10. If a ticket has all the winning numbers, you win $100. Calculate the total winnings for today’s drawing.
+
+**Winning Numbers**
+
+| Number |
+|--------|
+| 25     |
+| 45     |
+| 78     |
+
+**Tickets**
+
+| Ticket ID | Number |
+|-----------|--------|
+| AAA       | 25     |
+| AAA       | 45     |
+| AAA       | 78     |
+| BBB       | 25     |
+| BBB       | 45     |
+| BBB       | 98     |
+| CCC       | 67     |
+| CCC       | 86     |
+| CCC       | 91     |
+
+Here is the expected output.
+
+| Amount |
+|--------|
+| $110   |
 
 --------
 
+<h1 align="center">Puzzle #55</h1>
+<h1 align="center">Table Audit</h1>
+
+Conduct an audit on the following tables to identify products and their corresponding quantities that are either matching or unique to each table, and generate the expected output listed below.
+
+**Products A**
+
+| Product Name | Quantity |
+|--------------|----------|
+| Widget       | 7        |
+| Doodad       | 9        |
+| Gizmo        | 3        |
+
+**Products B**
+
+| Product Name | Quantity |
+|--------------|----------|
+| Widget       | 7        |
+| Doodad       | 6        |
+| Dingbat      | 9        |
+
+Here is the expected output.
+
+| Type                                         | ProductName |
+|----------------------------------------------|-------------|
+| Matches in both table A and table B          | Widget      |
+| Product does not exist in table A            | Dingbat     |
+| Product does not exist in table B            | Gizmo       |
+| Quantity in table A and table B do not match | Doodad      |
 
 --------
 
+<h1 align="center">Puzzle #56</h1>
+<h1 align="center">Numbers Using Recursion</h1>
+
+Create a numbers table using a recursive query.
+
+Here is the expected output.
+
+| Number |
+|-------:|
+| 1      |
+| 2      |
+| 3      |
+| 4      |
+| 5      |
+| 6      |
+| 7      |
+| 8      |
+| 9      |
+| 10     |
 
 --------
 
+<h1 align="center">Puzzle #57</h1>
+<h1 align="center">Find the Spaces</h1>
+
+Given the following table containing SQL statements, write an SQL statement that displays the following summary.
+
+| Statement |
+|-----------|
+| SELECT EmpID FROM Employees; |
+| SELECT * FROM Transactions;  |
+
+Here is the expected output.
+
+| Row Number | Quote ID | String                          | Starts | Ends | Word          |
+|-----------:|---------:|---------------------------------|-------:|-----:|---------------|
+| 1          | 1        | SELECT EmpID FROM Employees;    | 1      | 6    | SELECT        |
+| 2          | 1        | SELECT EmpID FROM Employees;    | 8      | 12   | EmpID         |
+| 3          | 1        | SELECT EmpID FROM Employees;    | 14     | 17   | FROM          |
+| 4          | 1        | SELECT EmpID FROM Employees;    | 19     | 28   | Employees;    |
+| 1          | 2        | SELECT * FROM Transactions;     | 1      | 6    | SELECT        |
+| 2          | 2        | SELECT * FROM Transactions;     | 8      | 8    | `*`           |
+| 3          | 2        | SELECT * FROM Transactions;     | 10     | 13   | FROM          |
+| 4          | 2        | SELECT * FROM Transactions;     | 15     | 27   | Transactions; |
 
 --------
 
+<h1 align="center">Puzzle #58</h1>
+<h1 align="center">Add Them Up</h1>
+
+You are given the following table, which contains a VARCHAR column that contains mathematical equations. Sum the equations and provide the answers in the output.
+
+| Equation |
+|----------|
+| 123      |
+| 1+2+3    |
+| 1+2-3    |
+| 1+23     |
+| 1-2+3    |
+| 1-2-3    |
+| 1-23     |
+| 12+3     |
+| 12-3     |
+
+Here is the expected output.
+
+| Permutation | Sum |
+|-------------|-----|
+| 123         | 123 |
+| 1+2+3       | 6   |
+| 1+2-3       | 0   |
+| 1+23        | 24  |
+| 1-2+3       | 2   |
+| 1-2-3       | -4  |
+| 1-23        | -22 |
+| 12+3        | 15  |
+| 12-3        | 9   |
 
 --------
 
