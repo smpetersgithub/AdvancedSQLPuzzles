@@ -2496,9 +2496,51 @@ INSERT INTO #SeatingChart VALUES
 (31),(32),(33),(34),(35),(52),(53),(54);
 GO
 ```
+| Gap Start | Gap End |
+|-----------|---------|
+| 1         | 6       |
+| 8         | 12      |
+| 16        | 26      |
+| 36        | 51      |
+
+| Total Missing Numbers |
+|-----------------------|
+| 38                    |
+
+|     Type     | Count |
+|--------------|-------|
+| Even Numbers | 8     |
+| Odd Numbers  | 9     |
 
 --------
 
+# Puzzle #11
+# Count the Groupings
+
+Write an SQL statement that counts the consecutive values in the Status column.
+
+| Step Number | Status |
+|-------------|--------|
+| 1           | Passed |
+| 2           | Passed |
+| 3           | Passed |
+| 4           | Passed |
+| 5           | Failed |
+| 6           | Failed |
+| 7           | Failed |
+| 8           | Failed |
+| 9           | Failed |
+| 10          | Passed |
+| 11          | Passed |
+| 12          | Passed |
+
+Here is the expected output.
+
+| Min Step Number | Max Step Number | Status | Consecutive Count |
+|-----------------|-----------------|--------|-------------------|
+| 1               | 4               | Passed | 4                 |
+| 5               | 9               | Failed | 5                 |
+| 10              | 12              | Passed | 3                 |
 
 --------
 
