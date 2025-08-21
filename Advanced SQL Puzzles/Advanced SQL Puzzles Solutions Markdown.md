@@ -337,23 +337,281 @@ VALUES (5),(6),(10),(10),(13),
 
 --------
 
---------
+<h1 align="center">Puzzle #11</h1>
+<h1 align="center">Permutations</h1>
+
+You are given the following list of test cases and must determine all possible permutations.  
+
+Write an SQL statement that produces the expected output. Ensure your code can account for a changing number of elements without rewriting.  
+
+| Test Case |
+|-----------|
+| A         |
+| B         |
+| C         |
+
+Here is the expected output.
+
+| Test Cases |
+|------------|
+| A,B,C      |
+| A,C,B      |
+| B,A,C      |
+| B,C,A      |
+| C,A,B      |
+| C,B,A      |
 
 --------
 
---------
+<h1 align="center">Puzzle #12</h1>
+<h1 align="center">Average Days</h1>
+
+Write an SQL statement to determine the average number of days between executions for each workflow.  
+
+| Workflow | Execution Date |
+|----------|----------------|
+| Alpha    | 6/1/2018       |
+| Alpha    | 6/14/2018      |
+| Alpha    | 6/15/2018      |
+| Bravo    | 6/1/2018       |
+| Bravo    | 6/2/2018       |
+| Bravo    | 6/19/2018      |
+| Charlie  | 6/1/2018       |
+| Charlie  | 6/15/2018      |
+| Charlie  | 6/30/2018      |
+
+Here is the expected output.
+
+| Workflow | Average Days |
+|----------|--------------|
+| Alpha    | 7            |
+| Bravo    | 9            |
+| Charlie  | 14           |
 
 --------
 
---------
+<h1 align="center">Puzzle #13</h1>
+<h1 align="center">Inventory Tracking</h1>
+
+You work for a manufacturing company and need to track inventory adjustments from the warehouse.  
+
+Some days the inventory increases, on other days the inventory decreases.  
+
+Write an SQL statement that will provide a running balance of the inventory.  
+
+| Date      | Quantity Adjustment |
+|-----------|----------------------|
+| 7/1/2018  | 100                  |
+| 7/2/2018  | 75                   |
+| 7/3/2018  | -150                 |
+| 7/4/2018  | 50                   |
+| 7/5/2018  | -100                 |
+
+Here is the expected output.
+
+| Date      | Quantity Adjustment | Inventory |
+|-----------|----------------------|-----------|
+| 7/1/2018  | 100                  | 100       |
+| 7/2/2018  | 75                   | 175       |
+| 7/3/2018  | -150                 | 25        |
+| 7/4/2018  | 50                   | 75        |
+| 7/5/2018  | -100                 | -25       |
 
 --------
 
---------
+<h1 align="center">Puzzle #14</h1>
+<h1 align="center">Indeterminate Process Log</h1>
+
+Your process log has several workflows broken down by step numbers with the possible status values of Complete, Running, or Error.  
+
+Your task is to write an SQL statement that creates an overall status based on the following requirements:  
+
+- If all steps of a workflow are of the same status (Error, Complete, or Running), then return the distinct status.  
+- If any steps of a workflow have an Error status along with a status of Complete or Running, set the overall status to Indeterminate.  
+- If the workflow steps have a combination of Complete and Running (without any Errors), set the overall status to Running.  
+
+| Workflow | Step Number | Status   |
+|----------|-------------|----------|
+| Alpha    | 1           | Error    |
+| Alpha    | 2           | Complete |
+| Alpha    | 3           | Running  |
+| Bravo    | 1           | Complete |
+| Bravo    | 2           | Complete |
+| Charlie  | 1           | Running  |
+| Charlie  | 2           | Running  |
+| Delta    | 1           | Error    |
+| Delta    | 2           | Error    |
+| Echo     | 1           | Running  |
+| Echo     | 2           | Complete |
+
+Here is the expected output.
+
+| Workflow | Status       |
+|----------|--------------|
+| Alpha    | Indeterminate|
+| Bravo    | Complete     |
+| Charlie  | Running      |
+| Delta    | Error        |
+| Echo     | Running      |
 
 --------
 
+<h1 align="center">Puzzle #15</h1>
+<h1 align="center">Group Concatenation</h1>
+
+Write an SQL statement that can group-concatenate the following values.  
+
+| Sequence | Syntax       |
+|----------|--------------|
+| 1        | SELECT       |
+| 2        | Product,     |
+| 3        | UnitPrice,   |
+| 4        | EffectiveDate|
+| 5        | FROM         |
+| 6        | Products     |
+| 7        | WHERE        |
+| 8        | UnitPrice    |
+| 9        | > 100        |
+
+Here is the expected output.
+
+| Syntax                                                                 |
+|------------------------------------------------------------------------|
+| SELECT Product, UnitPrice, EffectiveDate FROM Products WHERE UnitPrice > 100 |
+
 --------
+
+<h1 align="center">Puzzle #16</h1>
+<h1 align="center">Reciprocals</h1>
+
+You work for a software company that released a 2-player game and you need to tally the scores.  
+
+Given the following table, write an SQL statement to determine the reciprocals and calculate their aggregate score.  
+
+In the data below, players 3003 and 4004 have two valid entries, but their scores need to be aggregated together.  
+
+| Player A | Player B | Score |
+|----------|----------|-------|
+| 1001     | 2002     | 150   |
+| 3003     | 4004     | 15    |
+| 4004     | 3003     | 125   |
+
+Here is the expected output.
+
+| Player A | Player B | Score |
+|----------|----------|-------|
+| 1001     | 2002     | 150   |
+| 3003     | 4004     | 140   |
+
+--------
+
+<h1 align="center">Puzzle #17</h1>
+<h1 align="center">De-Grouping</h1>
+
+Write an SQL Statement to de-group the following data.  
+
+| Product  | Quantity |
+|----------|----------|
+| Pencil   | 3        |
+| Eraser   | 4        |
+| Notebook | 2        |
+
+Here is the expected output.
+
+| Product  | Quantity |
+|----------|----------|
+| Pencil   | 1        |
+| Pencil   | 1        |
+| Pencil   | 1        |
+| Eraser   | 1        |
+| Eraser   | 1        |
+| Eraser   | 1        |
+| Eraser   | 1        |
+| Notebook | 1        |
+| Notebook | 1        |
+
+--------
+
+<h1 align="center">Puzzle #18</h1>
+<h1 align="center">Seating Chart</h1>
+
+Given the set of integers provided in the following DDL statement, write the SQL statements to determine the following:
+- Gap start and gap ends
+- Total missing numbers
+- Count of odd and even numbers
+
+```sql
+CREATE TABLE #SeatingChart (SeatNumber INTEGER);
+
+INSERT INTO #SeatingChart VALUES
+(7),(13),(14),(15),(27),(28),(29),(30),
+(31),(32),(33),(34),(35),(52),(53),(54);
+```
+
+Here is the expected output.
+
+| Gap Start | Gap End |
+|-----------|---------|
+| 1         | 6       |
+| 8         | 12      |
+| 16        | 26      |
+| 36        | 51      |
+
+| Total Missing Numbers |
+|----------------------|
+| 38                   |
+
+| Type         | Count |
+|--------------|-------|
+| Even Numbers | 7     |
+| Odd Numbers  | 9     |
+
+--------
+
+<h1 align="center">Puzzle #19</h1>
+<h1 align="center">Back to the Future</h1>
+
+Here is one of the more difficult puzzles to solve with a declarative SQL statement.
+
+Write an SQL statement to merge the overlapping time periods.
+
+| Start Date | End Date  |
+|------------|-----------|
+| 1/1/2018   | 1/5/2018  |
+| 1/3/2018   | 1/9/2018  |
+| 1/10/2018  | 1/11/2018 |
+| 1/12/2018  | 1/16/2018 |
+| 1/15/2018  | 1/19/2018 |
+
+Here is the expected output.
+
+| Start Date | End Date  |
+|------------|-----------|
+| 1/1/2018   | 1/9/2018  |
+| 1/10/2018  | 1/11/2018 |
+| 1/12/2018  | 1/19/2018 |
+
+--------
+
+<h1 align="center">Puzzle #20</h1>
+<h1 align="center">Price Points</h1>
+
+Write an SQL statement to determine the current price point for each product.
+
+| Product ID | Effective Date | Unit Price |
+|------------|----------------|-----------|
+| 1001       | 1/1/2018       | $1.99     |
+| 1001       | 4/15/2018      | $2.99     |
+| 1001       | 6/8/2018       | $3.99     |
+| 2002       | 4/17/2018      | $1.99     |
+| 2002       | 5/19/2018      | $2.99     |
+
+Here is the expected output.
+
+| Product ID | Effective Date | Unit Price |
+|------------|----------------|-----------|
+| 1001       | 6/8/2018       | $3.99     |
+| 2002       | 5/19/2018      | $2.99     |
 
 --------
 
