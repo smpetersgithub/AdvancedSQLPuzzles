@@ -2209,34 +2209,74 @@ You are tasked with providing the details of each batch from two tables: one det
 
 **Batch Starts**
 | Batch | Batch Start |
-| --- | --- |
-| A | 1 |
+|-------|-------------|
+| A     | 1 |
 | A | 5 |
 
 **Code Lines**
-| Batch | Line | Syntax |
-| --- | --- | --- |
-| A | 1 | `SELECT *` |
-| A | 2 | `FROM Account;` |
-| A | 3 | `GO` |
-| A | 4 | &nbsp; |
-| A | 5 | `TRUNCATE TABLE Accounts;` |
-| A | 6 | `GO` |
+| Batch | Line |           Syntax           |
+|-------|------|----------------------------|
+| A     | 1    | `SELECT *`                 |
+| A     | 2    | `FROM Account;`            |
+| A     | 3    | `GO`                       |
+| A     | 4    | &nbsp;                     |
+| A     | 5    | `TRUNCATE TABLE Accounts;` |
+| A     | 6    | `GO`                       |
 
 Here is the expected output.
 
 | Batch | Batch Start | Batch End |
-| --- | --- | --- |
-| A | 1 | 3 |
-| A | 5 | 6 |
+|-------|-------------|-----------|
+| A     | 1           | 3         |
+| A     | 5           | 6         |
 
 --------
 
+<h1 align="center">Puzzle #77</h1>
+<h1 align="center">Temperature Readings</h1>
+
+You have been given a table of temperature readings, but some readings are missing. Please fill in the missing values with the larger of either the known previous value or the known following value.
+
+| Temperature ID | Temperature Value |
+|----------------|-------------------|
+| 1              | 52                |
+| 2              |                   |
+| 3              |                   |
+| 4              | 65                |
+| 5              |                   |
+| 6              | 72                |
+| 7              |                   |
+| 8              | 70                |
+| 9              |                   |
+| 10             | 75                |
+| 11             |                   |
+| 12             | 80                |
+
+Here is the expected output.
+
+| Temperature ID | Temperature Value |
+|----------------|-------------------|
+| 1              | 52                |
+| 2              | 65                |
+| 3              | 65                |
+| 4              | 65                |
+| 5              | 72                |
+| 6              | 72                |
+| 7              | 72                |
+| 8              | 70                |
+| 9              | 75                |
+| 10             | 75                |
+| 11             | 80                |
+| 12             | 80                |
 
 --------
 
+<br/>
+<h1 align="center">PART II - Permutations, Combinations, Sequences and Random Numbers: Building Complex Numbers Table </h1>
+<br/>
 
 --------
+
 
 
 --------
