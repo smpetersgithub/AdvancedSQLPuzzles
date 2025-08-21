@@ -2351,15 +2351,103 @@ Here is the expected output.
 
 --------
 
+<h1 align="center">Puzzle #5</h1>
+<h1 align="center">Add the Numbers Up</h1>
+
+Given an ordered set of numbers 1 through n (for example, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10), and a `+` or `–` sign at all possible groupings, create all possible permutations and the amount to which they add up.
+
+Here is the expected output for the set of {1, 2, 3}.
+
+| Permutation | Sum |
+|-------------|-----|
+| 123         | 123 |
+| 1+2+3       | 6   |
+| 1+2-3       | 0   |
+| 1+23        | 24  |
+| 1-2+3       | 2   |
+| 1-2-3       | -4  |
+| 1-23        | -22 |
+| 12+3        | 15  |
+| 12-3        | 9   |
 
 --------
 
+<h1 align="center">Puzzle #6</h1>
+<h1 align="center">Permutations of 0 and 1</h1>
+
+Create a result set of all permutations for the combination of 0 and 1 with a length of n digits.
+
+Here is the expected output.
+
+| Permutation |
+|-------------|
+| 000         |
+| 001         |
+| 010         |
+| 011         |
+| 100         |
+| 101         |
+| 110         |
+| 111         |
 
 --------
 
+<h1 align="center">Puzzle #7</h1>
+<h1 align="center">Permutations 1 through n</h1>
+
+Display all permutations for the numbers 1 through n, displaying only the first n numbers.
+
+Here is the expected output for all 24 permutations for the set {1,2,3,4}, displaying only the first three numbers.
+
+| Permutation |
+|-------------|
+| 1,2,3       |
+| 1,2,4       |
+| 1,3,2       |
+| 1,3,4       |
+| 1,4,2       |
+| 1,4,3       |
+| 2,1,3       |
+| 2,1,4       |
+| 2,3,1       |
+| 2,3,4       |
+| 2,4,1       |
+| 2,4,3       |
+| 3,1,2       |
+| 3,1,4       |
+| 3,2,1       |
+| 3,2,4       |
+| 3,4,1       |
+| 3,4,2       |
+| 4,1,2       |
+| 4,1,3       |
+| 4,2,1       |
+| 4,2,3       |
+| 4,3,1       |
+| 4,3,2       |
 
 --------
 
+<h1 align="center">Puzzle #8</h1>
+<h1 align="center">Four Vehicles Problem</h1>
+
+Here is an example problem involving combinations.
+Given the following four vehicles:
+- 1-seat motorcycle
+- 2-seat sidecar
+- 3-seat golf cart
+- 4-seat car
+
+There are 10 people in total; 5 are children, and 5 are adults. Only an adult can drive a vehicle.
+Create a table of all possible 7,200 arrangements, assuming seating order does not matter.
+Here is the expected output.
+
+| Total Arrangements |
+|--------------------|
+| 7,200              |
+
+We can determine there are 7,200 arrangements by using the following equation.
+`Total Arrangements = (5! / 1!) × (6! / (3! × 2! × 1! × 0!)) = 7,200`
 
 --------
 
