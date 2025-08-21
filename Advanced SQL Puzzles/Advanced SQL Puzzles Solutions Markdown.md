@@ -2514,8 +2514,8 @@ GO
 
 --------
 
-# Puzzle #11
-# Count the Groupings
+<h1 align="center">Puzzle #11</h1>
+<h1 align="center">Count the Groupings</h1>
 
 Write an SQL statement that counts the consecutive values in the Status column.
 
@@ -2544,9 +2544,138 @@ Here is the expected output.
 
 --------
 
+<h1 align="center">Puzzle #12</h1>
+<h1 align="center">Double or Add 1</h1>
+
+Create a numbers table where you start with the number 1, and then double the number if the result is less than 100, else add 1.  
+
+--------
+<h1 align="center">Puzzle #13 </h1>
+<h1 align="center">Pascal’s Triangle</h1>
+
+Solve for any position in [Pascal’s Triangle](https://en.wikipedia.org/wiki/Pascal%27s_triangle).  
+
+--------
+<h1 align="center">Puzzle #14</h1>
+<h1 align="center">Josephus Problem  </h1>
+
+Solve the [Josephus Problem](https://en.wikipedia.org/wiki/Josephus_problem).  
+
+--------
+<h1 align="center">Puzzle #12</h1>
+<h1 align="center">High-Low Card Game  </h1>
+
+Write a program that shuffles a standard deck of cards and plays a game of High-Low.  
+
+The game is played by receiving an initial card and then determining if the next card will be of higher or lower value based on probability.  
+Make a random decision of higher or lower where necessary.  
+
+--------
+<h1 align="center">Puzzle #16</h1>
+<h1 align="center">Monty Hall Simulation  </h1>
+
+Run 10,000 simulations of the [Monty Hall problem](https://en.wikipedia.org/wiki/Monty_Hall_problem) to prove it is true.  
+
+--------
+<h1 align="center">Puzzle #17</h1>
+<h1 align="center">Dice Throw Game </h1>
+
+What is the average number of dice throws needed to reach 100 points, given the following rules?  
+
+- Starting at 0, for each dice throw resulting in 1 through 5, add the dice amount to your score.  
+- If you roll a 6 (even on a re-roll), re-roll the dice and reduce your score by this amount.  
+- You cannot go lower than 0 points.  
+
+--------
+<h1 align="center">Puzzle #18</h1>
+<h1 align="center">The Birthday Problem</h1>
+
+Run 10,000 simulations of the [Birthday problem](https://en.wikipedia.org/wiki/Birthday_problem) to prove it is true.  
+
+--------
+<h1 align="center">Puzzle #19</h1>
+<h1 align="center">Random Walk</h1>
+
+Perform a random walk best described by the following puzzle:
+
+As the host of a weekly dinner gathering with you and seven friends (8 people total), you devise a method to choose next week’s host. After the meal, everyone sits around a circular table. You, as the current host, flip a fair coin. If it’s heads, pass the coin to the person on your right; if it’s tails, pass it to your left. Whoever receives the coin repeats the process—flipping and passing right on heads, left on tails.
+
+The game continues until exactly one person remains who has not yet received the coin. The last person to be untouched is declared the winner and will host the next dinner party.
+
+Because you were the first to flip, you are ineligible to host next week.
+
+--------
+<h1 align="center">Puzzle #20</h1>
+<h1 align="center">Markov Chain </h1>
+
+Perform a Markov Chain best described by the following puzzle:  
+
+In Probability Land, on a sunny day, there is an equal probability of the next day being sunny or rainy.  
+
+- On a rainy day, there is a 70% chance it will rain the next day, and a 30% chance it will be sunny.  
+
+On average, how many rainy days are there in Probability Land?  
+
+--------
+<h1 align="center">Puzzle #21</h1>
+<h1 align="center">100 Prisoners Riddle  </h1>
+
+Run 10,000 simulations of the [100 prisoners problem](https://en.wikipedia.org/wiki/100_prisoners_problem) to prove it is true.  
+
+--------
+<h1 align="center">Puzzle #22</h1>
+<h1 align="center">Non-Overlapping Sets</h1>
+
+You are given a table of orders, their line items, and the cost associated with each line item. Your task is to write an SQL statement that finds the maximum number of non-overlapping sets of line items** for each order, with the condition that the total cost of line items in each set must be ≥ $10.  
+
+A set can contain no more than 2 records.
+
+| Order ID | Line Item | Cost |
+|----------|-----------|------|
+| 1        | 1         | $9   |
+| 1        | 2         | $15  |
+| 1        | 3         | $7   |
+| 1        | 4         | $3   |
+| 1        | 5         | $1   |
+| 1        | 6         | $1   |
+| 2        | 1         | $10  |
+| 2        | 2         | $10  |
+| 2        | 3         | $11  |
+| 3        | 1         | $3   |
+| 3        | 2         | $4   |
+
+Here is the expected output.
+
+| Order ID | Set Count | Set Combinations |
+|----------|-----------|------------------|
+| 1        | 3         | (1,5),(2),(3,4)  |
+| 1        | 3         | (1,6),(2),(3,4)  |
+| 2        | 3         | (1),(2),(3)      |
+| 3        | 0         |                  |
+| 4        | 1         | (1,2)            |
+| 5        | 1         | (1,2)            |
+| 5        | 1         | (1,3)            |
+| 5        | 1         | (2,3)            |
+
+- Order ID 1 has 2 possible combinations of line items that total over $10, each with 3 sets.  
+- Order ID 2 has 1 possible combination of line items that total over $10, which has 3 sets.  
+- Order ID 3 has 0 possible combinations of line items that total over $10.  
+- Order ID 4 has 1 possible combination of line items that total over $10, which has 1 set.  
+- Order ID 5 has 3 possible combinations of line items that total over $10, each with 2 sets.
+
+--------
+<h1 align="center">Puzzle #23</h1>
+<h1 align="center">Knights Tour  </h1>
+
+This type of problem is often referred to as the [Knight’s Tour](https://en.wikipedia.org/wiki/Knight%27s_tour).
+
+Write an SQL query to identify all possible next moves for a Knight piece from its current position on an 8×8 chessboard.  
+Account for the Knight’s L-shaped movement pattern: two squares along one axis and one square along the perpendicular axis.  
+Assume the chessboard is numerically indexed 1 to 8 on both axes.
+
+For example, if you placed a Knight into square 4D, the output of the SQL statement would be 5B, 3B, 
+6C, 2C, 6E, 2E, 5F, and 3F.
 
 --------
 
-
---------
-
+# The End
