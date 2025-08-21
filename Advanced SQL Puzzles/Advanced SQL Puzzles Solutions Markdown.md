@@ -10,7 +10,7 @@ Working through these puzzles will give you an understanding of the SQL language
 
 I collected all the puzzles related to permutations, combinations, and sequences in the second set of puzzles. Solving these puzzles will require a deeper understanding of your SQL thinking, focusing on such constructs as using recursion or sequence objects to reach the desired output (and, of course, some will require using traditional set-based thinking).  
 
-Ultimately, these puzzles resolve to creating number tables, which can be used to fill in gaps, create ranges and tallies, provide custom sorting, and allow you to create set-based solutions over iterative solutions. I also included a few puzzles from Part 1 into this set as they ultimately deal with creating a numbers table.  
+Ultimately, these puzzles resolve to creating number tables, which can be used to fill in gaps, create ranges and tallies, provide custom sorting, and allow you to create set-based solutions over iterative solutions. I also included a few puzzles from Part 1 into this set, as they ultimately deal with creating a numbers table.  
 
 I hope navigating through the GitHub repository to find the solutions is straightforward. The first set of puzzles is combined into a single SQL document, and the second set has a separate folder with individual solutions, as these solutions are more complex.  
 
@@ -144,8 +144,7 @@ Happy coding!
 
 --------
 
-<h1 align="center">Puzzle #1</h1>
-<h1 align="center">Shopping Carts</h1>
+# Puzzle #1 - Shopping Carts
 
 You are tasked with auditing two shopping carts.  
 
