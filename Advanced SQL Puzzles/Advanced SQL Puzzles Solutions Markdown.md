@@ -2,19 +2,19 @@
 
 I hope you enjoy these puzzles as much as I have enjoyed creating them!  
 
-As my list of puzzles continues to grow, I have decided to combine the puzzles into one document broken down into two sections.  
+As my list of puzzles continues to grow, I have decided to combine the puzzles into one document, broken down into two sections.  
 
 In the first section, I have 77 of the most challenging puzzles I could create, randomly organized and in no specific order. These are primarily set-based puzzles, interspersed with a small number of puzzles that require knowledge of constraints, specific data types, cursors, loops, etc...  
 
-Working through these puzzles will give you an understanding of the SQL language and what types of problems the SQL language solves best. Remember that SQL is a declarative and not an imperative language, and always think in sets when providing a solution.  
+Working through these puzzles will give you an understanding of the SQL language and what types of problems it solves best. Remember that SQL is a declarative and not an imperative language, and always think in sets when providing a solution.  
 
-I collected all the puzzles related to permutations, combinations, and sequences in the second set of puzzles. Solving these puzzles will require a more profound knowledge of your SQL thinking, focusing on such constructs as using recursion or sequence objects to reach the desired output (and, of course, some will require using traditional set-based thinking).  
+I collected all the puzzles related to permutations, combinations, and sequences in the second set of puzzles. Solving these puzzles will require a deeper understanding of your SQL thinking, focusing on such constructs as using recursion or sequence objects to reach the desired output (and, of course, some will require using traditional set-based thinking).  
 
 Ultimately, these puzzles resolve to creating number tables, which can be used to fill in gaps, create ranges and tallies, provide custom sorting, and allow you to create set-based solutions over iterative solutions. I also included a few puzzles from Part 1 into this set as they ultimately deal with creating a numbers table.  
 
-I hope navigating through the GitHub repository to find the solutions is straightforward. The first set of puzzles is combined into one single SQL document, and the second set has a separate folder with individual solutions, as these solutions are a little more involved in solving.  
+I hope navigating through the GitHub repository to find the solutions is straightforward. The first set of puzzles is combined into a single SQL document, and the second set has a separate folder with individual solutions, as these solutions are more complex.  
 
-For my sanity, it is easiest not to embed the SQL solutions into this text document and instead provide them separately as SQL files in the GitHub repository. If you have any issues navigating the website or GitHub, please contact me and I would be happy to help.  
+For my sanity, it is easiest not to embed the SQL solutions into this text document and instead provide them separately as SQL files in the GitHub repository. If you have any issues navigating the website or GitHub, please contact me, and I would be happy to help.  
 
 Answers to these puzzles are located in the following GitHub repository:  
 **AdvancedSQLPuzzles/Advanced SQL Puzzles**  
@@ -621,7 +621,7 @@ Here is the expected output.
 Write an SQL statement that returns a list of states where customers have an average monthly sales value that is consistently greater than $100.
 
 | Order ID | Customer ID | Order Date | Amount | State |
-|---------:|------------:|------------|--------|-------|
+|----------|-------------|------------|--------|-------|
 | 1        | 1001        | 1/1/2018   | $100   | TX    |
 | 2        | 1001        | 1/1/2018   | $150   | TX    |
 | 3        | 1001        | 1/1/2018   | $75    | TX    |
@@ -709,7 +709,7 @@ Here is the expected output.
 Write an SQL statement that retrieves records 5 to 10 ordered by the Order ID column.
 
 | Order ID | Customer ID | Order Date | Amount | State |
-|---------:|------------:|------------|--------|-------|
+|----------|-------------|------------|--------|-------|
 | 1        | 1001        | 1/1/2018   | $100   | TX    |
 | 2        | 3003        | 1/1/2018   | $100   | IA    |
 | 3        | 1001        | 3/1/2018   | $100   | TX    |
@@ -727,7 +727,7 @@ Write an SQL statement that retrieves records 5 to 10 ordered by the Order ID co
 Here is the expected output.
 
 | Order ID | Customer ID | Order Date | Amount | State |
-|---------:|------------:|------------|--------|-------|
+|----------|-------------|------------|--------|-------|
 | 5        | 1001        | 2/1/2018   | $100   | TX    |
 | 6        | 4004        | 5/1/2018   | $50    | IA    |
 | 7        | 1001        | 1/1/2018   | $150   | TX    |
@@ -742,7 +742,7 @@ Here is the expected output.
 Write an SQL statement that returns the vendor from which each customer has placed the most orders.
 
 | Order ID | Customer ID | Count | Vendor       |
-|---------:|------------:|------:|--------------|
+|----------|-------------|-------|--------------|
 | 1        | 1001        | 12    | Direct Parts |
 | 2        | 1001        | 54    | Direct Parts |
 | 3        | 1001        | 32    | ACME         |
@@ -753,7 +753,7 @@ Write an SQL statement that returns the vendor from which each customer has plac
 Here is the expected output.
 
 | Customer ID | Vendor       |
-|------------:|--------------|
+|-------------|--------------|
 | 1001        | Direct Parts |
 | 2002        | ACME         |
 
@@ -765,7 +765,7 @@ Here is the expected output.
 Write an SQL statement that shows the current year’s sales, along with the previous year’s sales, and the sales from two years ago.
 
 | Year | Amount   |
-|-----:|----------|
+|------|----------|
 | 2018 | $352,645 |
 | 2017 | $165,565 |
 | 2017 | $254,654 |
@@ -815,7 +815,7 @@ The answer to this problem is often referred to as a data smear or a flash fill.
 Write an SQL statement to fill in the missing gaps.  
 
 | Row Number | Workflow | Status |
-|-----------:|----------|--------|
+|------------|----------|--------|
 | 1          | Alpha    | Pass   |
 | 2          |          | Fail   |
 | 3          |          | Fail   |
@@ -832,7 +832,7 @@ Write an SQL statement to fill in the missing gaps.
 Here is the expected output.
 
 | Row Number | Workflow | Status |
-|-----------:|----------|--------|
+|------------|----------|--------|
 | 1          | Alpha    | Pass   |
 | 2          | Alpha    | Fail   |
 | 3          | Alpha    | Fail   |
@@ -854,7 +854,7 @@ Here is the expected output.
 Write an SQL statement that counts the consecutive values in the Status column.
 
 | Step Number | Status |
-|------------:|--------|
+|-------------|--------|
 | 1           | Passed |
 | 2           | Passed |
 | 3           | Passed |
@@ -871,7 +871,7 @@ Write an SQL statement that counts the consecutive values in the Status column.
 Here is the expected outcome.
 
 | Min Step Number | Max Step Number | Status | Consecutive Count |
-|----------------:|----------------:|--------|-------------------:|
+|-----------------|-----------------|--------|--------------------|
 | 1               | 4               | Passed | 4                  |
 | 5               | 9               | Failed | 5                  |
 | 10              | 12              | Passed | 3                  |
@@ -936,7 +936,7 @@ How would you construct an SQL query to retrieve the second-highest salary (a no
 Write an SQL statement that determines the most and least experienced Spaceman ID by their job description.
 
 | Spaceman ID | Job Description | Mission Count |
-|------------:|-----------------|---------------|
+|-------------|-----------------|---------------|
 | 1001        | Astrogator      | 6             |
 | 2002        | Astrogator      | 12            |
 | 3003        | Astrogator      | 17            |
@@ -966,7 +966,7 @@ Your task is to analyze a table of orders with their respective requested delive
 
 **Orders**
 | Order ID | Component | Days to Deliver |
-|---------:|-----------|-----------------|
+|----------|-----------|-----------------|
 | 1        | Aurora    | 7               |
 | 2        | Twilight  | 3               |
 | 3        | SunRay    | 9               |
@@ -986,7 +986,7 @@ Your task is to analyze a table of orders with their respective requested delive
 Here is the expected output.
 
 | Order ID | Product  | Days to Build | Days to Deliver | Schedule          |
-|---------:|----------|---------------|-----------------|-------------------|
+|----------|----------|---------------|-----------------|-------------------|
 | 1        | Aurora   | 7             | 7               | On Schedule       |
 | 2        | Twilight | 7             | 3               | Behind Schedule   |
 | 3        | SunRay   | 3             | 9               | Ahead of Schedule |
@@ -999,7 +999,7 @@ Here is the expected output.
 Write an SQL statement that returns all rows except where the Customer ID is 1001 and the Amount is $50.
 
 | Order ID | Customer ID | Amount |
-|---------:|------------:|--------|
+|----------|-------------|--------|
 | 1        | 1001        | $25    |
 | 2        | 1001        | $50    |
 | 3        | 2002        | $65    |
@@ -1008,7 +1008,7 @@ Write an SQL statement that returns all rows except where the Customer ID is 100
 Here is the expected output.
 
 | Order ID | Customer ID | Amount |
-|---------:|------------:|--------|
+|----------|-------------|--------|
 | 1        | 1001        | $25    |
 | 3        | 2002        | $65    |
 | 4        | 3003        | $50    |
@@ -1023,7 +1023,7 @@ You work in a sales office that sells widgets both domestically and internationa
 Write an SQL statement that shows all sales representatives who either had a domestic sale or an international sale, but not both.
 
 | Invoice ID | Sales Rep ID | Amount   | Sales Type     |
-|-----------:|-------------:|----------|----------------|
+|------------|--------------|----------|----------------|
 | 1          | 1001         | $13,454  | International  |
 | 2          | 2002         | $3,434   | International  |
 | 3          | 4004         | $54,645  | International  |
@@ -1038,7 +1038,7 @@ Write an SQL statement that shows all sales representatives who either had a dom
 Here is the expected output.
 
 | Sales Rep ID |
-|-------------:|
+|--------------|
 | 3003         |
 | 4004         |
 | 5005         |
@@ -1058,7 +1058,7 @@ Write an SQL statement that shows all the possible routes from Austin to Des Moi
 Note that the data represents a cyclic graph.
 
 | Route ID | Departure City | Arrival City | Cost  |
-|---------:|----------------|--------------|-------|
+|----------|----------------|--------------|-------|
 | 1        | Austin         | Dallas       | $100  |
 | 1        | Dallas         | Austin       | $100  |
 | 2        | Dallas         | Memphis      | $200  |
@@ -1083,7 +1083,7 @@ Here is the expected output.
 Write an SQL statement that provides a key based on the distinct combination of the columns Distributor, Facility, and Zone.
 
 | Order ID | Distributor | Facility | Zone | Amount |
-|---------:|-------------|---------:|:----:|:------:|
+|----------|-------------|----------|------|--------|
 | 1        | ACME        | 123      | ABC  | $100   |
 | 2        | ACME        | 123      | ABC  | $75    |
 | 3        | Direct Parts| 789      | XYZ  | $150   |
@@ -1092,7 +1092,7 @@ Write an SQL statement that provides a key based on the distinct combination of 
 Here is the expected output.
 
 | Criteria ID | Order ID | Distributor | Facility | Zone | Amount |
-|------------:|---------:|-------------|---------:|:----:|:------:|
+|-------------|----------|-------------|----------|------|--------|
 | 1           | 1        | ACME        | 123      | ABC  | $100   |
 | 1           | 2        | ACME        | 123      | ABC  | $75    |
 | 2           | 3        | Direct Parts| 789      | XYZ  | $150   |
@@ -1212,7 +1212,7 @@ Write an SQL statement that creates a grouping number for each hierarchical asso
 Here is the expected output.
 
 | Grouping | Associate |
-|---------:|-----------|
+|----------|-----------|
 | 1        | Anne      |
 | 1        | Betty     |
 | 1        | Charles   |
@@ -1264,7 +1264,7 @@ Here is the expected output.
 Determine the minimum quantity for each record between the current row and all previous rows for each Customer ID.
 
 | Order ID | Customer ID | Quantity |
-|---------:|------------:|---------:|
+|----------|-------------|----------|
 | 1        | 1001        | 5        |
 | 2        | 1001        | 8        |
 | 3        | 1001        | 3        |
@@ -1275,7 +1275,7 @@ Determine the minimum quantity for each record between the current row and all p
 Here is the expected output.
 
 | Order ID | Customer ID | Quantity | Min Value |
-|---------:|------------:|---------:|----------:|
+|----------|-------------|----------|-----------|
 | 1        | 1001        | 5        | 5         |
 | 2        | 1001        | 8        | 5         |
 | 3        | 1001        | 3        | 3         |
@@ -1291,7 +1291,7 @@ Here is the expected output.
 Given the following table, write an SQL statement to create a Type 2 Slowly Changing Dimension.
 
 | Customer ID | Balance Date | Amount  |
-|------------:|--------------|---------|
+|-------------|--------------|---------|
 | 1001        | 10/11/2021   | $54.32  |
 | 1001        | 10/10/2021   | $17.65  |
 | 1001        | 9/18/2021    | $65.56  |
@@ -1306,7 +1306,7 @@ Given the following table, write an SQL statement to create a Type 2 Slowly Chan
 Here is the expected output.
 
 | Customer ID | Start Date | End Date   | Amount |
-|------------:|------------|------------|--------|
+|-------------|------------|------------|--------|
 | 1001        | 10/11/2021 | 12/31/9999 | $54.32 |
 | 1001        | 10/10/2021 | 10/10/2021 | $17.65 |
 | 1001        | 9/18/2021  | 10/9/2021  | $65.56 |
@@ -1326,7 +1326,7 @@ Here is the expected output.
 Given the following table with overlapping timeframes. Write an SQL statement to identify the overlapping records.
 
 | Customer ID | Start Date | End Date   | Amount |
-|------------:|------------|------------|--------|
+|-------------|------------|------------|--------|
 | 1001        | 10/11/2021 | 12/31/9999 | $54.32 |
 | 1001        | 10/10/2021 | 10/10/2021 | $17.65 |
 | 1001        | 9/18/2021  | 10/12/2021 | $65.56 |
@@ -1337,7 +1337,7 @@ Given the following table with overlapping timeframes. Write an SQL statement to
 Here is the expected output.
 
 | Customer ID | Start Date | End Date  | Amount |
-|------------:|------------|-----------|--------|
+|-------------|------------|-----------|--------|
 | 1001        | 9/18/2021  | 10/12/2021| $65.56 |
 | 2002        | 9/1/2021   | 9/17/2021 | $42.12 |
 
@@ -1349,7 +1349,7 @@ Here is the expected output.
 How many different SQL statements can you write to determine all accounts whose balance has never been positive?
 
 | Account ID | Balance  |
-|-----------:|---------:|
+|------------|----------|
 | 1001       | $234.45  |
 | 1001       | $-23.12  |
 | 2002       | $-93.01  |
@@ -1361,7 +1361,7 @@ How many different SQL statements can you write to determine all accounts whose 
 Here is the expected output.
 
 | Account ID |
-|-----------:|
+|------------|
 | 2002       |
 
 - Account ID 2002 would appear in the result set, as this account has never had a positive balance.
@@ -1414,7 +1414,7 @@ For the following Customer IDs, write an SQL statement to determine customers wh
 You will need to adjust the test data for the current year, as it is coded for the year 2021.
 
 | Sales ID | Year |
-|---------:|-----:|
+|----------|------|
 | 1001     | 2018 |
 | 1001     | 2019 |
 | 1001     | 2020 |
@@ -1430,7 +1430,7 @@ You will need to adjust the test data for the current year, as it is coded for t
 Here is the expected output.
 
 | Sales ID |
-|---------:|
+|----------|
 | 4004     |
 
 - Sales ID **4004** would be in the expected output as this customer had a sale in the current year, plus the previous two years.
@@ -1443,7 +1443,7 @@ Here is the expected output.
 A group of Sumo wrestlers are forming a line to board an elevator. Unfortunately, the elevator can only hold 2,000 pounds, and not all Sumo wrestlers can board. Which Sumo wrestler would be the last to enter given the following queue order?
 
 | Line Order | Name   | Weight |
-|-----------:|--------|-------:|
+|------------|--------|--------|
 | 1          | Haruto | 611    |
 | 2          | Minato | 533    |
 | 3          | Haruki | 623    |
@@ -1469,7 +1469,7 @@ Given a table containing the columns Batter ID, Pitch Number, and Result for eac
 Here is the expected output.
 
 | Batter ID | Pitch Number | Result | Start Of Pitch Count | End Of Pitch Count |
-|----------:|-------------:|--------|----------------------|--------------------|
+|-----------|--------------|--------|----------------------|--------------------|
 | 1001      | 1            | Foul   | 0 – 0                | 0 – 1              |
 | 1001      | 2            | Foul   | 0 – 1                | 0 – 2              |
 | 1001      | 3            | Ball   | 0 – 2                | 1 – 2              |
@@ -1502,7 +1502,7 @@ Given the following table, whose natural key is a combination of the columns Ass
 The goal here is to create a single column that is unique and re-creatable. The benefit of creating a hashbytes or checksum column is to aid in data profiling and integrity checks when a table contains a multitude of columns that form the natural key (and some of these columns can be NULL).
 
 | Assembly ID | Part   |
-|------------:|--------|
+|-------------|--------|
 | 1001        | Bolt   |
 | 1001        | Screw  |
 | 2002        | Nut    |
@@ -1524,7 +1524,7 @@ Agents will enter phone numbers into this table via a form, and it is imperative
 Here are a few sample records.
 
 | Customer ID | Phone Number   |
-|------------:|----------------|
+|-------------|----------------|
 | 1001        | (555)-555-5555 |
 | 2002        | (555)-555-5555 |
 | 3003        | (555)-555-5555 |
@@ -1548,7 +1548,7 @@ You are given the following table of individuals and their spouses. Every indivi
 Here is the expected output.
 
 | Group ID | Primary ID | Spouse ID |
-|---------:|------------|-----------|
+|----------|------------|-----------|
 | 1        | Ashley     | Dee       |
 | 1        | Dee        | Ashley    |
 | 2        | Jordan     | Casey     |
@@ -1633,7 +1633,7 @@ Create a numbers table using a recursive query.
 Here is the expected output.
 
 | Number |
-|-------:|
+|--------|
 | 1      |
 | 2      |
 | 3      |
@@ -1660,7 +1660,7 @@ Given the following table containing SQL statements, write an SQL statement that
 Here is the expected output.
 
 | Row Number | Quote ID | String                          | Starts | Ends | Word          |
-|-----------:|---------:|---------------------------------|-------:|-----:|---------------|
+|------------|----------|---------------------------------|--------|------|---------------|
 | 1          | 1        | SELECT EmpID FROM Employees;    | 1      | 6    | SELECT        |
 | 2          | 1        | SELECT EmpID FROM Employees;    | 8      | 12   | EmpID         |
 | 3          | 1        | SELECT EmpID FROM Employees;    | 14     | 17   | FROM          |
@@ -1717,7 +1717,7 @@ For example, the string "([])" is balanced because the opening square bracket is
 Can you discover an efficient algorithm for determining whether a given string is balanced or not?
 
 | ID | String    |
-|---:|-----------|
+|----|-----------|
 | 1  | ()        |
 | 2  | []        |
 | 3  | {}        |
@@ -1731,7 +1731,7 @@ Can you discover an efficient algorithm for determining whether a given string i
 Here is the expected output.
 
 | ID | String    | Outcome    |
-|---:|-----------|------------|
+|----|-----------|------------|
 | 1  | ()        | Balanced   |
 | 2  | []        | Balanced   |
 | 3  | {}        | Balanced   |
@@ -1778,7 +1778,7 @@ Here is the expected output.
 In this SQL puzzle, your task is to analyze a dataset of players' scores across multiple attempts. For each player, you need to calculate two key differences: the change in score from their first attempt to the current record, and the change from their last attempt to the current record. A record should be flagged as "improved" if the player's score has increased from their previous attempt or if it's their first attempt. Additionally, determine if a player has shown consistent improvement across all attempts. If so, mark them as "overall improved."
 
 | Attempt ID | Player ID | Score |
-|-----------:|----------:|------:|
+|------------|-----------|-------|
 | 1          | 1001      | 2     |
 | 2          | 1001      | 7     |
 | 3          | 1001      | 8     |
@@ -1789,7 +1789,7 @@ In this SQL puzzle, your task is to analyze a dataset of players' scores across 
 Here is the expected output.
 
 | Attempt ID | Player ID | Score | Difference First | Difference Last | Is Previous Score Lower | Is Overall Improved |
-|-----------:|----------:|------:|-----------------:|----------------:|------------------------:|--------------------:|
+|------------|-----------|-------|------------------|-----------------|-------------------------|---------------------|
 | 1          | 1001      | 2     | 0                | -6              | 1                       | 1                   |
 | 2          | 1001      | 7     | 5                | -1              | 1                       | 1                   |
 | 3          | 1001      | 8     | 6                | 0               | 1                       | 1                   |
@@ -1805,7 +1805,7 @@ Here is the expected output.
 You won the lottery and want to buy both a car and a boat. However, the car must be $200,000 more than the boat. What are your options given the following vehicles?
 
 | Vehicle ID | Type | Model                | Price    |
-|-----------:|------|----------------------|----------|
+|------------|------|----------------------|----------|
 | 1          | Car  | Rolls-Royce Phantom  | $460,000 |
 | 2          | Car  | Cadillac CT5         | $39,000  |
 | 3          | Car  | Porsche Boxster      | $63,000  |
@@ -1866,7 +1866,7 @@ Given the following table of strings that have embedded quotes, return the resul
 3. If the string has two quotes and fewer than or equal to 10 characters between the quotes, return “False”.
 
 | ID | String                | Result |
-|---:|-----------------------|:------:|
+|----|-----------------------|--------|
 | 1  | "12345678901234"      | True   |
 | 2  | 1"12345678901234"     | True   |
 | 3  | 123"45678"901234"     | Error  |
@@ -1877,7 +1877,7 @@ Given the following table of strings that have embedded quotes, return the resul
 Here is the expected output.
 
 | ID | String                | Result |
-|:---:|-----------------------|:------:|
+|-----|-----------------------|--------|
 | 1  | "12345678901234"      | True   |
 | 2  | 1"12345678901234"     | True   |
 | 3  | 123"45678"901234"     | Error  |
@@ -1893,7 +1893,7 @@ Here is the expected output.
 You are presented with a dataset of home listings, each with a unique Home ID and a Status. Your objective is to assign a grouping key to each record based on specific conditions. A new grouping key should be initiated whenever a record is in the status “New Listing” or “Relisted”. Each subsequent record, following either of these statuses, should inherit the same grouping key until the next occurrence of “New Listing” or “Relisted”.
 
 | Listing ID | Home ID | Status        |
-|-----------:|---------|---------------|
+|------------|---------|---------------|
 | 1          | Home A  | New Listing   |
 | 2          | Home A  | Pending       |
 | 3          | Home A  | Relisted      |
@@ -1907,7 +1907,7 @@ You are presented with a dataset of home listings, each with a unique Home ID an
 Here is the expected output.
 
 | Listing ID | Home ID | Status         | Grouping ID |
-|-----------:|---------|----------------|------------:|
+|------------|---------|----------------|-------------|
 | 1          | Home A  | New Listing    | 1           |
 | 2          | Home A  | Pending        | 1           |
 | 3          | Home A  | Relisted       | 2           |
@@ -1979,7 +1979,7 @@ Here is the expected output.
 In this puzzle, you have a dataset listing performance scores of different teams by year. Your task involves identifying and removing the most significant outlier from each team's yearly performance score. The outlier is defined as the performance score with the greatest deviation from the team's average score prior to removing any outliers. This outlier could be either the highest or the lowest performance score. Once the outlier is removed, calculate the average score for each team.
 
 | Team     | Year | Score |
-|----------|-----:|------:|
+|----------|------|-------|
 | Cougars  | 2015 | 50    |
 | Cougars  | 2016 | 45    |
 | Cougars  | 2017 | 65    |
@@ -1992,7 +1992,7 @@ In this puzzle, you have a dataset listing performance scores of different teams
 Here is the expected output.
 
 | Team     | Score |
-|----------|------:|
+|----------|-------|
 | Cougars  | 53    |
 | Bulldogs | 61    |
 
@@ -2004,7 +2004,7 @@ Here is the expected output.
 You are given the following unbalanced hierarchical structure and must split the branches into two groups, “Group A” and “Group B”.
 
 | Parent | Child |
-|-------:|:-----|
+|--------|------|
 | A      | B    |
 | A      | C    |
 | B      | D    |
@@ -2033,7 +2033,7 @@ Here is the expected output.
 You have access to a database containing student enrollment information for a school. Your goal is to create the summary statistics provided below.
 
 | Parent ID | Child ID | Age | Gender |
-|---------:|:--------:|---:|:-----:|
+|----------|----------|----|-------|
 | 1001     | A        | 8  | M     |
 | 1001     | B        | 12 | F     |
 | 2002     | C        | 7  | F     |
@@ -2046,7 +2046,7 @@ You have access to a database containing student enrollment information for a sc
 Here is the expected output.
 
 | Parent ID | Number Children | Average Age | Age Difference | Largest Age Gap | Youngest Age | Oldest Age | Genders  |
-|---------:|-----------------:|------------:|---------------:|----------------:|-------------:|-----------:|:---------|
+|----------|------------------|-------------|----------------|-----------------|--------------|------------|----------|
 | 1001 | 2 | 10 | 4 | 4 | 8  | 12 | M, F     |
 | 2002 | 3 | 10 | 7 | 5 | 7  | 14 | F, F, M  |
 | 3003 | 2 | 13 | 2 | 2 | 12 | 14 | F, M     |
@@ -2065,7 +2065,7 @@ Due to a suboptimal database design by the database architecture team, employee 
 **Temporary Employees**
 
 | Employee ID | Department |
-|------------:|------------|
+|-------------|------------|
 | 1001        | Engineering|
 | 2002        | Sales      |
 | 3003        | Marketing  |
@@ -2073,7 +2073,7 @@ Due to a suboptimal database design by the database architecture team, employee 
 **Permanent Employees**
 
 | Employee ID | Department |
-|------------:|------------|
+|-------------|------------|
 | 4004        | Marketing  |
 | 5005        | Accounting |
 | 6006        | Accounting |
@@ -2081,7 +2081,7 @@ Due to a suboptimal database design by the database architecture team, employee 
 **Employees**
 
 | Employee ID | Name    |
-|------------:|---------|
+|-------------|---------|
 | 1001        | John    |
 | 2002        | Eric    |
 | 3003        | Jennifer|
@@ -2097,7 +2097,7 @@ Due to a suboptimal database design by the database architecture team, employee 
 Your laptop repair shop offers a 30-day warranty on its repair services. From the following dataset, you need to determine all rework that falls under warranty.
 
 | Repair ID | Customer ID | Repair Date |
-|----------:|:-----------:|:-----------:|
+|-----------|-------------|-------------|
 | 1001      | A           | 01/01/2023  |
 | 2002      | A           | 01/15/2023  |
 | 3003      | A           | 01/17/2023  |
@@ -2110,7 +2110,7 @@ Your laptop repair shop offers a 30-day warranty on its repair services. From th
 Here is the expected output.
 
 | Customer ID | Repair ID | Previous Repair ID | Repair Date | Previous Repair Date | Sequence Number | Repair Gap Days |
-|:-----------:|----------:|-------------------:|:-----------:|:--------------------:|----------------:|----------------:|
+|-------------|-----------|--------------------|-------------|----------------------|-----------------|-----------------|
 | A           | 2002      | 1001               | 01/15/2023  | 01/01/2023           | 1               | 14              |
 | A           | 3003      | 2002               | 01/17/2023  | 01/15/2023           | 2               | 2               |
 | A           | 5005      | 4004               | 04/01/2023  | 03/24/2023           | 1               | 8               |
