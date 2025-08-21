@@ -1705,15 +1705,125 @@ Here is the expected output.
 
 --------
 
+<h1 align="center">Puzzle #59</h1>
+<h1 align="center">Balanced String</h1>
+
+Given a string containing parentheses, brackets, and braces, determine if the string is a balanced string.
+
+A balanced string must have an opening symbol, a corresponding closing symbol, and the symbols must appear in the correct order.
+
+For example, the string "([])" is balanced because the opening square bracket is followed by the closing square bracket, and the opening parenthesis is followed by the closing parenthesis, and they are in the correct order. However, the string "([)]" is not balanced because the closing parenthesis appears before the closing square bracket.
+
+Can you discover an efficient algorithm for determining whether a given string is balanced or not?
+
+| ID | String    |
+|---:|-----------|
+| 1  | ()        |
+| 2  | []        |
+| 3  | {}        |
+| 4  | ((({})))  |
+| 5  | ()[]      |
+| 6  | ({})      |
+| 7  | ({)       |
+| 8  | ((())))   |
+| 9  | }()[][    |
+
+Here is the expected output.
+
+| ID | String    | Outcome    |
+|---:|-----------|------------|
+| 1  | ()        | Balanced   |
+| 2  | []        | Balanced   |
+| 3  | {}        | Balanced   |
+| 4  | ((({})))  | Balanced   |
+| 5  | ()[]      | Balanced   |
+| 6  | ({})      | Balanced   |
+| 7  | ({)       | Unbalanced |
+| 8  | ((())))   | Unbalanced |
+| 9  | }()[][    | Unbalanced |
 
 --------
 
+<h1 align="center">Puzzle #60</h1>
+<h1 align="center">Products Without Duplicates</h1>
+
+Given the table below, return a result set of all product codes not associated with multiple products.
+
+| Product  | Product Code |
+|----------|--------------|
+| Alpha    | 01           |
+| Alpha    | 02           |
+| Bravo    | 03           |
+| Bravo    | 04           |
+| Charlie  | 02           |
+| Delta    | 01           |
+| Echo     | EE           |
+| Foxtrot  | EE           |
+| Gulf     | GG           |
+
+Here is the expected output.
+
+| Product Code |
+|--------------|
+| EE           |
+| GG           |
+
+- The result set will contain the Product Codes of **EE** and **GG** as Product Codes **01**, **02**, **03**, and **04** are associated with **Alpha** and **Bravo**, which have multiple entries.
 
 --------
 
+<h1 align="center">Puzzle #61</h1>
+<h1 align="center">Player Scores</h1>
+
+In this SQL puzzle, your task is to analyze a dataset of players' scores across multiple attempts. For each player, you need to calculate two key differences: the change in score from their first attempt to the current record, and the change from their last attempt to the current record. A record should be flagged as "improved" if the player's score has increased from their previous attempt or if it's their first attempt. Additionally, determine if a player has shown consistent improvement across all attempts. If so, mark them as "overall improved."
+
+| Attempt ID | Player ID | Score |
+|-----------:|----------:|------:|
+| 1          | 1001      | 2     |
+| 2          | 1001      | 7     |
+| 3          | 1001      | 8     |
+| 1          | 2002      | 6     |
+| 2          | 2002      | 9     |
+| 3          | 2002      | 7     |
+
+Here is the expected output.
+
+| Attempt ID | Player ID | Score | Difference First | Difference Last | Is Previous Score Lower | Is Overall Improved |
+|-----------:|----------:|------:|-----------------:|----------------:|------------------------:|--------------------:|
+| 1          | 1001      | 2     | 0                | -6              | 1                       | 1                   |
+| 2          | 1001      | 7     | 5                | -1              | 1                       | 1                   |
+| 3          | 1001      | 8     | 6                | 0               | 1                       | 1                   |
+| 1          | 2002      | 6     | 0                | -1              | 1                       | 0                   |
+| 2          | 2002      | 9     | 3                | 2               | 1                       | 0                   |
+| 3          | 2002      | 7     | 1                | 0               | 0                       | 0                   |
 
 --------
 
+<h1 align="center">Puzzle #62</h1>
+<h1 align="center">Car and Boat Purchase</h1>
+
+You won the lottery and want to buy both a car and a boat. However, the car must be $200,000 more than the boat. What are your options given the following vehicles?
+
+| Vehicle ID | Type | Model                | Price    |
+|-----------:|------|----------------------|----------|
+| 1          | Car  | Rolls-Royce Phantom  | $460,000 |
+| 2          | Car  | Cadillac CT5         | $39,000  |
+| 3          | Car  | Porsche Boxster      | $63,000  |
+| 4          | Car  | Lamborghini Spyder   | $290,000 |
+| 5          | Boat | Malibu               | $210,000 |
+| 6          | Boat | ATX 22-S             | $85,000  |
+| 7          | Boat | Sea Ray SLX          | $520,000 |
+| 8          | Boat | Mastercraft          | $25,000  |
+
+Here is the expected outcome.
+
+| Car                 | Boat        |
+|---------------------|-------------|
+| Lamborghini Spyder  | ATX 22-S    |
+| Lamborghini Spyder  | Mastercraft |
+| Rolls-Royce Phantom | ATX 22-S    |
+| Rolls-Royce Phantom | Malibu      |
+| Rolls-Royce Phantom | Mastercraft |
 
 --------
 
