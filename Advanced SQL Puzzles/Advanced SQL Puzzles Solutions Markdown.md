@@ -1887,18 +1887,143 @@ Here is the expected output.
 
 --------
 
+<h1 align="center">Puzzle #65</h1>
+<h1 align="center">Home Listings</h1>
+
+You are presented with a dataset of home listings, each with a unique Home ID and a Status. Your objective is to assign a grouping key to each record based on specific conditions. A new grouping key should be initiated whenever a record is in the status “New Listing” or “Relisted”. Each subsequent record, following either of these statuses, should inherit the same grouping key until the next occurrence of “New Listing” or “Relisted”.
+
+| Listing ID | Home ID | Status        |
+|-----------:|---------|---------------|
+| 1          | Home A  | New Listing   |
+| 2          | Home A  | Pending       |
+| 3          | Home A  | Relisted      |
+| 4          | Home B  | New Listing   |
+| 5          | Home B  | Under Contract|
+| 6          | Home B  | Relisted      |
+| 7          | Home C  | New Listing   |
+| 8          | Home C  | Under Contract|
+| 9          | Home C  | Closed        |
+
+Here is the expected output.
+
+| Listing ID | Home ID | Status         | Grouping ID |
+|-----------:|---------|----------------|------------:|
+| 1          | Home A  | New Listing    | 1           |
+| 2          | Home A  | Pending        | 1           |
+| 3          | Home A  | Relisted       | 2           |
+| 4          | Home B  | New Listing    | 3           |
+| 5          | Home B  | Under Contract | 3           |
+| 6          | Home B  | Relisted       | 4           |
+| 7          | Home C  | New Listing    | 5           |
+| 8          | Home C  | Under Contract | 5           |
+| 9          | Home C  | Closed         | 5           |
 
 --------
 
+<h1 align="center">Puzzle #66</h1>
+<h1 align="center">Matching Parts</h1>
+
+You are working with a dataset of manufactured parts, each having a unique serial number and categorized as either a bolt, washer, or nut. The challenge is to group these parts into sets based on their manufacture date, ensuring that the earliest manufactured parts are grouped first.
+
+| Serial # | Manufacture Day | Product |
+|---------|------------------|--------|
+| A111    | 1                | Bolt   |
+| B111    | 3                | Bolt   |
+| C111    | 5                | Bolt   |
+| D222    | 2                | Washer |
+| E222    | 4                | Washer |
+| F222    | 6                | Washer |
+| G333    | 3                | Nut    |
+| H333    | 5                | Nut    |
+| I333    | 7                | Nut    |
+
+Here is the expected output.
+
+| Bolt | Washer | Nut |
+|------|--------|-----|
+| A111 | D222   | G333 |
+| B111 | E222   | H333 |
+| C111 | F222   | I333 |
 
 --------
 
+<h1 align="center">Puzzle #67</h1>
+<h1 align="center">Matching Birthdays</h1>
+
+Given the following dataset, find the students who share the same birthday.
+
+| Student  | Birthday#  |
+|----------|------------|
+| Susan    | 04/15/2015 |
+| Tim      | 04/15/2015 |
+| Jacob    | 04/15/2015 |
+| Earl     | 02/05/2015 |
+| Mike     | 05/23/2015 |
+| Angie    | 05/23/2015 |
+| Jenny    | 11/19/2015 |
+| Michelle | 12/12/2015 |
+| Aaron    | 12/18/2015 |
+
+Here is the expected output.
+
+| Birthday   | Students             |
+|------------|----------------------|
+| 04/15/2015 | Susan, Tim, Jacob    |
+| 05/23/2015 | Mike, Angie          |
 
 --------
 
+<h1 align="center">Puzzle #68</h1>
+<h1 align="center">Removing Outliers</h1>
+
+In this puzzle, you have a dataset listing performance scores of different teams by year. Your task involves identifying and removing the most significant outlier from each team's yearly performance score. The outlier is defined as the performance score with the greatest deviation from the team's average score prior to removing any outliers. This outlier could be either the highest or the lowest performance score. Once the outlier is removed, calculate the average score for each team.
+
+| Team     | Year | Score |
+|----------|-----:|------:|
+| Cougars  | 2015 | 50    |
+| Cougars  | 2016 | 45    |
+| Cougars  | 2017 | 65    |
+| Cougars  | 2018 | 92    |
+| Bulldogs | 2015 | 65    |
+| Bulldogs | 2016 | 60    |
+| Bulldogs | 2017 | 58    |
+| Bulldogs | 2018 | 12    |
+
+Here is the expected output.
+
+| Team     | Score |
+|----------|------:|
+| Cougars  | 53    |
+| Bulldogs | 61    |
 
 --------
 
+<h1 align="center">Puzzle #69</h1>
+<h1 align="center">Splitting a Hierarchy</h1>
+
+You are given the following unbalanced hierarchical structure and must split the branches into two groups, “Group A” and “Group B”.
+
+| Parent | Child |
+|-------:|:-----|
+| A      | B    |
+| A      | C    |
+| B      | D    |
+| B      | E    |
+| D      | G    |
+| C      | F    |
+
+Here is the expected output.
+
+| Group  | ID |
+|--------|----|
+| Group A| A  |
+| Group A| B  |
+| Group A| D  |
+| Group A| E  |
+| Group A| G  |
+| Group B| A  |
+| Group B| C  |
+| Group B| F  |
 
 --------
 
