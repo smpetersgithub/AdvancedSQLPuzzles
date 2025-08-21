@@ -1077,36 +1077,155 @@ Here is the expected output.
 
 --------
 
---------
+<h1 align="center">Puzzle #37</h1>
+<h1 align="center">Group Criteria Keys</h1>
+
+Write an SQL statement that provides a key based on the distinct combination of the columns Distributor, Facility, and Zone.
+
+| Order ID | Distributor | Facility | Zone | Amount |
+|---------:|-------------|---------:|:----:|:------:|
+| 1        | ACME        | 123      | ABC  | $100   |
+| 2        | ACME        | 123      | ABC  | $75    |
+| 3        | Direct Parts| 789      | XYZ  | $150   |
+| 4        | Direct Parts| 789      | XYZ  | $125   |
+
+Here is the expected output.
+
+| Criteria ID | Order ID | Distributor | Facility | Zone | Amount |
+|------------:|---------:|-------------|---------:|:----:|:------:|
+| 1           | 1        | ACME        | 123      | ABC  | $100   |
+| 1           | 2        | ACME        | 123      | ABC  | $75    |
+| 2           | 3        | Direct Parts| 789      | XYZ  | $150   |
+| 2           | 4        | Direct Parts| 789      | XYZ  | $125   |
 
 --------
 
---------
+<h1 align="center">Puzzle #38</h1>
+<h1 align="center">Reporting Elements</h1>
+
+You must provide a report of all distributors and their sales by region. If a distributor had no sales for a region, provide a zero-dollar value for that day. Assume there is at least one sale for each region.
+
+| Region | Distributor | Sales |
+|--------|-------------|-------|
+| North  | ACE         | 10    |
+| South  | ACE         | 67    |
+| East   | ACE         | 54    |
+| North  | ACME        | 65    |
+| South  | ACME        | 9     |
+| East   | ACME        | 1     |
+| West   | ACME        | 7     |
+| North  | Direct Parts| 8     |
+| South  | Direct Parts| 7     |
+| West   | Direct Parts| 12    |
+
+Here is the expected output.
+
+| Region | Distributor | Sales |
+|--------|-------------|-------|
+| North  | ACE         | 10    |
+| South  | ACE         | 67    |
+| East   | ACE         | 54    |
+| West   | ACE         | 0     |
+| North  | ACME        | 65    |
+| South  | ACME        | 9     |
+| East   | ACME        | 1     |
+| West   | ACME        | 7     |
+| North  | Direct Parts| 8     |
+| South  | Direct Parts| 7     |
+| East   | Direct Parts| 0     |
+| West   | Direct Parts| 12    |
+
+- In the result set, **ACE** and **Direct Parts** each have a fabricated record with **0** sales.
 
 --------
 
---------
+<h1 align="center">Puzzle #39</h1>
+<h1 align="center">Prime Numbers</h1>
+
+A prime number is a natural number greater than one that has no positive divisors other than one and itself.
+
+Write an SQL statement to determine which of the integers provided in the following DDL statement are prime numbers.
+
+```sql
+CREATE TABLE #PrimeNumbers
+(
+    IntegerValue INTEGER PRIMARY KEY
+);
+
+INSERT INTO #PrimeNumbers VALUES
+(1),(2),(3),(4),(5),(6),(7),(8),(9),(10);
+```
+
+Here is the expected output.
+
+| Integer Value |
+|---------------|
+| 2             |
+| 3             |
+| 5             |
+| 7             |
 
 --------
 
---------
+<h1 align="center">Puzzle #40</h1>
+<h1 align="center">Sort Order</h1>
+
+Write an SQL statement that sorts the following values into the expected output. Can you find the most elegant solution?
+
+| City     |
+|----------|
+| Atlanta  |
+| Baltimore|
+| Chicago  |
+| Denver   |
+
+Here is the expected output.
+
+| City      |
+|-----------|
+| Baltimore |
+| Denver    |
+| Atlanta   |
+| Chicago   |
 
 --------
 
---------
 
 --------
 
---------
 
 --------
 
---------
 
 --------
 
---------
 
 --------
 
+
 --------
+
+
+--------
+
+
+--------
+
+
+--------
+
+
+--------
+
+
+--------
+
+
+--------
+
+
+--------
+
+
+--------
+
