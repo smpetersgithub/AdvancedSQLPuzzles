@@ -1827,6 +1827,32 @@ Here is the expected outcome.
 
 --------
 
+<h1 align="center">Puzzle #63</h1>
+<h1 align="center">Promotion Codes</h1>
+
+Identify all orders linked to a single product with a "PROMO" discount value. If an order is associated with multiple products or multiple discounts, it should not be included in the result.
+
+| Order ID | Product | Discount |
+|---------:|---------|----------|
+| 1        | Item 1  | PROMO    |
+| 1        | Item 1  | PROMO    |
+| 1        | Item 1  | MARKDOWN |
+| 1        | Item 2  | PROMO    |
+| 2        | Item 2  |          |
+| 2        | Item 3  | MARKDOWN |
+| 2        | Item 3  |          |
+| 3        | Item 1  | PROMO    |
+| 3        | Item 1  | PROMO    |
+| 3        | Item 1  | PROMO    |
+
+Here is the expected output.
+
+| Order ID |
+|---------:|
+| 3        |
+
+- Order ID **3** meets these criteria because it has a connection to only **one product (Item 1)**, and all the products linked to it have a discount value of **"PROMO"**.  
+- Order ID **1** does not meet the criteria as it is linked to **two different products (Item 1 and Item 2)**.
 
 --------
 
