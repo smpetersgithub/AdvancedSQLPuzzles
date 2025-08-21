@@ -2033,15 +2033,15 @@ Here is the expected output.
 You have access to a database containing student enrollment information for a school. Your goal is to create the summary statistics provided below.
 
 | Parent ID | Child ID | Age | Gender |
-|----------|----------|----|-------|
-| 1001     | A        | 8  | M     |
-| 1001     | B        | 12 | F     |
-| 2002     | C        | 7  | F     |
-| 2002     | D        | 9  | F     |
-| 2002     | E        | 14 | M     |
-| 3003     | F        | 12 | F     |
-| 3003     | G        | 14 | M     |
-| 4004     | H        | 7  | M     |
+|-----------|----------|-----|--------|
+| 1001      | A        | 8   | M      |
+| 1001      | B        | 12  | F      |
+| 2002      | C        | 7   | F      |
+| 2002      | D        | 9   | F      |
+| 2002      | E        | 14  | M      |
+| 3003      | F        | 12  | F      |
+| 3003      | G        | 14  | M      |
+| 4004      | H        | 7   | M      |
 
 Here is the expected output.
 
@@ -2064,11 +2064,11 @@ Due to a suboptimal database design by the database architecture team, employee 
 
 **Temporary Employees**
 
-| Employee ID | Department |
-|-------------|------------|
-| 1001        | Engineering|
-| 2002        | Sales      |
-| 3003        | Marketing  |
+| Employee ID |  Department |
+|-------------|-------------|
+| 1001        | Engineering |
+| 2002        | Sales       |
+| 3003        | Marketing   |
 
 **Permanent Employees**
 
@@ -2080,14 +2080,14 @@ Due to a suboptimal database design by the database architecture team, employee 
 
 **Employees**
 
-| Employee ID | Name    |
-|-------------|---------|
-| 1001        | John    |
-| 2002        | Eric    |
-| 3003        | Jennifer|
-| 4004        | Bob     |
-| 5005        | Stuart  |
-| 6006        | Angie   |
+| Employee ID |   Name   |
+|-------------|----------|
+| 1001        | John     |
+| 2002        | Eric     |
+| 3003        | Jennifer |
+| 4004        | Bob      |
+| 5005        | Stuart   |
+| 6006        | Angie    |
 
 --------
 
@@ -2118,15 +2118,117 @@ Here is the expected output.
 
 --------
 
+<h1 align="center">Puzzle #73</h1>
+<h1 align="center">Distinct Statuses</h1>
+
+You are given a list of workflows with different statuses. For each record, you need to determine the number of unique statuses that occurred prior to and including the current status.
+
+| Step ID | Workflow | Status  |
+|---------|----------|---------|
+| 1       | Alpha   | Open     |
+| 2       | Alpha   | Open     |
+| 3       | Alpha   | Inactive |
+| 4       | Alpha   | Open     |
+| 5       | Bravo   | Closed   |
+| 6       | Bravo   | Closed   |
+| 7       | Bravo   | Open     |
+| 8       | Bravo   | Inactive |
+
+Here is the expected output.
+
+| Step ID | Workflow | Status   | Count |
+|---------|----------|----------|-------|
+| 1       | Alpha    | Open     | 1     |
+| 2       | Alpha    | Open     | 1     |
+| 3       | Alpha    | Inactive | 2     |
+| 4       | Alpha    | Open     | 2     |
+| 5       | Bravo    | Closed   | 1     |
+| 6       | Bravo    | Closed   | 1     |
+| 7       | Bravo    | Open     | 2     |
+| 8       | Bravo    | Inactive | 3     |
 
 --------
 
+<h1 align="center">Puzzle #74</h1>
+<h1 align="center">Bowling League</h1>
+
+Determine which bowlers consistently place next to each other in your local bowling league.
+
+| Game ID | Bowler  | Score |
+|---------|---------|-------|
+| 1       | John    | 167   |
+| 1       | Susan   | 139   |
+| 1       | Ralph   | 95    |
+| 1       | Mary    | 90    |
+| 2       | Susan   | 187   |
+| 2       | John    | 155   |
+| 2       | Dennis  | 100   |
+| 2       | Anthony | 78    |
+
+Here is the expected output.
+
+| Bowler1 | Bowler2 | Count |
+|---------|---------|-------|
+| John    | Susan   | 2     |
+| Ralph   | Susan   | 1     |
+| Mary    | Ralph   | 1     |
+| Dennis  | John    | 1     |
+| Anthony | Dennis  | 1     |
 
 --------
 
+<h1 align="center">Puzzle #75</h1>
+<h1 align="center">Symmetric Matches</h1>
+
+Write an SQL statement to determine which boxes have the same dimensions.
+
+| Box ID | Length | Width | Height |
+|--------|--------|-------|--------|
+| A      | 10     | 25    | 15     |
+| B      | 15     | 10    | 25     |
+| C      | 10     | 15    | 25     |
+| D      | 20     | 30    | 30     |
+| E      | 30     | 30    | 20     |
+
+Here is the expected output.
+
+| Box ID | Grouping ID |
+|--------|-------------|
+| A      | 1           |
+| B      | 1           |
+| C      | 1           |
+| D      | 2           |
+| E      | 2           |
 
 --------
 
+<h1 align="center">Puzzle #76</h1>
+<h1 align="center">Determine Batches</h1>
+
+You are tasked with providing the details of each batch from two tables: one detailing the start of each batch, and another chronicling the lines of SQL code, including the `GO` statements that separate batch ends. Write an SQL statement to create the expected output.
+
+**Batch Starts**
+| Batch | Batch Start |
+| --- | --- |
+| A | 1 |
+| A | 5 |
+
+**Code Lines**
+| Batch | Line | Syntax |
+| --- | --- | --- |
+| A | 1 | `SELECT *` |
+| A | 2 | `FROM Account;` |
+| A | 3 | `GO` |
+| A | 4 | &nbsp; |
+| A | 5 | `TRUNCATE TABLE Accounts;` |
+| A | 6 | `GO` |
+
+Here is the expected output.
+
+| Batch | Batch Start | Batch End |
+| --- | --- | --- |
+| A | 1 | 3 |
+| A | 5 | 6 |
 
 --------
 
