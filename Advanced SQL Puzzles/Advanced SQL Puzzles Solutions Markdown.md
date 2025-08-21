@@ -891,18 +891,189 @@ CREATE TABLE #Products
 ProductID  INTEGER PRIAMRY KEY,
 ProductName VARCHAR(200)
 );
+```
 
 --------
 
---------
+<h1 align="center">Puzzle #31</h1>
+<h1 align="center">Second Highest</h1>
+
+Given the set of unique integers in the following DDL statement, how many different SQL statements can you write that will return the second-highest integer?
+
+```sql
+CREATE TABLE #SampleData
+(
+    IntegerValue INTEGER PRIMARY KEY
+);
+
+INSERT INTO #SampleData VALUES
+(3759),(3760),(3761),(3762),(3763);
+```
+
+Here is the expected output.
+
+| Integer Value |
+|---------------|
+| 3762          |
+
+**Bonus**
+
+How would you construct an SQL query to retrieve the second-highest salary (a non-unique value) from a dataset? The result will show $150,000.
+
+| Name                  | Salary   |
+|-----------------------|----------|
+| Carl Friedrich Gauss  | $250,000 |
+| Evariste Galois       | $250,000 |
+| Pierre-Simon Laplace  | $150,000 |
+| Sophie Germain        | $150,000 |
+| Leonhard Euler        | $100,000 |
 
 --------
 
---------
+<h1 align="center">Puzzle #32</h1>
+<h1 align="center">First and Last</h1>
+
+Write an SQL statement that determines the most and least experienced Spaceman ID by their job description.
+
+| Spaceman ID | Job Description | Mission Count |
+|------------:|-----------------|---------------|
+| 1001        | Astrogator      | 6             |
+| 2002        | Astrogator      | 12            |
+| 3003        | Astrogator      | 17            |
+| 4004        | Geologist       | 21            |
+| 5005        | Geologist       | 9             |
+| 6006        | Geologist       | 8             |
+| 7007        | Technician      | 13            |
+| 8008        | Technician      | 2             |
+| 9009        | Technician      | 7             |
+
+Here is the expected output.
+
+| Job Description | Most Experienced | Least Experienced |
+|-----------------|------------------|-------------------|
+| Astrogator      | 3003             | 1001              |
+| Geologist       | 4004             | 6006              |
+| Technician      | 7007             | 8008              |
 
 --------
 
+<h1 align="center">Puzzle #33</h1>
+<h1 align="center">Deadlines</h1>
+
+You are employed by a company specializing in manufacturing various light bulbs. Each bulb is composed of distinct components, each requiring a specific number of days for production, and these components can be constructed independently.
+
+Your task is to analyze a table of orders with their respective requested delivery dates and ascertain whether each order can be completed and assembled by the specified delivery date.
+
+**Orders**
+| Order ID | Component | Days to Deliver |
+|---------:|-----------|-----------------|
+| 1        | Aurora    | 7               |
+| 2        | Twilight  | 3               |
+| 3        | SunRay    | 9               |
+
+**Manufacturing Time**
+| Product  | Component       | Days to Manufacture |
+|----------|-----------------|---------------------|
+| Aurora   | Photon Coil     | 7                   |
+| Aurora   | Filament        | 2                   |
+| Aurora   | Shine Capacitor | 3                   |
+| Aurora   | Glow Sphere     | 1                   |
+| Twilight | Photon Coil     | 7                   |
+| Twilight | Filament        | 2                   |
+| SunRay   | Shine Capacitor | 3                   |
+| SunRay   | Photon Coil     | 1                   |
+
+Here is the expected output.
+
+| Order ID | Product  | Days to Build | Days to Deliver | Schedule          |
+|---------:|----------|---------------|-----------------|-------------------|
+| 1        | Aurora   | 7             | 7               | On Schedule       |
+| 2        | Twilight | 7             | 3               | Behind Schedule   |
+| 3        | SunRay   | 3             | 9               | Ahead of Schedule |
+
 --------
+
+<h1 align="center">Puzzle #34</h1>
+<h1 align="center">Specific Exclusion</h1>
+
+Write an SQL statement that returns all rows except where the Customer ID is 1001 and the Amount is $50.
+
+| Order ID | Customer ID | Amount |
+|---------:|------------:|--------|
+| 1        | 1001        | $25    |
+| 2        | 1001        | $50    |
+| 3        | 2002        | $65    |
+| 4        | 3003        | $50    |
+
+Here is the expected output.
+
+| Order ID | Customer ID | Amount |
+|---------:|------------:|--------|
+| 1        | 1001        | $25    |
+| 3        | 2002        | $65    |
+| 4        | 3003        | $50    |
+
+--------
+
+<h1 align="center">Puzzle #35</h1>
+<h1 align="center">International vs. Domestic Sales</h1>
+
+You work in a sales office that sells widgets both domestically and internationally.
+
+Write an SQL statement that shows all sales representatives who either had a domestic sale or an international sale, but not both.
+
+| Invoice ID | Sales Rep ID | Amount   | Sales Type     |
+|-----------:|-------------:|----------|----------------|
+| 1          | 1001         | $13,454  | International  |
+| 2          | 2002         | $3,434   | International  |
+| 3          | 4004         | $54,645  | International  |
+| 4          | 5005         | $234,345 | International  |
+| 5          | 7007         | $776     | International  |
+| 6          | 1001         | $4,564   | Domestic       |
+| 7          | 2002         | $34,534  | Domestic       |
+| 8          | 3003         | $345     | Domestic       |
+| 9          | 6006         | $6,543   | Domestic       |
+| 10         | 8008         | $67      | Domestic       |
+
+Here is the expected output.
+
+| Sales Rep ID |
+|-------------:|
+| 3003         |
+| 4004         |
+| 5005         |
+| 6006         |
+
+- Sales Rep IDs **3003, 4004, 5005,** and **6006** appear because they had either an international sale or a domestic sale, **but not both**.
+
+--------
+
+<h1 align="center">Puzzle #36</h1>
+<h1 align="center">Traveling Salesman</h1>
+
+Here is a well-known problem known as the Traveling Salesman.
+
+Write an SQL statement that shows all the possible routes from Austin to Des Moines. Which route is the most expensive? Which route is the least expensive?
+
+Note that the data represents a cyclic graph.
+
+| Route ID | Departure City | Arrival City | Cost  |
+|---------:|----------------|--------------|-------|
+| 1        | Austin         | Dallas       | $100  |
+| 1        | Dallas         | Austin       | $100  |
+| 2        | Dallas         | Memphis      | $200  |
+| 2        | Memphis        | Dallas       | $200  |
+| 3        | Memphis        | Des Moines   | $300  |
+| 3        | Des Moines     | Memphis      | $300  |
+| 4        | Dallas         | Des Moines   | $400  |
+| 4        | Des Moines     | Dallas       | $400  |
+
+Here is the expected output.
+
+| Route Path                                   | Total Cost |
+|----------------------------------------------|------------|
+| Austin --> Dallas --> Des Moines             | $500       |
+| Austin --> Dallas --> Memphis --> Des Moines | $600       |
 
 --------
 
