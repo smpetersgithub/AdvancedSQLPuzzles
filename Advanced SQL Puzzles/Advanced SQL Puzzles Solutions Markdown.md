@@ -615,23 +615,282 @@ Here is the expected output.
 
 --------
 
---------
+<h1 align="center">Puzzle #21</h1>
+<h1 align="center">Average Monthly Sales</h1>
+
+Write an SQL statement that returns a list of states where customers have an average monthly sales value that is consistently greater than $100.
+
+| Order ID | Customer ID | Order Date | Amount | State |
+|---------:|------------:|------------|--------|-------|
+| 1        | 1001        | 1/1/2018   | $100   | TX    |
+| 2        | 1001        | 1/1/2018   | $150   | TX    |
+| 3        | 1001        | 1/1/2018   | $75    | TX    |
+| 4        | 1001        | 2/1/2018   | $100   | TX    |
+| 5        | 1001        | 3/1/2018   | $100   | TX    |
+| 6        | 2002        | 2/1/2018   | $75    | TX    |
+| 7        | 2002        | 2/1/2018   | $150   | TX    |
+| 8        | 3003        | 1/1/2018   | $100   | IA    |
+| 9        | 3003        | 2/1/2018   | $100   | IA    |
+| 10       | 3003        | 3/1/2018   | $100   | IA    |
+| 11       | 4004        | 4/1/2018   | $100   | IA    |
+| 12       | 4004        | 5/1/2018   | $50    | IA    |
+| 13       | 4004        | 5/1/2018   | $100   | IA    |
+
+Here is the expected output.
+
+| State |
+|-------|
+| TX    |
+
+- Texas would show in the result set as Customer ID 1001 and 2002 each have their average monthly value over $100.
+- Iowa would not show in the result set because Customer ID 4004 did not have an average monthly value over $100 in May 2018.
 
 --------
 
---------
+<h1 align="center">Puzzle #22</h1>
+<h1 align="center">Occurrences</h1>
+
+Write an SQL statement that returns all distinct process log messages and the workflow where the message occurred the most often.
+
+| Workflow | Message                               | Occurrences |
+|----------|----------------------------------------|-------------|
+| Bravo    | Error: Cannot Divide by 0              | 3           |
+| Alpha    | Error: Conversion Failed               | 5           |
+| Charlie  | Error: Conversion Failed               | 7           |
+| Alpha    | Error: Unidentified error occurred     | 9           |
+| Bravo    | Error: Unidentified error occurred     | 1           |
+| Charlie  | Error: Unidentified error occurred     | 10          |
+| Alpha    | Status Complete                        | 8           |
+| Charlie  | Status Complete                        | 6           |
+
+Here is the expected output.
+
+| Workflow | Message                               | Occurrences |
+|----------|----------------------------------------|-------------|
+| Bravo    | Error: Cannot Divide by 0              | 3           |
+| Charlie  | Error: Conversion Failed               | 7           |
+| Charlie  | Error: Unidentified error occurred     | 10          |
+| Alpha    | Status Complete                        | 8           |
 
 --------
 
---------
+<h1 align="center">Puzzle #23</h1>
+<h1 align="center">Divide in Half</h1>
+
+You work for a gaming company and need to rank players by their score into two categories.
+
+Players that rank in the top half must be given a value of 1, and the remaining players must be given a value of 2.
+
+Write an SQL statement that meets these requirements.
+
+| Player ID | Score |
+|-----------|-------|
+| 1001      | 2343  |
+| 2002      | 9432  |
+| 3003      | 6548  |
+| 4004      | 1054  |
+| 5005      | 6832  |
+
+Here is the expected output.
+
+| Quartile | Player ID | Score |
+|----------|-----------|-------|
+| 1        | 2002      | 9432  |
+| 1        | 3003      | 6548  |
+| 1        | 5005      | 6832  |
+| 2        | 1001      | 2343  |
+| 2        | 4004      | 1054  |
 
 --------
 
---------
+<h1 align="center">Puzzle #24</h1>
+<h1 align="center">Page Views</h1>
+
+Write an SQL statement that retrieves records 5 to 10 ordered by the Order ID column.
+
+| Order ID | Customer ID | Order Date | Amount | State |
+|---------:|------------:|------------|--------|-------|
+| 1        | 1001        | 1/1/2018   | $100   | TX    |
+| 2        | 3003        | 1/1/2018   | $100   | IA    |
+| 3        | 1001        | 3/1/2018   | $100   | TX    |
+| 4        | 2002        | 2/1/2018   | $150   | TX    |
+| 5        | 1001        | 2/1/2018   | $100   | TX    |
+| 6        | 4004        | 5/1/2018   | $50    | IA    |
+| 7        | 1001        | 1/1/2018   | $150   | TX    |
+| 8        | 3003        | 3/1/2018   | $100   | IA    |
+| 9        | 4004        | 4/1/2018   | $100   | IA    |
+| 10       | 1001        | 1/1/2018   | $75    | TX    |
+| 11       | 2002        | 2/1/2018   | $75    | TX    |
+| 12       | 3003        | 2/1/2018   | $100   | IA    |
+| 13       | 4004        | 5/1/2018   | $100   | IA    |
+
+Here is the expected output.
+
+| Order ID | Customer ID | Order Date | Amount | State |
+|---------:|------------:|------------|--------|-------|
+| 5        | 1001        | 2/1/2018   | $100   | TX    |
+| 6        | 4004        | 5/1/2018   | $50    | IA    |
+| 7        | 1001        | 1/1/2018   | $150   | TX    |
+| 8        | 3003        | 3/1/2018   | $100   | IA    |
+| 9        | 4004        | 4/1/2018   | $100   | IA    |
 
 --------
 
+<h1 align="center">Puzzle #25</h1>
+<h1 align="center">Top Vendors</h1>
+
+Write an SQL statement that returns the vendor from which each customer has placed the most orders.
+
+| Order ID | Customer ID | Count | Vendor       |
+|---------:|------------:|------:|--------------|
+| 1        | 1001        | 12    | Direct Parts |
+| 2        | 1001        | 54    | Direct Parts |
+| 3        | 1001        | 32    | ACME         |
+| 4        | 2002        | 7     | ACME         |
+| 5        | 2002        | 16    | ACME         |
+| 6        | 2002        | 5     | Direct Parts |
+
+Here is the expected output.
+
+| Customer ID | Vendor       |
+|------------:|--------------|
+| 1001        | Direct Parts |
+| 2002        | ACME         |
+
 --------
+
+<h1 align="center">Puzzle #26</h1>
+<h1 align="center">Previous Year’s Sales</h1>
+
+Write an SQL statement that shows the current year’s sales, along with the previous year’s sales, and the sales from two years ago.
+
+| Year | Amount   |
+|-----:|----------|
+| 2018 | $352,645 |
+| 2017 | $165,565 |
+| 2017 | $254,654 |
+| 2016 | $159,521 |
+| 2016 | $251,696 |
+| 2016 | $111,894 |
+
+Here is the expected output.
+
+| 2018    | 2017    | 2016    |
+|---------|---------|---------|
+| $352,645| $420,219| $411,217|
+
+--------
+
+<h1 align="center">Puzzle #27</h1>
+<h1 align="center">Delete the Duplicates</h1>
+
+Given the set of integers provided in the following DDL statement, write an SQL statement that deletes the duplicated integers (1 and 3).
+
+```sql
+CREATE TABLE #SampleData
+(
+    IntegerValue INTEGER
+);
+
+INSERT INTO #SampleData VALUES
+(1),(1),(2),(3),(3),(4);
+```
+
+Here is the expected output.
+
+| Integer Value |
+|---------------|
+| 1             |
+| 2             |
+| 3             |
+| 4             |
+
+--------
+
+<h1 align="center">Puzzle #28</h1>
+<h1 align="center">Fill the Gaps</h1>
+
+The answer to this problem is often referred to as a data smear or a flash fill.  
+
+Write an SQL statement to fill in the missing gaps.  
+
+| Row Number | Workflow | Status |
+|-----------:|----------|--------|
+| 1          | Alpha    | Pass   |
+| 2          |          | Fail   |
+| 3          |          | Fail   |
+| 4          |          | Fail   |
+| 5          | Bravo    | Pass   |
+| 6          |          | Fail   |
+| 7          |          | Fail   |
+| 8          |          | Pass   |
+| 9          |          | Pass   |
+| 10         | Charlie  | Fail   |
+| 11         |          | Fail   |
+| 12         |          | Fail   |
+
+Here is the expected output.
+
+| Row Number | Workflow | Status |
+|-----------:|----------|--------|
+| 1          | Alpha    | Pass   |
+| 2          | Alpha    | Fail   |
+| 3          | Alpha    | Fail   |
+| 4          | Alpha    | Fail   |
+| 5          | Bravo    | Pass   |
+| 6          | Bravo    | Fail   |
+| 7          | Bravo    | Fail   |
+| 8          | Bravo    | Pass   |
+| 9          | Bravo    | Pass   |
+| 10         | Charlie  | Fail   |
+| 11         | Charlie  | Fail   |
+| 12         | Charlie  | Fail   |
+
+--------
+
+<h1 align="center">Puzzle #29</h1>
+<h1 align="center">Count the Groupings</h1>
+
+Write an SQL statement that counts the consecutive values in the Status column.
+
+| Step Number | Status |
+|------------:|--------|
+| 1           | Passed |
+| 2           | Passed |
+| 3           | Passed |
+| 4           | Passed |
+| 5           | Failed |
+| 6           | Failed |
+| 7           | Failed |
+| 8           | Failed |
+| 9           | Failed |
+| 10          | Passed |
+| 11          | Passed |
+| 12          | Passed |
+
+Here is the expected outcome.
+
+| Min Step Number | Max Step Number | Status | Consecutive Count |
+|----------------:|----------------:|--------|-------------------:|
+| 1               | 4               | Passed | 4                  |
+| 5               | 9               | Failed | 5                  |
+| 10              | 12              | Passed | 3                  |
+
+--------
+
+<h1 align="center">Puzzle #30</h1>
+<h1 align="center">Select Star</h1>
+
+Your developers have many bad practices; the worst of them being that they routinely deploy procedures that do not explicitly define which columns to return in their SELECT clause.
+
+Modify the following table in such a way that the statement `SELECT * FROM Products` will return an error when executed.
+
+```sql
+CREATE TABLE #Products
+(
+ProductID  INTEGER PRIAMRY KEY,
+ProductName VARCHAR(200)
+);
 
 --------
 
