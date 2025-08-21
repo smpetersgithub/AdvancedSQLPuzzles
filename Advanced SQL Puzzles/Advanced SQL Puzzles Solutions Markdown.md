@@ -2463,19 +2463,39 @@ Given the following table of SQL statements, provide a numbers table that displa
 
 Here is the expected output.
 
-| RowNumber | Id |         String          | Starts | Position |  Word  | TotalSpaces |
-|---- ------|----|-------------------------|-------------------|--------|-------------|
-| 1         | 1  | SELECT EmpID FROM Emps; | 1      | 7        | SELECT | 3           |
-| 2         | 1  | SELECT EmpID FROM Emps; | 8      | 13       | EmpID  | 3           |
-| 3         | 1  | SELECT EmpID FROM Emps; | 14     | 18       | FROM   | 3           |
-| 4         | 1  | SELECT EmpID FROM Emps; | 19     | 0        | Emps;  | 3           |
-| 1         | 2  | SELECT * FROM Trans;    | 1      | 7        | SELECT | 3           |
-| 2         | 2  | SELECT * FROM Trans;    | 8      | 9        | *      | 3           |
-| 3         | 2  | SELECT * FROM Trans;    | 10     | 14       | FROM   | 3           |
-| 4         | 2  | SELECT * FROM Trans;    | 15     | 0        | Trans; | 3           |
+| RowNumber | Id |          String           | Starts | NextSpacePos | Word   | TotalSpaces |
+|-----------|----|---------------------------|--------|--------------|--------|-------------|
+| 1         | 1  | `SELECT EmpID FROM Emps;` | 1      | 7            | SELECT | 3           |
+| 2         | 1  | `SELECT EmpID FROM Emps;` | 8      | 13           | EmpID  | 3           |
+| 3         | 1  | `SELECT EmpID FROM Emps;` | 14     | 18           | FROM   | 3           |
+| 4         | 1  | `SELECT EmpID FROM Emps;` | 19     |              | Emps   | 3           |
+| 1         | 2  | `SELECT * FROM Trans;`    | 1      | 7            | SELECT | 3           |
+| 2         | 2  | `SELECT * FROM Trans;`    | 8      | 9            | `*`    | 3           |
+| 3         | 2  | `SELECT * FROM Trans;`    | 10     | 14           | FROM   | 3           |
+| 4         | 2  | `SELECT * FROM Trans;`    | 15     |              | Trans  | 3           |
 
 --------
 
+<h1 align="center">PuzzleSeat #10</h1>
+<h1 align="center">Seating Chart</h1>
+
+Given the set of integers provided in the following DDL statement, write the SQL statements to determine the following:
+- Gap start and gap ends
+- Total missing numbers
+- Count of odd and even numbers
+
+```sql
+CREATE TABLE #SeatingChart
+(
+    SeatNumber INTEGER
+);
+GO
+
+INSERT INTO #SeatingChart VALUES
+(7),(13),(14),(15),(27),(28),(29),(30),
+(31),(32),(33),(34),(35),(52),(53),(54);
+GO
+```
 
 --------
 
