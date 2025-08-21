@@ -1190,6 +1190,409 @@ Here is the expected output.
 
 --------
 
+<h1 align="center">Puzzle #41</h1>
+<h1 align="center">Associate IDs</h1>
+
+The following table shows two hierarchical structures.
+
+1. The first is the association between Anne, Betty, Charles, Dan, and Emma.
+2. The second is the association between Francis, George, and Harriet.
+
+Write an SQL statement that creates a grouping number for each hierarchical association and displays the member in the associations.
+
+| Associate 1 | Associate 2 |
+|-------------|-------------|
+| Anne        | Betty       |
+| Anne        | Charles     |
+| Betty       | Dan         |
+| Charles     | Emma        |
+| Francis     | George      |
+| George      | Harriet     |
+
+Here is the expected output.
+
+| Grouping | Associate |
+|---------:|-----------|
+| 1        | Anne      |
+| 1        | Betty     |
+| 1        | Charles   |
+| 1        | Dan       |
+| 1        | Emma      |
+| 2        | Francis   |
+| 2        | George    |
+| 2        | Harriet   |
+
+--------
+
+<h1 align="center">Puzzle #42</h1>
+<h1 align="center">Mutual Friends</h1>
+
+The following table shows a cyclic data structure.
+
+Given the following list of friend connections, determine the number of mutual connections between the friends.
+
+| Friend 1 | Friend 2 |
+|----------|----------|
+| Jason    | Mary     |
+| Mike     | Mary     |
+| Mike     | Jason    |
+| Susan    | Jason    |
+| John     | Mary     |
+| Susan    | Mary     |
+
+Here is the expected output.
+
+| Friend 1 | Friend 2 | Mutual Friends |
+|----------|----------|----------------|
+| Jason    | Mary     | 2              |
+| John     | Mary     | 0              |
+| Jason    | Mike     | 1              |
+| Mary     | Mike     | 1              |
+| Jason    | Susan    | 1              |
+| Mary     | Susan    | 1              |
+
+- Jason and Mary have 2 mutual friends: Mike and Susan.
+- John and Mary have 0 mutual friends.
+- Jason and Mike have 1 mutual friend: Mary.
+- etc........
+
+--------
+
+<h1 align="center">Puzzle #43</h1>
+<h1 align="center">Unbounded Preceding</h1>
+
+Determine the minimum quantity for each record between the current row and all previous rows for each Customer ID.
+
+| Order ID | Customer ID | Quantity |
+|---------:|------------:|---------:|
+| 1        | 1001        | 5        |
+| 2        | 1001        | 8        |
+| 3        | 1001        | 3        |
+| 4        | 1001        | 7        |
+| 1        | 2002        | 4        |
+| 2        | 2002        | 9        |
+
+Here is the expected output.
+
+| Order ID | Customer ID | Quantity | Min Value |
+|---------:|------------:|---------:|----------:|
+| 1        | 1001        | 5        | 5         |
+| 2        | 1001        | 8        | 5         |
+| 3        | 1001        | 3        | 3         |
+| 4        | 1001        | 7        | 3         |
+| 1        | 2002        | 4        | 4         |
+| 2        | 2002        | 9        | 4         |
+
+--------
+
+<h1 align="center">Puzzle #44</h1>
+<h1 align="center">Slowly Changing Dimension Part I</h1>
+
+Given the following table, write an SQL statement to create a Type 2 Slowly Changing Dimension.
+
+| Customer ID | Balance Date | Amount  |
+|------------:|--------------|---------|
+| 1001        | 10/11/2021   | $54.32  |
+| 1001        | 10/10/2021   | $17.65  |
+| 1001        | 9/18/2021    | $65.56  |
+| 1001        | 9/12/2021    | $56.23  |
+| 1001        | 9/1/2021     | $42.12  |
+| 2002        | 10/15/2021   | $46.52  |
+| 2002        | 10/13/2021   | $7.65   |
+| 2002        | 9/15/2021    | $75.12  |
+| 2002        | 9/10/2021    | $47.34  |
+| 2002        | 9/2/2021     | $11.11  |
+
+Here is the expected output.
+
+| Customer ID | Start Date | End Date   | Amount |
+|------------:|------------|------------|--------|
+| 1001        | 10/11/2021 | 12/31/9999 | $54.32 |
+| 1001        | 10/10/2021 | 10/10/2021 | $17.65 |
+| 1001        | 9/18/2021  | 10/9/2021  | $65.56 |
+| 1001        | 9/12/2021  | 9/17/2021  | $56.23 |
+| 1001        | 9/1/2021   | 9/11/2021  | $42.12 |
+| 2002        | 10/15/2021 | 12/31/9999 | $46.52 |
+| 2002        | 10/13/2021 | 10/14/2021 | $7.65  |
+| 2002        | 9/15/2021  | 10/12/2021 | $75.12 |
+| 2002        | 9/10/2021  | 9/14/2021  | $47.34 |
+| 2002        | 9/2/2021   | 9/9/2021   | $11.11 |
+
+--------
+
+<h1 align="center">Puzzle #45</h1>
+<h1 align="center">Slowly Changing Dimension Part II</h1>
+
+Given the following table with overlapping timeframes. Write an SQL statement to identify the overlapping records.
+
+| Customer ID | Start Date | End Date   | Amount |
+|------------:|------------|------------|--------|
+| 1001        | 10/11/2021 | 12/31/9999 | $54.32 |
+| 1001        | 10/10/2021 | 10/10/2021 | $17.65 |
+| 1001        | 9/18/2021  | 10/12/2021 | $65.56 |
+| 2002        | 9/12/2021  | 9/17/2021  | $56.23 |
+| 2002        | 9/1/2021   | 9/17/2021  | $42.12 |
+| 2002        | 8/15/2021  | 8/31/2021  | $16.32 |
+
+Here is the expected output.
+
+| Customer ID | Start Date | End Date  | Amount |
+|------------:|------------|-----------|--------|
+| 1001        | 9/18/2021  | 10/12/2021| $65.56 |
+| 2002        | 9/1/2021   | 9/17/2021 | $42.12 |
+
+--------
+
+<h1 align="center">Puzzle #46</h1>
+<h1 align="center">Negative Account Balances</h1>
+
+How many different SQL statements can you write to determine all accounts whose balance has never been positive?
+
+| Account ID | Balance  |
+|-----------:|---------:|
+| 1001       | $234.45  |
+| 1001       | $-23.12  |
+| 2002       | $-93.01  |
+| 2002       | $-120.19 |
+| 3003       | $186.76  |
+| 3003       | $90.23   |
+| 3003       | $10.11   |
+
+Here is the expected output.
+
+| Account ID |
+|-----------:|
+| 2002       |
+
+- Account ID 2002 would appear in the result set, as this account has never had a positive balance.
+- There are a multitude of ways to write this statement. Can you think of them all?
+
+--------
+
+<h1 align="center">Puzzle #47</h1>
+<h1 align="center">Work Schedule</h1>
+
+Given a table of employee shifts and another table of their activities, merge the two tables and write an SQL statement that produces the desired output. If an employee is scheduled and has no activity planned, label the time frame as “Work”.
+
+**Schedule**
+
+| Schedule ID | Start Time       | End Time         |
+|-------------|------------------|------------------|
+| A           | 10/1/2021 10:00  | 10/1/2021 15:00  |
+| B           | 10/1/2021 10:15  | 10/1/2021 12:15  |
+
+**Activity**
+
+| Schedule ID | Activity | Start Time       | End Time         |
+|-------------|----------|------------------|------------------|
+| A           | Meeting  | 10/1/2021 10:00  | 10/1/2021 10:30  |
+| A           | Break    | 10/1/2021 12:00  | 10/1/2021 12:30  |
+| A           | Meeting  | 10/1/2021 13:00  | 10/1/2021 13:30  |
+| B           | Break    | 10/1/2021 11:00  | 10/1/2021 11:15  |
+
+Here is the expected output.
+
+| Schedule ID | Activity | Start Time       | End Time         |
+|-------------|----------|------------------|------------------|
+| A           | Meeting  | 10/1/2021 10:00  | 10/1/2021 10:30  |
+| A           | Work     | 10/1/2021 10:30  | 10/1/2021 12:00  |
+| A           | Break    | 10/1/2021 12:00  | 10/1/2021 12:30  |
+| A           | Work     | 10/1/2021 12:30  | 10/1/2021 13:00  |
+| A           | Meeting  | 10/1/2021 13:00  | 10/1/2021 13:30  |
+| A           | Work     | 10/1/2021 13:30  | 10/1/2021 15:00  |
+| B           | Work     | 10/1/2021 10:15  | 10/1/2021 11:00  |
+| B           | Break    | 10/1/2021 11:00  | 10/1/2021 11:15  |
+| B           | Work     | 10/1/2021 11:15  | 10/1/2021 12:15  |
+
+--------
+
+<h1 align="center">Puzzle #48</h1>
+<h1 align="center">Consecutive Sales</h1>
+
+For the following Customer IDs, write an SQL statement to determine customers who had a sale in the current year, plus the previous two consecutive years.
+
+You will need to adjust the test data for the current year, as it is coded for the year 2021.
+
+| Sales ID | Year |
+|---------:|-----:|
+| 1001     | 2018 |
+| 1001     | 2019 |
+| 1001     | 2020 |
+| 2002     | 2020 |
+| 2002     | 2021 |
+| 3003     | 2018 |
+| 3003     | 2020 |
+| 3003     | 2021 |
+| 4004     | 2019 |
+| 4004     | 2020 |
+| 4004     | 2021 |
+
+Here is the expected output.
+
+| Sales ID |
+|---------:|
+| 4004     |
+
+- Sales ID **4004** would be in the expected output as this customer had a sale in the current year, plus the previous two years.
+
+--------
+
+<h1 align="center">Puzzle #49</h1>
+<h1 align="center">Sumo Wrestlers</h1>
+
+A group of Sumo wrestlers are forming a line to board an elevator. Unfortunately, the elevator can only hold 2,000 pounds, and not all Sumo wrestlers can board. Which Sumo wrestler would be the last to enter given the following queue order?
+
+| Line Order | Name   | Weight |
+|-----------:|--------|-------:|
+| 1          | Haruto | 611    |
+| 2          | Minato | 533    |
+| 3          | Haruki | 623    |
+| 4          | Sota   | 569    |
+| 5          | Aoto   | 610    |
+| 6          | Hinata | 525    |
+
+Here is the expected output.
+
+| Name  |
+|-------|
+| Haruki |
+
+--------
+
+<h1 align="center">Puzzle #50</h1>
+<h1 align="center">Baseball Balls and Strikes</h1>
+
+For this puzzle, you will need to understand the rules of baseball's balls and strike count.
+
+Given a table containing the columns Batter ID, Pitch Number, and Result for each pitch. Construct an SQL statement that returns Start Of Pitch Count and End Of Pitch Count.
+
+Here is the expected output.
+
+| Batter ID | Pitch Number | Result | Start Of Pitch Count | End Of Pitch Count |
+|----------:|-------------:|--------|----------------------|--------------------|
+| 1001      | 1            | Foul   | 0 – 0                | 0 – 1              |
+| 1001      | 2            | Foul   | 0 – 1                | 0 – 2              |
+| 1001      | 3            | Ball   | 0 – 2                | 1 – 2              |
+| 1001      | 4            | Ball   | 1 – 2                | 2 – 2              |
+| 1001      | 5            | Strike | 2 – 2                | 2 – 3              |
+| 2002      | 1            | Ball   | 0 – 0                | 1 – 0              |
+| 2002      | 2            | Strike | 1 – 0                | 1 – 1              |
+| 2002      | 3            | Foul   | 1 – 1                | 1 – 2              |
+| 2002      | 4            | Foul   | 1 – 2                | 1 – 2              |
+| 2002      | 5            | Foul   | 1 – 2                | 1 – 2              |
+| 2002      | 6            | In Play| 1 – 2                | In-Play            |
+| 3003      | 1            | Ball   | 0 – 0                | 1 – 0              |
+| 3003      | 2            | Ball   | 1 – 0                | 2 – 0              |
+| 3003      | 3            | Ball   | 2 – 0                | 3 – 0              |
+| 3003      | 4            | Ball   | 3 – 0                | 4 – 0              |
+| 4004      | 1            | Foul   | 0 – 0                | 0 – 1              |
+| 4004      | 2            | Foul   | 0 – 1                | 0 – 2              |
+| 4004      | 3            | Foul   | 0 – 2                | 0 – 2              |
+| 4004      | 4            | Foul   | 0 – 2                | 0 – 2              |
+| 4004      | 5            | Foul   | 0 – 2                | 0 – 2              |
+| 4004      | 6            | Strike | 0 – 2                | 0 – 3              |
+
+--------
+
+<h1 align="center">Puzzle #51</h1>
+<h1 align="center">Primary Key Creation</h1>
+
+Given the following table, whose natural key is a combination of the columns Assembly ID and Part, use the HASHBYTES and CHECKSUM functions to create two new columns that can be used as primary keys.
+
+The goal here is to create a single column that is unique and re-creatable. The benefit of creating a hashbytes or checksum column is to aid in data profiling and integrity checks when a table contains a multitude of columns that form the natural key (and some of these columns can be NULL).
+
+| Assembly ID | Part   |
+|------------:|--------|
+| 1001        | Bolt   |
+| 1001        | Screw  |
+| 2002        | Nut    |
+| 2002        | Washer |
+| 3003        | Toggle |
+| 3003        | Bolt   |
+
+--------
+
+
+--------
+
+
+--------
+
+
+--------
+
+
+--------
+
+
+--------
+
+
+--------
+
+
+--------
+
+
+--------
+
+
+--------
+
+
+--------
+
+
+--------
+
+
+--------
+
+
+--------
+
+
+--------
+
+
+--------
+
+
+--------
+
+
+--------
+
+
+--------
+
+
+--------
+
+
+--------
+
+
+--------
+
+
+--------
+
+
+--------
+
+
+--------
+
+
+--------
+
+
+--------
+
+
+--------
+
 
 --------
 
