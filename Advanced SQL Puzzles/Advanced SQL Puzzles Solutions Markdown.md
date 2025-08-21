@@ -2027,12 +2027,94 @@ Here is the expected output.
 
 --------
 
+<h1 align="center">Puzzle #70</h1>
+<h1 align="center">Student Facts</h1>
+
+You have access to a database containing student enrollment information for a school. Your goal is to create the summary statistics provided below.
+
+| Parent ID | Child ID | Age | Gender |
+|---------:|:--------:|---:|:-----:|
+| 1001     | A        | 8  | M     |
+| 1001     | B        | 12 | F     |
+| 2002     | C        | 7  | F     |
+| 2002     | D        | 9  | F     |
+| 2002     | E        | 14 | M     |
+| 3003     | F        | 12 | F     |
+| 3003     | G        | 14 | M     |
+| 4004     | H        | 7  | M     |
+
+Here is the expected output.
+
+| Parent ID | Number Children | Average Age | Age Difference | Largest Age Gap | Youngest Age | Oldest Age | Genders  |
+|---------:|-----------------:|------------:|---------------:|----------------:|-------------:|-----------:|:---------|
+| 1001 | 2 | 10 | 4 | 4 | 8  | 12 | M, F     |
+| 2002 | 3 | 10 | 7 | 5 | 7  | 14 | F, F, M  |
+| 3003 | 2 | 13 | 2 | 2 | 12 | 14 | F, M     |
+| 4004 | 1 | 7  | 0 | 0 | 7  | 7  | M        |
 
 --------
 
+<h1 align="center">Puzzle #71</h1>
+<h1 align="center">Employee Validation</h1>
+
+Due to a suboptimal database design by the database architecture team, employee records are split across two separate tables: one for temporary employees and another for permanent employees. You are faced with the following challenges.
+
+1. Ensure that an employee is not simultaneously listed in both the Temporary and Permanent employee tables. An INSERT into the Temporary or Permanent tables should fail if this criterion is not met.
+2. Confirm that any employee added to either the Temporary or Permanent table has a corresponding entry in the main Employees table. An INSERT into the Temporary or Permanent table should fail if this criterion is not met.
+
+**Temporary Employees**
+
+| Employee ID | Department |
+|------------:|------------|
+| 1001        | Engineering|
+| 2002        | Sales      |
+| 3003        | Marketing  |
+
+**Permanent Employees**
+
+| Employee ID | Department |
+|------------:|------------|
+| 4004        | Marketing  |
+| 5005        | Accounting |
+| 6006        | Accounting |
+
+**Employees**
+
+| Employee ID | Name    |
+|------------:|---------|
+| 1001        | John    |
+| 2002        | Eric    |
+| 3003        | Jennifer|
+| 4004        | Bob     |
+| 5005        | Stuart  |
+| 6006        | Angie   |
 
 --------
 
+<h1 align="center">Puzzle #72</h1>
+<h1 align="center">Under Warranty</h1>
+
+Your laptop repair shop offers a 30-day warranty on its repair services. From the following dataset, you need to determine all rework that falls under warranty.
+
+| Repair ID | Customer ID | Repair Date |
+|----------:|:-----------:|:-----------:|
+| 1001      | A           | 01/01/2023  |
+| 2002      | A           | 01/15/2023  |
+| 3003      | A           | 01/17/2023  |
+| 4004      | A           | 03/24/2023  |
+| 5005      | A           | 04/01/2023  |
+| 6006      | B           | 06/22/2023  |
+| 7007      | B           | 06/23/2023  |
+| 8008      | B           | 09/01/2023  |
+
+Here is the expected output.
+
+| Customer ID | Repair ID | Previous Repair ID | Repair Date | Previous Repair Date | Sequence Number | Repair Gap Days |
+|:-----------:|----------:|-------------------:|:-----------:|:--------------------:|----------------:|----------------:|
+| A           | 2002      | 1001               | 01/15/2023  | 01/01/2023           | 1               | 14              |
+| A           | 3003      | 2002               | 01/17/2023  | 01/15/2023           | 2               | 2               |
+| A           | 5005      | 4004               | 04/01/2023  | 03/24/2023           | 1               | 8               |
+| B           | 7007      | 6006               | 06/23/2023  | 06/22/2023           | 1               | 1               |
 
 --------
 
