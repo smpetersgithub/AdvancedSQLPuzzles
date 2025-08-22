@@ -181,9 +181,7 @@ Here is the expected output.
 |             | Butter      |
 |             | Cheese      |
 |             | Fruit       |
-
 [🔙 Back to Table of Contents](#table-of-contents)
-
 --------
 
 # Puzzle #2 - Managers and Employees
@@ -209,7 +207,7 @@ Here is the expected output.
 | 4004        | 2002       | Engineer        | 2     |
 | 5005        | 2002       | Engineer        | 2     |
 | 6006        | 2002       | Engineer        | 2     |
-
+[🔙 Back to Table of Contents](#table-of-contents)
 --------
 
 # Puzzle #3 - Fiscal Year Pay Rates
@@ -259,7 +257,7 @@ Here is the expected output.
 - **Customer ID 1001** appears in the result set because they had deliveries to both **California** and **Texas**.  
 - **Customer ID 3003** does **not** appear because they never had a delivery to Texas.  
 - **Customer ID 4004** does **not** appear because they never had a delivery to California.  
-
+[🔙 Back to Table of Contents](#table-of-contents)
 --------
 
 # Puzzle #5 - Phone Directory
@@ -284,8 +282,7 @@ Here is the expected output.
 | 1001        | 555-897-5421| 555-897-6542 | 555-698-9874 |
 | 2002        | 555-963-6544| 555-812-9856 |              |
 | 3003        | 555-987-6541|              |              |
-
-
+[🔙 Back to Table of Contents](#table-of-contents)
 --------
 
 # Puzzle #6 - Workflow Steps
