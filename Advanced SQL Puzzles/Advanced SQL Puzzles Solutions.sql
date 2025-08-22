@@ -3304,30 +3304,13 @@ INSERT INTO #Products (Product, ProductCode) VALUES
 ('Alpha','01'),
 ('Alpha','02'),
 ('Bravo','03'),
-('Bravo','04'),
-('Charlie','02'),
-('Delta','01'),
-('Echo','EE'),
-('Foxtrot','EE'),
-('Gulf','GG');
+('Charlie','02');
 GO
 
-WITH cte_Duplicates AS
-(
-SELECT Product
+SELECT ProductCode
 FROM   #Products
-GROUP BY Product
-HAVING COUNT(*) >= 2
-),
-cte_ProductCodes AS
-(
-SELECT  ProductCode
-FROM    #Products
-WHERE   Product IN (SELECT Product FROM cte_Duplicates)
-)
-SELECT  DISTINCT ProductCode
-FROM    #Products
-WHERE   ProductCode NOT IN (SELECT ProductCode FROM cte_ProductCodes);
+GROUP BY ProductCode
+HAVING COUNT(DISTINCT Product) = 1;
 GO
 
 /*----------------------------------------------------
@@ -3361,8 +3344,7 @@ SELECT  *
         ,CASE WHEN Score - LAG(Score,1,0) OVER (PARTITION BY PlayerID ORDER BY AttemptID) > 0 THEN 1 ELSE 0 END AS IsImproved
 FROM    #PlayerScores
 )
-SELECT
-        AttemptID
+SELECT  AttemptID
        ,PlayerID
        ,Score
        ,Score - FirstValue AS Difference_First
@@ -4204,6 +4186,7 @@ GO
 /*----------------------------------------------------
 The End
 */----------------------------------------------------
+
 
 
 
