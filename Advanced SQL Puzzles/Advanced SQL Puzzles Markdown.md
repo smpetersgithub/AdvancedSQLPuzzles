@@ -32,7 +32,7 @@ Happy coding!
 
 - [Welcome](#welcome)
 - [Table of Contents](#table-of-contents)
-  - Part I - Thinking in Sets
+  - 🗂️ **Part I - Thinking in Sets**
     - [Puzzle #1 - Shopping Carts](#puzzle-1---shopping-carts)
     - [Puzzle #2 - Managers and Employees](#puzzle-2---managers-and-employees)
     - [Puzzle #3 - Fiscal Year Pay Rates](#puzzle-3---fiscal-year-pay-rates)
@@ -110,7 +110,7 @@ Happy coding!
     - [Puzzle #75 - Symmetric Matches](#puzzle-75---symmetric-matches)
     - [Puzzle #76 - Determine Batches](#puzzle-76---determine-batches)
     - [Puzzle #77 - Temperature Readings](#puzzle-77---temperature-readings)
-  - Part II - Permutations, Combinations, Sequences and Random Numbers
+  - 🗂️ **Part II - Permutations, Combinations, Sequences, and Random Numbers**
     - [Puzzle #1 - Factorials](#puzzle-1---factorials)
     - [Puzzle #2 - All Permutations](#puzzle-2---all-permutations)
     - [Puzzle #3 - Growing Numbers](#puzzle-3---growing-numbers)
