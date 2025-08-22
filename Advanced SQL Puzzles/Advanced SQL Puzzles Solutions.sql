@@ -4063,7 +4063,7 @@ GO
 
 CREATE TABLE #Boxes 
 (
-Box      CHAR(1),
+Box      CHAR(1) PRIMARY KEY,
 [Length] INTEGER,
 Width    INTEGER,
 Height   INTEGER
@@ -4073,22 +4073,31 @@ GO
 INSERT INTO #Boxes (Box, [Length], Width, Height) VALUES
 ('A', 10, 25, 15),
 ('B', 15, 10, 25),
-('C', 10, 15, 25),
-('D', 20, 30, 30),
-('E', 30, 30, 20);
+('C', 10, 16, 24);
+
 GO
 
-WITH cte_SumDimensions AS
+WITH cte_StringAgg AS 
 (
-SELECT Box,
-       [Length] + Width + Height AS SumDimensions
-FROM   #Boxes
+SELECT  Box,
+        -- Use CROSS APPLY to unpivot and then re-pivot sorted dimensions
+        STRING_AGG(CAST(value AS VARCHAR(10)), ',') WITHIN GROUP (ORDER BY value) AS SortedDims 
+FROM    #Boxes CROSS APPLY 
+        (VALUES ([Length]), (Width), (Height)) AS D(value)
+GROUP BY Box
+),
+cte_GroupID AS 
+(
+SELECT  DISTINCT 
+        SortedDims,
+        DENSE_RANK() OVER (ORDER BY SortedDims) AS GroupingID
+FROM    cte_StringAgg
 )
-SELECT Box,
-       DENSE_RANK() OVER (ORDER BY SumDimensions) AS GroupingID
-FROM   cte_SumDimensions
-ORDER BY Box;
-GO
+SELECT  n.Box,
+        g.GroupingID
+FROM    cte_StringAgg n INNER JOIN 
+        cte_GroupID g ON n.SortedDims = g.SortedDims
+ORDER BY n.Box;
 
 /*----------------------------------------------------
 Answer to Puzzle #76
@@ -4195,6 +4204,7 @@ GO
 /*----------------------------------------------------
 The End
 */----------------------------------------------------
+
 
 
 
