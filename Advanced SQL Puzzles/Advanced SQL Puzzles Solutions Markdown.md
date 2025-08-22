@@ -2360,9 +2360,7 @@ Write an SQL statement to determine which boxes have the same dimensions.
 |--------|--------|-------|--------|
 | A      | 10     | 25    | 15     |
 | B      | 15     | 10    | 25     |
-| C      | 10     | 15    | 25     |
-| D      | 20     | 30    | 30     |
-| E      | 30     | 30    | 20     |
+| C      | 10     | 16    | 24     |
 
 Here is the expected output.
 
@@ -2370,9 +2368,7 @@ Here is the expected output.
 |--------|-------------|
 | A      | 1           |
 | B      | 1           |
-| C      | 1           |
-| D      | 2           |
-| E      | 2           |
+| C      | 2           |
 
 [🔙 Back to Table of Contents](#table-of-contents)
 
