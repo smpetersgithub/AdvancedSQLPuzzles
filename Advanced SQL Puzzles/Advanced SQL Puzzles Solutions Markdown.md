@@ -479,6 +479,8 @@ Here is the expected output.
 | C,A,B      |
 | C,B,A      |
 
+[🔙 Back to Table of Contents](#table-of-contents)
+
 --------
 
 # Puzzle #12 - Average Days
