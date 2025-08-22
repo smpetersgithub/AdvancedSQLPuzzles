@@ -60,7 +60,6 @@ INSERT INTO #Employees (EmployeeID, ManagerID, JobTitle) VALUES
 (5005,2002,'Engineer'),(6006,2002,'Engineer');
 GO
 
-
 /*----------------------------------------------------
 DDL for Puzzle #3
 Fiscal Year Table Constraints
@@ -1920,4 +1919,5 @@ GO
 /*----------------------------------------------------
 The End
 */----------------------------------------------------
+
 
