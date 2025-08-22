@@ -1,4 +1,4 @@
-# Advanced SQL Puzzles
+# 🧩 Advanced SQL Puzzles
 
 This repository contains a collection of my SQL puzzles and various writings. Feel free to rummage around, I am constantly updating this repository, so check back often.
 
