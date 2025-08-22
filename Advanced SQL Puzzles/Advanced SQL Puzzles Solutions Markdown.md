@@ -181,6 +181,7 @@ Here is the expected output.
 |             | Butter      |
 |             | Cheese      |
 |             | Fruit       |
+
 [🔙 Back to Table of Contents](#table-of-contents)
 --------
 
