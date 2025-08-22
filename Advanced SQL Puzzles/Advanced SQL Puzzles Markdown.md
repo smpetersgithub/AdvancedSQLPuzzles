@@ -1,4 +1,4 @@
-# Welcome  
+# 🟦 Welcome  
 
 I hope you enjoy these puzzles as much as I have enjoyed creating them!  
 
@@ -28,7 +28,7 @@ Happy coding!
 
 --------
 
-# Table of Contents
+# 🟦 Table of Contents
 
 - [Welcome](#welcome)
 - [Table of Contents](#table-of-contents)
