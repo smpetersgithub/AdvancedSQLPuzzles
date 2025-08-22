@@ -1913,21 +1913,14 @@ Given the table below, return a result set of all product codes not associated w
 | Alpha    | 01           |
 | Alpha    | 02           |
 | Bravo    | 03           |
-| Bravo    | 04           |
 | Charlie  | 02           |
-| Delta    | 01           |
-| Echo     | EE           |
-| Foxtrot  | EE           |
-| Gulf     | GG           |
 
 Here is the expected output.
 
 | Product Code |
 |--------------|
-| EE           |
-| GG           |
-
-- The result set will contain the Product Codes of EE and GG** as Product Codes **01**, **02**, **03**, and **04** are associated with **Alpha** and **Bravo**, which have multiple entries.
+| 01           |
+| 03           |
 
 [🔙 Back to Table of Contents](#table-of-contents)
 
