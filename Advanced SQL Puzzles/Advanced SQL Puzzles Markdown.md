@@ -242,22 +242,22 @@ For every customer who had a delivery to California, provide a result set of the
 
 | Customer ID | Order ID | Delivery State | Amount |
 |-------------|----------|----------------|--------|
-| 1001        | 1        | CA             | $340   |
-| 1001        | 2        | TX             | $950   |
-| 1001        | 3        | TX             | $670   |
-| 1001        | 4        | TX             | $860   |
-| 2002        | 5        | WA             | $320   |
-| 3003        | 6        | CA             | $650   |
-| 3003        | 7        | CA             | $830   |
-| 4004        | 8        | TX             | $120   |
+| 1001        | 1        | CA             | 340    |
+| 1001        | 2        | TX             | 950    |
+| 1001        | 3        | TX             | 670    |
+| 1001        | 4        | TX             | 860    |
+| 2002        | 5        | WA             | 320    |
+| 3003        | 6        | CA             | 650    |
+| 3003        | 7        | CA             | 830    |
+| 4004        | 8        | TX             | 120    |
 
 Here is the expected output.
 
 | Customer ID | Order ID | Delivery State | Amount |
 |-------------|----------|----------------|--------|
-| 1001        | 2        | TX             | $950   |
-| 1001        | 3        | TX             | $670   |
-| 1001        | 4        | TX             | $860   |
+| 1001        | 2        | TX             | 950    |
+| 1001        | 3        | TX             | 670    |
+| 1001        | 4        | TX             | 860    |
 
 - Customer ID 1001 appears in the result set because they had deliveries to both California and Texas.  
 - Customer ID 3003 does not appear because they never had a delivery to Texas.  
@@ -724,19 +724,19 @@ Here is the expected output.
 Write an SQL statement to determine the current price point for each product.
 
 | Product ID | Effective Date | Unit Price |
-|------------|----------------|-----------|
-| 1001       | 1/1/2018       | $1.99     |
-| 1001       | 4/15/2018      | $2.99     |
-| 1001       | 6/8/2018       | $3.99     |
-| 2002       | 4/17/2018      | $1.99     |
-| 2002       | 5/19/2018      | $2.99     |
+|------------|----------------|------------|
+| 1001       | 1/1/2018       | 1.99       |
+| 1001       | 4/15/2018      | 2.99       |
+| 1001       | 6/8/2018       | 3.99       |
+| 2002       | 4/17/2018      | 1.99       |
+| 2002       | 5/19/2018      | 2.99       |
 
 Here is the expected output.
 
 | Product ID | Effective Date | Unit Price |
-|------------|----------------|-----------|
-| 1001       | 6/8/2018       | $3.99     |
-| 2002       | 5/19/2018      | $2.99     |
+|------------|----------------|------------|
+| 1001       | 6/8/2018       | 3.99       |
+| 2002       | 5/19/2018      | 2.99       |
 
 [🔙 Back to Table of Contents](#table-of-contents)
 
@@ -748,19 +748,19 @@ Write an SQL statement that returns a list of states where customers have an ave
 
 | Order ID | Customer ID | Order Date | Amount | State |
 |----------|-------------|------------|--------|-------|
-| 1        | 1001        | 1/1/2018   | $100   | TX    |
-| 2        | 1001        | 1/1/2018   | $150   | TX    |
-| 3        | 1001        | 1/1/2018   | $75    | TX    |
-| 4        | 1001        | 2/1/2018   | $100   | TX    |
-| 5        | 1001        | 3/1/2018   | $100   | TX    |
-| 6        | 2002        | 2/1/2018   | $75    | TX    |
-| 7        | 2002        | 2/1/2018   | $150   | TX    |
-| 8        | 3003        | 1/1/2018   | $100   | IA    |
-| 9        | 3003        | 2/1/2018   | $100   | IA    |
-| 10       | 3003        | 3/1/2018   | $100   | IA    |
-| 11       | 4004        | 4/1/2018   | $100   | IA    |
-| 12       | 4004        | 5/1/2018   | $50    | IA    |
-| 13       | 4004        | 5/1/2018   | $100   | IA    |
+| 1        | 1001        | 1/1/2018   | 100    | TX    |
+| 2        | 1001        | 1/1/2018   | 150    | TX    |
+| 3        | 1001        | 1/1/2018   | 75     | TX    |
+| 4        | 1001        | 2/1/2018   | 100    | TX    |
+| 5        | 1001        | 3/1/2018   | 100    | TX    |
+| 6        | 2002        | 2/1/2018   | 75     | TX    |
+| 7        | 2002        | 2/1/2018   | 150    | TX    |
+| 8        | 3003        | 1/1/2018   | 100    | IA    |
+| 9        | 3003        | 2/1/2018   | 100    | IA    |
+| 10       | 3003        | 3/1/2018   | 100    | IA    |
+| 11       | 4004        | 4/1/2018   | 100    | IA    |
+| 12       | 4004        | 5/1/2018   | 50     | IA    |
+| 13       | 4004        | 5/1/2018   | 100    | IA    |
 
 Here is the expected output.
 
@@ -839,29 +839,29 @@ Write an SQL statement that retrieves records 5 to 10 ordered by the Order ID co
 
 | Order ID | Customer ID | Order Date | Amount | State |
 |----------|-------------|------------|--------|-------|
-| 1        | 1001        | 1/1/2018   | $100   | TX    |
-| 2        | 3003        | 1/1/2018   | $100   | IA    |
-| 3        | 1001        | 3/1/2018   | $100   | TX    |
-| 4        | 2002        | 2/1/2018   | $150   | TX    |
-| 5        | 1001        | 2/1/2018   | $100   | TX    |
-| 6        | 4004        | 5/1/2018   | $50    | IA    |
-| 7        | 1001        | 1/1/2018   | $150   | TX    |
-| 8        | 3003        | 3/1/2018   | $100   | IA    |
-| 9        | 4004        | 4/1/2018   | $100   | IA    |
-| 10       | 1001        | 1/1/2018   | $75    | TX    |
-| 11       | 2002        | 2/1/2018   | $75    | TX    |
-| 12       | 3003        | 2/1/2018   | $100   | IA    |
-| 13       | 4004        | 5/1/2018   | $100   | IA    |
+| 1        | 1001        | 1/1/2018   | 100    | TX    |
+| 2        | 3003        | 1/1/2018   | 100    | IA    |
+| 3        | 1001        | 3/1/2018   | 100    | TX    |
+| 4        | 2002        | 2/1/2018   | 150    | TX    |
+| 5        | 1001        | 2/1/2018   | 100    | TX    |
+| 6        | 4004        | 5/1/2018   | 50     | IA    |
+| 7        | 1001        | 1/1/2018   | 150    | TX    |
+| 8        | 3003        | 3/1/2018   | 100    | IA    |
+| 9        | 4004        | 4/1/2018   | 100    | IA    |
+| 10       | 1001        | 1/1/2018   | 75     | TX    |
+| 11       | 2002        | 2/1/2018   | 75     | TX    |
+| 12       | 3003        | 2/1/2018   | 100    | IA    |
+| 13       | 4004        | 5/1/2018   | 100    | IA    |
 
 Here is the expected output.
 
 | Order ID | Customer ID | Order Date | Amount | State |
 |----------|-------------|------------|--------|-------|
-| 5        | 1001        | 2/1/2018   | $100   | TX    |
-| 6        | 4004        | 5/1/2018   | $50    | IA    |
-| 7        | 1001        | 1/1/2018   | $150   | TX    |
-| 8        | 3003        | 3/1/2018   | $100   | IA    |
-| 9        | 4004        | 4/1/2018   | $100   | IA    |
+| 5        | 1001        | 2/1/2018   | 100    | TX    |
+| 6        | 4004        | 5/1/2018   | 50     | IA    |
+| 7        | 1001        | 1/1/2018   | 150    | TX    |
+| 8        | 3003        | 3/1/2018   | 100    | IA    |
+| 9        | 4004        | 4/1/2018   | 100    | IA    |
 
 [🔙 Back to Table of Contents](#table-of-contents)
 
@@ -897,18 +897,18 @@ Write an SQL statement that shows the current year’s sales, along with the pre
 
 | Year |  Amount  |
 |------|----------|
-| 2018 | $352,645 |
-| 2017 | $165,565 |
-| 2017 | $254,654 |
-| 2016 | $159,521 |
-| 2016 | $251,696 |
-| 2016 | $111,894 |
+| 2018 | 352,645  |
+| 2017 | 165,565  |
+| 2017 | 254,654  |
+| 2016 | 159,521  |
+| 2016 | 251,696  |
+| 2016 | 111,894  |
 
 Here is the expected output.
 
-|   2018   |   2017   |   2016   |
-|----------|----------|----------|
-| $352,645 | $420,219 | $411,217 |
+|   2018  |  2017   |  2016   |
+|---------|---------|---------|
+| 352,645 | 420,219 | 411,217 |
 
 [🔙 Back to Table of Contents](#table-of-contents)
 
@@ -1023,7 +1023,7 @@ Modify the following table in such a way that the statement `SELECT * FROM Produ
 ```sql
 CREATE TABLE #Products
 (
-ProductID  INTEGER PRIAMRY KEY,
+ProductID  INTEGER PRIMARY KEY,
 ProductName VARCHAR(200)
 );
 ```
@@ -1039,7 +1039,7 @@ Given the set of unique integers in the following DDL statement, how many differ
 ```sql
 CREATE TABLE #SampleData
 (
-    IntegerValue INTEGER PRIMARY KEY
+IntegerValue INTEGER PRIMARY KEY
 );
 
 INSERT INTO #SampleData VALUES
@@ -1055,13 +1055,13 @@ Here is the expected output.
 **Bonus**
 How would you construct an SQL query to retrieve the second-highest salary (a non-unique value) from a dataset? The result will show $150,000.
 
-|         Name         |  Salary  |
-|----------------------|----------|
-| Carl Friedrich Gauss | $250,000 |
-| Evariste Galois      | $250,000 |
-| Pierre-Simon Laplace | $150,000 |
-| Sophie Germain       | $150,000 |
-| Leonhard Euler       | $100,000 |
+|         Name         |  Salary |
+|----------------------|---------|
+| Carl Friedrich Gauss | 250,000 |
+| Evariste Galois      | 250,000 |
+| Pierre-Simon Laplace | 150,000 |
+| Sophie Germain       | 150,000 |
+| Leonhard Euler       | 100,000 |
 
 [🔙 Back to Table of Contents](#table-of-contents)
 
@@ -1138,18 +1138,18 @@ Write an SQL statement that returns all rows except where the Customer ID is 100
 
 | Order ID | Customer ID | Amount |
 |----------|-------------|--------|
-| 1        | 1001        | $25    |
-| 2        | 1001        | $50    |
-| 3        | 2002        | $65    |
-| 4        | 3003        | $50    |
+| 1        | 1001        | 25     |
+| 2        | 1001        | 50     |
+| 3        | 2002        | 65     |
+| 4        | 3003        | 50     |
 
 Here is the expected output.
 
 | Order ID | Customer ID | Amount |
 |----------|-------------|--------|
-| 1        | 1001        | $25    |
-| 3        | 2002        | $65    |
-| 4        | 3003        | $50    |
+| 1        | 1001        | 25     |
+| 3        | 2002        | 65     |
+| 4        | 3003        | 50     |
 
 [🔙 Back to Table of Contents](#table-of-contents)
 
@@ -1161,18 +1161,18 @@ You work in a sales office that sells widgets both domestically and internationa
 
 Write an SQL statement that shows all sales representatives who either had a domestic sale or an international sale, but not both.
 
-| Invoice ID | Sales Rep ID |  Amount  |   Sales Type   |
-|------------|--------------|----------|----------------|
-| 1          | 1001         | $13,454  | International  |
-| 2          | 2002         | $3,434   | International  |
-| 3          | 4004         | $54,645  | International  |
-| 4          | 5005         | $234,345 | International  |
-| 5          | 7007         | $776     | International  |
-| 6          | 1001         | $4,564   | Domestic       |
-| 7          | 2002         | $34,534  | Domestic       |
-| 8          | 3003         | $345     | Domestic       |
-| 9          | 6006         | $6,543   | Domestic       |
-| 10         | 8008         | $67      | Domestic       |
+| Invoice ID | Sales Rep ID | Amount  |   Sales Type   |
+|------------|--------------|---------|----------------|
+| 1          | 1001         | 13,454  | International  |
+| 2          | 2002         | 3,434   | International  |
+| 3          | 4004         | 54,645  | International  |
+| 4          | 5005         | 234,345 | International  |
+| 5          | 7007         | 776     | International  |
+| 6          | 1001         | 4,564   | Domestic       |
+| 7          | 2002         | 34,534  | Domestic       |
+| 8          | 3003         | 345     | Domestic       |
+| 9          | 6006         | 6,543   | Domestic       |
+| 10         | 8008         | 67      | Domestic       |
 
 Here is the expected output.
 
@@ -1197,23 +1197,23 @@ Write an SQL statement that shows all the possible routes from Austin to Des Moi
 
 Note that the data represents a cyclic graph.
 
-| Route ID | Departure City | Arrival City | Cost  |
-|----------|----------------|--------------|-------|
-| 1        | Austin         | Dallas       | $100  |
-| 1        | Dallas         | Austin       | $100  |
-| 2        | Dallas         | Memphis      | $200  |
-| 2        | Memphis        | Dallas       | $200  |
-| 3        | Memphis        | Des Moines   | $300  |
-| 3        | Des Moines     | Memphis      | $300  |
-| 4        | Dallas         | Des Moines   | $400  |
-| 4        | Des Moines     | Dallas       | $400  |
+| Route ID | Departure City | Arrival City | Cost |
+|----------|----------------|--------------|------|
+| 1        | Austin         | Dallas       | 100  |
+| 1        | Dallas         | Austin       | 100  |
+| 2        | Dallas         | Memphis      | 200  |
+| 2        | Memphis        | Dallas       | 200  |
+| 3        | Memphis        | Des Moines   | 300  |
+| 3        | Des Moines     | Memphis      | 300  |
+| 4        | Dallas         | Des Moines   | 400  |
+| 4        | Des Moines     | Dallas       | 400  |
 
 Here is the expected output.
 
 | Route Path                                   | Total Cost |
 |----------------------------------------------|------------|
-| Austin --> Dallas --> Des Moines             | $500       |
-| Austin --> Dallas --> Memphis --> Des Moines | $600       |
+| Austin --> Dallas --> Des Moines             | 500        |
+| Austin --> Dallas --> Memphis --> Des Moines | 600        |
 
 [🔙 Back to Table of Contents](#table-of-contents)
 
@@ -1223,21 +1223,21 @@ Here is the expected output.
 
 Write an SQL statement that provides a key based on the distinct combination of the columns Distributor, Facility, and Zone.
 
-| Order ID | Distributor | Facility | Zone | Amount |
-|----------|-------------|----------|------|--------|
-| 1        | ACME        | 123      | ABC  | $100   |
-| 2        | ACME        | 123      | ABC  | $75    |
-| 3        | Direct Parts| 789      | XYZ  | $150   |
-| 4        | Direct Parts| 789      | XYZ  | $125   |
+| Order ID | Distributor  | Facility | Zone | Amount |
+|----------|--------------|----------|------|--------|
+| 1        | ACME         | 123      | ABC  | 100    |
+| 2        | ACME         | 123      | ABC  | 75     |
+| 3        | Direct Parts | 789      | XYZ  | 150    |
+| 4        | Direct Parts | 789      | XYZ  | 125    |
 
 Here is the expected output.
 
-| Criteria ID | Order ID | Distributor | Facility | Zone | Amount |
-|-------------|----------|-------------|----------|------|--------|
-| 1           | 1        | ACME        | 123      | ABC  | $100   |
-| 1           | 2        | ACME        | 123      | ABC  | $75    |
-| 2           | 3        | Direct Parts| 789      | XYZ  | $150   |
-| 2           | 4        | Direct Parts| 789      | XYZ  | $125   |
+| Criteria ID | Order ID | Distributor  | Facility | Zone | Amount |
+|-------------|----------|--------------|----------|------|--------|
+| 1           | 1        | ACME         | 123      | ABC  | 100    |
+| 1           | 2        | ACME         | 123      | ABC  | 75     |
+| 2           | 3        | Direct Parts | 789      | XYZ  | 150    |
+| 2           | 4        | Direct Parts | 789      | XYZ  | 125    |
 
 [🔙 Back to Table of Contents](#table-of-contents)
 
@@ -1440,31 +1440,31 @@ Given the following table, write an SQL statement to create a Type 2 Slowly Chan
 
 | Customer ID | Balance Date | Amount |
 |-------------|--------------|--------|
-| 1001        | 10/11/2021   | $54.32 |
-| 1001        | 10/10/2021   | $17.65 |
-| 1001        | 9/18/2021    | $65.56 |
-| 1001        | 9/12/2021    | $56.23 |
-| 1001        | 9/1/2021     | $42.12 |
-| 2002        | 10/15/2021   | $46.52 |
-| 2002        | 10/13/2021   | $7.65  |
-| 2002        | 9/15/2021    | $75.12 |
-| 2002        | 9/10/2021    | $47.34 |
-| 2002        | 9/2/2021     | $11.11 |
+| 1001        | 10/11/2021   | 54.32  |
+| 1001        | 10/10/2021   | 17.65  |
+| 1001        | 9/18/2021    | 65.56  |
+| 1001        | 9/12/2021    | 56.23  |
+| 1001        | 9/1/2021     | 42.12  |
+| 2002        | 10/15/2021   | 46.52  |
+| 2002        | 10/13/2021   | 7.65   |
+| 2002        | 9/15/2021    | 75.12  |
+| 2002        | 9/10/2021    | 47.34  |
+| 2002        | 9/2/2021     | 11.11  |
 
 Here is the expected output.
 
 | Customer ID | Start Date | End Date   | Amount |
 |-------------|------------|------------|--------|
-| 1001        | 10/11/2021 | 12/31/9999 | $54.32 |
-| 1001        | 10/10/2021 | 10/10/2021 | $17.65 |
-| 1001        | 9/18/2021  | 10/9/2021  | $65.56 |
-| 1001        | 9/12/2021  | 9/17/2021  | $56.23 |
-| 1001        | 9/1/2021   | 9/11/2021  | $42.12 |
-| 2002        | 10/15/2021 | 12/31/9999 | $46.52 |
-| 2002        | 10/13/2021 | 10/14/2021 | $7.65  |
-| 2002        | 9/15/2021  | 10/12/2021 | $75.12 |
-| 2002        | 9/10/2021  | 9/14/2021  | $47.34 |
-| 2002        | 9/2/2021   | 9/9/2021   | $11.11 |
+| 1001        | 10/11/2021 | 12/31/9999 | 54.32  |
+| 1001        | 10/10/2021 | 10/10/2021 | 17.65  |
+| 1001        | 9/18/2021  | 10/9/2021  | 65.56  |
+| 1001        | 9/12/2021  | 9/17/2021  | 56.23  |
+| 1001        | 9/1/2021   | 9/11/2021  | 42.12  |
+| 2002        | 10/15/2021 | 12/31/9999 | 46.52  |
+| 2002        | 10/13/2021 | 10/14/2021 | 7.65   |
+| 2002        | 9/15/2021  | 10/12/2021 | 75.12  |
+| 2002        | 9/10/2021  | 9/14/2021  | 47.34  |
+| 2002        | 9/2/2021   | 9/9/2021   | 11.11  |
 
 [🔙 Back to Table of Contents](#table-of-contents)
 
@@ -1476,19 +1476,19 @@ Given the following table with overlapping time frames. Write an SQL statement t
 
 | Customer ID | Start Date | End Date   | Amount |
 |-------------|------------|------------|--------|
-| 1001        | 10/11/2021 | 12/31/9999 | $54.32 |
-| 1001        | 10/10/2021 | 10/10/2021 | $17.65 |
-| 1001        | 9/18/2021  | 10/12/2021 | $65.56 |
-| 2002        | 9/12/2021  | 9/17/2021  | $56.23 |
-| 2002        | 9/1/2021   | 9/17/2021  | $42.12 |
-| 2002        | 8/15/2021  | 8/31/2021  | $16.32 |
+| 1001        | 10/11/2021 | 12/31/9999 | 54.32  |
+| 1001        | 10/10/2021 | 10/10/2021 | 17.65  |
+| 1001        | 9/18/2021  | 10/12/2021 | 65.56  |
+| 2002        | 9/12/2021  | 9/17/2021  | 56.23  |
+| 2002        | 9/1/2021   | 9/17/2021  | 42.12  |
+| 2002        | 8/15/2021  | 8/31/2021  | 16.32  |
 
 Here is the expected output.
 
 | Customer ID | Start Date | End Date   | Amount |
 |-------------|------------|------------|--------|
-| 1001        | 9/18/2021  | 10/12/2021 | $65.56 |
-| 2002        | 9/1/2021   | 9/17/2021  | $42.12 |
+| 1001        | 9/18/2021  | 10/12/2021 | 65.56  |
+| 2002        | 9/1/2021   | 9/17/2021  | 42.12  |
 
 [🔙 Back to Table of Contents](#table-of-contents)
 
@@ -1498,15 +1498,15 @@ Here is the expected output.
 
 How many different SQL statements can you write to determine all accounts whose balance has never been positive?
 
-| Account ID | Balance  |
-|------------|----------|
-| 1001       | $234.45  |
-| 1001       | $-23.12  |
-| 2002       | $-93.01  |
-| 2002       | $-120.19 |
-| 3003       | $186.76  |
-| 3003       | $90.23   |
-| 3003       | $10.11   |
+| Account ID | Balance |
+|------------|---------|
+| 1001       | 234.45  |
+| 1001       | -23.12  |
+| 2002       | -93.01  |
+| 2002       | -120.19 |
+| 3003       | 186.76  |
+| 3003       | 90.23   |
+| 3003       | 10.11   |
 
 Here is the expected output.
 
@@ -1743,7 +1743,7 @@ Here is the expected output.
 
 | Amount |
 |--------|
-| $110   |
+| 110    |
 
 [🔙 Back to Table of Contents](#table-of-contents)
 
@@ -1959,14 +1959,14 @@ You won the lottery and want to buy both a car and a boat. However, the car must
 
 | Vehicle ID | Type |        Model        |  Price   |
 |------------|------|---------------------|----------|
-| 1          | Car  | Rolls-Royce Phantom | $460,000 |
-| 2          | Car  | Cadillac CT5        | $39,000  |
-| 3          | Car  | Porsche Boxster     | $63,000  |
-| 4          | Car  | Lamborghini Spyder  | $290,000 |
-| 5          | Boat | Malibu              | $210,000 |
-| 6          | Boat | ATX 22-S            | $85,000  |
-| 7          | Boat | Sea Ray SLX         | $520,000 |
-| 8          | Boat | Mastercraft         | $25,000  |
+| 1          | Car  | Rolls-Royce Phantom | 460,000  |
+| 2          | Car  | Cadillac CT5        | 39,000   |
+| 3          | Car  | Porsche Boxster     | 63,000   |
+| 4          | Car  | Lamborghini Spyder  | 290,000  |
+| 5          | Boat | Malibu              | 210,000  |
+| 6          | Boat | ATX 22-S            | 85,000   |
+| 7          | Boat | Sea Ray SLX         | 520,000  |
+| 8          | Boat | Mastercraft         | 25,000   |
 
 Here is the expected outcome.
 
@@ -2819,17 +2819,17 @@ A set can contain no more than 2 records.
 
 | Order ID | Line Item | Cost |
 |----------|-----------|------|
-| 1        | 1         | $9   |
-| 1        | 2         | $15  |
-| 1        | 3         | $7   |
-| 1        | 4         | $3   |
-| 1        | 5         | $1   |
-| 1        | 6         | $1   |
-| 2        | 1         | $10  |
-| 2        | 2         | $10  |
-| 2        | 3         | $11  |
-| 3        | 1         | $3   |
-| 3        | 2         | $4   |
+| 1        | 1         | 9    |
+| 1        | 2         | 15   |
+| 1        | 3         | 7    |
+| 1        | 4         | 3    |
+| 1        | 5         | 1    |
+| 1        | 6         | 1    |
+| 2        | 1         | 10   |
+| 2        | 2         | 10   |
+| 2        | 3         | 11   |
+| 3        | 1         | 3    |
+| 3        | 2         | 4    |
 
 Here is the expected output.
 
