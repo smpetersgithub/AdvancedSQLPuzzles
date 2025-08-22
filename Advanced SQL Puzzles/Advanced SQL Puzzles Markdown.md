@@ -28,7 +28,7 @@ Happy coding!
 
 --------
 
-# 🟦 Table of Contents
+# Table of Contents
 
 - [Welcome](#welcome)
 - [Table of Contents](#table-of-contents)
