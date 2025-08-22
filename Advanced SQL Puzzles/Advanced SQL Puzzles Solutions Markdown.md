@@ -183,8 +183,7 @@ Here is the expected output.
 
 --------
 
-<h1 align="center">Puzzle #2</h1>
-<h1 align="center">Managers and Employees</h1>
+# Puzzle #2 - Managers and Employees
 
 Given the following hierarchical table, write an SQL statement that determines the level of depth each employee has from the president.
 
@@ -210,8 +209,7 @@ Here is the expected output.
 
 --------
 
-<h1 align="center">Puzzle #3</h1>
-<h1 align="center">Fiscal Year Pay Rates</h1>
+# Puzzle #3 - Fiscal Year Pay Rates
 
 For each standard fiscal year, a record exists for each employee that states their current pay rate for the specified year.  
 
@@ -230,8 +228,7 @@ CREATE TABLE #EmployeePayRecord
 
 --------
 
-<h1 align="center">Puzzle #4</h1>
-<h1 align="center">Two Predicates</h1>
+# Puzzle #4 - Two Predicates
 
 Write an SQL statement given the following requirements.  
 
@@ -262,8 +259,7 @@ Here is the expected output.
 
 --------
 
-<h1 align="center">Puzzle #5</h1>
-<h1 align="center">Phone Directory</h1>
+# Puzzle #5 - Phone Directory
 
 Your customer phone directory table allows individuals to set up a home, cellular, or work phone number.
 
@@ -289,8 +285,7 @@ Here is the expected output.
 
 --------
 
-<h1 align="center">Puzzle #6</h1>
-<h1 align="center">Workflow Steps</h1>
+# Puzzle #6 - Workflow Steps
 
 Write an SQL statement that determines all workflows that have started but have not been completed.  
 
@@ -317,8 +312,7 @@ Here is the expected output.
 
 --------
 
-<h1 align="center">Puzzle #7</h1>
-<h2 align="center">Mission to Mars</h2>
+# Puzzle #7 - Mission to Mars
 
 You are given the following tables that list the requirements for a space mission and a list of potential candidates.  
 
@@ -358,8 +352,7 @@ Here is the expected output.
 
 --------
 
-<h1 align="center">Puzzle #8</h1>
-<h1 align="center">Workflow Cases</h1>
+# Puzzle #8 - Workflow Cases
 
 You have a report of all workflows and their case results.  
 
@@ -385,8 +378,7 @@ Here is the expected output.
 
 --------
 
-<h1 align="center">Puzzle #9</h1>
-<h1 align="center">Matching Sets</h1>
+# Puzzle #9 - Matching Sets
 
 Write an SQL statement that matches an employee to all other employees who carry the same licenses.  
 
@@ -422,8 +414,7 @@ Here is the expected output.
 
 --------
 
-<h1 align="center">Puzzle #10</h1>
-<h1 align="center">Mean, Median, Mode, and Range</h1>
+# Puzzle #10 - Mean, Median, Mode, and Range
 
 - The **mean** is the average of all numbers.  
 - The **median** is the middle number in a sequence of numbers.  
@@ -445,8 +436,7 @@ VALUES (5),(6),(10),(10),(13),
 
 --------
 
-<h1 align="center">Puzzle #11</h1>
-<h1 align="center">Permutations</h1>
+# Puzzle #11 -Permutations
 
 You are given the following list of test cases and must determine all possible permutations.  
 
@@ -471,8 +461,7 @@ Here is the expected output.
 
 --------
 
-<h1 align="center">Puzzle #12</h1>
-<h1 align="center">Average Days</h1>
+# Puzzle #12 - Average Days
 
 Write an SQL statement to determine the average number of days between executions for each workflow.  
 
@@ -498,8 +487,7 @@ Here is the expected output.
 
 --------
 
-<h1 align="center">Puzzle #13</h1>
-<h1 align="center">Inventory Tracking</h1>
+# Puzzle #13 - Inventory Tracking
 
 You work for a manufacturing company and need to track inventory adjustments from the warehouse.  
 
@@ -508,27 +496,26 @@ Some days the inventory increases, on other days the inventory decreases.
 Write an SQL statement that will provide a running balance of the inventory.  
 
 | Date      | Quantity Adjustment |
-|-----------|----------------------|
-| 7/1/2018  | 100                  |
-| 7/2/2018  | 75                   |
-| 7/3/2018  | -150                 |
-| 7/4/2018  | 50                   |
-| 7/5/2018  | -100                 |
+|-----------|---------------------|
+| 7/1/2018  | 100                 |
+| 7/2/2018  | 75                  |
+| 7/3/2018  | -150                |
+| 7/4/2018  | 50                  |
+| 7/5/2018  | -100                |
 
 Here is the expected output.
 
 | Date      | Quantity Adjustment | Inventory |
-|-----------|----------------------|-----------|
-| 7/1/2018  | 100                  | 100       |
-| 7/2/2018  | 75                   | 175       |
-| 7/3/2018  | -150                 | 25        |
-| 7/4/2018  | 50                   | 75        |
-| 7/5/2018  | -100                 | -25       |
+|-----------|---------------------|----------|
+| 7/1/2018  | 100                 | 100      |
+| 7/2/2018  | 75                  | 175      |
+| 7/3/2018  | -150                | 25       |
+| 7/4/2018  | 50                  | 75       |
+| 7/5/2018  | -100                | -25      |
 
 --------
 
-<h1 align="center">Puzzle #14</h1>
-<h1 align="center">Indeterminate Process Log</h1>
+# Puzzle #14 - Indeterminate Process Log
 
 Your process log has several workflows broken down by step numbers with the possible status values of Complete, Running, or Error.  
 
@@ -538,7 +525,7 @@ Your task is to write an SQL statement that creates an overall status based on t
 - If any steps of a workflow have an Error status along with a status of Complete or Running, set the overall status to Indeterminate.  
 - If the workflow steps have a combination of Complete and Running (without any Errors), set the overall status to Running.  
 
-| Workflow | Step Number | Status   |
+| Workflow | Step Number |  Status  |
 |----------|-------------|----------|
 | Alpha    | 1           | Error    |
 | Alpha    | 2           | Complete |
@@ -554,43 +541,41 @@ Your task is to write an SQL statement that creates an overall status based on t
 
 Here is the expected output.
 
-| Workflow | Status       |
-|----------|--------------|
-| Alpha    | Indeterminate|
-| Bravo    | Complete     |
-| Charlie  | Running      |
-| Delta    | Error        |
-| Echo     | Running      |
+| Workflow |    Status     |
+|----------|---------------|
+| Alpha    | Indeterminate |
+| Bravo    | Complete      |
+| Charlie  | Running       |
+| Delta    | Error         |
+| Echo     | Running       |
 
 --------
 
-<h1 align="center">Puzzle #15</h1>
-<h1 align="center">Group Concatenation</h1>
+# Puzzle #15 - Group Concatenation
 
 Write an SQL statement that can group-concatenate the following values.  
 
-| Sequence | Syntax       |
-|----------|--------------|
-| 1        | SELECT       |
-| 2        | Product,     |
-| 3        | UnitPrice,   |
-| 4        | EffectiveDate|
-| 5        | FROM         |
-| 6        | Products     |
-| 7        | WHERE        |
-| 8        | UnitPrice    |
-| 9        | > 100        |
+| Sequence |     Syntax    |
+|----------|---------------|
+| 1        | SELECT        |
+| 2        | Product,      |
+| 3        | UnitPrice,    |
+| 4        | EffectiveDate |
+| 5        | FROM          |
+| 6        | Products      |
+| 7        | WHERE         |
+| 8        | UnitPrice     |
+| 9        | > 100         |
 
 Here is the expected output.
 
-| Syntax                                                                 |
-|------------------------------------------------------------------------|
+| Syntax                                                                       |
+|------------------------------------------------------------------------------|
 | SELECT Product, UnitPrice, EffectiveDate FROM Products WHERE UnitPrice > 100 |
 
 --------
 
-<h1 align="center">Puzzle #16</h1>
-<h1 align="center">Reciprocals</h1>
+# Puzzle #16 - Reciprocals
 
 You work for a software company that released a 2-player game and you need to tally the scores.  
 
@@ -613,8 +598,7 @@ Here is the expected output.
 
 --------
 
-<h1 align="center">Puzzle #17</h1>
-<h1 align="center">De-Grouping</h1>
+# Puzzle #17 - De-Grouping
 
 Write an SQL Statement to de-group the following data.  
 
@@ -640,8 +624,7 @@ Here is the expected output.
 
 --------
 
-<h1 align="center">Puzzle #18</h1>
-<h1 align="center">Seating Chart</h1>
+# Puzzle #18 - Seating Chart
 
 Given the set of integers provided in the following DDL statement, write the SQL statements to determine the following:
 - Gap start and gap ends
@@ -676,8 +659,7 @@ Here is the expected output.
 
 --------
 
-<h1 align="center">Puzzle #19</h1>
-<h1 align="center">Back to the Future</h1>
+# Puzzle #19 - Back to the Future
 
 Here is one of the more difficult puzzles to solve with a declarative SQL statement.
 
@@ -701,8 +683,7 @@ Here is the expected output.
 
 --------
 
-<h1 align="center">Puzzle #20</h1>
-<h1 align="center">Price Points</h1>
+# Puzzle #20 - Price Points
 
 Write an SQL statement to determine the current price point for each product.
 
@@ -723,8 +704,7 @@ Here is the expected output.
 
 --------
 
-<h1 align="center">Puzzle #21</h1>
-<h1 align="center">Average Monthly Sales</h1>
+# Puzzle #21 - Average Monthly Sales
 
 Write an SQL statement that returns a list of states where customers have an average monthly sales value that is consistently greater than $100.
 
@@ -755,8 +735,7 @@ Here is the expected output.
 
 --------
 
-<h1 align="center">Puzzle #22</h1>
-<h1 align="center">Occurrences</h1>
+# Puzzle #22 - Occurrences
 
 Write an SQL statement that returns all distinct process log messages and the workflow where the message occurred the most often.
 
@@ -782,8 +761,7 @@ Here is the expected output.
 
 --------
 
-<h1 align="center">Puzzle #23</h1>
-<h1 align="center">Divide in Half</h1>
+# Puzzle #23 - Divide in Half
 
 You work for a gaming company and need to rank players by their score into two categories.
 
@@ -811,8 +789,7 @@ Here is the expected output.
 
 --------
 
-<h1 align="center">Puzzle #24</h1>
-<h1 align="center">Page Views</h1>
+# Puzzle #24 - Page Views
 
 Write an SQL statement that retrieves records 5 to 10 ordered by the Order ID column.
 
@@ -844,12 +821,11 @@ Here is the expected output.
 
 --------
 
-<h1 align="center">Puzzle #25</h1>
-<h1 align="center">Top Vendors</h1>
+# Puzzle #25 - Top Vendors
 
 Write an SQL statement that returns the vendor from which each customer has placed the most orders.
 
-| Order ID | Customer ID | Count | Vendor       |
+| Order ID | Customer ID | Count |    Vendor    |
 |----------|-------------|-------|--------------|
 | 1        | 1001        | 12    | Direct Parts |
 | 2        | 1001        | 54    | Direct Parts |
@@ -860,19 +836,18 @@ Write an SQL statement that returns the vendor from which each customer has plac
 
 Here is the expected output.
 
-| Customer ID | Vendor       |
+| Customer ID |    Vendor    |
 |-------------|--------------|
 | 1001        | Direct Parts |
 | 2002        | ACME         |
 
 --------
 
-<h1 align="center">Puzzle #26</h1>
-<h1 align="center">Previous Year’s Sales</h1>
+# Puzzle #26 - Previous Year’s Sales
 
 Write an SQL statement that shows the current year’s sales, along with the previous year’s sales, and the sales from two years ago.
 
-| Year | Amount   |
+| Year |  Amount  |
 |------|----------|
 | 2018 | $352,645 |
 | 2017 | $165,565 |
@@ -883,14 +858,13 @@ Write an SQL statement that shows the current year’s sales, along with the pre
 
 Here is the expected output.
 
-| 2018    | 2017    | 2016    |
-|---------|---------|---------|
-| $352,645| $420,219| $411,217|
+|   2018   |   2017   |   2016   |
+|----------|----------|----------|
+| $352,645 | $420,219 | $411,217 |
 
 --------
 
-<h1 align="center">Puzzle #27</h1>
-<h1 align="center">Delete the Duplicates</h1>
+# Puzzle #27 - Delete the Duplicates
 
 Given the set of integers provided in the following DDL statement, write an SQL statement that deletes the duplicated integers (1 and 3).
 
@@ -915,8 +889,8 @@ Here is the expected output.
 
 --------
 
-<h1 align="center">Puzzle #28</h1>
-<h1 align="center">Fill the Gaps</h1>
+# Puzzle #28
+Fill the Gaps
 
 The answer to this problem is often referred to as a data smear or a flash fill.  
 
@@ -956,8 +930,7 @@ Here is the expected output.
 
 --------
 
-<h1 align="center">Puzzle #29</h1>
-<h1 align="center">Count the Groupings</h1>
+# Puzzle #29 - Count the Groupings
 
 Write an SQL statement that counts the consecutive values in the Status column.
 
@@ -979,15 +952,14 @@ Write an SQL statement that counts the consecutive values in the Status column.
 Here is the expected outcome.
 
 | Min Step Number | Max Step Number | Status | Consecutive Count |
-|-----------------|-----------------|--------|--------------------|
-| 1               | 4               | Passed | 4                  |
-| 5               | 9               | Failed | 5                  |
-| 10              | 12              | Passed | 3                  |
+|-----------------|-----------------|--------|-------------------|
+| 1               | 4               | Passed | 4                 |
+| 5               | 9               | Failed | 5                 |
+| 10              | 12              | Passed | 3                 |
 
 --------
 
-<h1 align="center">Puzzle #30</h1>
-<h1 align="center">Select Star</h1>
+# Puzzle #30 - Select Star
 
 Your developers have many bad practices; the worst of them being that they routinely deploy procedures that do not explicitly define which columns to return in their SELECT clause.
 
@@ -1003,8 +975,7 @@ ProductName VARCHAR(200)
 
 --------
 
-<h1 align="center">Puzzle #31</h1>
-<h1 align="center">Second Highest</h1>
+# Puzzle #31 - Second Highest
 
 Given the set of unique integers in the following DDL statement, how many different SQL statements can you write that will return the second-highest integer?
 
@@ -1028,18 +999,17 @@ Here is the expected output.
 
 How would you construct an SQL query to retrieve the second-highest salary (a non-unique value) from a dataset? The result will show $150,000.
 
-| Name                  | Salary   |
-|-----------------------|----------|
-| Carl Friedrich Gauss  | $250,000 |
-| Evariste Galois       | $250,000 |
-| Pierre-Simon Laplace  | $150,000 |
-| Sophie Germain        | $150,000 |
-| Leonhard Euler        | $100,000 |
+|         Name         |  Salary  |
+|----------------------|----------|
+| Carl Friedrich Gauss | $250,000 |
+| Evariste Galois      | $250,000 |
+| Pierre-Simon Laplace | $150,000 |
+| Sophie Germain       | $150,000 |
+| Leonhard Euler       | $100,000 |
 
 --------
 
-<h1 align="center">Puzzle #32</h1>
-<h1 align="center">First and Last</h1>
+# Puzzle #32 - First and Last
 
 Write an SQL statement that determines the most and least experienced Spaceman ID by their job description.
 
@@ -1065,8 +1035,7 @@ Here is the expected output.
 
 --------
 
-<h1 align="center">Puzzle #33</h1>
-<h1 align="center">Deadlines</h1>
+# Puzzle #33 - Deadlines
 
 You are employed by a company specializing in manufacturing various light bulbs. Each bulb is composed of distinct components, each requiring a specific number of days for production, and these components can be constructed independently.
 
@@ -1101,8 +1070,7 @@ Here is the expected output.
 
 --------
 
-<h1 align="center">Puzzle #34</h1>
-<h1 align="center">Specific Exclusion</h1>
+# Puzzle #34 - Specific Exclusion
 
 Write an SQL statement that returns all rows except where the Customer ID is 1001 and the Amount is $50.
 
@@ -1123,14 +1091,13 @@ Here is the expected output.
 
 --------
 
-<h1 align="center">Puzzle #35</h1>
-<h1 align="center">International vs. Domestic Sales</h1>
+# Puzzle #35- International vs. Domestic Sales
 
 You work in a sales office that sells widgets both domestically and internationally.
 
 Write an SQL statement that shows all sales representatives who either had a domestic sale or an international sale, but not both.
 
-| Invoice ID | Sales Rep ID | Amount   | Sales Type     |
+| Invoice ID | Sales Rep ID |  Amount  |   Sales Type   |
 |------------|--------------|----------|----------------|
 | 1          | 1001         | $13,454  | International  |
 | 2          | 2002         | $3,434   | International  |
@@ -1156,8 +1123,7 @@ Here is the expected output.
 
 --------
 
-<h1 align="center">Puzzle #36</h1>
-<h1 align="center">Traveling Salesman</h1>
+# Puzzle #36 - Traveling Salesman
 
 Here is a well-known problem known as the Traveling Salesman.
 
@@ -1185,8 +1151,7 @@ Here is the expected output.
 
 --------
 
-<h1 align="center">Puzzle #37</h1>
-<h1 align="center">Group Criteria Keys</h1>
+# Puzzle #37 - Group Criteria Keys
 
 Write an SQL statement that provides a key based on the distinct combination of the columns Distributor, Facility, and Zone.
 
@@ -1208,8 +1173,7 @@ Here is the expected output.
 
 --------
 
-<h1 align="center">Puzzle #38</h1>
-<h1 align="center">Reporting Elements</h1>
+# Puzzle #38 - Reporting Elements
 
 You must provide a report of all distributors and their sales by region. If a distributor had no sales for a region, provide a zero-dollar value for that day. Assume there is at least one sale for each region.
 
@@ -1228,27 +1192,26 @@ You must provide a report of all distributors and their sales by region. If a di
 
 Here is the expected output.
 
-| Region | Distributor | Sales |
-|--------|-------------|-------|
-| North  | ACE         | 10    |
-| South  | ACE         | 67    |
-| East   | ACE         | 54    |
-| West   | ACE         | 0     |
-| North  | ACME        | 65    |
-| South  | ACME        | 9     |
-| East   | ACME        | 1     |
-| West   | ACME        | 7     |
-| North  | Direct Parts| 8     |
-| South  | Direct Parts| 7     |
-| East   | Direct Parts| 0     |
-| West   | Direct Parts| 12    |
+| Region |  Distributor | Sales |
+|--------|--------------|-------|
+| North  | ACE          | 10    |
+| South  | ACE          | 67    |
+| East   | ACE          | 54    |
+| West   | ACE          | 0     |
+| North  | ACME         | 65    |
+| South  | ACME         | 9     |
+| East   | ACME         | 1     |
+| West   | ACME         | 7     |
+| North  | Direct Parts | 8     |
+| South  | Direct Parts | 7     |
+| East   | Direct Parts | 0     |
+| West   | Direct Parts | 12    |
 
 - In the result set, **ACE** and **Direct Parts** each have a fabricated record with **0** sales.
 
 --------
 
-<h1 align="center">Puzzle #39</h1>
-<h1 align="center">Prime Numbers</h1>
+# Puzzle #39 - Prime Numbers
 
 A prime number is a natural number greater than one that has no positive divisors other than one and itself.
 
@@ -1275,17 +1238,16 @@ Here is the expected output.
 
 --------
 
-<h1 align="center">Puzzle #40</h1>
-<h1 align="center">Sort Order</h1>
+# Puzzle #40 - Sort Order
 
 Write an SQL statement that sorts the following values into the expected output. Can you find the most elegant solution?
 
-| City     |
-|----------|
-| Atlanta  |
-| Baltimore|
-| Chicago  |
-| Denver   |
+|   City    |
+|-----------|
+| Atlanta   |
+| Baltimore |
+| Chicago   |
+| Denver    |
 
 Here is the expected output.
 
@@ -1298,8 +1260,7 @@ Here is the expected output.
 
 --------
 
-<h1 align="center">Puzzle #41</h1>
-<h1 align="center">Associate IDs</h1>
+# Puzzle #41 - Associate IDs
 
 The following table shows two hierarchical structures.
 
@@ -1332,8 +1293,7 @@ Here is the expected output.
 
 --------
 
-<h1 align="center">Puzzle #42</h1>
-<h1 align="center">Mutual Friends</h1>
+# Puzzle #42 - Mutual Friends
 
 The following table shows a cyclic data structure.
 
@@ -1366,8 +1326,7 @@ Here is the expected output.
 
 --------
 
-<h1 align="center">Puzzle #43</h1>
-<h1 align="center">Unbounded Preceding</h1>
+# Puzzle #43- Unbounded Preceding
 
 Determine the minimum quantity for each record between the current row and all previous rows for each Customer ID.
 
@@ -1393,23 +1352,22 @@ Here is the expected output.
 
 --------
 
-<h1 align="center">Puzzle #44</h1>
-<h1 align="center">Slowly Changing Dimension Part I</h1>
+# Puzzle #44- Slowly Changing Dimension Part I
 
 Given the following table, write an SQL statement to create a Type 2 Slowly Changing Dimension.
 
-| Customer ID | Balance Date | Amount  |
-|-------------|--------------|---------|
-| 1001        | 10/11/2021   | $54.32  |
-| 1001        | 10/10/2021   | $17.65  |
-| 1001        | 9/18/2021    | $65.56  |
-| 1001        | 9/12/2021    | $56.23  |
-| 1001        | 9/1/2021     | $42.12  |
-| 2002        | 10/15/2021   | $46.52  |
-| 2002        | 10/13/2021   | $7.65   |
-| 2002        | 9/15/2021    | $75.12  |
-| 2002        | 9/10/2021    | $47.34  |
-| 2002        | 9/2/2021     | $11.11  |
+| Customer ID | Balance Date | Amount |
+|-------------|--------------|--------|
+| 1001        | 10/11/2021   | $54.32 |
+| 1001        | 10/10/2021   | $17.65 |
+| 1001        | 9/18/2021    | $65.56 |
+| 1001        | 9/12/2021    | $56.23 |
+| 1001        | 9/1/2021     | $42.12 |
+| 2002        | 10/15/2021   | $46.52 |
+| 2002        | 10/13/2021   | $7.65  |
+| 2002        | 9/15/2021    | $75.12 |
+| 2002        | 9/10/2021    | $47.34 |
+| 2002        | 9/2/2021     | $11.11 |
 
 Here is the expected output.
 
@@ -1428,10 +1386,9 @@ Here is the expected output.
 
 --------
 
-<h1 align="center">Puzzle #45</h1>
-<h1 align="center">Slowly Changing Dimension Part II</h1>
+# Puzzle #45 - Slowly Changing Dimension Part II
 
-Given the following table with overlapping timeframes. Write an SQL statement to identify the overlapping records.
+Given the following table with overlapping time frames. Write an SQL statement to identify the overlapping records.
 
 | Customer ID | Start Date | End Date   | Amount |
 |-------------|------------|------------|--------|
@@ -1444,15 +1401,14 @@ Given the following table with overlapping timeframes. Write an SQL statement to
 
 Here is the expected output.
 
-| Customer ID | Start Date | End Date  | Amount |
-|-------------|------------|-----------|--------|
-| 1001        | 9/18/2021  | 10/12/2021| $65.56 |
-| 2002        | 9/1/2021   | 9/17/2021 | $42.12 |
+| Customer ID | Start Date | End Date   | Amount |
+|-------------|------------|------------|--------|
+| 1001        | 9/18/2021  | 10/12/2021 | $65.56 |
+| 2002        | 9/1/2021   | 9/17/2021  | $42.12 |
 
 --------
 
-<h1 align="center">Puzzle #46</h1>
-<h1 align="center">Negative Account Balances</h1>
+# Puzzle #46 - Negative Account Balances
 
 How many different SQL statements can you write to determine all accounts whose balance has never been positive?
 
@@ -1477,45 +1433,42 @@ Here is the expected output.
 
 --------
 
-<h1 align="center">Puzzle #47</h1>
-<h1 align="center">Work Schedule</h1>
+# Puzzle #47 - Work Schedule
 
 Given a table of employee shifts and another table of their activities, merge the two tables and write an SQL statement that produces the desired output. If an employee is scheduled and has no activity planned, label the time frame as “Work”.
 
-**Schedule**
+**Schedule**    
+| Schedule ID | Start Time      | End Time        |
+|-------------|-----------------|-----------------|
+| A           | 10/1/2021 10:00 | 10/1/2021 15:00 |
+| B           | 10/1/2021 10:15 | 10/1/2021 12:15 |
 
-| Schedule ID | Start Time       | End Time         |
-|-------------|------------------|------------------|
-| A           | 10/1/2021 10:00  | 10/1/2021 15:00  |
-| B           | 10/1/2021 10:15  | 10/1/2021 12:15  |
-
-**Activity**
-
-| Schedule ID | Activity | Start Time       | End Time         |
-|-------------|----------|------------------|------------------|
-| A           | Meeting  | 10/1/2021 10:00  | 10/1/2021 10:30  |
-| A           | Break    | 10/1/2021 12:00  | 10/1/2021 12:30  |
-| A           | Meeting  | 10/1/2021 13:00  | 10/1/2021 13:30  |
-| B           | Break    | 10/1/2021 11:00  | 10/1/2021 11:15  |
+**Activity**    
+| Schedule ID | Activity | Start Time      | End Time        |
+|-------------|----------|-----------------|-----------------|
+| A           | Meeting  | 10/1/2021 10:00 | 10/1/2021 10:30 |
+| A           | Break    | 10/1/2021 12:00 | 10/1/2021 12:30 |
+| A           | Meeting  | 10/1/2021 13:00 | 10/1/2021 13:30 |
+| B           | Break    | 10/1/2021 11:00 | 10/1/2021 11:15 |
 
 Here is the expected output.
 
-| Schedule ID | Activity | Start Time       | End Time         |
-|-------------|----------|------------------|------------------|
-| A           | Meeting  | 10/1/2021 10:00  | 10/1/2021 10:30  |
-| A           | Work     | 10/1/2021 10:30  | 10/1/2021 12:00  |
-| A           | Break    | 10/1/2021 12:00  | 10/1/2021 12:30  |
-| A           | Work     | 10/1/2021 12:30  | 10/1/2021 13:00  |
-| A           | Meeting  | 10/1/2021 13:00  | 10/1/2021 13:30  |
-| A           | Work     | 10/1/2021 13:30  | 10/1/2021 15:00  |
-| B           | Work     | 10/1/2021 10:15  | 10/1/2021 11:00  |
-| B           | Break    | 10/1/2021 11:00  | 10/1/2021 11:15  |
-| B           | Work     | 10/1/2021 11:15  | 10/1/2021 12:15  |
+| Schedule ID | Activity | Start Time      | End Time        |
+|-------------|----------|-----------------|-----------------|
+| A           | Meeting  | 10/1/2021 10:00 | 10/1/2021 10:30 |
+| A           | Work     | 10/1/2021 10:30 | 10/1/2021 12:00 |
+| A           | Break    | 10/1/2021 12:00 | 10/1/2021 12:30 |
+| A           | Work     | 10/1/2021 12:30 | 10/1/2021 13:00 |
+| A           | Meeting  | 10/1/2021 13:00 | 10/1/2021 13:30 |
+| A           | Work     | 10/1/2021 13:30 | 10/1/2021 15:00 |
+| B           | Work     | 10/1/2021 10:15 | 10/1/2021 11:00 |
+| B           | Break    | 10/1/2021 11:00 | 10/1/2021 11:15 |
+| B           | Work     | 10/1/2021 11:15 | 10/1/2021 12:15 |
 
 --------
 
-<h1 align="center">Puzzle #48</h1>
-<h1 align="center">Consecutive Sales</h1>
+# Puzzle #48
+Consecutive Sales
 
 For the following Customer IDs, write an SQL statement to determine customers who had a sale in the current year, plus the previous two consecutive years.
 
@@ -1545,12 +1498,11 @@ Here is the expected output.
 
 --------
 
-<h1 align="center">Puzzle #49</h1>
-<h1 align="center">Sumo Wrestlers</h1>
+# Puzzle #49 - Sumo Wrestlers
 
 A group of Sumo wrestlers are forming a line to board an elevator. Unfortunately, the elevator can only hold 2,000 pounds, and not all Sumo wrestlers can board. Which Sumo wrestler would be the last to enter given the following queue order?
 
-| Line Order | Name   | Weight |
+| Line Order |  Name  | Weight |
 |------------|--------|--------|
 | 1          | Haruto | 611    |
 | 2          | Minato | 533    |
@@ -1561,14 +1513,14 @@ A group of Sumo wrestlers are forming a line to board an elevator. Unfortunately
 
 Here is the expected output.
 
-| Name  |
-|-------|
+|  Name  |
+|--------|
 | Haruki |
 
 --------
 
-<h1 align="center">Puzzle #50</h1>
-<h1 align="center">Baseball Balls and Strikes</h1>
+# Puzzle #50
+Baseball Balls and Strikes
 
 For this puzzle, you will need to understand the rules of baseball's balls and strike count.
 
@@ -1602,14 +1554,13 @@ Here is the expected output.
 
 --------
 
-<h1 align="center">Puzzle #51</h1>
-<h1 align="center">Primary Key Creation</h1>
+# Puzzle #51 - Primary Key Creation
 
 Given the following table, whose natural key is a combination of the columns Assembly ID and Part, use the HASHBYTES and CHECKSUM functions to create two new columns that can be used as primary keys.
 
 The goal here is to create a single column that is unique and re-creatable. The benefit of creating a hashbytes or checksum column is to aid in data profiling and integrity checks when a table contains a multitude of columns that form the natural key (and some of these columns can be NULL).
 
-| Assembly ID | Part   |
+| Assembly ID |  Part  |
 |-------------|--------|
 | 1001        | Bolt   |
 | 1001        | Screw  |
@@ -1620,8 +1571,7 @@ The goal here is to create a single column that is unique and re-creatable. The 
 
 --------
 
-<h1 align="center">Puzzle #52</h1>
-<h1 align="center">Phone Numbers Table</h1>
+# Puzzle #52 - Phone Numbers Table
 
 You are creating a table that customer agents will use to enter customer phone numbers.
 
@@ -1631,7 +1581,7 @@ Agents will enter phone numbers into this table via a form, and it is imperative
 
 Here are a few sample records.
 
-| Customer ID | Phone Number   |
+| Customer ID |  Phone Number  |
 |-------------|----------------|
 | 1001        | (555)-555-5555 |
 | 2002        | (555)-555-5555 |
@@ -1639,8 +1589,7 @@ Here are a few sample records.
 
 --------
 
-<h1 align="center">Puzzle #53</h1>
-<h1 align="center">Spouse IDs</h1>
+# Puzzle #53 - Spouse IDs
 
 You are given the following table of individuals and their spouses. Every individual exists both as a Primary ID and a Spouse ID. You need to create a group criteria key to match the associated records.
 
@@ -1666,13 +1615,11 @@ Here is the expected output.
 
 --------
 
-<h1 align="center">Puzzle #54</h1>
-<h1 align="center">Winning the Lottery</h1>
+# Puzzle #54 - Winning the Lottery
 
 You are part of an office lottery pool where you keep a table of the winning lottery numbers along with a table of each ticket’s chosen numbers. If a ticket has some but not all the winning numbers, you win $10. If a ticket has all the winning numbers, you win $100. Calculate the total winnings for today’s drawing.
 
 **Winning Numbers**
-
 | Number |
 |--------|
 | 25     |
@@ -1680,7 +1627,6 @@ You are part of an office lottery pool where you keep a table of the winning lot
 | 78     |
 
 **Tickets**
-
 | Ticket ID | Number |
 |-----------|--------|
 | AAA       | 25     |
@@ -1701,13 +1647,11 @@ Here is the expected output.
 
 --------
 
-<h1 align="center">Puzzle #55</h1>
-<h1 align="center">Table Audit</h1>
+# Puzzle #55 - Table Audit
 
 Conduct an audit on the following tables to identify products and their corresponding quantities that are either matching or unique to each table, and generate the expected output listed below.
 
 **Products A**
-
 | Product Name | Quantity |
 |--------------|----------|
 | Widget       | 7        |
@@ -1715,7 +1659,6 @@ Conduct an audit on the following tables to identify products and their correspo
 | Gizmo        | 3        |
 
 **Products B**
-
 | Product Name | Quantity |
 |--------------|----------|
 | Widget       | 7        |
@@ -1724,17 +1667,16 @@ Conduct an audit on the following tables to identify products and their correspo
 
 Here is the expected output.
 
-| Type                                         | ProductName |
-|----------------------------------------------|-------------|
-| Matches in both table A and table B          | Widget      |
-| Product does not exist in table A            | Dingbat     |
-| Product does not exist in table B            | Gizmo       |
-| Quantity in table A and table B do not match | Doodad      |
+|                      Type                    | Product Name |
+|----------------------------------------------|--------------|
+| Matches in both table A and table B          | Widget       |
+| Product does not exist in table A            | Dingbat      |
+| Product does not exist in table B            | Gizmo        |
+| Quantity in table A and table B do not match | Doodad       |
 
 --------
 
-<h1 align="center">Puzzle #56</h1>
-<h1 align="center">Numbers Using Recursion</h1>
+# Puzzle #56 - Numbers Using Recursion
 
 Create a numbers table using a recursive query.
 
@@ -1755,33 +1697,31 @@ Here is the expected output.
 
 --------
 
-<h1 align="center">Puzzle #57</h1>
-<h1 align="center">Find the Spaces</h1>
+# Puzzle #57 - Find the Spaces
 
 Given the following table containing SQL statements, write an SQL statement that displays the following summary.
 
-| Statement |
-|-----------|
+|           Statement          |
+|------------------------------|
 | SELECT EmpID FROM Employees; |
 | SELECT * FROM Transactions;  |
 
 Here is the expected output.
 
-| Row Number | Quote ID | String                          | Starts | Ends | Word          |
-|------------|----------|---------------------------------|--------|------|---------------|
-| 1          | 1        | SELECT EmpID FROM Employees;    | 1      | 6    | SELECT        |
-| 2          | 1        | SELECT EmpID FROM Employees;    | 8      | 12   | EmpID         |
-| 3          | 1        | SELECT EmpID FROM Employees;    | 14     | 17   | FROM          |
-| 4          | 1        | SELECT EmpID FROM Employees;    | 19     | 28   | Employees;    |
-| 1          | 2        | SELECT * FROM Transactions;     | 1      | 6    | SELECT        |
-| 2          | 2        | SELECT * FROM Transactions;     | 8      | 8    | `*`           |
-| 3          | 2        | SELECT * FROM Transactions;     | 10     | 13   | FROM          |
-| 4          | 2        | SELECT * FROM Transactions;     | 15     | 27   | Transactions; |
+| Row Number | Quote ID |              String          | Starts | Ends |     Word      |
+|------------|----------|------------------------------|--------|------|---------------|
+| 1          | 1        | SELECT EmpID FROM Employees; | 1      | 6    | SELECT        |
+| 2          | 1        | SELECT EmpID FROM Employees; | 8      | 12   | EmpID         |
+| 3          | 1        | SELECT EmpID FROM Employees; | 14     | 17   | FROM          |
+| 4          | 1        | SELECT EmpID FROM Employees; | 19     | 28   | Employees;    |
+| 1          | 2        | SELECT * FROM Transactions;  | 1      | 6    | SELECT        |
+| 2          | 2        | SELECT * FROM Transactions;  | 8      | 8    | `*`           |
+| 3          | 2        | SELECT * FROM Transactions;  | 10     | 13   | FROM          |
+| 4          | 2        | SELECT * FROM Transactions;  | 15     | 27   | Transactions; |
 
 --------
 
-<h1 align="center">Puzzle #58</h1>
-<h1 align="center">Add Them Up</h1>
+# Puzzle #58 - Add Them Up
 
 You are given the following table, which contains a VARCHAR column that contains mathematical equations. Sum the equations and provide the answers in the output.
 
@@ -1813,8 +1753,7 @@ Here is the expected output.
 
 --------
 
-<h1 align="center">Puzzle #59</h1>
-<h1 align="center">Balanced String</h1>
+# Puzzle #59 - Balanced String
 
 Given a string containing parentheses, brackets, and braces, determine if the string is a balanced string.
 
@@ -1824,36 +1763,35 @@ For example, the string "([])" is balanced because the opening square bracket is
 
 Can you discover an efficient algorithm for determining whether a given string is balanced or not?
 
-| ID | String    |
-|----|-----------|
-| 1  | ()        |
-| 2  | []        |
-| 3  | {}        |
-| 4  | ((({})))  |
-| 5  | ()[]      |
-| 6  | ({})      |
-| 7  | ({)       |
-| 8  | ((())))   |
-| 9  | }()[][    |
+| ID |  String  |
+|----|----------|
+| 1  | ()       |
+| 2  | []       |
+| 3  | {}       |
+| 4  | ((({}))) |
+| 5  | ()[]     |
+| 6  | ({})     |
+| 7  | ({)      |
+| 8  | ((())))  |
+| 9  | }()[][   |
 
 Here is the expected output.
 
-| ID | String    | Outcome    |
-|----|-----------|------------|
-| 1  | ()        | Balanced   |
-| 2  | []        | Balanced   |
-| 3  | {}        | Balanced   |
-| 4  | ((({})))  | Balanced   |
-| 5  | ()[]      | Balanced   |
-| 6  | ({})      | Balanced   |
-| 7  | ({)       | Unbalanced |
-| 8  | ((())))   | Unbalanced |
-| 9  | }()[][    | Unbalanced |
+| ID |  String  |   Outcome  |
+|----|----------|------------|
+| 1  | ()       | Balanced   |
+| 2  | []       | Balanced   |
+| 3  | {}       | Balanced   |
+| 4  | ((({}))) | Balanced   |
+| 5  | ()[]     | Balanced   |
+| 6  | ({})     | Balanced   |
+| 7  | ({)      | Unbalanced |
+| 8  | ((())))  | Unbalanced |
+| 9  | }()[][   | Unbalanced |
 
 --------
 
-<h1 align="center">Puzzle #60</h1>
-<h1 align="center">Products Without Duplicates</h1>
+# Puzzle #60 - Products Without Duplicates
 
 Given the table below, return a result set of all product codes not associated with multiple products.
 
@@ -1880,8 +1818,7 @@ Here is the expected output.
 
 --------
 
-<h1 align="center">Puzzle #61</h1>
-<h1 align="center">Player Scores</h1>
+# Puzzle #61 - Player Scores
 
 In this SQL puzzle, your task is to analyze a dataset of players' scores across multiple attempts. For each player, you need to calculate two key differences: the change in score from their first attempt to the current record, and the change from their last attempt to the current record. A record should be flagged as "improved" if the player's score has increased from their previous attempt or if it's their first attempt. Additionally, determine if a player has shown consistent improvement across all attempts. If so, mark them as "overall improved."
 
@@ -1907,25 +1844,24 @@ Here is the expected output.
 
 --------
 
-<h1 align="center">Puzzle #62</h1>
-<h1 align="center">Car and Boat Purchase</h1>
+# Puzzle #62 - Car and Boat Purchase
 
 You won the lottery and want to buy both a car and a boat. However, the car must be $200,000 more than the boat. What are your options given the following vehicles?
 
-| Vehicle ID | Type | Model                | Price    |
-|------------|------|----------------------|----------|
-| 1          | Car  | Rolls-Royce Phantom  | $460,000 |
-| 2          | Car  | Cadillac CT5         | $39,000  |
-| 3          | Car  | Porsche Boxster      | $63,000  |
-| 4          | Car  | Lamborghini Spyder   | $290,000 |
-| 5          | Boat | Malibu               | $210,000 |
-| 6          | Boat | ATX 22-S             | $85,000  |
-| 7          | Boat | Sea Ray SLX          | $520,000 |
-| 8          | Boat | Mastercraft          | $25,000  |
+| Vehicle ID | Type |        Model        |  Price   |
+|------------|------|---------------------|----------|
+| 1          | Car  | Rolls-Royce Phantom | $460,000 |
+| 2          | Car  | Cadillac CT5        | $39,000  |
+| 3          | Car  | Porsche Boxster     | $63,000  |
+| 4          | Car  | Lamborghini Spyder  | $290,000 |
+| 5          | Boat | Malibu              | $210,000 |
+| 6          | Boat | ATX 22-S            | $85,000  |
+| 7          | Boat | Sea Ray SLX         | $520,000 |
+| 8          | Boat | Mastercraft         | $25,000  |
 
 Here is the expected outcome.
 
-| Car                 | Boat        |
+|           Car       |     Boat    |
 |---------------------|-------------|
 | Lamborghini Spyder  | ATX 22-S    |
 | Lamborghini Spyder  | Mastercraft |
@@ -1935,8 +1871,7 @@ Here is the expected outcome.
 
 --------
 
-<h1 align="center">Puzzle #63</h1>
-<h1 align="center">Promotion Codes</h1>
+# Puzzle #63 - Promotion Codes
 
 Identify all orders linked to a single product with a "PROMO" discount value. If an order is associated with multiple products or multiple discounts, it should not be included in the result.
 
@@ -1964,8 +1899,8 @@ Here is the expected output.
 
 --------
 
-<h1 align="center">Puzzle #64</h1>
-<h1 align="center">Between Quotes</h1>
+# Puzzle #64
+Between Quotes
 
 Given the following table of strings that have embedded quotes, return the result based on the following:
 
@@ -1973,48 +1908,47 @@ Given the following table of strings that have embedded quotes, return the resul
 2. If the string has two quotes and more than 10 characters between the quotes, return “True”.
 3. If the string has two quotes and fewer than or equal to 10 characters between the quotes, return “False”.
 
-| ID | String                | Result |
-|----|-----------------------|--------|
-| 1  | "12345678901234"      | True   |
-| 2  | 1"12345678901234"     | True   |
-| 3  | 123"45678"901234"     | Error  |
-| 4  | 123"45678901234"      | True   |
-| 5  | 12345678901"234"      | False  |
-| 6  | 12345678901234        | Error  |
+| ID |      String       | Result |
+|----|-------------------|--------|
+| 1  | "12345678901234"  | True   |
+| 2  | 1"12345678901234" | True   |
+| 3  | 123"45678"901234" | Error  |
+| 4  | 123"45678901234"  | True   |
+| 5  | 12345678901"234"  | False  |
+| 6  | 12345678901234    | Error  |
 
 Here is the expected output.
 
-| ID | String                | Result |
-|-----|-----------------------|--------|
-| 1  | "12345678901234"      | True   |
-| 2  | 1"12345678901234"     | True   |
-| 3  | 123"45678"901234"     | Error  |
-| 4  | 123"45678901234"      | True   |
-| 5  | 12345678901"234"      | False  |
-| 6  | 12345678901234        | Error  |
+| ID |      String       | Result |
+|-----|------------------|--------|
+| 1  | "12345678901234"  | True   |
+| 2  | 1"12345678901234" | True   |
+| 3  | 123"45678"901234" | Error  |
+| 4  | 123"45678901234"  | True   |
+| 5  | 12345678901"234"  | False  |
+| 6  | 12345678901234    | Error  |
 
 --------
 
-<h1 align="center">Puzzle #65</h1>
-<h1 align="center">Home Listings</h1>
+# Puzzle #65 - Home Listings
 
 You are presented with a dataset of home listings, each with a unique Home ID and a Status. Your objective is to assign a grouping key to each record based on specific conditions. A new grouping key should be initiated whenever a record is in the status “New Listing” or “Relisted”. Each subsequent record, following either of these statuses, should inherit the same grouping key until the next occurrence of “New Listing” or “Relisted”.
 
-| Listing ID | Home ID | Status        |
-|------------|---------|---------------|
-| 1          | Home A  | New Listing   |
-| 2          | Home A  | Pending       |
-| 3          | Home A  | Relisted      |
-| 4          | Home B  | New Listing   |
-| 5          | Home B  | Under Contract|
-| 6          | Home B  | Relisted      |
-| 7          | Home C  | New Listing   |
-| 8          | Home C  | Under Contract|
-| 9          | Home C  | Closed        |
+| Listing ID | Home ID |     Status     |
+|------------|---------|----------------|
+| 1          | Home A  | New Listing    |
+| 2          | Home A  | Pending        |
+| 3          | Home A  | Relisted       |
+| 4          | Home B  | New Listing    |
+| 5          | Home B  | Under Contract |
+| 6          | Home B  | Relisted       |
+| 7          | Home C  | New Listing    |
+| 8          | Home C  | Under Contract |
+| 9          | Home C  | Closed         |
 
 Here is the expected output.
 
-| Listing ID | Home ID | Status         | Grouping ID |
+| Listing ID | Home ID |     Status     | Grouping ID |
 |------------|---------|----------------|-------------|
 | 1          | Home A  | New Listing    | 1           |
 | 2          | Home A  | Pending        | 1           |
@@ -2028,35 +1962,33 @@ Here is the expected output.
 
 --------
 
-<h1 align="center">Puzzle #66</h1>
-<h1 align="center">Matching Parts</h1>
+# Puzzle #66 - Matching Parts
 
 You are working with a dataset of manufactured parts, each having a unique serial number and categorized as either a bolt, washer, or nut. The challenge is to group these parts into sets based on their manufacture date, ensuring that the earliest manufactured parts are grouped first.
 
 | Serial # | Manufacture Day | Product |
-|---------|------------------|--------|
-| A111    | 1                | Bolt   |
-| B111    | 3                | Bolt   |
-| C111    | 5                | Bolt   |
-| D222    | 2                | Washer |
-| E222    | 4                | Washer |
-| F222    | 6                | Washer |
-| G333    | 3                | Nut    |
-| H333    | 5                | Nut    |
-| I333    | 7                | Nut    |
+|---------|------------------|---------|
+| A111    | 1                | Bolt    |
+| B111    | 3                | Bolt    |
+| C111    | 5                | Bolt    |
+| D222    | 2                | Washer  |
+| E222    | 4                | Washer  |
+| F222    | 6                | Washer  |
+| G333    | 3                | Nut     |
+| H333    | 5                | Nut     |
+| I333    | 7                | Nut     |
 
 Here is the expected output.
 
-| Bolt | Washer | Nut |
-|------|--------|-----|
+| Bolt | Washer |  Nut |
+|------|--------|------|
 | A111 | D222   | G333 |
 | B111 | E222   | H333 |
 | C111 | F222   | I333 |
 
 --------
 
-<h1 align="center">Puzzle #67</h1>
-<h1 align="center">Matching Birthdays</h1>
+# Puzzle #67 - Matching Birthdays
 
 Given the following dataset, find the students who share the same birthday.
 
@@ -2074,15 +2006,14 @@ Given the following dataset, find the students who share the same birthday.
 
 Here is the expected output.
 
-| Birthday   | Students             |
-|------------|----------------------|
-| 04/15/2015 | Susan, Tim, Jacob    |
-| 05/23/2015 | Mike, Angie          |
+|  Birthday  |     Students      |
+|------------|-------------------|
+| 04/15/2015 | Susan, Tim, Jacob |
+| 05/23/2015 | Mike, Angie       |
 
 --------
 
-<h1 align="center">Puzzle #68</h1>
-<h1 align="center">Removing Outliers</h1>
+# Puzzle #68 - Removing Outliers
 
 In this puzzle, you have a dataset listing performance scores of different teams by year. Your task involves identifying and removing the most significant outlier from each team's yearly performance score. The outlier is defined as the performance score with the greatest deviation from the team's average score prior to removing any outliers. This outlier could be either the highest or the lowest performance score. Once the outlier is removed, calculate the average score for each team.
 
@@ -2106,37 +2037,35 @@ Here is the expected output.
 
 --------
 
-<h1 align="center">Puzzle #69</h1>
-<h1 align="center">Splitting a Hierarchy</h1>
+# Puzzle #69 - Splitting a Hierarchy
 
 You are given the following unbalanced hierarchical structure and must split the branches into two groups, “Group A” and “Group B”.
 
 | Parent | Child |
-|--------|------|
-| A      | B    |
-| A      | C    |
-| B      | D    |
-| B      | E    |
-| D      | G    |
-| C      | F    |
+|--------|-------|
+| A      | B     |
+| A      | C     |
+| B      | D     |
+| B      | E     |
+| D      | G     |
+| C      | F     |
 
 Here is the expected output.
 
-| Group  | ID |
-|--------|----|
-| Group A| A  |
-| Group A| B  |
-| Group A| D  |
-| Group A| E  |
-| Group A| G  |
-| Group B| A  |
-| Group B| C  |
-| Group B| F  |
+|  Group  | ID |
+|---------|----|
+| Group A | A  |
+| Group A | B  |
+| Group A | D  |
+| Group A | E  |
+| Group A | G  |
+| Group B | A  |
+| Group B | C  |
+| Group B | F  |
 
 --------
 
-<h1 align="center">Puzzle #70</h1>
-<h1 align="center">Student Facts</h1>
+# Puzzle #70 - Student Facts
 
 You have access to a database containing student enrollment information for a school. Your goal is to create the summary statistics provided below.
 
@@ -2153,19 +2082,18 @@ You have access to a database containing student enrollment information for a sc
 
 Here is the expected output.
 
-| Parent ID | Number Children | Average Age | Age Difference | Largest Age Gap | Youngest Age | Oldest Age | Genders  |
-|----------|------------------|-------------|----------------|-----------------|--------------|------------|----------|
-| 1001 | 2 | 10 | 4 | 4 | 8  | 12 | M, F     |
-| 2002 | 3 | 10 | 7 | 5 | 7  | 14 | F, F, M  |
-| 3003 | 2 | 13 | 2 | 2 | 12 | 14 | F, M     |
-| 4004 | 1 | 7  | 0 | 0 | 7  | 7  | M        |
+| Parent ID | Number Children | Average Age | Age Difference | Largest Age Gap | Youngest Age | Oldest Age | Genders |
+|-----------|-----------------|-------------|----------------|-----------------|--------------|------------|---------|
+| 1001      | 2               | 10          | 4              | 4               | 8            | 12         | M, F    |
+| 2002      | 3               | 10          | 7              | 5               | 7            | 14         | F, F, M |
+| 3003      | 2               | 13          | 2              | 2               | 12           | 14         | F, M    |
+| 4004      | 1               | 7           | 0              | 0               | 7            | 7          | M       |
 
 --------
 
-<h1 align="center">Puzzle #71</h1>
-<h1 align="center">Employee Validation</h1>
+# Puzzle #71 - Employee Validation
 
-Due to a suboptimal database design by the database architecture team, employee records are split across two separate tables: one for temporary employees and another for permanent employees. You are faced with the following challenges.
+Due to a sub-optimal database design by the database architecture team, employee records are split across two separate tables: one for temporary employees and another for permanent employees. You are faced with the following challenges.
 
 1. Ensure that an employee is not simultaneously listed in both the Temporary and Permanent employee tables. An INSERT into the Temporary or Permanent tables should fail if this criterion is not met.
 2. Confirm that any employee added to either the Temporary or Permanent table has a corresponding entry in the main Employees table. An INSERT into the Temporary or Permanent table should fail if this criterion is not met.
@@ -2199,8 +2127,7 @@ Due to a suboptimal database design by the database architecture team, employee 
 
 --------
 
-<h1 align="center">Puzzle #72</h1>
-<h1 align="center">Under Warranty</h1>
+# Puzzle #72 - Under Warranty
 
 Your laptop repair shop offers a 30-day warranty on its repair services. From the following dataset, you need to determine all rework that falls under warranty.
 
@@ -2226,8 +2153,7 @@ Here is the expected output.
 
 --------
 
-<h1 align="center">Puzzle #73</h1>
-<h1 align="center">Distinct Statuses</h1>
+# Puzzle #73 - Distinct Statuses
 
 You are given a list of workflows with different statuses. For each record, you need to determine the number of unique statuses that occurred prior to and including the current status.
 
@@ -2257,8 +2183,7 @@ Here is the expected output.
 
 --------
 
-<h1 align="center">Puzzle #74</h1>
-<h1 align="center">Bowling League</h1>
+# Puzzle #74 - Bowling League
 
 Determine which bowlers consistently place next to each other in your local bowling league.
 
@@ -2285,8 +2210,7 @@ Here is the expected output.
 
 --------
 
-<h1 align="center">Puzzle #75</h1>
-<h1 align="center">Symmetric Matches</h1>
+# Puzzle #75 - Symmetric Matches
 
 Write an SQL statement to determine which boxes have the same dimensions.
 
@@ -2310,16 +2234,15 @@ Here is the expected output.
 
 --------
 
-<h1 align="center">Puzzle #76</h1>
-<h1 align="center">Determine Batches</h1>
+# Puzzle #76 - Determine Batches
 
 You are tasked with providing the details of each batch from two tables: one detailing the start of each batch, and another chronicling the lines of SQL code, including the `GO` statements that separate batch ends. Write an SQL statement to create the expected output.
 
 **Batch Starts**
 | Batch | Batch Start |
 |-------|-------------|
-| A     | 1 |
-| A | 5 |
+| A     | 1           |
+| A     | 5           |
 
 **Code Lines**
 | Batch | Line |           Syntax           |
@@ -2340,8 +2263,7 @@ Here is the expected output.
 
 --------
 
-<h1 align="center">Puzzle #77</h1>
-<h1 align="center">Temperature Readings</h1>
+# Puzzle #77 - Temperature Readings
 
 You have been given a table of temperature readings, but some readings are missing. Please fill in the missing values with the larger of either the known previous value or the known following value.
 
@@ -2380,13 +2302,12 @@ Here is the expected output.
 --------
 
 <br/>
-<h1 align="center">PART II - Permutations, Combinations, Sequences and Random Numbers</h1>
+PART II - Permutations, Combinations, Sequences and Random Numbers
 <br/>
 
 --------
 
-<h1 align="center">Puzzle #1</h1>
-<h1 align="center">Factorials</h1>
+# Puzzle #1 - Factorials
 
 Create a numbers table of 1 through 10 and their factorial.
 
@@ -2407,8 +2328,7 @@ Here is the expected output.
 
 --------
 
-<h1 align="center">Puzzle #2</h1>
-<h1 align="center">All Permutations</h1>
+# Puzzle #2 - All Permutations
 
 Create a numbers table of all permutations of n distinct numbers. The example below uses the set {1, 2, 3}.
 
@@ -2425,8 +2345,7 @@ Here is the expected output.
 
 --------
 
-<h1 align="center">Puzzle #3</h1>
-<h1 align="center">Growing Numbers</h1>
+# Puzzle #3 - Growing Numbers
 
 Generate a sequence where each row shows the concatenation of numbers from 1 up to n, incrementally adding the next integer in order.
 
@@ -2442,8 +2361,7 @@ Here is the expected output.
 
 --------
 
-<h1 align="center">Puzzle #4</h1>
-<h1 align="center">Non-Adjacent Numbers</h1>
+# Puzzle #4 - Non-Adjacent Numbers
 
 Given an ordered set of numbers (for example, {1, 2, 3, 4, 5, 6, 7, 8, 9, 10}), create a result set of permutations where **no two adjacent entries are adjacent numbers**.
 
@@ -2459,8 +2377,7 @@ Here is the expected output.
 
 --------
 
-<h1 align="center">Puzzle #5</h1>
-<h1 align="center">Add the Numbers Up</h1>
+# Puzzle #5 - Add the Numbers Up
 
 Given an ordered set of numbers 1 through n (for example, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10), and a `+` or `–` sign at all possible groupings, create all possible permutations and the amount to which they add up.
 
@@ -2480,8 +2397,7 @@ Here is the expected output for the set of {1, 2, 3}.
 
 --------
 
-<h1 align="center">Puzzle #6</h1>
-<h1 align="center">Permutations of 0 and 1</h1>
+# Puzzle #6 - Permutations of 0 and 1
 
 Create a result set of all permutations for the combination of 0 and 1 with a length of n digits.
 
@@ -2500,8 +2416,7 @@ Here is the expected output.
 
 --------
 
-<h1 align="center">Puzzle #7</h1>
-<h1 align="center">Permutations 1 through n</h1>
+# Puzzle #7 - Permutations 1 through n
 
 Display all permutations for the numbers 1 through n, displaying only the first n numbers.
 
@@ -2536,8 +2451,7 @@ Here is the expected output for all 24 permutations for the set {1,2,3,4}, displ
 
 --------
 
-<h1 align="center">Puzzle #8</h1>
-<h1 align="center">Four Vehicles Problem</h1>
+# Puzzle #8 - Four Vehicles Problem
 
 Here is an example problem involving combinations.
 Given the following four vehicles:
@@ -2559,8 +2473,7 @@ We can determine there are 7,200 arrangements by using the following equation.
 
 --------
 
-<h1 align="center">Puzzle #9</h1>
-<h1 align="center">Find the Spaces</h1>
+# Puzzle #9 - Find the Spaces
 
 Given the following table of SQL statements, provide a numbers table that displays a summary of the space character for each SQL statement.
 
@@ -2584,8 +2497,7 @@ Here is the expected output.
 
 --------
 
-<h1 align="center">PuzzleSeat #10</h1>
-<h1 align="center">Seating Chart</h1>
+PuzzleSeat #10 - Seating Chart
 
 Given the set of integers provided in the following DDL statement, write the SQL statements to determine the following:
 - Gap start and gap ends
@@ -2595,7 +2507,7 @@ Given the set of integers provided in the following DDL statement, write the SQL
 ```sql
 CREATE TABLE #SeatingChart
 (
-    SeatNumber INTEGER
+SeatNumber INTEGER
 );
 GO
 
@@ -2604,6 +2516,7 @@ INSERT INTO #SeatingChart VALUES
 (31),(32),(33),(34),(35),(52),(53),(54);
 GO
 ```
+
 | Gap Start | Gap End |
 |-----------|---------|
 | 1         | 6       |
@@ -2622,8 +2535,7 @@ GO
 
 --------
 
-<h1 align="center">Puzzle #11</h1>
-<h1 align="center">Count the Groupings</h1>
+# Puzzle #11 - Count the Groupings
 
 Write an SQL statement that counts the consecutive values in the Status column.
 
@@ -2652,26 +2564,22 @@ Here is the expected output.
 
 --------
 
-<h1 align="center">Puzzle #12</h1>
-<h1 align="center">Double or Add 1</h1>
+# Puzzle #12 - Double or Add 1
 
 Create a numbers table where you start with the number 1, and then double the number if the result is less than 100, else add 1.  
 
 --------
-<h1 align="center">Puzzle #13 </h1>
-<h1 align="center">Pascal’s Triangle</h1>
+# Puzzle #13 - Pascal’s Triangle
 
 Solve for any position in [Pascal’s Triangle](https://en.wikipedia.org/wiki/Pascal%27s_triangle).  
 
 --------
-<h1 align="center">Puzzle #14</h1>
-<h1 align="center">Josephus Problem  </h1>
+# Puzzle #14 - Josephus Problem  
 
 Solve the [Josephus Problem](https://en.wikipedia.org/wiki/Josephus_problem).  
 
 --------
-<h1 align="center">Puzzle #12</h1>
-<h1 align="center">High-Low Card Game  </h1>
+# Puzzle #12 - High-Low Card Game  
 
 Write a program that shuffles a standard deck of cards and plays a game of High-Low.  
 
@@ -2679,14 +2587,12 @@ The game is played by receiving an initial card and then determining if the next
 Make a random decision of higher or lower where necessary.  
 
 --------
-<h1 align="center">Puzzle #16</h1>
-<h1 align="center">Monty Hall Simulation  </h1>
+# Puzzle #16 - Monty Hall Simulation  
 
 Run 10,000 simulations of the [Monty Hall problem](https://en.wikipedia.org/wiki/Monty_Hall_problem) to prove it is true.  
 
 --------
-<h1 align="center">Puzzle #17</h1>
-<h1 align="center">Dice Throw Game </h1>
+# Puzzle #17 - Dice Throw Game 
 
 What is the average number of dice throws needed to reach 100 points, given the following rules?  
 
@@ -2695,14 +2601,12 @@ What is the average number of dice throws needed to reach 100 points, given the 
 - You cannot go lower than 0 points.  
 
 --------
-<h1 align="center">Puzzle #18</h1>
-<h1 align="center">The Birthday Problem</h1>
+# Puzzle #18 - The Birthday Problem
 
 Run 10,000 simulations of the [Birthday problem](https://en.wikipedia.org/wiki/Birthday_problem) to prove it is true.  
 
 --------
-<h1 align="center">Puzzle #19</h1>
-<h1 align="center">Random Walk</h1>
+# Puzzle #19 - Random Walk
 
 Perform a random walk best described by the following puzzle:
 
@@ -2713,8 +2617,7 @@ The game continues until exactly one person remains who has not yet received the
 Because you were the first to flip, you are ineligible to host next week.
 
 --------
-<h1 align="center">Puzzle #20</h1>
-<h1 align="center">Markov Chain </h1>
+# Puzzle #20 - Markov Chain 
 
 Perform a Markov Chain best described by the following puzzle:  
 
@@ -2725,14 +2628,12 @@ In Probability Land, on a sunny day, there is an equal probability of the next d
 On average, how many rainy days are there in Probability Land?  
 
 --------
-<h1 align="center">Puzzle #21</h1>
-<h1 align="center">100 Prisoners Riddle  </h1>
+# Puzzle #21 - 100 Prisoners Riddle  
 
 Run 10,000 simulations of the [100 prisoners problem](https://en.wikipedia.org/wiki/100_prisoners_problem) to prove it is true.  
 
 --------
-<h1 align="center">Puzzle #22</h1>
-<h1 align="center">Non-Overlapping Sets</h1>
+# Puzzle #22 - Non-Overlapping Sets
 
 You are given a table of orders, their line items, and the cost associated with each line item. Your task is to write an SQL statement that finds the maximum number of non-overlapping sets of line items** for each order, with the condition that the total cost of line items in each set must be ≥ $10.  
 
@@ -2772,8 +2673,7 @@ Here is the expected output.
 - Order ID 5 has 3 possible combinations of line items that total over $10, each with 2 sets.
 
 --------
-<h1 align="center">Puzzle #23</h1>
-<h1 align="center">Knights Tour  </h1>
+# Puzzle #23 - Knights Tour
 
 This type of problem is often referred to as the [Knight’s Tour](https://en.wikipedia.org/wiki/Knight%27s_tour).
 
