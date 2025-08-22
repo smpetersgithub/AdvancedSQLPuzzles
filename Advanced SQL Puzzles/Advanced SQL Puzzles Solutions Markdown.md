@@ -119,7 +119,7 @@ Happy coding!
     - [Puzzle #6 - Permutations of 0 and 1](#puzzle-6---permutations-of-0-and-1)
     - [Puzzle #7 - Permutations 1 through n](#puzzle-7---permutations-1-through-n)
     - [Puzzle #8 - Four Vehicles Problem](#puzzle-8---four-vehicles-problem)
-    - [Puzzle #9 - Find the Spaces](#puzzle-9---find-the-spaces-1)
+    - [Puzzle #9 - Find the Spaces](#puzzle-9---find-the-spaces)
     - [Puzzle #10 - Seating Chart](#puzzle-10---seating-chart)
     - [Puzzle #11 - Count the Groupings](#puzzle-11---count-the-groupings)
     - [Puzzle #12 - Double or Add 1](#puzzle-12---double-or-add-1)
