@@ -942,8 +942,7 @@ Here is the expected output.
 
 --------
 
-# Puzzle #28
-Fill the Gaps
+# Puzzle #28 - Fill the Gaps
 
 The answer to this problem is often referred to as a data smear or a flash fill.  
 
