@@ -182,6 +182,8 @@ Here is the expected output.
 |             | Cheese      |
 |             | Fruit       |
 
+[🔙 Back to Table of Contents](#table-of-contents)
+
 --------
 
 # Puzzle #2 - Managers and Employees
