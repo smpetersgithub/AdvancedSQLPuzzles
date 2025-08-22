@@ -25,3 +25,5 @@ Greetings. I am Scott Peters, a resident of Austin, TX. I am always eager to col
 I hope you find this repository useful and informative, and I welcome any new puzzles or tips and tricks you may have. I also have a WordPress site where you can find my data analytics projects, Python puzzles, and blog.    
 
 **https://advancedsqlpuzzles.com**  
+
+<img src="./images/AdvancedSQLPuzzles_image.png" alt="Advanced SQL Puzzles Logo" width="200"/>
