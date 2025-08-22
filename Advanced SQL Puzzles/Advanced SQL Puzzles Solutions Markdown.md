@@ -943,8 +943,7 @@ Here is the expected output.
 
 --------
 
-# Puzzle #28
-Fill the Gaps
+# Puzzle #28 - Fill the Gaps
 
 The answer to this problem is often referred to as a data smear or a flash fill.  
 
@@ -1186,7 +1185,7 @@ Here is the expected output.
 | 5005         |
 | 6006         |
 
-- Sales Rep IDs **3003, 4004, 5005,** and **6006** appear because they had either an international sale or a domestic sale, **but not both**.
+- Sales Rep IDs 3003, 4004, 5005, and 6006 appear because they had either an international sale or a domestic sale, but not both.
 
 [🔙 Back to Table of Contents](#table-of-contents)
 
@@ -1280,7 +1279,7 @@ Here is the expected output.
 | East   | Direct Parts | 0     |
 | West   | Direct Parts | 12    |
 
-- In the result set, **ACE** and **Direct Parts** each have a fabricated record with **0** sales.
+- In the result set, ACE and Direct Parts each have a fabricated record with 0 sales.
 
 [🔙 Back to Table of Contents](#table-of-contents)
 
