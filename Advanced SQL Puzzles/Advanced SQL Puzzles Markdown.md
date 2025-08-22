@@ -259,9 +259,9 @@ Here is the expected output.
 | 1001        | 3        | TX             | $670   |
 | 1001        | 4        | TX             | $860   |
 
-- **Customer ID 1001** appears in the result set because they had deliveries to both **California** and **Texas**.  
-- **Customer ID 3003** does **not** appear because they never had a delivery to Texas.  
-- **Customer ID 4004** does **not** appear because they never had a delivery to California.  
+- Customer ID 1001 appears in the result set because they had deliveries to both California and Texas.  
+- Customer ID 3003 does not appear because they never had a delivery to Texas.  
+- Customer ID 4004 does not appear because they never had a delivery to California.  
 
 [🔙 Back to Table of Contents](#table-of-contents)
 
@@ -316,7 +316,7 @@ Here is the expected output.
 | Bravo    |
 | Charlie  |
  
-- The expected output would be **Bravo** and **Charlie**, as they have a workflow that has started but has not been completed.  
+- The expected output would be Bravo and Charlie, as they have a workflow that has started but has not been completed.  
 - **Bonus:** Write this query using only the `COUNT` function with no subqueries. Can you figure out the trick?  
 
 [🔙 Back to Table of Contents](#table-of-contents)
@@ -357,9 +357,9 @@ Here is the expected output.
 |--------------|
 | 1001         |
 
-- The expected output would be **Candidate ID 1001**, as this candidate has all the necessary skills for the space mission.  
-- Candidate ID **2002** and **3003** would not be in the output as they have some but not all the required skills.  
-- Candidate ID **4004** has none of the needed requirements.
+- The expected output would be Candidate ID 1001, as this candidate has all the necessary skills for the space mission.  
+- Candidate ID 2002 and 3003 would not be in the output as they have some but not all the required skills.  
+- Candidate ID 4004 has none of the needed requirements.
 
 [🔙 Back to Table of Contents](#table-of-contents)
 
@@ -369,7 +369,7 @@ Here is the expected output.
 
 You have a report of all workflows and their case results.  
 
-A value of **0** signifies the workflow failed, and a value of **1** signifies the workflow passed.  
+A value of 0 signifies the workflow failed, and a value of 1 signifies the workflow passed.  
 
 Write an SQL statement that transforms the following table into the expected output.  
 
@@ -423,9 +423,9 @@ Here is the expected output.
 | 4004        | 5005        | 3     |
 | 5005        | 4004        | 3     |
 
-- Employee IDs **1001** and **2002** would be in the expected output as they both carry a Class A, Class B, and a Class C license.  
-- Employee IDs **4004** and **5005** would be in the expected output as they both carry a Class A, Class B, and a Class D license.  
-- Although Employee ID **3003** has the same licenses as Employee ID 4004 and 5005, these Employee IDs do not have the same licenses as Employee ID 3003.  
+- Employee IDs 1001 and 2002 would be in the expected output as they both carry a Class A, Class B, and a Class C license.  
+- Employee IDs 4004 and 5005 would be in the expected output as they both carry a Class A, Class B, and a Class D license.  
+- Although Employee ID 3003 has the same licenses as Employee ID 4004 and 5005, these Employee IDs do not have the same licenses as Employee ID 3003.  
 
 [🔙 Back to Table of Contents](#table-of-contents)
 
@@ -433,22 +433,21 @@ Here is the expected output.
 
 # Puzzle #10 - Mean, Median, Mode, and Range
 
-- The **mean** is the average of all numbers.  
-- The **median** is the middle number in a sequence of numbers.  
-- The **mode** is the number that occurs most often within a set of numbers.  
-- The **range** is the difference between the largest and smallest values in a set of numbers.  
+- The **mean** is the average of all numbers (41).  
+- The **median** is the middle number in a sequence of numbers (14).  
+- The **mode** is the number that occurs most often within a set of numbers (10).  
+- The **range** is the difference between the largest and smallest values in a set of numbers (85).  
 
 Write an SQL statement to determine the mean, median, mode, and range of the set of integers provided in the following DDL statement.  
 
 ```sql
 CREATE TABLE #SampleData
 (
-    IntegerValue INTEGER
+IntegerValue INTEGER
 );
 
 INSERT INTO #SampleData
-VALUES (5),(6),(10),(10),(13),
-       (14),(17),(20),(81),(90),(76);
+VALUES (5),(6),(10),(10),(13),(14),(17),(20),(81),(90),(76);
 ```
 
 [🔙 Back to Table of Contents](#table-of-contents)
@@ -1110,7 +1109,7 @@ Your task is to analyze a table of orders with their respective requested delive
 | 3        | SunRay    | 9               |
 
 **Manufacturing Time**
-| Product  | Component       | Days to Manufacture |
+| Product  |    Component    | Days to Manufacture |
 |----------|-----------------|---------------------|
 | Aurora   | Photon Coil     | 7                   |
 | Aurora   | Filament        | 2                   |
@@ -1184,7 +1183,7 @@ Here is the expected output.
 | 5005         |
 | 6006         |
 
-- Sales Rep IDs **3003, 4004, 5005,** and **6006** appear because they had either an international sale or a domestic sale, **but not both**.
+- Sales Rep IDs 3003, 4004, 5005, and 6006 appear because they had either an international sale or a domestic sale, but not both.
 
 [🔙 Back to Table of Contents](#table-of-contents)
 
@@ -1278,7 +1277,7 @@ Here is the expected output.
 | East   | Direct Parts | 0     |
 | West   | Direct Parts | 12    |
 
-- In the result set, **ACE** and **Direct Parts** each have a fabricated record with **0** sales.
+- In the result set, ACE and Direct Parts each have a fabricated record with 0 sales.
 
 [🔙 Back to Table of Contents](#table-of-contents)
 
@@ -1584,7 +1583,7 @@ Here is the expected output.
 |----------|
 | 4004     |
 
-- Sales ID **4004** would be in the expected output as this customer had a sale in the current year, plus the previous two years.
+- Sales ID 4004 would be in the expected output as this customer had a sale in the current year, plus the previous two years.
 
 [🔙 Back to Table of Contents](#table-of-contents)
 
@@ -2814,7 +2813,7 @@ Run 10,000 simulations of the [100 prisoners problem](https://en.wikipedia.org/w
 --------
 # Puzzle #22 - Non-Overlapping Sets
 
-You are given a table of orders, their line items, and the cost associated with each line item. Your task is to write an SQL statement that finds the maximum number of non-overlapping sets of line items** for each order, with the condition that the total cost of line items in each set must be ≥ $10.  
+You are given a table of orders, their line items, and the cost associated with each line item. Your task is to write an SQL statement that finds the maximum number of non-overlapping sets of line items for each order, with the condition that the total cost of line items in each set must be ≥ $10.  
 
 A set can contain no more than 2 records.
 
