@@ -5,7 +5,6 @@ I hope you enjoy these puzzles as much as I have enjoyed creating them!
 As my list of puzzles continues to grow, I have decided to combine the puzzles into one document, broken down into two sections.  
 
 In the first section, I have 77 of the most challenging puzzles I could create, randomly organized and in no specific order. These are primarily set-based puzzles, interspersed with a small number of puzzles that require knowledge of constraints, specific data types, cursors, loops, etc...  
-
 Working through these puzzles will give you an understanding of the SQL language and what types of problems it solves best. Remember that SQL is a declarative and not an imperative language, and always think in sets when providing a solution.  
 
 I collected all the puzzles related to permutations, combinations, and sequences in the second set of puzzles. Solving these puzzles will require a deeper understanding of your SQL thinking, focusing on such constructs as using recursion or sequence objects to reach the desired output (and, of course, some will require using traditional set-based thinking).  
@@ -943,7 +942,8 @@ Here is the expected output.
 
 --------
 
-# Puzzle #28 - Fill the Gaps
+# Puzzle #28
+Fill the Gaps
 
 The answer to this problem is often referred to as a data smear or a flash fill.  
 
@@ -1157,7 +1157,7 @@ Here is the expected output.
 
 --------
 
-# Puzzle #35- International vs. Domestic Sales
+# Puzzle #35 - International vs. Domestic Sales
 
 You work in a sales office that sells widgets both domestically and internationally.
 
@@ -1185,7 +1185,7 @@ Here is the expected output.
 | 5005         |
 | 6006         |
 
-- Sales Rep IDs 3003, 4004, 5005, and 6006 appear because they had either an international sale or a domestic sale, but not both.
+- Sales Rep IDs **3003, 4004, 5005,** and **6006** appear because they had either an international sale or a domestic sale, **but not both**.
 
 [🔙 Back to Table of Contents](#table-of-contents)
 
@@ -1279,7 +1279,7 @@ Here is the expected output.
 | East   | Direct Parts | 0     |
 | West   | Direct Parts | 12    |
 
-- In the result set, ACE and Direct Parts each have a fabricated record with 0 sales.
+- In the result set, **ACE** and **Direct Parts** each have a fabricated record with **0** sales.
 
 [🔙 Back to Table of Contents](#table-of-contents)
 
@@ -1408,7 +1408,7 @@ Here is the expected output.
 
 --------
 
-# Puzzle #43- Unbounded Preceding
+# Puzzle #43 - Unbounded Preceding
 
 Determine the minimum quantity for each record between the current row and all previous rows for each Customer ID.
 
@@ -1436,7 +1436,7 @@ Here is the expected output.
 
 --------
 
-# Puzzle #44- Slowly Changing Dimension Part I
+# Puzzle #44 - Slowly Changing Dimension Part I
 
 Given the following table, write an SQL statement to create a Type 2 Slowly Changing Dimension.
 
@@ -1559,8 +1559,7 @@ Here is the expected output.
 
 --------
 
-# Puzzle #48
-Consecutive Sales
+# Puzzle #48 - Consecutive Sales
 
 For the following Customer IDs, write an SQL statement to determine customers who had a sale in the current year, plus the previous two consecutive years.
 
@@ -1615,8 +1614,7 @@ Here is the expected output.
 
 --------
 
-# Puzzle #50
-Baseball Balls and Strikes
+# Puzzle #50 - Baseball Balls and Strikes
 
 For this puzzle, you will need to understand the rules of baseball's balls and strike count.
 
@@ -2023,8 +2021,7 @@ Here is the expected output.
 
 --------
 
-# Puzzle #64
-Between Quotes
+# Puzzle #64 - Between Quotes
 
 Given the following table of strings that have embedded quotes, return the result based on the following:
 
@@ -2667,7 +2664,7 @@ Here is the expected output.
 
 --------
 
-PuzzleSeat #10 - Seating Chart
+# Puzzle #10 - Seating Chart
 
 Given the set of integers provided in the following DDL statement, write the SQL statements to determine the following:
 - Gap start and gap ends
@@ -2759,7 +2756,7 @@ Solve the [Josephus Problem](https://en.wikipedia.org/wiki/Josephus_problem).
 [🔙 Back to Table of Contents](#table-of-contents)
 
 --------
-# Puzzle #12 - High-Low Card Game  
+# Puzzle #15 - High-Low Card Game  
 
 Write a program that shuffles a standard deck of cards and plays a game of High-Low.  
 
