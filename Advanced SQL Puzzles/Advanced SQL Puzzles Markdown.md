@@ -2385,14 +2385,14 @@ You are tasked with providing the details of each batch from two tables: one det
 | A     | 5           |
 
 **Code Lines**
-| Batch | Line |           Syntax           |
-|-------|------|----------------------------|
-| A     | 1    | `SELECT *`                 |
-| A     | 2    | `FROM Account;`            |
-| A     | 3    | `GO`                       |
-| A     | 4    | &nbsp;                     |
-| A     | 5    | `TRUNCATE TABLE Accounts;` |
-| A     | 6    | `GO`                       |
+| Batch | Line |          Syntax          |
+|-------|------|--------------------------|
+| A     | 1    | SELECT `*`               |
+| A     | 2    | FROM Account;            |
+| A     | 3    | GO                       |
+| A     | 4    | &nbsp;                   |
+| A     | 5    | TRUNCATE TABLE Accounts; |
+| A     | 6    | GO                       |
 
 Here is the expected output.
 
