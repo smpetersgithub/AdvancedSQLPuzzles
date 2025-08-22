@@ -2,7 +2,7 @@
 
 This directory contains my collection of SQL puzzles.  I hope you enjoy these puzzles as much as I have enjoyed creating them!
 
-To get started, open the `Advanced SQL Puzzles Markdown.md`. 
+**To get started, open the `Advanced SQL Puzzles Markdown.md`.**
 
 :keyboard:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The solutions provided are written in Microsoft SQL Server T-SQL, but you can easily modify them to fit your flavor of SQL.
 
