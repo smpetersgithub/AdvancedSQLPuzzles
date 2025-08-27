@@ -2,7 +2,7 @@
 Scott Peters
 Solutions for Advanced SQL Puzzles
 https://advancedsqlpuzzles.com
-Last Updated: 08/20/2025
+Last Updated: 08/27/2025
 Microsoft SQL Server T-SQL
 
 */----------------------------------------------------
@@ -95,7 +95,7 @@ JobTitle    VARCHAR(100) NOT NULL
 GO
 
 INSERT INTO #Employees (EmployeeID, ManagerID, JobTitle) VALUES
-(1001,NULL,'President'),(2002,1001,'Director'),
+(1001,NULL,'President'),(2002,1001,'CEO'),
 (3003,1001,'Office Manager'),(4004,2002,'Engineer'),
 (5005,2002,'Engineer'),(6006,2002,'Engineer');
 GO
@@ -4186,6 +4186,7 @@ GO
 /*----------------------------------------------------
 The End
 */----------------------------------------------------
+
 
 
 
