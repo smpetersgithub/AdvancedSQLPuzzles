@@ -1871,16 +1871,16 @@ GO
 SELECT  s.JobDescription,
         -- Most Experienced
         (SELECT  TOP 1 SpacemanID 
-         FROM    Spacemen 
+         FROM    #Personal 
          WHERE   JobDescription = s.JobDescription 
          ORDER BY MissionCount DESC) AS [Most Experienced],
      
         -- Least Experienced
         (SELECT TOP 1 SpacemanID 
-         FROM Spacemen 
+         FROM #Personal 
          WHERE JobDescription = s.JobDescription 
          ORDER BY MissionCount ASC) AS [Least Experienced]
-FROM Spacemen s
+FROM     #Personal s
 GROUP BY s.JobDescription;
 
     
@@ -4186,11 +4186,3 @@ GO
 /*----------------------------------------------------
 The End
 */----------------------------------------------------
-
-
-
-
-
-
-
-
