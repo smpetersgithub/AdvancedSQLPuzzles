@@ -187,11 +187,11 @@ Here is the expected output.
 
 # Puzzle #2 - Managers and Employees
 
-Given the following hierarchical table, write an SQL statement that determines the level of depth each employee has from the president.
+Given the following hierarchical table, write an SQL statement that determines the level of depth each employee has from the CEO.
 
 | Employee ID | Manager ID | Job Title       |
 |-------------|------------|-----------------|
-| 1001        |            | President       |
+| 1001        |            | CEO             |
 | 2002        | 1001       | Director        |
 | 3003        | 1001       | Office Manager  |
 | 4004        | 2002       | Engineer        |
