@@ -2,18 +2,18 @@
 
 I hope you enjoy these puzzles as much as I have enjoyed creating them!  
 
-As my list of puzzles continues to grow, I have decided to combine the puzzles into one document, broken down into two sections.  
+As my list of puzzles continues to grow, I have decided to consolidate the puzzles into a single document, divided into two sections.  
 
-In the first section, I have 77 of the most challenging puzzles I could create, randomly organized and in no specific order. These are primarily set-based puzzles, interspersed with a small number of puzzles that require knowledge of constraints, specific data types, cursors, loops, etc...  
-Working through these puzzles will give you an understanding of the SQL language and what types of problems it solves best. Remember that SQL is a declarative and not an imperative language, and always think in sets when providing a solution.  
+In the first section, I have 77 of the most challenging puzzles I could create, randomly organized and in no specific order. These are primarily set-based puzzles, interspersed with a small number of puzzles that require knowledge of constraints, specific data types, cursors, loops, and other related concepts.  
+Working through these puzzles will provide you with an understanding of the SQL language and its capabilities, as well as the types of problems it solves best. Remember that SQL is a declarative language, not an imperative one, and always think in terms of sets when providing a solution.  
 
-I collected all the puzzles related to permutations, combinations, and sequences in the second set of puzzles. Solving these puzzles will require a deeper understanding of your SQL thinking, focusing on such constructs as using recursion or sequence objects to reach the desired output (and, of course, some will require using traditional set-based thinking).  
+I collected all the puzzles related to permutations, combinations, and sequences in the second set of puzzles. Solving these puzzles will require a deeper understanding of your SQL thinking, focusing on constructs such as using recursion or sequence objects to achieve the desired output (and, of course, some will require traditional set-based thinking).  
 
-Ultimately, these puzzles resolve to creating number tables, which can be used to fill in gaps, create ranges and tallies, provide custom sorting, and allow you to create set-based solutions over iterative solutions. I also included a few puzzles from Part 1 into this set, as they ultimately deal with creating a numbers table.  
+Ultimately, these puzzles resolve to creating number tables, which can be used to fill in gaps, create ranges and tallies, provide custom sorting, and enable the creation of set-based solutions over iterative ones. I also included a few puzzles from Part 1 into this set, as they ultimately deal with creating a numbers table.  
 
 I hope navigating through the GitHub repository to find the solutions is straightforward. The first set of puzzles is combined into a single SQL document, and the second set has a separate folder with individual solutions, as these solutions are more complex.  
 
-For my sanity, it is easiest not to embed the SQL solutions into this text document and instead provide them separately as SQL files in the GitHub repository. If you have any issues navigating the website or GitHub, please contact me, and I would be happy to help.  
+For my sanity, it is easiest to not embed the SQL solutions in this text document and instead provide them separately as SQL files in the GitHub repository. If you encounter any issues navigating the website or GitHub, please don't hesitate to contact me, and I'll be happy to assist you.  
 
 Answers to these puzzles are located in the following GitHub repository:  
 **AdvancedSQLPuzzles/Advanced SQL Puzzles**  
@@ -369,7 +369,7 @@ Here is the expected output.
 
 You have a report of all workflows and their case results.  
 
-A value of 0 signifies the workflow failed, and a value of 1 signifies the workflow passed.  
+A value of 0 indicates that the workflow failed, and a value of 1 indicates that the workflow passed.  
 
 Write an SQL statement that transforms the following table into the expected output.  
 
@@ -423,7 +423,7 @@ Here is the expected output.
 | 4004        | 5005        | 3     |
 | 5005        | 4004        | 3     |
 
-- Employee IDs 1001 and 2002 would be in the expected output as they both carry a Class A, Class B, and a Class C license.  
+- Employee IDs 1001 and 2002 would be in the expected output as they both carry a Class A, Class B, and Class C license.  
 - Employee IDs 4004 and 5005 would be in the expected output as they both carry a Class A, Class B, and a Class D license.  
 - Although Employee ID 3003 has the same licenses as Employee ID 4004 and 5005, these Employee IDs do not have the same licenses as Employee ID 3003.  
 
@@ -513,7 +513,7 @@ Here is the expected output.
 
 You work for a manufacturing company and need to track inventory adjustments from the warehouse.  
 
-Some days the inventory increases, on other days the inventory decreases.  
+Some days, the inventory increases; on other days, it decreases.  
 
 Write an SQL statement that will provide a running balance of the inventory.  
 
@@ -541,7 +541,7 @@ Here is the expected output.
 
 # Puzzle #14 - Indeterminate Process Log
 
-Your process log has several workflows broken down by step numbers with the possible status values of Complete, Running, or Error.  
+Your process log contains several workflows, each broken down by step number, with possible status values of Complete, Running, or Error.  
 
 Your task is to write an SQL statement that creates an overall status based on the following requirements:  
 
@@ -605,7 +605,7 @@ Here is the expected output.
 
 # Puzzle #16 - Reciprocals
 
-You work for a software company that released a 2-player game and you need to tally the scores.  
+You work for a software company that released a 2-player game, and you need to tally the scores.  
 
 Given the following table, write an SQL statement to determine the reciprocals and calculate their aggregate score.  
 
@@ -835,7 +835,7 @@ Here is the expected output.
 
 # Puzzle #24 - Page Views
 
-Write an SQL statement that retrieves records 5 to 10 ordered by the Order ID column.
+Write an SQL statement that retrieves records 5 through 10, ordered by the Order ID column.
 
 | Order ID | Customer ID | Order Date | Amount | State |
 |----------|-------------|------------|--------|-------|
@@ -1016,7 +1016,7 @@ Here is the expected outcome.
 
 # Puzzle #30 - Select Star
 
-Your developers have many bad practices; the worst of them being that they routinely deploy procedures that do not explicitly define which columns to return in their SELECT clause.
+Your developers have many bad practices; the worst of them being that they routinely deploy procedures that do not explicitly define which columns to return in their `SELECT` clause.
 
 Modify the following table in such a way that the statement `SELECT * FROM Products` will return an error when executed.
 
