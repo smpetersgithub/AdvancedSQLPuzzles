@@ -6,7 +6,7 @@
 
 :exclamation: Note, I am no longer maintaining the original list that is found on my WordPress blog at (https://advancedsqlpuzzles.com). GitHub markdown language is simply easier to use and update.
 
-📫 Feel free to message me with any certifications I have missed.  Additionally, some of these links will become inactive over time, and vendors are continually adding new certifications. Any assistance in keeping this information updated is greatly appreciated.
+📫 Feel free to message me with any certifications I have missed.  Additionally, some of these links will become inactive over time, and vendors are continually adding new certifications. Any assistance in keeping this information up to date is greatly appreciated.
 
 -----
 
@@ -20,7 +20,7 @@ In the list below, I have included the most relevant certifications for a Databa
 
 I also want to highlight that certifications and statements of accomplishments are two different things.
 
-Certifications are acquired through testing agencies such as [PearsonVue](https://home.pearsonvue.com/) or [Kryterion](https://www.kryterion.com/), where you are administered a proctored exam with strict identity verification and exam rules. Upon successful completion, you will receive a digital badge to validate your credential. [Credly](https://info.credly.com/) is the largest issuer of digital credentials, creating, issuing, and managing them. Historically, you would go to an authorized testing center to take the exam; however, with COVID-19, these exams are now administered online, and proctoring takes place via webcam.
+Certifications are acquired through testing agencies such as [PearsonVue](https://home.pearsonvue.com/) or [Kryterion](https://www.kryterion.com/), where you are administered a proctored exam with strict identity verification and exam rules. Upon successful completion, you will receive a digital badge to validate your credential. [Credly](https://info.credly.com/) is the largest issuer of digital credentials, creating, issuing, and managing them. Historically, you would visit an authorized testing center to take the exam; however, with the COVID-19 pandemic, these exams are now administered online, and proctoring is conducted via webcam.
 
 Statements of accomplishments do not have such strict guidelines and are issued after completing a course (such as a [Udemy](https://www.udemy.com/) or [Datacamp](https://www.datacamp.com/) class). Most of these are auto-filled forms that you can easily print and look great taped to your refrigerator. I often see educational websites marketing certifications, but these do not meet the strict rules of a certification. I have listed a few of these (from W3 Schools and Datacamp), and you may find them beneficial.
 
@@ -63,6 +63,7 @@ And let's not forget about Google and its cloud platform.
 
 Oracle offers numerous certifications, ranging from high availability to administration to development. Here are a couple that I recommend. By the way, the 1Z0-149 is absurdly difficult.
 
+- [Oracle Database Foundations (1Z0-006)](https://education.oracle.com/oracle-database-foundations-novice-level-exam/pexam_1Z0-006)
 - [Oracle Database SQL Certified Associate Certification (1Z0-071)](https://education.oracle.com/oracle-database-sql-certified-associate/trackp_457)
 - [Oracle Database PL/SQL Developer Certified Professional (1Z0-149)](https://education.oracle.com/oracle-database-pl-sql-developer-certified-professional/trackp_OCPPLSQL19C)
 
@@ -96,7 +97,7 @@ PostgreSQL is a free and open-source relational database management system empha
 
 ### [IBM](https://www.ibm.com/training/credentials/)
 
-DB2 is a set of relational database products offered by IBM that traces its roots back to the 1970s. Currently, IBM appears to be withdrawing many of its DB2 certifications and replacing them with new certification exams. The following appears to be the only DB2 exam currently offered, which is more focused on DBA roles.
+DB2 is a set of relational database products offered by IBM, tracing its roots back to the 1970s. Currently, IBM appears to be withdrawing many of its DB2 certifications and replacing them with new certification exams. The following appears to be the only DB2 exam currently offered, which is more focused on DBA roles.
 
 - [IBM Associate Certified DBA - Db2 12 for z/OS Fundamentals](https://www.ibm.com/training/certification/ibm-associate-certified-dba-db2-12-for-zos-fundamentals-C8003803)
 
@@ -113,7 +114,7 @@ Databricks offers associate and professional-level data engineering certificatio
 
 ### [Snowflake](https://www.snowflake.com/certifications/)
 
-Snowflake is a fully managed multi-cluster shared data architecture platform that capitalizes on the resources of the cloud. The SnowPro Core certification highlights the product features the best.
+Snowflake is a fully managed, multi-cluster, shared data architecture platform that leverages the resources of the cloud. The SnowPro Core certification effectively highlights the product's key features.
 
 Snowflake also added some advanced certifications, which are also worth checking out.
 
