@@ -6,21 +6,21 @@
 
 :exclamation: Note, I am no longer maintaining the original list that is found on my WordPress blog at (https://advancedsqlpuzzles.com). GitHub markdown language is simply easier to use and update.
 
-📫 Feel free to message me with any certifications I have missed.  Also, some of these links will go dead over time, and vendors are constantly adding new certifications, so any help keeping this updated is much appreciated.
+📫 Feel free to message me with any certifications I have missed.  Additionally, some of these links will become inactive over time, and vendors are continually adding new certifications. Any assistance in keeping this information updated is greatly appreciated.
 
 -----
 
-If anyone wants a list of Database related certifications, I created a list.
+If anyone is interested in a list of database-related certifications, I have created one.
 
 A couple of things first....
 
-In my list below, I have tried to include the most relevant certifications for a Database Developer, Data Engineer, or Database Administrator role. I've also included a few vendor-neutral certifications and a few from educational websites (that may not fit the strict definition of a certification).
+In the list below, I have included the most relevant certifications for a Database Developer, Data Engineer, or Database Administrator role. I've also included a few vendor-neutral certifications and a few from educational websites (which may not strictly fit the definition of a certification).
 
 ---
 
 I also want to highlight that certifications and statements of accomplishments are two different things.
 
-Certifications are acquired through testing agencies such as [PearsonVue](https://home.pearsonvue.com/) or [Kryterion](https://www.kryterion.com/), where you are administered a proctored exam with strict identity verification and exam rules. Upon successful completion, you will receive a digital badge to validate your credential. [Credly](https://info.credly.com/) is the biggest issuer for creating, issuing, and managing digital credentials. Historically, you would go to an authorized testing center to take the exam, but with COVID, these exams are now online, and the proctoring takes place via webcam.
+Certifications are acquired through testing agencies such as [PearsonVue](https://home.pearsonvue.com/) or [Kryterion](https://www.kryterion.com/), where you are administered a proctored exam with strict identity verification and exam rules. Upon successful completion, you will receive a digital badge to validate your credential. [Credly](https://info.credly.com/) is the largest issuer of digital credentials, creating, issuing, and managing them. Historically, you would go to an authorized testing center to take the exam; however, with COVID-19, these exams are now administered online, and proctoring takes place via webcam.
 
 Statements of accomplishments do not have such strict guidelines and are issued after completing a course (such as a [Udemy](https://www.udemy.com/) or [Datacamp](https://www.datacamp.com/) class). Most of these are auto-filled forms that you can easily print and look great taped to your refrigerator. I often see educational websites marketing certifications, but these do not meet the strict rules of a certification. I have listed a few of these (from W3 Schools and Datacamp), and you may find them beneficial.
 
@@ -70,9 +70,9 @@ Oracle offers numerous certifications, ranging from high availability to adminis
 
 ### [MySQL](https://education.oracle.com/certification)
 
-Oracle also offers MySQL certifications, as it purchased Sun Microsystems in 2010.
+Oracle also offers MySQL certifications, having acquired Sun Microsystems in 2010.
 
-MySQL is free and open-source software under the terms of the GNU General Public License and is also available under various proprietary licenses. MySQL was owned and sponsored by the Swedish company MySQL AB, which was bought by Sun Microsystems (now Oracle Corporation).
+MySQL is free and open-source software, licensed under the terms of the GNU General Public License, and is also available under various proprietary licenses. MySQL was owned and sponsored by the Swedish company MySQL AB, which was bought by Sun Microsystems (now Oracle Corporation).
 
 - [MySQL 8.0 Database Developer Oracle Certified Professional (1Z0-909)](https://education.oracle.com/mysql-80-database-developer-oracle-certified-professional/trackp_MYSQLPRG80OCP)
 
@@ -90,13 +90,13 @@ MariaDB offers a database administrator exam but not a developer exam.
 
 ### [PostgreSQL](https://www.enterprisedb.com/)
 
-PostgreSQL is a free and open-source relational database management system emphasizing extensibility and SQL compliance. Because it is open-source, there are no vendor certifications, but there is a company called [EDB](https://www.enterprisedb.com/) that offers solutions, training, and certifications for PostgreSQL.
+PostgreSQL is a free and open-source relational database management system emphasizing extensibility and SQL compliance. Because it is open-source, there are no vendor certifications; however, a company called [EDB](https://www.enterprisedb.com/) offers solutions, training, and certifications for PostgreSQL.
 
 ---
 
 ### [IBM](https://www.ibm.com/training/credentials/)
 
-DB2 is a set of relational database products offered by IBM that traces its roots all the way back to the 1970s. Currently, IBM appears to be withdrawing many of its DB2 certifications and issuing new certification exams. The following appears to be the only DB2 exam currently offered, which is more DBA focused.
+DB2 is a set of relational database products offered by IBM that traces its roots back to the 1970s. Currently, IBM appears to be withdrawing many of its DB2 certifications and replacing them with new certification exams. The following appears to be the only DB2 exam currently offered, which is more focused on DBA roles.
 
 - [IBM Associate Certified DBA - Db2 12 for z/OS Fundamentals](https://www.ibm.com/training/certification/ibm-associate-certified-dba-db2-12-for-zos-fundamentals-C8003803)
 
@@ -137,9 +137,9 @@ Teradata (formed in 1979) provides cloud database and analytics-related software
 
 ### [MongoDB](https://university.mongodb.com/certification?_ga=2.155916475.143515463.1668790358-1726176162.1668790358)
 
-MongoDB is a source-available cross-platform document-oriented database program. Classified as a NoSQL database program, MongoDB uses JSON-like documents with optional schemas. MongoDB is developed by MongoDB Inc. and licensed under the Server Side Public License, which is deemed non-free by several distributions.
+MongoDB is a source-available, cross-platform, document-oriented database program. Classified as a NoSQL database program, MongoDB uses JSON-like documents with optional schemas. MongoDB is developed by MongoDB Inc. and licensed under the Server Side Public License, which is deemed non-free by several distributions.
 
-It appears MongoDB offers certifications tailored to various languages like C#, Java, Python, and Node.js.
+It appears that MongoDB offers certifications tailored to various programming languages, including C#, Java, Python, and Node.js.
 
 - [MongoDB Associate Developer Exam](https://learn.mongodb.com/pages/mongodb-associate-developer-exam?_ga=2.155876411.143515463.1668790358-1726176162.1668790358)
 
@@ -147,7 +147,7 @@ It appears MongoDB offers certifications tailored to various languages like C#, 
 
 ### [SAP HANA](https://training.sap.com/certification/)
 
-SAP HANA (High-performance ANalytic Appliance) is a multi-model database that stores data in its memory instead of keeping it on a disk. There are several HANA certifications that you can choose from. The following appears to be the most SQL focused.
+SAP HANA (High-performance ANalytic Appliance) is a multi-model database that stores data in its memory instead of keeping it on a disk. There are several HANA certifications to choose from. The following appears to be the most SQL-focused.
 
 - [SAP Certified Development Associate - SAP HANA 2.0 SPS05](https://training.sap.com/certification/c_hanadev_17-sap-certified-development-associate---sap-hana-20-sps05-g/)
 
@@ -165,7 +165,7 @@ SingleStore is a proprietary, cloud-native database designed for data-intensive 
 
 kdb+ is a column-based relational time series database with in-memory abilities, developed and marketed by KX. The database is commonly used in high-frequency trading to store, analyze, process, and retrieve large data sets at high speed.
 
-KX does offer an academy and certifications when you complete a capstone project. I'm not sure if these fit the true definition of a certification, as it may not be un-proctored.
+KX offers an academy and certifications upon completion of a capstone project. I'm not sure if these fit the true definition of a certification, as it may not be unproctored.
 
 - [KX Academy](https://kx.com/academy/)
 
@@ -185,19 +185,19 @@ dbt is a SQL-first transformation workflow that lets teams quickly and collabora
 
 ### [Apache Airflow](https://www.astronomer.io/certification/)
 
-Airflow is a platform created by the community to programmatically author, schedule and monitor workflows.
+Airflow is a platform created by the community to programmatically author, schedule, and monitor workflows.
 
 - [Airflow Certification](https://www.astronomer.io/certification/)
 
 ---
 
-#### Below are a few vendor-neutral certifications that you may be interested in.
+Below are a few vendor-neutral certifications that may interest you.
 
 ---
 
 ### [CIW Database Design Specialist](https://ciwcertified.com/ciw-certifications)
 
-CIW has vendor-neutral IT certifications focusing on web professionals, but it does offer a Database Design Specialist certification. This certification focuses on concepts such as the relational model, relational algebra, design, modeling, and the SQL language. The [study guide for the exam](https://www.amazon.com/Study-Guide-1D0-541-Specialist-Certification/dp/1941404073) is a great encapsulation of many database concepts that we should all know.
+CIW offers vendor-neutral IT certifications that focus on web professionals, but it also provides a Database Design Specialist certification. This certification focuses on concepts such as the relational model, relational algebra, design, modeling, and the SQL language. The [study guide for the exam](https://www.amazon.com/Study-Guide-1D0-541-Specialist-Certification/dp/1941404073) is a comprehensive overview of many database concepts that we should all be familiar with.
 
 - [1D0-541: CIW Database Design Specialist](https://ciwcertified.com/ciw-certifications/web-development-series/database-design-specialist)
 
@@ -205,7 +205,7 @@ CIW has vendor-neutral IT certifications focusing on web professionals, but it d
 
 ### [ICCP](https://iccp.org/index.html)
 
-The Institute for the Certification of Computing Professionals (ICCP) is a non-profit (501(c)(6)) institution for professional certification in the Computer engineering and Information technology industry. It was founded in 1973 by eight professional computer societies to promote certification and professionalism in the industry, lower the cost of development and administration of certification for all of the societies, and act as the central resource for job standards and performance criteria.
+The Institute for the Certification of Computing Professionals (ICCP) is a non-profit (501(c)(6)) institution for professional certification in the Computer Engineering and Information Technology industry. It was founded in 1973 by eight professional computer societies to promote certification and professionalism in the industry, lower the cost of development and administration of certification for all of the societies, and act as the central resource for job standards and performance criteria.
 
 Here are a couple of their certifications that may be of interest.
 
@@ -224,7 +224,7 @@ This exam is centered around [DMBOK](https://www.dama.org/cpages/body-of-knowled
 
 ---
 
-#### Below are a few educational websites that advertise certifications, but these (most probably) do not meet the stricter guidelines of the above certifications. Regardless, they may be a good option for students beginning their learning path.
+#### Below are a few educational websites that advertise certifications; however, these (most likely) do not meet the stricter guidelines of the above certifications. Regardless, they may be a good option for students beginning their learning path.
 
 ---
 
