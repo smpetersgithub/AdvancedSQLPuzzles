@@ -1591,7 +1591,7 @@ Here is the expected output.
 
 # Puzzle #49 - Sumo Wrestlers
 
-A group of Sumo wrestlers are forming a line to board an elevator. Unfortunately, the elevator can only hold 2,000 pounds, and not all Sumo wrestlers can board. Which Sumo wrestler would be the last to enter given the following queue order?
+A group of Sumo wrestlers are forming a line to board an elevator. Unfortunately, the elevator can only hold 2,000 pounds, and not all Sumo wrestlers can board. Which Sumo wrestler would be the last to enter, given the following queue order?
 
 | Line Order |  Name  | Weight |
 |------------|--------|--------|
@@ -2219,7 +2219,7 @@ Here is the expected output.
 
 # Puzzle #71 - Employee Validation
 
-Due to a sub-optimal database design by the database architecture team, employee records are split across two separate tables: one for temporary employees and another for permanent employees. You are faced with the following challenges.
+Due to a sub-optimal database design by the database architecture team, employee records are split across two separate tables: one for temporary employees and another for permanent employees. You face the following challenges.
 
 1. Ensure that an employee is not simultaneously listed in both the Temporary and Permanent employee tables. An INSERT into the Temporary or Permanent tables should fail if this criterion is not met.
 2. Confirm that any employee added to either the Temporary or Permanent table has a corresponding entry in the main Employees table. An INSERT into the Temporary or Permanent table should fail if this criterion is not met.
@@ -2257,7 +2257,7 @@ Due to a sub-optimal database design by the database architecture team, employee
 
 # Puzzle #72 - Under Warranty
 
-Your laptop repair shop offers a 30-day warranty on its repair services. From the following dataset, you need to determine all rework that falls under warranty.
+Your laptop repair shop offers a 30-day warranty on its repair services. From the following dataset, determine all rework that falls under warranty.
 
 | Repair ID | Customer ID | Repair Date |
 |-----------|-------------|-------------|
@@ -2568,7 +2568,7 @@ Here is the expected output.
 
 Display all permutations for the numbers 1 through n, displaying only the first n numbers.
 
-Here is the expected output for all 24 permutations for the set {1,2,3,4}, displaying only the first three numbers.
+Here is the expected output for all 24 permutations of the set {1, 2, 3, 4}, displaying only the first three numbers.
 
 | Permutation |
 |-------------|
@@ -2610,7 +2610,7 @@ Given the following four vehicles:
 - 3-seat golf cart
 - 4-seat car
 
-There are 10 people in total; 5 are children, and 5 are adults. Only an adult can drive a vehicle.
+There are 10 people in total, consisting of 5 children and 5 adults. Only an adult can drive a vehicle.
 Create a table of all possible 7,200 arrangements, assuming seating order does not matter.
 Here is the expected output.
 
@@ -2782,7 +2782,7 @@ Run 10,000 simulations of the [Birthday problem](https://en.wikipedia.org/wiki/B
 
 Perform a random walk best described by the following puzzle:
 
-As the host of a weekly dinner gathering with you and seven friends (8 people total), you devise a method to choose next week’s host. After the meal, everyone sits around a circular table. You, as the current host, flip a fair coin. If it’s heads, pass the coin to the person on your right; if it’s tails, pass it to your left. Whoever receives the coin repeats the process—flipping and passing right on heads, left on tails.
+As the host of a weekly dinner gathering with you and seven friends (8 people total), you devise a method to choose next week’s host. After the meal, everyone sits around a circular table. As the current host, you flip a fair coin. If it’s heads, pass the coin to the person on your right; if it’s tails, pass it to your left. Whoever receives the coin repeats the process—flipping and passing right on heads, left on tails.
 
 The game continues until exactly one person remains who has not yet received the coin. The last person to be untouched is declared the winner and will host the next dinner party.
 
@@ -2813,7 +2813,7 @@ Run 10,000 simulations of the [100 prisoners problem](https://en.wikipedia.org/w
 --------
 # Puzzle #22 - Non-Overlapping Sets
 
-You are given a table of orders, their line items, and the cost associated with each line item. Your task is to write an SQL statement that finds the maximum number of non-overlapping sets of line items for each order, with the condition that the total cost of line items in each set must be ≥ $10.  
+You are given a table of orders, their line items, and the associated costs for each line item. Your task is to write an SQL statement that finds the maximum number of non-overlapping sets of line items for each order, with the condition that the total cost of line items in each set must be ≥ $10.  
 
 A set can contain no more than 2 records.
 
