@@ -1,8 +1,8 @@
-[📂 GitHub – AdvancedSQLPuzzles → Database Dependencies](https://github.com/smpetersgithub/AdvancedSQLPuzzles/tree/main/Database%20Articles/Database%20Dependencies/)
-
 # Create the Databases and Schemas
 
 Before diving into examples of each type of dependency and how they are recorded in the `sys.sql_expression_dependency` table, I’d like to first share the GitHub repository containing the scripts used for this analysis.
+
+[📂 GitHub – AdvancedSQLPuzzles → Database Dependencies](https://github.com/smpetersgithub/AdvancedSQLPuzzles/tree/main/Database%20Articles/Database%20Dependencies/)
 
 This repository includes two folders containing SQL scripts:
 
