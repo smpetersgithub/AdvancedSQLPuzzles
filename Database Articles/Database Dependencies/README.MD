@@ -1,5 +1,5 @@
 
-<img src="https://raw.githubusercontent.com/smpetersgithub/AdvancedSQLPuzzles/main/images/AdvancedSQLPuzzles_image.png" alt="Advanced SQL Puzzles" width="400"/>
+<img src="https://raw.githubusercontent.com/smpetersgithub/AdvancedSQLPuzzles/main/images/AdvancedSQLPuzzles_image.png" alt="Advanced SQL Puzzles" width="200"/>
 
 # SQL Server Database Dependencies
 
@@ -11,5 +11,3 @@ The following documentation is designed to help developers understand the `sys.s
 2. [Create Demo Databases and Schemas](02_create_demo_databases_and_schemas.md)
 3. [Database Dependency Examples](03_database_dependencies_examples.md)
 4. [Analyze Database Dependencies](04_analyze_database_dependencies.md)
-
-![Advanced SQL Puzzles Header](https://raw.githubusercontent.com/smpetersgithub/AdvancedSQLPuzzles/main/images/Advanced_SQL%20Puzzles_Header.png)
