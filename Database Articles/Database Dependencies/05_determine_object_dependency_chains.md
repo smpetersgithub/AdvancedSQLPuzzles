@@ -24,12 +24,16 @@ Given the output, we can determine all objects that the stored procedure referen
 
 🔍 Objects are labeled using a four-part naming convention `<server_name>.<schema>.<object_name>.<object_type>`
 
+----
+
 | ID | Path                                                                                                                   | Referenced Object Fullname                           | Referenced Type Desc | Depth |
 |----|------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------|----------------------|-------|
 | 1  | WideWorldImporters.Website.SearchForPeople.SQL_STORED_PROCEDURE ➡️ WideWorldImporters.Application.People.USER_TABLE   | WideWorldImporters.Application.People.USER_TABLE     | USER_TABLE            | 1    |
 | 2  | WideWorldImporters.Website.SearchForPeople.SQL_STORED_PROCEDURE ➡️ WideWorldImporters.Purchasing.Suppliers.USER_TABLE | WideWorldImporters.Purchasing.Suppliers.USER_TABLE   | USER_TABLE            | 1    |
 | 3  | WideWorldImporters.Website.SearchForPeople.SQL_STORED_PROCEDURE ➡️ WideWorldImporters.Sales.Customers.USER_TABLE      | WideWorldImporters.Sales.Customers.USER_TABLE        | USER_TABLE            | 1    |
 
+
+----
 
 We can also determine reverse dependencies.  In this example, we identify all objects that depend on the `Customers` table.
 
@@ -46,7 +50,7 @@ We can also determine reverse dependencies.  In this example, we identify all ob
 | 9   | WideWorldImporters.Website.SearchForCustomers.SQL_STORED_PROCEDURE ⬅️ WideWorldImporters.Sales.Customers.USER_TABLE                                                                            | WideWorldImporters.Website.SearchForCustomers.SQL_STORED_PROCEDURE                 | 1     |
 | 10  | WideWorldImporters.Website.SearchForPeople.SQL_STORED_PROCEDURE ⬅️ WideWorldImporters.Sales.Customers.USER_TABLE                                                                               | WideWorldImporters.Website.SearchForPeople.SQL_STORED_PROCEDURE                    | 1     |
 
-
+----
 
 ### Key Details Before Running the Script
 
@@ -79,7 +83,7 @@ While I won’t go into the implementation details here, you can paste the code 
 ##temp_sp_determine_reverse_paths
 ```
 
-Note: Although these are global temporary procedures, they must be executed within the same session in which they are created. Running them in a new session will result in an error ("String or binary data would be truncated...")
+⚠️ Although these are global temporary procedures, they must be executed within the same session in which they are created. Running them in a new session will result in an error ("String or binary data would be truncated...")
 
 ---
 
@@ -137,6 +141,8 @@ Use one of the following stored procedures, depending on the direction of the an
 * `##temp_sp_determine_paths` – Traces downstream dependencies (what the object depends on)
 * `##temp_sp_determine_reverse_paths` – Traces upstream dependencies (what depends on the object)
 
+---
+
 #### Current Limitation
 
 The script currently resolves dependencies for one object at a time, not for all objects within a database. Running dependency chains across all objects is computationally intensive and may take several hours to complete.
@@ -150,11 +156,13 @@ Additionally, if the specified object name exists in multiple schemas, each inst
 
 These limitations are planned to be addressed in future versions of the script.
 
+---
+
 ### SQL Script
 
 And now, without further ado, here is the script to generate database dependency paths.
 
-``sql
+```sql
 /*
 📋 Instructions
 
