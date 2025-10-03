@@ -59,7 +59,10 @@ referenced_object_type VARCHAR(100) NULL,
 referenced_id INT NULL,
 referenced_minor_id INT NOT NULL,
 is_caller_dependent INT NOT NULL,
-is_ambiguous INT NOT NULL
+is_ambiguous INT NOT NULL,
+referencing_is_ms_shipped INT NULL,
+referenced_is_ms_shipped INT NULL,
+is_user_defined_data_type INT NULL,
+is_self_referencing INT NOT NULL
 );
 GO
-
