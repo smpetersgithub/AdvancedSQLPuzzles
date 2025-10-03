@@ -56,13 +56,13 @@ We can also determine reverse dependencies.  In this example, we identify all ob
 
 Next, I want to highlight a few key details before we execute the script.
 
-1. Cross-Database Dependencies    
+1. **Cross-Database Dependencies**    
 The script can trace dependencies across multiple databases. Pass the list of databases as parameters to capture the full dependency paths.
 
-2. Unknown Dependencies    
+2. **Unknown Dependencies**    
 Objects with a NULL referencing_id in `sys.sql_expression_dependencies` are not resolved by the script. These are typically stored procedures that reference other procedures using a one-part naming convention. Such objects are labeled as UNKNOWN.  It is generally a good idea to identify and update stored procedures to use two-part naming conventions.
 
-3. Self-Referencing Objects    
+3. **Self-Referencing Objects**    
 Self-referencing objects are removed to prevent infinite loops. They are stored in the table `##self-referencing_objects` for review.  Simply query this table after executing the temporary stored procedures.
 
 -----
