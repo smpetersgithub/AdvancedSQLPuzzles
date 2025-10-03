@@ -136,7 +136,7 @@ PRINT('Ensure the string has single quotes around each value: ' + @v_database);
 
 #### Selecting a Dependency Path Procedure
 
-Use one of the following stored procedures, depending on the direction of the analysis.
+Use one of the following stored procedures based on the direction of analysis. You’ll need to pass the target object as a parameter:
 
 * `##temp_sp_determine_paths` – Traces downstream dependencies (what the object depends on)
 * `##temp_sp_determine_reverse_paths` – Traces upstream dependencies (what depends on the object)
