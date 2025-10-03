@@ -18,7 +18,7 @@ Overall, I have found that the following thirty-three scripts can represent all 
 
 ## Summary of Contents
 
-1. [Cross-databases and Cross-schema Dependencies](03_database_dependencies_examples.md#01-cross-databases-and-cross-schema-dependencies)
+1. [Cross-Databases and Cross-Schema Dependencies](03_database_dependencies_examples.md#01-cross-databases-and-cross-schema-dependencies)
 2. [Cross Schema Dependencies](03_database_dependencies_examples.md#02-cross-schema-dependencies)
 3. [Invalid Stored Procedures](03_database_dependencies_examples.md#03-invalid-stored-procedures)
 4. [Numbered Stored Procedures](03_database_dependencies_examples.md#04-numbered-stored-procedures)
@@ -57,7 +57,7 @@ Overall, I have found that the following thirty-three scripts can represent all 
 
 ***
 
-### 01. Cross-databases and Cross-schema Dependencies
+### 01. Cross-Databases and Cross-Schema Dependencies
 
 In this example, we create objects in two different databases and create a cross-database dependency. This will be the only example where we use different databases.
 
