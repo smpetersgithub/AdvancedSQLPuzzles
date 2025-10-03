@@ -17,7 +17,6 @@ Next, we will review examples of database dependencies and how they are represen
 Overall, I have found that the following thirty-three scripts can represent all the various database dependencies that can occur.
 
 ## Summary of Contents
-1. [Cross-databases and Cross-schema Dependencies](03_database_dependencies_examples.md#cross-databases-and-cross-schema-dependencies)
 
 1. [Cross-databases and Cross-schema Dependencies](03_database_dependencies_examples.md#01-cross-databases-and-cross-schema-dependencies)
 2. [Cross Schema Dependencies](03_database_dependencies_examples.md#02-cross-schema-dependencies)
