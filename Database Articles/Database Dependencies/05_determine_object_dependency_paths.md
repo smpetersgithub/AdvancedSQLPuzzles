@@ -160,7 +160,7 @@ These limitations are planned to be addressed in future versions of the script.
 
 ### SQL Script
 
-And now, without further ado, here is the script to generate database dependency paths.
+And now, without further ado, here is the script to generate database dependency paths.  This script is also located in the GitHub repository.
 
 ```sql
 /*
