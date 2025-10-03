@@ -1,18 +1,13 @@
+<img src="https://raw.githubusercontent.com/smpetersgithub/AdvancedSQLPuzzles/main/images/AdvancedSQLPuzzles_image.png" alt="Advanced SQL Puzzles" width="200"/>
+
 # Database Dependency Analysis
-
-<mark style="color:blue;">**Visit my site at**</mark> [<mark style="color:blue;">**https://advancedsqlpuzzles.com/**</mark>](https://advancedsqlpuzzles.com/)
-
-***
-
-:thumbsup: <mark style="color:blue;">The following GitHub repository contains the examples listed below.</mark>
-
-{% embed url="https://github.com/smpetersgithub/AdvancedSQLPuzzles/tree/main/Database%20Articles/Database%20Dependencies/" %}
-
-***
 
 Next, we'll analyze the results stored in the `sys.sql_expression_dependencies` view, based on the examples from the previous walkthrough.
 
 This analysis uses the `foo.dbo.sql_expression_dependencies` table—a local table within the `foo` database—that has been populated with dependency data from each example. To populate this table, please review the SQL scripts located in the GitHub repository.
+
+👍 The corresponding scripts for this walkthrough, along with this documentation, are available in the following GitHub repository:    
+[📂 AdvancedSQLPuzzles → Database Dependencies](https://github.com/smpetersgithub/AdvancedSQLPuzzles/tree/main/Database%20Articles/Database%20Dependencies/)
 
 ***
 
