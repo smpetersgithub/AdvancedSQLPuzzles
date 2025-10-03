@@ -10,11 +10,11 @@ This repository contains a collection of my SQL puzzles and various writings. Fe
 
 ## Getting Started
 
-To get started, clone or download the repository to your local machine. I have included readme files for each directory that describes its contents. If anything is unclear, please contact me, and I would be happy to assist.
+To get started, clone or download the repository to your local machine. I have included readme files for each directory that describe its contents. If anything is unclear, please contact me, and I would be happy to assist.
 
 ## About Me
 
-Greetings. I am Scott Peters, a resident of Austin, TX. I am always eager to collaborate with fellow SQL developers. I've probably written the word `SELECT` two hundred thousand times.  If you would like to connect, please drop me a line.
+Greetings. I am Scott Peters, a resident of Austin, TX. I am always eager to collaborate with fellow SQL developers. I've probably written the word `SELECT` two hundred thousand times.  If you would like to connect, please don't hesitate to drop me a line.
 
 ## Conclusion
 
