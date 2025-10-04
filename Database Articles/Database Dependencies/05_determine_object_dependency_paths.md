@@ -2,9 +2,9 @@
 
 # Object Dependency Path Analysis Script
 
-The primary use of the sys.sql_expression_dependencies table is to identify invalid dependencies and analyze dependency paths.
+The primary use of the `sys.sql_expression_dependencies` table is to identify invalid dependencies and analyze dependency paths.
 
-In the previous section, we covered invalid dependencies and how valid references can sometimes be flagged incorrectly.
+In the previous section, we covered invalid dependencies and how valid references can sometimes be incorrectly flagged as invalid.
 
 Next, we'll focus on determining dependency paths. A script is provided at the end of this chapter to automate this process.
 
@@ -12,8 +12,7 @@ The script generates a series of temporary stored procedures that allow you to a
 
 Before executing the script, I want to highlight a few important considerations.
 
-👍 The corresponding scripts for this walkthrough, along with this documentation, are available in the following GitHub repository:    
-[📂 AdvancedSQLPuzzles → Database Dependencies](https://github.com/smpetersgithub/AdvancedSQLPuzzles/tree/main/Database%20Articles/Database%20Dependencies/)
+[👍 The corresponding scripts for this walkthrough, along with this documentation, are available in the following GitHub repository](https://github.com/smpetersgithub/AdvancedSQLPuzzles/tree/main/Database%20Articles/Database%20Dependencies/)
 
 ----
 
@@ -61,13 +60,16 @@ We can also determine reverse dependencies.  In this example, we identify all ob
 Next, I want to highlight a few key details before we execute the script.
 
 1. **Cross-Database Dependencies**    
-The script can trace dependencies across multiple databases. Pass the list of databases as parameters to capture the full dependency paths.
+     * The script can trace dependencies across multiple databases. Pass the list of databases as parameters to capture the full dependency paths.
 
 2. **Unknown Dependencies**    
-Objects with a NULL referencing_id in `sys.sql_expression_dependencies` are not resolved by the script. These are typically stored procedures that reference other procedures using a one-part naming convention. Such objects are labeled as UNKNOWN.  It is generally a good idea to identify and update stored procedures to use two-part naming conventions.
+     * Objects with a NULL referencing_id in `sys.sql_expression_dependencies` are not resolved by the script. These are typically stored procedures that reference other procedures using a one-part naming convention. Such objects are labeled as UNKNOWN.  It is generally a good idea to identify and update stored procedures to use two-part naming conventions.
 
 3. **Self-Referencing Objects**    
-Self-referencing objects are removed to prevent infinite loops. They are stored in the table `##self-referencing_objects` for review.  Simply query this table after executing the temporary stored procedures.
+     * Self-referencing objects are removed to prevent infinite loops. They are stored in the table `##self-referencing_objects` for review.  Simply query this table after executing the temporary stored procedures.
+
+4. **Synonyms**
+     * Synonyms appear as root nodes because the `sys.sql_expression_dependencies` table only records references to the synonym itself—not to the underlying object the synonym points to.
 
 -----
 
@@ -149,16 +151,21 @@ Use one of the following stored procedures based on the direction of analysis. Y
 
 #### Current Limitations
 
-The script currently resolves dependencies for one object at a time, not for all objects within a database. Running dependency chains across all objects is computationally intensive and may take several hours to complete.
+1. The script currently resolves dependencies for **one object at a time**, not for all objects within a database. Running dependency chains across all objects is computationally intensive.
 
-If you need a full dependency map for an entire database, consider modifying `##temp_sp_determine_paths` to:
+2. If you need a full dependency map for an entire database, consider modifying `##temp_sp_determine_paths` to:
 
-1. Retrieve all objects within the target database.
-2. Loop through each object, calculating its object dependency path individually.
+   * Retrieve all objects within the target database.
+   * Loop through each object, calculating its dependency path individually.
 
-Additionally, if the specified object name exists in multiple schemas, each instance will be included in the output. You will need to manually identify the correct object.
+3. If the specified object name exists in multiple schemas, each instance of that name will be included in the output. You will need to manually identify the correct object.
 
-These limitations are planned to be addressed in future versions of the script.
+4. Synonyms appear as root nodes because the `sys.sql_expression_dependencies` table only records references to the synonym itself—not to the underlying object the synonym points to.
+
+5. These limitations are planned to be addressed in future versions of the script.
+
+---
+
 
 ---
 
