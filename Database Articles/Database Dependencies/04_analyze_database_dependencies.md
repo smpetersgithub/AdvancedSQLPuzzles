@@ -39,18 +39,18 @@ Besides the previous key insights, I have found the following most relevant to u
 | Topic                         | Description                                                                                              | Examples          |
 | ----------------------------- | -------------------------------------------------------------------------------------------------------- | ----------------- |
 | Reference_ID Uniqueness       | `object_id` is unique only within a database. Use database, schema, and object name to match across DBs. | Example 01        |
-| Stored Procedure Dependencies | Caller-dependent when using one-part naming; no `referenced_id`.                                         | Example 07        |
-| Invalid Dependencies          | Valid at compile time but can later become invalid (e.g., view referencing a stored procedure).          | Example 09        |
+| Stored Procedure Dependencies | Caller-dependent when using one-part naming, causing a NULL `referenced_id`.                             | Example 07        |
+| Impossible Dependencies       | The table can report impossible dependencies, such as a view referencing a stored procedure.             | Example 09        |
 | Object Aliases                | Show as invalid dependencies with NULL `referenced_id`.                                                  | Example 11        |
 | Synonyms                      | Recorded only as referenced objects, not as referencing objects.                                         | Example 13        |
 | Triggers in Dependencies      | DML, database-level, and server-level triggers are all recorded.                                         | Examples 14–16    |
 | Sequences                     | Linked internally to a default constraint in the dependency table.                                       | Example 20        |
 | Check Constraints / Computed  | Recorded as self-referencing objects.                                                                    | Examples 23,25    |
-| Self-Referencing Tables       | Computed columns, filtered indexes, XML indexes, and statistics can appear as self-referencing.          | Examples 25,28–30 |
+| Self-Referencing Tables       | Self-referencing objects are; computed columns, check constraints, filtered/XML indexes, statistics.     | Examples 25,28–30 |
 | XML Methods                   | `value`, `exist`, `query`, `modify` repurpose dependency fields to show XML details.                     | Example 32        |
 | Ambiguous Dependencies        | `is_ambiguous = 1` does not always mean unknown objects.                                                 | Examples 05,32    |
-| Missing from `sys.objects`    | Database/server triggers, UDDTs, UDTTs, XML Schemas.                                                     | —                 |
-| Missing from dependencies     | Synonyms (referencing), partition functions, defaults/rules, contracts/queues/message types, FKs, etc.   | —                 |
+| Missing from `sys.objects`    | Database/server triggers, UDDTs, UDTTs, XML Schemas.                                                     | Multiple          |
+| Missing from dependencies     | Synonyms (referencing), partition functions, defaults/rules, contracts/queues/message types, FKs, etc.   | Multiple          |
 
 ***
 
