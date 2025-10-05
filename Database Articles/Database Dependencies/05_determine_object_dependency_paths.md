@@ -20,7 +20,7 @@ These examples are based on Microsoft’s publicly available `WorldWideImporters
 
 For example, here is a dependency path for the stored procedure, `WideWorldImporters.Website.SearchForPeople`.  Given the output, we can determine all objects that the stored procedure references.
 
-🔍 Objects are labeled using a four-part naming convention `<server_name>.<schema>.<object_name>.<object_type>`
+🔍 Objects are labeled using a four-part naming convention: `<server_name>.<schema>.<object_name>.<object_type>`
 
 ----
 
