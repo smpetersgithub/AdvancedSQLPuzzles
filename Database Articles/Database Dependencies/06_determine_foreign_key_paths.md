@@ -1,6 +1,6 @@
 <img src="https://raw.githubusercontent.com/smpetersgithub/AdvancedSQLPuzzles/main/images/AdvancedSQLPuzzles_image.png" alt="Advanced SQL Puzzles" width="200"/>
 
-# Foreign Key Dependency Path Analysis Script
+# Foreign Key Dependency Path Analysis
 
 
 Next, we’ll focus on determining foreign key paths. This is similar to determining object dependency paths, but here we focus exclusively on foreign key dependencies. A script provided at the end of this chapter automates this process.
