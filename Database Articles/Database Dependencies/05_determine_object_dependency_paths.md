@@ -4,8 +4,6 @@
 
 The primary use of the `sys.sql_expression_dependencies` table is to identify invalid dependencies and analyze dependency paths.
 
-In the previous section, we covered invalid dependencies and how valid references can have a NULL 'referenced_id'.
-
 Next, we'll focus on determining dependency paths. A script is provided at the end of this chapter to automate this process.
 
 The script generates a series of temporary stored procedures that allow you to analyze dependencies by specifying a list of databases and a target object. Since dependencies may span multiple databases, the script is designed to trace relationships across all databases you provide.
