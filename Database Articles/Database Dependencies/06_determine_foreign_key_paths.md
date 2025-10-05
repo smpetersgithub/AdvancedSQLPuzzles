@@ -23,7 +23,7 @@ These examples are based on Microsoft’s publicly available `WorldWideImporters
 
 The following illustrates a foreign key path for the `Orders` table. From this output, we can identify all objects that the table depends on via foreign keys, as well as the dependencies of those related tables.
 
-🔍 Objects are labeled using a four-part naming convention `<server_name>.<schema>.<object_name>.<object_type>`
+🔍 Objects are labeled using a three-part naming convention `<server_name>.<schema>.<object_name>`
 
 ----
 
