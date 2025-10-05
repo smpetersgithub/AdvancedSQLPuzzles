@@ -1,6 +1,6 @@
 <img src="https://raw.githubusercontent.com/smpetersgithub/AdvancedSQLPuzzles/main/images/AdvancedSQLPuzzles_image.png" alt="Advanced SQL Puzzles" width="200"/>
 
-# Object Dependency Path Analysis Script
+# Object Dependency Path Analysis
 
 Next, we’ll focus on determining dependency paths. A script provided at the end of this chapter automates this process.
 
