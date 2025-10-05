@@ -36,7 +36,7 @@ Given the output, we can determine all objects that the stored procedure referen
 
 We can also determine reverse dependencies.  In this example, we identify all objects that depend on the `Customers` table.
 
-| id  | path                                                                                                                                                                                           | Referencing Object Fullname                                                        | depth |
+| ID  | Path                                                                                                                                                                                           | Referencing Object Fullname                                                        | Depth |
 |-----|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------|-------|
 | 1   | WideWorldImporters.Application.FilterCustomersBySalesTerritoryRole.SECURITY_POLICY ⬅️ WideWorldImporters.Sales.Customers.USER_TABLE                                                            | WideWorldImporters.Application.FilterCustomersBySalesTerritoryRole.SECURITY_POLICY | 1     |
 | 2   | WideWorldImporters.Integration.GetCustomerUpdates.SQL_STORED_PROCEDURE ⬅️ WideWorldImporters.Sales.Customers.USER_TABLE                                                                        | WideWorldImporters.Integration.GetCustomerUpdates.SQL_STORED_PROCEDURE             | 1     |
