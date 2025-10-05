@@ -1,13 +1,13 @@
 <img src="https://raw.githubusercontent.com/smpetersgithub/AdvancedSQLPuzzles/main/images/AdvancedSQLPuzzles_image.png" alt="Advanced SQL Puzzles" width="200"/>
 
-# Object Dependency Path Analysis Script
+# Foreign Key Dependency Path Analysis Script
 
 
 Next, we’ll focus on determining foreign key paths. This is similar to determining object dependency paths, but here we focus exclusively on foreign key dependencies. A script provided at the end of this chapter automates this process.
 
 Foreign key dependencies can be viewed via the system views `sys.foregn_keys` and `sys.foreign_key_columns` system views.  Foreign Key dependencies are not part of the `sys.sql_Expression_dependencies` table.
 
-Foreign keys cannot be created across databases, so unlike object dependency paths, we do not need to account for cross-database foreign keys.  Before you run the script, you will need to modify the `USE` statement to use the correct databse.
+Foreign keys cannot be created across databases, so unlike object dependency paths, we do not need to account for cross-database foreign keys.  Before you run the script, you will need to modify the `USE` statement to use the correct database.
 
 Before running the script, we will cover a few key concepts.
 
@@ -132,7 +132,7 @@ These limitations are planned to be addressed in future versions of the script:
 
 ### SQL Script
 
-And now, without further ado, here is the script to generate database dependency paths.  This script is also located in the GitHub repository.
+And now, without further ado, here is the script to generate foreign key dependency paths.  This script is also located in the GitHub repository.
 
 ```sql
 USE WideWorldImporters;
