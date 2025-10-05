@@ -154,7 +154,7 @@ Use one of the following stored procedures based on the direction of analysis. Y
    * Retrieve all objects within the target database.
    * Loop through each object, calculating its dependency path individually.
 
-3. If the specified object name exists in multiple schemas or in multiole databases (provided as the parameter), each instance of that name will be included in the output. You will need to manually identify the correct object.
+3. If the specified object name exists in multiple schemas or across multiple databases (as provided in the parameter), each instance will be included in the output. You'll need to manually identify the correct one.
 
 4. Synonyms appear as root nodes because the `sys.sql_expression_dependencies` table only records references to the synonym itself—not to the underlying object the synonym points to.
 
