@@ -91,7 +91,7 @@ While I won’t go into the implementation details here, you can paste the code 
 
 ### Usage Notes
 
-To execute the stored procedures, you must first run the script to create them and then call the temporary procedures within the same session.
+To execute the stored procedures, first run the script to create them, then call the temporary procedures within the same session.
 
 The temporary stored procedures do not need to be created in the same schema as the object you're analyzing. You’ll specify the databases to trace dependencies across. It's common to run this script from the `master` database.
 
