@@ -13,6 +13,8 @@ The items in this directory can be grouped into two categories:
 :point_right: &nbsp;&nbsp;**Database Writings**
 *  Advanced SQL Joins
 *  Behavior of Nulls
+*  Database Certifications
+*  Database Dependencies
 
 :point_right: &nbsp;&nbsp;**Azure Demos**
 *  Azure Databricks Hive Demo
