@@ -147,20 +147,15 @@ Use one of the following stored procedures based on the direction of analysis. Y
 
 #### Current Limitations
 
-1. The script currently resolves dependencies for one object at a time, not for all objects within a database. Running dependency chains across all objects is computationally intensive.
+These limitations are planned to be addressed in future versions of the script:
 
-2. If you need a full dependency map for an entire database, consider modifying `##temp_sp_determine_paths` to:
+1. Single Table Dependency Resolution
 
-   * Retrieve all objects within the target database.
-   * Loop through each object, calculating its dependency path individually.
+    *  The script currently resolves object dependencies for one table at a time. It does not generate dependency chains for all objects in a database. This design is intentional, as processing the full dependency map for an entire database can be computationally intensive.
 
-3. If the specified object name exists in multiple schemas or across multiple databases (as provided in the parameter), each instance will be included in the output. You'll need to manually identify the correct one.
+2. Ambiguous Object Names Across Schemas
 
-4. Synonyms appear as root nodes because the `sys.sql_expression_dependencies` table only records references to the synonym itself—not to the underlying object the synonym points to.
-
-5. These limitations are planned to be addressed in future versions of the script.
-
----
+    *  If the specified object name exists in multiple schemas, each instance is included in the output. You will need to manually identify and filter the correct object as needed.
 
 
 ---
