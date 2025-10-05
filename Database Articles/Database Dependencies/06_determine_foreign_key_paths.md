@@ -11,7 +11,7 @@ Foreign keys cannot be created across databases, so unlike object dependency pat
 
 Before running the script, we will cover a few key concepts.
 
-[👍 The corresponding scripts for this walkthrough are available here.](https://github.com/smpetersgithub/AdvancedSQLPuzzles/tree/main/Database%20Articles/Database%20Dependencies/)
+[📄 The corresponding scripts for this walkthrough are available here.](https://github.com/smpetersgithub/AdvancedSQLPuzzles/tree/main/Database%20Articles/Database%20Dependencies/)
 
 ----
 
