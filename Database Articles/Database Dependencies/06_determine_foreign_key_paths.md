@@ -2,6 +2,7 @@
 
 # Foreign Key Dependency Path Analysis
 
+[📄 The corresponding scripts for this walkthrough are available here.](https://github.com/smpetersgithub/AdvancedSQLPuzzles/tree/main/Database%20Articles/Database%20Dependencies/)
 
 Next, we’ll focus on determining foreign key paths. This is similar to determining object dependency paths, but here we focus exclusively on foreign key dependencies. A script provided at the end of this chapter automates this process.
 
@@ -10,8 +11,6 @@ Foreign key dependencies can be viewed via the system views `sys.foregn_keys` an
 Foreign keys cannot be created across databases, so unlike object dependency paths, we do not need to account for cross-database foreign keys.  Before you run the script, you will need to modify the `USE` statement to use the correct database.
 
 Before running the script, we will cover a few key concepts.
-
-[📄 The corresponding scripts for this walkthrough are available here.](https://github.com/smpetersgithub/AdvancedSQLPuzzles/tree/main/Database%20Articles/Database%20Dependencies/)
 
 ----
 
