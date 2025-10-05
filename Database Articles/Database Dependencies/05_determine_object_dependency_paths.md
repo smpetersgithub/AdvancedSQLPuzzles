@@ -6,7 +6,7 @@ Next, we’ll focus on determining dependency paths. A script provided at the en
 
 The script creates a series of temporary stored procedures that analyze dependencies across multiple databases, based on a specified list of databases and a target object. Because dependencies can span databases, the script is designed to trace relationships across all those you specify.
 
-Before running the script, please note the following important considerations:
+Before running the script, we will cover a few key concepts.
 
 [👍 The corresponding scripts for this walkthrough are available here.](https://github.com/smpetersgithub/AdvancedSQLPuzzles/tree/main/Database%20Articles/Database%20Dependencies/)
 
