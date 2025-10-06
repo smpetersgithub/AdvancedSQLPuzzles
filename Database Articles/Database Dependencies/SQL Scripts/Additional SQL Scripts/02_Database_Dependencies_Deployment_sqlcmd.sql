@@ -24,7 +24,7 @@ The following scripts need to be run manually.
      Ensure that no other connections are active when running this script to avoid conflicts or execution errors.
 
 33_Feature_Installed_Procedures
-     Run this script manually.  You will first need to enable database diagrams (or similiar).
+     Run this script manually.  You will first need to enable database diagrams (or similar).
 
 
 ------------------------------------------------------------------------------------------------------------------*/
@@ -230,3 +230,4 @@ PRINT 'C:\AdvancedSQLPuzzles-main\Database Articles\Database Dependencies\SQL Sc
 GO
 :r "C:\AdvancedSQLPuzzles-main\Database Articles\Database Dependencies\SQL Scripts\34_Security_Policies.sql"
 GO
+
