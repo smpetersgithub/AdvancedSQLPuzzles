@@ -15,7 +15,7 @@
 
 Next, we’ll focus on determining dependency paths. A script provided at the end of this chapter automates this process.
 
-The script creates a series of temporary stored procedures that analyze dependencies across multiple databases, based on a specified list of databases and a target object. Because dependencies can span databases, the script is designed to trace relationships across all those you specify.
+The script creates a series of temporary stored procedures that analyze dependencies across multiple databases, based on a specified list of databases and a target object. Because dependencies can span databases, the script is designed to trace relationships across all databases specified by the user.
 
 Before running the script, we will cover a few key concepts.
 
@@ -73,7 +73,7 @@ Next, I want to highlight a few key details before we execute the script.
      * Self-referencing objects are removed to prevent infinite loops. They are stored in the table `##self-referencing_objects` for review.  Simply query this table after executing the temporary stored procedures.
 
 4. **Synonyms**
-     * Synonyms are listed as root nodes since sys.sql_expression_dependencies records dependencies on the synonym, but not on the object it references.
+     * Synonyms are listed as root nodes since `sys.sql_expression_dependencies` records dependencies on the synonym, but not on the object it references.
 
 -----
 
