@@ -54,7 +54,7 @@ Besides the previous key insights, I have found the following most relevant to u
 | Triggers in Dependencies      | DML, database-level, and server-level triggers are all recorded.                                         | Examples 14–16    |
 | Sequences                     | Linked internally to a default constraint in the dependency table.                                       | Example 20        |
 | Check Constraints / Computed  | Recorded as self-referencing objects.                                                                    | Examples 23,25    |
-| Self-Referencing Tables       | Self-referencing objects are; computed columns, check constraints, filtered/XML indexes, statistics.     | Examples 25,28–30 |
+| Self-Referencing Tables       | Self-referencing objects are: computed columns, check constraints, filtered/XML indexes, and statistics. | Examples 25,28–30 |
 | XML Methods                   | `value`, `exist`, `query`, `modify` repurpose dependency fields to show XML details.                     | Example 32        |
 | Ambiguous Dependencies        | `is_ambiguous = 1` does not always mean unknown objects.                                                 | Examples 05,32    |
 | Missing from `sys.objects`    | Database/server triggers, UDDTs, UDTTs, XML Schemas.                                                     | Multiple          |
@@ -84,16 +84,16 @@ The following list can be used to reference the corresponding example numbers.
 | 14     | Triggers - DML                             | Yes                 | No               |
 | 15     | Triggers - DDL Database Level              | No                  | No               |
 | 16     | Triggers - DDL Server Level - Table Insert | No                  | No               |
-| 17     | Partition Functions                        | No                  | No               |
-| 18     | Defaults and Rules                         | No                  | No               |
-| 19     | Contracts and Queues and Message Types     | No                  | No               |
+| 17     | Partition Functions                        | Not Represented     | Not Represented  |
+| 18     | Defaults and Rules                         | Not Represented     | Not Represented  |
+| 19     | Contracts and Queues and Message Types     | Not Represented     | Not Represented  |
 | 20     | Sequences                                  | No                  | No               |
 | 21     | User-Defined Data Types                    | No                  | No               |
 | 22     | User-Defined Table Types                   | No                  | No               |
 | 23     | Check Constraints                          | No                  | No               |
-| 24     | Foreign Key Constraints                    | No                  | No               |
+| 24     | Foreign Key Constraints                    | Not Represented     | Not Represented  |
 | 25     | Computed Columns                           | No                  | Yes              |
-| 26     | Masked Functions                           | No                  | No               |
+| 26     | Masked Functions                           | Not Represented     | Not Represented  |
 | 27     | Indexes - Table                            | No                  | No               |
 | 28     | Indexes - Filtered NonClustered            | No                  | Yes              |
 | 29     | Indexes - Filtered XML                     | No                  | Yes              |
@@ -101,6 +101,7 @@ The following list can be used to reference the corresponding example numbers.
 | 31     | XML Schema Collections                     | No                  | No               |
 | 32     | XML Methods                                | Yes                 | No               |
 | 33     | Feature Installed Procedures               | No                  | No               |
+| 34     | Security Policies                          | No                  | No               |
 
 
 ***
