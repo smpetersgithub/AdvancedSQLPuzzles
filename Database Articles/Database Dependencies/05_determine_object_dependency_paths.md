@@ -33,11 +33,11 @@ For example, here is a dependency path for the stored procedure, `WideWorldImpor
 
 ----
 
-| ID | Path                                                                                                                   | Referenced Object Fullname                           | Referenced Type Desc | Depth |
-|----|------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------|----------------------|-------|
-| 1  | WideWorldImporters.Website.SearchForPeople.SQL_STORED_PROCEDURE ➡️ WideWorldImporters.Application.People.USER_TABLE   | WideWorldImporters.Application.People.USER_TABLE     | USER_TABLE            | 1    |
-| 2  | WideWorldImporters.Website.SearchForPeople.SQL_STORED_PROCEDURE ➡️ WideWorldImporters.Purchasing.Suppliers.USER_TABLE | WideWorldImporters.Purchasing.Suppliers.USER_TABLE   | USER_TABLE            | 1    |
-| 3  | WideWorldImporters.Website.SearchForPeople.SQL_STORED_PROCEDURE ➡️ WideWorldImporters.Sales.Customers.USER_TABLE      | WideWorldImporters.Sales.Customers.USER_TABLE        | USER_TABLE            | 1    |
+| ID | Path                                                                                                                   | Referenced Object Fullname                         | Depth |
+|----|------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------|-------|
+| 1  | WideWorldImporters.Website.SearchForPeople.SQL_STORED_PROCEDURE ➡️ WideWorldImporters.Application.People.USER_TABLE   | WideWorldImporters.Application.People.USER_TABLE   | 1     |
+| 2  | WideWorldImporters.Website.SearchForPeople.SQL_STORED_PROCEDURE ➡️ WideWorldImporters.Purchasing.Suppliers.USER_TABLE | WideWorldImporters.Purchasing.Suppliers.USER_TABLE | 1     |
+| 3  | WideWorldImporters.Website.SearchForPeople.SQL_STORED_PROCEDURE ➡️ WideWorldImporters.Sales.Customers.USER_TABLE      | WideWorldImporters.Sales.Customers.USER_TABLE      | 1     |
 
 
 ----
@@ -134,7 +134,7 @@ When passing the list of databases, ensure proper formatting so the dynamic SQL 
 
 ```sql
 DECLARE @v_database VARCHAR(100) = '''WideWorldImporters''';
-PRINT('Ensure this string is correct: ' + @v_database);
+PRINT('Ensure the string has single quotes around each value: ' + @v_database);
 ```
 
 #### Multiple Databases Example
