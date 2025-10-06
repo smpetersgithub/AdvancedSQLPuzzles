@@ -18,10 +18,6 @@ Next, we will review examples of database dependencies and how they are represen
 
 ### Summary of Contents
 
-Overall, I have found that the following thirty-three scripts can represent all the various database dependencies that can occur.
-
-## Summary of Contents
-
 1. [Cross-Databases and Cross-Schema Dependencies](03_database_dependencies_examples.md#01-cross-databases-and-cross-schema-dependencies)
 2. [Cross Schema Dependencies](03_database_dependencies_examples.md#02-cross-schema-dependencies)
 3. [Invalid Stored Procedures](03_database_dependencies_examples.md#03-invalid-stored-procedures)
@@ -55,6 +51,7 @@ Overall, I have found that the following thirty-three scripts can represent all 
 31. [XML Schema Collection](03_database_dependencies_examples.md#31-xml-schema-collection)
 32. [XML Methods](03_database_dependencies_examples.md#32-xml-methods)
 33. [Feature Installed Procedures](03_database_dependencies_examples.md#33-feature-installed-procedures)
+34. [Security_Policies](03_database_dependencies_examples.md#34-security-policies)
 
 
 
@@ -1465,3 +1462,42 @@ These dependencies are recorded in the `sys.sql_expression_dependencies` table. 
 | 33              | P                         | SQLEXPRESS01              | foo                         | dbo                       | sp\_dropdiagram           | 1093578934      | 0                      | 1                  | OBJECT\_OR\_COLUMN       | 0                            | 1                 | OBJECT\_OR\_COLUMN      |                          |                            | dbo                      | sysdiagrams              | U                        | 965578478      | 0                     | 0                     | 0             | 0                            | 0                           |                               | 0                     |
 
 [Summary of Contents](03_database_dependencies_examples.md#summary-of-contents)
+
+### 34 Security Policies
+
+Security policies in SQL Server enforce row-level security by filtering or blocking access to data based on user context. They use predicate functions to determine which rows a user can view or modify, and are applied directly to tables.
+
+In this example, we see the security policy as a referencing object to both the table and the function.
+
+```sql
+USE foo;
+GO
+
+CREATE TABLE dbo.tbl_example_34 (
+    OrderID INT PRIMARY KEY,
+    OrderDate DATE,
+    CustomerName NVARCHAR(100),
+    Salesperson SYSNAME
+);
+GO
+
+CREATE FUNCTION dbo.fn_example_34 (@Salesperson SYSNAME)
+RETURNS TABLE
+WITH SCHEMABINDING
+AS
+RETURN SELECT 1 AS fn_result
+WHERE @Salesperson = USER_NAME();
+GO
+
+CREATE SECURITY POLICY dbo.security_policy_example_34
+ADD FILTER PREDICATE dbo.fn_example_34(Salesperson)
+ON dbo.tbl_example_34
+WITH (STATE = ON);
+GO
+```
+
+| example\_number | referencing\_object\_type | referencing\_server\_name | referencing\_database\_name | referencing\_schema\_name | referencing\_entity\_name  | referencing\_id | referencing\_minor\_id | referencing\_class | referencing\_class\_desc | is\_schema\_bound\_reference | referenced\_class | referenced\_class\_desc | referenced\_server\_name | referenced\_database\_name | referenced\_schema\_name | referenced\_entity\_name | referenced\_object\_type | referenced\_id | referenced\_minor\_id | is\_caller\_dependent | is\_ambiguous | referencing\_is\_ms\_shipped | referenced\_is\_ms\_shipped | is\_user\_defined\_data\_type | is\_self\_referencing |
+| --------------- | ------------------------- | ------------------------- | --------------------------- | ------------------------- | -------------------------- | --------------- | ---------------------- | ------------------ | ------------------------ | ---------------------------- | ----------------- | ----------------------- | ------------------------ | -------------------------- | ------------------------ | ------------------------ | ------------------------ | -------------- | --------------------- | --------------------- | ------------- | ---------------------------- | --------------------------- | ----------------------------- | --------------------- |
+| 34              | SP                        | SQLEXPRESS01              | foo                         | dbo                       | security_policy_example_34 | 242099903       | 1                      | 1                  | OBJECT_OR_COLUMN         | 1                           | 1                  | OBJECT_OR_COLUMN        | NULL                     | NULL                       | dbo                      | tbl_example_34           | U                        | 194099732      | 0                     | 0                     | 0             | 0                            | NULL                        | 0                             | 0                     |
+| 34              | SP                        | SQLEXPRESS01              | foo                         | dbo                       | security_policy_example_34 | 242099903       | 1                      | 1                  | OBJECT_OR_COLUMN         | 1                           | 1                  | OBJECT_OR_COLUMN        | NULL                     | NULL                       | dbo                      | tbl_example_34           | U                        | 194099732      | 4                     | 0                     | 0             | 0                            | NULL                        | 0                             | 0                     |
+| 34              | SP                        | SQLEXPRESS01              | foo                         | dbo                       | security_policy_example_34 | 242099903       | 1                      | 1                  | OBJECT_OR_COLUMN         | 1                           | 1                  | OBJECT_OR_COLUMN        | NULL                     | NULL                       | dbo                      | fn_example_34            | IF                       | 226099846      | 0                     | 0                     | 0             | 0                            | NULL                        | 0                             | 0                     |
