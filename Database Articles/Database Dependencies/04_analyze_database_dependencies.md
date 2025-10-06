@@ -94,7 +94,7 @@ The following list can be used to reference the corresponding example numbers.
 | 24     | Foreign Key Constraints                    | Not Represented     | Not Represented  |
 | 25     | Computed Columns                           | No                  | Yes              |
 | 26     | Masked Functions                           | Not Represented     | Not Represented  |
-| 27     | Indexes - Table                            | No                  | No               |
+| 27     | Indexes - Table                            | Not Represented     | Not Represented  |
 | 28     | Indexes - Filtered NonClustered            | No                  | Yes              |
 | 29     | Indexes - Filtered XML                     | No                  | Yes              |
 | 30     | Statistics Filtered                        | No                  | Yes              |
