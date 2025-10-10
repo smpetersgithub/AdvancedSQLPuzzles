@@ -161,9 +161,9 @@ Please use the following to execute the stored procedures.
 
 EXECUTE ##temp_create_tables;
 GO
-EXECUTE ##temp_sp_determine_fk_paths 'dbo.Orders';
+EXECUTE ##temp_sp_determine_fk_paths 'Sales.Orders';
 GO
-EXECUTE ##temp_sp_determine_fk_paths_reverse 'dbo.Orders';
+EXECUTE ##temp_sp_determine_fk_paths_reverse 'Sales.Orders';
 GO
 
 --View the FK mappings
