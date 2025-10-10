@@ -107,8 +107,8 @@ The `##Table_Foreign_Keys_Map` table is available if you need details about the 
 
 ```sql
 EXECUTE ##temp_create_tables;
-EXECUTE ##temp_sp_determine_fk_paths 'Orders';
-EXECUTE ##temp_sp_determine_fk_paths_reverse 'Orders';
+EXECUTE ##temp_sp_determine_fk_paths 'dbo.Orders';
+EXECUTE ##temp_sp_determine_fk_paths_reverse 'dbo.Orders';
 
 
 --View the FK mappings
@@ -131,10 +131,6 @@ These limitations are planned to be addressed in future versions of the script:
 1. Single Table Dependency Resolution
 
     *  The script currently resolves foreign key dependencies for one table at a time. It does not generate dependency chains for all tables in a database. This design is intentional, as processing the full dependency map for an entire database can be computationally intensive.
-
-2. Ambiguous Object Names Across Schemas
-
-    *  If the specified table exists in multiple schemas, each instance is included in the output. You will need to manually identify and filter the correct table as needed.
 
 ---
 
