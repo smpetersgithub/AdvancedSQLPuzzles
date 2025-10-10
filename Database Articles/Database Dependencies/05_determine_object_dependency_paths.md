@@ -176,6 +176,7 @@ And now, without further ado, here is the script to generate database dependency
 /*
 📋 Instructions
 
+Please visit the following URL for instructions.
 https://github.com/smpetersgithub/AdvancedSQLPuzzles/tree/main/Database%20Articles/Database%20Dependencies
 
 1. Create the temporary stored procedures
@@ -185,12 +186,17 @@ https://github.com/smpetersgithub/AdvancedSQLPuzzles/tree/main/Database%20Articl
 --------------------------------------------------------
 --------------------------------------------------------
 
-Please use the following to execute the stored procedures.
+--Please use the following to execute the stored procedures.
 
--------
---DECLARE @v_database VARCHAR(100) = '''WideWorldImporters'',''AdventureWorksDW''';  --Multiple databases example declaration
+
+--Single Database
 DECLARE @v_database VARCHAR(100) = '''WideWorldImporters''';
-PRINT('Ensure the stings has single quotes around each value: ' + @v_database)
+PRINT('Ensure the string has single quotes around each value: ' + @v_database);
+
+
+--Multiple Databases
+--DECLARE @v_database VARCHAR(100) = '''WideWorldImporters'',''AdventureWorks''';
+--PRINT('Ensure the stings has single quotes around each value: ' + @v_database)
 -------
 
 EXECUTE ##temp_sp_create_tables @v_database;
@@ -200,15 +206,17 @@ EXECUTE ##temp_sp_cursor_insert_sys_objects;
 EXECUTE ##temp_sp_update_sql_expression_dependencies;
 
 -------
-DECLARE @v_object_name VARCHAR(100) = 'SearchForPeople';
+DECLARE @v_object_name VARCHAR(100) = 'Website.SearchForPeople';
 EXECUTE ##temp_sp_determine_paths @v_object_name;
 -------
-DECLARE @v_object_name_reverse_path VARCHAR(100) = 'Customers';
+DECLARE @v_object_name_reverse_path VARCHAR(100) = 'Sales.Customers';
 EXECUTE ##temp_sp_determine_reverse_paths @v_object_name_reverse_path;
 -------
 
+-------------------------------------
+-------------------------------------
+-------------------------------------
 */
-
 USE [master];
 GO
 
@@ -233,8 +241,6 @@ BEGIN
         [database_name] VARCHAR(128)
     );
 
-    --SELECT * FROM ##databases;
-
     DECLARE @v_sql_statement NVARCHAR(MAX);
     SET @v_sql_statement = REPLACE('INSERT INTO ##databases (database_id, [database_name]) SELECT database_id, [name] FROM sys.databases WHERE NAME IN (<DATABASE_STRING>);','<DATABASE_STRING>', @vDatabaseList);
     PRINT(@v_sql_statement);
@@ -245,91 +251,93 @@ BEGIN
     -- Create a table to store dependencies across databases
     CREATE TABLE ##sql_expression_dependencies 
     (
-        sql_expression_dependencies_id INT IDENTITY(1,1) PRIMARY KEY,
-        referencing_id                 INT NOT NULL,
-        referencing_database_name      VARCHAR(128),
-        referencing_schema_name        VARCHAR(128),
-        referencing_object_name        VARCHAR(128),
-        referencing_type_desc          VARCHAR(128),
-        referenced_id                  INT,
-        referenced_database_name       VARCHAR(128),
-        referenced_schema_name         VARCHAR(128),
-        referenced_object_name         VARCHAR(128),
-        referenced_type_desc           VARCHAR(128),
-        depth                          INT,
-        referencing_object_fullname    VARCHAR(128),
-        referenced_object_fullname     VARCHAR(128),
-        referencing_minor_id           INT,
-        referencing_class_desc         VARCHAR(128),
-        is_schema_bound_reference      INT,
-        referenced_class               INT,
-        referenced_class_desc          VARCHAR(128),
-        referenced_server_name         VARCHAR(128),
-        referenced_minor_id            INT,
-        is_caller_dependent            INT,
-        is_ambiguous                   INT
+        sql_expression_dependencies_id INTEGER IDENTITY(1,1) PRIMARY KEY,
+        referencing_id             INTEGER NOT NULL,
+        referencing_database_name  VARCHAR(128),
+        referencing_schema_name    VARCHAR(128),
+        referencing_object_name    VARCHAR(128),
+        referencing_type_desc      VARCHAR(128),
+        referenced_id              INTEGER,
+        referenced_database_name   VARCHAR(128),
+        referenced_schema_name     VARCHAR(128),
+        referenced_object_name     VARCHAR(128),
+        referenced_type_desc       VARCHAR(128),
+        depth                      INTEGER,
+        referencing_object_fullname VARCHAR(128),
+        referenced_object_fullname  VARCHAR(128),
 
+        referencing_minor_id INT,
+        referencing_class_desc VARCHAR(128),
+        is_schema_bound_reference INT,
+        referenced_class INT,
+        referenced_class_desc VARCHAR(128),
+        referenced_server_name VARCHAR(128),
+        referenced_minor_id INT,
+        is_caller_dependent INT,
+        is_ambiguous INT
     );
 
     CREATE TABLE ##self_referencing_objects 
     (
-        sql_expression_dependencies_id INT,
-        referencing_id                 INT NOT NULL,
-        referencing_database_name      VARCHAR(128),
-        referencing_schema_name        VARCHAR(128),
-        referencing_object_name        VARCHAR(128),
-        referencing_type_desc          VARCHAR(128),
-        referenced_id                  INT,
-        referenced_database_name       VARCHAR(128),
-        referenced_schema_name         VARCHAR(128),
-        referenced_object_name         VARCHAR(128),
-        referenced_type_desc           VARCHAR(128),
-        depth                          INT,
-        referencing_object_fullname    VARCHAR(100),
-        referenced_object_fullname     VARCHAR(100),
-        referencing_minor_id           INT,
-        referencing_class_desc         VARCHAR(128),
-        is_schema_bound_reference      INT,
-        referenced_class               INT,
-        referenced_class_desc          VARCHAR(128),
-        referenced_server_name         VARCHAR(128),
-        referenced_minor_id            INT,
-        is_caller_dependent            INT,
-        is_ambiguous                   INT
+        sql_expression_dependencies_id INTEGER,
+        referencing_id             INTEGER NOT NULL,
+        referencing_database_name  VARCHAR(128),
+        referencing_schema_name    VARCHAR(128),
+        referencing_object_name    VARCHAR(128),
+        referencing_type_desc      VARCHAR(128),
+        referenced_id              INTEGER,
+        referenced_database_name   VARCHAR(128),
+        referenced_schema_name     VARCHAR(128),
+        referenced_object_name     VARCHAR(128),
+        referenced_type_desc       VARCHAR(128),
+        depth                      INTEGER,
+        referencing_object_fullname         VARCHAR(100),
+        referenced_object_fullname          VARCHAR(100),
+
+        referencing_minor_id INT,
+        referencing_class_desc VARCHAR(128),
+        is_schema_bound_reference INT,
+        referenced_class INT,
+        referenced_class_desc VARCHAR(128),
+        referenced_server_name VARCHAR(128),
+        referenced_minor_id INT,
+        is_caller_dependent INT,
+        is_ambiguous INT
     );
 
     CREATE TABLE ##sys_objects (
-        [object_id]     INT NOT NULL,
-        [database_name] VARCHAR(128),
-        [schema_name]   VARCHAR(128),
-        [object_name]   VARCHAR(128),
-        [type_desc]     VARCHAR(128),
+        [object_id]      INTEGER NOT NULL,
+        [database_name]  VARCHAR(128),
+        [schema_name]    VARCHAR(128),
+        [object_name]    VARCHAR(128),
+        [type_desc]      VARCHAR(128),
         CONSTRAINT PK_sys_objects PRIMARY KEY ([object_id], [database_name])
         );
     
     CREATE TABLE ##path (
-        path_id                     INT IDENTITY(1,1) PRIMARY KEY,
-        referencing_object_name     VARCHAR(128) NULL,
+        path_id INTEGER IDENTITY(1,1) PRIMARY KEY,
+        referencing_schema_name VARCHAR(128) NULL,
+        referencing_object_name VARCHAR(128) NULL,
         referencing_object_fullname VARCHAR(128) NULL,
-        referenced_object_name      VARCHAR(128) NULL,
-        referenced_object_fullname  VARCHAR(128) NULL,
-        referenced_type_desc        VARCHAR(128) NULL
+        referenced_object_name VARCHAR(128) NULL,
+        referenced_object_fullname VARCHAR(128) NULL,
+        referenced_type_desc VARCHAR(128) NULL
     );
     
     CREATE TABLE ##path_list (
-        path_list_id                INT NOT NULL,
-        path                        VARCHAR(1000) PRIMARY KEY NOT NULL,
+        path_list_id INT NOT NULL,
+        path VARCHAR(1000) PRIMARY KEY NOT NULL,
         referencing_object_fullname VARCHAR(128) NULL,
-        referenced_object_fullname  VARCHAR(128) NULL,
-        referenced_type_desc        VARCHAR(128) NULL
+        referenced_object_fullname VARCHAR(128) NULL,
+        referenced_type_desc VARCHAR(128) NULL
     );
     
     DROP TABLE IF EXISTS ##path_list_final;
     CREATE TABLE ##path_list_final (
-        id                         INTEGER IDENTITY(1,1) PRIMARY KEY,
-        [path]                     VARCHAR(4000) NOT NULL,
+        id INTEGER IDENTITY(1,1) PRIMARY KEY,
+        path VARCHAR(4000) NOT NULL,
         referenced_object_fullname VARCHAR(128) NULL,
-        referenced_type_desc       VARCHAR(128) NULL
+        referenced_type_desc VARCHAR(128) NULL
     );
       
     -- 1. Core dependency lookup index
@@ -366,7 +374,6 @@ CREATE OR ALTER PROCEDURE ##temp_sp_insert_sql_statement
 AS
 BEGIN
 
-    
     SELECT id, rowid, sqlline
     INTO   ##sql_statement
     FROM (VALUES
@@ -539,7 +546,6 @@ BEGIN
 
 SET NOCOUNT ON;
 
-
 -- determine object_types for cross-database dependencies
 UPDATE ##sql_expression_dependencies
 SET    referenced_id = o.[object_id],
@@ -588,41 +594,40 @@ SELECT [object_id],
 FROM   ##sys_objects
 WHERE  [object_id] NOT IN (SELECT referencing_id FROM ##sql_expression_dependencies);
 
-
 UPDATE ##sql_expression_dependencies
 SET    referenced_object_fullname = CONCAT_WS('.',referenced_database_name, referenced_schema_name, referenced_object_name, ISNULL(referenced_type_desc,'UNKNOWN')),
        referencing_object_fullname = CONCAT_WS('.',referencing_database_name, referencing_schema_name, referencing_object_name, ISNULL(referencing_type_desc,'UNKNOWN'));
 PRINT('Update Statement - Update referenced_object_fullname and referencing_object_fullname columns: ' + CAST(@@ROWCOUNT AS VARCHAR(1000)));
-
 
 END;
 GO
 
 CREATE OR ALTER PROCEDURE ##temp_sp_determine_paths (@v_object_name VARCHAR(1000)) AS
 BEGIN
-
+   
     TRUNCATE TABLE ##path;
     TRUNCATE TABLE ##path_list;
     TRUNCATE TABLE ##path_list_final;
 
-    INSERT INTO ##path (referencing_object_name, referencing_object_fullname, referenced_object_name, referenced_object_fullname, referenced_type_desc)
+    INSERT INTO ##path (referencing_schema_name, referencing_object_name, referencing_object_fullname, referenced_object_name, referenced_object_fullname, referenced_type_desc)
     SELECT DISTINCT
+           referencing_schema_name,
            referencing_object_name,
            referencing_object_fullname,
            referenced_object_name,
            (CASE referenced_object_fullname WHEN 'UNKNOWN' THEN NULL ELSE referenced_object_fullname END) AS referenced_object_fullname,
            referenced_type_desc
     FROM   ##sql_expression_dependencies;
-
-    INSERT INTO ##path_list (path_list_id, path, referencing_object_fullname, referenced_object_fullname, referenced_type_desc)
+    
+    INSERT INTO ##path_list (path_list_id, [path], referencing_object_fullname, referenced_object_fullname, referenced_type_desc)
     SELECT  1 AS path_list_id,
-            CONCAT(referencing_object_fullname,',',referenced_object_fullname) AS path,
+            CONCAT(referencing_object_fullname,',',referenced_object_fullname) AS [path],
             referencing_object_fullname,
             referenced_object_fullname,
             referenced_type_desc
     FROM    ##path
     WHERE   1=1 
-            AND referencing_object_name = @v_object_name
+            AND CONCAT(referencing_schema_name, '.', referencing_object_name) = @v_object_name
             AND referenced_object_fullname IS NOT NULL;
     
     DECLARE @v_row_count INTEGER = 1;
@@ -632,47 +637,46 @@ BEGIN
     BEGIN
          WITH cte_determine_referenced_object AS
          (
-         SELECT   path,
-                  REVERSE(SUBSTRING(REVERSE(path),0,CHARINDEX(',',REVERSE(path)))) AS referenced_object_fullname,
+         SELECT   [path],
+                  REVERSE(SUBSTRING(REVERSE([path]),0,CHARINDEX(',',REVERSE([path])))) AS referenced_object_fullname,
                   referenced_type_desc
          FROM    ##path_list
          WHERE   path_list_id = @v_path_list_id - 1
          )
-         INSERT INTO ##path_list (path_list_id, path, referencing_object_fullname, referenced_object_fullname, referenced_type_desc)
+         INSERT INTO ##path_list (path_list_id, [path], referencing_object_fullname, referenced_object_fullname, referenced_type_desc)
          SELECT  @v_path_list_id,
-                 CONCAT(a.path,',',b.referenced_object_fullname),
+                 CONCAT(a.[path],',',b.referenced_object_fullname),
                  a.referenced_object_fullname,
                  b.referenced_object_fullname,
                  b.referenced_type_desc
          FROM    cte_determine_referenced_object a
          INNER JOIN ##path b ON a.referenced_object_fullname = b.referencing_object_fullname
                  AND b.referenced_object_fullname IS NOT NULL
-                 AND CHARINDEX(b.referenced_object_fullname, a.path) = 0;
-
+                 AND CHARINDEX(b.referenced_object_fullname, a.[path]) = 0;
+    
          SET @v_row_count = @@ROWCOUNT;
          PRINT('@v_row_count: ' + CAST(@v_row_count AS VARCHAR(1000)));
-
+    
          SET @v_path_list_id = @v_path_list_id + 1;
-
+    
     END;
 
-    INSERT INTO ##path_list_final (path, referenced_object_fullname, referenced_type_desc)
-    SELECT  path,
+    INSERT INTO ##path_list_final ([path], referenced_object_fullname, referenced_type_desc)
+    SELECT  [path],
             referenced_object_fullname,
             referenced_type_desc
     FROM    ##path_list r1
     WHERE   1=1 AND
             NOT EXISTS (
                 SELECT 1 FROM ##path_list r2
-                WHERE r2.path LIKE r1.path + ',%');
+                WHERE r2.[path] LIKE r1.[path] + ',%');
 
     DROP TABLE IF EXISTS ##path_list_rpt;
 
     SELECT id,
-           REPLACE(path,',',N'   ➡️   ') AS path,
+           REPLACE([path],',',N'   ➡️   ') AS [path],
            referenced_object_fullname,
-           referenced_type_desc,
-           (LEN(path) - LEN(REPLACE(path, ',', ''))) / LEN(',') AS depth
+           (LEN([path]) - LEN(REPLACE([path], ',', ''))) / LEN(',') AS depth
     INTO   ##path_list_rpt
     FROM   ##path_list_final;
 
@@ -688,8 +692,9 @@ BEGIN
     TRUNCATE TABLE ##path_list;
     TRUNCATE TABLE ##path_list_final;
 
-    INSERT INTO ##path (referencing_object_name, referencing_object_fullname, referenced_object_name, referenced_object_fullname, referenced_type_desc)
+    INSERT INTO ##path (referencing_schema_name, referencing_object_name, referencing_object_fullname, referenced_object_name, referenced_object_fullname, referenced_type_desc)
     SELECT DISTINCT
+           referencing_schema_name,
            referencing_object_name,
            referencing_object_fullname,
            referenced_object_name,
@@ -697,17 +702,17 @@ BEGIN
            referenced_type_desc
     FROM   ##sql_expression_dependencies;
 
-    INSERT INTO ##path_list (path_list_id, path, referencing_object_fullname, referenced_object_fullname, referenced_type_desc)
+    INSERT INTO ##path_list (path_list_id, [path], referencing_object_fullname, referenced_object_fullname, referenced_type_desc)
     SELECT  1 AS path_list_id,
-            CONCAT(referencing_object_fullname,',',referenced_object_fullname) AS path,
+            CONCAT(referencing_object_fullname,',',referenced_object_fullname) AS [path],
             referencing_object_fullname,
             referenced_object_fullname,
             referenced_type_desc
     FROM    ##path
     WHERE   1=1
-            AND referenced_object_name = @v_object_name
+            AND CONCAT(referencing_schema_name, '.', referencing_object_name) = @v_object_name
             AND referencing_object_fullname IS NOT NULL;
-
+    
     DECLARE @v_row_count INTEGER = 1;
     DECLARE @v_path_list_id INTEGER = 2;
 
@@ -715,22 +720,22 @@ BEGIN
     BEGIN
          WITH cte_determine_referencing_object AS
          (
-         SELECT   path,
-                  SUBSTRING(path, 1, CHARINDEX(',', path) - 1) AS referencing_object_fullname,
+         SELECT   [path],
+                  SUBSTRING([path], 1, CHARINDEX(',', [path]) - 1) AS referencing_object_fullname,
                   referenced_type_desc
          FROM    ##path_list
          WHERE   path_list_id = @v_path_list_id - 1
          )
-         INSERT INTO ##path_list (path_list_id, path, referencing_object_fullname, referenced_object_fullname, referenced_type_desc)
+         INSERT INTO ##path_list (path_list_id, [path], referencing_object_fullname, referenced_object_fullname, referenced_type_desc)
          SELECT  @v_path_list_id,
-                 CONCAT(b.referencing_object_fullname,',',a.path),
+                 CONCAT(b.referencing_object_fullname,',',a.[path]),
                  b.referencing_object_fullname,
                  a.referencing_object_fullname,
                  b.referenced_type_desc
          FROM    cte_determine_referencing_object a
          INNER JOIN ##path b ON a.referencing_object_fullname = b.referenced_object_fullname
                  AND b.referencing_object_fullname IS NOT NULL
-                 AND CHARINDEX(b.referencing_object_fullname, a.path) = 0;
+                 AND CHARINDEX(b.referencing_object_fullname, a.[path]) = 0;
 
          SET @v_row_count = @@ROWCOUNT;
          PRINT('@v_row_count: ' + CAST(@v_row_count AS VARCHAR(1000)));
@@ -747,14 +752,14 @@ BEGIN
     WHERE   1=1 AND
             NOT EXISTS (
                 SELECT 1 FROM ##path_list r2
-                WHERE r2.path LIKE r1.path + ',%'
+                WHERE r2.[path] LIKE r1.[path] + ',%'
             );
 
     SELECT  DISTINCT 
             id,
-            REPLACE(path,',',N'   ⬅️   ') AS [path], 
-            SUBSTRING(path, 1, CHARINDEX(',', [path]) - 1) AS referencing_object_fullname,
-            (LEN(path) - LEN(REPLACE(path, ',', ''))) AS depth            
+            REPLACE(CASE WHEN [path] LIKE '%,' THEN SUBSTRING([path], 1, LEN([path]) - 1) ELSE [path] END, ',',  N'   ⬅️   ') AS [path], 
+            SUBSTRING([path], 1, CHARINDEX(',', [path]) - 1) AS referencing_object_fullname,
+            (LEN([path]) - LEN(REPLACE([path], ',', ''))) AS depth            
     FROM    ##path_list_final
 
 END
