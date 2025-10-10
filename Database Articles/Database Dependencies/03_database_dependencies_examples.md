@@ -1,16 +1,17 @@
+# Part 3
+
 #### Table of Contents
 
 1. [Introduction to SQL Server Object Dependencies](01_introduction_database_dependencies.md)
 2. [Create Demo Databases and Schemas](02_create_demo_databases_and_schemas.md)
-3. [Database Dependency Examples](03_database_dependencies_examples.md)
-4. [Analyze Database Dependencies](04_analyze_database_dependencies.md)
+3. [Database Dependencies Examples](03_database_dependencies_examples.md)
+4. [Database Dependencies Analysis](04_database_dependencies_analysis.md)
 5. [Determine Object Dependency Paths](05_determine_object_dependency_paths.md)
 6. [Determine Foreign Key Paths](06_determine_foreign_key_paths.md)
    
 <img src="https://raw.githubusercontent.com/smpetersgithub/AdvancedSQLPuzzles/main/images/AdvancedSQLPuzzles_image.png" alt="Advanced SQL Puzzles" width="200"/>
 
 # Database Dependencies Examples
-
 
 Next, we will review examples of database dependencies and how they are represented in the `sys.sql_expression_dependencies` table. These examples provide a comprehensive demonstration of the various types of dependencies that can occur in a database and illustrate how each is reflected (or not reflected) in the `sys.sql_expression_dependencies` table.
 
