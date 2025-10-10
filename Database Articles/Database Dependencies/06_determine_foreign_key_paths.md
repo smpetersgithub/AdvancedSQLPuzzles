@@ -1,15 +1,17 @@
+# Part 6
+
 #### Table of Contents
 
 1. [Introduction to SQL Server Object Dependencies](01_introduction_database_dependencies.md)
 2. [Create Demo Databases and Schemas](02_create_demo_databases_and_schemas.md)
-3. [Database Dependency Examples](03_database_dependencies_examples.md)
-4. [Analyze Database Dependencies](04_analyze_database_dependencies.md)
+3. [Database Dependencies Examples](03_database_dependencies_examples.md)
+4. [Database Dependencies Analysis](04_database_dependencies_analysis.md)
 5. [Determine Object Dependency Paths](05_determine_object_dependency_paths.md)
 6. [Determine Foreign Key Paths](06_determine_foreign_key_paths.md)
 
 <img src="https://raw.githubusercontent.com/smpetersgithub/AdvancedSQLPuzzles/main/images/AdvancedSQLPuzzles_image.png" alt="Advanced SQL Puzzles" width="200"/>
 
-# Foreign Key Dependency Path Analysis
+# Determine Foreign Key Paths
 
 [📄 The corresponding scripts for this walkthrough are available here.](https://github.com/smpetersgithub/AdvancedSQLPuzzles/tree/main/Database%20Articles/Database%20Dependencies/)
 
