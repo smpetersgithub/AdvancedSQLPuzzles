@@ -19,7 +19,7 @@ Next, we will review examples of database dependencies and how they are represen
 
 ### Summary of Contents
 
-Sections are labeled ✔️ if they are included in the sys.sql_expression_dependencies table, and 🚫 if they are not.
+Sections are labeled ✔️ if they are included in the `sys.sql_expression_dependencies table`, and 🚫 if they are not.
 
 1. [✔️ Cross-Databases and Cross-Schema Dependencies](03_database_dependencies_examples.md#01-cross-databases-and-cross-schema-dependencies)
 2. [✔️Cross Schema Dependencies](03_database_dependencies_examples.md#02-cross-schema-dependencies)
