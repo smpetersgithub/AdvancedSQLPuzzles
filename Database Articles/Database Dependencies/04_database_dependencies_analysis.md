@@ -60,7 +60,7 @@ Besides the previous key insights, I have found the following most relevant to u
 | Check Constraints / Computed  | Recorded as self-referencing objects.                                                                    | Examples 23,25    |
 | Self-Referencing Tables       | Self-referencing objects are: computed columns, check constraints, filtered/XML indexes, and statistics. | Examples 25,28–30 |
 | XML Methods                   | `value`, `exist`, `query`, `modify` repurpose dependency fields to show XML details.                     | Example 32        |
-| Ambiguous Dependencies        | `is_ambiguous = 1` does not always mean unknown objects.                                                 | Examples 05,32    |
+| Ambiguous Dependencies        | `is_ambiguous = 1` does not represent an unknown object.                                                 | Examples 05,32    |
 | Missing from `sys.objects`    | Database/server triggers, UDDTs, UDTTs, XML Schemas.                                                     | Multiple          |
 | Missing from dependencies     | Synonyms (referencing), partition functions, defaults/rules, contracts/queues/message types, FKs, etc.   | Multiple          |
 | Feature Installed Components  | Some feature installed components will appear, while others do not.                                      | Multiple          |
