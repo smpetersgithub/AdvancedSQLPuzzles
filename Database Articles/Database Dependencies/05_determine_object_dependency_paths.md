@@ -31,7 +31,7 @@ These examples are based on Microsoft’s publicly available `WorldWideImporters
 
 For example, here is a dependency path for the stored procedure, `WideWorldImporters.Website.SearchForPeople`.  Given the output, we can determine all objects that the stored procedure references.
 
-🔍 Objects are labeled using a four-part naming convention: `<server_name>.<schema>.<object_name>.<object_type>`
+🔍 Objects are labeled using a four-part naming convention: `<server_name>.<schema_name>.<object_name>.<object_type>`
 
 ----
 
@@ -105,6 +105,8 @@ To execute the temporary stored procedures, first run the script to create them,
 
 The temporary stored procedures do not need to be created in the same schema as the object you're analyzing. You’ll specify the databases to trace dependencies across. It's common to run this script from the `master` database.
 
+When calling stored procedures with parameters, use a two-part naming convention in the format `<schema_name>.<procedure_name>`.
+
 #### Example Execution
 
 ```sql
@@ -120,11 +122,11 @@ EXECUTE ##temp_sp_cursor_insert_sys_objects;
 EXECUTE ##temp_sp_update_sql_expression_dependencies;
 
 -- Analyze dependency paths
-DECLARE @v_object_name VARCHAR(100) = 'SearchForPeople';
+DECLARE @v_object_name VARCHAR(100) = 'Website.SearchForPeople';
 EXECUTE ##temp_sp_determine_paths @v_object_name;
 
 -- Analyze reverse dependency paths
-DECLARE @v_object_name_reverse_path VARCHAR(100) = 'Customers';
+DECLARE @v_object_name_reverse_path VARCHAR(100) = 'Sales.Customers';
 EXECUTE ##temp_sp_determine_reverse_paths @v_object_name_reverse_path;
 ```
 
