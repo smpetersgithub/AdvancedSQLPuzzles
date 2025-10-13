@@ -53,7 +53,7 @@ Sections are labeled ✔️ if they are included in the `sys.sql_expression_depe
 30. [✔️ Statistics - Filtered](03_database_dependencies_examples.md#30-statistics---filtered)
 31. [✔️ XML Schema Collection](03_database_dependencies_examples.md#31-xml-schema-collection)
 32. [✔️ XML Methods](03_database_dependencies_examples.md#32-xml-methods)
-33. [✔️ Feature Installed Procedures](03_database_dependencies_examples.md#33-feature-installed-procedures)
+33. [✔️ Database Diagrams](03_database_dependencies_examples.md#33-database-diagrams)
 34. [✔️ Security_Policies](03_database_dependencies_examples.md#34-security-policies)
 
 
@@ -1445,9 +1445,9 @@ GO
 
 ***
 
-### 33. Feature Installed Procedures
+### 33. Database Diagrams
 
-In SQL Server Management Studio (SSMS), enabling certain features—such as Database Diagrams, Change Data Capture, or Replication—adds feature-specific system stored procedures and objects to your database to support that functionality.
+In SQL Server Management Studio (SSMS), enabling certain features—such as Database Diagrams and Change Data Capture adds feature-specific system stored procedures and objects to your database to support that functionality.
 
 For example, enabling Database Diagrams by right-clicking the Database Diagrams folder under the foo database and selecting New Database Diagram will trigger the creation of several dependencies.
 
