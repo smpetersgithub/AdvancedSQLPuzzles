@@ -30,7 +30,7 @@ From our previous walkthrough—where we created each example and reviewed the `
    * **Identifying invalid dependencies is not straightforward**\
      Invalid dependencies, such as a missing table referenced by a view or stored procedure (*Example 03*), are difficult to detect reliably. This is because certain patterns, such as cross-database dependencies (*Example 01*), stored procedures that call other stored procedures using only a one-part naming convention (*Example 06*), and object aliases (*Example 11*), can mimic the same behavior as broken or missing references.
    * **Feature installed components may exist in the `sys.sql_expression_dependencies` table**\
-     Certain feature-installed components—such as Database Diagrams and Change Data Capture (CDC)—create entries in the sys.sql_expression_dependencies table. This list is not exhaustive; other components may also do the same.
+     Certain feature-installed components—such as Database Diagrams and Change Data Capture (CDC)—create entries in the `sys.sql_expression_dependencies` table. This list is not exhaustive; other components may also do the same.
 
 To help identify invalid dependencies, the following SQL query can be used as a starting point. However, manual review of the results is necessary to determine which objects are truly invalid.
 
