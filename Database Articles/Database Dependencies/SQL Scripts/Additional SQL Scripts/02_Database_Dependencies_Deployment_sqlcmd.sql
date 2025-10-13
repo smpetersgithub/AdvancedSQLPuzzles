@@ -3,6 +3,8 @@
 To run in SQLCMD mode, select the following from the menu bar: 
 Query --> SQLCMD mode
 
+Please fix any errors accordingly.
+This script may not be up-to-date with all examples provided.
 
 Notes:
 
@@ -225,6 +227,10 @@ GO
 :r "C:\AdvancedSQLPuzzles-main\Database Articles\Database Dependencies\SQL Scripts\32_XML_Methods.sql"
 GO
 PRINT('------------------------------------------------------------------------------------------------------------------')
+PRINT(33)
+PRINT('For example 33, manually enable Database Diagrams in SSMS!');
+GO
+PRINT('------------------------------------------------------------------------------------------------------------------')
 PRINT(34)
 PRINT 'C:\AdvancedSQLPuzzles-main\Database Articles\Database Dependencies\SQL Scripts\34_Security_Policies.sql';
 GO
@@ -248,3 +254,4 @@ PRINT 'C:\AdvancedSQLPuzzles-main\Database Articles\Database Dependencies\SQL Sc
 GO
 :r "C:\AdvancedSQLPuzzles-main\Database Articles\Database Dependencies\SQL Scripts\37_Change_Tracking.sql"
 GO
+
