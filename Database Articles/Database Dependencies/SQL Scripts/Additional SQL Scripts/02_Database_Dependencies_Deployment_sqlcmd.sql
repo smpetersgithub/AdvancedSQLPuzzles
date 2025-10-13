@@ -230,4 +230,21 @@ PRINT 'C:\AdvancedSQLPuzzles-main\Database Articles\Database Dependencies\SQL Sc
 GO
 :r "C:\AdvancedSQLPuzzles-main\Database Articles\Database Dependencies\SQL Scripts\34_Security_Policies.sql"
 GO
-
+PRINT('------------------------------------------------------------------------------------------------------------------')
+PRINT(35)
+PRINT 'C:\AdvancedSQLPuzzles-main\Database Articles\Database Dependencies\SQL Scripts\35_Change_Data_Capture.sql';
+GO
+:r "C:\AdvancedSQLPuzzles-main\Database Articles\Database Dependencies\SQL Scripts\35_Change_Data_Capture.sql"
+GO
+PRINT('------------------------------------------------------------------------------------------------------------------')
+PRINT(36)
+PRINT 'C:\AdvancedSQLPuzzles-main\Database Articles\Database Dependencies\SQL Scripts\36_Temporal_Tables.sql';
+GO
+:r "C:\AdvancedSQLPuzzles-main\Database Articles\Database Dependencies\SQL Scripts\36_Temporal_Tables.sql"
+GO
+PRINT('------------------------------------------------------------------------------------------------------------------')
+PRINT(37)
+PRINT 'C:\AdvancedSQLPuzzles-main\Database Articles\Database Dependencies\SQL Scripts\37_Change_Tracking.sql';
+GO
+:r "C:\AdvancedSQLPuzzles-main\Database Articles\Database Dependencies\SQL Scripts\37_Change_Tracking.sql"
+GO
