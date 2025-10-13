@@ -102,7 +102,7 @@ The following list can be used to reference the corresponding example numbers.
 | 30     | Statistics Filtered                        | No                  | Yes              |
 | 31     | XML Schema Collections                     | No                  | No               |
 | 32     | XML Methods                                | Yes                 | No               |
-| 33     | Feature Installed Procedures               | No                  | No               |
+| 33     | Database Diagrams                          | No                  | No               |
 | 34     | Security Policies                          | No                  | No               |
 
 
