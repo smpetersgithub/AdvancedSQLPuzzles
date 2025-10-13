@@ -63,7 +63,7 @@ Besides the previous key insights, I have found the following most relevant to u
 | Ambiguous Dependencies        | `is_ambiguous = 1` does not always mean unknown objects.                                                 | Examples 05,32    |
 | Missing from `sys.objects`    | Database/server triggers, UDDTs, UDTTs, XML Schemas.                                                     | Multiple          |
 | Missing from dependencies     | Synonyms (referencing), partition functions, defaults/rules, contracts/queues/message types, FKs, etc.   | Multiple          |
-
+| Feature Installed Components  | Some feature installed components will appear, while others do not.                                      | Multiple          |
 ***
 
 ### Example List
