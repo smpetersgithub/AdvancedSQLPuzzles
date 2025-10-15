@@ -234,7 +234,6 @@ BEGIN
     INNER JOIN sys.schemas s ON t.schema_id = s.schema_id
     WHERE s.[name] + '.' + t.[name] = @v_object_name;
 
-    -- Loop until no more unprocessed or max iteration
     WHILE EXISTS (SELECT 1 FROM ##fk_paths WHERE processed = 0) AND @iteration < @max_iterations
     BEGIN
         SET @iteration += 1;
@@ -248,7 +247,6 @@ BEGIN
         WHERE processed = 0
         ORDER BY depth;
 
-        -- From parent -> child (referenced table)
         INSERT INTO ##fk_paths (table_id, table_name, [path], depth, processed)
         SELECT fk.referenced_table_id, fk.referenced_table,
                @current_path + N'  ➡️  ' + fk.referenced_table,
@@ -261,7 +259,6 @@ BEGIN
               AND [path] COLLATE DATABASE_DEFAULT LIKE '%' + fk.referenced_table COLLATE DATABASE_DEFAULT + '%'
           );
 
-        -- From child -> parent (parent table)
         INSERT INTO ##fk_paths (table_id, table_name, [path], depth, processed)
         SELECT fk.parent_table_id, fk.parent_table,
                @current_path + N' ➡️ ' + fk.parent_table,
@@ -274,13 +271,11 @@ BEGIN
               AND [path] COLLATE DATABASE_DEFAULT LIKE '%' + fk.parent_table COLLATE DATABASE_DEFAULT + '%'
           );
 
-        -- Mark processed
         UPDATE ##fk_paths
         SET processed = 1
         WHERE table_id = @current_table_id AND [path] = @current_path;
     END
 
-    -- Final results
     SELECT DISTINCT @@SERVERNAME AS server_name, table_name, [path], depth
     FROM ##fk_paths
     ORDER BY [path], depth;
@@ -295,7 +290,6 @@ BEGIN
     IF OBJECT_ID('tempdb..##fk_paths') IS NOT NULL
         DELETE FROM ##fk_paths;
 
-    -- Seed with starting table
     INSERT INTO ##fk_paths (table_id, table_name, [path], depth, processed)
     SELECT 
         t.object_id, 
@@ -307,7 +301,6 @@ BEGIN
     INNER JOIN sys.schemas s ON t.schema_id = s.schema_id
     WHERE s.[name] + '.' + t.[name] = @v_object_name;
 
-    -- Loop until no more unprocessed or max iteration
     WHILE EXISTS (SELECT 1 FROM ##fk_paths WHERE processed = 0) AND @iteration < @max_iterations
     BEGIN
         SET @iteration += 1;
@@ -321,7 +314,6 @@ BEGIN
         WHERE processed = 0
         ORDER BY depth;
 
-        -- From child → parent
         INSERT INTO ##fk_paths (table_id, table_name, [path], depth, processed)
         SELECT fk.parent_table_id, fk.parent_table,
                fk.parent_table + N' ⬅️ ' + @current_path,
@@ -334,13 +326,11 @@ BEGIN
               AND [path] COLLATE DATABASE_DEFAULT LIKE '%' + fk.parent_table COLLATE DATABASE_DEFAULT + '%'
           );
 
-        -- Mark as processed
         UPDATE ##fk_paths
         SET processed = 1
         WHERE table_id = @current_table_id AND [path] = @current_path;
     END
 
-    -- Final results
     SELECT DISTINCT @@SERVERNAME AS ServerName, table_name, [path], depth
     FROM ##fk_paths
     ORDER BY depth, [path];
