@@ -92,8 +92,8 @@ While I won’t go into the implementation details here, you can paste the code 
 
 ```text
 ##temp_create_tables
-##temp_sp_determine_fk_paths;
-##temp_sp_determine_fk_paths_reverse;
+##temp_sp_determine_fk_paths
+##temp_sp_determine_fk_paths_reverse
 ```
 ---
 
