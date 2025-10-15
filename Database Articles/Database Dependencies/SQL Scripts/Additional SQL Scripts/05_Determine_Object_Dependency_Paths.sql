@@ -161,18 +161,15 @@ BEGIN
         referenced_object_fullname VARCHAR(128) NULL,
         referenced_type_desc VARCHAR(128) NULL
     );
-      
-    -- 1. Core dependency lookup index
+
     CREATE INDEX IX_sql_expression_dependencies_referencing_referenced 
     ON ##sql_expression_dependencies (referencing_object_fullname, referenced_object_fullname) 
     INCLUDE (referencing_id, referenced_id);
-    
-    -- 2. paths table lookup index  
+     
     CREATE INDEX IX_paths_referencing_referenced
     ON ##path (referencing_object_fullname, referenced_object_fullname)
     INCLUDE (referencing_object_name);
     
-    -- 3. pathsList processing index
     CREATE INDEX IX_pathslist_path_list_id_path
     ON ##path_list (path)
     INCLUDE (referencing_object_fullname, referenced_object_fullname, referenced_type_desc);
@@ -180,12 +177,10 @@ BEGIN
     CREATE NONCLUSTERED INDEX IX_path_list_path_desc
     ON ##path_list (path, referenced_type_desc);
 
-    -- 4. Object lookup index
     CREATE INDEX IX_sys_objects_lookup
     ON ##sys_objects ([database_name], [schema_name], [object_name], [object_id])
     INCLUDE ([type_desc]);
     
-    -- 5. Dependency updates index
     CREATE INDEX IX_sql_expression_dependencies_referenced_id
     ON ##sql_expression_dependencies (referenced_id, referencing_database_name);
 
@@ -579,3 +574,4 @@ BEGIN
 
 END
 GO
+
