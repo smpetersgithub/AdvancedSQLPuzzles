@@ -1,6 +1,3 @@
-USE WideWorldImporters;
-GO
-
 /*
 
 📋 Instructions
@@ -29,6 +26,9 @@ SELECT * FROM ##table_foreign_keys_map;
 
 */
 
+USE WideWorldImporters;
+GO
+    
 CREATE OR ALTER PROCEDURE ##temp_create_tables  AS
 BEGIN
     
