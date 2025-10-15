@@ -141,9 +141,6 @@ These limitations are planned to be addressed in future versions of the script:
 And now, without further ado, here is the script to generate foreign key dependency paths.  This script is also located in the GitHub repository.
 
 ```sql
-USE WideWorldImporters;
-GO
-
 /*
 
 📋 Instructions
@@ -172,9 +169,12 @@ SELECT * FROM ##table_foreign_keys_map;
 
 */
 
-CREATE OR ALTER PROCEDURE ##temp_create_tables 
-AS
+USE WideWorldImporters;
+GO
+    
+CREATE OR ALTER PROCEDURE ##temp_create_tables  AS
 BEGIN
+    
     DROP TABLE IF EXISTS ##fk_paths;
     CREATE TABLE ##fk_paths
     (
@@ -214,11 +214,13 @@ BEGIN
     INNER JOIN sys.columns cref 
         ON fkc.referenced_object_id = cref.[object_id] 
        AND fkc.referenced_column_id = cref.column_id;
+
 END
 GO
 
 CREATE OR ALTER PROCEDURE ##temp_sp_determine_fk_paths (@v_object_name VARCHAR(1000)) AS
 BEGIN
+    
     DECLARE @max_iterations INT = 100;
     DECLARE @iteration INT = 0;
 
@@ -274,16 +276,19 @@ BEGIN
         UPDATE ##fk_paths
         SET processed = 1
         WHERE table_id = @current_table_id AND [path] = @current_path;
+
     END
 
     SELECT DISTINCT @@SERVERNAME AS server_name, table_name, [path], depth
     FROM ##fk_paths
     ORDER BY [path], depth;
+
 END
 GO
 
 CREATE OR ALTER PROCEDURE ##temp_sp_determine_fk_paths_reverse (@v_object_name SYSNAME) AS
 BEGIN
+    
     DECLARE @max_iterations INT = 100;
     DECLARE @iteration INT = 0;
 
@@ -329,11 +334,13 @@ BEGIN
         UPDATE ##fk_paths
         SET processed = 1
         WHERE table_id = @current_table_id AND [path] = @current_path;
+
     END
 
     SELECT DISTINCT @@SERVERNAME AS ServerName, table_name, [path], depth
     FROM ##fk_paths
     ORDER BY depth, [path];
+
 END
 GO
 ```
