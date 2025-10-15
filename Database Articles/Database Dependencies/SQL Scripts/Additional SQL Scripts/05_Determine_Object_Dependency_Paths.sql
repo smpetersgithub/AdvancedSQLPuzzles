@@ -69,8 +69,7 @@ BEGIN
     --PRINT(@v_sql_statement);
     EXEC sp_executesql @v_sql_statement;
 
-    CREATE TABLE ##sql_expression_dependencies 
-    (
+    CREATE TABLE ##sql_expression_dependencies (
         sql_expression_dependencies_id INTEGER IDENTITY(1,1) PRIMARY KEY,
         referencing_id INTEGER NOT NULL,
         referencing_database_name VARCHAR(128),
@@ -96,8 +95,7 @@ BEGIN
         is_ambiguous INT
     );
 
-    CREATE TABLE ##self_referencing_objects 
-    (
+    CREATE TABLE ##self_referencing_objects (
         sql_expression_dependencies_id INTEGER,
         referencing_id INTEGER NOT NULL,
         referencing_database_name VARCHAR(128),
@@ -554,5 +552,6 @@ BEGIN
 
 END
 GO
+
 
 
