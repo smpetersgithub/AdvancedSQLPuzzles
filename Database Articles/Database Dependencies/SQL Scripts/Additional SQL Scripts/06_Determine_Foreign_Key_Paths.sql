@@ -29,9 +29,9 @@ SELECT * FROM ##table_foreign_keys_map;
 
 */
 
-CREATE OR ALTER PROCEDURE ##temp_create_tables 
-AS
+CREATE OR ALTER PROCEDURE ##temp_create_tables  AS
 BEGIN
+    
     DROP TABLE IF EXISTS ##fk_paths;
     CREATE TABLE ##fk_paths
     (
@@ -200,7 +200,3 @@ BEGIN
 
 END
 GO
-
-
-
-
