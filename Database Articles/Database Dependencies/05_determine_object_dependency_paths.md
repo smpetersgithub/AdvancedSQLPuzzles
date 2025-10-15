@@ -245,11 +245,10 @@ BEGIN
 
     DECLARE @v_sql_statement NVARCHAR(MAX);
     SET @v_sql_statement = REPLACE('INSERT INTO ##databases (database_id, [database_name]) SELECT database_id, [name] FROM sys.databases WHERE NAME IN (<DATABASE_STRING>);','<DATABASE_STRING>', @vDatabaseList);
-    PRINT(@v_sql_statement);
+    --PRINT(@v_sql_statement);
     EXEC sp_executesql @v_sql_statement;
 
-    CREATE TABLE ##sql_expression_dependencies 
-    (
+    CREATE TABLE ##sql_expression_dependencies (
         sql_expression_dependencies_id INTEGER IDENTITY(1,1) PRIMARY KEY,
         referencing_id INTEGER NOT NULL,
         referencing_database_name VARCHAR(128),
@@ -275,8 +274,7 @@ BEGIN
         is_ambiguous INT
     );
 
-    CREATE TABLE ##self_referencing_objects 
-    (
+    CREATE TABLE ##self_referencing_objects (
         sql_expression_dependencies_id INTEGER,
         referencing_id INTEGER NOT NULL,
         referencing_database_name VARCHAR(128),
@@ -464,6 +462,7 @@ BEGIN
         EXEC sp_executesql @v_sql_statement;
 
         FETCH NEXT FROM mycursor INTO @v_database_id, @v_database_name;
+
     END
 
     -- Close and deallocate the cursor
@@ -501,10 +500,12 @@ BEGIN
         EXEC sp_executesql @v_sql_statement;
 
         FETCH NEXT FROM mycursor INTO @v_database_id, @v_database_name;
+
     END
 
     CLOSE mycursor;
     DEALLOCATE mycursor;
+
 END
 GO
 
