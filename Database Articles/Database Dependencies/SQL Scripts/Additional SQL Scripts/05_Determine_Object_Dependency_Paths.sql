@@ -24,17 +24,23 @@ PRINT('Ensure the string has single quotes around each value: ' + @v_database);
 -------
 
 EXECUTE ##temp_sp_create_tables @v_database;
+GO
 EXECUTE ##temp_sp_insert_sql_statement;
+GO
 EXECUTE ##temp_sp_cursor_insert_sql_expression_dependencies;
+GO
 EXECUTE ##temp_sp_cursor_insert_sys_objects;
+GO
 EXECUTE ##temp_sp_update_sql_expression_dependencies;
-
+GO
 -------
 DECLARE @v_object_name VARCHAR(100) = 'Website.SearchForPeople';
 EXECUTE ##temp_sp_determine_paths @v_object_name;
+GO
 -------
 DECLARE @v_object_name_reverse_path VARCHAR(100) = 'Sales.Customers';
 EXECUTE ##temp_sp_determine_reverse_paths @v_object_name_reverse_path;
+GO
 -------
 
 -------------------------------------
@@ -549,4 +555,5 @@ BEGIN
 
 END
 GO
+
 
