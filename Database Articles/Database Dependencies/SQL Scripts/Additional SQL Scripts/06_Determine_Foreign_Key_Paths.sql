@@ -95,6 +95,7 @@ BEGIN
 
     WHILE EXISTS (SELECT 1 FROM ##fk_paths WHERE processed = 0) AND @iteration < @max_iterations
     BEGIN
+        
         SET @iteration += 1;
 
         DECLARE @current_table_id INT, @current_path NVARCHAR(MAX), @current_depth INT;
@@ -165,6 +166,7 @@ BEGIN
 
     WHILE EXISTS (SELECT 1 FROM ##fk_paths WHERE processed = 0) AND @iteration < @max_iterations
     BEGIN
+        
         SET @iteration += 1;
 
         DECLARE @current_table_id INT, @current_path NVARCHAR(MAX), @current_depth INT;
@@ -200,3 +202,4 @@ BEGIN
 
 END
 GO
+
