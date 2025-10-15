@@ -8,7 +8,7 @@ GO
 
 IF EXISTS (SELECT * FROM sys.xml_schema_collections WHERE name = 'xml_schema_collection_example_31' AND schema_id = SCHEMA_ID('dbo'))
 BEGIN
-DROP XML SCHEMA COLLECTION dbo.xml_schema_collection_example_31;
+    DROP XML SCHEMA COLLECTION dbo.xml_schema_collection_example_31;
 END;
 GO
 
@@ -103,4 +103,5 @@ IF EXISTS (SELECT * FROM sys.xml_schema_collections WHERE name = 'xml_schema_col
 BEGIN
      DROP XML SCHEMA COLLECTION dbo.xml_schema_collection_example_31;
 END;
+
 GO
