@@ -66,11 +66,13 @@ GO
 DECLARE @vDropObjects SMALLINT = 1;
 IF @vDropObjects = 1
 BEGIN
-
+     
     ALTER TABLE dbo.tbl_example_36
     SET (SYSTEM_VERSIONING = OFF);
 
     DROP TABLE IF EXISTS dbo.tbl_example_36_history;
     DROP TABLE IF EXISTS dbo.tbl_example_36;
+
 END;
+
 GO
