@@ -229,7 +229,6 @@ GO
 CREATE OR ALTER PROCEDURE ##temp_sp_create_tables (@vdatabaselist VARCHAR(1000)) AS
 BEGIN
 
-    -- Drop temporary tables if they exist
     DROP TABLE IF EXISTS ##databases;
     DROP TABLE IF EXISTS ##sql_statement;
     DROP TABLE IF EXISTS ##sql_expression_dependencies;
@@ -249,9 +248,6 @@ BEGIN
     PRINT(@v_sql_statement);
     EXEC sp_executesql @v_sql_statement;
 
-
-    -----------------------------------------------------------------------
-    -- Create a table to store dependencies across databases
     CREATE TABLE ##sql_expression_dependencies 
     (
         sql_expression_dependencies_id INTEGER IDENTITY(1,1) PRIMARY KEY,
@@ -445,37 +441,29 @@ GO
 
 CREATE OR ALTER PROCEDURE ##temp_sp_cursor_insert_sql_expression_dependencies AS
 BEGIN
-    -- Declare variables
+
     DECLARE @v_database_id INT;
     DECLARE @v_database_name NVARCHAR(128);
     DECLARE @v_sql_statement NVARCHAR(MAX);
 
-    -- Declare the cursor
     DECLARE mycursor CURSOR FOR SELECT database_id, [database_name] FROM ##databases;
 
-    -- Open the cursor
     OPEN mycursor;
 
-    -- Fetch the first row
     FETCH NEXT FROM mycursor INTO @v_database_id, @v_database_name;
 
-    -- Loop through the cursor
     WHILE @@FETCH_STATUS = 0
     BEGIN
 
-        -- Construct a dynamic SQL statement for dependency analysis
         SELECT @v_sql_statement = STRING_AGG(sqlline, ' ')
         FROM   ##sql_statement
         WHERE  ID = 1;
         
-        -- Replace placeholders in the SQL statement
         SET @v_sql_statement = REPLACE(@v_sql_statement, 'vdatabase_name', @v_database_name);
         SET @v_sql_statement = REPLACE(@v_sql_statement, 'vdatabase_id', CAST(@v_database_id AS NVARCHAR));
         
-        -- Execute the dynamic SQL
         EXEC sp_executesql @v_sql_statement;
 
-        -- Fetch the next row
         FETCH NEXT FROM mycursor INTO @v_database_id, @v_database_name;
     END
 
@@ -488,106 +476,94 @@ GO
 
 CREATE OR ALTER PROCEDURE ##temp_sp_cursor_insert_sys_objects AS
 BEGIN
-    -- Declare variables
+    
     DECLARE @v_database_id INT;
     DECLARE @v_database_name NVARCHAR(128);
     DECLARE @v_sql_statement NVARCHAR(MAX);
 
-    -- Declare the cursor
     DECLARE mycursor CURSOR FOR 
     SELECT database_id, [database_name]
     FROM   ##databases;
 
-    -- Open the cursor
     OPEN mycursor;
 
-    -- Fetch the first row
     FETCH NEXT FROM mycursor INTO @v_database_id, @v_database_name;
 
-    -- Loop through the cursor
     WHILE @@FETCH_STATUS = 0
     BEGIN
 
-        -- Construct a dynamic SQL statement for dependency analysis
         SELECT @v_sql_statement = STRING_AGG(sqlline, ' ') 
         FROM   ##sql_statement 
         WHERE  ID = 2;
 
-        -- Replace placeholders in the SQL statement
         SET @v_sql_statement = REPLACE(@v_sql_statement, 'vdatabase_name', @v_database_name);
         SET @v_sql_statement = REPLACE(@v_sql_statement, 'vdatabase_id', CAST(@v_database_id AS NVARCHAR));
 
-        -- Execute the dynamic SQL
         EXEC sp_executesql @v_sql_statement;
 
-        -- Fetch the next row
         FETCH NEXT FROM mycursor INTO @v_database_id, @v_database_name;
     END
 
-    -- Close and deallocate the cursor
     CLOSE mycursor;
     DEALLOCATE mycursor;
-END;
+END
 GO
 
 CREATE OR ALTER PROCEDURE ##temp_sp_update_sql_expression_dependencies AS
 BEGIN
 
-SET NOCOUNT ON;
-
--- determine object_types for cross-database dependencies
-UPDATE ##sql_expression_dependencies
-SET    referenced_id = o.[object_id],
-       referenced_type_desc = o.[type_desc]
-FROM   ##sql_expression_dependencies db INNER JOIN
-       ##sys_objects o ON
-           CONCAT('.',db.referenced_database_name, db.referenced_schema_name, db.referenced_object_name)
-           =
-           CONCAT('.',o.[database_name], o.[schema_name], o.[object_name])
-WHERE  db.referenced_database_name IS NOT NULL AND
-       db.referenced_schema_name IS NOT NULL;
-PRINT('Update Statement - Count of cross-database dependencies: ' + CAST(@@ROWCOUNT AS VARCHAR(1000)));
-
--- determine object_types for referenced_objects
-UPDATE ##sql_expression_dependencies
-SET    referenced_id = o.[object_id],
-       referenced_type_desc = o.[type_desc],
-       referenced_database_name = o.[database_name],
-       referenced_schema_name = o.[schema_name]
-FROM   ##sql_expression_dependencies db INNER JOIN
-       ##sys_objects o ON db.referenced_id = o.[object_id] AND db.referencing_database_name = o.[database_name];
-PRINT('Update Statement - Count of object_types for referenced_objects: ' + CAST(@@ROWCOUNT AS VARCHAR(1000)));
-
--- remove self-referencing objects
--- Most of these will be indexes
-DELETE ##sql_expression_dependencies
-OUTPUT DELETED.* INTO ##self_referencing_objects
-WHERE  referenced_id = referencing_id;
-PRINT('Delete Statement - Count of self-referencing objects: ' + CAST(@@ROWCOUNT AS VARCHAR(1000)));
-
-INSERT INTO ##sql_expression_dependencies
-(
-referencing_id,
-referencing_type_desc,
-referencing_database_name,
-referencing_schema_name,
-referencing_object_name,
-depth
-)
-SELECT [object_id],
-       [type_desc],
-       [database_name],
-       [schema_name],
-       [object_name],
-       1 AS depth
-FROM   ##sys_objects
-WHERE  [object_id] NOT IN (SELECT referencing_id FROM ##sql_expression_dependencies);
-
-UPDATE ##sql_expression_dependencies
-SET    referenced_object_fullname = CONCAT_WS('.',referenced_database_name, referenced_schema_name, referenced_object_name, ISNULL(referenced_type_desc,'UNKNOWN')),
-       referencing_object_fullname = CONCAT_WS('.',referencing_database_name, referencing_schema_name, referencing_object_name, ISNULL(referencing_type_desc,'UNKNOWN'));
-PRINT('Update Statement - Update referenced_object_fullname and referencing_object_fullname columns: ' + CAST(@@ROWCOUNT AS VARCHAR(1000)));
-
+    SET NOCOUNT ON;
+    
+    UPDATE ##sql_expression_dependencies
+    SET    referenced_id = o.[object_id],
+           referenced_type_desc = o.[type_desc]
+    FROM   ##sql_expression_dependencies db INNER JOIN
+           ##sys_objects o ON
+               CONCAT('.',db.referenced_database_name, db.referenced_schema_name, db.referenced_object_name)
+               =
+               CONCAT('.',o.[database_name], o.[schema_name], o.[object_name])
+    WHERE  db.referenced_database_name IS NOT NULL AND
+           db.referenced_schema_name IS NOT NULL;
+    PRINT('Update Statement - Count of cross-database dependencies: ' + CAST(@@ROWCOUNT AS VARCHAR(1000)));
+    
+    UPDATE ##sql_expression_dependencies
+    SET    referenced_id = o.[object_id],
+           referenced_type_desc = o.[type_desc],
+           referenced_database_name = o.[database_name],
+           referenced_schema_name = o.[schema_name]
+    FROM   ##sql_expression_dependencies db INNER JOIN
+           ##sys_objects o ON db.referenced_id = o.[object_id] AND db.referencing_database_name = o.[database_name];
+    PRINT('Update Statement - Count of object_types for referenced_objects: ' + CAST(@@ROWCOUNT AS VARCHAR(1000)));
+    
+    -- remove self-referencing objects
+    DELETE ##sql_expression_dependencies
+    OUTPUT DELETED.* INTO ##self_referencing_objects
+    WHERE  referenced_id = referencing_id;
+    PRINT('Delete Statement - Count of self-referencing objects: ' + CAST(@@ROWCOUNT AS VARCHAR(1000)));
+    
+    INSERT INTO ##sql_expression_dependencies
+    (
+    referencing_id,
+    referencing_type_desc,
+    referencing_database_name,
+    referencing_schema_name,
+    referencing_object_name,
+    depth
+    )
+    SELECT [object_id],
+           [type_desc],
+           [database_name],
+           [schema_name],
+           [object_name],
+           1 AS depth
+    FROM   ##sys_objects
+    WHERE  [object_id] NOT IN (SELECT referencing_id FROM ##sql_expression_dependencies);
+    
+    UPDATE ##sql_expression_dependencies
+    SET    referenced_object_fullname = CONCAT_WS('.',referenced_database_name, referenced_schema_name, referenced_object_name, ISNULL(referenced_type_desc,'UNKNOWN')),
+           referencing_object_fullname = CONCAT_WS('.',referencing_database_name, referencing_schema_name, referencing_object_name, ISNULL(referencing_type_desc,'UNKNOWN'));
+    PRINT('Update Statement - Update referenced_object_fullname and referencing_object_fullname columns: ' + CAST(@@ROWCOUNT AS VARCHAR(1000)));
+    
 END
 GO
 
@@ -754,3 +730,5 @@ BEGIN
 END
 GO
 ```
+
+
