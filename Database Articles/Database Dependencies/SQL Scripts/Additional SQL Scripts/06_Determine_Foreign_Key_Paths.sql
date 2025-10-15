@@ -77,6 +77,7 @@ GO
 
 CREATE OR ALTER PROCEDURE ##temp_sp_determine_fk_paths (@v_object_name VARCHAR(1000)) AS
 BEGIN
+    
     DECLARE @max_iterations INT = 100;
     DECLARE @iteration INT = 0;
 
@@ -132,6 +133,7 @@ BEGIN
         UPDATE ##fk_paths
         SET processed = 1
         WHERE table_id = @current_table_id AND [path] = @current_path;
+
     END
 
     SELECT DISTINCT @@SERVERNAME AS server_name, table_name, [path], depth
@@ -143,6 +145,7 @@ GO
 
 CREATE OR ALTER PROCEDURE ##temp_sp_determine_fk_paths_reverse (@v_object_name SYSNAME) AS
 BEGIN
+    
     DECLARE @max_iterations INT = 100;
     DECLARE @iteration INT = 0;
 
@@ -197,6 +200,7 @@ BEGIN
 
 END
 GO
+
 
 
 
