@@ -69,5 +69,10 @@ GO
 USE foo;
 GO
 
-DROP TABLE IF EXISTS dbo.table_example_37;
+DECLARE @vDropObjects SMALLINT = 1;
+IF @vDropObjects = 1
+BEGIN    
+    DROP TABLE IF EXISTS dbo.table_example_37;
+END
 GO
+
