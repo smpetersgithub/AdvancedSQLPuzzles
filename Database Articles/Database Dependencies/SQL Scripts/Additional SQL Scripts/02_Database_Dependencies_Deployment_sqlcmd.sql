@@ -17,6 +17,8 @@ The following do not create objects in the sys.sql_expression_dependencies table
     24_Foreign_Key_Constraints
     26_Masked_Functions
     27_Indexes_Table
+    36_Temporal_Tables
+    37_Change_Tracking
 
 
 The following scripts need to be run manually.
@@ -255,5 +257,6 @@ PRINT 'C:\AdvancedSQLPuzzles-main\Database Articles\Database Dependencies\SQL Sc
 GO
 :r "C:\AdvancedSQLPuzzles-main\Database Articles\Database Dependencies\SQL Scripts\37_Change_Tracking.sql"
 GO
+
 
 
