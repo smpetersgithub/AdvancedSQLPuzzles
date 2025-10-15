@@ -1,4 +1,4 @@
-# Part 2
+# Section 2
 
 #### Table of Contents
 
