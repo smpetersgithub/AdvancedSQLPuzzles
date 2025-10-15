@@ -129,10 +129,12 @@ GO
 -- Analyze dependency paths
 DECLARE @v_object_name VARCHAR(100) = 'Website.SearchForPeople';
 EXECUTE ##temp_sp_determine_paths @v_object_name;
+GO
 
 -- Analyze reverse dependency paths
 DECLARE @v_object_name_reverse_path VARCHAR(100) = 'Sales.Customers';
 EXECUTE ##temp_sp_determine_reverse_paths @v_object_name_reverse_path;
+GO
 ```
 
 ---
