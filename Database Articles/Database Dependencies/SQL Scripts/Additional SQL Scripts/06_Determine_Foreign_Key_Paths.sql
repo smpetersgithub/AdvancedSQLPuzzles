@@ -91,7 +91,6 @@ BEGIN
     INNER JOIN sys.schemas s ON t.schema_id = s.schema_id
     WHERE s.[name] + '.' + t.[name] = @v_object_name;
 
-    -- Loop until no more unprocessed or max iteration
     WHILE EXISTS (SELECT 1 FROM ##fk_paths WHERE processed = 0) AND @iteration < @max_iterations
     BEGIN
         SET @iteration += 1;
@@ -105,7 +104,6 @@ BEGIN
         WHERE processed = 0
         ORDER BY depth;
 
-        -- From parent -> child (referenced table)
         INSERT INTO ##fk_paths (table_id, table_name, [path], depth, processed)
         SELECT fk.referenced_table_id, fk.referenced_table,
                @current_path + N'  ➡️  ' + fk.referenced_table,
@@ -118,7 +116,6 @@ BEGIN
               AND [path] COLLATE DATABASE_DEFAULT LIKE '%' + fk.referenced_table COLLATE DATABASE_DEFAULT + '%'
           );
 
-        -- From child -> parent (parent table)
         INSERT INTO ##fk_paths (table_id, table_name, [path], depth, processed)
         SELECT fk.parent_table_id, fk.parent_table,
                @current_path + N' ➡️ ' + fk.parent_table,
@@ -203,3 +200,4 @@ BEGIN
     ORDER BY depth, [path];
 END
 GO
+
