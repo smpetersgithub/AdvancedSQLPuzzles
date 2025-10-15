@@ -196,10 +196,11 @@ BEGIN
 
     END
 
-    SELECT DISTINCT @@SERVERNAME AS ServerName, table_name, [path], depth
+    SELECT DISTINCT @@SERVERNAME AS server_name, table_name, [path], depth
     FROM ##fk_paths
     ORDER BY depth, [path];
 
 END
 GO
+
 
