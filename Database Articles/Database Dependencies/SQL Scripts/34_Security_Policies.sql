@@ -13,11 +13,12 @@ GO
 USE foo;
 GO
 
-CREATE TABLE dbo.tbl_example_34 (
-    OrderID INT PRIMARY KEY,
-    OrderDate DATE,
-    CustomerName NVARCHAR(100),
-    Salesperson SYSNAME
+CREATE TABLE dbo.tbl_example_34 
+(
+OrderID INT PRIMARY KEY,
+OrderDate DATE,
+CustomerName NVARCHAR(100),
+Salesperson SYSNAME
 );
 GO
 
@@ -75,4 +76,5 @@ DROP SECURITY POLICY IF EXISTS dbo.security_policy_example_34;
 DROP TABLE IF EXISTS dbo.tbl_example_34;
 DROP FUNCTION IF EXISTS dbo.fn_example_34;
 END;
+
 GO
