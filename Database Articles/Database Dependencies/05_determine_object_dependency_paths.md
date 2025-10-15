@@ -95,7 +95,7 @@ While I won’t go into the implementation details here, you can paste the code 
 ##temp_sp_determine_reverse_paths
 ```
 
-⚠️ Although these are global temporary procedures, they must be executed within the same session in which they are created. Running them in a new session will result in an error ("String or binary data would be truncated...")
+⚠️ Although these are global temporary procedures, they must be executed within the same session in which they are created. Running them in a new session will result in an error (*"String or binary data would be truncated..."*)
 
 ---
 
