@@ -285,6 +285,7 @@ BEGIN
         EXEC sp_executesql @v_sql_statement;
 
         FETCH NEXT FROM mycursor INTO @v_database_id, @v_database_name;
+
     END
 
     -- Close and deallocate the cursor
@@ -322,10 +323,12 @@ BEGIN
         EXEC sp_executesql @v_sql_statement;
 
         FETCH NEXT FROM mycursor INTO @v_database_id, @v_database_name;
+
     END
 
     CLOSE mycursor;
     DEALLOCATE mycursor;
+
 END
 GO
 
@@ -551,3 +554,4 @@ BEGIN
 
 END
 GO
+
