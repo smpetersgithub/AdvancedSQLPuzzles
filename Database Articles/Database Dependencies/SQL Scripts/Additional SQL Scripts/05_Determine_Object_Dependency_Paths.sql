@@ -44,9 +44,6 @@ EXECUTE ##temp_sp_determine_reverse_paths @v_object_name_reverse_path;
 USE [master];
 GO
 
-SET NOCOUNT ON; SET ANSI_WARNINGS OFF;
-GO
-
 CREATE OR ALTER PROCEDURE ##temp_sp_create_tables (@vdatabaselist VARCHAR(1000)) AS
 BEGIN
 
@@ -552,6 +549,7 @@ BEGIN
 
 END
 GO
+
 
 
 
