@@ -362,8 +362,7 @@ BEGIN
 END
 GO
 
-CREATE OR ALTER PROCEDURE ##temp_sp_insert_sql_statement
-AS
+CREATE OR ALTER PROCEDURE ##temp_sp_insert_sql_statement AS
 BEGIN
 
     SELECT id, rowid, sqlline
@@ -600,6 +599,7 @@ BEGIN
     
     WHILE @v_row_count >= 1
     BEGIN
+
          WITH cte_determine_referenced_object AS
          (
          SELECT   [path],
@@ -683,6 +683,7 @@ BEGIN
 
     WHILE @v_row_count >= 1
     BEGIN
+
          WITH cte_determine_referencing_object AS
          (
          SELECT   [path],
@@ -730,5 +731,3 @@ BEGIN
 END
 GO
 ```
-
-
