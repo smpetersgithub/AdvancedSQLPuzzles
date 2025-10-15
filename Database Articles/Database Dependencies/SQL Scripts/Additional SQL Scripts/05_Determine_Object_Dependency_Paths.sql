@@ -343,12 +343,12 @@ BEGIN
 
         -- Fetch the next row
         FETCH NEXT FROM mycursor INTO @v_database_id, @v_database_name;
-    END;
+    END
 
     -- Close and deallocate the cursor
     CLOSE mycursor;
     DEALLOCATE mycursor;
-END;
+END
 GO
 
 CREATE OR ALTER PROCEDURE ##temp_sp_update_sql_expression_dependencies AS
@@ -469,7 +469,7 @@ BEGIN
     
          SET @v_path_list_id = @v_path_list_id + 1;
     
-    END;
+    END
 
     INSERT INTO ##path_list_final ([path], referenced_object_fullname, referenced_type_desc)
     SELECT  [path],
@@ -552,7 +552,7 @@ BEGIN
 
          SET @v_path_list_id = @v_path_list_id + 1;
 
-    END;
+    END
 
     INSERT INTO ##path_list_final (path, referenced_object_fullname, referenced_type_desc)
     SELECT  path,
@@ -574,4 +574,5 @@ BEGIN
 
 END
 GO
+
 
