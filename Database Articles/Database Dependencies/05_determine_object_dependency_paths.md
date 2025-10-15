@@ -116,10 +116,15 @@ PRINT('Ensure the string has single quotes around each value: ' + @v_database);
 
 -- Create and populate working tables
 EXECUTE ##temp_sp_create_tables @v_database;
+GO
 EXECUTE ##temp_sp_insert_sql_statement;
+GO
 EXECUTE ##temp_sp_cursor_insert_sql_expression_dependencies;
+GO
 EXECUTE ##temp_sp_cursor_insert_sys_objects;
+GO
 EXECUTE ##temp_sp_update_sql_expression_dependencies;
+GO
 
 -- Analyze dependency paths
 DECLARE @v_object_name VARCHAR(100) = 'Website.SearchForPeople';
