@@ -57,7 +57,7 @@ Sections are labeled ✔️ if they are included in the `sys.sql_expression_depe
 34. [✔️ Security_Policies](03_database_dependencies_examples.md#34-security-policies)
 35. [✔️ Change Data Capture](03_database_dependencies_examples.md#35-change-data-capture)
 36. [🚫 Temporal Tables](03_database_dependencies_examples.md#36-temporal-tables)
-37. [🚫 Change Tracking](03_database_dependencies_examples.md#34-change-tracking)
+37. [🚫 Change Tracking](03_database_dependencies_examples.md#37-change-tracking)
 
 
 
@@ -1515,7 +1515,7 @@ GO
 
 ***
 
-### 35 Change Data Capture
+### 35. Change Data Capture
 
 Change Data Capture (CDC) in SQL Server is a mechanism for tracking and recording changes made to tables within a database. This feature captures insertions, updates, and deletions, and stores this change information in dedicated change tables.
 
@@ -1560,7 +1560,7 @@ GO
 
 [Summary of Contents](03_database_dependencies_examples.md#summary-of-contents)
 
-### 36 Temporal Tables
+### 36. Temporal Tables
 
 Temporal tables in SQL Server are system-versioned tables that automatically track and store the full history of data changes. They maintain a complete record of all modifications, including updates and deletions, by storing timestamped historical data in a separate "history table" whenever a change is made to the main table. This allows for querying and analyzing data at any point in time in the past.
 
@@ -1587,7 +1587,7 @@ GO
 
 [Summary of Contents](03_database_dependencies_examples.md#summary-of-contents)
 
-### 36 Change Tracking
+### 37. Change Tracking
 
 SQL Server offers Change Tracking as a lightweight solution to track DML changes (inserts, updates, deletes) made to user tables in a database.
 
