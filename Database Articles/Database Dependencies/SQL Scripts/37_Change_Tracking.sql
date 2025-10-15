@@ -12,11 +12,12 @@ USE foo;
 GO
 
 -- Step 1: Create table
-CREATE TABLE dbo.table_example_37 (
-    OrderID INT PRIMARY KEY,
-    ProductName NVARCHAR(100),
-    Quantity INT,
-    Price MONEY
+CREATE TABLE dbo.table_example_37 
+(
+OrderID INT PRIMARY KEY,
+ProductName NVARCHAR(100),
+Quantity INT,
+Price MONEY
 );
 GO
 
