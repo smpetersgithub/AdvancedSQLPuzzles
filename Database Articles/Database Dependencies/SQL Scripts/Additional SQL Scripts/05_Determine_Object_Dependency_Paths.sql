@@ -76,20 +76,19 @@ BEGIN
     CREATE TABLE ##sql_expression_dependencies 
     (
         sql_expression_dependencies_id INTEGER IDENTITY(1,1) PRIMARY KEY,
-        referencing_id             INTEGER NOT NULL,
-        referencing_database_name  VARCHAR(128),
-        referencing_schema_name    VARCHAR(128),
-        referencing_object_name    VARCHAR(128),
-        referencing_type_desc      VARCHAR(128),
-        referenced_id              INTEGER,
-        referenced_database_name   VARCHAR(128),
-        referenced_schema_name     VARCHAR(128),
-        referenced_object_name     VARCHAR(128),
-        referenced_type_desc       VARCHAR(128),
-        depth                      INTEGER,
+        referencing_id INTEGER NOT NULL,
+        referencing_database_name VARCHAR(128),
+        referencing_schema_name VARCHAR(128),
+        referencing_object_name VARCHAR(128),
+        referencing_type_desc VARCHAR(128),
+        referenced_id INTEGER,
+        referenced_database_name VARCHAR(128),
+        referenced_schema_name VARCHAR(128),
+        referenced_object_name VARCHAR(128),
+        referenced_type_desc VARCHAR(128),
+        depth INTEGER,
         referencing_object_fullname VARCHAR(128),
-        referenced_object_fullname  VARCHAR(128),
-
+        referenced_object_fullname VARCHAR(128),
         referencing_minor_id INT,
         referencing_class_desc VARCHAR(128),
         is_schema_bound_reference INT,
@@ -104,20 +103,19 @@ BEGIN
     CREATE TABLE ##self_referencing_objects 
     (
         sql_expression_dependencies_id INTEGER,
-        referencing_id             INTEGER NOT NULL,
-        referencing_database_name  VARCHAR(128),
-        referencing_schema_name    VARCHAR(128),
-        referencing_object_name    VARCHAR(128),
-        referencing_type_desc      VARCHAR(128),
-        referenced_id              INTEGER,
-        referenced_database_name   VARCHAR(128),
-        referenced_schema_name     VARCHAR(128),
-        referenced_object_name     VARCHAR(128),
-        referenced_type_desc       VARCHAR(128),
-        depth                      INTEGER,
-        referencing_object_fullname         VARCHAR(100),
-        referenced_object_fullname          VARCHAR(100),
-
+        referencing_id INTEGER NOT NULL,
+        referencing_database_name VARCHAR(128),
+        referencing_schema_name VARCHAR(128),
+        referencing_object_name VARCHAR(128),
+        referencing_type_desc VARCHAR(128),
+        referenced_id INTEGER,
+        referenced_database_name VARCHAR(128),
+        referenced_schema_name VARCHAR(128),
+        referenced_object_name VARCHAR(128),
+        referenced_type_desc VARCHAR(128),
+        depth INTEGER,
+        referencing_object_fullname VARCHAR(100),
+        referenced_object_fullname VARCHAR(100),
         referencing_minor_id INT,
         referencing_class_desc VARCHAR(128),
         is_schema_bound_reference INT,
@@ -130,11 +128,11 @@ BEGIN
     );
 
     CREATE TABLE ##sys_objects (
-        [object_id]      INTEGER NOT NULL,
-        [database_name]  VARCHAR(128),
-        [schema_name]    VARCHAR(128),
-        [object_name]    VARCHAR(128),
-        [type_desc]      VARCHAR(128),
+        [object_id] INTEGER NOT NULL,
+        [database_name] VARCHAR(128),
+        [schema_name] VARCHAR(128),
+        [object_name] VARCHAR(128),
+        [type_desc] VARCHAR(128),
         CONSTRAINT PK_sys_objects PRIMARY KEY ([object_id], [database_name])
         );
     
@@ -191,7 +189,7 @@ BEGIN
     CREATE INDEX IX_sql_expression_dependencies_referenced_id
     ON ##sql_expression_dependencies (referenced_id, referencing_database_name);
 
-END;
+END
 GO
 
 CREATE OR ALTER PROCEDURE ##temp_sp_insert_sql_statement
@@ -210,18 +208,16 @@ BEGIN
     (1, 60, ')'),
     -----------------------------------------------
     (1, 70, 'INSERT INTO ##sql_expression_dependencies ('),
-    ----------------
+    -----------------------------------------------
     (1, 80, 'referencing_id,'),
     (1, 90, 'referencing_database_name,'),
     (1, 100, 'referencing_schema_name,'),
     (1, 110, 'referencing_object_name,'),
     (1, 120, 'referencing_type_desc,'),
-
     (1, 130, 'referenced_database_name,'),
     (1, 140, 'referenced_schema_name,'),
     (1, 150, 'referenced_object_name,'),
     (1, 160, 'referenced_id,'),
-
     (1, 161, 'referencing_minor_id,'),
     (1, 162, 'referencing_class_desc,'),
     (1, 163, 'is_schema_bound_reference,'),
@@ -270,12 +266,7 @@ BEGIN
     (2, 90,  'WHERE is_ms_shipped = 0;')
     ) AS a(id, RowID, SQLLine);
 
-/***********************************************************************************
-SELECT  REPLACE(REPLACE(sqlline, 'vdatabase_name', 'QA07_Greg'),'vdatabase_id','') 
-FROM    ##sql_statement
-WHERE   id = 1
-***********************************************************************************/
-END;
+END
 GO
 
 CREATE OR ALTER PROCEDURE ##temp_sp_cursor_insert_sql_expression_dependencies AS
@@ -298,7 +289,7 @@ BEGIN
     WHILE @@FETCH_STATUS = 0
     BEGIN
 
-        -- Construct dynamic SQL statement for dependency analysis
+        -- Construct a dynamic SQL statement for dependency analysis
         SELECT @v_sql_statement = STRING_AGG(sqlline, ' ')
         FROM   ##sql_statement
         WHERE  ID = 1;
@@ -312,13 +303,13 @@ BEGIN
 
         -- Fetch the next row
         FETCH NEXT FROM mycursor INTO @v_database_id, @v_database_name;
-    END;
+    END
 
     -- Close and deallocate the cursor
     CLOSE mycursor;
     DEALLOCATE mycursor;
 
-END;
+END
 GO
 
 CREATE OR ALTER PROCEDURE ##temp_sp_cursor_insert_sys_objects AS
@@ -343,7 +334,7 @@ BEGIN
     WHILE @@FETCH_STATUS = 0
     BEGIN
 
-        -- Construct dynamic SQL statement for dependency analysis
+        -- Construct a dynamic SQL statement for dependency analysis
         SELECT @v_sql_statement = STRING_AGG(sqlline, ' ') 
         FROM   ##sql_statement 
         WHERE  ID = 2;
@@ -423,7 +414,7 @@ SET    referenced_object_fullname = CONCAT_WS('.',referenced_database_name, refe
        referencing_object_fullname = CONCAT_WS('.',referencing_database_name, referencing_schema_name, referencing_object_name, ISNULL(referencing_type_desc,'UNKNOWN'));
 PRINT('Update Statement - Update referenced_object_fullname and referencing_object_fullname columns: ' + CAST(@@ROWCOUNT AS VARCHAR(1000)));
 
-END;
+END
 GO
 
 CREATE OR ALTER PROCEDURE ##temp_sp_determine_paths (@v_object_name VARCHAR(1000)) AS
