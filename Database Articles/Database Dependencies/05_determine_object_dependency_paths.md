@@ -223,9 +223,6 @@ EXECUTE ##temp_sp_determine_reverse_paths @v_object_name_reverse_path;
 USE [master];
 GO
 
-SET NOCOUNT ON; SET ANSI_WARNINGS OFF;
-GO
-
 CREATE OR ALTER PROCEDURE ##temp_sp_create_tables (@vdatabaselist VARCHAR(1000)) AS
 BEGIN
 
@@ -330,7 +327,7 @@ BEGIN
     DROP TABLE IF EXISTS ##path_list_final;
     CREATE TABLE ##path_list_final (
         id INTEGER IDENTITY(1,1) PRIMARY KEY,
-        path VARCHAR(4000) NOT NULL,
+        [path] VARCHAR(4000) NOT NULL,
         referenced_object_fullname VARCHAR(128) NULL,
         referenced_type_desc VARCHAR(128) NULL
     );
@@ -492,7 +489,7 @@ BEGIN
 
         SELECT @v_sql_statement = STRING_AGG(sqlline, ' ') 
         FROM   ##sql_statement 
-        WHERE  ID = 2;
+        WHERE  id = 2;
 
         SET @v_sql_statement = REPLACE(@v_sql_statement, 'vdatabase_name', @v_database_name);
         SET @v_sql_statement = REPLACE(@v_sql_statement, 'vdatabase_id', CAST(@v_database_id AS NVARCHAR));
@@ -732,3 +729,5 @@ BEGIN
 END
 GO
 ```
+
+
