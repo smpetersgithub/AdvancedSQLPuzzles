@@ -1400,7 +1400,7 @@ GO
 CREATE TABLE dbo.tbl_example_32
 (
 ID INT,
-column_xml_example_32 XML
+Column_XML_Example_32 XML
 );
 GO
 
@@ -1411,25 +1411,25 @@ CREATE PROCEDURE dbo.sp_example_32 AS
 BEGIN
 
     -- value()
-    SELECT t.column_xml_example_32.value('(./Record/@id)[1]', 'int')
+    SELECT t.Column_XML_Example_32.value('(./Record/@id)[1]', 'int')
     FROM dbo.tbl_example_32 t;
 
     -- exist()
-    SELECT t.column_xml_example_32.exist('/Record[Message = "Hello World"]')
+    SELECT t.Column_XML_Example_32.exist('/Record[Message = "Hello World"]')
     FROM   dbo.tbl_example_32 t;
 
     -- query()
-    SELECT t.column_xml_example_32.query('/Record/Message')
+    SELECT t.Column_XML_Example_32.query('/Record/Message')
     FROM dbo.tbl_example_32 t;
 
     -- nodes()
     SELECT x.n.value('(text())[1]', 'NVARCHAR(100)')
     FROM   dbo.tbl_example_32 t CROSS APPLY 
-           t.column_xml_example_32.nodes('/Record/Message') AS x(n);
+           t.Column_XML_Example_32.nodes('/Record/Message') AS x(n);
 
     -- modify()
     UPDATE dbo.tbl_example_32
-    SET column_xml_example_32.modify('replace value of (/Record/Message/text())[1] with "Goodbye World"')
+    SET Column_XML_Example_32.modify('replace value of (/Record/Message/text())[1] with "Goodbye World"')
     WHERE Id = 1;
 
 END;
