@@ -109,9 +109,11 @@ The `##Table_Foreign_Keys_Map` table is available if you need details about the 
 
 ```sql
 EXECUTE ##temp_create_tables;
+GO
 EXECUTE ##temp_sp_determine_fk_paths 'dbo.Orders';
+GO
 EXECUTE ##temp_sp_determine_fk_paths_reverse 'dbo.Orders';
-
+GO
 
 --View the FK mappings
 SELECT * FROM ##Table_Foreign_Keys_Map;
