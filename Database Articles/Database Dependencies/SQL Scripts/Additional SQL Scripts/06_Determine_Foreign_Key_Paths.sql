@@ -71,6 +71,7 @@ BEGIN
     INNER JOIN sys.columns cref 
         ON fkc.referenced_object_id = cref.[object_id] 
        AND fkc.referenced_column_id = cref.column_id;
+
 END
 GO
 
@@ -136,6 +137,7 @@ BEGIN
     SELECT DISTINCT @@SERVERNAME AS server_name, table_name, [path], depth
     FROM ##fk_paths
     ORDER BY [path], depth;
+
 END
 GO
 
@@ -186,12 +188,15 @@ BEGIN
         UPDATE ##fk_paths
         SET processed = 1
         WHERE table_id = @current_table_id AND [path] = @current_path;
+
     END
 
     SELECT DISTINCT @@SERVERNAME AS ServerName, table_name, [path], depth
     FROM ##fk_paths
     ORDER BY depth, [path];
+
 END
 GO
+
 
 
