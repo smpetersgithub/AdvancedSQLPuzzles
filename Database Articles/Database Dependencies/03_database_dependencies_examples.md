@@ -1560,6 +1560,8 @@ GO
 
 [Summary of Contents](03_database_dependencies_examples.md#summary-of-contents)
 
+***
+
 ### 36. Temporal Tables
 
 Temporal tables in SQL Server are system-versioned tables that automatically track and store the full history of data changes. They maintain a complete record of all modifications, including updates and deletions, by storing timestamped historical data in a separate "history table" whenever a change is made to the main table. This allows for querying and analyzing data at any point in time in the past.
@@ -1586,6 +1588,8 @@ GO
 ```
 
 [Summary of Contents](03_database_dependencies_examples.md#summary-of-contents)
+
+***
 
 ### 37. Change Tracking
 
