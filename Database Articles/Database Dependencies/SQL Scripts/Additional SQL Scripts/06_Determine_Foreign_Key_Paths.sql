@@ -6,7 +6,6 @@ GO
 📋 Instructions
 
 Please visit the following URL for instructions.
-
 https://github.com/smpetersgithub/AdvancedSQLPuzzles/tree/main/Database%20Articles/Database%20Dependencies
 
 1. Update the USE statement for the correct database
@@ -16,7 +15,7 @@ https://github.com/smpetersgithub/AdvancedSQLPuzzles/tree/main/Database%20Articl
 --------------------------------------------------------
 --------------------------------------------------------
 
-Please use the following to execute the stored procedures.
+--Please use the following to execute the stored procedures.
 
 EXECUTE ##temp_create_tables;
 GO
@@ -36,10 +35,10 @@ BEGIN
     DROP TABLE IF EXISTS ##fk_paths;
     CREATE TABLE ##fk_paths
     (
-        table_id   INTEGER,
+        table_id INTEGER,
         table_name SYSNAME,
-        [path]     NVARCHAR(MAX),
-        depth     INT,
+        [path] NVARCHAR(MAX),
+        depth INT,
         processed BIT DEFAULT 0
     );
     
@@ -72,7 +71,7 @@ BEGIN
     INNER JOIN sys.columns cref 
         ON fkc.referenced_object_id = cref.[object_id] 
        AND fkc.referenced_column_id = cref.column_id;
-END;
+END
 GO
 
 CREATE OR ALTER PROCEDURE ##temp_sp_determine_fk_paths (@v_object_name VARCHAR(1000)) AS
@@ -136,13 +135,13 @@ BEGIN
         UPDATE ##fk_paths
         SET processed = 1
         WHERE table_id = @current_table_id AND [path] = @current_path;
-    END;
+    END
 
     -- Final results
     SELECT DISTINCT @@SERVERNAME AS server_name, table_name, [path], depth
     FROM ##fk_paths
     ORDER BY [path], depth;
-END;
+END
 GO
 
 CREATE OR ALTER PROCEDURE ##temp_sp_determine_fk_paths_reverse (@v_object_name SYSNAME) AS
@@ -196,13 +195,11 @@ BEGIN
         UPDATE ##fk_paths
         SET processed = 1
         WHERE table_id = @current_table_id AND [path] = @current_path;
-    END;
+    END
 
     -- Final results
     SELECT DISTINCT @@SERVERNAME AS ServerName, table_name, [path], depth
     FROM ##fk_paths
     ORDER BY depth, [path];
-END;
+END
 GO
-
-
