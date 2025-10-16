@@ -15,6 +15,8 @@
 
 Next, we will review examples of database dependencies and how they are represented in the `sys.sql_expression_dependencies` table. These examples provide a comprehensive demonstration of the various types of dependencies that can occur in a database and illustrate how each is reflected (or not reflected) in the `sys.sql_expression_dependencies` table.
 
+The result sets from each example use the `foo.dbo.sql_expression_dependencies` table—a local table within the `foo` database—that has been populated with dependency data from each example. To populate this table, please review the SQL scripts located in the GitHub repository.
+
 [📄 The corresponding scripts for this walkthrough are available here.](https://github.com/smpetersgithub/AdvancedSQLPuzzles/tree/main/Database%20Articles/Database%20Dependencies/)
 
 ### Summary of Contents
