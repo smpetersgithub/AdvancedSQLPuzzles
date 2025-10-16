@@ -70,7 +70,7 @@ Besides the previous key insights, I have found the following most relevant to u
 
 The following list can be used to reference the corresponding example numbers.
 
-| Number | File Name                                  | NULL Referencing ID | Self-Referencing |
+| Example| File Name                                  | NULL Referencing ID | Self-Referencing |
 | ------ | ------------------------------------------ | ------------------- | ---------------- |
 | 01     | Cross Database Dependencies                | Yes                 | No               |
 | 02     | Cross Schema Dependencies                  | No                  | No               |
