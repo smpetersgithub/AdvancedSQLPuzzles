@@ -68,8 +68,6 @@ GO
 
 CREATE TABLE dbo.sql_expression_dependencies
 (
---insertdate DATETIME NOT NULL DEFAULT GETDATE(),
---servername VARCHAR(100) NOT NULL,
 example_number  VARCHAR(100) NULL,
 referencing_object_type VARCHAR(100) NULL,
 referencing_server_name VARCHAR(100) NULL,
