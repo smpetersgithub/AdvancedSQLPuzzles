@@ -29,7 +29,7 @@ The `sys.sql_expression_dependencies` table is an adjacency table that shows how
 
 **⚠️ Warning!**
 
-**The Microsoft documentation contains some inaccuracies and provides limited examples. ** I recommend reviewing the provided scripts for a clearer understanding of how to use this table effectively.**
+The Microsoft documentation contains some inaccuracies and provides limited examples. I recommend reviewing the provided scripts for a clearer understanding of how to use this table effectively.**
 
 [The Microsoft documentation can be found here](https://learn.microsoft.com/en-us/sql/relational-databases/system-catalog-views/sys-sql-expression-dependencies-transact-sql?view=sql-server-ver16).
 
