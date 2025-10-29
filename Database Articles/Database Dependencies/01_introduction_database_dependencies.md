@@ -23,7 +23,7 @@ The following documentation is designed to help developers understand the `sys.s
 
 The `sys.sql_expression_dependencies` view is a system catalog view that details the dependencies of SQL expressions on database objects. It helps analyze the relationships between different database objects (tables, views, procedures, functions, etc.) and assess how modifications to one object could affect others.
 
-The `sys.sql_expression_dependencies` table is an adjacency table that shows how objects relate to each other. A dependency between two entities is created when one entity, referred to as the referenced entity, appears by name in a persisted SQL expression of another entity, known as the referencing entity. At the heart of this table are the `referencing_id` and `referenced_id` columns, along with several other columns that help describe the relationship and further details of the referenced object. These columns will become apparent once we begin working through examples.
+A dependency between two entities is created when one entity, referred to as the referenced entity, appears by name in a persisted SQL expression of another entity, known as the referencing entity. At the heart of this table are the `referencing_id` and `referenced_id` columns, along with several other columns that help describe the relationship and further details of the referenced object. These columns will become apparent once we begin working through examples.
 
 ***
 
@@ -47,7 +47,7 @@ This is particularly useful in scenarios where object dependencies are created a
 
 Alternatively, there is the concept of non-strict dependency enforcement.
 
-In SQL Server, the ability to drop an object referenced by another drop without cascading the drop is a behavior known as non-strict dependency enforcement. While a view may depend on the table, SQL Server allows you to drop the table without immediately dropping or updating the dependent view. However, this will result in the view becoming invalid. In SQL Server, the `CREATE OR ALTER` statement can be used to update an object's DDL, which otherwise could not be deployed using a `DROP` and then a `CREATE` statement separately on an object.
+   In SQL Server, the ability to drop an object referenced by another drop without cascading the drop is a behavior known as non-strict dependency enforcement. While a view may depend on the table, SQL Server allows you to drop the table without immediately dropping or updating the dependent view. However, this will result in the view becoming invalid.
 
 These concepts will come into play as we find objects referencing invalid objects and how these are represented in the `sys.sql_expression_dependencies` table. A quick internet search will provide ample documentation and examples of how deferred name resolution and non-strict dependency enforcement behave within SQL Server. It is also important to note that different vendors (such as Oracle, DB2, and PostgreSQL) have different behaviors regarding these concepts. Therefore, the behavior of SQL Server in these contexts does not necessarily apply to other database systems.
 
@@ -67,7 +67,7 @@ The `referencing_id` and `referenced_id` columns are **not** foreign keys to the
 
 The table contains dependencies for database-level triggers, server-level triggers, XML schema collections, user-defined data types (UDDT), and user-defined table types (UDTT), all of which are not referenced in the `sys.objects` table.  
 
-Also, when querying the dependency table, it is easy to misuse these columns during self-joins, grouping, and other operations. If you have trouble, please step back and ensure you understand the definition of these terms and can logically join a referenced entity to a referencing entity.
+Also, when querying the dependency table, it is easy to misuse these columns during self-joins, grouping, and other operations. If you have trouble, please step back and ensure you understand the definition of these terms.
 
 ***
 
