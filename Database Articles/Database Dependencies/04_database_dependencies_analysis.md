@@ -58,7 +58,7 @@ FROM   sys.sql_expression_dependencies
 WHERE  referenced_database_name IN (SELECT name FROM sys.databases);
 ```
 
-This should give you a start analyzing the `sys.sql_expressions_dependencies` table.
+This should give you a start at analyzing the `sys.sql_expressions_dependencies` table.
 
 
 ***
@@ -128,5 +128,6 @@ The following list can be used to reference the corresponding example numbers.
 | 35     | Change Data Capture (CDC)                  | No                  | No               |
 | 36     | Temporal Tables                            | Not Represented     | Not Represented  |
 | 37     | Change Tracking                            | Not Represented     | Not Represented  |
+
 
 ***
