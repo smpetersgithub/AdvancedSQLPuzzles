@@ -21,7 +21,7 @@ Next, we'll analyze the results stored in the `sys.sql_expression_dependencies` 
 
 ### Key Insights from Dependency Analysis
 
-From our previous walkthrough—where we created each example and reviewed the `sys.sql_expression_dependency` view—there are two key takeaways:
+From our previous walkthrough—where we created each example and reviewed the `sys.sql_expression_dependency` view—there are a few key takeaways:
 
    * **`referencing_id` and `referenced_id` are not foreign keys to `sys.objects`**\
      Some dependencies listed in `sys.sql_expression_dependency`—such as XML schemas, user-defined table types, user-defined data types, server-level triggers, and database-level triggers—do not correspond to entries in `sys.objects`. To retrieve additional details about these objects, you’ll need to join with their respective system views (e.g., `sys.xml_schema_collections`, `sys.types`, etc.).
@@ -29,6 +29,10 @@ From our previous walkthrough—where we created each example and reviewed the `
      Invalid dependencies, such as a missing table referenced by a view or stored procedure (*Example 03*), are difficult to detect reliably. This is because certain patterns, such as cross-database dependencies (*Example 01*), stored procedures that call other stored procedures using only a one-part naming convention (*Example 06*), and object aliases (*Example 11*), can mimic the same behavior as broken or missing references.
    * **Feature installed components may exist in the `sys.sql_expression_dependencies` table**\
      Certain feature-installed components—such as Database Diagrams and Change Data Capture (CDC)—create entries in the `sys.sql_expression_dependencies` table. This list is not exhaustive; other components may also do the same.
+
+### Helpful Scripts
+
+🔍 In addition to the following scripts, developers often need to understand object lineage and dependency depth—topics that will be covered in the next section.
 
 To help identify invalid dependencies, the following SQL query can be used as a starting point. However, manual review of the results is necessary to determine which objects are truly invalid.
 
@@ -38,7 +42,24 @@ FROM   sys.sql_expression_dependencies
 WHERE  referenced_id IS NULL;
 ```
 
-🔍 In addition to identifying invalid objects, developers often need to understand object lineage and dependency depth. These topics will be covered in the next chapter.
+Reviewing caller-dependent dependencies (*Example 07*) is always a good practice. These are stored procedures that reference other stored procedures using a one-part naming convention.
+
+```sql 
+SELECT * 
+FROM   sys.sql_expression_dependencies
+WHERE  is_caller_dependent = 1;
+```
+
+The following will identify cross-database dependencies (*Example 07*).
+
+```
+SELECT * 
+FROM   sys.sql_expression_dependencies
+WHERE  referenced_database_name IN (SELECT name FROM sys.databases);
+```
+
+This should give you a start analyzing the `sys.sql_expressions_dependencies` table.
+
 
 ***
 
