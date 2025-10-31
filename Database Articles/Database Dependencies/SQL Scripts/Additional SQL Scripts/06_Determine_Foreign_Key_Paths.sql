@@ -1,5 +1,7 @@
 ﻿/*----------------------------------------------------------------------------------------------------------
 
+Determine Foreign Key Paths
+
 📋 Instructions
 
 Please visit the following URL for instructions
@@ -244,3 +246,4 @@ BEGIN
     EXECUTE ##temp_sp_determine_object_name_paths_reverse @v_object_name;
 END;
 GO
+
