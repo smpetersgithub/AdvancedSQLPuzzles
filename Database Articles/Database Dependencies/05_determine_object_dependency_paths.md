@@ -171,13 +171,15 @@ And now, without further ado, here is the script to generate database dependency
 ```sql
 /*----------------------------------------------------------------------------------------------------------
 
+Determine Object Dependencies Path
+
 📋 Instructions
 
 Please visit the following URL for instructions
 https://github.com/smpetersgithub/AdvancedSQLPuzzles/blob/main/Database%20Articles/Database%20Dependencies/05_determine_object_dependency_paths.md
 
 1. Create the temporary stored procedures
-3. Execute the stored procedures
+2. Execute the stored procedures
 
 --------------------------------------------------------
 --------------------------------------------------------
@@ -821,5 +823,6 @@ BEGIN
 END;
 GO
 ```
+
 
 
