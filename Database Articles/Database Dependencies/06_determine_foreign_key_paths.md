@@ -106,9 +106,9 @@ While I won’t go into the implementation details here, you can paste the code 
 
 ### Usage Notes
 
-To execute the temporary stored procedures, first run the script to create them, and then execute the procedures.
+To execute the temporary stored procedures, first run the script to create them, and then execute the appropriate master stored procedure.
 
-For this example, we are using the `WideWorldImports` database on the `Orders` table.  You’ll need to update the script’s `USE` statement to point to the correct database.
+For this example, we are using the `WideWorldImports` database on the `Sales.Orders` table.  You’ll need to update the script’s `USE` statement to point to the correct database.
 
 The `##Table_Foreign_Keys_Map` table is available if you need details about the columns involved in each foreign key relationship.
 
@@ -395,4 +395,5 @@ BEGIN
     EXECUTE ##temp_sp_determine_object_name_paths_reverse @v_object_name;
 END;
 GO
+
 ```
