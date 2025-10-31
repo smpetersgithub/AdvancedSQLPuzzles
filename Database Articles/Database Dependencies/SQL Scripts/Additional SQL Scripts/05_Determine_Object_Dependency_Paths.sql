@@ -1,12 +1,14 @@
 ﻿/*----------------------------------------------------------------------------------------------------------
 
+Determine Object Dependencies Path
+
 📋 Instructions
 
 Please visit the following URL for instructions
 https://github.com/smpetersgithub/AdvancedSQLPuzzles/blob/main/Database%20Articles/Database%20Dependencies/05_determine_object_dependency_paths.md
 
 1. Create the temporary stored procedures
-3. Execute the stored procedures
+2. Execute the stored procedures
 
 --------------------------------------------------------
 --------------------------------------------------------
@@ -648,4 +650,5 @@ BEGIN
     EXECUTE ##temp_sp_update_sql_expression_dependencies;
     EXECUTE ##temp_sp_determine_reverse_paths @v_object_name;
 END;
+
 GO
