@@ -151,6 +151,8 @@ And now, without further ado, here is the script to generate foreign key depende
 ```sql
 /*----------------------------------------------------------------------------------------------------------
 
+Determine Foreign Key Paths
+
 📋 Instructions
 
 Please visit the following URL for instructions
@@ -397,3 +399,4 @@ END;
 GO
 
 ```
+
