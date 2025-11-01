@@ -1,6 +1,6 @@
 ﻿/*----------------------------------------------------------------------------------------------------------
 
-Determine Object Dependencies Path
+Determine Object Dependency Paths
 
 📋 Instructions
 
@@ -8,7 +8,7 @@ Please visit the following URL for instructions
 https://github.com/smpetersgithub/AdvancedSQLPuzzles/blob/main/Database%20Articles/Database%20Dependencies/05_determine_object_dependency_paths.md
 
 1. Create the temporary stored procedures
-2. Execute the stored procedures
+3. Execute the stored procedures
 
 --------------------------------------------------------
 --------------------------------------------------------
@@ -50,7 +50,6 @@ BEGIN
     DROP TABLE IF EXISTS ##sql_statements;
     DROP TABLE IF EXISTS ##sql_expression_dependencies;
     DROP TABLE IF EXISTS ##sys_objects;
-    DROP TABLE IF EXISTS ##self_referencing_objects;
     DROP TABLE IF EXISTS ##path_list;
     DROP TABLE IF EXISTS ##path_list_reverse;
 
@@ -90,32 +89,6 @@ BEGIN
 
     CREATE TABLE ##sql_expression_dependencies (
         sql_expression_dependencies_id INT IDENTITY(1,1) PRIMARY KEY,
-        referencing_id INT,
-        referencing_database_name VARCHAR(256),
-        referencing_schema_name VARCHAR(256),
-        referencing_object_name VARCHAR(256),
-        referencing_type_desc VARCHAR(256),
-        referenced_id INT,
-        referenced_database_name VARCHAR(256),
-        referenced_schema_name VARCHAR(256),
-        referenced_object_name VARCHAR(256),
-        referenced_type_desc VARCHAR(256),
-        depth INT,
-        referencing_object_fullname VARCHAR(256),
-        referenced_object_fullname VARCHAR(256),
-        referencing_minor_id INT,
-        referencing_class_desc VARCHAR(256),
-        is_schema_bound_reference INT,
-        referenced_class INT,
-        referenced_class_desc VARCHAR(256),
-        referenced_server_name VARCHAR(256),
-        referenced_minor_id INT,
-        is_caller_dependent INT,
-        is_ambiguous INT
-    );
-
-    CREATE TABLE ##self_referencing_objects (
-        sql_expression_dependencies_id INT, -- Populated from ##sql_expression_dependencies table
         referencing_id INT,
         referencing_database_name VARCHAR(256),
         referencing_schema_name VARCHAR(256),
@@ -333,29 +306,42 @@ GO
 CREATE OR ALTER PROCEDURE ##temp_sp_update_sql_expression_dependencies AS
 BEGIN
     
-    -- Update (Delete) 1
+    -- Modification 1
+    -- Sets the referenced_id for stored procedures that reference another procedure using one-part naming convention
+    -- Making an assumption that the referenced stored procedure is in the dbo schema
+    -- Example 7 in documentation
+    UPDATE ##sql_expression_dependencies
+    SET    referenced_id = b.object_id
+    FROM   ##sql_expression_dependencies a INNER JOIN
+           ##sys_objects b ON a.referenced_object_name = b.object_name AND a.referencing_database_name = b.[database_name] 
+    WHERE  a.is_caller_dependent = 1 AND
+           b.schema_name = 'dbo' AND
+           b.[type_desc] = 'SQL_STORED_PROCEDURE' 
+    PRINT('Update Statement - Count of caller dependenct procedures: ' + CAST(@@ROWCOUNT AS VARCHAR(100)));
+
+    -- Modification 2
     -- Remove self-referencing objects to prevent circular dependencies
+    -- Example 10 in documentation
     DELETE ##sql_expression_dependencies
-    OUTPUT DELETED.* INTO ##self_referencing_objects
     WHERE  referenced_id = referencing_id;
     PRINT('Delete Statement - Count of self-referencing objects: ' + CAST(@@ROWCOUNT AS VARCHAR(100)));
 
-    -- Update 2
+    -- Modification 3
     -- Updates the referenced_id and referenced_type_desc for objects that are cross-database dependencies
     -- Cross-database dependencies will have a NULL referenced_id
+    -- Example 1 in documentation
     UPDATE ##sql_expression_dependencies
     SET    referenced_id = o.[object_id],
            referenced_type_desc = o.[type_desc]
     FROM   ##sql_expression_dependencies db INNER JOIN
            ##sys_objects o ON
-               CONCAT('.',db.referenced_database_name, db.referenced_schema_name, db.referenced_object_name)
-               =
+               CONCAT('.',db.referenced_database_name, db.referenced_schema_name, db.referenced_object_name) =
                CONCAT('.',o.[database_name], o.[schema_name], o.[object_name])
     WHERE  db.referenced_database_name IS NOT NULL AND
            db.referenced_schema_name IS NOT NULL;
     PRINT('Update Statement - Count of cross-database dependencies: ' + CAST(@@ROWCOUNT AS VARCHAR(100)));
     
-    -- Update 3
+    -- Modification 4
     -- Update information from the ##sys_objects table
     -- This will update records where this information is already populated in the ##sql_expression_dependencies table,
     -- but the overwritten information will match the ##sys_objects table
@@ -368,7 +354,7 @@ BEGIN
            ##sys_objects o ON db.referenced_id = o.[object_id] AND db.referencing_database_name = o.[database_name];
     PRINT('Update Statement - Count of records that join to sys.objects: ' + CAST(@@ROWCOUNT AS VARCHAR(100)));
 
-    -- Update (Insert) 4
+    -- Modification 5
     -- Insert objects with no referenced objects
     -- Depth is set to 1; these objects are root nodes
     INSERT INTO ##sql_expression_dependencies
@@ -390,14 +376,14 @@ BEGIN
     WHERE  [object_id] NOT IN (SELECT referencing_id FROM ##sql_expression_dependencies);
     PRINT('Insert Statement - Count of objects not in ##sql_expression_dependencies (objects with no referenced objects): ' + CAST(@@ROWCOUNT AS VARCHAR(100)));
 
-    -- Update 5
+    -- Modification 6
     -- Update referenced_object_fullname and referencing_object_fullname columns
     UPDATE ##sql_expression_dependencies
     SET    referenced_object_fullname = CONCAT_WS('.',referenced_database_name, referenced_schema_name, referenced_object_name, ISNULL(referenced_type_desc,'UNKNOWN')),
            referencing_object_fullname = CONCAT_WS('.',referencing_database_name, referencing_schema_name, referencing_object_name, ISNULL(referencing_type_desc,'UNKNOWN'));
     PRINT('Update Statement - Update referenced_object_fullname and referencing_object_fullname columns: ' + CAST(@@ROWCOUNT AS VARCHAR(100)));
     
-    -- Update 6
+    -- Modification 7
     -- Sets the referenced_object_fullname to NULL for root node objects (depth of 1)
     UPDATE ##sql_expression_dependencies
     SET    referenced_object_fullname = NULL 
@@ -650,5 +636,4 @@ BEGIN
     EXECUTE ##temp_sp_update_sql_expression_dependencies;
     EXECUTE ##temp_sp_determine_reverse_paths @v_object_name;
 END;
-
 GO
