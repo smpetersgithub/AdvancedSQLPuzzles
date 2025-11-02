@@ -88,7 +88,7 @@ Next, I want to highlight a few key details before we execute the script.
 
 The script generates the following global temporary stored procedures. I’ve modularized the logic to improve readability and maintainability.
 
-The key procedure is `##temp_sp_update_sql_expression_dependencies`, which centralizes the rules that populate `##sys_sql_expression_dependencies` to build object‑dependency paths.
+The key procedure is `##temp_sp_update_sql_expression_dependencies`, which centralizes the rules that updated the `##sys_sql_expression_dependencies` table to ultimately build the object‑dependency paths.
 
 ```text
 ##temp_sp_create_tables
