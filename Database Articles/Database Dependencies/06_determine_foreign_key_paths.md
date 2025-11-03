@@ -143,6 +143,8 @@ And now, without further ado, here is the script to generate foreign key depende
 ```sql
 /*----------------------------------------------------------------------------------------------------------
 
+Determine Foreign Key Paths
+
 📋 Instructions
 
 Please visit the following URL for instructions
@@ -434,4 +436,5 @@ BEGIN
     EXECUTE ##temp_sp_determine_foreign_key_paths_reverse @v_object_name;
 END;
 GO
+
 ```
