@@ -118,7 +118,7 @@ The temporary stored procedures do not need to be created in the same schema as 
 
 When calling stored procedures, note the below usage where three-part naming convention is used for the object name, and a comma seperated list can be used to pass multiple databases.
 
-⚠️ I’ve implemented all the recommended indexes as suggested; however, depending on the query patterns and data distribution, the current indexing strategy may still require adjustments. You may want to review and optimize the indexes further.
+⚠️ I’ve implemented all the recommended indexes as suggested in the execution plan; however, depending on the query patterns and data distribution, the current indexing strategy may still require adjustments. You may want to review and optimize the indexes further.
 
 #### Example Execution
 
@@ -930,6 +930,7 @@ BEGIN
 END;
 GO
 ```
+
 
 
 
