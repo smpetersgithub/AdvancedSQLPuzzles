@@ -78,7 +78,7 @@ Next, I want to highlight a few key details before we execute the script.
      * Self-referencing objects (*Example 10*) are removed to prevent infinite loops. They are stored in the table `##self-referencing_objects` for review.
 
 4. **Synonyms**
-     * Synonyms (Example 13) are listed as root nodes. The table `sys.sql_expression_dependencies` records dependencies on the synonym, but not on the object it references.
+     * Synonyms (*Example 13*) are listed as root nodes. The table `sys.sql_expression_dependencies` records dependencies on the synonym, but not on the object it references.
 
 4. **Caller Dependent**
      * Caller‑dependent procedures (*Example 07*) are assumed to reside in the `dbo` schema, and their `referenced_id` is determined by their object name.
@@ -89,7 +89,7 @@ Next, I want to highlight a few key details before we execute the script.
 
 The script generates the following global temporary stored procedures. I’ve modularized the logic to improve readability and maintainability.
 
-While implementation details are out of scope, you can use an LLM for high‑level summaries of each procedure. The key procedure is ##temp_sp_update_sql_expression_dependencies, which centralizes the rules that populate ##sys_sql_expression_dependencies to build object‑dependency paths.
+The procedure `##temp_sp_update_sql_expression_dependencies` centralizes the rules that populate ##sys_sql_expression_dependencies to build object‑dependency paths.
 
 ```text
 ##temp_sp_create_tables
@@ -932,4 +932,5 @@ BEGIN
 END;
 GO
 ```
+
 
