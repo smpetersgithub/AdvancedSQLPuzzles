@@ -89,7 +89,7 @@ Next, I want to highlight a few key details before we execute the script.
 
 The script generates the following global temporary stored procedures. I’ve modularized the logic to improve readability and maintainability.
 
-The procedure `##temp_sp_update_sql_expression_dependencies` centralizes the rules that populate ##sys_sql_expression_dependencies to build object‑dependency paths.
+The procedure `##temp_sp_update_sql_expression_dependencies` centralizes the rules that populate `##sys_sql_expression_dependencies` to build object‑dependency paths.
 
 ```text
 ##temp_sp_create_tables
@@ -168,8 +168,6 @@ Use one of the following stored procedures based on the direction of analysis. Y
 And now, without further ado, here is the script to generate database dependency paths.  This script is also located in the GitHub repository.
 
 ```sql
-
-
 /*----------------------------------------------------------------------------------------------------------
 
 Determine Object Dependency Paths
@@ -932,5 +930,6 @@ BEGIN
 END;
 GO
 ```
+
 
 
