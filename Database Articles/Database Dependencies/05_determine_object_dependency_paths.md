@@ -17,7 +17,7 @@
 
 Next, we’ll focus on determining dependency paths. A script provided at the end of this chapter automates this process.
 
-The script creates a series of temporary stored procedures that analyze dependencies across multiple databases, based on a specified list of databases and a target object. Because dependencies can span databases, the script is designed to trace relationships across all databases specified by the user.
+The script generates a series of temporary stored procedures that build a list of object dependency paths based on a user-supplied database object. Because dependencies can span databases, the script is designed to trace relationships across all databases specified by the user.
 
 Before running the script, we will cover a few key concepts.
 
@@ -35,8 +35,8 @@ For example, here is a dependency path for the stored procedure, `WideWorldImpor
 
 ----
 
-| Path                                                                                                                  | Referenced Object Fullname                         | Depth | Object ID Path           | Type Path                          |
-|-----------------------------------------------------------------------------------------------------------------------|----------------------------------------------------|-------|--------------------------|------------------------------------|
+| Path                                                                                                                  | Referenced Object Fullname                         | Depth | Object ID Path          | Type Path                         |
+|-----------------------------------------------------------------------------------------------------------------------|----------------------------------------------------|-------|-------------------------|-----------------------------------|
 | WideWorldImporters.Website.SearchForPeople.SQL_STORED_PROCEDURE ➡️ WideWorldImporters.Purchasing.Suppliers.USER_TABLE | WideWorldImporters.Purchasing.Suppliers.USER_TABLE | 1     | 910626287 ➡️ 610101214  | SQL_STORED_PROCEDURE ➡️ USER_TABLE |
 | WideWorldImporters.Website.SearchForPeople.SQL_STORED_PROCEDURE ➡️ WideWorldImporters.Sales.Customers.USER_TABLE      | WideWorldImporters.Sales.Customers.USER_TABLE      | 1     | 910626287 ➡️ 802101898  | SQL_STORED_PROCEDURE ➡️ USER_TABLE |
 | WideWorldImporters.Website.SearchForPeople.SQL_STORED_PROCEDURE ➡️ WideWorldImporters.Application.People.USER_TABLE   | WideWorldImporters.Application.People.USER_TABLE   | 1     | 910626287 ➡️ 1301579675 | SQL_STORED_PROCEDURE ➡️ USER_TABLE |
@@ -75,20 +75,21 @@ Next, I want to highlight a few key details before we execute the script.
      * Object aliases (*Example 11*) and invalid objects (*Example 03 and Example 08*) will show as UNKNOWN objects.
 
 3. **Self-Referencing Objects**    
-     * Self-referencing objects (*Example 10*) are removed to prevent infinite loops.
+     * Self-referencing objects (*Example 10*) are removed to prevent infinite loops. They are stored in the table `##self-referencing_objects` for review.
 
 4. **Synonyms**
-     * Synonyms (*Example 13*) are listed as root nodes. The table `sys.sql_expression_dependencies` records dependencies on the synonym, but not on the object it references.
+     * Synonyms (Example 13) are listed as root nodes. The table `sys.sql_expression_dependencies` records dependencies on the synonym, but not on the object it references.
 
 4. **Caller Dependent**
-     * Caller‑dependent procedures (*Example 07*) are assumed to reside in the `dbo` schema.  If your default database is set differently, you will need to change this assumption in the code.
+     * Caller‑dependent procedures (*Example 07*) are assumed to reside in the `dbo` schema, and their `referenced_id` is determined by their object name.
+
 -----
 
 ### Temporary Stored Procedures Created
 
 The script generates the following global temporary stored procedures. I’ve modularized the logic to improve readability and maintainability.
 
-The key procedure is `##temp_sp_update_sql_expression_dependencies`, which centralizes the rules that updates the `##sys_sql_expression_dependencies` table to ultimately build the object‑dependency paths.
+While implementation details are out of scope, you can use an LLM for high‑level summaries of each procedure. The key procedure is ##temp_sp_update_sql_expression_dependencies, which centralizes the rules that populate ##sys_sql_expression_dependencies to build object‑dependency paths.
 
 ```text
 ##temp_sp_create_tables
@@ -115,54 +116,50 @@ To execute the temporary stored procedures, first run the script to create them,
 
 The temporary stored procedures do not need to be created in the same schema as the object you're analyzing. You’ll specify the databases to trace dependencies across. It's common to run this script from the `master` database.
 
-When calling stored procedures, note the below usage where I three-part naming convention is used for the object name, and a comma seperated list can be used to pass multiple databases.
+When calling stored procedures, note the below usage where three-part naming convention is used for the object name, and a comma seperated list can be used to pass multiple databases.
+
+⚠️ I’ve implemented all the recommended indexes as suggested; however, depending on the query patterns and data distribution, the current indexing strategy may still require adjustments. You may want to review and optimize the indexes further.
 
 #### Example Execution
+
+🔍  The following example is for tracing dependency paths across a single database where the object resides.
 
 ```sql
 -- Use the following to execute the stored procedures
 
 -- Forward dependencies
-EXECUTE ##temp_sp_master_execution_paths 'WideWorldImporters', 'WideWorldImporters.Website.SearchForPeople';
+EXECUTE ##temp_sp_master_execution_paths 'WideWorldImporters.Website.SearchForPeople';
 GO
 
 -- Reverse dependencies
-EXECUTE ##temp_sp_master_execution_reverse_paths 'WideWorldImporters', 'WideWorldImporters.Sales.Customers';
+EXECUTE ##temp_sp_master_execution_reverse_paths 'WideWorldImporters.Sales.Customers';
 GO
 ```
 
 ---
 
+🔍  The following example is for tracing dependency paths across multiple databases.
+
 When passing the list of databases, ensure proper formatting so the dynamic SQL can parse the values correctly.
 
-#### Single Database Example
-
 ```sql
-EXECUTE ##temp_sp_master_execution_paths 'WideWorldImporters', 'WideWorldImporters.Website.SearchForPeople';
-```
+-- Use the following to execute the stored procedures
 
-#### Multiple Databases Example
+-- Forward dependencies
+EXECUTE ##temp_sp_master_execution_paths 'WideWorldImporters.Website.SearchForPeople', 'WideWorldImporters,AdventureWorks';
+GO
 
-```sql
-EXECUTE ##temp_sp_master_execution_paths 'foo,bar', 'foo.dbo.sp_InsertSales';
+-- Reverse dependencies
+EXECUTE ##temp_sp_master_execution_reverse_paths 'WideWorldImporters.Sales.Customers', 'WideWorldImporters,AdventureWorks';
+GO
 ```
 
 #### Selecting a Dependency Path Procedure
 
-Use one of the following stored procedures based on the direction of analysis. You’ll need to pass the target object as a parameter:
+Use one of the following stored procedures based on the direction of analysis. You’ll need to pass the target object using a three-part naming convention as a parameter:
 
 * `##temp_sp_master_execution_paths` – Traces downstream dependencies (what the object depends on)
 * `##temp_sp_master_execution_reverse_paths` – Traces upstream dependencies (what depends on the object)
-
----
-
-#### Current Limitations
-
-These limitations are planned to be addressed in future versions of the script:
-
-1. Single Table Dependency Resolution
-
-    *  The script currently resolves object dependencies for one table at a time. It does not generate dependency chains for all objects in a database. This design is intentional, as processing the full dependency map for an entire database can be computationally intensive.
 
 ---
 
@@ -171,6 +168,8 @@ These limitations are planned to be addressed in future versions of the script:
 And now, without further ado, here is the script to generate database dependency paths.  This script is also located in the GitHub repository.
 
 ```sql
+
+
 /*----------------------------------------------------------------------------------------------------------
 
 Determine Object Dependency Paths
@@ -189,25 +188,25 @@ https://github.com/smpetersgithub/AdvancedSQLPuzzles/blob/main/Database%20Articl
 -- Use the following to execute the stored procedures
 
 -- Forward dependencies
-EXECUTE ##temp_sp_master_execution_paths 'WideWorldImporters', 'WideWorldImporters.Website.SearchForPeople';
+EXECUTE ##temp_sp_master_execution_paths 'WideWorldImporters.Website.SearchForPeople';
 GO
 
 -- Reverse dependencies
-EXECUTE ##temp_sp_master_execution_reverse_paths 'WideWorldImporters', 'WideWorldImporters.Sales.Customers';
+EXECUTE ##temp_sp_master_execution_reverse_paths 'WideWorldImporters.Sales.Customers';
 GO
 
 --------------------------------------------------------
 --------------------------------------------------------
 
--- To trace dependencies across multiple databases, mofity the @v_database_ist as shown below
+-- To trace dependencies across multiple databases, include the list of databases as shown below
 -- The following will trace the stored procedure foo.dbo.sp_InsertSales dependencies across the foo and bar databases
 
-EXECUTE ##temp_sp_master_execution_paths 'foo,bar', 'foo.dbo.sp_InsertSales';
+EXECUTE ##temp_sp_master_execution_paths 'foo.dbo.sp_InsertSales', 'foo,bar';
 GO
 
--- The following will trace the foo.dbo.Sales table dependencies across the foo and bar databases
+-- The following will trace the foo.dbo.Sales table reverse dependencies across the foo and bar databases
 
-EXECUTE ##temp_sp_master_execution_reverse_paths 'foo,bar', 'foo.dbo.sp_InsertSales';
+EXECUTE ##temp_sp_master_execution_reverse_paths 'foo.dbo.sp_InsertSales', 'foo,bar';
 GO
 
 ----------------------------------------------------------------------------------------------------------*/
@@ -215,10 +214,14 @@ GO
 USE [master];
 GO
 
-CREATE OR ALTER PROCEDURE ##temp_sp_create_tables (@v_database_list VARCHAR(8000)) AS
+-- Creates all temporary tables needed for dependency analysis
+CREATE OR ALTER PROCEDURE ##temp_sp_create_tables (@v_object_name VARCHAR(256), @v_database_list VARCHAR(8000) = NULL) AS
 BEGIN
-    
+
+    PRINT('Executing ##temp_sp_create_tables');
+
     -----------------------------------------------------------------
+    -- Drop existing temporary tables to ensure clean state
     DROP TABLE IF EXISTS ##databases;
     DROP TABLE IF EXISTS ##sql_statements;
     DROP TABLE IF EXISTS ##sql_expression_dependencies;
@@ -236,30 +239,42 @@ BEGIN
     DROP TABLE IF EXISTS ##path_list_report_reverse;
 
     -----------------------------------------------------------------
-    
+
+    -- Stores list of databases to analyze
     CREATE TABLE ##databases (
         database_id INT PRIMARY KEY,
         [database_name] VARCHAR(256)
     );
 
+    DECLARE @v_database_list_local VARCHAR(8000)
+
+    -- Use the third part of @v_object_name as default database if @v_database_list is NULL
+    SET @v_database_list_local = CASE WHEN @v_database_list IS NULL THEN PARSENAME(@v_object_name, 3) ELSE @v_database_list END;
+
+    PRINT(CONCAT('@v_object_name = ', @v_object_name));
+    PRINT(CONCAT('@v_database_list_local = ', @v_database_list_local));
+
     -- Populate the ##databases table
     BEGIN
-
+        PRINT('Populating ##databases');
         -----------------------------------------------------------------
         -- Dynamic SQL for inserting into ##databases
         -----------------------------------------------------------------
-        SET @v_database_list = '''' + REPLACE(@v_database_list, ',', ''',''') + '''';
-        SET @v_database_list = REPLACE(@v_database_list,' ',''); 
+        -- Format database list for IN clause
+        SET @v_database_list_local = '''' + REPLACE(@v_database_list_local, ',', ''',''') + '''';
+        SET @v_database_list_local = REPLACE(@v_database_list_local,' ','');
 
-        PRINT('@v_database_list = ' + @v_database_list);
+        PRINT(CONCAT('@v_database_list_local = ', @v_database_list_local));
 
+        -- Build and execute dynamic SQL to populate databases table
         DECLARE @v_sql_statement NVARCHAR(MAX);
-        SET @v_sql_statement = REPLACE('INSERT INTO ##databases (database_id, [database_name]) SELECT database_id, [name] FROM sys.databases WHERE NAME IN (<DATABASE_STRING>);','<DATABASE_STRING>', @v_database_list);
+        SET @v_sql_statement = REPLACE('INSERT INTO ##databases (database_id, [database_name]) SELECT database_id, [name] FROM sys.databases WHERE NAME IN (<DATABASE_STRING>);','<DATABASE_STRING>', @v_database_list_local);
         EXEC sp_executesql @v_sql_statement;
-        PRINT('EXEC sp_executesql (Insert into ##databases)' + CAST(@@ROWCOUNT AS VARCHAR(100)));
- 
+        PRINT(CONCAT('EXEC sp_executesql (Insert into ##databases): ', @@ROWCOUNT));
+
     END;
 
+    -- Stores dependency information from sys.sql_expression_dependencies
     CREATE TABLE ##sql_expression_dependencies (
         sql_expression_dependencies_id INT IDENTITY(1,1) PRIMARY KEY,
         referencing_id INT,
@@ -286,6 +301,7 @@ BEGIN
         is_ambiguous INT
     );
 
+    -- Stores object metadata from sys.objects
     CREATE TABLE ##sys_objects (
         [object_id] INT,
         [database_name] VARCHAR(256),
@@ -295,8 +311,11 @@ BEGIN
         CONSTRAINT PK_sys_objects PRIMARY KEY ([object_id], [database_name])
         );
 
+    -- Stores forward dependency paths
     CREATE TABLE ##path_list (
         depth INT,
+        referencing_id INT,
+        referenced_id INT,
         object_name_path VARCHAR(8000),
         object_type_path VARCHAR(8000),
         object_type_desc_path VARCHAR(8000),
@@ -306,8 +325,11 @@ BEGIN
         referenced_type_desc VARCHAR(256)
     );
 
+    -- Stores reverse dependency paths
     CREATE TABLE ##path_list_reverse (
         depth INT,
+        referencing_id INT,
+        referenced_id INT,
         object_name_path VARCHAR(8000),
         object_type_path VARCHAR(8000),
         object_type_desc_path VARCHAR(8000),
@@ -317,12 +339,42 @@ BEGIN
         referenced_type_desc VARCHAR(256)
     );
 
+    PRINT('Creating Indexes');
+
+    -- Index for ##sys_objects
+    CREATE NONCLUSTERED INDEX IX_sys_objects_schema_type
+    ON [dbo].[##sys_objects] ([schema_name], [type_desc])
+    INCLUDE ([object_name]);
+    
+    -- Index for ##sys_objects
+    CREATE NONCLUSTERED INDEX IX_sys_objects_db_schema_object_type
+    ON [dbo].[##sys_objects] ([database_name], [schema_name], [object_name], [type_desc]);
+
+    -- Index for ##sql_expression_dependencies (referenced db and schema)
+    CREATE NONCLUSTERED INDEX IX_sql_expr_deps_refdb_refschema 
+    ON [dbo].[##sql_expression_dependencies] ([referenced_database_name], [referenced_schema_name]) 
+    INCLUDE ([referenced_object_name]);
+    
+    -- Index for ##sql_expression_dependencies (referencing_id only)
+    CREATE NONCLUSTERED INDEX IX_sql_expr_deps_refid
+    ON [dbo].[##sql_expression_dependencies] ([referencing_id]);
+
+    -- Index for ##sql_expression_dependencies (is_caller_dependent only)
+    CREATE NONCLUSTERED INDEX IX_sql_expr_deps_is_caller
+    ON [dbo].[##sql_expression_dependencies] ([is_caller_dependent])
+    INCLUDE ([referencing_database_name], [referenced_object_name]);
+
+    
 END;
 GO
 
+-- Builds dynamic SQL statements for querying system tables
 CREATE OR ALTER PROCEDURE ##temp_sp_insert_sql_statement AS
 BEGIN
 
+    PRINT('Executing ##temp_sp_insert_sql_statement');
+
+    -- Create table containing SQL statement templates
     SELECT sql_statement_id, row_id, sql_line
     INTO   ##sql_statements
     FROM (VALUES
@@ -333,7 +385,7 @@ BEGIN
     (1, 20, '('),
     (1, 30, 'SELECT *'),
     (1, 40, 'FROM   vdatabase_name.sys.sql_expression_dependencies'),
-    (1, 50, 'WHERE  1=1'), 
+    (1, 50, 'WHERE  1=1'),
     (1, 60, ')'),
     -----------------------------------------------
     (1, 70, 'INSERT INTO ##sql_expression_dependencies ('),
@@ -396,13 +448,60 @@ BEGIN
     (2, 80,  'vdatabase_name.sys.schemas s ON o.schema_id = s.schema_id'),
     (2, 90,  'WHERE is_ms_shipped = 0;')
     ) AS a(sql_statement_id, row_id, sql_line);
-    PRINT('Inserted into ##sql_statements: ' + CAST(@@ROWCOUNT AS VARCHAR(100)));
+    PRINT(CONCAT('Inserted into ##sql_statements: ', @@ROWCOUNT));
 
 END;
 GO
 
+-- Loops through databases and populates sql_expression_dependencies table
 CREATE OR ALTER PROCEDURE ##temp_sp_cursor_insert_sql_expression_dependencies AS
 BEGIN
+
+    PRINT('Executing ##temp_sp_cursor_insert_sql_expression_dependencies');
+
+    DECLARE @v_database_id INT;
+    DECLARE @v_database_name NVARCHAR(256);
+    DECLARE @v_sql_statement NVARCHAR(MAX);
+
+    DECLARE mycursor CURSOR FOR SELECT database_id, [database_name] FROM ##databases;
+
+    OPEN mycursor;
+
+    FETCH NEXT FROM mycursor INTO @v_database_id, @v_database_name;
+
+    WHILE @@FETCH_STATUS = 0
+    BEGIN
+        PRINT('Entering WHILE Loop');
+        PRINT(CONCAT('Determining sys.sql_expression_dependencies from ', @v_database_name));
+
+        -- Build dynamic SQL from template
+        SELECT @v_sql_statement = STRING_AGG(sql_line, ' ')
+        FROM   ##sql_statements
+        WHERE  sql_statement_id = 1;
+
+        -- Replace placeholders with actual database name and ID
+        SET @v_sql_statement = REPLACE(@v_sql_statement, 'vdatabase_name', @v_database_name);
+        SET @v_sql_statement = REPLACE(@v_sql_statement, 'vdatabase_id', CAST(@v_database_id AS NVARCHAR));
+        PRINT(@v_sql_statement);
+        EXEC sp_executesql @v_sql_statement;
+        PRINT(CONCAT('EXEC sp_executesql (Insert into ##sql_expression_dependencies): ', @@ROWCOUNT));
+
+        FETCH NEXT FROM mycursor INTO @v_database_id, @v_database_name;
+
+    END;
+
+    -- Close and deallocate the cursor
+    CLOSE mycursor;
+    DEALLOCATE mycursor;
+
+END;
+GO
+
+-- Loops through databases and populates sys_objects table
+CREATE OR ALTER PROCEDURE ##temp_sp_cursor_insert_sys_objects AS
+BEGIN
+
+    PRINT('Executing ##temp_sp_cursor_insert_sys_objects');
 
     DECLARE @v_database_id INT;
     DECLARE @v_database_name NVARCHAR(256);
@@ -417,54 +516,20 @@ BEGIN
     WHILE @@FETCH_STATUS = 0
     BEGIN
 
+        PRINT('Entering WHILE Loop');
+        PRINT(CONCAT('Determining sys.objects from ', @v_database_name));
+
+        -- Build dynamic SQL from template
         SELECT @v_sql_statement = STRING_AGG(sql_line, ' ')
         FROM   ##sql_statements
-        WHERE  sql_statement_id = 1;
-        
-        SET @v_sql_statement = REPLACE(@v_sql_statement, 'vdatabase_name', @v_database_name);
-        SET @v_sql_statement = REPLACE(@v_sql_statement, 'vdatabase_id', CAST(@v_database_id AS NVARCHAR));
-        
-        EXEC sp_executesql @v_sql_statement;
-        PRINT('EXEC sp_executesql (Insert into ##sql_expression_dependencies): ' + CAST(@@ROWCOUNT AS VARCHAR(100)));
-
-        FETCH NEXT FROM mycursor INTO @v_database_id, @v_database_name;
-
-    END;
-
-    -- Close and deallocate the cursor
-    CLOSE mycursor;
-    DEALLOCATE mycursor;
-
-END;
-GO
-
-CREATE OR ALTER PROCEDURE ##temp_sp_cursor_insert_sys_objects AS
-BEGIN
-    
-    DECLARE @v_database_id INT;
-    DECLARE @v_database_name NVARCHAR(256);
-    DECLARE @v_sql_statement NVARCHAR(MAX);
-
-    DECLARE mycursor CURSOR FOR 
-    SELECT database_id, [database_name]
-    FROM   ##databases;
-
-    OPEN mycursor;
-
-    FETCH NEXT FROM mycursor INTO @v_database_id, @v_database_name;
-
-    WHILE @@FETCH_STATUS = 0
-    BEGIN
-
-        SELECT @v_sql_statement = STRING_AGG(sql_line, ' ') 
-        FROM   ##sql_statements 
         WHERE  sql_statement_id = 2;
 
+        -- Replace placeholders with actual database name and ID
         SET @v_sql_statement = REPLACE(@v_sql_statement, 'vdatabase_name', @v_database_name);
         SET @v_sql_statement = REPLACE(@v_sql_statement, 'vdatabase_id', CAST(@v_database_id AS NVARCHAR));
-
+        PRINT(@v_sql_statement);
         EXEC sp_executesql @v_sql_statement;
-        PRINT('EXEC sp_executesql (Insert into ##sys_objects): ' + CAST(@@ROWCOUNT AS VARCHAR(100)));
+        PRINT(CONCAT('EXEC sp_executesql (Insert into ##sys_objects): ', @@ROWCOUNT));
 
         FETCH NEXT FROM mycursor INTO @v_database_id, @v_database_name;
 
@@ -476,9 +541,12 @@ BEGIN
 END;
 GO
 
+-- Applies modifications to sql_expression_dependencies data
 CREATE OR ALTER PROCEDURE ##temp_sp_update_sql_expression_dependencies AS
 BEGIN
-    
+
+    PRINT('Executing ##temp_sp_update_sql_expression_dependencies');
+
     -- Modification 1
     -- Sets the referenced_id for stored procedures that reference another procedure using one-part naming convention
     -- Making an assumption that the referenced stored procedure is in the dbo schema
@@ -486,18 +554,18 @@ BEGIN
     UPDATE ##sql_expression_dependencies
     SET    referenced_id = b.object_id
     FROM   ##sql_expression_dependencies a INNER JOIN
-           ##sys_objects b ON a.referenced_object_name = b.object_name AND a.referencing_database_name = b.[database_name] 
+           ##sys_objects b ON a.referenced_object_name = b.object_name AND a.referencing_database_name = b.[database_name]
     WHERE  a.is_caller_dependent = 1 AND
            b.schema_name = 'dbo' AND
-           b.[type_desc] = 'SQL_STORED_PROCEDURE' 
-    PRINT('Update Statement - Count of caller dependenct procedures: ' + CAST(@@ROWCOUNT AS VARCHAR(100)));
+           b.[type_desc] = 'SQL_STORED_PROCEDURE'
+    PRINT(CONCAT('Update Statement - Count of caller dependent procedures: ', @@ROWCOUNT));
 
     -- Modification 2
     -- Remove self-referencing objects to prevent circular dependencies
     -- Example 10 in documentation
     DELETE ##sql_expression_dependencies
     WHERE  referenced_id = referencing_id;
-    PRINT('Delete Statement - Count of self-referencing objects: ' + CAST(@@ROWCOUNT AS VARCHAR(100)));
+    PRINT(CONCAT('Delete Statement - Count of self-referencing objects: ', @@ROWCOUNT));
 
     -- Modification 3
     -- Updates the referenced_id and referenced_type_desc for objects that are cross-database dependencies
@@ -512,8 +580,8 @@ BEGIN
                CONCAT('.',o.[database_name], o.[schema_name], o.[object_name])
     WHERE  db.referenced_database_name IS NOT NULL AND
            db.referenced_schema_name IS NOT NULL;
-    PRINT('Update Statement - Count of cross-database dependencies: ' + CAST(@@ROWCOUNT AS VARCHAR(100)));
-    
+    PRINT(CONCAT('Update Statement - Count of cross-database dependencies: ', @@ROWCOUNT));
+
     -- Modification 4
     -- Update information from the ##sys_objects table
     -- This will update records where this information is already populated in the ##sql_expression_dependencies table,
@@ -525,10 +593,11 @@ BEGIN
            referenced_schema_name = o.[schema_name]
     FROM   ##sql_expression_dependencies db INNER JOIN
            ##sys_objects o ON db.referenced_id = o.[object_id] AND db.referencing_database_name = o.[database_name];
-    PRINT('Update Statement - Count of records that join to sys.objects: ' + CAST(@@ROWCOUNT AS VARCHAR(100)));
+    PRINT(CONCAT('Update Statement - Count of records that join to sys.objects: ', @@ROWCOUNT));
 
     -- Modification 5
-    -- Insert objects with no referenced objects
+    -- Insert objects with no referenced objects (root nodes)
+
     -- Depth is set to 1; these objects are root nodes
     INSERT INTO ##sql_expression_dependencies
     (
@@ -547,34 +616,37 @@ BEGIN
            1 AS depth
     FROM   ##sys_objects
     WHERE  [object_id] NOT IN (SELECT referencing_id FROM ##sql_expression_dependencies);
-    PRINT('Insert Statement - Count of objects not in ##sql_expression_dependencies (objects with no referenced objects): ' + CAST(@@ROWCOUNT AS VARCHAR(100)));
+    PRINT(CONCAT('Insert Statement - Count of objects not in ##sql_expression_dependencies (objects with no referenced objects): ', @@ROWCOUNT));
 
     -- Modification 6
     -- Update referenced_object_fullname and referencing_object_fullname columns
     UPDATE ##sql_expression_dependencies
     SET    referenced_object_fullname = CONCAT_WS('.',referenced_database_name, referenced_schema_name, referenced_object_name, ISNULL(referenced_type_desc,'UNKNOWN')),
            referencing_object_fullname = CONCAT_WS('.',referencing_database_name, referencing_schema_name, referencing_object_name, ISNULL(referencing_type_desc,'UNKNOWN'));
-    PRINT('Update Statement - Update referenced_object_fullname and referencing_object_fullname columns: ' + CAST(@@ROWCOUNT AS VARCHAR(100)));
-    
+    PRINT(CONCAT('Update Statement - Update referenced_object_fullname and referencing_object_fullname columns: ', @@ROWCOUNT));
+
     -- Modification 7
     -- Sets the referenced_object_fullname to NULL for root node objects (depth of 1)
     UPDATE ##sql_expression_dependencies
-    SET    referenced_object_fullname = NULL 
+    SET    referenced_object_fullname = NULL
     WHERE  referenced_object_fullname = 'UNKNOWN';
-    PRINT('Update Statement - Update referenced_object_fullname to NULL for root node objects: ' + CAST(@@ROWCOUNT AS VARCHAR(100)));
+    PRINT(CONCAT('Update Statement - Update referenced_object_fullname to NULL for root node objects: ', @@ROWCOUNT));
 
 END;
 GO
 
+-- Determines forward dependency paths from a starting object
 CREATE OR ALTER PROCEDURE ##temp_sp_determine_paths (@v_object_name VARCHAR(256)) AS
 BEGIN
+
+    PRINT('Executing ##temp_sp_determine_paths');
 
     DROP TABLE IF EXISTS ##path;
     TRUNCATE TABLE ##path_list;
     DROP TABLE IF EXISTS ##path_list_preprocess;
     DROP TABLE IF EXISTS ##path_list_report;
 
-    -- Seed the ##path table 
+    -- Seed the ##path table
     -- This step accounts for any changes we want to make to the ##sql_expression_dependencies table
     -- Inserts all DISTINCT records from the ##sql_expression_dependencies table
     SELECT DISTINCT
@@ -590,67 +662,91 @@ BEGIN
            referenced_object_fullname
     INTO   ##path
     FROM   ##sql_expression_dependencies;
-    PRINT('Inserted into ##path: ' + CAST(@@ROWCOUNT AS VARCHAR(100)));
+    PRINT(CONCAT('Inserted into ##path: ', @@ROWCOUNT));
 
-    -- Seed the ##path_list table
-    INSERT INTO ##path_list (depth, object_name_path, object_id_path, object_type_desc_path, referencing_object_fullname, referenced_object_fullname, referenced_type_desc)
+    -- Index for ##path
+    CREATE NONCLUSTERED INDEX IX_path_refid
+    ON [dbo].[##path] ([referenced_id])
+    INCLUDE ([referencing_id], [referenced_type_desc], [referenced_object_fullname]);
+
+    CREATE NONCLUSTERED INDEX IX_path_refing_refed
+    ON [dbo].[##path] ([referencing_id], [referenced_id])
+    INCLUDE ([referenced_type_desc], [referenced_object_fullname]);
+
+    -- Seed the ##path_list table with starting object
+    INSERT INTO ##path_list (depth, object_name_path, object_id_path, object_type_desc_path, referencing_id, referenced_id, referencing_object_fullname, referenced_object_fullname, referenced_type_desc)
     SELECT 1 AS depth,
-           CONCAT(referencing_object_fullname,',',referenced_object_fullname) AS object_name_path,
-           CONCAT(CAST(referencing_id AS VARCHAR(100)), ',', ISNULL(CAST(referenced_id AS VARCHAR(100)), 'UNKNOWN')) AS object_id_path,
-           CONCAT(referencing_type_desc, ',', ISNULL(referenced_type_desc, 'UNKNOWN')) AS object_type_desc_path,
+           CONCAT_WS(',', referencing_object_fullname, referenced_object_fullname) AS object_name_path,
+           CONCAT_WS(',', referencing_id, referenced_id, 'UNKNOWN') AS object_id_path,
+           CONCAT_WS(',', referencing_type_desc, ISNULL(referenced_type_desc, 'UNKNOWN')) AS object_type_desc_path,
+           referencing_id,
+           referenced_id,
            referencing_object_fullname,
            referenced_object_fullname,
            referenced_type_desc
     FROM   ##path
     WHERE  CONCAT_WS('.',referencing_database_name, referencing_schema_name, referencing_object_name) = @v_object_name AND
            referenced_object_fullname IS NOT NULL;
-    PRINT('Inserted into ##path_list (seed): ' + CAST(@@ROWCOUNT AS VARCHAR(100)));
+    PRINT(CONCAT('Inserted into ##path_list (seed): ', @@ROWCOUNT));
 
     DECLARE @v_row_count INTEGER = 1;
     DECLARE @v_depth INTEGER = 2;
-    
+
+    -- Recursively build dependency paths
     WHILE @v_row_count >= 1
     BEGIN
 
+        PRINT('Entering WHILE Loop');
+        PRINT(CONCAT('Current level of depth is ', @v_depth));
+
+        -- Get objects from previous depth level
         WITH cte_determine_referenced_object AS
         (
-        SELECT object_name_path,
+        SELECT referencing_id,
+               referenced_id,
+               object_name_path,
                object_id_path,
                object_type_desc_path,
-               REVERSE(SUBSTRING(REVERSE(object_name_path),0,CHARINDEX(',',REVERSE(object_name_path)))) AS referenced_object_fullname,
+               referenced_object_fullname,
                referenced_type_desc
         FROM   ##path_list
         WHERE  depth = @v_depth - 1
         )
-        INSERT INTO ##path_list 
-        (depth, object_name_path, object_id_path, object_type_desc_path, referencing_object_fullname, referenced_object_fullname, 
+        -- Add next level of dependencies
+        INSERT INTO ##path_list
+        (depth, referencing_id, referenced_id, object_name_path, object_id_path, object_type_desc_path, referencing_object_fullname, referenced_object_fullname,
         referenced_type_desc)
         SELECT @v_depth AS depth,
-               CONCAT(a.object_name_path,',',b.referenced_object_fullname) AS object_name_path,
-               CONCAT(a.object_id_path, ',', ISNULL(CAST(b.referenced_id AS VARCHAR(100)), 'UNKNOWN')) AS object_id_path,
-               CONCAT(a.object_type_desc_path, ',', ISNULL(b.referenced_type_desc, 'UNKNOWN')) AS object_type_desc_path,
+               a.referencing_id,
+               a.referenced_id,
+               CONCAT_WS('.', a.object_name_path,b.referenced_object_fullname) AS object_name_path,
+               CONCAT('.', a.object_id_path, b.referenced_id, 'UNKNOWN') AS object_id_path,
+               CONCAT('.', a.object_type_desc_path, ISNULL(b.referenced_type_desc, 'UNKNOWN')) AS object_type_desc_path,
                a.referenced_object_fullname,
                b.referenced_object_fullname,
                b.referenced_type_desc
-        FROM   cte_determine_referenced_object a INNER JOIN 
-               ##path b ON a.referenced_object_fullname = b.referencing_object_fullname
-                       AND b.referenced_object_fullname IS NOT NULL
-                       AND CHARINDEX(b.referenced_object_fullname, a.object_name_path) = 0;
+        FROM   cte_determine_referenced_object a INNER JOIN
+               ##path b ON a.referenced_id = b.referencing_id
+                       AND b.referenced_id IS NOT NULL
+                       AND CHARINDEX(CAST(b.referenced_id AS VARCHAR(100)), a.object_id_path) = 0;
 
         SET @v_row_count = @@ROWCOUNT;
-        PRINT('Inserted into ##path_list (WHILE loop): ' + CAST(@v_row_count AS VARCHAR(100)));
-    
+        PRINT(CONCAT('Inserted into ##path_list (WHILE loop): ', @v_row_count))
+
         SET @v_depth = @v_depth + 1;
-    
+
     END;
 
     --------------------------
-    -- Final output 
+    -- Final output
     -- Modify as needed
     --------------------------
+    PRINT('Final Output Section');
+
     DROP TABLE IF EXISTS ##path_list_preprocess;
     DROP TABLE IF EXISTS ##path_list_report;
 
+    -- Filter to only leaf nodes (paths with no further extensions)
     SELECT object_name_path,
            referenced_object_fullname,
            referenced_type_desc,
@@ -659,32 +755,36 @@ BEGIN
     INTO   ##path_list_preprocess
     FROM   ##path_list r1
     WHERE  NOT EXISTS (SELECT 1 FROM ##path_list r2 WHERE r2.object_name_path LIKE r1.object_name_path + ',%');
-    PRINT('Inserted into ##path_list_preprocess: ' + CAST(@@ROWCOUNT AS VARCHAR(100)));
+    PRINT(CONCAT('Inserted into ##path_list_preprocess: ', @@ROWCOUNT));
 
-    SELECT REPLACE(object_name_path,',',N'   ➡️   ') AS object_name_path,
+    -- Format paths with arrows and calculate depth
+    SELECT REPLACE(object_name_path,',',N' ➡️ ') AS object_name_path,
            referenced_object_fullname,
            (LEN(object_name_path) - LEN(REPLACE(object_name_path, ',', ''))) / LEN(',') AS depth,
-           REPLACE(object_id_path,',',N'   ➡️   ') AS object_id_path,
-           REPLACE(object_type_desc_path,',',N'   ➡️   ') AS object_type_desc_path
+           REPLACE(object_id_path,',',N' ➡️ ') AS object_id_path,
+           REPLACE(object_type_desc_path,',',N' ➡️ ') AS object_type_desc_path
     INTO   ##path_list_report
     FROM   ##path_list_preprocess;
-    PRINT('Inserted into ##path_list_report: ' + CAST(@@ROWCOUNT AS VARCHAR(100)));
+    PRINT(CONCAT('Inserted into ##path_list_report: ', @@ROWCOUNT));
 
     SELECT * FROM ##path_list_report;
-    PRINT('Select from ##path_list_report: ' + CAST(@@ROWCOUNT AS VARCHAR(100)));
+    PRINT(CONCAT('Select from ##path_list_report: ', @@ROWCOUNT));
 
 END;
 GO
 
+-- Determines reverse dependency paths (what references the starting object)
 CREATE OR ALTER PROCEDURE ##temp_sp_determine_reverse_paths (@v_object_name VARCHAR(256)) AS
 BEGIN
+
+    PRINT('Executing ##temp_sp_determine_reverse_paths');
 
     DROP TABLE IF EXISTS ##path_reverse;
     TRUNCATE TABLE ##path_list_reverse;
     DROP TABLE IF EXISTS ##path_list_preprocess_reverse;
     DROP TABLE IF EXISTS ##path_list_report_reverse;
 
-    -- Seed the ##path_reverse table 
+    -- Seed the ##path_reverse table
     -- This step accounts for any changes we want to make to the ##sql_expression_dependencies table
     -- Inserts all DISTINCT records from the ##sql_expression_dependencies table
     SELECT DISTINCT
@@ -702,39 +802,48 @@ BEGIN
            referenced_object_fullname
     INTO   ##path_reverse
     FROM   ##sql_expression_dependencies;
-    PRINT('Inserted into ##path_reverse: ' + CAST(@@ROWCOUNT AS VARCHAR(100)));
+    PRINT(CONCAT('Inserted into ##path_reverse: ', @@ROWCOUNT));
 
-    -- Seed the ##path_list_reverse table
-    INSERT INTO ##path_list_reverse (depth, object_name_path, object_id_path, object_type_desc_path, referencing_object_fullname, referenced_object_fullname, referenced_type_desc)
+    -- Seed the ##path_list_reverse table with starting object
+    INSERT INTO ##path_list_reverse (depth, object_name_path, object_id_path, object_type_desc_path, referencing_id, referenced_id, referencing_object_fullname, referenced_object_fullname, referenced_type_desc)
     SELECT 1 AS depth,
-           CONCAT(referencing_object_fullname,',',referenced_object_fullname) AS object_name_path,
-           CONCAT(CAST(referencing_id AS VARCHAR(100)), ',', ISNULL(CAST(referenced_id AS VARCHAR(100)), 'UNKNOWN')) AS object_id_path,
-           CONCAT(referencing_type_desc, ',', ISNULL(referenced_type_desc, 'UNKNOWN')) AS object_type_desc_path,
+           CONCAT_WS(',', referencing_object_fullname, referenced_object_fullname) AS object_name_path,
+           CONCAT_WS(',', referencing_id, referenced_id, 'UNKNOWN') AS object_id_path,
+           CONCAT_WS(',', referencing_type_desc, ISNULL(referenced_type_desc, 'UNKNOWN')) AS object_type_desc_path,
+           referencing_id,
+           referenced_id,
            referencing_object_fullname,
            referenced_object_fullname,
            referenced_type_desc
     FROM   ##path_reverse
-    WHERE  CONCAT_WS('.',referenced_database_name, referenced_schema_name, referenced_object_name) = @v_object_name AND 
-           referencing_object_fullname IS NOT NULL;
-    PRINT('Inserted into ##path_list_reverse (seed): ' + CAST(@@ROWCOUNT AS VARCHAR(100)));
-
+    WHERE  CONCAT_WS('.',referenced_database_name, referenced_schema_name, referenced_object_name) = @v_object_name AND
+           referencing_id IS NOT NULL;
+    PRINT(CONCAT('Inserted into ##path_list_reverse (seed): ', @@ROWCOUNT));
 
     DECLARE @v_row_count INT = 1;
     DECLARE @v_depth INT = 2;
 
+    -- Recursively build reverse dependency paths
     WHILE @v_row_count >= 1
     BEGIN
 
+        PRINT('Entering WHILE Loop');
+        PRINT(CONCAT('Current level of depth is ', @v_depth));
+
+        -- Get objects from previous depth level
         WITH cte_determine_referencing_object AS
         (
-        SELECT object_name_path,
+        SELECT referencing_id,
+               referenced_id,
+               object_name_path,
                object_id_path,
                object_type_desc_path,
-               SUBSTRING(object_name_path, 1, CHARINDEX(',', object_name_path) - 1) AS referencing_object_fullname,
+               referencing_object_fullname,
                referenced_type_desc
         FROM   ##path_list_reverse
         WHERE  depth = @v_depth - 1
         )
+        -- Add next level of reverse dependencies
         INSERT INTO ##path_list_reverse (depth, object_name_path, object_id_path, object_type_desc_path, referencing_object_fullname, referenced_object_fullname, referenced_type_desc)
         SELECT @v_depth AS depth,
                CONCAT_WS(',', b.referencing_object_fullname, a.object_name_path) AS object_name_path,
@@ -743,22 +852,25 @@ BEGIN
                b.referencing_object_fullname,
                a.referencing_object_fullname AS referenced_object_fullname,
                b.referenced_type_desc
-       FROM    cte_determine_referencing_object a INNER JOIN 
-               ##path_reverse b ON a.referencing_object_fullname = b.referenced_object_fullname
-       WHERE   b.referencing_object_fullname IS NOT NULL AND 
-               CHARINDEX(b.referencing_object_fullname, a.object_name_path) = 0;
+       FROM    cte_determine_referencing_object a INNER JOIN
+               ##path_reverse b ON a.referencing_id = b.referenced_id
+       WHERE   b.referencing_id IS NOT NULL AND
+               CHARINDEX(CAST(b.referencing_id AS VARCHAR(100)), a.object_id_path) = 0;
        
        SET @v_row_count = @@ROWCOUNT;
-       PRINT('Inserted into ##path_list_reverse (WHILE loop): ' + CAST(@v_row_count AS VARCHAR(100)));
+       PRINT(CONCAT('Inserted into ##path_list_reverse (WHILE loop): ', @v_row_count));
        
        SET @v_depth = @v_depth + 1;
 
     END;
 
     --------------------------
-    -- Final output 
+    -- Final output
     -- Modify as needed
     --------------------------
+    PRINT('Final Output Section');
+
+    -- Filter to only leaf nodes (paths with no further extensions)
     SELECT object_name_path,
            object_id_path,
            object_type_desc_path,
@@ -767,20 +879,21 @@ BEGIN
     INTO   ##path_list_preprocess_reverse
     FROM   ##path_list_reverse r1
     WHERE  NOT EXISTS (SELECT 1 FROM ##path_list_reverse r2 WHERE r2.object_name_path LIKE r1.object_name_path + ',%');
-    PRINT('Inserted into ##path_list_preprocess_reverse: ' + CAST(@@ROWCOUNT AS VARCHAR(100)));
+    PRINT(CONCAT('Inserted into ##path_list_preprocess_reverse: ', @@ROWCOUNT));
 
+    -- Format paths with arrows and calculate depth
     SELECT DISTINCT
-           REPLACE(CASE WHEN object_name_path LIKE '%,' THEN SUBSTRING(object_name_path, 1, LEN(object_name_path) - 1) ELSE object_name_path END, ',',  N'   ⬅️   ') AS object_name_path, 
+           REPLACE(CASE WHEN object_name_path LIKE '%,' THEN SUBSTRING(object_name_path, 1, LEN(object_name_path) - 1) ELSE object_name_path END, ',',  N' ⬅️ ') AS object_name_path,
            SUBSTRING(object_name_path, 1, CHARINDEX(',', object_name_path) - 1) AS referencing_object_fullname,
            (LEN(object_name_path) - LEN(REPLACE(object_name_path, ',', ''))) AS depth,
-           REPLACE(CASE WHEN object_id_path LIKE '%,UNKNOWN' THEN LEFT(object_id_path, LEN(object_id_path) - LEN(',UNKNOWN')) ELSE object_id_path END, ',', N'   ⬅️   ') AS object_id_path,
-           REPLACE(CASE WHEN object_type_desc_path LIKE '%,UNKNOWN' THEN LEFT(object_type_desc_path, LEN(object_type_desc_path) - LEN(',UNKNOWN')) ELSE object_type_desc_path END, ',', N'   ⬅️   ') AS object_type_desc_path
+           REPLACE(CASE WHEN object_id_path LIKE '%,UNKNOWN' THEN LEFT(object_id_path, LEN(object_id_path) - LEN(',UNKNOWN')) ELSE object_id_path END, ',', N' ⬅️ ') AS object_id_path,
+           REPLACE(CASE WHEN object_type_desc_path LIKE '%,UNKNOWN' THEN LEFT(object_type_desc_path, LEN(object_type_desc_path) - LEN(',UNKNOWN')) ELSE object_type_desc_path END, ',', N' ⬅️ ') AS object_type_desc_path
     INTO   ##path_list_report_reverse
     FROM   ##path_list_preprocess_reverse;
-    PRINT('Inserted into ##path_list_report_reverse: ' + CAST(@@ROWCOUNT AS VARCHAR(100)));
+    PRINT(CONCAT('Inserted into ##path_list_report_reverse: ', @@ROWCOUNT));
 
     SELECT * FROM ##path_list_report_reverse;
-    PRINT('Select from ##path_list_report_reverse: ' + CAST(@@ROWCOUNT AS VARCHAR(100)));
+    PRINT(CONCAT('Select from ##path_list_report_reverse: ', @@ROWCOUNT));
 
 END;
 GO
@@ -789,9 +902,13 @@ GO
 -- The following creates master execution temporary stored procedures
 ----------------------------------------------------------------------
 
-CREATE OR ALTER PROCEDURE ##temp_sp_master_execution_paths (@v_database_list VARCHAR(8000), @v_object_name VARCHAR(256)) AS
+-- Master procedure to execute forward dependency analysis
+CREATE OR ALTER PROCEDURE ##temp_sp_master_execution_paths (@v_object_name VARCHAR(256), @v_database_list VARCHAR(8000) = NULL) AS
 BEGIN
-    EXECUTE ##temp_sp_create_tables @v_database_list;
+
+    PRINT('Executing ##temp_sp_master_execution_paths');
+
+    EXECUTE ##temp_sp_create_tables @v_object_name, @v_database_list;
     EXECUTE ##temp_sp_insert_sql_statement;
     EXECUTE ##temp_sp_cursor_insert_sql_expression_dependencies;
     EXECUTE ##temp_sp_cursor_insert_sys_objects;
@@ -800,9 +917,13 @@ BEGIN
 END;
 GO
 
-CREATE OR ALTER PROCEDURE ##temp_sp_master_execution_reverse_paths (@v_database_list VARCHAR(8000), @v_object_name VARCHAR(256)) AS
+-- Master procedure to execute reverse dependency analysis
+CREATE OR ALTER PROCEDURE ##temp_sp_master_execution_reverse_paths (@v_object_name VARCHAR(256), @v_database_list VARCHAR(8000) = NULL) AS
 BEGIN
-    EXECUTE ##temp_sp_create_tables @v_database_list;
+
+    PRINT('Executing ##temp_sp_master_execution_reverse_paths');
+
+    EXECUTE ##temp_sp_create_tables @v_object_name, @v_database_list;
     EXECUTE ##temp_sp_insert_sql_statement;
     EXECUTE ##temp_sp_cursor_insert_sql_expression_dependencies;
     EXECUTE ##temp_sp_cursor_insert_sys_objects;
