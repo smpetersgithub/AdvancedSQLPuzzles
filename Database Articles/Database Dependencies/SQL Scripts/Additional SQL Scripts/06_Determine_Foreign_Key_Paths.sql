@@ -1,5 +1,7 @@
 ﻿/*----------------------------------------------------------------------------------------------------------
 
+Determine Foreign Key Paths
+
 📋 Instructions
 
 Please visit the following URL for instructions
@@ -296,4 +298,5 @@ SELECT * FROM ##foreign_keys_map;
 
 EXECUTE ##temp_sp_master_execution_foreign_key_paths 'dbo.Patient';
 EXECUTE ##temp_sp_master_execution_foreign_key_reverse_paths 'dbo.Patient';
+
 
