@@ -23,12 +23,6 @@ GO
 EXECUTE ##temp_sp_master_execution_reverse_paths 'WideWorldImporters.Sales.Customers';
 GO
 
-
-
--- Reverse dependencies
-EXECUTE ##temp_sp_master_execution_reverse_paths 'WideWorldImporters.Sales.Customers';
-GO
-
 --------------------------------------------------------
 --------------------------------------------------------
 
