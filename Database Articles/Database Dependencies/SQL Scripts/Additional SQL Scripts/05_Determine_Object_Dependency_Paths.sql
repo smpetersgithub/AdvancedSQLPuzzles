@@ -429,7 +429,6 @@ BEGIN
 
     -- Modification 5
     -- Insert objects with no referenced objects (root nodes)
-
     -- Depth is set to 1; these objects are root nodes
     INSERT INTO ##sql_expression_dependencies
     (
@@ -781,3 +780,4 @@ BEGIN
     EXECUTE ##temp_sp_determine_reverse_paths @v_object_name;
 END;
 GO
+
