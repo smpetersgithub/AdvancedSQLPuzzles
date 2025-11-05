@@ -13,9 +13,9 @@
 
 # Database Dependency Analysis
 
-Next, we'll analyze the results stored in the `sys.sql_expression_dependencies` view, based on the examples from the previous walkthrough.
+[🐙 The documentation and example scripts can be found in the GitHub repository.](https://github.com/smpetersgithub/AdvancedSQLPuzzles/tree/main/Database%20Articles/Database%20Dependencies/)
 
-[📄 The corresponding scripts are available here.](https://github.com/smpetersgithub/AdvancedSQLPuzzles/tree/main/Database%20Articles/Database%20Dependencies/)
+Next, we'll analyze the results stored in the `sys.sql_expression_dependencies` view, based on the examples from the previous walkthrough.
 
 ***
 
@@ -58,7 +58,7 @@ FROM   sys.sql_expression_dependencies
 WHERE  referenced_database_name IN (SELECT name FROM sys.databases);
 ```
 
-This should give you a start at analyzing the `sys.sql_expressions_dependencies` table.
+This should give you a start analyzing the `sys.sql_expressions_dependencies` table.
 
 
 ***
@@ -128,6 +128,5 @@ The following list can be used to reference the corresponding example numbers.
 | 35     | Change Data Capture (CDC)                  | No                  | No               |
 | 36     | Temporal Tables                            | Not Represented     | Not Represented  |
 | 37     | Change Tracking                            | Not Represented     | Not Represented  |
-
 
 ***

@@ -8,22 +8,23 @@
 4. [Database Dependencies Analysis](04_database_dependencies_analysis.md)
 5. [Determine Object Dependency Paths](05_determine_object_dependency_paths.md)
 6. [Determine Foreign Key Paths](06_determine_foreign_key_paths.md)
-   
+
 <img src="https://raw.githubusercontent.com/smpetersgithub/AdvancedSQLPuzzles/main/images/AdvancedSQLPuzzles_image.png" alt="Advanced SQL Puzzles" width="200"/>
 
 # Create the Databases and Schemas
 
-Before diving into examples of each type of dependency and how they are recorded in the `sys.sql_expression_dependency` table, I’d like to first share the GitHub repository containing the scripts used for this analysis.
+[🐙 The documentation and example scripts can be found in the GitHub repository.](https://github.com/smpetersgithub/AdvancedSQLPuzzles/tree/main/Database%20Articles/Database%20Dependencies/)
 
-[📄 The corresponding scripts for this walkthrough are available here.](https://github.com/smpetersgithub/AdvancedSQLPuzzles/tree/main/Database%20Articles/Database%20Dependencies/)
+[🔍 The script used to create the databases and schemas can be accessed here.](https://github.com/smpetersgithub/AdvancedSQLPuzzles/blob/main/Database%20Articles/Database%20Dependencies/SQL%20Scripts/Additional%20SQL%20Scripts/02_Create_Demo_Databases_and_Schemas.sql)
 
+----
 
-This repository includes two folders containing SQL scripts:
+The GitHub repository includes two folders containing SQL scripts:
 
 * SQL Scripts: Contains scripts for each example dependency.
-* Additional SQL Scripts: Includes scripts to drop and recreate the `foo` and `bar` databases, terminate active sessions if needed, run scripts via SQLCMD mode, and perform analysis on the `sys.sql_expression_dependency` table.
+* Additional SQL Scripts: Includes scripts to drop and recreate the `foo` and `bar` databases, terminate active sessions if needed, run scripts via `SQLCMD` mode, and perform analysis on the `sys.sql_expression_dependency` table.
 
-For analysis purposes, it's often easier to drop and recreate the databases rather than removing individual objects. Since open sessions can prevent this, I've included a script to automatically terminate them. There's also a script to execute the dependency examples using SQLCMD mode.
+For analysis purposes, it's often easier to drop and recreate the databases rather than removing individual objects. Since open sessions can prevent this, I've included a script to automatically terminate them. There's also a script to execute the dependency examples using `SQLCMD` mode.
 
 Also included in the database drop-and-create script is the creation of a table in the `foo` database named `dbo.sql_expression_dependencies`. This table is used to help decode and analyze the contents of the `sys.sql_expression_dependency` system view.
 
