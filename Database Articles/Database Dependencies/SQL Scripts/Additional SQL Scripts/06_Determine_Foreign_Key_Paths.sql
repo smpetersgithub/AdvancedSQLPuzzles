@@ -293,10 +293,3 @@ BEGIN
     EXECUTE ##temp_sp_determine_foreign_key_paths_reverse @v_object_name;
 END;
 GO
-
-SELECT * FROM ##foreign_keys_map;
-
-EXECUTE ##temp_sp_master_execution_foreign_key_paths 'dbo.Patient';
-EXECUTE ##temp_sp_master_execution_foreign_key_reverse_paths 'dbo.Patient';
-
-

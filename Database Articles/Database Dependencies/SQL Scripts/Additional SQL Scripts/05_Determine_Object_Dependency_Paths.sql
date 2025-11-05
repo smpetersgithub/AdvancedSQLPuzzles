@@ -1,6 +1,4 @@
-﻿
-
-/*----------------------------------------------------------------------------------------------------------
+﻿/*----------------------------------------------------------------------------------------------------------
 
 Determine Object Dependency Paths
 
@@ -10,7 +8,7 @@ Please visit the following URL for instructions
 https://github.com/smpetersgithub/AdvancedSQLPuzzles/blob/main/Database%20Articles/Database%20Dependencies/05_determine_object_dependency_paths.md
 
 1. Create the temporary stored procedures
-3. Execute the stored procedures
+2. Execute the stored procedures
 
 --------------------------------------------------------
 --------------------------------------------------------
@@ -20,6 +18,12 @@ https://github.com/smpetersgithub/AdvancedSQLPuzzles/blob/main/Database%20Articl
 -- Forward dependencies
 EXECUTE ##temp_sp_master_execution_paths 'WideWorldImporters.Website.SearchForPeople';
 GO
+
+-- Reverse dependencies
+EXECUTE ##temp_sp_master_execution_reverse_paths 'WideWorldImporters.Sales.Customers';
+GO
+
+
 
 -- Reverse dependencies
 EXECUTE ##temp_sp_master_execution_reverse_paths 'WideWorldImporters.Sales.Customers';
@@ -143,6 +147,8 @@ BEGIN
 
     -- Stores forward dependency paths
     CREATE TABLE ##path_list (
+        server_name VARCHAR(256),
+        [object_name] VARCHAR(256),
         depth INT,
         referencing_id INT,
         referenced_id INT,
@@ -157,6 +163,8 @@ BEGIN
 
     -- Stores reverse dependency paths
     CREATE TABLE ##path_list_reverse (
+        server_name VARCHAR(256),
+        [object_name] VARCHAR(256),
         depth INT,
         referencing_id INT,
         referenced_id INT,
@@ -388,14 +396,14 @@ BEGIN
     WHERE  a.is_caller_dependent = 1 AND
            b.schema_name = 'dbo' AND
            b.[type_desc] = 'SQL_STORED_PROCEDURE'
-    PRINT(CONCAT('Update Statement - Count of caller dependent procedures: ', @@ROWCOUNT));
+    PRINT(CONCAT('Modification 1 - Update Statement - Count of caller dependent procedures: ', @@ROWCOUNT));
 
     -- Modification 2
     -- Remove self-referencing objects to prevent circular dependencies
     -- Example 10 in documentation
     DELETE ##sql_expression_dependencies
     WHERE  referenced_id = referencing_id;
-    PRINT(CONCAT('Delete Statement - Count of self-referencing objects: ', @@ROWCOUNT));
+    PRINT(CONCAT('Modification 2 - Delete Statement - Count of self-referencing objects: ', @@ROWCOUNT));
 
     -- Modification 3
     -- Updates the referenced_id and referenced_type_desc for objects that are cross-database dependencies
@@ -406,11 +414,11 @@ BEGIN
            referenced_type_desc = o.[type_desc]
     FROM   ##sql_expression_dependencies db INNER JOIN
            ##sys_objects o ON
-               CONCAT('.',db.referenced_database_name, db.referenced_schema_name, db.referenced_object_name) =
-               CONCAT('.',o.[database_name], o.[schema_name], o.[object_name])
+               CONCAT_WS('.',db.referenced_database_name, db.referenced_schema_name, db.referenced_object_name) =
+               CONCAT_WS('.',o.[database_name], o.[schema_name], o.[object_name])
     WHERE  db.referenced_database_name IS NOT NULL AND
            db.referenced_schema_name IS NOT NULL;
-    PRINT(CONCAT('Update Statement - Count of cross-database dependencies: ', @@ROWCOUNT));
+    PRINT(CONCAT('Modification 3 - Update Statement - Count of cross-database dependencies: ', @@ROWCOUNT));
 
     -- Modification 4
     -- Update information from the ##sys_objects table
@@ -423,7 +431,7 @@ BEGIN
            referenced_schema_name = o.[schema_name]
     FROM   ##sql_expression_dependencies db INNER JOIN
            ##sys_objects o ON db.referenced_id = o.[object_id] AND db.referencing_database_name = o.[database_name];
-    PRINT(CONCAT('Update Statement - Count of records that join to sys.objects: ', @@ROWCOUNT));
+    PRINT(CONCAT('Modification 4 - Update Statement - Count of records that join to sys.objects: ', @@ROWCOUNT));
 
     -- Modification 5
     -- Insert objects with no referenced objects (root nodes)
@@ -446,21 +454,21 @@ BEGIN
            1 AS depth
     FROM   ##sys_objects
     WHERE  [object_id] NOT IN (SELECT referencing_id FROM ##sql_expression_dependencies);
-    PRINT(CONCAT('Insert Statement - Count of objects not in ##sql_expression_dependencies (objects with no referenced objects): ', @@ROWCOUNT));
+    PRINT(CONCAT('Modification 5 - Insert Statement - Count of objects not in ##sql_expression_dependencies (objects with no referenced objects): ', @@ROWCOUNT));
 
     -- Modification 6
     -- Update referenced_object_fullname and referencing_object_fullname columns
     UPDATE ##sql_expression_dependencies
     SET    referenced_object_fullname = CONCAT_WS('.',referenced_database_name, referenced_schema_name, referenced_object_name, ISNULL(referenced_type_desc,'UNKNOWN')),
            referencing_object_fullname = CONCAT_WS('.',referencing_database_name, referencing_schema_name, referencing_object_name, ISNULL(referencing_type_desc,'UNKNOWN'));
-    PRINT(CONCAT('Update Statement - Update referenced_object_fullname and referencing_object_fullname columns: ', @@ROWCOUNT));
+    PRINT(CONCAT('Modification 6 - Update Statement - Update referenced_object_fullname and referencing_object_fullname columns: ', @@ROWCOUNT));
 
     -- Modification 7
     -- Sets the referenced_object_fullname to NULL for root node objects (depth of 1)
     UPDATE ##sql_expression_dependencies
     SET    referenced_object_fullname = NULL
     WHERE  referenced_object_fullname = 'UNKNOWN';
-    PRINT(CONCAT('Update Statement - Update referenced_object_fullname to NULL for root node objects: ', @@ROWCOUNT));
+    PRINT(CONCAT('Modification 7 - Update Statement - Update referenced_object_fullname to NULL for root node objects: ', @@ROWCOUNT));
 
 END;
 GO
@@ -472,9 +480,10 @@ BEGIN
     PRINT('Executing ##temp_sp_determine_paths');
 
     DROP TABLE IF EXISTS ##path;
-    TRUNCATE TABLE ##path_list;
     DROP TABLE IF EXISTS ##path_list_preprocess;
     DROP TABLE IF EXISTS ##path_list_report;
+
+    TRUNCATE TABLE ##path_list;
 
     -- Seed the ##path table
     -- This step accounts for any changes we want to make to the ##sql_expression_dependencies table
@@ -503,12 +512,15 @@ BEGIN
     ON [dbo].[##path] ([referencing_id], [referenced_id])
     INCLUDE ([referenced_type_desc], [referenced_object_fullname]);
 
+
     -- Seed the ##path_list table with starting object
-    INSERT INTO ##path_list (depth, object_name_path, object_id_path, object_type_desc_path, referencing_id, referenced_id, referencing_object_fullname, referenced_object_fullname, referenced_type_desc)
-    SELECT 1 AS depth,
-           CONCAT_WS(',', referencing_object_fullname, referenced_object_fullname) AS object_name_path,
-           CONCAT_WS(',', referencing_id, referenced_id, 'UNKNOWN') AS object_id_path,
-           CONCAT_WS(',', referencing_type_desc, ISNULL(referenced_type_desc, 'UNKNOWN')) AS object_type_desc_path,
+    INSERT INTO ##path_list (server_name, [object_name], depth, object_name_path, object_id_path, object_type_desc_path, referencing_id, referenced_id, referencing_object_fullname, referenced_object_fullname, referenced_type_desc)
+    SELECT @@SERVERNAME AS server_name,
+           @v_object_name AS [object_name],
+           1 AS depth,
+           CONCAT(referencing_object_fullname, ',', referenced_object_fullname) AS object_name_path,
+           CONCAT(referencing_id, ',', referenced_id) AS object_id_path,
+           CONCAT(referencing_type_desc, ',', ISNULL(referenced_type_desc, 'UNKNOWN')) AS object_type_desc_path,
            referencing_id,
            referenced_id,
            referencing_object_fullname,
@@ -532,7 +544,9 @@ BEGIN
         -- Get objects from previous depth level
         WITH cte_determine_referenced_object AS
         (
-        SELECT referencing_id,
+        SELECT @@SERVERNAME AS server_name,
+               @v_object_name AS [object_name],
+               referencing_id,
                referenced_id,
                object_name_path,
                object_id_path,
@@ -543,22 +557,22 @@ BEGIN
         WHERE  depth = @v_depth - 1
         )
         -- Add next level of dependencies
-        INSERT INTO ##path_list
-        (depth, referencing_id, referenced_id, object_name_path, object_id_path, object_type_desc_path, referencing_object_fullname, referenced_object_fullname,
-        referenced_type_desc)
-        SELECT @v_depth AS depth,
+        INSERT INTO ##path_list (server_name, [object_name], depth, referencing_id, referenced_id, object_name_path, object_id_path, object_type_desc_path, referencing_object_fullname, referenced_object_fullname, referenced_type_desc)
+        SELECT @@SERVERNAME,
+               @v_object_name,
+               @v_depth AS depth,
                a.referencing_id,
                a.referenced_id,
-               CONCAT_WS('.', a.object_name_path,b.referenced_object_fullname) AS object_name_path,
-               CONCAT('.', a.object_id_path, b.referenced_id, 'UNKNOWN') AS object_id_path,
-               CONCAT('.', a.object_type_desc_path, ISNULL(b.referenced_type_desc, 'UNKNOWN')) AS object_type_desc_path,
+               CONCAT(a.object_name_path, ',', b.referenced_object_fullname) AS object_name_path,
+               CONCAT(a.object_id_path, ',', b.referenced_id) AS object_id_path,
+               CONCAT(a.object_type_desc_path, ',', ISNULL(b.referenced_type_desc, 'UNKNOWN')) AS object_type_desc_path,
                a.referenced_object_fullname,
                b.referenced_object_fullname,
                b.referenced_type_desc
         FROM   cte_determine_referenced_object a INNER JOIN
-               ##path b ON a.referenced_id = b.referencing_id
-                       AND b.referenced_id IS NOT NULL
-                       AND CHARINDEX(CAST(b.referenced_id AS VARCHAR(100)), a.object_id_path) = 0;
+               ##path b ON a.referenced_object_fullname = b.referencing_object_fullname -- join on object fullname as object_id (referencing_id and referenced_id) is not a pk
+                       AND b.referenced_object_fullname IS NOT NULL
+                       AND CHARINDEX(b.referenced_object_fullname, a.object_name_path) = 0;
 
         SET @v_row_count = @@ROWCOUNT;
         PRINT(CONCAT('Inserted into ##path_list (WHILE loop): ', @v_row_count))
@@ -577,7 +591,9 @@ BEGIN
     DROP TABLE IF EXISTS ##path_list_report;
 
     -- Filter to only leaf nodes (paths with no further extensions)
-    SELECT object_name_path,
+    SELECT @@SERVERNAME AS server_name,
+           @v_object_name AS [object_name],
+           object_name_path,
            referenced_object_fullname,
            referenced_type_desc,
            object_id_path,
@@ -588,7 +604,9 @@ BEGIN
     PRINT(CONCAT('Inserted into ##path_list_preprocess: ', @@ROWCOUNT));
 
     -- Format paths with arrows and calculate depth
-    SELECT REPLACE(object_name_path,',',N' ➡️ ') AS object_name_path,
+    SELECT @@SERVERNAME AS server_name,
+           @v_object_name AS [object_name],
+           REPLACE(object_name_path,',',N' ➡️ ') AS object_name_path,
            referenced_object_fullname,
            (LEN(object_name_path) - LEN(REPLACE(object_name_path, ',', ''))) / LEN(',') AS depth,
            REPLACE(object_id_path,',',N' ➡️ ') AS object_id_path,
@@ -597,7 +615,7 @@ BEGIN
     FROM   ##path_list_preprocess;
     PRINT(CONCAT('Inserted into ##path_list_report: ', @@ROWCOUNT));
 
-    SELECT * FROM ##path_list_report;
+    SELECT * FROM ##path_list_report ORDER BY depth, object_name_path;
     PRINT(CONCAT('Select from ##path_list_report: ', @@ROWCOUNT));
 
 END;
@@ -618,6 +636,8 @@ BEGIN
     -- This step accounts for any changes we want to make to the ##sql_expression_dependencies table
     -- Inserts all DISTINCT records from the ##sql_expression_dependencies table
     SELECT DISTINCT
+           @@SERVERNAME AS server_name,
+           @v_object_name AS [object_name],
            referencing_id,
            referenced_id,
            referencing_database_name,
@@ -635,11 +655,13 @@ BEGIN
     PRINT(CONCAT('Inserted into ##path_reverse: ', @@ROWCOUNT));
 
     -- Seed the ##path_list_reverse table with starting object
-    INSERT INTO ##path_list_reverse (depth, object_name_path, object_id_path, object_type_desc_path, referencing_id, referenced_id, referencing_object_fullname, referenced_object_fullname, referenced_type_desc)
-    SELECT 1 AS depth,
-           CONCAT_WS(',', referencing_object_fullname, referenced_object_fullname) AS object_name_path,
-           CONCAT_WS(',', referencing_id, referenced_id, 'UNKNOWN') AS object_id_path,
-           CONCAT_WS(',', referencing_type_desc, ISNULL(referenced_type_desc, 'UNKNOWN')) AS object_type_desc_path,
+    INSERT INTO ##path_list_reverse (server_name, [object_name], depth, object_name_path, object_id_path, object_type_desc_path, referencing_id, referenced_id, referencing_object_fullname, referenced_object_fullname, referenced_type_desc)
+    SELECT @@SERVERNAME AS server_name,
+           @v_object_name AS [object_name],
+           1 AS depth,
+           CONCAT(referencing_object_fullname, ',', referenced_object_fullname) AS object_name_path,
+           CONCAT(referencing_id, ',', referenced_id) AS object_id_path,
+           CONCAT(referencing_type_desc, ',', ISNULL(referenced_type_desc, 'UNKNOWN')) AS object_type_desc_path,
            referencing_id,
            referenced_id,
            referencing_object_fullname,
@@ -683,13 +705,13 @@ BEGIN
                a.referencing_object_fullname AS referenced_object_fullname,
                b.referenced_type_desc
        FROM    cte_determine_referencing_object a INNER JOIN
-               ##path_reverse b ON a.referencing_id = b.referenced_id
-       WHERE   b.referencing_id IS NOT NULL AND
-               CHARINDEX(CAST(b.referencing_id AS VARCHAR(100)), a.object_id_path) = 0;
-       
+               ##path_reverse b ON a.referencing_object_fullname = b.referenced_object_fullname -- join on object fullname as object_id (referencing_id and referenced_id) is not a pk
+                               AND b.referencing_object_fullname IS NOT NULL
+                               AND CHARINDEX(b.referencing_object_fullname, a.object_name_path) = 0;
+
        SET @v_row_count = @@ROWCOUNT;
        PRINT(CONCAT('Inserted into ##path_list_reverse (WHILE loop): ', @v_row_count));
-       
+
        SET @v_depth = @v_depth + 1;
 
     END;
@@ -701,7 +723,9 @@ BEGIN
     PRINT('Final Output Section');
 
     -- Filter to only leaf nodes (paths with no further extensions)
-    SELECT object_name_path,
+    SELECT @@SERVERNAME AS server_name,
+           @v_object_name AS [object_name],
+           object_name_path,
            object_id_path,
            object_type_desc_path,
            referenced_object_fullname,
@@ -713,6 +737,8 @@ BEGIN
 
     -- Format paths with arrows and calculate depth
     SELECT DISTINCT
+           @@SERVERNAME AS server_name,
+           @v_object_name AS [object_name],
            REPLACE(CASE WHEN object_name_path LIKE '%,' THEN SUBSTRING(object_name_path, 1, LEN(object_name_path) - 1) ELSE object_name_path END, ',',  N' ⬅️ ') AS object_name_path,
            SUBSTRING(object_name_path, 1, CHARINDEX(',', object_name_path) - 1) AS referencing_object_fullname,
            (LEN(object_name_path) - LEN(REPLACE(object_name_path, ',', ''))) AS depth,
@@ -722,7 +748,7 @@ BEGIN
     FROM   ##path_list_preprocess_reverse;
     PRINT(CONCAT('Inserted into ##path_list_report_reverse: ', @@ROWCOUNT));
 
-    SELECT * FROM ##path_list_report_reverse;
+    SELECT * FROM ##path_list_report_reverse ORDER BY depth, object_name_path;
     PRINT(CONCAT('Select from ##path_list_report_reverse: ', @@ROWCOUNT));
 
 END;
