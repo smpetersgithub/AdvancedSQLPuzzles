@@ -37,7 +37,6 @@ BEGIN
     -- Drop existing temporary tables to ensure clean state
     DROP TABLE IF EXISTS ##foreign_key_paths;
     DROP TABLE IF EXISTS ##foreign_key_reverse_paths;
-
     DROP TABLE IF EXISTS ##foreign_keys_map;
 
     -- Stores forward foreign key paths
@@ -293,4 +292,5 @@ BEGIN
     EXECUTE ##temp_sp_determine_foreign_key_paths_reverse @v_object_name;
 END;
 GO
+
 
