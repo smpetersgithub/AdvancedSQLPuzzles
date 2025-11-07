@@ -112,13 +112,11 @@ The procedure `##temp_sp_update_sql_expression_dependencies` centralizes the rul
 ##temp_sp_master_execution_reverse_paths
 ```
 
-⚠️ Although these are global temporary procedures, they must be executed within the same session in which they are created. Running them in a new session will result in an error (*"String or binary data would be truncated..."*)
-
 ---
 
 ### Usage Notes
 
-To execute the temporary stored procedures, first run the script to create them, then call the temporary procedures within the same session.
+To execute the temporary stored procedures, first run the script to create them, then call the temporary procedures.
 
 The temporary stored procedures do not need to be created in the same schema as the object you're analyzing. You will specify the databases to trace dependencies across, passing the databases as a parameter. It's common to run this script from the `master` database.
 
@@ -170,6 +168,7 @@ Use one of the following stored procedures based on the direction of analysis. Y
 ---
 
 [🔍 The script used to determine object dependency paths referenced in this section can be accessed here.](https://...)
+
 
 
 
