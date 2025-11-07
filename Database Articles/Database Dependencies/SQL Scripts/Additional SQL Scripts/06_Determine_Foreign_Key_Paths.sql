@@ -292,5 +292,3 @@ BEGIN
     EXECUTE ##temp_sp_determine_foreign_key_paths_reverse @v_object_name;
 END;
 GO
-
-
