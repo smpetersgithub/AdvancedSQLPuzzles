@@ -108,7 +108,7 @@ The script generates the following global temporary stored procedures. I’ve mo
 
 ### Usage Notes
 
-To execute the temporary stored procedures, first run the script to create them, then call the temporary procedures within the same session.
+To execute the temporary stored procedures, first run the script to create them, then execute the temporary stored procedures.
 
 For this example, we are using the `WideWorldImports` database on the `Sales.Orders` table.  You’ll need to update the script’s `USE` statement to point to the correct database.
 
@@ -137,3 +137,4 @@ Use one of the following stored procedures based on the direction of analysis. Y
 * `##temp_sp_master_execution_fk_reverse_paths` – Traces upstream foreign key dependencies (what depends on the object)
 
 ---
+
