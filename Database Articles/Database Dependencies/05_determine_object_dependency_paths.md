@@ -15,7 +15,7 @@
 
 [🐙 The documentation and example scripts can be found in the GitHub repository.](https://github.com/smpetersgithub/AdvancedSQLPuzzles/tree/main/Database%20Articles/Database%20Dependencies/)
 
-[🔍 The script used to determine object dependency paths referenced in this section can be accessed here.](Database Articles/Database Dependencies/SQL Scripts/Additional SQL Scripts/05_Determine_Object_Dependency_Paths.sql)
+[🔍 The script used to determine object dependency paths referenced in this section can be accessed here.](https://github.com/smpetersgithub/AdvancedSQLPuzzles/blob/main/Database%20Articles/Database%20Dependencies/SQL%20Scripts/Additional%20SQL%20Scripts/05_Determine_Object_Dependency_Paths.sql))
 
 -----
 
@@ -170,5 +170,6 @@ Use one of the following stored procedures based on the direction of analysis. Y
 ---
 
 [🔍 The script used to determine object dependency paths referenced in this section can be accessed here.](https://...)
+
 
 
