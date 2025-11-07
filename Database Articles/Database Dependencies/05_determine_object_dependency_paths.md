@@ -81,8 +81,8 @@ Next, I want to highlight a few key details before we execute the script.
      * Object aliases (*Example 11*) and invalid objects (*Example 03 and Example 08*) will show as UNKNOWN objects.
 
 3. **Self-Referencing Objects**    
-     * Self-referencing objects (*Example 10*) are removed to prevent infinite loops. They are stored in the table `##self-referencing_objects` for review.
-
+     * Self-referencing objects (*Example 10*) are removed to prevent infinite loops.
+       
 4. **Synonyms**
      * Synonyms (*Example 13*) are listed as root nodes. The table `sys.sql_expression_dependencies` records dependencies on the synonym, but not on the object it references.
 
@@ -170,3 +170,4 @@ Use one of the following stored procedures based on the direction of analysis. Y
 ---
 
 [🔍 The script used to determine object dependency paths referenced in this section can be accessed here.](https://...)
+
