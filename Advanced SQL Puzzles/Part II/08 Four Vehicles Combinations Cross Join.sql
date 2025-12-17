@@ -2,7 +2,7 @@
 Scott Peters
 Four Vehicles Puzzle
 https://advancedsqlpuzzles.com
-Last Updated: 02/07/2023
+Last Updated: 12/15/2025
 Microsoft SQL Server T-SQL
 
 This script solves the "Four Vehicles Puzzle", which is about assigning five children and five adults to four 
@@ -167,7 +167,7 @@ SELECT  a.DriverName,
 FROM    cte_permutations_2 a CROSS JOIN
         #Passengers b
 ),
-cte_pedicatelogic AS
+cte_predicatelogic AS
 (
 SELECT  DriverName, PassengerName_1, PassengerName_2, PassengerName_3
 FROM    cte_permutations_3
@@ -220,7 +220,7 @@ SELECT
                 ELSE    PassengerName_3
             END) AS PassengerName_3
 INTO    #Car
-FROM    cte_pedicatelogic a
+FROM    cte_predicatelogic a
 GO
 
 ----------------------------------------------------

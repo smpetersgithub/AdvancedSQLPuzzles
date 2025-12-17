@@ -1,0 +1,48 @@
+/*********************************************************************
+Scott Peters
+Knight's Tour
+https://advancedsqlpuzzles.com
+Last Updated: 12/15/2025
+
+Microsoft SQL Server T-SQL
+
+This SQL statement solves a variation of the Knight's Tour problem.
+
+**********************************************************************/
+
+DECLARE @CurrentPosition VARCHAR(2);
+SET @CurrentPosition = '4D'; -- Example starting position
+
+-- Mapping Letters to Numbers for calculation 
+WITH cte_ChessBoard AS
+(
+SELECT 'A' AS Letter, 1 AS Num
+UNION ALL SELECT 'B', 2
+UNION ALL SELECT 'C', 3
+UNION ALL SELECT 'D', 4
+UNION ALL SELECT 'E', 5
+UNION ALL SELECT 'F', 6
+UNION ALL SELECT 'G', 7
+UNION ALL SELECT 'H', 8
+),
+cte_CurrentPosition AS
+(
+SELECT  CAST(SUBSTRING(@CurrentPosition, 1, 1) AS INTEGER) AS CurrentNumber,
+        Num AS CurrentLetter 
+FROM    cte_ChessBoard a
+WHERE   Letter = SUBSTRING(@CurrentPosition, 2, 1)
+),
+cte_PossibleMoves AS
+(
+SELECT  CurrentNumber + i.NumberOffset AS NewNumber,
+        CurrentLetter + i.LetterOffset AS NewLetter
+FROM    cte_CurrentPosition,
+        (VALUES (2, 1), (2, -1), (-2, 1), (-2, -1), (1, 2), (1, -2), 
+                (-1, 2), (-1, -2)) AS i(NumberOffset, LetterOffset)
+WHERE   CurrentNumber + i.NumberOffset BETWEEN 1 AND 8 AND
+        CurrentLetter + i.LetterOffset BETWEEN 1 AND 8
+)
+SELECT  CAST(NewNumber AS VARCHAR(1)) + b.Letter AS NewPosition 
+FROM    cte_PossibleMoves a INNER JOIN 
+        cte_Chessboard b ON a.NewLetter = b.Num;
+GO

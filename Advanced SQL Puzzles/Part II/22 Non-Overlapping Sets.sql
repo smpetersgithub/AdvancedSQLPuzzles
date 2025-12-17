@@ -2,7 +2,7 @@
 Scott Peters
 Non-Overlapping Sets
 https://advancedsqlpuzzles.com
-Last Updated: 03/29/2023
+Last Updated: 12/15/2025
 
 Microsoft SQL Server T-SQL
 
@@ -111,7 +111,12 @@ VALUES
 (2,2,10),
 (2,3,11),
 (3,1,3),
-(3,2,4);
+(3,2,4),
+(4,1,5),
+(4,2,6),
+(5,1,5),
+(5,2,5),
+(5,3,5);
 GO
 
 ------------------------------------------------------------------------------------
