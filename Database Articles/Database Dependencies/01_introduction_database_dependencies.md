@@ -47,7 +47,7 @@ This is particularly useful in scenarios where object dependencies are created a
 
 Alternatively, there is the concept of non-strict dependency enforcement.
 
-   In SQL Server, the ability to drop an object referenced by another drop without cascading the drop is a behavior known as non-strict dependency enforcement. While a view may depend on the table, SQL Server allows you to drop the table without immediately dropping or updating the dependent view. However, this will result in the view becoming invalid.
+   In SQL Server, the ability to drop an object referenced by another object without cascading the drop is a behavior known as non-strict dependency enforcement. While a view may depend on the table, SQL Server allows you to drop the table without immediately dropping or updating the dependent view. However, this will result in the view becoming invalid.
 
 These concepts will come into play as we find objects referencing invalid objects and how these are represented in the `sys.sql_expression_dependencies` table. A quick internet search will provide ample documentation and examples of how deferred name resolution and non-strict dependency enforcement behave within SQL Server. It is also important to note that different vendors (such as Oracle, DB2, and PostgreSQL) have different behaviors regarding these concepts. Therefore, the behavior of SQL Server in these contexts does not necessarily apply to other database systems.
 

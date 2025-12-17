@@ -15,7 +15,7 @@
 
 [🐙 The documentation and example scripts can be found in the GitHub repository.](https://github.com/smpetersgithub/AdvancedSQLPuzzles/tree/main/Database%20Articles/Database%20Dependencies/)
 
-[🔍 The script used to determine object dependency paths referenced in this section can be accessed here.](https://github.com/smpetersgithub/AdvancedSQLPuzzles/blob/main/Database%20Articles/Database%20Dependencies/SQL%20Scripts/Additional%20SQL%20Scripts/05_Determine_Object_Dependency_Paths.sql))
+[🔍 The script used to determine object dependency paths referenced in this section can be accessed here.](https://github.com/smpetersgithub/AdvancedSQLPuzzles/blob/main/Database%20Articles/Database%20Dependencies/SQL%20Scripts/Additional%20SQL%20Scripts/05_Determine_Object_Dependency_Paths.sql)
 
 -----
 
@@ -120,7 +120,7 @@ To execute the temporary stored procedures, first run the script to create them,
 
 The temporary stored procedures do not need to be created in the same schema as the object you're analyzing. You will specify the databases to trace dependencies across, passing the databases as a parameter. It's common to run this script from the `master` database.
 
-When calling stored procedures, note the below usage where three-part naming convention is used for the object name, and a comma seperated list can be used to pass multiple databases.
+When calling stored procedures, note the below usage where three-part naming convention is used for the object name, and a comma separated list can be used to pass multiple databases.
 
 ⚠️ I’ve implemented all the recommended indexes as suggested in the execution plan; however, depending on the query patterns and data distribution, the current indexing strategy may still require adjustments. You may want to review and optimize the indexes further.
 
@@ -165,9 +165,7 @@ Use one of the following stored procedures based on the direction of analysis. Y
 * `##temp_sp_master_execution_paths` – Traces downstream dependencies (what the object depends on)
 * `##temp_sp_master_execution_reverse_paths` – Traces upstream dependencies (what depends on the object)
 
----
-
-[🔍 The script used to determine object dependency paths referenced in this section can be accessed here.](https://...)
+[🔍 The script used to determine object dependency paths referenced in this section can be accessed here.](https://github.com/smpetersgithub/AdvancedSQLPuzzles/blob/main/Database%20Articles/Database%20Dependencies/SQL%20Scripts/Additional%20SQL%20Scripts/05_Determine_Object_Dependency_Paths.sql)
 
 
 

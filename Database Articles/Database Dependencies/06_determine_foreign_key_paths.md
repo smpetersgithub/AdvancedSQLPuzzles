@@ -21,7 +21,7 @@
 
 Next, we’ll focus on determining foreign key paths. This is similar to determining object dependency paths, but here we focus exclusively on foreign key dependencies.
 
-Foreign key dependencies can be viewed via the system views `sys.foregn_keys` and `sys.foreign_key_columns`.  Foreign Key dependencies are not part of the `sys.sql_Expression_dependencies` table.
+Foreign key dependencies can be viewed via the system views `sys.foreign_keys` and `sys.foreign_key_columns`.  Foreign Key dependencies are not part of the `sys.sql_expression_dependencies` table.
 
 Also, foreign keys cannot be created across databases, so unlike object dependency paths, we do not need to account for cross-database foreign keys.  Before you run the script, you will need to modify the `USE` statement to use the correct database.
 
