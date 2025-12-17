@@ -1,13 +1,13 @@
 # EXISTS
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The `EXISTS` operator in SQL is a Boolean operator that tests for the existence of any rows in a subquery. It returns TRUE if the subquery returns at least one row and FALSE if the subquery returns no rows. The `EXISTS` can be used with the `IF`, `WHERE`, and the `ON` clauses.  The `EXIST` operator can also be used with the `NOT` operator for negation.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The `EXISTS` operator in SQL is a Boolean operator that tests for the existence of any rows in a subquery. It returns TRUE if the subquery returns at least one row, and FALSE if it returns none. The `EXISTS` can be used with the `IF`, `WHERE`, and `ON` clauses.  The `EXIST` operator can also be used with the `NOT` operator for negation.
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;This document will concentrate on the `EXISTS` statement with the `ON` clause.  Strangely, I cannot find any documentation with Microsoft or PostgreSQL for the usage of `ON EXISTS`.  Itzik Ben-Gan does mention it in passing in an article [here](https://sqlperformance.com/2019/12/t-sql-queries/null-complexities-part-1) about its usage, and he does mention it in the [T-SQL Fundamentals](https://www.amazon.com/T-SQL-Fundamentals-3rd-Itzik-Ben-Gan/dp/150930200X/ref=sr_1_1?adgrpid=1331509151302817&hvadid=83219393942729&hvbmt=be&hvdev=c&hvlocphy=66021&hvnetw=o&hvqmt=e&hvtargid=kwd-83219680138630%3Aloc-190&hydadcr=16377_10417921&keywords=t-sql+fundamentals&qid=1675204165&sr=8-1) book.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;This document will concentrate on the `EXISTS` statement with the `ON` clause.  Strangely, I cannot find any documentation from Microsoft or PostgreSQL on the use of `ON EXISTS`.  Itzik Ben-Gan does mention it in passing in an article [here](https://sqlperformance.com/2019/12/t-sql-queries/null-complexities-part-1) about its usage, and he does mention it in the [T-SQL Fundamentals](https://www.amazon.com/T-SQL-Fundamentals-3rd-Itzik-Ben-Gan/dp/150930200X/ref=sr_1_1?adgrpid=1331509151302817&hvadid=83219393942729&hvbmt=be&hvdev=c&hvlocphy=66021&hvnetw=o&hvqmt=e&hvtargid=kwd-83219680138630%3Aloc-190&hydadcr=16377_10417921&keywords=t-sql+fundamentals&qid=1675204165&sr=8-1) book.
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;First, let's look at some examples of the `EXISTS`.  It is important to remember that the `EXISTS` clause returns TRUE or FALSE and not a result set.
 
 --------------------------------------------------------------------------------
-We will be using the following tables that contain types of fruits and their quantity.  
+We will be using the following tables, which contain types of fruits and their quantities.  
 
 [The DDL to create these tables can be found here.](Sample%20Data.md)
 
@@ -29,13 +29,12 @@ We will be using the following tables that contain types of fruits and their qua
   
 #### IF EXISTS
 
-Here, we have an example of using `EXISTS` with the `IF` statement to check for the existence of records.  
+Here is an example of using `EXISTS` with `IF` to check whether records exist.  
 
 This statement will return TRUE, as there are records in `TableA`.
 
 ```sql
 IF EXISTS (SELECT 1 FROM ##TableA)
-THEN
 PRINT 'TRUE'
 ELSE
 PRINT 'FALSE'
@@ -45,13 +44,12 @@ This statement will return FALSE if we use the `NOT` operator.
 
 ```sql
 IF NOT EXISTS (SELECT 1 FROM ##TableA)
-THEN
 PRINT 'TRUE'
 ELSE
 PRINT 'FALSE'
 ```
 
-This statement will return TRUE when we supply a NULL value.  Even though we supply a NULL value, it does return a record set with a NULL value, which is different than an empty record set.
+This statement will return TRUE when we supply a NULL value.  Even though we provide a NULL value, it does return a record set with a NULL value, which is different than an empty record set.
 
 ```sql
 IF EXISTS (SELECT NULL)
@@ -64,9 +62,9 @@ PRINT 'FALSE'
 --------------------------------------------------------------
 #### EXISTS
 
-Normally, we use the `EXISTS` operator with the `WHERE` clause to create a correlated subquery.
+Typically, we use the `EXISTS` operator with the `WHERE` clause to create a correlated subquery.
 
-The query acts the same as the `INNER JOIN`, and only returns records from `TableA`.
+The query behaves like an `INNER JOIN` and returns only records from `TableA`.
 
 ```sql
 SELECT  *
@@ -96,7 +94,7 @@ WHERE   NOT EXISTS (SELECT 1 FROM ##TableB b WHERE a.Fruit = b.Fruit);
 --------------------------------------------------------------
 #### ON EXISTS
   
-Probably one of the more difficult joins to understand is the below usage of `EXISTS`.  It is best to learn by examples and remember that `EXISTS` returns TRUE or FALSE and not a subset of records.  The `ON EXISTS` will work with the `INNER JOIN`, `LEFT OUTER JOIN`, `RIGHT OUTER JOIN`, and `FULL OUTER JOIN` clauses, but not the `CROSS JOIN`.
+Probably one of the more difficult joins to understand is the use of `ON EXISTS`.  It is best to learn by example, and remember that `EXISTS` returns TRUE or FALSE, not a subset of records.  The `ON EXISTS` will work with the `INNER JOIN`, `LEFT OUTER JOIN`, `RIGHT OUTER JOIN`, and `FULL OUTER JOIN` clauses, but not the `CROSS JOIN`.
  
 These statements will return TRUE and behave like a `CROSS JOIN`.
   
@@ -135,7 +133,7 @@ ORDER BY 1,2;
 
 ----------------------------------------------------
 
-From our previous SQL statement, we can see that the `INNER JOIN` acts like a `CROSS JOIN`.  Now let’s add a more practical use of the `ON EXISTS`.  Here, we have a more practical use of the statement.
+From our previous SQL statement, we can see that the `INNER JOIN` acts like a `CROSS JOIN`.  Now, let’s add a more practical use of the `ON EXISTS`.
 
 This query will return all the rows of `TableA` and `TableB` where the values of column `Fruit` are the same in both tables, and the columns of both tables will be included in the result set. The query will include rows from `TableA` where the `Fruit` value exists in `TableB`.  
   
@@ -153,7 +151,7 @@ FROM    ##TableA a INNER JOIN
 |  4 |         | 5        | 4  |         |          |
 
   
-A similar statement to the above would be the following, where we must explicitly handle NULL markers.
+A similar statement to the above would be the following, which explicitly handles NULL markers.
 
 ```sql
 SELECT  *
@@ -187,7 +185,7 @@ FROM    ##TableA a INNER JOIN
 
 -----------------------------------------------------------------------------------------
   
-If we change the `INTERSECT` with an `EXCEPT`, we get the following.
+If we replace `INTERSECT` with `EXCEPT`, we get the following.
   
 This query will return all the rows of `TableA` and `TableB` where the values of column `Fruit` are different in both tables, and the columns of both tables will be included in the result set. The query will exclude rows from `TableA` where the `Fruit` value exists in `TableB`.  
   
@@ -214,7 +212,7 @@ FROM    ##TableA a INNER JOIN
 | 4  |         | 5        | 2  | Peach   | 25       |
 | 4  |         | 5        | 3  | Kiwi    | 20       |
 
-Note, missing from this above set is the following.
+Note that the above set is missing the following.
 
 | ID |  Fruit  | Quantity | ID |  Fruit  | Quantity |
 |----|---------|----------|----|---------|----------|
