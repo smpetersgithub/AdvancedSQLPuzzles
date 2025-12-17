@@ -5,15 +5,15 @@
 `ANY`, `ALL`, and `SOME` compare a scalar value with a single column set of values. 
 
 ---------------------------------------------------------
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Because `ANY`, `ALL`, and `SOME` can be used with the nine different logical operators below, there can be a total of 27 combinations.  Plus they can be negated with the `NOT` operator leading to even more combinations.  Most of the usages have equivalents that are easy to understand, and I have found the best way to understand `ANY`, `ALL`, and `SOME` is by using the `IF` keyword to review their usage and provide an equivalent statement.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Because `ANY`, `ALL`, and `SOME` can be used with the nine different logical operators below, there can be a total of 27 combinations.  Plus, they can be negated with the `NOT` operator, leading to even more combinations.  Most of the usages have easy-to-understand equivalents, and I have found the best way to understand `ANY`, `ALL`, and `SOME` is to use the `IF` keyword to review their usage and provide an equivalent statement.
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`ANY`, `ALL`, and `SOME` are not join types, but rather methods for creating predicate logic between tables. They can be utilized in correlated subqueries, where the outer query is joined to the subquery involved in the `ANY`, `ALL`, or `SOME` statement. These methods are similar to semi and anti-joins in that they cannot be used in the `SELECT` clause and do not introduce duplicates. However, they differ in that they allow for comparisons between a range of values, rather than only equality or inequality.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`ANY`, `ALL`, and `SOME` are not join types, but rather methods for creating predicate logic between tables. They can be used in correlated subqueries, where the outer query is joined to the subquery in an `ANY`, `ALL`, or `SOME` statement. These methods are similar to semi and anti-joins in that they cannot be used in the `SELECT` clause and do not introduce duplicates. However, they differ in that they allow for comparisons between a range of values, rather than only equality or inequality.
 
 ---------------------------------------------------------
 
 Here are the nine different comparison operators that can be used with `ANY`, `ALL`, and `SOME`.
 
-There are two usages, `<> ANY` and `= ALL`, that I will further elaborate on, as these have special use cases that I feel are best practices to use rather than their equivalents.
+There are two usages, `<> ANY` and `= ALL`, that I will elaborate on, as they have special use cases that I feel are best practices.
 
 | Operator | Description                         |
 |----------|-------------------------------------|
@@ -28,7 +28,7 @@ There are two usages, `<> ANY` and `= ALL`, that I will further elaborate on, as
 | !>       | Not Greater Than (not ISO standard) |
 
 
-I have found understanding these nine operations will easily allow you to understand any combination you will see in your daily SQL activities.  I have included the SQL statements below to review these operations.
+Understanding these nine operations will easily enable you to understand any combination you encounter in your daily SQL work.  I have included the SQL statements below for your review.
 
 | Id |     Operation     |             Equivalent                                      |
 |----|-------------------|-------------------------------------------------------------|
@@ -188,7 +188,7 @@ PRINT 'FALSE';
 
 ### PART 6
 **<> ANY (Not Equal To ANY)**    
-Note this has several equivalent statements
+Note that this has several equivalent statements
 
 
 ```sql
@@ -376,7 +376,7 @@ PRINT 'FALSE';
 
 Here is another (more elaborate) example using the `= ALL` operator with a correlated subquery.  Feel free to modify the data and the requirements to experiment with different ways to produce the expected output.
         
-Given the following tables: `Sales Representatives` and `Top Selling Products by Quarter`; calculate the following commissions for the year.
+Given the following tables: `Sales Representatives` and `Top Selling Products by Quarter`, calculate the following commissions for the year.
 
 *  If all the top-selling products for the quarter are from one region only, all sales representatives from that region receive a $1000 bonus.
 *  If the top-selling products for the quarter are from different regions, all sales representatives from those regions receive a $250 bonus.
@@ -407,10 +407,10 @@ Given the following tables: `Sales Representatives` and `Top Selling Products by
 | Q4           | North  | C       |
 | Q4           | South  | E       |
 
-*  For Q1, the North region had all the top selling products, therefore reps 1001 and 2002 each get a $1000 commission for that quarter. The North region also had sales in Q2, Q3, and Q4, getting $250 for each of these quarters.
+* For Q1, the North region had all the top-selling products; therefore, reps 1001 and 2002 each get a $1000 commission for that quarter. The North region also recorded sales in Q2, Q3, and Q4, totaling $250 per quarter.
 *  The South region had top selling products in Q2, Q3, and Q4, so they receive $750.
-*  The East region had a top-selling product in Q3 only, so they receive $250.
-*  The West region did not have any top-selling products for any of the quarters, therefore the sales reps get a goat as a commission.
+*  The East region had a top-selling product in Q3 only, so they received $250.
+* The West region did not have any top-selling products for any of the quarters; therefore, the sales reps get a goat as a commission.
 
 Here is the SQL to produce the expected results.
 
@@ -515,9 +515,9 @@ GO
 
 ### Example 3: Use Cases for = ALL
 
-The task is to identify all Order Numbers that are linked to a single Item and have a "PROMO" discount value. If an Order Number is associated with multiple items, it should not be included in the result.
+The task is to identify all Order Numbers linked to a single Item that have a "PROMO" discount value. If an Order Number is associated with multiple items, it should not be included in the result.
 
-For example, Order Number 33 meets these criteria because it has a connection to one Item and all the products linked to it have a discount value of "PROMO." On the other hand, Order Number 11 does not meet the criteria as it is linked to two different Items.
+For example, Order Number 33 meets these criteria because it is connected to one Item, and all products linked to it have a discount value of "PROMO." On the other hand, Order Number 11 does not meet the criteria because it relates to two different items.
 
 
 | OrderNumber | Product  |  Discount |
