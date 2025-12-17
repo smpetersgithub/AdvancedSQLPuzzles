@@ -64,7 +64,7 @@ WHERE   a.Fruit = b.Fruit;
 
 ---------------------------------------------------------------------------------
   
-Remembering that all types of joins are restricted Cartesian products, the following `CROSS JOIN` produces the same results as above as it establishes the join predicate in the `WHERE` clause.
+Remembering that all types of joins are restricted Cartesian products, the following `CROSS JOIN` produces the same results as above, as it establishes the join predicate in the `WHERE` clause.
 
 ```sql
 SELECT  a.ID,
@@ -138,7 +138,7 @@ FROM    ##TableA a INNER JOIN
 
 ---------------------------------------------------------------------------------
   
-This query uses an equi-join and a non-equi-join and functions similar to a `CROSS JOIN`, but with one big difference, NULL markers are not returned.  NULL markers are neither equal to nor not equal to each other. They are unknown.
+This query uses an equi-join and a non-equi-join and functions similarly to a `CROSS JOIN`, but with one big difference: NULL markers are not returned.  NULL markers are neither equal to nor not equal to each other. They are unknown.
 
 ```sql
 SELECT  a.ID,
@@ -165,7 +165,7 @@ FROM    ##TableA a INNER JOIN
   
 Here are some other examples of `INNER JOINS` using non-equi-joins.
 
-This query looks for all values where the quantity in `TableA` is greater than or equal to a quantity in the corresponding `TableB`.
+This query looks for all values where the quantity in `TableA` is greater than or equal to the quantity in the corresponding `TableB`.
 
 ```sql
 SELECT  *
@@ -307,7 +307,7 @@ FROM    ##TableA a NATURAL JOIN
 |----|-------|----------|
 | 1  | Apple | 17       |
   
-The below Oracle SQL statement uses the `USING` clause and mimics the `NATURAL JOIN`.
+The Oracle SQL statement below uses the `USING` clause and mimics a `NATURAL JOIN`.
   
 ```sql
 SELECT  *
