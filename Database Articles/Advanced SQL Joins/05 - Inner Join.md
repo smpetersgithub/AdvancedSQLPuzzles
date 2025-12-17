@@ -1,12 +1,12 @@
 # INNER JOINS
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The `INNER JOIN` selects records from two tables given a join condition.  This type of join requires a comparison operator to combine rows from the participating tables based on a common field(s) in both tables.  Because of this, `INNER JOIN` acts as a filter criteria.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The `INNER JOIN` selects records from two tables given a join condition.  This type of join requires a comparison operator to combine rows from the participating tables based on a common field(s) in both tables.  Because of this, `INNER JOIN` acts as a filter criterion.
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;We can use both equi-join and theta-join operators between the joining fields.  An equi-join is a type of join in which the join condition is based on equality between the values of the specified columns in the two joined tables.  Conversely, a theta-join is a type of join in which the join condition is based on a comparison operator other than equality.
 
 ---------------------------------------------------------------------------------
 
-We will use the following tables that contain types of fruits and their quantity.  
+We will use the following tables, which contain types of fruits and their quantities.  
 
 [The DDL to create these tables can be found here.](Sample%20Data.md)
 
@@ -28,7 +28,7 @@ We will use the following tables that contain types of fruits and their quantity
 
 ---------------------------------------------------------------------------------
   
-To start, here is the most common join you will use, an `INNER JOIN` between two tables.  This join uses an equi-join to look for equality between the two fields.  Note the query does not return NULL markers, as NULL markers are neither equal to nor not equal to each other. They are unknown.
+To start, here is the most common join you will use, an `INNER JOIN` between two tables.  This join uses an equi-join to look for equality between the two fields.  Note that the query does not return NULL markers, as NULL markers are neither equal to nor not equal to each other. They are unknown.
 
 ```sql
 SELECT  a.ID,
@@ -45,7 +45,7 @@ FROM    ##TableA a INNER JOIN
 | 2  | Peach | 2  | Peach |
 
 ---
-We can also specify the matching criteria in the `WHERE` clause without explicitly specifying the `INNER JOIN` clause.
+We can also specify the matching criteria in the `WHERE` clause without explicitly specifying an `INNER JOIN`.
 
 ```sql
 SELECT  a.ID,
@@ -121,7 +121,7 @@ WHERE   b.Fruit = 'Apple'
 
 ---------------------------------------------------------------------------------
   
-This following statement incorporates an `INNER JOIN` with a non-equi-join.
+The following statement incorporates an `INNER JOIN` with a non-equi-join.
 
 An excellent example of using a non-equi-join is when someone wants to pair two different fruits of different quantities.
 
@@ -181,7 +181,7 @@ FROM    ##TableA a INNER JOIN
 
 ---------------------------------------------------------------------------------
   
-This query uses an equi-join and a non-equi-join negated with a `NOT` operator.  Determining if the `ID` is between the `Quantity` columns may be an absurd SQL statement to write, but this shows the possibilities in creating join logic. We often forget we can use comparison operators such as `LIKE` or `BETWEEN` in an SQL statement's `ON` clause and then negate it with `NOT`.
+This query uses an equi-join and a non-equi-join negated with a `NOT` operator.  Determining whether the `ID` falls between the `Quantity` columns may be an absurd SQL statement to write, but this shows the possibilities for creating join logic. We often forget we can use comparison operators such as `LIKE` or `BETWEEN` in an SQL statement's `ON` clause and then negate it with `NOT`.
   
 ```sql
 SELECT  a.ID,
@@ -253,7 +253,7 @@ WHERE   (CASE WHEN a.Fruit = 'Apple' THEN a.Fruit ELSE 'Peach' END) = b.Fruit;
 | 4  |         | 2  | Peach |
      
 --------------------------------------------------------------------------------- 
-This SQL statement works in `SQL Server` when joining three or more statements.  The table referenced in the `ON` clause must be in reverse order for this to work.
+This SQL statement works in `SQL Server` when joining three or more tables.  The table referenced in the `ON` clause must be in reverse order for this to work.
 
 For this SQL statement, I am self-joining to `TableA` three times.
         
@@ -273,7 +273,7 @@ FROM    ##TableA a INNER JOIN
 | 3  | Mango |
 
 ---------------------------------------------------------------------------------
-In MySQL and Oracle, there is a `USING` clause that you can use to specify the joining columns.  Each vendor's implementation is slightly different; see your vendor's documentation for specifics.
+In MySQL and Oracle, there is a `USING` clause that you can use to specify the joining columns.  Each vendor's implementation is slightly different; please consult your vendor's documentation for specifics.
   
 The below SQL statement works in MySQL.
   
@@ -292,7 +292,7 @@ FROM    ##TableA a INNER JOIN
 | 2  | Peach | 2  | Peach |
   
 ---------------------------------------------------------------------------------
-ORACLE supports the `NATURAL JOIN` syntax.  I classify the natural join as a model join as E.F. Codd first conceived it in his work on the Relational Model.
+ORACLE supports the `NATURAL JOIN` syntax.  I classify the natural join as a model join, as E.F. Codd first conceived it in his work on the Relational Model.
   
 The use of an asterisk in the `SELECT` statement is mandatory, and the output does not show duplicate column names.  This query is the same as an equi-join on the `ID`, `Fruit`, and `Quantity` columns between `TableA` and `TableB`.
 
