@@ -2,7 +2,7 @@
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Outer joins include `LEFT OUTER JOIN`, `RIGHT OUTER JOIN`, and `FULL OUTER JOIN`.
 
-*  `LEFT OUTER JOIN` returns all records from the left table and matching records from the right table. If no matches exist, `NULL` markers are returned for the right table's columns. If multiple matching records are present in the right table, multiple rows will appear in the result set.    
+*  `LEFT OUTER JOIN` returns all records from the left table and matching records from the right table. If no matches exist, `NULL` markers are returned for the columns of the right table. If multiple matching records exist in the right table, multiple rows will appear in the result set.    
 *  `RIGHT OUTER JOIN` operates similarly, returning all records from the right table and matching records from the left table. If no matches exist, `NULL` markers are returned for the left table's columns. If multiple matching records are present in the left table, multiple rows will appear in the result set.
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;It is best practice to use the `LEFT OUTER JOIN` over the `RIGHT OUTER JOIN`, as we naturally read from left to right.  The `LEFT OUTER JOIN` is more intuitive in terms of its behavior, as the left table is preserved, and the right table is optional.  I will mainly demonstrate the `LEFT OUTER JOIN` for this reason.  Using `RIGHT OUTER JOIN` is considered a bad practice and should be avoided.
@@ -11,7 +11,7 @@
 
 -----------------------------------------------------------
 
-We will use the following tables that contain types of fruits and their quantity.  
+We will use the following tables, which contain types of fruits and their quantities.  
 
 [The DDL to create these tables can be found here.](Sample%20Data.md)
 
@@ -71,7 +71,7 @@ WHERE   b.Fruit IS NULL;
 
 ---
 
-Predicate logic in the `ON` clause behaves differently than predicate logic in the `WHERE` clause.  Notice the difference in output between these two queries.
+Predicate logic in the `ON` clause behaves differently from predicate logic in the `WHERE` clause.  Please take a look at the output differences between these two queries.
 
 Placing predicate login in the `ON` statement preserves the outer join.
 
@@ -111,7 +111,7 @@ WHERE   b.Fruit = 'Apple';
   
 Joins can exist in the `SELECT`, `FROM`, and `WHERE` clauses of an SQL statement. 
 
-You can also have nested `SELECT` statements which act as outer joins, as demonstrated below.
+You can also have nested `SELECT` statements, which act as outer joins, as demonstrated below.
   
 ```sql 
 SELECT  a.ID,
@@ -128,7 +128,7 @@ FROM    ##TableA a;
 | 3  | Mango   |         |         |
 | 4  |         |         |         |
 
-In Microsoft SQL Server, up to 32 levels of nesting is possible, although the limit varies based on available memory and the complexity of other expressions in the query. Individual queries may not support nesting up to 32 levels. A subquery can appear anywhere an expression can be used if it returns a single value
+In Microsoft SQL Server, up to 32 levels of nesting are possible, although the limit varies based on available memory and the complexity of other expressions in the query. Individual queries may not support nesting up to 32 levels. A subquery can appear anywhere an expression can be used if it returns a single value.
 
 Here is a `SELECT`, within a `SELECT`, within a `SELECT` statement.  Nesting SQL statements can make them difficult to read and should be avoided if possible.
 
@@ -145,13 +145,13 @@ FROM    ##TableA a;
 | 1 | Apple    | 1       | Apple   |
 | 2 | Peach    | 2       | Peach   |
 | 3 | Mango    |         |         |
-| 4 |         |         |         |
+| 4 |          |         |         |
 
 -----------------------------------------------------------
    
 Windowing functions were added to the `ANSI/ISO Standard SQL:2003` and then extended in `ANSI/ISO Standard SQL:2008`.  Microsoft SQL Server did not implement window functions until SQL Server 2012.
 
-Because of Microsoft SQL Server's delay in implementation, you may see statements such as below that were used to mimic window functions.  This statement is often called a "Flash Fill" or "Data Smudge".
+Because of Microsoft SQL Server's delayed implementation, you may see statements such as the ones below that were used to mimic window functions.  This statement is often called a "Flash Fill" or "Data Smudge".
 
 This SQL statement will populate the NULL markers in the `Fruit` column with the nearest prior value.
 
@@ -174,7 +174,7 @@ FROM    ##TableA a;
 | 3  | Mango | 11       |
 | 4  | Mango | 5        |
 
-Here the query can be written much cleaner using a window function.
+Here, the query can be written much cleaner using a window function.
 
 ```sql
 WITH cte_Count AS
@@ -201,7 +201,7 @@ ORDER BY ID;
                                      
 -----------------------------------------------------------
 
-Using both `LEFT OUTER JOINS` and `RIGHT OUTER JOINS` in a single query is probably the worst SQL practice for an SQL developer, but it is possible.  Avoid this like the plague, as these queries become very hard to read and can be very easy to get wrong.
+Using both `LEFT OUTER JOINS` and `RIGHT OUTER JOINS` in a single query is probably the worst SQL practice for an SQL developer, but it is possible.  Avoid this like the plague, as these queries are complex to read and easy to get wrong.
 
 ```sql
 SELECT  a.ID,
