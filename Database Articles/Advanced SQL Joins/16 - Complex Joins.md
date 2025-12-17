@@ -1,114 +1,206 @@
 # Complex Joins
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;In this document we will define complex joins and highlight a few examples.
+Complex joins are SQL join operations that involve multiple tables, complex join conditions, or combinations of different join types. These joins often require careful planning and a deep understanding of table relationships, query execution order, and performance considerations. While simple joins typically connect two tables with a single condition, complex joins may involve recursive operations, graph traversal, temporal logic, or multi-step data transformations.
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Complex joins is a descriptive term that refers to join operations that involve multiple tables and require more intricate join conditions than simple joins.  These joins can become quite complex when multiple conditions must be met to return the desired result set.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Mastering complex joins is essential for solving real-world data problems such as finding mutual connections in social networks, calculating shortest paths in routing systems, consolidating overlapping time periods, or traversing hierarchical organizational structures.
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;To create complex joins, it's essential to have a clear understanding of the relationships between the tables and the desired outcome. It is also essential to use clear and concise syntax, such as using explicit join clauses and knowing when to use windowing, ranking, lag/lead functions, etc... By breaking down complex joins into smaller, simpler join operations, it can be easier to understand and maintain the query.
+-----------------------------------------------------------
 
-Overall, here are some tips I use when working with complex joins.
+## Key Concepts for Complex Joins
 
-1.  **Break down the query into smaller parts**: Divide the query into smaller, more manageable parts. Start by understanding the different clauses and how they fit together.
-3.  **Know the database schema**: Understanding the database structure, including tables, columns, relationships, and constraints, is essential for understanding complex queries.
-4.  **Identify the purpose of each clause**: Understand what each clause in the query is meant to do and how it contributes to the overall result.
-5.  **Use diagrams or visual aids**: Draw a diagram of the relationships between tables or use other visual aids to help you understand the data flow in the query.
-6.  **Test and validate the query**: Try running the query with a small subset of data to see the result and validate the output to ensure it matches your expectations.
+Before diving into examples, here are essential principles for working with complex joins:
 
------------------------------------------------------
+1. **Understand the Driving Table**: The driving table is the table that initiates query execution. Choose the table with the smallest result set or the most selective conditions to minimize data processing.
 
-#### Driving Tables
+2. **Break Down the Problem**: Divide complex queries into smaller, manageable steps using CTEs or temporary tables. This improves readability and makes debugging easier.
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; One crucial concept of good query planning is understanding a driving table.
+3. **Know Your Join Types**: Different join types serve different purposes:
+   - `INNER JOIN` for matching records only
+   - `LEFT/RIGHT OUTER JOIN` for preserving one side
+   - `FULL OUTER JOIN` for preserving both sides
+   - `CROSS JOIN` for Cartesian products
+   - `CROSS APPLY` for correlated operations
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;A driving table in SQL refers to the table that drives the execution of a query. In a query that involves multiple tables, the driving table determines the order in which the records are retrieved and processed and can have a significant impact on the performance of the query.
+4. **Use Visual Aids**: Draw diagrams of table relationships and data flow to understand complex join patterns.
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The driving table is typically the table with the smallest number of records or the table that has the most selective conditions applied to it. By starting with the driving table, the database can eliminate as many records as possible early in the processing, reducing the amount of data that needs to be further processed and improving the performance of the query.
+5. **Test Incrementally**: Build complex queries step-by-step, validating output at each stage.
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;It is essential to carefully consider the driving table when writing complex SQL queries to ensure optimal performance. A well-chosen driving table can help to minimize the amount of data that needs to be processed and can lead to much faster query execution times. On the other hand, a poorly chosen driving table can result in slow query performance and inefficiencies in database processing.
+-----------------------------------------------------------
 
------------------------------------------------------
-#### Multiple Branches
+## Example 1: Graph Traversal - Mutual Friends
 
-These types of SQL statements I like to refer to as branch joins.  First, let's look at the SQL statement.
+This example demonstrates finding mutual friends in a social network using a combination of `CROSS JOIN` and multiple `LEFT OUTER JOIN` operations.
+
+**Problem**: Given a table of friendships, find all pairs of people who share mutual friends and count how many mutual friends they have.
+
+**Sample Data**:
 
 ```sql
-SELECT  t.TransactionDate,
-        ISNULL(tt.TransactionType,'Other') AS TransType,
-        u.Name,
-        SUM(t.Amount) AS DailyATMAmount
-FROM    Users u INNER JOIN
-        Transaction t ON u.AccountID = t.DebitAccountID LEFT OUTER JOIN
-        TransactionType tt ON t.TranTypeID = tt.TranTypeID INNER JOIN
-        SubUsers su ON u.SecondaryAccountID = su.SubAccountID INNER JOIN
-        FeePlan fp ON u.FeePlanID = fp.FeePlanID OR su.FeePlanID = fp.FeePlanID
-WHERE   fp.FeePlanType = 'Advantage' AND 
-        t.TransactionDate BETWEEN '01-01-2023' AND '12-31-2023' AND
-        su.AccountStatus = 'Enrolled';
+CREATE TABLE #Friends
+(
+Friend1  VARCHAR(100),
+Friend2  VARCHAR(100),
+PRIMARY KEY (Friend1, Friend2)
+);
+
+INSERT INTO #Friends (Friend1, Friend2) VALUES
+('Jason','Mary'),('Mike','Mary'),('Mike','Jason'),
+('Susan','Jason'),('John','Mary'),('Susan','Mary');
 ```
 
-Breaking down the joins, we have the following:
-*  `Users` -> `Transaction` -> `TransactionType`
-*  `Users` -> `SubUsers` -> `FeePlan`
+**Friendship Network**:
+- Jason ↔ Mary, Mike, Susan
+- Mary ↔ Jason, Mike, John, Susan
+- Mike ↔ Mary, Jason
+- Susan ↔ Jason, Mary
+- John ↔ Mary
 
-From this join breakdown, we can see we have one root, two branches, and two leaf nodes.  The root table `Users` is our driving table.  Given this, here is a simpler way of writing the statement.
+**Solution**:
 
 ```sql
-WITH cte_Users AS
+--Step 1: Create reciprocals (bidirectional edges)
+SELECT  Friend1, Friend2
+INTO    #Edges
+FROM    #Friends
+UNION
+SELECT  Friend2, Friend1
+FROM    #Friends;
+
+--Step 2: Create list of all people (nodes)
+SELECT  Friend1 AS Person
+INTO    #Nodes
+FROM    #Friends
+UNION
+SELECT  Friend2
+FROM    #Friends;
+
+--Step 3: Create all possible combinations to evaluate
+SELECT  a.Friend1, a.Friend2, b.Person
+INTO    #NodesToEvaluate
+FROM    #Edges a CROSS JOIN
+        #Nodes b;
+
+--Step 4: Find mutual friends
+WITH cte_JoinLogic AS
 (
-SELECT  UserID
-FROM    Users u INNER JOIN
-        SubUsers su ON u.SecondaryAccountID = su.SubAccountID INNER JOIN
-        FeePlan fp ON u.FeePlanID = fp.FeePlanID OR su.FeePlanID = fp.FeePlanID
-WHERE   su.AccountStatus = 'Enrolled' AND 
-        fp.FeePlanType = 'Advantage'
+SELECT  a.Friend1,
+        a.Friend2,
+        b.Friend2 AS MutualFriend1,
+        c.Friend2 AS MutualFriend2
+FROM    #NodesToEvaluate a LEFT OUTER JOIN
+        #Edges b ON a.Friend1 = b.Friend1 AND a.Person = b.Friend2 LEFT OUTER JOIN
+        #Edges c ON a.Friend2 = c.Friend1 AND a.Person = c.Friend2
 ),
-cte_Transaction AS
+cte_Predicate AS
 (
-SELECT  t.TransactionDate,
-        t.DebitAccountID,
-        t.Amount,
-        tt.FeePlanType
-FROM    Users u INNER JOIN
-        Transaction t ON u.AccountID = t.DebitAccountID LEFT OUTER JOIN
-        TransactionType tt ON t.TranTypeID = tt.TranTypeID
-WHERE   t.TransactionDate BETWEEN '01-01-2023' AND '12-31-2023'
+SELECT  Friend1, Friend2, MutualFriend1 AS MutualFriend
+FROM    cte_JoinLogic
+WHERE   MutualFriend1 = MutualFriend2 AND
+        MutualFriend1 IS NOT NULL AND
+        MutualFriend2 IS NOT NULL
+),
+cte_Count AS
+(
+SELECT  Friend1, Friend2, COUNT(*) AS CountMutualFriends
+FROM    cte_Predicate
+GROUP BY Friend1, Friend2
 )
-SELECT  t.TransactionDate,
-        ISNULL(t.TransactionType,'Other') AS TransType,
-        u.Name,
-        SUM(t.Amount) AS DailyATMAmount
-FROM    cte_Users u INNER JOIN
-        cte_Transactions t on u.AccountID = t.DebitAccountID
-GROUP BY t.TransactionDate,
-        ISNULL(t.TransactionType,'Other'),
-        u.Name;
+SELECT  DISTINCT
+        (CASE WHEN Friend1 < Friend2 THEN Friend1 ELSE Friend2 END) AS Friend1,
+        (CASE WHEN Friend1 < Friend2 THEN Friend2 ELSE Friend1 END) AS Friend2,
+        CountMutualFriends
+FROM    cte_Count
+ORDER BY 1, 2;
 ```
 
------------------------------------------------------
-#### Overlapping Time Periods
+**Result**:
 
-This puzzle is called "Overlapping Time Periods", and I find this to be the most challenging puzzle to solve.
-For this example, I used temporary tables to avoid making a common table expression dependent on another common table expression.  This allows future developers to quickly review the data sets in the step order and reverse engineer the statement.
+| Friend1 | Friend2 | CountMutualFriends |
+|---------|---------|-------------------|
+| Jason   | Mike    | 1                 |
+| Jason   | Susan   | 1                 |
+| Mike    | Susan   | 2                 |
 
-Here is the overlapping time period data.
+**Explanation**:
+- Jason and Mike share 1 mutual friend (Mary)
+- Jason and Susan share 1 mutual friend (Mary)
+- Mike and Susan share 2 mutual friends (Jason and Mary)
 
-| StartDate  |  EndDate   |
-|------------|------------|
-| 2018-01-01 | 2018-01-05 |
-| 2018-01-03 | 2018-01-09 |
-| 2018-01-10 | 2018-01-11 |
-| 2018-01-12 | 2018-01-16 |
-| 2018-01-15 | 2018-01-19 |
+This query uses a `CROSS JOIN` to create all possible combinations, then uses two `LEFT OUTER JOIN` operations to find matching patterns in the friendship graph.
 
-Here is the expected output:
+-----------------------------------------------------------
 
-| StartDate  |  EndDate   |
-|------------|------------|
-| 2018-01-01 | 2018-01-09 |
-| 2018-01-10 | 2018-01-11 |
-| 2018-01-12 | 2018-01-19 |
+## Example 2: Recursive Joins - Traveling Salesman
 
-The following solution uses a `LEFT OUTER JOIN` with a theta-join to create the table `#OuterJoin`.
+This example demonstrates using recursive CTEs with `INNER JOIN` to find all possible routes through a network of cities.
+
+**Problem**: Given routes between cities with costs, find all possible paths from Austin to Des Moines.
+
+**Sample Data**:
+
+```sql
+CREATE TABLE #Routes
+(
+RouteID        INTEGER NOT NULL,
+DepartureCity  VARCHAR(30) NOT NULL,
+ArrivalCity    VARCHAR(30) NOT NULL,
+Cost           MONEY NOT NULL,
+PRIMARY KEY (DepartureCity, ArrivalCity)
+);
+
+
+**Route Network**:
+- Austin → Dallas ($100)
+- Dallas → Memphis ($200) or Des Moines ($400)
+- Memphis → Des Moines ($300)
+
+**Solution**:
+
+```sql
+WITH cte_Routes (Nodes, LastNode, RoutePath, Cost) AS
+(
+--Anchor: Start from Austin
+SELECT  2 AS Nodes,
+        ArrivalCity,
+        CAST('\' + DepartureCity + '\' + ArrivalCity + '\' AS VARCHAR(MAX)) AS RoutePath,
+        Cost
+FROM    #Routes
+WHERE   DepartureCity = 'Austin'
+UNION ALL
+--Recursive: Add next city to route
+SELECT  m.Nodes + 1 AS Nodes,
+        r.ArrivalCity AS LastNode,
+        CAST(m.RoutePath + r.ArrivalCity + '\' AS VARCHAR(MAX)) AS RoutePath,
+        m.Cost + r.Cost AS Cost
+FROM    cte_Routes AS m INNER JOIN
+        #Routes AS r ON r.DepartureCity = m.LastNode
+WHERE   m.RoutePath NOT LIKE '\%' + r.ArrivalCity + '%\'
+)
+SELECT  REPLACE(REPLACE(LEFT(RoutePath, LEN(RoutePath)-1), '\', ''), '  ', ' --> ') AS RoutePath,
+        Cost AS TotalCost
+FROM    cte_Routes
+WHERE   RoutePath LIKE '%Des Moines\%'
+ORDER BY Cost;
+```
+
+**Result**:
+
+| RoutePath                          | TotalCost |
+|------------------------------------|-----------|
+| Austin --> Dallas --> Des Moines   | 500.00    |
+| Austin --> Dallas --> Memphis --> Des Moines | 600.00 |
+
+**Explanation**: The recursive CTE builds all possible paths by joining the current route to available next destinations. The `WHERE` clause prevents circular routes by checking if a city already exists in the path.
+
+-----------------------------------------------------------
+
+## Example 3: Temporal Joins - Overlapping Time Periods
+
+This example demonstrates using self-joins with theta-join conditions to consolidate overlapping date ranges.
+
+**Problem**: Given overlapping time periods, consolidate them into non-overlapping continuous periods.
+
+**Sample Data**:
 
 ```sql
 CREATE TABLE #TimePeriods
@@ -118,19 +210,41 @@ EndDate    DATE,
 PRIMARY KEY (StartDate, EndDate)
 );
 
-INSERT INTO #TimePeriods (StartDate, EndDate) VALUES ('1/1/2018','1/5/2018');
-INSERT INTO #TimePeriods (StartDate, EndDate) VALUES ('1/3/2018','1/9/2018');
-INSERT INTO #TimePeriods (StartDate, EndDate) VALUES ('1/10/2018','1/11/2018');
-INSERT INTO #TimePeriods (StartDate, EndDate) VALUES ('1/12/2018','1/16/2018');
-INSERT INTO #TimePeriods (StartDate, EndDate) VALUES ('1/15/2018','1/19/2018');
+INSERT INTO #TimePeriods (StartDate, EndDate) VALUES
+('1/1/2018','1/5/2018'),
+('1/3/2018','1/9/2018'),
+('1/10/2018','1/11/2018'),
+('1/12/2018','1/16/2018'),
+('1/15/2018','1/19/2018');
+```
 
---Step 1
-SELECT  DISTINCT
-        StartDate
+**Input Data**:
+
+| StartDate  | EndDate    |
+|------------|------------|
+| 2018-01-01 | 2018-01-05 |
+| 2018-01-03 | 2018-01-09 |
+| 2018-01-10 | 2018-01-11 |
+| 2018-01-12 | 2018-01-16 |
+| 2018-01-15 | 2018-01-19 |
+
+**Expected Output**:
+
+| StartDate  | EndDate    |
+|------------|------------|
+| 2018-01-01 | 2018-01-09 |
+| 2018-01-10 | 2018-01-11 |
+| 2018-01-12 | 2018-01-19 |
+
+**Solution**:
+
+```sql
+--Step 1: Get distinct start dates
+SELECT  DISTINCT StartDate
 INTO    #Distinct_StartDates
 FROM    #TimePeriods;
 
---Step 2
+--Step 2: Self-join to find overlapping periods
 SELECT  a.StartDate AS StartDate_A,
         a.EndDate AS EndDate_A,
         b.StartDate AS StartDate_B,
@@ -138,41 +252,220 @@ SELECT  a.StartDate AS StartDate_A,
 INTO    #OuterJoin
 FROM    #TimePeriods AS a LEFT OUTER JOIN
         #TimePeriods AS b ON a.EndDate >= b.StartDate AND
-                                a.EndDate < b.EndDate;
+                             a.EndDate < b.EndDate;
 
---Step 3
+--Step 3: Find valid end dates (where no overlap exists)
 SELECT  EndDate_A
 INTO    #DetermineValidEndDates
 FROM    #OuterJoin
 WHERE   StartDate_B IS NULL
 GROUP BY EndDate_A;
 
---Step 4
+--Step 4: Match start dates to their valid end dates
 SELECT  a.StartDate, MIN(b.EndDate_A) AS MinEndDate_A
 INTO    #DetermineValidEndDates2
 FROM    #Distinct_StartDates a INNER JOIN
         #DetermineValidEndDates b ON a.StartDate <= b.EndDate_A
 GROUP BY a.StartDate;
 
---Results
+--Step 5: Group by end date to get final periods
 SELECT  MIN(StartDate) AS StartDate,
         MAX(MinEndDate_A) AS EndDate
 FROM    #DetermineValidEndDates2
-GROUP BY MinEndDate_A;
+GROUP BY MinEndDate_A
+ORDER BY StartDate;
 ```
 
+**Explanation**:
+- **Step 2** uses a self-join with theta-join conditions (`a.EndDate >= b.StartDate AND a.EndDate < b.EndDate`) to find overlapping periods
+- **Step 3** identifies periods that don't overlap with any subsequent period (valid endpoints)
+- **Step 4-5** consolidate the periods by grouping start dates with their corresponding end dates
 
--------------------------------------------------
+This multi-step approach breaks down a complex temporal problem into manageable pieces.
 
-#### Programming Style
+-----------------------------------------------------------
 
-Lastly, when writing SQL, programming style goes a long way to readability.  
+## Best Practices for Complex Joins
 
-1.  Choose a more verbose solution over a concise solution where the intent of the SQL statement is more apparent when possible.  
-2.  Understand the SQL language and its various functions, such as `LAG`, `LEAD`, `FIRST_VALUE`, `LAST_VALUE`, etc., and how to perform windowing.
-3.  Understand the relation between the data, especially hierarchical data.  I often see bad implementations of hierarchical data structures.
-4.  Just because you can doesn't mean you should.  For example, don't use a table variable if it is unneeded.
-5.  Write well-formatted code.  I’m partial to keywords in upper case, column names in camel case, and my glyphs all spaces with nice white spacing.
+When working with complex joins, follow these guidelines to ensure maintainable and performant queries:
+
+### 1. Use CTEs for Readability
+
+Break complex queries into logical steps using Common Table Expressions:
+
+```sql
+WITH cte_Step1 AS
+(
+    -- First transformation
+),
+cte_Step2 AS
+(
+    -- Second transformation using cte_Step1
+)
+SELECT * FROM cte_Step2;
+```
+
+### 2. Choose the Right Join Type
+
+- Use `INNER JOIN` when you only need matching records
+- Use `LEFT OUTER JOIN` when you need all records from the left table
+- Use `CROSS JOIN` for Cartesian products (use sparingly)
+- Use `CROSS APPLY` for correlated row-by-row operations
+
+### 3. Optimize Join Conditions
+
+- Place the most selective conditions first
+- Use indexed columns in join conditions
+- Avoid functions on join columns (prevents index usage)
+- Consider theta-joins for range-based matching
+
+### 4. Test Incrementally
+
+Build complex queries step-by-step:
+1. Start with the driving table
+2. Add one join at a time
+3. Validate results at each step
+4. Use temporary tables to inspect intermediate results
+
+### 5. Document Your Logic
+
+Add comments explaining:
+- The purpose of each CTE or subquery
+- Complex join conditions
+- Business logic being implemented
+- Expected row counts at each step
+
+-----------------------------------------------------------
+
+## Common Patterns in Complex Joins
+
+### Pattern 1: Branch Joins
+
+When a query has multiple independent join paths from a root table:
+
+```sql
+-- Root table branches to multiple paths
+SELECT  *
+FROM    RootTable r
+        INNER JOIN Branch1 b1 ON r.ID = b1.RootID
+        INNER JOIN Branch2 b2 ON r.ID = b2.RootID
+        LEFT OUTER JOIN Leaf1 l1 ON b1.ID = l1.BranchID
+        LEFT OUTER JOIN Leaf2 l2 ON b2.ID = l2.BranchID;
+```
+
+Refactor using CTEs for clarity:
+
+```sql
+WITH cte_Branch1 AS
+(
+    SELECT  r.ID, l1.Data
+    FROM    RootTable r
+            INNER JOIN Branch1 b1 ON r.ID = b1.RootID
+            LEFT OUTER JOIN Leaf1 l1 ON b1.ID = l1.BranchID
+),
+cte_Branch2 AS
+(
+    SELECT  r.ID, l2.Data
+    FROM    RootTable r
+            INNER JOIN Branch2 b2 ON r.ID = b2.RootID
+            LEFT OUTER JOIN Leaf2 l2 ON b2.ID = l2.BranchID
+)
+SELECT  r.*, b1.Data AS Branch1Data, b2.Data AS Branch2Data
+FROM    RootTable r
+        LEFT OUTER JOIN cte_Branch1 b1 ON r.ID = b1.ID
+        LEFT OUTER JOIN cte_Branch2 b2 ON r.ID = b2.ID;
+```
+
+### Pattern 2: Recursive Hierarchies
+
+Use recursive CTEs for hierarchical data:
+
+```sql
+WITH cte_Hierarchy AS
+(
+    -- Anchor: Top level
+    SELECT  ID, ParentID, Name, 0 AS Level
+    FROM    Hierarchy
+    WHERE   ParentID IS NULL
+    UNION ALL
+    -- Recursive: Children
+    SELECT  h.ID, h.ParentID, h.Name, p.Level + 1
+    FROM    Hierarchy h INNER JOIN
+            cte_Hierarchy p ON h.ParentID = p.ID
+)
+SELECT  * FROM cte_Hierarchy;
+```
+
+### Pattern 3: Graph Traversal
+
+For finding paths or connections in graph structures:
+
+```sql
+-- Find all connected nodes
+WITH cte_Connections AS
+(
+    SELECT  Node1, Node2
+    FROM    Edges
+    UNION ALL
+    SELECT  e.Node1, c.Node2
+    FROM    Edges e INNER JOIN
+            cte_Connections c ON e.Node2 = c.Node1
+)
+SELECT DISTINCT * FROM cte_Connections;
+```
+
+-----------------------------------------------------------
+
+## Performance Considerations
+
+### 1. Index Strategy
+
+- Create indexes on join columns
+- Include frequently filtered columns
+- Consider covering indexes for frequently accessed columns
+- Monitor index usage with execution plans
+
+### 2. Join Order
+
+The optimizer typically handles join order, but you can influence it:
+- Start with the most selective table
+- Filter early to reduce row counts
+- Use query hints sparingly (e.g., `OPTION (FORCE ORDER)`)
+
+### 3. Avoid Common Pitfalls
+
+- **Cartesian Products**: Ensure all joins have proper conditions
+- **Implicit Conversions**: Match data types in join conditions
+- **Function Calls**: Avoid functions on join columns
+- **Missing Indexes**: Create indexes on frequently joined columns
+
+### 4. Monitor Performance
+
+Use these tools to analyze complex joins:
+- `SET STATISTICS IO ON` - View logical reads
+- `SET STATISTICS TIME ON` - View execution time
+- Execution plans - Identify bottlenecks
+- Query Store - Track performance over time
+
+-----------------------------------------------------------
+
+## Summary
+
+Complex joins are powerful tools for solving sophisticated data problems. Key takeaways:
+
+1. **Break down complexity** using CTEs and temporary tables
+2. **Choose appropriate join types** for your specific needs
+3. **Test incrementally** to validate logic at each step
+4. **Document your approach** for future maintainability
+5. **Monitor performance** and optimize as needed
+
+Mastering complex joins requires practice with real-world scenarios. The examples in this document demonstrate common patterns you'll encounter:
+- Graph traversal for social networks
+- Recursive joins for path finding
+- Temporal joins for date range consolidation
+- Multi-table joins with correlated operations
+
+By understanding these patterns and following best practices, you can confidently tackle even the most challenging join scenarios.
 
 ---------------------------------------------------------
 
@@ -194,3 +487,5 @@ Lastly, when writing SQL, programming style goes a long way to readability.
 16. [Complex Joins](16%20-%20Complex%20Joins.md)
 
 https://advancedsqlpuzzles.com
+
+
