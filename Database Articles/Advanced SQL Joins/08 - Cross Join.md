@@ -2,9 +2,9 @@
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;In `Microsoft SQL Server`, there are two join functions for performing a cross join, `CROSS JOIN` and `CROSS APPLY`.
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;A `CROSS JOIN` creates all permutations (i.e., a cartesian product) of the two joining tables.  It will produce a result set which is the number of rows in the first table multiplied by the number of rows in the second table.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;A `CROSS JOIN` creates all permutations (i.e., a cartesian product) of the two joining tables.  It will produce a result set that is the number of rows in the first table multiplied by the number of rows in the second table.
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;It is important to be mindful of the number of rows in each table because a `CROSS JOIN` will return the product of the number of rows of both tables. If one table has 100 rows and the other has 1000 rows, a `CROSS JOIN` will return 100,000 rows. Therefore, `CROSS JOIN` can cause performance issues if used on large tables.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;It is essential to be mindful of the number of rows in each table because a `CROSS JOIN` will return the product of the number of rows of both tables. If one table has 100 rows and the other has 1000 rows, a `CROSS JOIN` will return 100,000 rows. Therefore, `CROSS JOIN` can cause performance issues if used on large tables.
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Note, you can also use recursion to generate permutation sets.  The benefit of using recursion is when you have an unknown number of elements you need to create permutations on, which you may not know at runtime.  With `CROSS JOIN`, you need to create each join manually.
 
@@ -20,7 +20,7 @@
 
 ---------------------------------------------------------------------------------
 
-We will use the following tables that contain types of fruits and their quantity.  
+We will use the following tables, which contain types of fruits and their quantities.  
 
 [The DDL to create these tables can be found here.](Sample%20Data.md)
 
@@ -224,7 +224,7 @@ The `CROSS APPLY` is used when joining to a table-valued function.
 
 This performs an `INNER JOIN` as the join logic is placed in the `WHERE` clause of the SQL statement.
 
-```
+```sql
   --Create a view
 CREATE OR ALTER VIEW dbo.VwCalendarTable AS
 SELECT  ct.*
