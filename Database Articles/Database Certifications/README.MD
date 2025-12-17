@@ -35,9 +35,9 @@ Statements of accomplishments do not have such strict guidelines and are issued 
 Unfortunately, Microsoft has sunsetted its SQL Developer-focused certifications ([70-761](https://learn.microsoft.com/en-us/certifications/exams/70-761) and [70-762](https://learn.microsoft.com/en-us/certifications/exams/70-762)) and is focusing on role-based cloud certifications.
 
 - [DP-900: Azure Data Fundamentals](https://learn.microsoft.com/en-us/certifications/exams/dp-900)
-- [Exam DP-203: Azure Data Engineer Associate](https://learn.microsoft.com/en-us/certifications/exams/dp-203)
-- [Exam DP-300: Azure Database Administrator Associate](https://learn.microsoft.com/en-us/certifications/exams/dp-300)
-- [Exam DP-420: Azure Cosmos DB Developer Specialty](https://learn.microsoft.com/en-us/certifications/exams/dp-420/)
+- [DP-203: Azure Data Engineer Associate](https://learn.microsoft.com/en-us/certifications/exams/dp-203)
+- [DP-300: Azure Database Administrator Associate](https://learn.microsoft.com/en-us/certifications/exams/dp-300)
+- [DP-420: Azure Cosmos DB Developer Specialty](https://learn.microsoft.com/en-us/certifications/exams/dp-420/)
 - [MO-500: Microsoft Access Expert (Office 2019)](https://learn.microsoft.com/en-us/certifications/exams/mo-500/)
 
 ---
@@ -166,7 +166,7 @@ SingleStore is a proprietary, cloud-native database designed for data-intensive 
 
 kdb+ is a column-based relational time series database with in-memory abilities, developed and marketed by KX. The database is commonly used in high-frequency trading to store, analyze, process, and retrieve large data sets at high speed.
 
-KX offers an academy and certifications upon completion of a capstone project. I'm not sure if these fit the true definition of a certification, as it may not be unproctored.
+KX offers an academy and certifications upon completion of a capstone project. I'm not sure if these fit the true definition of a certification, as it may not be proctored.
 
 - [KX Academy](https://kx.com/academy/)
 
