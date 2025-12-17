@@ -1,6 +1,6 @@
 # Self Joins
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;A Self-join in SQL is a join operation where a table is joined with itself. In a self-join, a table is aliased to give it a different name and then used twice in the same query, once as the left table and once as the right table. The join conditions in a self-join specify how to relate the rows of a table to itself. Self-joins can be used to compare rows within a table, create subsets of data based on certain conditions, or combine information from multiple rows within a table. The result of a self-join is a new table that contains the combined data from the two instances of the original table. Self-joins can be useful when working with hierarchical data or when analyzing data based on relationships within a table.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;A self-join in SQL is a join operation where a table is joined with itself. The join conditions in a self-join specify how to relate the rows of a table to itself. Self-joins can be used to compare rows within a table, create subsets of data based on conditions, or combine information from multiple rows. The result of a self-join is a new table that contains the combined data from the two instances of the original table. Self-joins can be helpful when working with hierarchical data or analyzing relationships within a table.
 
 ----------------------------------------------------
 
@@ -19,7 +19,7 @@ For the following table of `Managers` and `Employees`, determine each employee's
 | 5           | Director       | 3          |
   
 
-Note the table `Employees` is referenced twice but given two different aliases named `a` and `b`.
+Note the table `Employees` is referenced twice, but given two different aliases named `a and `b`.
  
 ```sql
 SELECT  a.EmployeeID,
@@ -37,9 +37,9 @@ FROM    Employees a INNER JOIN
 | 4           | Director       | 2           | Vice President |
 | 5           | Director       | 3           | Vice President |
 
-It is worth mentioning that because the `Employees` table is a hierarchical relationship, the problem lends itself to using a self-referencing common table expression (CTE) to determine the level of depth each employee has from the highest tier.
+It is worth noting that, because the `Employees` table has a hierarchical relationship, the problem lends itself to using a self-referencing common table expression (CTE) to determine each employee's level of depth from the highest tier.
 
-In the below example, the common table expression `cte_Recursion` references itself in the `UNION ALL` statement.
+In the example below, the common table expression `cte_Recursion` references itself in the `UNION ALL` statement.
 
 ```sql
 WITH cte_Recursion AS
@@ -83,7 +83,7 @@ ORDER BY 1;
 
 Here is another example problem that can be solved with a self-join.  Unlike the above problem, this table does not have a foreign key that references its primary key.
 
-List all cities that have more than one customer along with the customer details.
+List all cities with more than one customer, along with their customer details.
 
 | ID |   City    |
 |----|-----------|
@@ -109,7 +109,7 @@ The above query uses a self-join and returns the following result set.
 | 2  | Detroit |
 | 4  | Detroit |
 
-Because the `Customer` table does not have a foreign key relationship, the above query could (and most probably should) be written using the following syntax.  This statement is slightly more verbose, but the intent of the statement becomes a bit more obvious.
+Because the `Customer` table does not have a foreign key relationship, the above query could (and most probably should) be written using the following syntax.  This statement is slightly more verbose, but its intent becomes a bit clearer.
 
 ```sql
 WITH cte_CountCity AS
@@ -131,7 +131,7 @@ WHERE   City IN (SELECT City FROM cte_CountCity);
   
 Often, if you need to use a self-join, you can use options (such as window functions) to avoid using a self-join. Let’s look at an example.
 
-Given the dataset below consisting of various animals' weight, create a cumulative total column summing the current row plus all previous rows.
+Given the dataset below consisting of various animals' weights, create a cumulative total column summing the current row plus all previous rows.
 
 | ID  |    Animal     | Weight |
 |-----|---------------|--------|
@@ -194,7 +194,7 @@ Given the following table of employees and their licenses, determine all employe
 | 5005       | Class B |
 | 5005       | Class D |
 
-Here is the expected output; employees 1001 and 2002 have matching licenses, and employees 4004 and 5005 have matching licenses.
+Here is the expected output: employees 1001 and 2002, and employees 4004 and 5005, have matching licenses.
   
 | EmployeeID_A | EmployeeID_B | LicenseCount |
 |--------------|--------------|--------------|
@@ -236,7 +236,7 @@ FROM    cte_CountWindow a INNER JOIN
   
 The following are **not** considered self-joins.
 
-Given a table of employees and their salaries, write an SQL statement to return all employees with a higher salary than the average salary of the company.
+Given a table of employees and their salaries, write an SQL query to return all employees with a salary higher than the company's average salary.
   
 Although this SQL statement uses the `Employees` table twice, it does not join to itself.  In this example, the aggregation on the `Employees` table is used in the predicate logic and not joined to the `Employees` table.
   
@@ -248,7 +248,7 @@ GROUP BY Name, Salary
 HAVING Salary > (SELECT AVG(Salary) FROM Employees);
 ```
   
-The following is also not a self-join.  The `cte_Average` does reference the Employees table, but it creates an entirely new relation consisting of {`Name`, `Average`}, which does not equal the original `Employees` table of {`Name`, `Salary`}.
+The following is not a self-join either.  The `cte_Average` does reference the Employees table, but it creates an entirely new relation consisting of {`Name`, `Average`}, which does not equal the original `Employees` table of {`Name`, `Salary`}.
   
 ```sql
 WITH cte_Average AS
