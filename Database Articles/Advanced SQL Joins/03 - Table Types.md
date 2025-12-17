@@ -1,6 +1,6 @@
 # Table Types
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Within SQL Server, you can create a join to the following eleven table types. Table types can be schema-bound objects, meaning they are saved as a database object within a named schema, or they are unbound and only durable for the life of an SQL statement or your current session.  Items that are not schema-bound are created in the `tempdb` and do not have any data of their existence in the catalog views.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Within SQL Server, you can create a join to the following eleven table types. Table types can be schema-bound objects, meaning they are saved as database objects within a named schema, or unbound, meaning they are only durable for the life of an SQL statement or your current session.  Items that are not schema-bound are created in the `tempdb` and do not have any data of their existence in the catalog views.
 
 Here are the eleven different types of tables you can create.
 
@@ -14,7 +14,7 @@ Here are the eleven different types of tables you can create.
 | 6  | Derived Table                  | False         | A special type of subquery that is defined in the `FROM` statement                                                                         |
 | 7  | Common Table Expression (CTE)  | False         | A named temporary result set that can be used in a `SELECT`, `INSERT`, `UPDATE`, or `DELETE` statement.                                    |
 | 8  | Temporary Table                | False         | A table created for a specific session or connection and is automatically dropped when the session or connection ends.                     |
-| 9  | Table Variable                 | False         | A variable that holds a table of data. It is similar to a temporary table, but it has some differences in behavior and scope.              |
+| 9  | Table Variable                 | False         | A variable that holds a table of data. It is similar to a temporary table, but it differs in behavior and scope.                           |
 | 10 | User-Defined Table Type        | True          | Used as parameters when you pass tabular data into stored procedures or user-defined functions.                                            |
 | 11 | External Tables                | False         | Used to access external data, such as Hadoop or Azure Blob storage. They are created using the `CREATE EXTERNAL TABLE` statement.          |
 
@@ -22,7 +22,7 @@ Here are the eleven different types of tables you can create.
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The most interesting of these table types is the `VALUES` keyword. We often think the only use of the `VALUES` operator is with an `INSERT` statement, but it can also be used to create a relation.  
 
-First, let's create examples of each of the table types.
+First, let's create examples of each table type.
 
 --------------------------------------------------------------------------------------------------------
 #### Table
@@ -58,7 +58,7 @@ SELECT * FROM Employees;
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;An SQL view is a virtual table that provides a specific, customized data perspective from one or more tables in a database.  There are two main types of SQL views: materialized views and non-materialized (or simple) views. Materialized views store the result set of the view query. In contrast, non-materialized views do not store data and dynamically retrieve data from the underlying tables each time the view is accessed.  You can issue `INSERT`, `UPDATE`, and `DELETE` commands through views and can manipulate the underlying table(s) in the view.
 
-In SQL Server, we have the following options that can be set for views.
+In SQL Server, we can set the following options for views.
 
 [ WITH <view_attribute> [ ,...n ] ]
 *  ENCRYPTION: Hides the text of the view definition from being viewed by using the sys.sql_modules catalog view or the OBJECT_DEFINITION function. It provides a layer of security against viewing the view's SQL syntax.
@@ -95,7 +95,7 @@ SELECT * FROM vwEmployees;
 --------------------------------------------------------------------------------------------------------
 #### VALUES Operator
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The `VALUES` constructor has a few considerations that are often overlooked and deserve its own recognition.  The `VALUES` constructor specifies a set of row value expressions to be constructed into a table and allows multiple sets of values to be specified in a single DML statement.  Typically, we use the `VALUES` constructor to specify the data to insert into a table, as we initially did with our test data. Still, it can also be used as a derived table in an SQL statement.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The `VALUES` constructor has a few considerations that are often overlooked and deserve its own recognition.  The `VALUES` constructor specifies a set of row value expressions to be constructed into a table and allows multiple sets of values to be defined in a single DML statement.  Typically, we use the `VALUES` constructor to specify the data to insert into a table, as we initially did with our test data. Still, it can also be used as a derived table in an SQL statement.
 
 Here is a basic example of using the `VALUES` constructor as a derived table.
 
@@ -148,7 +148,7 @@ FROM    Employees a CROSS JOIN
 
 A table-valued function acts like a view with the added benefit of being parameterized.  
 
-For this example, we create a table-valued function using the `Employees` table.  To use the table values function, we can simply select from the function or use the `CROSS APPLY` join operation.
+For this example, we create a table-valued function using the `Employees` table.  To use the table values function, we can select from the function or use the `CROSS APPLY` join operation.
 
 ```sql
 CREATE OR ALTER FUNCTION FnGetEmployees (@EmployeeID INTEGER)
@@ -175,9 +175,9 @@ FROM    Employees a CROSS APPLY
 --------------------------------------------------------------------------------------------------------
 #### Subquery
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;A subquery is a query nested within another query. Subqueries can be used in various parts of a SQL query, such as the `SELECT`, `FROM`, and `WHERE` clauses. They are highly useful for performing operations that require multiple scans of the same or different tables, complex calculations, or referencing results that are not part of the main query. They are highly useful for performing operations that require multiple scans of the same or different tables, complex calculations, or referencing results that are not part of the main query.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;A subquery is a query nested within another query. Subqueries can be used in various parts of a SQL query, such as the `SELECT`, `FROM`, and `WHERE` clauses. They are handy for performing operations that require multiple scans of the same or different tables, complex calculations, or referencing results that are not part of the main query.
 
-Here is an example of a correlated subquery using the `Employees` table.  We will discuss correlated subqueries more in the semi and anti-join portion of this repository.
+Here is an example of a correlated subquery using the `Employees` table.  We will discuss correlated subqueries more in the semi-join and anti-join portions of this repository.
 
 ```sql
 SELECT  e.*
@@ -198,7 +198,7 @@ A derived table is a special type of subquery. It is an expression that generate
 
 A derived table has three characteristics:
 1) Defined in the `FROM` clause
-2) Surrounded in parenthesis
+2) Surrounded in parentheses
 3) Has a table alias
 
 Here is an example of a derived table in SQL.
@@ -236,7 +236,7 @@ FROM    (SELECT DISTINCT Salary FROM Employees) e
 --------------------------------------------------------------------------------------------------------
 #### Common Table Expression (CTE) 
 
-A Common Table Expression (CTE) is a named, temporary result set that is defined within a `SELECT` statement
+A Common Table Expression (CTE) is a named, temporary result set that is defined within a `SELECT` statement.
 
 ```sql        
 WITH EmployeesByDepartment AS 
@@ -257,7 +257,7 @@ WHERE   EmployeeCount > 2;
 --------------------------------------------------------------------------------------------------------
 #### Temporary Table        
 
-The syntax for creating temporary tables is different for each database system.  These examples work in Microsoft SQL Server.
+The syntax for creating temporary tables varies across database systems.  These examples work in Microsoft SQL Server.
 
 Session temporary tables and global temporary tables are two types of temporary tables in SQL. The main difference between them is their scope and visibility.  
 
@@ -365,7 +365,7 @@ CREATE TYPE MyTableType AS TABLE
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;External tables in Microsoft SQL Server exist outside of the database and are used to access data stored in external sources such as Hadoop or Azure Blob storage. External tables provide a way to access external data as if it were a regular table within the database, allowing you to use standard SQL statements to retrieve and manipulate data stored in external sources. This can be useful for tasks such as performing data integration, bulk data loading, and data archiving, as well as for querying and processing large datasets stored in external sources. However, external tables in Microsoft SQL Server have limitations such as limited indexing options and slower query performance compared to regular tables stored in the SQL Server database.
 
-See your vendor's documentation on external tables, as this will vary for each vendor.
+Please review your vendor's documentation on external tables, as it varies by vendor.
 
 The Microsoft SQL Server documentation has the following examples.
 
