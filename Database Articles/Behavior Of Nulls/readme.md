@@ -38,20 +38,21 @@ We will cover these aspects and many more in the following document.
 [5. Join Syntax](#join-syntax)     
 [6. Semi and Anti Joins](#semi-and-anti-joins)     
 [7. Set Operators](#set-operators)     
-[8. Aggregate Functions](#aggregate-functions)     
-[9. Windowing Functions](#windowing-functions)     
-[10. Constraints](#constraints)     
-[11. Referential Integrity](#referential-integrity)     
-[12. Computed Columns](#computed-columns)     
-[13. SQL NULL Functions (NULLIF, ISNULL, COALESCE)](#sql-null-functions)     
-[14. Empty Strings, NULL, and ASCII Values](#empty-strings-null-and-ascii-values)     
-[15. CONCAT](#concat)     
-[16. Views](#views)     
-[17. Boolean Values](#boolean-values)     
-[18. Return Statement](#return)     
-[19. Identity Columns](#identity-columns)     
-[20. LAG and LEAD functions](#lag-and-lead-functions)     
-[21. Arithmetic Operators](#arithmetic-operators)     
+[8. GROUP BY](#group-by)     
+[9. Aggregate Functions](#aggregate-functions)     
+[10. Windowing Functions](#windowing-functions)     
+[11. Constraints](#constraints)     
+[12. Referential Integrity](#referential-integrity)     
+[13. Computed Columns](#computed-columns)     
+[14. SQL NULL Functions (NULLIF, ISNULL, COALESCE)](#sql-null-functions)     
+[15. Empty Strings, NULL, and ASCII Values](#empty-strings-null-and-ascii-values)     
+[16. CONCAT](#concat)     
+[17. Views](#views)     
+[18. Boolean Values](#boolean-values)     
+[19. Return Statement](#return)     
+[20. Identity Columns](#identity-columns)     
+[21. LAG and LEAD functions](#lag-and-lead-functions)     
+[22. Arithmetic Operators](#arithmetic-operators)     
 
 --------------------------------------------------------
 ### Brief History of Nulls
@@ -148,7 +149,7 @@ Now that we have covered the basics of NULL markers, let's create two sample dat
 
 ---------------------------------------------------------
 ### Sample Data
-:large_blue_circle: [Table Of Contents](#table-of-contents)
+🔵&nbsp;&nbsp;&nbsp;[Table Of Contents](#table-of-contents)
 
 We will use the following tables of fruits and their quantities in our quest to understand the behavior of NULL markers.  Using two tables of the same type gives us the best example for understanding NULL markers.  We will work with this data throughout these exercises.
 
@@ -552,12 +553,12 @@ myNULLValue INTEGER
 );
 GO
 
-INSERT INTO #Test VALUES (NULL);
-INSERT INTO #Test VALUES (NULL);
+INSERT INTO ##Test VALUES (NULL);
+INSERT INTO ##Test VALUES (NULL);
 GO
 
 SELECT  SUM(myNULLValue) AS mySum
-FROM    #Test;
+FROM    ##Test;
 ```
 
 |  mySum  |
@@ -651,12 +652,12 @@ FROM    cte_Average;
 The `MIN` AND `MAX` functions will remove records with NULL markers in their calculation, as shown below.
 
 ```sql
-SELECT  Max(Quantity) AS Minimum,
-        Min(Quantity) AS Maximum
+SELECT  MAX(Quantity) AS Maximum,
+        MIN(Quantity) AS Minimum
 FROM    ##TableA;
 ```
 
-| Minimum | Maximum |
+| Maximum | Minimum |
 |---------|---------|
 | 20      | 3       |
 
@@ -719,7 +720,7 @@ ORDER BY Fruit, ID;
 ## CONSTRAINTS
 🔵&nbsp;&nbsp;&nbsp;[Table Of Contents](#table-of-contents)
 
-SQL provides the following constraints; `NOT NULL`, `PRIMARY KEY`, `FOREIGN KEY`. `UNIQUE`, and `CHECK CONSTRAINTS`.
+SQL provides the following constraints; `NOT NULL`, `PRIMARY KEY`, `FOREIGN KEY`, `UNIQUE`, and `CHECK CONSTRAINTS`.
 
 ---------------------------------------------------------
 **PRIMARY KEYS**
@@ -1196,9 +1197,12 @@ IGNORE NULLS - Ignore null values in the dataset when computing the first value 
 
 RESPECT NULLS - Respect null values in the dataset when computing the first value over a partition. RESPECT NULLS is the default behavior if a NULLS option is not specified.
 
-Note that there was a bug fix in SQL Server 2022 CU4 related to IGNORE NULLS in LAG and LEAD.
 
-```
+Here is an SQL statement that combines all the different combinations of use.
+
+Interesting enough, there is a bug in the SQL Server where if you combine `LAG` and `LEAD` with the `IGNORE NULLS` clause, you will get erroneous results in the `LeadIgnoreNulls` column.  You can test this by commenting out the different function calls and review the results.
+
+```sql
 WITH cte_Lag_Lead AS
 (
 SELECT 1 AS ID, 100 AS MyValue
@@ -1209,27 +1213,28 @@ SELECT 3 AS ID, NULL AS MyValue
 UNION
 SELECT NULL AS ID, 300 AS MyValue
 )
-SELECT  *,
-        LAG(MyValue,1,0) IGNORE NULLS OVER (ORDER BY ID) AS LagIgnoreNulls,
-        LEAD(MyValue,1,0) IGNORE NULLS OVER (ORDER BY ID) AS LeadIgnoreNulls,
-        LAG(MyValue,1,0) RESPECT NULLS OVER (ORDER BY ID) AS LagRespectNulls,
-        LEAD(MyValue,1,0) RESPECT NULLS OVER (ORDER BY ID) AS LeadRespectNulls
+SELECT  *
+        ,LAG(MyValue,1,0) IGNORE NULLS OVER (ORDER BY ID) AS LagIgnoreNulls
+        ,LEAD(MyValue,1,0) IGNORE NULLS OVER (ORDER BY ID) AS LeadIgnoreNulls
+        ,LAG(MyValue,1,0) RESPECT NULLS OVER (ORDER BY ID) AS LagRespectNulls
+        ,LEAD(MyValue,1,0) RESPECT NULLS OVER (ORDER BY ID) AS LeadRespectNulls
 FROM    cte_Lag_Lead
 ORDER BY ID;
 ```
 
-However, if you notice, the `LeadIgnoreNulls` column is the same value as `LagIgnoreNulls`.  You cannot have a `LAG` and `LEAD` function with `IGNORE NULLS` in the same statement.
+Here are the erroneous results.
+
 
 |   ID    | MyValue | LagIgnoreNulls | LeadIgnoreNulls | LagRespectNulls | LeadRespectNulls |
 |---------|---------|----------------|-----------------|-----------------|------------------|
-| \<NULL> | 300     | 0              | 0               | 0               | 100              |
-| 1       | 100     | 300            | 300             | 300             | 200              |
+| 1       | 100     | 0              | 0               | 0               | 200              |
 | 2       | 200     | 100            | 100             | 100             | \<NULL>          |
-| 3       | \<NULL> | 200            | 200             | 200             | 0                |
+| 3       | \<NULL> | 200            | 200             | 200             | 300              |
+| 4       | 300     | 200            | 200             | \<NULL>         | 0                |
 
-If we create separate statements, we get the proper values.  This may be a bug.
+If we create separate statements, we get the correct results.
 
-```
+```sql
 WITH cte_Lag_Lead AS
 (
 SELECT 1 AS ID, 100 AS MyValue
