@@ -2,7 +2,7 @@
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Semi and anti-joins are two types of join operations used in SQL.
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The term "semi", meaning half in quantity or value, refers to the fact that a semi-join only returns a subset (or a half) of the tables involved in the join.  Specifically, semi-joins only returns the rows from the first table (the left table) that have matching values in the second table (the right table). The columns of the right table are not included in the projection.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The term "semi", meaning half in quantity or value, refers to the fact that a semi-join only returns a subset (or a half) of the tables involved in the join.  Specifically, semi-joins return only the rows from the first table (the left table) that match values in the second table (the right table). The columns of the right table are not included in the projection.
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The opposite of semi-joins are anti-joins, which look for inequality between the two sets, i.e., the left and right tables.
 
@@ -11,7 +11,7 @@
 
 ---
 
-For a join to be considered a semi or anti-join it must have the following three qualities:
+For a join to be considered a semi or anti-join, it must have the following three qualities:
 
 1)	The join cannot create duplicate rows from the outer table.
 2)	The joining table cannot be used in the query projection (`SELECT` statement).
@@ -28,15 +28,15 @@ There are several benefits of using anti-joins and semi-joins over `INNER JOINS`
 
 Semi-joins and anti-joins have some key differences and considerations.
 
-*  One difference is how they handle NULL markers. The `NOT IN` operator returns an empty set if the anti-join contains a NULL marker, whereas the `NOT EXISTS` operator implicitly handles NULL markers and it will not affect the result set.
+*  One difference is how they handle NULL markers. The `NOT IN` operator returns an empty set if the anti-join contains a NULL marker, whereas the `NOT EXISTS` operator implicitly handles NULL markers, and it will not affect the result set.
 *  Another difference is that the `NOT EXISTS` and `EXIST` operators are best used as correlated subqueries, meaning they have a specified column to join between the outer and inner SQL statements, whereas the `IN` and `NOT IN` operators can contain a list of values and do not require a `SELECT` statement or for the statement to be correlated.
 *  Additionally, the `IN` and `NOT IN` operators search for values in the result set of a subquery, whereas the `EXISTS` and `NOT EXISTS` operators check for the existence of rows.
-*  If performing an anti-join to a NULLable column in the inner query, consider using the `NOT EXISTS` operator over the `NOT` operator.
+*  If performing an anti-join to a NULLable column in the inner query, consider using the `NOT EXISTS` operator over the `NOT IN` operator.
 *  When using semi or anti-joins, check execution plans for the most optimized usage method.  Because the `IN` and `NOT IN` operators check for values, and the `EXISTS` and `NOT EXISTS` check for rows, you will get two entirely different execution plans.
 
 ----------------------------------------------------------------------------------------
 
-We will use the following tables that contain types of fruits and their quantity.  
+We will use the following tables, which contain types of fruits and their quantities.  
 
 [The DDL to create these tables can be found here.](Sample%20Data.md)
 
@@ -60,7 +60,7 @@ We will use the following tables that contain types of fruits and their quantity
         
 #### Semi-Joins
 
-The `IN` operator is typically used to filter a column for a certain list of values.  Even though we include a NULL marker in the inner query, the results do not include a NULL marker.
+The `IN` operator is typically used to filter a column for a specific list of values.  Even though we include a NULL marker in the inner query, the results do not include it.
 
 ```sql
 SELECT  Fruit
@@ -75,7 +75,7 @@ WHERE   Fruit IN ('Apple','Peach',NULL);
 
 ----------------------------------------------------------------------------------------
 
-Using the `IN` operator, this query will return results but does not return a NULL marker even though there is both a NULL marker in `##TableA` and `##TableB`.  The `NOT IN` operator treats NULL markers as neither equal to nor unequal to each other, they are unknown. 
+Using the `IN` operator, this query will return results, but does not return a NULL marker even though there is both a NULL marker in `##TableA` and `##TableB`.  The `NOT IN` operator treats NULL markers as neither equal to nor unequal to each other; they are unknown. 
 
 ```sql
 SELECT  Fruit
@@ -105,9 +105,9 @@ WHERE   Fruit IN (SELECT Fruit FROM ##TableB b WHERE a.Quantity = b.Quantity);
 
 ----------------------------------------------------------------------------------------
 
-The `EXISTS` operator is used to test for the existence of any record in a subquery. The `EXISTS` operator returns TRUE if the subquery returns one or more records, and the `EXISTS` operator treats NULL markers as neither equal to nor unequal to each other, they are unknown. 
+The `EXISTS` operator is used to test for the existence of any record in a subquery. The `EXISTS` operator returns TRUE if the subquery returns one or more records, and the `EXISTS` operator treats NULL markers as neither equal to nor unequal to each other; they are unknown. 
 
-Because it checks for the existence of rows, you do not need to include any columns in the `SELECT` statement. It is considered best practice to place an arbitrary "1" in this spot simply.
+Because it checks for the existence of rows, you do not need to include any columns in the `SELECT` statement. It is considered best practice to place an arbitrary "1" here.
 
 ```sql
 SELECT  ID,
@@ -167,7 +167,7 @@ The result of the above statement is 3.
 
 #### Anti-Joins
 
-This statement returns an empty dataset as the `NOT IN` operator will return an empty set if the outer query contains a NULL marker.
+This statement returns an empty dataset because the `NOT IN` operator returns an empty set when the outer query contains a NULL marker.
 
 ```sql
 SELECT  Fruit
