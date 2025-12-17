@@ -293,7 +293,7 @@ FROM    ##TableA a INNER JOIN
 | 2  | Peach | 2  | Peach |
   
 ---------------------------------------------------------------------------------
-ORACLE supports the `NATURAL JOIN` syntax.  I classify the natural join as a model join, as E.F. Codd first conceived it in his work on the Relational Model.
+Oracle supports the `NATURAL JOIN` syntax.  I classify the natural join as a model join, as E.F. Codd first conceived it in his work on the Relational Model.
   
 The use of an asterisk in the `SELECT` statement is mandatory, and the output does not show duplicate column names.  This query is the same as an equi-join on the `ID`, `Fruit`, and `Quantity` columns between `TableA` and `TableB`.
 
@@ -307,7 +307,7 @@ FROM    ##TableA a NATURAL JOIN
 |----|-------|----------|
 | 1  | Apple | 17       |
   
-The below ORACLE SQL statement uses the `USING` clause and mimics the `NATURAL JOIN`.
+The below Oracle SQL statement uses the `USING` clause and mimics the `NATURAL JOIN`.
   
 ```sql
 SELECT  *
