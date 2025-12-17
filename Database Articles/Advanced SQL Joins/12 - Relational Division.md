@@ -210,7 +210,7 @@ SELECT  Name,
 FROM    cte_DistinctEmployeeDepartment
 GROUP BY Name
 ),
-cte_DistinctDeparments AS
+cte_DistinctDepartments AS
 (
 SELECT  COUNT(DISTINCT Department) AS DepartmentCount
 FROM    #DepartmentHistory

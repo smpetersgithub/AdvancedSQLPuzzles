@@ -21,15 +21,15 @@ We will use the following tables that contain types of fruits and their quantity
 | 1  | Apple   | 17       |
 | 2  | Peach   | 20       |
 | 3  | Mango   | 11       |
-| 4  | \<NULL> | 5        |
-  
+| 4  |         | 5        |
+
 **Table B**
 | ID |  Fruit  | Quantity  |
 |----|---------|-----------|
 |  1 | Apple   | 17        |
 |  2 | Peach   | 25        |
 |  3 | Kiwi    | 20        |
-|  4 | \<NULL> | \<NULL>   |
+|  4 |         |           |
         
 -----------------------------------------------------------
         
@@ -50,8 +50,8 @@ FROM    ##TableA a LEFT OUTER JOIN
 |----|---------|---------|---------|
 | 1  | Apple   | 1       | Apple   |
 | 2  | Peach   | 2       | Peach   |
-| 3  | Mango   | \<NULL> | \<NULL> |
-| 4  | \<NULL> | \<NULL> | \<NULL> |
+| 3  | Mango   |         |         |
+| 4  |         |         |         |
 
 ---
 
@@ -67,7 +67,7 @@ WHERE   b.Fruit IS NULL;
 | ID | Fruit  | Quantity |
 |----|--------|----------|
 |  3 | Mango  |       11 |
-|  4 | <NULL> |        5 |
+|  4 |        |        5 |
 
 ---
 
@@ -87,9 +87,9 @@ FROM    ##TableA a LEFT OUTER JOIN
 | ID |  Fruit  |   ID    |  Fruit  |
 |----|---------|---------|---------|
 | 1  | Apple   | 1       | Apple   |
-| 2  | Peach   | \<NULL> | \<NULL> |
-| 3  | Mango   | \<NULL> | \<NULL> |
-| 4  | \<NULL> | \<NULL> | \<NULL> |
+| 2  | Peach   |         |         |
+| 3  | Mango   |         |         |
+| 4  |         |         |         |
 
 Placing a predicate on the outer joined table in the `WHERE` clause causes this to function to act as an `INNER JOIN`. 
 
@@ -125,8 +125,8 @@ FROM    ##TableA a;
 |----|---------|---------|---------|
 | 1  | Apple   | 1       | Apple   |
 | 2  | Peach   | 2       | Peach   |
-| 3  | Mango   | \<NULL> | \<NULL> |
-| 4  | \<NULL> | \<NULL> | \<NULL> |
+| 3  | Mango   |         |         |
+| 4  |         |         |         |
 
 In Microsoft SQL Server, up to 32 levels of nesting is possible, although the limit varies based on available memory and the complexity of other expressions in the query. Individual queries may not support nesting up to 32 levels. A subquery can appear anywhere an expression can be used if it returns a single value
 
@@ -144,8 +144,8 @@ FROM    ##TableA a;
 |----|---------|---------|---------|
 | 1 | Apple    | 1       | Apple   |
 | 2 | Peach    | 2       | Peach   |
-| 3 | Mango    | \<NULL> | \<NULL> |
-| 4 | \0<NULL> | \<NULL> | \<NULL> |
+| 3 | Mango    |         |         |
+| 4 |         |         |         |
 
 -----------------------------------------------------------
    
@@ -219,16 +219,16 @@ FROM    ##TableA a RIGHT OUTER JOIN
 |---------|---------|----|---------|---------|---------|
 | 1       | Apple   | 1  | Apple   | 1       | Apple   |
 | 2       | Peach   | 2  | Peach   | 2       | Peach   |
-| \<NULL> | \<NULL> | 3  | Kiwi    | \<NULL> | \<NULL> |
-| \<NULL> | \<NULL> | 4  | \<NULL> | \<NULL> | \<NULL> |
+|         |         | 3  | Kiwi    |         |         |
+|         |         | 4  |         |         |         |
 
 -----------------------------------------------------------
 
 The plus sign is Oracle syntax for an outer join and is not ANSI standard.  The `+` sign determines which table is outer joined.
   
   ```sql
-  SELECT  a.ID,
-        a.Fruit
+SELECT  a.ID,
+        a.Fruit,
         b.ID,
         b.Fruit
 FROM    ##TableA a,
@@ -240,8 +240,8 @@ WHERE   a.Fruit = b.Fruit(+)
 |----|---------|---------|---------|
 | 1  | Apple   | 1       | Apple   |
 | 2  | Peach   | 2       | Peach   |
-| 3  | Mango   | \<NULL> | \<NULL> |
-| 4  | \<NULL> | \<NULL> | \<NULL> |
+| 3  | Mango   |         |         |
+| 4  |         |         |         |
   
 ---------------------------------------------------------
 

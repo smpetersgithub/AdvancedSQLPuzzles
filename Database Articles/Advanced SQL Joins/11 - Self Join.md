@@ -12,7 +12,7 @@ For the following table of `Managers` and `Employees`, determine each employee's
 
 | Employee ID |      Title     | Manager ID |
 |-------------|----------------|------------|
-| 1           | President      | \<NULL>    |
+| 1           | President      |            |
 | 2           | Vice President | 1          |
 | 3           | Vice President | 1          |
 | 4           | Director       | 2          |
@@ -71,7 +71,7 @@ ORDER BY 1;
 
 | Employee ID |     Title      | Manager ID | Manager Title  | Depth |
 |-------------|----------------|------------|----------------|-------|
-| 1           | President      | \<NULL>    | \<NULL>        | 0     |
+| 1           | President      |            |                | 0     |
 | 2           | Vice President | 1          | President      | 1     |
 | 3           | Vice President | 1          | President      | 1     |
 | 4           | Director       | 2          | Vice President | 2     |
@@ -142,7 +142,7 @@ Given the dataset below consisting of various animals' weight, create a cumulati
 | 5   | Water Buffalo | 2000  |
 
 ```sql
-SELECT  a.ID
+SELECT  a.ID,
         a.Animal,
         SUM(b.Weight) AS Cumulative_Weight
 FROM    Animals a CROSS JOIN

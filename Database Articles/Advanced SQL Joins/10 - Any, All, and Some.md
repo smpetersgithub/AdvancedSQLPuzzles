@@ -513,7 +513,7 @@ GO
 
 -----
 
-### Example 2: Use Cases for = ALL
+### Example 3: Use Cases for = ALL
 
 The task is to identify all Order Numbers that are linked to a single Item and have a "PROMO" discount value. If an Order Number is associated with multiple items, it should not be included in the result.
 
@@ -526,9 +526,9 @@ For example, Order Number 33 meets these criteria because it has a connection to
 | 11          | Item1    | PROMO     |
 | 11          | Item1    | MARKDOWN  |
 | 11          | Item2    | PROMO     |
-| 22          | Item2    | \<NULL>   |
+| 22          | Item2    |           |
 | 22          | Item3    | MARKDOWN  |
-| 22          | Item3    | \<NULL>   |
+| 22          | Item3    |           |
 | 33          | Item1    | PROMO     |
 | 33          | Item1    | PROMO     |
 | 33          | Item1    | PROMO     |

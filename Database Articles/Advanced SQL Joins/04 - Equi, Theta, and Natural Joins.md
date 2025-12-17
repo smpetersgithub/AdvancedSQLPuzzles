@@ -52,15 +52,15 @@ We will use the following tables that contain types of fruits and their quantity
 | 1  | Apple   | 17       |
 | 2  | Peach   | 20       |
 | 3  | Mango   | 11       |
-| 4  | \<NULL> | 5        |
-  
+| 4  |         | 5        |
+
 **Table B**
 | ID |  Fruit  | Quantity |
 |----|---------|----------|
 | 1  | Apple   | 17       |
 | 2  | Peach   | 25       |
 | 3  | Kiwi    | 20       |
-| 4  | \<NULL> | \<NULL>  |
+| 4  |         |          |
  
 --------------------------------------------------------------------------------
 #### Equi-joins

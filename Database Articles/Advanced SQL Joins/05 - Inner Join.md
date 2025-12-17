@@ -16,15 +16,15 @@ We will use the following tables that contain types of fruits and their quantity
 | 1  | Apple   | 17       |
 | 2  | Peach   | 20       |
 | 3  | Mango   | 11       |
-| 4  | \<NULL> | 5        |
-  
+| 4  |         | 5        |
+
 **Table B**
 | ID | Fruit   | Quantity |
 |----|---------|----------|
 |  1 | Apple   | 17       |
 |  2 | Peach   | 25       |
 |  3 | Kiwi    | 20       |
-|  4 | \<NULL> | \<NULL>  |
+|  4 |         |          |
 
 ---------------------------------------------------------------------------------
   
@@ -131,7 +131,7 @@ SELECT  a.ID,
         a.Quantity,
         b.ID,
         b.Fruit,
-        b.Quantity,
+        b.Quantity
 FROM    ##TableA a INNER JOIN
         ##TableB b ON a.Fruit <> b.Fruit AND a.Quantity <> b.Quantity;
 ```
@@ -196,7 +196,7 @@ FROM    ##TableA a INNER JOIN
 |----|---------|----------|----|---------|----------|
 |  1 | Apple   | 17       | 1  | Apple   | 17       |
 |  2 | Peach   | 20       | 2  | Peach   | 25       |
-|  4 | \<NULL> | 5        | 4  | \<NULL> | \<NULL>  |
+|  4 |         | 5        | 4  |         |          |
 
 ---  
 Functions can also be used in the join condition. Assigning the empty string to a NULL value via the `ISNULL` function causes the NULLs to equate to each other.
@@ -214,7 +214,7 @@ FROM    ##TableA a INNER JOIN
 |----|---------|----|---------|
 |  1 | Apple   | 1  | Apple   |
 |  2 | Peach   | 2  | Peach   |
-|  4 | \<NULL> | 4  | \<NULL> |
+|  4 |         | 4  |         |
 
 ---------------------------------------------------------------------------------
 In Microsoft SQL Server and PostgreSQL, you can also write the above query using the `ON EXISTS` clause. This is a little-known trick you can use that may (or may not) yield a bit better execution plan than the above statement, but it is worth checking.  I will cover the `ON EXISTS` syntax in another document, as it takes some thinking to understand its behavior. 
@@ -230,7 +230,7 @@ FROM    ##TableA a INNER JOIN
 |----|---------|----------|----|---------|----------|
 |  1 | Apple   | 17       | 1  | Apple   | 17       |
 |  2 | Peach   | 20       | 2  | Peach   | 25       |
-|  4 | \<NULL> | 5        | 4  | \<NULL> | \<NULL>  |
+|  4 |         | 5        | 4  |         |          |
 
 ---------------------------------------------------------------------------------
 You can use a `CASE` statement to specify the join condition in the `WHERE` clause.  This is considered a bad practice, and you should find a better way of writing this query.
@@ -250,7 +250,7 @@ WHERE   (CASE WHEN a.Fruit = 'Apple' THEN a.Fruit ELSE 'Peach' END) = b.Fruit;
 | 1  | Apple   | 1  | Apple |
 | 2  | Peach   | 2  | Peach |
 | 3  | Mango   | 2  | Peach |
-| 4  | \<NULL> | 2  | Peach |
+| 4  |         | 2  | Peach |
      
 --------------------------------------------------------------------------------- 
 This SQL statement works in `SQL Server` when joining three or more statements.  The table referenced in the `ON` clause must be in reverse order for this to work.

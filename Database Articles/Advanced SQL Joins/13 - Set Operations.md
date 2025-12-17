@@ -29,15 +29,15 @@ We will use the following tables that contain types of fruits and their quantity
 | 1  | Apple   | 17       |
 | 2  | Peach   | 20       |
 | 3  | Mango   | 11       |
-| 4  | \<NULL> | 5        |
-  
+| 4  |         | 5        |
+
 **Table B**
 | ID |  Fruit  | Quantity |
 |----|---------|----------|
 | 1  | Apple   | 17       |
 | 2  | Peach   | 25       |
 | 3  | Kiwi    | 20       |
-| 4  | \<NULL> | \<NULL>  |
+| 4  |         |          |
   
 -----------------------------------------------------------------
 #### UNION
@@ -57,7 +57,7 @@ SELECT ID, Fruit FROM ##TableB;
 | 2  | Peach |
 | 3  | Kiwi  |
 | 3  | Mango |
-| 4  | \<NULL>  |
+| 4  |       |
 
 -----------------------------------------------------------------
   
@@ -79,8 +79,8 @@ SELECT ID, Fruit FROM ##TableB
 | 2  | Peach   |
 | 3  | Kiwi    |
 | 3  | Mango   |
-| 4  | \<NULL> |
-| 4  | \<NULL> |
+| 4  |         |
+| 4  |         |
 
 ---------------------------------------------------------------------
 
@@ -97,7 +97,7 @@ SELECT ID, Fruit FROM ##TableB
 |----|---------|
 | 1  | Apple   |
 | 2  | Peach   |
-| 4  | \<NULL> |
+| 4  |         |
 
 ---------------------------------------------------------------------
 
@@ -132,9 +132,9 @@ WHERE   a.ID IS NULL OR B.ID IS NULL;
 | ID |  Fruit  |
 |----|---------|
 | 3  | Mango   |
-| 4  | \<NULL> |
+| 4  |         |
 | 3  | Kiwi    |
-| 4  | \<NULL> |
+| 4  |         |
 
 ---------------------------------------------------------
 

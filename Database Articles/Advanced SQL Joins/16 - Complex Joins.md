@@ -37,10 +37,10 @@ SELECT  t.TransactionDate,
         u.Name,
         SUM(t.Amount) AS DailyATMAmount
 FROM    Users u INNER JOIN
-        Transaction t ON u.AccountID - t.DebitAccountID LEFT OUTER JOIN
+        Transaction t ON u.AccountID = t.DebitAccountID LEFT OUTER JOIN
         TransactionType tt ON t.TranTypeID = tt.TranTypeID INNER JOIN
         SubUsers su ON u.SecondaryAccountID = su.SubAccountID INNER JOIN
-        FeePlan fp ON u.FeePlanID = fp.FeePlanID OR su.FeePlanID = fp.FePlanID;
+        FeePlan fp ON u.FeePlanID = fp.FeePlanID OR su.FeePlanID = fp.FeePlanID
 WHERE   fp.FeePlanType = 'Advantage' AND 
         t.TransactionDate BETWEEN '01-01-2023' AND '12-31-2023' AND
         su.AccountStatus = 'Enrolled';
@@ -58,27 +58,27 @@ WITH cte_Users AS
 SELECT  UserID
 FROM    Users u INNER JOIN
         SubUsers su ON u.SecondaryAccountID = su.SubAccountID INNER JOIN
-        FeePlan fp ON u.FeePlanID = fp.FeePlanID OR su.FeePlanID = fp.FePlanID;
+        FeePlan fp ON u.FeePlanID = fp.FeePlanID OR su.FeePlanID = fp.FeePlanID
 WHERE   su.AccountStatus = 'Enrolled' AND 
         fp.FeePlanType = 'Advantage'
 ),
 cte_Transaction AS
 (
-SELECT  t.TransactoinDate,
+SELECT  t.TransactionDate,
         t.DebitAccountID,
         t.Amount,
-        tt.FeePlanType`
+        tt.FeePlanType
 FROM    Users u INNER JOIN
-        Transaction t ON u.AccountID - t.DebitAccountID LEFT OUTER JOIN
+        Transaction t ON u.AccountID = t.DebitAccountID LEFT OUTER JOIN
         TransactionType tt ON t.TranTypeID = tt.TranTypeID
-WHERE   t.TransactionDate BETWEEN '01-01-2023' AND '12-31-2023';
+WHERE   t.TransactionDate BETWEEN '01-01-2023' AND '12-31-2023'
 )
 SELECT  t.TransactionDate,
         ISNULL(t.TransactionType,'Other') AS TransType,
         u.Name,
         SUM(t.Amount) AS DailyATMAmount
 FROM    cte_Users u INNER JOIN
-        cte_Transactions on u.AccountID - t.DebitAccountID
+        cte_Transactions t on u.AccountID = t.DebitAccountID
 GROUP BY t.TransactionDate,
         ISNULL(t.TransactionType,'Other'),
         u.Name;
@@ -118,10 +118,10 @@ EndDate    DATE,
 PRIMARY KEY (StartDate, EndDate)
 );
 
-INSERT INTO #TimePeriods (StartDate, EndDate) VALUES ('1/1/2018','1/5/2018'),
-INSERT INTO #TimePeriods (StartDate, EndDate) VALUES ('1/3/2018','1/9/2018'),
-INSERT INTO #TimePeriods (StartDate, EndDate) VALUES ('1/10/2018','1/11/2018'),
-INSERT INTO #TimePeriods (StartDate, EndDate) VALUES ('1/12/2018','1/16/2018') 
+INSERT INTO #TimePeriods (StartDate, EndDate) VALUES ('1/1/2018','1/5/2018');
+INSERT INTO #TimePeriods (StartDate, EndDate) VALUES ('1/3/2018','1/9/2018');
+INSERT INTO #TimePeriods (StartDate, EndDate) VALUES ('1/10/2018','1/11/2018');
+INSERT INTO #TimePeriods (StartDate, EndDate) VALUES ('1/12/2018','1/16/2018');
 INSERT INTO #TimePeriods (StartDate, EndDate) VALUES ('1/15/2018','1/19/2018');
 
 --Step 1

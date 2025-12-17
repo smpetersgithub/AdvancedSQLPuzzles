@@ -1,8 +1,8 @@
 # Table Types
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Within SQL Server, you can create a join to the following 11 table types. Table types can be schema-bound objects, meaning they are saved as a database object within a named schema, or they are unbound and only durable for the life of an SQL statement or your current session.  Items that are not schema-bound are created in the `tempdb` and do not have any data of their existence in the catalog views.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Within SQL Server, you can create a join to the following eleven table types. Table types can be schema-bound objects, meaning they are saved as a database object within a named schema, or they are unbound and only durable for the life of an SQL statement or your current session.  Items that are not schema-bound are created in the `tempdb` and do not have any data of their existence in the catalog views.
 
-Here are the ten different types of tables you can create.
+Here are the eleven different types of tables you can create.
 
 | Id |              Name              |  Schema Bound |                                                                 Description                                                                |
 |----|--------------------------------|---------------|--------------------------------------------------------------------------------------------------------------------------------------------|
@@ -50,8 +50,8 @@ SELECT * FROM Employees;
 
 | EmployeeID | FirstName | LastName | Department |  Salary   |
 |------------|-----------|----------|------------|-----------|
-|          1 | John      | Wilson   | Accounting | 100000.00 |
-|          2 | Sarah     | Shultz   | Accounting |  90000.00 |
+| 1          | John      | Wilson   | Accounting | 100000.00 |
+| 2          | Sarah     | Shultz   | Accounting |  90000.00 |
 
 --------------------------------------------------------------------------------------------------------
 #### View
@@ -149,14 +149,14 @@ FROM    Employees a CROSS JOIN
 A table-valued function acts like a view with the added benefit of being parameterized.  
 
 For this example, we create a table-valued function using the `Employees` table.  To use the table values function, we can simply select from the function or use the `CROSS APPLY` join operation.
-        
+
 ```sql
 CREATE OR ALTER FUNCTION FnGetEmployees (@EmployeeID INTEGER)
 RETURNS TABLE
 AS
 RETURN
 (
-SELECT EmployeeID, Name
+SELECT EmployeeID, FirstName, LastName, Department, Salary
 FROM   Employees
 WHERE  EmployeeID = @EmployeeID
 );
@@ -302,11 +302,11 @@ FROM    Employees;
 SELECT * FROM #Employees2
 ```
 
-| EmployeeID | FirstName | LastName |  Salary   | EmployeeID |  Salary  |
-|------------|-----------|----------|-----------|------------|----------|
-| 1          | John      | Wilson   | 100000.00 | 2          | 90000.00 |
-| 1          | John      | Wilson   | 100000.00 | 3          | 85000.00 |
-| 2          | Sarah     | Shultz   | 90000.00  | 3          | 85000.00 |
+| EmployeeID | FirstName | LastName | Department |  Salary   |
+|------------|-----------|----------|------------|-----------|
+| 1          | John      | Wilson   | Accounting | 100000.00 |
+| 2          | Sarah     | Shultz   | Accounting |  90000.00 |
+| 3          | Larry     | Johnson  | Accounting |  85000.00 |
 
 --------------------------------------------------------------------------------------------------------
 #### Table Variable   
@@ -338,11 +338,11 @@ SELECT * FROM Employees;
 SELECT * FROM @TableVariable;
 ```
 
-| EmployeeID | FirstName | LastName |  Salary   | EmployeeID |  Salary  |
-|------------|-----------|----------|-----------|------------|----------|
-| 1          | John      | Wilson   | 100000.00 | 2          | 90000.00 |
-| 1          | John      | Wilson   | 100000.00 | 3          | 85000.00 |
-| 2          | Sarah     | Shultz   | 90000.00  | 3          | 85000.00 |
+| EmployeeID | FirstName | LastName | Department |  Salary   |
+|------------|-----------|----------|------------|-----------|
+| 1          | John      | Wilson   | Accounting | 100000.00 |
+| 2          | Sarah     | Shultz   | Accounting |  90000.00 |
+| 3          | Larry     | Johnson  | Accounting |  85000.00 |
 
 --------------------------------------------------------------------------------------------------------
 #### User-Defined Table Types
