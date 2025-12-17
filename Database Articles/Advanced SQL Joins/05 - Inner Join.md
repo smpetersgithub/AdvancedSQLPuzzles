@@ -186,8 +186,10 @@ This query uses an equi-join and a non-equi-join negated with a `NOT` operator. 
 ```sql
 SELECT  a.ID,
         a.Fruit,
+        a.Quantity,
         b.ID,
-        b.Fruit
+        b.Fruit,
+        b.Quantity
 FROM    ##TableA a INNER JOIN
         ##TableB b ON a.Fruit = b.Fruit AND NOT(a.ID BETWEEN a.Quantity AND b.Quantity);
 ```
@@ -196,7 +198,6 @@ FROM    ##TableA a INNER JOIN
 |----|---------|----------|----|---------|----------|
 |  1 | Apple   | 17       | 1  | Apple   | 17       |
 |  2 | Peach   | 20       | 2  | Peach   | 25       |
-|  4 |         | 5        | 4  |         |          |
 
 ---  
 Functions can also be used in the join condition. Assigning the empty string to a NULL value via the `ISNULL` function causes the NULLs to equate to each other.
