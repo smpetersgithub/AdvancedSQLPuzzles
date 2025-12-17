@@ -202,7 +202,7 @@ Here is the expected output.
 
 | Employee ID | Manager ID | Job Title       | Depth |
 |-------------|------------|-----------------|-------|
-| 1001        |            | President       | 0     |
+| 1001        |            | CEO             | 0     |
 | 2002        | 1001       | Director        | 1     |
 | 3003        | 1001       | Office Manager  | 1     |
 | 4004        | 2002       | Engineer        | 2     |
@@ -2830,6 +2830,11 @@ A set can contain no more than 2 records.
 | 2        | 3         | 11   |
 | 3        | 1         | 3    |
 | 3        | 2         | 4    |
+| 4        | 1         | 5    |
+| 4        | 2         | 6    |
+| 5        | 1         | 5    |
+| 5        | 2         | 5    |
+| 5        | 3         | 5    |
 
 Here is the expected output.
 

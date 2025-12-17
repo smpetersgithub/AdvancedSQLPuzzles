@@ -2,7 +2,7 @@
 Scott Peters
 DDL for Advanced SQL Puzzles
 https://advancedsqlpuzzles.com
-Last Updated 08/21/2025
+Last Updated 12/15/2025
 Microsoft SQL Server T-SQL
 
 */----------------------------------------------------
@@ -56,7 +56,7 @@ JobTitle    VARCHAR(100) NOT NULL
 GO
 
 INSERT INTO #Employees (EmployeeID, ManagerID, JobTitle) VALUES
-(1001,NULL,'President'),(2002,1001,'CEO'),
+(1001,NULL,'CEO'),(2002,1001,'Director'),
 (3003,1001,'Office Manager'),(4004,2002,'Engineer'),
 (5005,2002,'Engineer'),(6006,2002,'Engineer');
 GO
@@ -232,7 +232,7 @@ GO
 
 /*----------------------------------------------------
 DDL for Puzzle #10
-Mean, Median, Mode and Range
+Mean, Median, Mode, and Range
 */----------------------------------------------------
 
 DROP TABLE IF EXISTS #SampleData;
@@ -612,7 +612,7 @@ GO
 
 /*----------------------------------------------------
 DDL for Puzzle #26
-Previous Years Sales
+Previous Year's Sales
 */----------------------------------------------------
 
 DROP TABLE IF EXISTS #Sales;
@@ -1052,7 +1052,7 @@ GO
 
 /*----------------------------------------------------
 DDL for Puzzle #45
-Slowly Changing Dimension Part 2
+Slowly Changing Dimension Part II
 */----------------------------------------------------
 
 DROP TABLE IF EXISTS #Balances;
@@ -1079,7 +1079,7 @@ GO
 
 /*----------------------------------------------------
 DDL for Puzzle #46
-Positive Account Balances
+Negative Account Balances
 */----------------------------------------------------
 
 DROP TABLE IF EXISTS #AccountBalances;
@@ -1266,7 +1266,7 @@ GO
 
 /*----------------------------------------------------
 DDL for Puzzle #54
-Winning Numbers
+Winning the Lottery
 */----------------------------------------------------
 
 DROP TABLE IF EXISTS #WinningNumbers;
@@ -1483,7 +1483,7 @@ GO
 
 /*----------------------------------------------------
 DDL for Puzzle #63
-Promotions
+Promotion Codes
 */----------------------------------------------------
 
 DROP TABLE IF EXISTS #Promotions;
