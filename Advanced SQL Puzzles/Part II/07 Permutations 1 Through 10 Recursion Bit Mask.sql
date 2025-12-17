@@ -113,3 +113,4 @@ SELECT DISTINCT
 FROM   #PermutationsPosition
 WHERE  RowNumber = @vLengthNumbers;
 GO
+
