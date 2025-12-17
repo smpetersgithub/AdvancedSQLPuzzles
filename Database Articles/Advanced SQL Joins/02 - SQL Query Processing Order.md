@@ -1,6 +1,6 @@
 # SQL Query Processing Order
 
-To best understand the processing order of an SQL statement, consider the following diagram.     
+To better understand the processing order of an SQL statement, please take a look at the following diagram.     
 
 ![SQL Processing Order](/Database%20Articles/Advanced%20SQL%20Joins/images/SQLQueryProcessingOrderPage.png)
 
@@ -36,12 +36,12 @@ The four table operators described in the previous diagram and their subphases a
 ---------------------------------------------------------
 
 We can summarize the four table operators into the following:
-*  There is only one true type of table join, the Cartesian product.  `INNER` and `OUTER JOIN` are restricted cartesian products where the `ON` predicate specifies the restriction.
+*  There is only one actual type of table join, the Cartesian product.  `INNER` and `OUTER JOIN` are restricted cartesian products where the `ON` predicate specifies the restriction.
 *  The `APPLY` operator is used when you want to return values from a table-valued function.
 *  The `PIVOT` and `UNPIVOT` are two operators in SQL Server that rotate rows into columns and vice versa.
 
 
-To best understand that joins are simply restricted cartesian products, the following two statements below produce the same result set.  The first statement uses an `INNER JOIN`, and the second uses the `CROSS JOIN` syntax.  
+To best understand that joins are restricted cartesian products, the following two statements below produce the same result set.  The first statement uses an `INNER JOIN`, and the second uses the `CROSS JOIN` syntax.  
 
 ```sql
 --Statement 1
@@ -63,9 +63,9 @@ FROM    Customers emp CROSS JOIN
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The most significant difference between `INNER`, `OUTER`, and `CROSS JOIN` is that the `INNER JOIN` acts as a **filtering criterion**, `OUTER JOIN` acts as a **matching criterion**, and a `CROSS JOIN` gives all possible combinations.
   
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;For `INNER` and `OUTER JOIN`, these types of joins require a comparison operator to equate rows from the participating tables based on a common field in both tables. These comparison operators are described as equi-joins and theta-joins, which are rooted in Relational Algebra.  Introduced by Edgar F. Codd in 1970, Relational Algebra uses algebraic structures with well-founded semantics for modeling data and defining queries on it.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;For `INNER` and `OUTER JOIN`, these types of joins require a comparison operator to equate rows from the participating tables based on a common field in both tables. These comparison operators are described as equi-joins and theta-joins, which are rooted in Relational Algebra.  Introduced by Edgar F. Codd in 1970, Relational Algebra uses algebraic structures with well-founded semantics to model data and define queries over it.
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Lastly, SQL is a declarative language, meaning you tell the SQL engine what to do, and not how to do it.  When a table operation is performed, the SQL engine decides the best method for physically joining the tables (called a join algorithm).  These join algorithms are used to optimize the performance of a query when performing a join operation and are based on the table size, type of data they contain, available index, and table statistics.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Lastly, SQL is a declarative language, meaning you tell the SQL engine what to do, and not how to do it.  When a table operation is performed, the SQL engine determines the best method for physically joining the tables (the join algorithm).  These join algorithms are used to optimize query performance during join operations and are based on table size, data type, available indexes, and table statistics.
 
 ---------------------------------------------------------
 
