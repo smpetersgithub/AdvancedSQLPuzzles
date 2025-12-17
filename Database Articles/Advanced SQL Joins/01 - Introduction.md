@@ -2,15 +2,15 @@
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Besides the standard `INNER`, `LEFT OUTER`, `RIGHT OUTER`, `FULL OUTER` and `CROSS` joins that are specified in the ANSI SQL standard, there are several joins that are not part of the standard SQL join syntax, but rather ways to classify different types of joins based on their behavior and the conditions used to join the tables.  
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;I classify joins into the following four categories; Logical, Physical, Descriptive, and Model.  The term "Model" comes from the Relational Model developed by Edgar F. Codd in the 1970s, which SQL is based on.  This name may warrant a rename if I can think of a better name.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;I classify joins into the following four categories; Logical, Physical, Descriptive, and Model.  The term "Model" comes from the Relational Model developed by Edgar F. Codd in the 1970s, on which SQL is based.  This name may warrant a rename if I come up with a better one.
 
 
-| ID |    Type     |                                                          Description                                                    |
-|----|-------------|-------------------------------------------------------------------------------------------------------------------------|
-| 1  | Logical     | Joins that are part of the SQL ANSI syntax and used to combine data from two or more tables based on a filter criteria. | 
-| 2  | Physical    | Implemented by the DBMS and describe how the system will physically join the tables to create the desired result.       |
-| 3  | Descriptive | Used when discussing certain behaviors or complexity of a join.                                                         |
-| 4  | Model       | Joins described in the Relational Model, which SQL is based on.                                                         |
+| ID |    Type     |                                                          Description                                                     |
+|----|-------------|--------------------------------------------------------------------------------------------------------------------------|
+| 1  | Logical     | Joins that are part of the SQL ANSI syntax and used to combine data from two or more tables based on a filter criterion. | 
+| 2  | Physical    | Implemented by the DBMS and describes how the system will physically join the tables to create the desired result.       |
+| 3  | Descriptive | Used when discussing certain behaviors or the complexity of a join.                                                      |
+| 4  | Model       | Joins described in the Relational Model, which SQL is based on.                                                          |
 
 
 Here is a brief description of each type of join:
@@ -37,7 +37,7 @@ Here is a brief description of each type of join:
 
 ---------------------------------------------------------
 
-:electric_plug: I will cover all these types of joins and more in the following documents.  Continue reading with the links below.....
+:electric_plug: I will cover all these join types and more in the following documents.  Continue reading with the links below.....
 
 ---------------------------------------------------------
 
