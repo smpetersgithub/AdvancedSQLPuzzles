@@ -19,7 +19,7 @@ For the following table of `Managers` and `Employees`, determine each employee's
 | 5           | Director       | 3          |
   
 
-Note the table `Employees` is referenced twice, but given two different aliases named `a and `b`.
+Note the table `Employees` is referenced twice, but given two different aliases named `a and b`.
  
 ```sql
 SELECT  a.EmployeeID,
