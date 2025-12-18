@@ -947,37 +947,31 @@ The answer to this problem is often referred to as a data smear or a flash fill.
 
 Write an SQL statement to fill in the missing gaps.  
 
-| Row Number | Workflow | Status |
-|------------|----------|--------|
-| 1          | Alpha    | Pass   |
-| 2          |          | Fail   |
-| 3          |          | Fail   |
-| 4          |          | Fail   |
-| 5          | Bravo    | Pass   |
-| 6          |          | Fail   |
-| 7          |          | Fail   |
-| 8          |          | Pass   |
-| 9          |          | Pass   |
-| 10         | Charlie  | Fail   |
-| 11         |          | Fail   |
-| 12         |          | Fail   |
+| Row Number | Test Case |
+|------------|-----------|
+| 1          | Alpha     |
+| 2          |           |
+| 3          |           |
+| 4          |           |
+| 5          | Bravo     |
+| 6          |           |
+| 7          | Charlie   |
+| 8          |           |
+| 9          |           |
 
 Here is the expected output.
 
-| Row Number | Workflow | Status |
-|------------|----------|--------|
-| 1          | Alpha    | Pass   |
-| 2          | Alpha    | Fail   |
-| 3          | Alpha    | Fail   |
-| 4          | Alpha    | Fail   |
-| 5          | Bravo    | Pass   |
-| 6          | Bravo    | Fail   |
-| 7          | Bravo    | Fail   |
-| 8          | Bravo    | Pass   |
-| 9          | Bravo    | Pass   |
-| 10         | Charlie  | Fail   |
-| 11         | Charlie  | Fail   |
-| 12         | Charlie  | Fail   |
+| Row Number | Workflow |
+|------------|----------|
+| 1          | Alpha    |
+| 2          | Alpha    |
+| 3          | Alpha    |
+| 4          | Alpha    |
+| 5          | Bravo    |
+| 6          | Bravo    |
+| 7          | Charlie  |
+| 8          | Charlie  |
+| 9          | Charlie  |
 
 [🔙 Back to Table of Contents](#table-of-contents)
 
