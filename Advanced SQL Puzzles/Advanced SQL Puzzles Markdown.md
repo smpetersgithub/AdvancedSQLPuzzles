@@ -432,7 +432,7 @@ Here is the expected output.
 
 # Puzzle #10 - Mean, Median, Mode, and Range
 
-- The **mean** is the average of all numbers (41).  
+- The **mean** is the average of all numbers (31.09).  
 - The **median** is the middle number in a sequence of numbers (14).  
 - The **mode** is the number that occurs most often within a set of numbers (10).  
 - The **range** is the difference between the largest and smallest values in a set of numbers (85).  
@@ -527,12 +527,12 @@ Write an SQL statement that will provide a running balance of the inventory.
 Here is the expected output.
 
 | Date      | Quantity Adjustment | Inventory |
-|-----------|---------------------|----------|
-| 7/1/2018  | 100                 | 100      |
-| 7/2/2018  | 75                  | 175      |
-| 7/3/2018  | -150                | 25       |
-| 7/4/2018  | 50                  | 75       |
-| 7/5/2018  | -100                | -25      |
+|-----------|---------------------|-----------|
+| 7/1/2018  | 100                 | 100       |
+| 7/2/2018  | 75                  | 175       |
+| 7/3/2018  | -150                | 25        |
+| 7/4/2018  | 50                  | 75        |
+| 7/5/2018  | -75                 | 0         |
 
 [🔙 Back to Table of Contents](#table-of-contents)
 
