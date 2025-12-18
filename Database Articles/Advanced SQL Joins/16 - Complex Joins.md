@@ -30,9 +30,8 @@ Example:
 
 ```sql
 SELECT *
-FROM Employees e
-JOIN Salaries s
-  ON e.Salary > s.MinSalary;
+FROM   Employees e INNER JOIN
+       Salaries s ON e.Salary > s.MinSalary;
 ```
 
 ### 3. **Joining More Than Two Tables**
@@ -41,9 +40,9 @@ Joining multiple tables together:
 
 ```sql
 SELECT *
-FROM Orders o
-JOIN Customers c ON o.CustomerID = c.CustomerID
-JOIN Employees e ON o.EmployeeID = e.EmployeeID;
+FROM   Orders o INNER JOIN
+       Customers c ON o.CustomerID = c.CustomerID INNER JOIN
+       Employees e ON o.EmployeeID = e.EmployeeID;
 ```
 
 ### 4. **Using Subqueries in JOINs**
@@ -52,10 +51,10 @@ Example:
 
 ```sql
 SELECT *
-FROM Orders o
+FROM   Orders o
 JOIN (
     SELECT CustomerID, MAX(OrderDate) AS LastOrder
-    FROM Orders
+    FROM   Orders
     GROUP BY CustomerID
 ) last_order
   ON o.CustomerID = last_order.CustomerID
@@ -68,8 +67,8 @@ A table joined to itself:
 
 ```sql
 SELECT e1.EmployeeID, e1.Name, e2.Name AS ManagerName
-FROM Employees e1
-JOIN Employees e2 ON e1.ManagerID = e2.EmployeeID;
+FROM   Employees e1 INNER JOIN
+       Employees e2 ON e1.ManagerID = e2.EmployeeID;
 ```
 
 These kinds of joins are often referred to as "complex" because they require deeper understanding of the data relationships and query logic.
