@@ -1556,10 +1556,7 @@ GO
 /*----------------------------------------------------
 Answer to Puzzle #28
 Fill the Gaps
-
-This is often called a Flash Fill or a Data Smudge.
-	
-Tags: Flash Fill, Data Smudge, Gaps and Islands
+Note, this is often called a flash fill or a data smudge.
 */----------------------------------------------------
 
 DROP TABLE IF EXISTS #Gaps;
@@ -4186,6 +4183,7 @@ GO
 /*----------------------------------------------------
 The End
 */----------------------------------------------------
+
 
 
 
