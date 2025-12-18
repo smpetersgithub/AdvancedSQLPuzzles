@@ -228,7 +228,8 @@ SELECT  a.ID,
         b.ID,
         b.Fruit
 FROM    ##TableA a INNER JOIN
-        ##TableB b ON a.Fruit = b.Fruit OR a.Fruit <> b.Fruit;
+        ##TableB b ON a.Fruit = b.Fruit OR a.Fruit <> b.Fruit
+ORDER BY 1, 3;
 ```
 
 | ID | Fruit | ID | Fruit |
@@ -258,7 +259,7 @@ SELECT  a.ID,
         b.Fruit
 FROM    ##TableA a FULL OUTER JOIN
         ##TableB b ON a.Fruit = b.Fruit
-ORDER BY 1,2;
+ORDER BY 1, 2;
 ```
 
 |    ID   |  Fruit   |   ID    |  Fruit  |
@@ -286,18 +287,21 @@ There are a few methods for returning NULL markers in a join, as shown below.
 --Method 1
 SELECT  *
 FROM    ##TableA a INNER JOIN
-        ##TableB b ON ISNULL(a.Fruit,'') = ISNULL(b.Fruit,'');
+        ##TableB b ON ISNULL(a.Fruit,'') = ISNULL(b.Fruit,'')
+ORDER BY 1;
 
 --Method 2
 SELECT  *
 FROM    ##TableA a INNER JOIN
-        ##TableB b ON EXISTS (SELECT a.Fruit INTERSECT SELECT b.Fruit);
+        ##TableB b ON EXISTS (SELECT a.Fruit INTERSECT SELECT b.Fruit)
+ORDER BY 1;
 
 --Method 3
 SELECT  *
 FROM    ##TableA a,
         ##TableB b
-WHERE   a.Fruit IS DISTINCT FROM b.Fruit;
+WHERE   a.Fruit IS DISTINCT FROM b.Fruit
+ORDER BY 1;
 ```
 
 | ID |  Fruit  | Quantity | ID |  Fruit  | Quantity  |
@@ -353,7 +357,8 @@ The opposite of anti-joins are semi-joins.  Using the `IN` operator, this query 
 SELECT  ID,
         Fruit
 FROM    ##TableA
-WHERE   Fruit IN ('Apple','Peach',NULL);
+WHERE   Fruit IN ('Apple','Peach',NULL)
+ORDER BY 1;
 ```
 
 | ID | Fruit |
@@ -386,7 +391,8 @@ Here is the usage of the `NOT EXISTS`.  NULL markers are returned in the dataset
 SELECT  a.ID,
         Fruit
 FROM    ##TableA a
-WHERE   NOT EXISTS (SELECT 1 FROM ##TableB b WHERE a.Fruit = b.Fruit AND a.Quantity = b.Quantity);
+WHERE   NOT EXISTS (SELECT 1 FROM ##TableB b WHERE a.Fruit = b.Fruit AND a.Quantity = b.Quantity)
+ORDER BY 1;
 ```
 
 | ID |  Fruit  |
@@ -415,16 +421,18 @@ When using `UNION`, the SQL standard dictates that duplicate rows should be remo
 ```sql
 SELECT Fruit FROM ##TableA
 UNION
-SELECT Fruit FROM ##TableB;
+SELECT Fruit FROM ##TableB
+ORDER BY 1;
 ```
 
 |  Fruit  |
 |---------|
+| \<NULL> |
 | Apple   |
 | Peach   |
 | Kiwi    |
 | Mango   |
-| \<NULL> |
+
 
 --------------------------------------------------------
 **UNION ALL**
@@ -434,21 +442,22 @@ The `UNION ALL` operator returns all values, including each NULL marker.
 ```sql
 SELECT Fruit FROM ##TableA
 UNION ALL
-SELECT Fruit FROM ##TableB;
+SELECT Fruit FROM ##TableB
+ORDER BY 1;
 ```
 
 |  Fruit  |
 |---------|
-| Apple   |
-| Peach   |
-| Mango   |
-| Mango   |
+| \<NULL> |
 | \<NULL> |
 | \<NULL> |
 | Apple   |
-| Peach   |
+| Apple   |
 | Kiwi    |
-| \<NULL> |
+| Mango   |
+| Mango   |
+| Peach   |
+| Peach   |
 
 --------------------------------------------------------
 **EXCEPT**
@@ -473,7 +482,8 @@ The `INTERSECT` operator treats the NULL markers as not being distinct from each
 ```sql
 SELECT Fruit FROM ##TableA
 INTERSECT
-SELECT Fruit FROM ##TableB;
+SELECT Fruit FROM ##TableB
+ORDER BY 1;
 ```
 
 |  Fruit  |
@@ -493,7 +503,8 @@ SELECT  Fruit,
         COUNT(*) AS Count_Star,
         COUNT(Fruit) AS Count_Fruit
 FROM    ##TableA
-GROUP BY Fruit;
+GROUP BY Fruit
+ORDER BY 1;
 ```
 
 |  Fruit  | Count_Star | Count_Fruit |
@@ -519,7 +530,8 @@ SELECT  Fruit,
         COUNT(*) AS Count_Star,
         COUNT(Fruit) AS Count_Fruit
 FROM    ##TableA
-GROUP BY Fruit;
+GROUP BY Fruit
+ORDER BY 1;
 ```
 
 |  Fruit  | Count_Star | Count_Fruit |
@@ -677,14 +689,14 @@ ORDER BY Fruit, RowNumber;
 ```
 
 
-| ID | Fruit | Quantity | RowNumber |
-|----|-------|----------|-----------|
-| 5  | NULL  | 5        | 1         |
-| 6  | NULL  | 3        | 2         |
-| 1  | Apple | 17       | 1         |
-| 3  | Mango | 11       | 1         |
-| 4  | Mango | 15       | 2         |
-| 2  | Peach | 20       | 1         |
+| ID |  Fruit  | Quantity | RowNumber |
+|----|---------|----------|-----------|
+| 5  | \<NULL> | 5        | 1         |
+| 6  | \<NULL> | 3        | 2         |
+| 1  | Apple   | 17       | 1         |
+| 3  | Mango   | 11       | 1         |
+| 4  | Mango   | 15       | 2         |
+| 2  | Peach   | 20       | 1         |
 
 ---------------------------------------------------------
 
@@ -704,14 +716,14 @@ FROM    ##TableA
 ORDER BY Fruit, ID;
 ```
 
-| ID | Fruit | Quantity | TotalSum |
-|----|-------|----------|----------|
-| 5  | NULL  | 5        | 8        |
-| 6  | NULL  | 3        | 8        |
-| 1  | Apple | 17       | 17       |
-| 3  | Mango | 11       | 26       |
-| 4  | Mango | 15       | 26       |
-| 2  | Peach | 20       | 20       |
+| ID |  Fruit  | Quantity | TotalSum |
+|----|---------|----------|----------|
+| 5  | \<NULL> | 5        | 8        |
+| 6  | \<NULL> | 3        | 8        |
+| 1  | Apple   | 17       | 17       |
+| 3  | Mango   | 11       | 26       |
+| 4  | Mango   | 15       | 26       |
+| 2  | Peach   | 20       | 20       |
 
 ---------------------------------------------------------
 
@@ -839,8 +851,8 @@ GO
 INSERT INTO Child (ParentID) VALUES (1),(2),(NULL),(NULL);
 GO
 
-SELECT * FROM Parent;
-SELECT * FROM Child;
+SELECT * FROM Parent ORDER BY 1;
+SELECT * FROM Child ORDER BY 1;
 ```
 
 **Parent**
@@ -869,7 +881,8 @@ A computed column is a virtual column that is not physically stored in a table. 
 ```sql
 SELECT Fruit,
        Quantity + 2 AS QuantityPlus2
-FROM   ##TableB;
+FROM   ##TableB
+ORDER BY 1;
 ```
 
 
@@ -987,7 +1000,8 @@ SELECT  a.ID,
         b.ID,
         b.Fruit
 FROM    ##TableA a INNER JOIN
-        ##TableB b ON ISNULL(a.Fruit,'') = ISNULL(b.Fruit,'');
+        ##TableB b ON ISNULL(a.Fruit,'') = ISNULL(b.Fruit,'')
+ORDER BY 1;
 ```
 
 | ID |  Fruit  | ID |  Fruit  |
@@ -1078,7 +1092,7 @@ FROM    sys.views t INNER JOIN
         sys.columns c ON t.object_id = c.object_id INNER JOIN
         sys.types ty ON ty.user_type_id = c.user_type_id
 WHERE   t.name = 'vwMyTable' and c.is_nullable = 1
-ORDER BY 1,2,3;
+ORDER BY 1, 2, 3;
 ```
 
 |     ColumnName     | DataType | is_nullable |
@@ -1106,7 +1120,8 @@ Because the only acceptable values for the `BIT` data type are 1, 0, or NULL, th
 ```sql
 SELECT 1 AS ID, CAST(NULL AS BIT) AS Bit
 UNION
-SELECT 2 AS ID, CAST(3 AS BIT) AS Bit;
+SELECT 2 AS ID, CAST(3 AS BIT) AS Bit
+ORDER BY 1, 2;
 ```
 
 | ID |   Bit   |
@@ -1125,7 +1140,8 @@ We can see how the `NOT` operator acts on our test data here.  Placing the `NOT`
 --15.2
 SELECT  *
 FROM    ##TableA
-WHERE   NOT(FRUIT = 'Mango');
+WHERE   NOT(FRUIT = 'Mango')
+ORDER BY 1, 2;
 ```
 
 | ID | Fruit | Quantity |
@@ -1217,7 +1233,7 @@ SELECT  *
         ,LAG(MyValue,1,0) RESPECT NULLS OVER (ORDER BY ID) AS LagRespectNulls
         ,LEAD(MyValue,1,0) RESPECT NULLS OVER (ORDER BY ID) AS LeadRespectNulls
 FROM    cte_Lag_Lead
-ORDER BY ID;
+ORDER BY 1;
 ```
 
 Here are the erroneous results.
@@ -1247,7 +1263,7 @@ SELECT  *,
         LEAD(MyValue,1,0) IGNORE NULLS OVER (ORDER BY ID) AS LeadIgnoreNulls,
         LEAD(MyValue,1,0) RESPECT NULLS OVER (ORDER BY ID) AS LeadRespectNulls
 FROM    cte_Lag_Lead
-ORDER BY ID;
+ORDER BY 1;
 ```
 
 | ID | MyValue | LeadIgnoreNulls | LeadRespectNulls |
