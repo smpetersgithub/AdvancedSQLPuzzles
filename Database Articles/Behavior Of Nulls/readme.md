@@ -823,7 +823,7 @@ Multiple NULL markers can be inserted into a child column with a foreign key con
 
 In Microsoft SQL Server, a `FOREIGN KEY` constraint must be linked to a column with either a `PRIMARY KEY` constraint or a `UNIQUE` constraint defined on the column.  A `PRIMARY KEY` constraint does not allow NULL markers, but a `UNIQUE` constraint allows one NULL marker.
 
-The following example shows that inserting multiple NULL markers into the Child is possible.ParentID column. This reflects the unfortunate reality that a child may be orphaned and, therefore, not have an associated parent.
+The following example shows that inserting multiple NULL markers into the `Child.ParentID` is possible. This reflects the unfortunate reality that a child may be orphaned and, therefore, not have an associated parent.
 
 Referential integrity cannot be created on temporary tables; for this example, we create two tables, `Parent` and `Child`.
 
