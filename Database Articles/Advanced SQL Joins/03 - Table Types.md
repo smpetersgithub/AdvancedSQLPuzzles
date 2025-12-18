@@ -60,13 +60,13 @@ SELECT * FROM Employees;
 
 In SQL Server, we can set the following options for views.
 
-[ WITH <view_attribute> [ ,...n ] ]
-*  ENCRYPTION: Hides the text of the view definition from being viewed by using the sys.sql_modules catalog view or the OBJECT_DEFINITION function. It provides a layer of security against viewing the view's SQL syntax.
-*  SCHEMABINDING: Binds the view to the schema of the underlying tables. This prevents modifications to the underlying tables that would affect the view, ensuring the view's definition remains valid and unchanged.
-*  VIEW_METADATA: This setting causes the metadata about the view returned by metadata functions, like sp_help, to be the same as if the view were a base table. It affects how certain permissions and metadata are displayed for the view.
+`[ WITH <view_attribute> [ ,...n ] ]`
+*  `ENCRYPTION`: Hides the text of the view definition from being viewed by using the `sys.sql_modules` catalog view or the `OBJECT_DEFINITION` function. It provides a layer of security against viewing the view's SQL syntax.
+*  `SCHEMABINDING`: Binds the view to the schema of the underlying tables. This prevents modifications to the underlying tables that would affect the view, ensuring the view's definition remains valid and unchanged.
+*  `VIEW_METADATA`: This setting causes the metadata about the view returned by metadata functions, like `sp_help`, to be the same as if the view were a base table. It affects how certain permissions and metadata are displayed for the view.
 
-[ WITH CHECK OPTION ]
-Ensures that all data modifications through the view comply with the view's SELECT statement. If a row is modified through the view that would not be selected by the view's SELECT statement, the modification is disallowed. This maintains data integrity by ensuring only valid data is entered through the view.
+`[ WITH CHECK OPTION ]`
+Ensures that all data modifications through the view comply with the view's `SELECT` statement. If a row is modified through the view that would not be selected by the view's `SELECT` statement, the modification is disallowed. This maintains data integrity by ensuring only valid data is entered through the view.
 
 In this example, we create a view from the `Employees` table, insert a record into the table, and then select from the view;
 
