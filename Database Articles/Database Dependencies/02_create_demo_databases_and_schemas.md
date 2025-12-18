@@ -24,7 +24,7 @@ The GitHub repository includes two folders containing SQL scripts:
 * SQL Scripts: Contains scripts for each example dependency.
 * Additional SQL Scripts: Includes scripts to drop and recreate the `foo` and `bar` databases, terminate active sessions if needed, run scripts via `SQLCMD` mode, and perform analysis on the `sys.sql_expression_dependency` table.
 
-For analysis purposes, it's often easier to drop and recreate the databases rather than removing individual objects. Since open sessions can prevent this, I've included a script to automatically terminate them. There's also a script to execute the dependency examples using `SQLCMD` mode.
+For analysis purposes, it's often easier to drop and recreate the databases rather than removing individual objects. Since open sessions can cause this, I've included a script to automatically terminate them. There's also a script to execute the dependency examples using `SQLCMD` mode.
 
 Also included in the database drop-and-create script is the creation of a table in the `foo` database named `dbo.sql_expression_dependencies`. This table is used to help decode and analyze the contents of the `sys.sql_expression_dependency` system view.
 
