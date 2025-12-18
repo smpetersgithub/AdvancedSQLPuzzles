@@ -1194,13 +1194,9 @@ Note that the data represents a cyclic graph.
 | Route ID | Departure City | Arrival City | Cost |
 |----------|----------------|--------------|------|
 | 1        | Austin         | Dallas       | 100  |
-| 1        | Dallas         | Austin       | 100  |
 | 2        | Dallas         | Memphis      | 200  |
-| 2        | Memphis        | Dallas       | 200  |
 | 3        | Memphis        | Des Moines   | 300  |
-| 3        | Des Moines     | Memphis      | 300  |
 | 4        | Dallas         | Des Moines   | 400  |
-| 4        | Des Moines     | Dallas       | 400  |
 
 Here is the expected output.
 
