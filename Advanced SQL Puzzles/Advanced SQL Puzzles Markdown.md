@@ -4,23 +4,22 @@ I hope you enjoy these puzzles as much as I have enjoyed creating them!
 
 As my list of puzzles continues to grow, I have decided to consolidate the puzzles into a single document, divided into two sections.  
 
-In the first section, I have 77 of the most challenging puzzles I could create, randomly organized and in no specific order. These are primarily set-based puzzles, interspersed with a small number of puzzles that require knowledge of constraints, specific data types, cursors, loops, and other related concepts.  
-Working through these puzzles will provide you with an understanding of the SQL language and its capabilities, as well as the types of problems it solves best. Remember that SQL is a declarative language, not an imperative one, and always think in terms of sets when providing a solution.  
+In the first section, I have 77 of the most challenging puzzles I could create, randomly organized and in no specific order. These are primarily set-based puzzles, interspersed with a small number that require knowledge of constraints, specific data types, cursors, loops, and related concepts. Working through these puzzles will provide you with an understanding of the SQL language and its capabilities, as well as the types of problems it solves best. Remember that SQL is a declarative language, not an imperative one, and always think in terms of sets when providing a solution.  
 
-I collected all the puzzles related to permutations, combinations, and sequences in the second set of puzzles. Solving these puzzles will require a deeper understanding of your SQL thinking, focusing on constructs such as using recursion or sequence objects to achieve the desired output (and, of course, some will require traditional set-based thinking).  
+I collected all the puzzles related to permutations, combinations, and sequences in the second set. Solving these puzzles will require a deeper understanding of your SQL thinking, focusing on constructs such as using recursion or sequence objects to achieve the desired output (and, of course, some will require traditional set-based thinking).  
 
-Ultimately, these puzzles resolve to creating number tables, which can be used to fill in gaps, create ranges and tallies, provide custom sorting, and enable the creation of set-based solutions over iterative ones. I also included a few puzzles from Part 1 into this set, as they ultimately deal with creating a numbers table.  
+Ultimately, these puzzles resolve to creating number tables, which can be used to fill gaps, create ranges and tallies, provide custom sorting, and enable set-based solutions rather than iterative ones. I also included a few puzzles from Part 1 in this set, as they ultimately involve creating a numbers table.  
 
-I hope navigating through the GitHub repository to find the solutions is straightforward. The first set of puzzles is combined into a single SQL document, and the second set has a separate folder with individual solutions, as these solutions are more complex.  
+I hope navigating through the GitHub repository to find the solutions is straightforward. The first set of puzzles is combined into a single SQL document, while the second set is in a separate folder with individual solutions, as these solutions are more complex.  
 
-For my sanity, it is easiest to not embed the SQL solutions in this text document and instead provide them separately as SQL files in the GitHub repository. If you encounter any issues navigating the website or GitHub, please don't hesitate to contact me, and I'll be happy to assist you.  
+For my sanity, it is easiest to avoid embedding the SQL solutions in this text document and instead provide them separately as SQL files in the GitHub repository. If you encounter any issues navigating the website or GitHub, please don't hesitate to contact me, and I'll be happy to assist you.  
 
 Answers to these puzzles are located in the following GitHub repository:  
 **AdvancedSQLPuzzles/Advanced SQL Puzzles**  
 
-I welcome any corrections, new tricks, new techniques, dead links, misspellings, bugs, and especially any new puzzles that would be an excellent fit for this document.  
+I welcome any corrections, new tricks or techniques, dead links, misspellings, bugs, and, especially, any new puzzles that would be an excellent fit for this document.  
 
-Please contact me through the contact page on my website or use the discussion board in the GitHub repository.  
+Don't hesitate to get in touch with me through the contact page on my website or use the discussion board in the GitHub repository.  
 
 https://advancedsqlpuzzles.com/  
 
@@ -215,7 +214,7 @@ Here is the expected output.
 
 # Puzzle #3 - Fiscal Year Pay Rates
 
-For each standard fiscal year, a record exists for each employee that states their current pay rate for the specified year.  
+For each standard fiscal year, a record exists for each employee stating their current pay rate for that year.  
 
 Can you determine all the constraints that can be applied to this table to ensure it contains only correct information? Assume that no pay raises are given mid-year. There are quite a few of them, so think carefully.  
 
@@ -325,9 +324,9 @@ Here is the expected output.
 
 # Puzzle #7 - Mission to Mars
 
-You are given the following tables that list the requirements for a space mission and a list of potential candidates.  
+You are given the following tables: one listing the requirements for a space mission and another listing potential candidates.  
 
-Write an SQL statement to determine which candidates meet the mission's requirements.  
+Write an SQL statement to identify which candidates meet the mission's requirements.  
 
 #### Candidates
 | Candidate ID | Description |
@@ -358,7 +357,7 @@ Here is the expected output.
 | 1001         |
 
 - The expected output would be Candidate ID 1001, as this candidate has all the necessary skills for the space mission.  
-- Candidate ID 2002 and 3003 would not be in the output as they have some but not all the required skills.  
+- Candidate IDs 2002 and 3003 would not be in the output as they have some but not all the required skills.  
 - Candidate ID 4004 has none of the needed requirements.
 
 [🔙 Back to Table of Contents](#table-of-contents)
@@ -369,7 +368,7 @@ Here is the expected output.
 
 You have a report of all workflows and their case results.  
 
-A value of 0 indicates that the workflow failed, and a value of 1 indicates that the workflow passed.  
+A value of 0 indicates the workflow failed, and 1 indicates it passed.  
 
 Write an SQL statement that transforms the following table into the expected output.  
 
@@ -777,7 +776,7 @@ Here is the expected output.
 
 # Puzzle #22 - Occurrences
 
-Write an SQL statement that returns all distinct process log messages and the workflow where the message occurred the most often.
+Write an SQL statement that returns all distinct process log messages and the workflow in which each message occurred most often.
 
 | Workflow | Message                            | Occurrences |
 |----------|------------------------------------|-------------|
