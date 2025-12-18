@@ -47,7 +47,8 @@ We will use the following tables, which contain types of fruits and their quanti
 ```sql
 SELECT ID, Fruit FROM ##TableA
 UNION
-SELECT ID, Fruit FROM ##TableB;
+SELECT ID, Fruit FROM ##TableB
+ORDER BY 1, 2;
 ```
 
 
@@ -69,6 +70,7 @@ The `UNION ALL` operator returns all values, including each NULL marker.
 SELECT ID, Fruit FROM ##TableA 
 UNION ALL
 SELECT ID, Fruit FROM ##TableB
+ORDER BY 1, 2;
 ``` 
   
 | ID |  Fruit  |
@@ -90,6 +92,7 @@ SELECT ID, Fruit FROM ##TableB
 SELECT ID, Fruit FROM ##TableA
 INTERSECT
 SELECT ID, Fruit FROM ##TableB
+ORDER BY 1, 2;
 ```
 
   
@@ -126,14 +129,15 @@ SELECT  ISNULL(a.ID, b.ID) AS ID,
         ISNULL(a.Fruit, b.Fruit) AS Fruit
 FROM    ##TableA a FULL OUTER JOIN
         ##TableB b ON a.Fruit = b.Fruit
-WHERE   a.ID IS NULL OR B.ID IS NULL;
+WHERE   a.ID IS NULL OR B.ID IS NULL
+ORDER BY 1, 2;
 ```
     
 | ID |  Fruit  |
 |----|---------|
+| 3  | Kiwi    |
 | 3  | Mango   |
 | 4  |         |
-| 3  | Kiwi    |
 | 4  |         |
 
 ---------------------------------------------------------
