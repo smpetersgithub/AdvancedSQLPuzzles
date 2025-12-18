@@ -4,7 +4,7 @@
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The difference between joins and set operations is that although both concepts are used to combine data from multiple tables, a join combines columns, whereas set operations combine rows.  The SQL standard for set operators does not use the terms "EQUAL TO" or "NOT EQUAL TO" when describing their behavior but instead uses the terminology of "IS [NOT] DISTINCT FROM" and NULLS are treated as equalities in the context of set operators.
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SQL only supports the intersection, union, and relative complement in set theory (with the constructs `INTERSECT`, `UNION`, and `EXCEPT`).  SQL does not have constructs for the symmetric difference or the absolute complement.  The ANSI standard set operation in SQL for returning the rows present in the first set but not in the second set is `EXCEPT`. The use of `MINUS` or `DIFFERENCE` is also prevalent, but it is not part of the ANSI standard.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SQL only supports the intersection, union, and relative complement in set theory (with the constructs `INTERSECT`, `UNION`, and `EXCEPT`).  SQL does not have constructs for the symmetric difference or the absolute complement.  The ANSI-standard set operation in SQL for returning rows present in the first set but not in the second is `EXCEPT`. The use of `MINUS` or `DIFFERENCE` is also prevalent, but it is not part of the ANSI standard.
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Here are some examples of set operators in SQL and how they interact with the NULL markers in our example tables.
 
@@ -12,14 +12,14 @@
 
 #### Note on Venn Diagrams
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;We often think of Venn Diagrams for both set operations and join operations,  Venn Diagrams are good for set theory but poor for join theory.  Often Venn diagrams are used for pedagogical reasons to quickly show the behavior of `INNER`, `RIGHT OUTER`, `LEFT OUTER`, and `FULL OUTER JOINs`.  However, they are not well suited for representing complex relationships that can exist between tables in a relational database.  While Venn diagrams can show the overlap between two sets of data, they cannot easily convey the specific conditions used to filter the data. They can become very complex and difficult to read as the number of tables and join conditions increases.  Simply put, Venn diagrams are intended to show traditional set operations and not join operations.  Some of the limitations of Venn Diagrams include their inability to accurately depict `CROSS JOIN`s, semi and anti-joins, as well as the introduction of duplicate records in the resulting dataset.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;We often think of Venn Diagrams for both set operations and join operations.  Venn Diagrams are suitable for set theory but poor for join theory.  Frequently, Venn diagrams are used for pedagogical reasons to quickly show the behavior of `INNER`, `RIGHT OUTER`, `LEFT OUTER`, and `FULL OUTER JOINs`.  However, they are not well-suited for representing complex relationships that can exist between tables in a relational database.  While Venn diagrams can show the overlap between two sets of data, they cannot easily convey the specific conditions used to filter the data. They can become very complex and challenging to read as the number of tables and join conditions increases.  Simply put, Venn diagrams are intended to show traditional set operations and not join operations.  Some of the limitations of Venn Diagrams include their inability to accurately depict `CROSS JOINs, semi-joins, and anti-joins, as well as the introduction of duplicate records in the resulting dataset.
 
-❗&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;A good resource that I have found that provides a more accurate graphical representation of different SQL joins can be found in the book "R for Data Science" by Hadley Wicham and Garrett Grolemund. The chapter on relational data contains these improved graphics, which can be accessed through the following link. Due to potential copyright issues, I will not display the diagrams. Still, they are worth examining, and it is hoped that they will become the standard for representing SQL joins graphically.
+❗&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;A good resource that I have found that provides a more accurate graphical representation of different SQL joins can be found in the book "R for Data Science" by Hadley Wicham and Garrett Grolemund. The chapter on relational data includes these improved graphics, available at the following link. Due to potential copyright issues, I will not display the diagrams. Still, they are worth examining, and it is hoped that they will become the standard for graphically representing SQL joins.
 
 Link to the chapter: https://r4ds.had.co.nz/relational-data.html (The improved join representations are located approximately halfway through the chapter.)
 
 --------------------------------------------------------------------------------
-We will use the following tables that contain types of fruits and their quantity.  
+We will use the following tables, which contain types of fruits and their quantities.  
 
 [The DDL to create these tables can be found here.](Sample%20Data.md)
 
@@ -42,7 +42,7 @@ We will use the following tables that contain types of fruits and their quantity
 -----------------------------------------------------------------
 #### UNION
 
-`UNION` will return all rows without duplication.  Here, the `UNION` interprets the NULLS as similar and combines the record into one. The `UNION` operator demonstrates that NULL is not distinct from NULL.
+`UNION` returns all rows without duplicates.  Here, the `UNION` interprets the NULLS as similar and combines the records into one. The `UNION` operator demonstrates that NULL is not distinct from NULL.
 
 ```sql
 SELECT ID, Fruit FROM ##TableA
@@ -101,7 +101,7 @@ SELECT ID, Fruit FROM ##TableB
 
 ---------------------------------------------------------------------
 
-`EXCEPT` will return the records in the table in the first statement that do not exist in the second statement below it.  Some SQL languages use `MINUS` or `DIFFERENCE` instead of `EXCEPT`.  
+`EXCEPT` returns the records in the table in the first statement that do not exist in the second statement below it.  Some SQL languages use `MINUS` or `DIFFERENCE` instead of `EXCEPT`.  
 
 ```sql
 SELECT ID, Fruit FROM ##TableA
@@ -119,7 +119,7 @@ SELECT ID, Fruit FROM ##TableB;
 
 There is no SQL set operation to find the symmetric difference of a dataset.  You can use a `FULL OUTER JOIN` to find the symmetric difference of two datasets using the `ISNULL` function.
 
-This SQL statement returns the records that are in `TableA` but not in `TableB` along with the records in `TableB` that are not in `TableA`. The result set will include two NULL markers.  Note that the predicate logic is placed on the `ID` column which has a `NOT NULL` constraint.
+This SQL statement returns the records that are in `TableA` but not in `TableB`, along with the records in `TableB` that are not in `TableA`. The result set will include two NULL markers.  Note that the predicate logic is placed on the `ID` column, which has a `NOT NULL` constraint.
   
 ```sql
 SELECT  ISNULL(a.ID, b.ID) AS ID,
