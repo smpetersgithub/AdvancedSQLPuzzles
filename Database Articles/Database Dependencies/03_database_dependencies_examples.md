@@ -329,7 +329,7 @@ GO
 
 ### 07. Part Naming Conventions - Caller Dependent
 
-This example creates two stored procedures. The stored procedure `dbo.sp_example_07_b` references `sp_example_07_a` using a one-part naming convention. This dependency will be resolved at runtime, as SQL Server first checks the user's default schema (typically the `dbo` schema) and then checks other schemas if necessary for the object. If you modify the stored procedure `dbo.sp_example_07_b` to reference `sp_example_07` using a two-part naming convention, the dependency will no longer be marked as `is_caller_dependent`.
+This example creates two stored procedures. The stored procedure `dbo.sp_example_07_b` references `sp_example_07_a` using a one-part naming convention. This dependency will be resolved at runtime, as SQL Server first checks the user's default schema (typically `dbo`) and then checks other schemas if necessary for the object. If you modify the stored procedure `dbo.sp_example_07_b` to reference `sp_example_07` using a two-part naming convention, the dependency will no longer be marked as `is_caller_dependent`.
 
 🔹For part naming conventions, the `referenced_id` column will contain a NULL marker. 
 
@@ -520,7 +520,7 @@ GO
 
 In SQL Server, schema binding is an option that can be used when creating views or functions to bind the object to the schema of any underlying tables it references. When schema binding is applied, it prevents modifications to the underlying tables (such as changing the table structure or dropping columns) that would affect the object, ensuring data integrity and stability. This also allows for some performance optimizations, such as creating indexed views.
 
-With schemabinding, two records will be created where `is_schema_bound_reference` will be set to 1, with one of the records having `referenced_minor_id` set to 1.
+With schemabinding, two records will be created, with `is_schema_bound_reference` set to 1 and one record having `referenced_minor_id` set to 1.
 
 ```sql
 USE foo;
@@ -616,9 +616,9 @@ GO
 
 ### 14. Triggers - DML
 
-In SQL Server, a DML trigger is a particular type of stored procedure that automatically executes in response to data modification events (such as `INSERT`, `UPDATE`, or `DELETE`) on a table or view. This allows you to enforce business rules or perform additional actions when data changes occur.
+In SQL Server, a DML trigger is a particular type of stored procedure that automatically executes in response to data modification events (such as `INSERT`, `UPDATE`, or `DELETE`) on a table or view. This allows you to enforce business rules or take additional actions when data changes.
 
-Here, you can observe that the DML trigger references the internal SQL Server tables `deleted` and `inserted`, which store the deleted and inserted records, respectively, during the execution of a DML statement.
+Here, you can see that the DML trigger references the internal SQL Server tables `deleted` and `inserted`, which store the deleted and inserted records, respectively, during DML statement execution.
 
 ```sql
 USE foo;
@@ -765,7 +765,7 @@ GO
 
 ### 17. Partition Functions
 
-A partition function determines how data is divided across multiple partitions within a table or index based on the specified values of a specified column. It maps rows to partitions using a set of boundary values, allowing you to manage and query large datasets more efficiently by distributing them into smaller, more manageable chunks. Partition functions are paired with partition schemes to determine the physical storage of these partitions.
+A partition function determines how data is divided across multiple partitions within a table or index based on the specified values of a specified column. It maps rows to partitions using a set of boundary values, allowing you to manage and query large datasets more efficiently by distributing them into smaller, more manageable chunks. Partition functions are paired with partition schemes to determine the physical storage for each partition.
 
 Contrary to the SQL Server documentation, partition functions are not represented in the `sys.sql_expression_dependencies` table.
 
@@ -824,7 +824,7 @@ GO
 
 ### 18. Defaults and Rules
 
-Defaults are constraints that provide a default value for a column when no specific value is inserted, ensuring that a column always has data. Rules are older SQL Server objects that enforce data validation by defining a condition that column values must meet. Still, they are primarily deprecated and have been replaced by check constraints for better functionality and management.
+Defaults are constraints that provide a default value for a column when no value is specified, ensuring that the column always has data. Rules are older SQL Server objects that enforce data validation by defining a condition that column values must meet. Still, they are primarily deprecated and have been replaced by check constraints for better functionality and management.
 
 Defaults and rules are not represented in the `sys.sql_expression_dependencies` table.
 
@@ -1028,7 +1028,7 @@ GO
 
 ### 23. Check Constraints
 
-A check constraint is a rule that enforces a condition on the values entered into a column to ensure data integrity. It restricts the values stored in a column by evaluating a Boolean expression. The data modification (such as an `INSERT` or `UPDATE`) will only be accepted if the condition is met.
+A check constraint is a rule that enforces a condition on the values entered into a column to ensure data integrity. It restricts the values stored in a column by evaluating a Boolean expression. Data modifications (such as `INSERT` or `UPDATE`) will only be accepted if the condition is met.
 
 The `refereced_minor_id` column will populate with an integer corresponding to the column on which the constraint is dependent.
 
@@ -1072,7 +1072,7 @@ GO
 
 ### 24. Foreign Key Constraints
 
-In SQL Server, a foreign key constraint enforces a relationship between columns in two tables, ensuring that the value in a column (or set of columns) in one table matches values in a referenced column of another table. This constraint maintains referential integrity by preventing actions that would leave orphaned rows or break the relationship, such as inserting a non-existent reference or deleting a referenced row.
+In SQL Server, a foreign key constraint enforces a relationship between columns in two tables, ensuring that the value in a column (or set of columns) in one table matches the value in a referenced column in another table. This constraint maintains referential integrity by preventing actions that would leave orphaned rows or break relationships, such as inserting a nonexistent reference or deleting a referenced row.
 
 The `sys.sql_expression_dependencies` table does not represent foreign key constraints. Refer to the `sys.foreign_keys` table for information about foreign keys.
 
@@ -1235,7 +1235,7 @@ GO
 
 ### 28. Indexes - Filtered NonClustered
 
-In SQL Server, a filtered non-clustered index includes only a subset of rows from a table based on a specified `WHERE` clause. This makes the index smaller and more efficient because it only covers rows that meet the filtering criteria. This can significantly improve query performance and reduce storage requirements when dealing with large datasets with predictable patterns.
+In SQL Server, a filtered non-clustered index includes only a subset of rows from a table based on a specified `WHERE` clause. This makes the index smaller and more efficient because it only covers rows that meet the filtering criteria. This can significantly improve query performance and reduce storage requirements for large datasets with predictable patterns.
 
 🔹In this example, the object appears as self-referencing because the `referencing_id` and `referenced_id` match.
 
@@ -1268,7 +1268,7 @@ GO
 
 ### 29. Indexes - Filtered XML
 
-A filtered XML index is a specialized index created on an XML column that focuses on a subset of the XML data based on a specified XML PATH. This allows you to target specific XML nodes or elements, making queries on those parts faster and more efficient without indexing the entire XML content. It's beneficial for optimizing performance when you frequently query specific sections of large XML data.
+A filtered XML index is a specialized index created on an XML column that focuses on a subset of the XML data based on a specified XML PATH. This allows you to target specific XML nodes or elements, enabling faster, more efficient queries without indexing the entire XML content. Optimizing performance is beneficial when you frequently query particular sections of a large XML dataset.
 
 🔹In this example, the object appears as self-referencing because the `referencing_id` and `referenced_id` match.
 
@@ -1302,7 +1302,7 @@ GO
 
 ### 30. Statistics - Filtered
 
-Filtered statistics are statistics objects that collect data only for a subset of rows in a table, defined by a `WHERE` clause filter. They provide more accurate cardinality estimates for queries that target specific subsets of data, which can lead to better execution plans and improved query performance. Filtered statistics are beneficial when dealing with skewed data distributions or when you frequently query specific portions of a dataset.
+Filtered statistics are statistics objects that collect data only for a subset of rows in a table, defined by a `WHERE` clause filter. They provide more accurate cardinality estimates for queries targeting specific subsets of data, leading to better execution plans and improved query performance. Filtered statistics are beneficial when dealing with skewed data distributions or when you frequently query specific portions of a dataset.
 
 🔹In this example, the object appears as self-referencing because the `referencing_id` and `referenced_id` match.
 
@@ -1335,7 +1335,7 @@ GO
 
 ### 31. XML Schema Collection
 
-In SQL Server, an XML Schema Collection is a database object that stores one or more XML schemas, which define and validate the structure of XML data in XML columns or variables. By associating an XML column with an XML schema collection, you ensure that any XML data inserted into the column adheres to the defined rules and structure, providing data integrity and validation. Additionally, it enables the use of typed XML, which can improve query performance by enforcing a consistent XML format.
+In SQL Server, an XML Schema Collection is a database object that stores one or more XML schemas, which define and validate the structure of XML data in XML columns or variables. By associating an XML column with an XML schema collection, you ensure that any XML data inserted into the column adheres to the defined rules and structure, providing data integrity and validation. Additionally, it enables typed XML, which can improve query performance by enforcing a consistent XML format.
 
 Information about XML schema collections is not stored in the `sys.objects` table. For more information, refer to the `sys.xml_schema_collections` table.
 
@@ -1395,7 +1395,7 @@ This script illustrates XML handling in SQL Server using the following methods.
 * The `nodes()` method shreds XML data into rows, allowing easier access to each node.
 * The `modify()` method updates the XML content, changing the text from "Hello World" to "Goodbye World."
 
-Interestingly, the columns `referenced_database_name`, `referenced_schema_name`, and the `referenced_entity_name` get repurposed with information about the XML method.
+Interestingly, the columns `referenced_database_name`, `referenced_schema_name`, and `referenced_entity_name` are repurposed to hold information about the XML method.
 
 For XML methods, the `referenced_id` column will contain a NULL marker.
 
@@ -1458,9 +1458,9 @@ GO
 
 In SQL Server Management Studio (SSMS), enabling certain features—such as Database Diagrams and Change Data Capture adds feature-specific system stored procedures and objects to your database to support that functionality.
 
-For example, enabling Database Diagrams by right-clicking the Database Diagrams folder under the foo database and selecting New Database Diagram will trigger the creation of several dependencies.
+For example, enabling Database Diagrams by right-clicking the Database Diagrams folder under the foo database and selecting New Database Diagram will create several dependencies.
 
-These dependencies are recorded in the `sys.sql_expression_dependencies` table. Notably, the associated stored procedures will have `referencing_is_ms_shipped` and `referenced_is_ms_shipped` both set to 0, indicating they are not Microsoft-shipped system objects. Additionally, a table named `dtproperties` is created. This table is a system object used specifically to support database diagrams in SSMS.
+These dependencies are recorded in the `sys.sql_expression_dependencies` table. Notably, the associated stored procedures will have `referencing_is_ms_shipped` and `referenced_is_ms_shipped` both set to 0, indicating they are not Microsoft-shipped system objects. Additionally, a table named `dtproperties` is created. This table is a system object explicitly used to support database diagrams in SSMS.
 
 | Example Number | Referencing Object Type | Referencing Server Name      | Referencing Database Name | Referencing Schema Name | Referencing Entity Name   | Referencing ID | Referencing Minor ID | Referencing Class | Referencing Class Desc  | Is Schema Bound Reference | Referenced Class | Referenced Class Desc   | Referenced Server Name | Referenced Database Name | Referenced Schema Name | Referenced Entity Name | Referenced Object Type | Referenced ID | Referenced Minor ID | Is Caller Dependent | Is Ambiguous | Referencing Is Ms Shipped | Referenced Is Ms Shipped | Is User Defined Data Type | Is Self Referencing |
 | -------------- | ----------------------- | ---------------------------- | ------------------------- | ----------------------- | ------------------------- | -------------- | -------------------- | ----------------- | ----------------------- | ------------------------- | ---------------- | ----------------------- | ---------------------- | ------------------------ | ---------------------- | ---------------------- | ---------------------- | ------------- | ------------------- | ------------------- | ------------ | ------------------------- | ------------------------ | ------------------------- | ------------------- |
@@ -1523,7 +1523,7 @@ GO
 
 ### 35. Change Data Capture
 
-Change Data Capture (CDC) in SQL Server is a mechanism for tracking and recording changes made to tables within a database. This feature captures insertions, updates, and deletions, and stores this change information in dedicated change tables.
+Change Data Capture (CDC) in SQL Server is a mechanism for tracking and recording changes to database tables. This feature captures insertions, updates, and deletions, and stores this change information in dedicated change tables.
 
 Enabling Change Data Capture (CDC) adds procedure dependencies to the sys.sql_expression_dependencies table. Once CDC is enabled on a table, additional entries related to that table will also be created in sys.sql_expression_dependencies.
 
@@ -1599,7 +1599,7 @@ GO
 
 ### 37. Change Tracking
 
-SQL Server offers Change Tracking as a lightweight solution to track DML changes (inserts, updates, deletes) made to user tables in a database.
+SQL Server offers Change Tracking as a lightweight solution for tracking DML changes (inserts, updates, deletes) to user tables in a database.
 
 Tables enabled for change tracking are not represented in the `sys.sql_expression_dependencies` table.
 
