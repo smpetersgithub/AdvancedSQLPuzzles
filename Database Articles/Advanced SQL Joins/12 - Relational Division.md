@@ -1,8 +1,8 @@
 # Relational Division
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Relational division is a Relational Algebra operation that represents the division of one relation into another relation based on certain conditions. In SQL, relational division can be achieved by using multiple join operations and conditional statements to divide the data in one table into multiple groups based on certain criteria. This can be useful for solving problems such as finding all employees who have had a shift in every department or employees with the same licenses or skillsets.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Relational division is a Relational Algebra operation that represents the division of one relation into another relation based on certain conditions. In SQL, relational division can be achieved using multiple join operations and conditional statements to partition a table's data into multiple groups based on specific criteria. This can be useful for solving problems such as finding all employees who have had a shift in every department or employees with the same licenses or skillsets.
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Relational division is not a built-in operator in SQL, so it must be simulated using a combination of other SQL operations, such as joins, subqueries, and conditional statements. The exact implementation of relational division may vary depending on the specific requirements of the problem and the database management system being used.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Relational division is not a built-in operator in SQL, so it must be simulated using a combination of other SQL operations, such as joins, subqueries, and conditional statements. The exact implementation of relational division may vary depending on the problem's specific requirements and the database management system being used.
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Here are some examples of problems that require the use of relational division.
 *  I want to find all pilots who can fly 100% of the airplanes in the hangar (the most common example of relational division).
@@ -14,7 +14,7 @@ Let’s look at a few examples.
 --------------------------------------------------------------
 #### Planes In The Hangar
 
-The most common example on the internet is the Airplanes in the Hangar example.  Here, you need to find all pilots that can fly all planes located in the hangar.
+The most common example on the internet is the Airplanes in the Hangar example.  Here, you need to find all pilots who can fly all planes located in the hangar.
 
 **Pilot Skills**
 
