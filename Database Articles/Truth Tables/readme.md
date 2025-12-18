@@ -1,6 +1,6 @@
 # Creating Truth Tables Using SQL
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;A truth table is a mathematical table utilized in logic, particularly relevant to Boolean algebra, Boolean functions, and propositional calculus. This table methodically displays the output values of logical expressions based on various combinations of input values (True or False) assigned to their logical variables. Moreover, truth tables serve as a tool to determine if a given propositional expression consistently yields a true outcome across all possible legitimate input values, thereby establishing its logical validity.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;A truth table is a mathematical table utilized in logic, particularly relevant to Boolean algebra, Boolean functions, and propositional calculus. This table methodically displays the output values of logical expressions based on various combinations of input values (True or False) assigned to their logical variables. Moreover, truth tables serve as a tool for determining whether a given propositional expression consistently yields a true value for all legitimate input values, thereby establishing its logical validity.
 
 | p | q | p ∧ q | p ∨ q |
 |---|---|-------|-------|
@@ -9,7 +9,7 @@
 | 0 | 1 | 0     | 1     |
 | 0 | 0 | 0     | 0     |
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;This exploration ventures into the intriguing crossroads of propositional logic and SQL, uncovering their interconnectedness. It focuses on demonstrating the capability of SQL in constructing comprehensive truth tables, a fundamental aspect of logical reasoning. This article not only reveals the practical application of SQL in logical operations but also deepens the understanding of how these two domains complement each other.
+This exploration explores the intriguing crossroads of propositional logic and SQL, uncovering their interconnectedness. It focuses on demonstrating SQL's ability to construct comprehensive truth tables, a fundamental aspect of logical reasoning. This article not only reveals the practical application of SQL in logical operations but also deepens the understanding of how these two domains complement each other.
 
 ----------
 
@@ -17,13 +17,13 @@
 
 ----------
 
-Additionally, before we begin, a few tidbits of SQL should be mentioned.  
+Additionally, before we begin, a few SQL tidbits should be mentioned.  
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;•	SQL is based on relational algebra and relational calculus.  Although SQL is rooted in predicate logic, it is not based on propositional calculus.
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;•	SQL includes the possibility of NULL markers when creating predicate logic statements.   Propositional logic does not incorporate the concept of NULL markers into its paradigm.  We will be ignoring the concept of NULL markers entirely for this article.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;•	SQL includes the possibility of NULL markers when creating predicate logic statements.   Propositional logic does not incorporate the concept of NULL markers into its paradigm.  We will ignore the concept of NULL markers entirely in this article.
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;•	The `BIT` data type in SQL is not an accurate Boolean representation, as it has three possible values: True, False, and NULL.  Many SQL experts recommend not to use the `BIT` data type because of this, and instead use the `SMALLINT` data type and set the permissible values to 0 and 1.  Also, SQL Server does not allow math operations on the `BIT` data type; using the `SMALLINT` datatype allows us to create mathematical expressions that we can use to resolve truths.   
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;•	The `BIT` data type in SQL is not an accurate Boolean representation, as it has three possible values: True, False, and NULL.  Many SQL experts recommend avoiding the `BIT` data type because of this and instead using `SMALLINT` with permissible values 0 and 1.  Also, SQL Server does not allow arithmetic operations on the `BIT` data type; using the `SMALLINT` data type allows us to create mathematical expressions that can be used to evaluate conditions.   
 
 🔌To learn more about NULL markers and their effect on predicate logic, check out my article Behavior of NULLS.
 
@@ -39,7 +39,7 @@ Additionally, before we begin, a few tidbits of SQL should be mentioned.
 
 ### Logic Symbols
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Like any branch of mathematics, a set of symbols and terms needs to be defined.  Here is a summary of the different symbols and terms and examples of how they are used in everyday English statements. 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Like any branch of mathematics, a set of symbols and terms needs to be defined.  Here is a summary of the different symbols and terms, and examples of how they are used in everyday English statements. 
 
 | Logical Operation       | Symbol |   English Language Usage     |
 |-------------------------|--------|------------------------------|
@@ -57,7 +57,7 @@ Additionally, before we begin, a few tidbits of SQL should be mentioned.
 
 ### Truth Table
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Here is the SQL to generate the truth table.  I find pivoting the data and sorting by the outcome the best method to view the table given the number of columns.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Here is the SQL to generate the truth table.  I find pivoting the data and sorting by the outcome to be the best method to view the table given the number of columns.
 
 | RowId        | p | q | T | F | ¬p | ¬q | ¬¬p | ¬¬q | p∧q | q∧p | p∧p | q∧q | p∧T | p∧F | q∧T | q∧F | ¬(p∧q) | ¬(p∧p) | ¬(q∧q) | ¬p∧p | ¬p∧q | ¬q∧q | ¬q∧p | ¬p∧¬q | p∨q | q∨p | p∨p | q∨q | p∨T | p∨F | q∨T | q∨F | ¬(p∨q) | ¬(p∨p) | ¬(q∨q) | ¬p∨p | ¬p∨q | ¬q∨q | ¬q∨p | ¬p∨¬q | p→q | q→p | p→q∧q→p | p→q∨q→p | ¬(p→q∧q→p) | ¬(p→q∨q→p) | ¬p→¬q | ¬q→¬p | p↔q | ¬(p↔q) | p⊕q | ¬(p⊕q) |
 |--------------|---|---|---|---|----|----|-----|-----|-----|------|-----|-----|-----|------|-----|-----|---------|--------|--------|------|------|-------|------|--------|-----|------|-----|-----|-----|------|-----|-----|--------|---------|--------|------|-------|------|------|-------|-----|-----|----------|----------|-----------|-------------|-------|-------|-----|--------|-----|---------|
@@ -355,4 +355,4 @@ Here is the truth table pivoted, with a dense rank and row number added.
 
 ### Conclusion
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The exploration of logical operations and their corresponding truth tables offers insightful perspectives into the foundations of propositional logic. By systematically breaking down complex logical expressions into simpler components, we can discern the underlying principles governing logical reasoning. This analysis not only reinforces the fundamental concepts of logic, such as negation, conjunction, and disjunction, but also elucidates the more intricate aspects like implications and biconditional relationships. The ability to translate these logical operations into a structured format like truth tables is a valuable skill, enhancing our understanding of logical processes and their applications in various fields.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The exploration of logical operations and their corresponding truth tables offers insightful perspectives into the foundations of propositional logic. By systematically breaking down complex logical expressions into simpler components, we can discern the underlying principles governing logical reasoning. This analysis not only reinforces the fundamental concepts of logic, such as negation, conjunction, and disjunction, but also elucidates more intricate aspects, such as implications and biconditional relationships. The ability to translate these logical operations into a structured format, such as a truth table, is a valuable skill that enhances our understanding of logical processes and their applications across various fields.
