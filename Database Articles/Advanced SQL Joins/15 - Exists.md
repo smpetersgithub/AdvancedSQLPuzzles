@@ -49,7 +49,7 @@ ELSE
 PRINT 'FALSE'
 ```
 
-This statement will return TRUE when we supply a NULL value.  Even though we provide a NULL value, it does return a record set with a NULL value, which is different than an empty record set.
+This statement will return TRUE when we supply a NULL value.  Even though we provide a NULL value, it still returns a record set with a NULL value, which is different from an empty record set.
 
 ```sql
 IF EXISTS (SELECT NULL)
@@ -94,7 +94,7 @@ WHERE   NOT EXISTS (SELECT 1 FROM ##TableB b WHERE a.Fruit = b.Fruit);
 --------------------------------------------------------------
 #### ON EXISTS
   
-Probably one of the more difficult joins to understand is the use of `ON EXISTS`.  It is best to learn by example, and remember that `EXISTS` returns TRUE or FALSE, not a subset of records.  The `ON EXISTS` will work with the `INNER JOIN`, `LEFT OUTER JOIN`, `RIGHT OUTER JOIN`, and `FULL OUTER JOIN` clauses, but not the `CROSS JOIN`.
+Probably one of the more difficult joins to understand is the `ON EXISTS` clause.  It is best to learn by example, and remember that `EXISTS` returns TRUE or FALSE, not a subset of records.  The `ON EXISTS` will work with the `INNER JOIN`, `LEFT OUTER JOIN`, `RIGHT OUTER JOIN`, and `FULL OUTER JOIN` clauses, but not the `CROSS JOIN`.
  
 These statements will return TRUE and behave like a `CROSS JOIN`.
   
