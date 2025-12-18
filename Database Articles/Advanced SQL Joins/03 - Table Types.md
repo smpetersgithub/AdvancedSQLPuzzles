@@ -44,7 +44,7 @@ Salary     MONEY NOT NULL
 INSERT INTO Employees (EmployeeID, FirstName, LastName, Department,Salary) VALUES (1,'John','Wilson','Accounting',100000);
 INSERT INTO Employees (EmployeeID, FirstName, LastName, Department,Salary) VALUES (2,'Sarah','Shultz','Accounting',90000);
 
-SELECT * FROM Employees;
+SELECT * FROM Employees ORDER BY 1;
 ```
 
 
@@ -83,7 +83,7 @@ FROM    Employees
 
 INSERT INTO vwEmployees (EmployeeID,FirstName,LastName, Department,Salary) VALUES(3,'Larry','Johnson','Accounting','85000');
 
-SELECT * FROM vwEmployees;
+SELECT * FROM vwEmployees ORDER BY 1;
 ```
 
 | EmployeeID | FirstName | LastName | Department |  Salary   |
@@ -102,7 +102,8 @@ Here is a basic example of using the `VALUES` constructor as a derived table.
 ```sql
 SELECT  a,
         b 
-FROM    (VALUES (1, 2), (3, 4), (5, 6), (7, 8), (9, 10)) AS MyTable(a, b);
+FROM    (VALUES (1, 2), (3, 4), (5, 6), (7, 8), (9, 10)) AS MyTable(a, b)
+ORDER BY 1;
 ```
 
 | a | b  |
@@ -133,15 +134,15 @@ You can also place functions into the `VALUES` constructor.  The `NEWID()` funct
 SELECT  CONCAT(FirstName,' ',LastName) AS Name,
         b.UniqueID
 FROM    Employees a CROSS JOIN
-        (VALUES (NEWID())) AS b(UniqueID);
+        (VALUES (NEWID())) AS b(UniqueID)
+ORDER BY 1;
 ```
 
 |     Name      |               UniqueID               |
 |---------------|--------------------------------------|
 | John Wilson   | 50CA5F8E-9090-4DB8-A7C4-43F1D6C89D57 |
-| Sarah Shultz  | 803DF712-0144-41AC-959A-A774F35DC600 |
 | Larry Johnson | 5CCCCBE3-F600-4E79-B16B-1BC6504152A2 |
-
+| Sarah Shultz  | 803DF712-0144-41AC-959A-A774F35DC600 |
 
 --------------------------------------------------------------------------------------------------------
 #### Table-Valued Function
@@ -210,7 +211,8 @@ SELECT  e.*,
         e2.Salary
 FROM    (SELECT  EmployeeID, FirstName, LastName, Salary FROM Employees) e 
         INNER JOIN 
-        Employees e2 ON e.Salary > e2.Salary;      
+        Employees e2 ON e.Salary > e2.Salary
+ORDER BY 1, 2, 3, 4, 5;
 ```
 
 | EmployeeID | FirstName | LastName |  Salary   | EmployeeID |  Salary  |
@@ -225,7 +227,8 @@ In Microsoft SQL Server, even when performing a `CROSS JOIN`, the derived table 
 SELECT  TOP 2 *
 FROM    (SELECT DISTINCT Salary FROM Employees) e
         CROSS JOIN
-        Employees;
+        Employees
+ORDER BY 2;
 ```
 
 |  Salary  | EmployeeID | FirstName | LastName | Department |  Salary   |
@@ -282,7 +285,7 @@ Salary     MONEY NOT NULL
 
 INSERT INTO #Employees SELECT * FROM Employees;
 
-SELECT * FROM #Employees;
+SELECT * FROM #Employees ORDER BY 1;
 
 ```
 
@@ -299,7 +302,7 @@ SELECT  *
 INTO    #Employees2
 FROM    Employees;
 
-SELECT * FROM #Employees2
+SELECT * FROM #Employees2 ORDER BY 1;
 ```
 
 | EmployeeID | FirstName | LastName | Department |  Salary   |
@@ -335,7 +338,7 @@ Salary     MONEY NOT NULL DEFAULT 0
 INSERT INTO @TableVariable
 SELECT * FROM Employees;
 
-SELECT * FROM @TableVariable;
+SELECT * FROM @TableVariable ORDER BY 1;
 ```
 
 | EmployeeID | FirstName | LastName | Department |  Salary   |
