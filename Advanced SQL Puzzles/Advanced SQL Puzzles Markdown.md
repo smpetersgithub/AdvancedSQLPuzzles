@@ -861,6 +861,7 @@ Here is the expected output.
 | 7        | 1001        | 1/1/2018   | 150    | TX    |
 | 8        | 3003        | 3/1/2018   | 100    | IA    |
 | 9        | 4004        | 4/1/2018   | 100    | IA    |
+| 10       | 1001        | 1/1/2018   | 75     | TX    |
 
 [🔙 Back to Table of Contents](#table-of-contents)
 
