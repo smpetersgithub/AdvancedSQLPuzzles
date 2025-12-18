@@ -168,18 +168,6 @@ Occupation   VARCHAR(100),
 PRIMARY KEY (CandidateID, Occupation)
 );
 GO
-
-Candidate ID	Description
-1001	Geologist
-1001	Astrogator
-1001	Biochemist
-1001	Technician
-2002	Surgeon
-2002	Machinist
-2002	Geologist
-3003	Geologist
-3003	Astrogator
-4004	Selenologist
        
 INSERT INTO #Candidates (CandidateID, Occupation) VALUES
 (1001,'Geologist'),(1001,'Astrogator'),(1001,'Biochemist'),
@@ -1927,6 +1915,7 @@ GO
 /*----------------------------------------------------
 The End
 */----------------------------------------------------
+
 
 
 
