@@ -128,7 +128,7 @@ WHERE   NOT EXISTS (SELECT 1 FROM ##TableB b where a.Fruit = b.Fruit);
   
 The following produces all combinations (not permutations).
   
-Given all fruits in both `TableA` and `TableB`, here is a result set of all fruit combinations.  Because of the theta-join in the `WHERE` clause, the fruits are listed in alphabetical order from left to right.  Note that NULL markers are not included in the result set, as NULL markers are not equal to each other, nor are they equal to each other. They are unknown.
+Given all fruits in both `TableA` and `TableB`, here is a result set of all fruit combinations.  Because of the theta-join in the `WHERE` clause, the fruits are listed in alphabetical order from left to right.  Note that NULL markers are not included in the result set, as NULL markers are neither equal to nor not equal to each other. They are unknown.
   
 ```sql
 WITH cte_DistinctFruits as
