@@ -41,17 +41,17 @@ Additionally, before we begin, a few SQL tidbits should be mentioned.
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Like any branch of mathematics, a set of symbols and terms needs to be defined.  Here is a summary of the different symbols and terms, and examples of how they are used in everyday English statements. 
 
-| Logical Operation       | Symbol |   English Language Usage     |
-|-------------------------|--------|------------------------------|
-| Negation (NOT)          | ¬      | Not p                        |
-| Conjunction (AND)       | ∧      | p and q                      |
-| Disjunction (OR)        | ∨      | p or q                       |
-| Implication (IF...THEN) | →      | If p, then q                 |
-| Biconditional (IFF)     | ↔      | p if and only if q           |
-| Tautology (True)        | ⊤      | Always True                  |
-| Contradiction (False)   | ⊥      | Always False                 |
-| Exclusive Or (XOR)      | ⊕     | Either p or q, but not both  |
-| Logical Equivalent      | ⇔     | 2+3 is the equivalent of 4+1 |
+| Logical Operation       | Symbol |     English Language Usage     |
+|-------------------------|--------|--------------------------------|
+| Negation (NOT)          | ¬      | Not p                          |
+| Conjunction (AND)       | ∧      | p and q                        |
+| Disjunction (OR)        | ∨      | p or q                         |
+| Implication (IF...THEN) | →      | If p, then q                   |
+| Biconditional (IFF)     | ↔      | p if and only if q             |
+| Tautology (True)        | ⊤      | Always True                    |
+| Contradiction (False)   | ⊥      | Always False                   |
+| Exclusive Or (XOR)      | ⊕     | Either p or q, but not both    |
+| Logical Equivalent      | ⇔     | p is logically equivalent to q |
 
 -----------------------------------
 
