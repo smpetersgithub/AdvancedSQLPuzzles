@@ -65,7 +65,8 @@ The `IN` operator is typically used to filter a column for a specific list of va
 ```sql
 SELECT  Fruit
 FROM    ##TableA
-WHERE   Fruit IN ('Apple','Peach',NULL);
+WHERE   Fruit IN ('Apple','Peach',NULL)
+ORDER BY 1;
 ```
 
 | ID | Fruit |
@@ -80,7 +81,8 @@ Using the `IN` operator, this query will return results, but does not return a N
 ```sql
 SELECT  Fruit
 FROM    ##TableA
-WHERE   Fruit IN (SELECT Fruit FROM ##TableB);
+WHERE   Fruit IN (SELECT Fruit FROM ##TableB)
+ORDER BY 1;
 ```
 
 | ID | Fruit |
@@ -113,7 +115,8 @@ Because it checks for the existence of rows, you do not need to include any colu
 SELECT  ID,
         Fruit
 FROM    ##TableA a 
-WHERE   EXISTS (SELECT 1 FROM ##TableB b WHERE a.Fruit = b.Fruit);
+WHERE   EXISTS (SELECT 1 FROM ##TableB b WHERE a.Fruit = b.Fruit)
+ORDER BY 1;
 ```
 
 | ID | Fruit |
@@ -128,7 +131,8 @@ Be aware that when using correlated subqueries without a join condition, they wi
 ```sql
 SELECT  *
 FROM    ##TableA
-WHERE   EXISTS (SELECT NULL);
+WHERE   EXISTS (SELECT NULL)
+ORDER BY 1;
 ```
 
 | ID |  Fruit  | Quantity |
@@ -147,21 +151,23 @@ In this example, I use two table variables for demonstration.
 In the SQL snippet below, you might anticipate that the inner `SELECT` statement would produce an error since `Column_AAA` doesn't exist in `@Table2`. However, this query runs without issue and updates `@Table1`, setting `Column_AAA` to 3. This is because Microsoft SQL Server treats it as a correlated subquery. To trigger a column reference error, you can use a table alias to refer to the column from `@Table2 explicitly`.
 
 ```sql
-DECLARE @Table1 TABLE (Column_AAA INT);
-DECLARE @Table2 TABLE (Column_BBB INT);
+DECLARE @Table1 TABLE (Column_A INT);
+DECLARE @Table2 TABLE (Column_B INT);
 
 INSERT @Table1 VALUES(1);
 INSERT @Table2 VALUES(2);
 
 UPDATE  @Table1
-SET     Column_AAA = 3
-WHERE   Column_AAA IN (SELECT Column_AAA FROM @Table2);
+SET     Column_A = 3
+WHERE   Column_A IN (SELECT Column_A FROM @Table2);
 
-SELECT  Column_AAA
+SELECT  Column_A
 FROM    @Table1;
 ```
 
-The result of the above statement is 3.
+| Column_AAA |
+|------------|
+| 3          |
 
 ----------------------------------------------------------------------------------------
 
@@ -186,7 +192,8 @@ The `NOT EXISTS` operator handles NULL markers implicitly and will return a resu
 SELECT  ID,
         Fruit
 FROM    ##TableA a
-WHERE   NOT EXISTS (SELECT 1 FROM ##TableB b WHERE a.Fruit = b.Fruit);
+WHERE   NOT EXISTS (SELECT 1 FROM ##TableB b WHERE a.Fruit = b.Fruit)
+ORDER BY 1;
 ```
 
 | ID |  Fruit  |
