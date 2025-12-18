@@ -36,7 +36,8 @@ SELECT  a.ID,
         b.ID,
         b.Fruit
 FROM    ##TableA a INNER JOIN
-        ##TableB b ON a.Fruit = b.Fruit;
+        ##TableB b ON a.Fruit = b.Fruit
+ORDER BY 1;
 ```
 
 | ID | Fruit | ID | Fruit |
@@ -54,7 +55,8 @@ SELECT  a.ID,
         b.Fruit
 FROM    ##TableA a,
         ##TableB b
-WHERE   a.Fruit = b.Fruit;
+WHERE   a.Fruit = b.Fruit
+ORDER BY 1;
 ```
 
 | ID | Fruit | ID | Fruit |
@@ -73,7 +75,8 @@ SELECT  a.ID,
         b.Fruit
 FROM    ##TableA a CROSS JOIN
         ##TableB b
-WHERE   a.Fruit = b.Fruit;
+WHERE   a.Fruit = b.Fruit
+ORDER BY 1;
 ```
 
 | ID | Fruit | ID | Fruit |
@@ -93,7 +96,8 @@ SELECT a.ID,
        b.Fruit
 FROM   ##TableA a CROSS JOIN
        ##TableB b ON 1=1
-WHERE  a.Fruit = b.Fruit;
+WHERE  a.Fruit = b.Fruit
+ORDER BY 1;
 ```
 
 | ID | Fruit | ID | Fruit |
@@ -112,7 +116,7 @@ SELECT  a.ID,
         b.Fruit
 FROM    ##TableA a LEFT JOIN
         ##TableB b ON a.Fruit = b.Fruit
-WHERE   b.Fruit = 'Apple'
+WHERE   b.Fruit = 'Apple';
 ```
 
 | ID | Fruit | ID | Fruit |
@@ -133,8 +137,18 @@ SELECT  a.ID,
         b.Fruit,
         b.Quantity
 FROM    ##TableA a INNER JOIN
-        ##TableB b ON a.Fruit <> b.Fruit AND a.Quantity <> b.Quantity;
+        ##TableB b ON a.Fruit <> b.Fruit AND a.Quantity <> b.Quantity
+ORDER BY 1, 4;
 ```
+
+| ID | Fruit | Quantity | ID | Fruit | Quantity |
+|----|-------|----------|----|-------|----------|
+| 1	 | Apple | 17       | 2  | Peach | 25       |
+| 1	 | Apple | 17       | 3  | Kiwi  | 20       |
+| 2	 | Peach | 20       | 1  | Apple | 17       |
+| 3	 | Mango | 11       | 1  | Apple | 17       |
+| 3	 | Mango | 11       | 2  | Peach | 25       |
+| 3  | Mango | 11       | 3  | Kiwi  | 20       |
 
 ---------------------------------------------------------------------------------
   
@@ -171,7 +185,8 @@ This query looks for all values where the quantity in `TableA` is greater than o
 ```sql
 SELECT  *
 FROM    ##TableA a INNER JOIN
-        ##TableB b ON a.Quantity >= b.Quantity;
+        ##TableB b ON a.Quantity >= b.Quantity
+ORDER BY 1, 4;
 ```
 
 | ID | Fruit | Quantity | ID | Fruit | Quantity |
@@ -192,7 +207,8 @@ SELECT  a.ID,
         b.Fruit,
         b.Quantity
 FROM    ##TableA a INNER JOIN
-        ##TableB b ON a.Fruit = b.Fruit AND NOT(a.ID BETWEEN a.Quantity AND b.Quantity);
+        ##TableB b ON a.Fruit = b.Fruit AND NOT(a.ID BETWEEN a.Quantity AND b.Quantity)
+ORDER BY 1;
 ```
 
 | ID | Fruit   | Quantity | ID |  Fruit  | Quantity |
@@ -209,7 +225,8 @@ SELECT  a.ID,
         b.ID,
         b.Fruit
 FROM    ##TableA a INNER JOIN
-        ##TableB b ON ISNULL(a.Fruit,'') = ISNULL(b.Fruit,'');
+        ##TableB b ON ISNULL(a.Fruit,'') = ISNULL(b.Fruit,'')
+ORDER BY 1;
 ```
 
 | ID |  Fruit  | ID | Fruit   |
@@ -225,7 +242,8 @@ In Microsoft SQL Server and PostgreSQL, you can also write the above query using
 SELECT  a.*,
         b.*
 FROM    ##TableA a INNER JOIN
-        ##TableB b ON EXISTS(SELECT a.Fruit INTERSECT SELECT b.Fruit);
+        ##TableB b ON EXISTS(SELECT a.Fruit INTERSECT SELECT b.Fruit)
+ORDER BY 1;
 ```
 
 | ID |  Fruit  | Quantity | ID |  Fruit  | Quantity |
