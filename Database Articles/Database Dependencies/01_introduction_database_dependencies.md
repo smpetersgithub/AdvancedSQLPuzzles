@@ -23,13 +23,13 @@ The following documentation is designed to help developers understand the `sys.s
 
 The `sys.sql_expression_dependencies` view is a system catalog view that details the dependencies of SQL expressions on database objects. It helps analyze the relationships between different database objects (tables, views, procedures, functions, etc.) and assess how modifications to one object could affect others.
 
-A dependency between two entities is created when one entity, referred to as the referenced entity, appears by name in a persisted SQL expression of another entity, known as the referencing entity. At the heart of this table are the `referencing_id` and `referenced_id` columns, along with several other columns that help describe the relationship and further details of the referenced object. These columns will become apparent once we begin working through examples.
+A dependency between two entities is created when one entity, the referenced entity, appears by name in a persisted SQL expression of another entity, the referencing entity. At the heart of this table are the `referencing_id` and `referenced_id` columns, along with several other columns that help describe the relationship and further details of the referenced object. These columns will become apparent as we work through examples.
 
 ***
 
 **⚠️ Warning!**
 
-The Microsoft documentation contains some inaccuracies and provides limited examples. I recommend reviewing the provided scripts for a clearer understanding of how to use this table effectively.
+The Microsoft documentation contains some inaccuracies and provides limited examples. I recommend reviewing the provided scripts to better understand how to use this table effectively.
 
 [The Microsoft documentation can be found here](https://learn.microsoft.com/en-us/sql/relational-databases/system-catalog-views/sys-sql-expression-dependencies-transact-sql?view=sql-server-ver16).
 
@@ -39,17 +39,17 @@ The Microsoft documentation contains some inaccuracies and provides limited exam
 
 Before beginning, I would like to briefly cover the concepts of deferred name resolution and non-strict dependency enforcement.
 
-Deferred name resolution is a feature in SQL Server that allows the creation of specific database objects, even if the objects they reference, such as tables or views, do not exist at the time of creation.
+Deferred name resolution is a SQL Server feature that allows the creation of database objects, even if the objects they reference, such as tables or views, do not exist at the time of creation.
 
-When these database objects are created, SQL Server does not immediately check for the existence of the referenced objects; instead, it defers this validation until the object is executed or used. This feature facilitates the development process by allowing developers to write and compile these objects without worrying about the immediate availability of all referenced entities.
+When these database objects are created, SQL Server does not immediately check whether the referenced objects exist; instead, it defers this validation until the object is executed or used. This feature facilitates the development process by allowing developers to write and compile these objects without worrying about the immediate availability of all referenced entities.
 
 This is particularly useful in scenarios where object dependencies are created at different stages of the database deployment process. However, an error will occur if the referenced objects do not exist when the deferred name resolution object is executed.
 
 Alternatively, there is the concept of non-strict dependency enforcement.
 
-   In SQL Server, the ability to drop an object referenced by another object without cascading the drop is a behavior known as non-strict dependency enforcement. While a view may depend on the table, SQL Server allows you to drop the table without immediately dropping or updating the dependent view. However, this will result in the view becoming invalid.
+   In SQL Server, the ability to drop an object referenced by another object without cascading the drop is a behavior known as non-strict dependency enforcement. While a view may depend on the table, SQL Server allows you to drop the table without immediately dropping or updating the dependent view. However, this will cause the view to become invalid.
 
-These concepts will come into play as we find objects referencing invalid objects and how these are represented in the `sys.sql_expression_dependencies` table. A quick internet search will provide ample documentation and examples of how deferred name resolution and non-strict dependency enforcement behave within SQL Server. It is also important to note that different vendors (such as Oracle, DB2, and PostgreSQL) have different behaviors regarding these concepts. Therefore, the behavior of SQL Server in these contexts does not necessarily apply to other database systems.
+These concepts will come into play as we find objects referencing invalid objects and how these are represented in the `sys.sql_expression_dependencies` table. A quick internet search will provide ample documentation and examples of how deferred name resolution and non-strict dependency enforcement behave within SQL Server. It is also important to note that different vendors (such as Oracle, DB2, and PostgreSQL) exhibit different behavior with respect to these concepts. Therefore, SQL Server's behavior in these contexts does not necessarily apply to other database systems.
 
 ***
 
