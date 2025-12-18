@@ -92,7 +92,7 @@ SELECT a.ID,
        b.ID,
        b.Fruit
 FROM   ##TableA a CROSS JOIN
-       ##TableB b on 1=1
+       ##TableB b ON 1=1
 WHERE  a.Fruit = b.Fruit;
 ```
 
