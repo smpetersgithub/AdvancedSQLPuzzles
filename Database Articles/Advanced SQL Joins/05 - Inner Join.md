@@ -146,7 +146,8 @@ SELECT  a.ID,
         b.ID,
         b.Fruit
 FROM    ##TableA a INNER JOIN
-        ##TableB b ON a.Fruit <> b.Fruit OR a.Fruit = b.Fruit;
+        ##TableB b ON a.Fruit <> b.Fruit OR a.Fruit = b.Fruit
+ORDER BY 3, 1;
 ```
 
 | ID | Fruit | ID | Fruit |
@@ -243,7 +244,8 @@ You can use a `CASE` statement to specify the join condition in the `WHERE` clau
         b.Fruit
 FROM    ##TableA a,
         ##TableB b
-WHERE   (CASE WHEN a.Fruit = 'Apple' THEN a.Fruit ELSE 'Peach' END) = b.Fruit;
+WHERE   (CASE WHEN a.Fruit = 'Apple' THEN a.Fruit ELSE 'Peach' END) = b.Fruit
+ORDER BY 1;
 ```
         
 | ID |  Fruit  | ID | Fruit |
@@ -264,7 +266,8 @@ SELECT  a.ID,
 FROM    ##TableA a INNER JOIN
         ##TableA b INNER JOIN
         ##TableA c INNER JOIN
-        ##TableA d ON c.Fruit = d.Fruit ON b.Fruit = c.Fruit ON a.Fruit = b.Fruit;
+        ##TableA d ON c.Fruit = d.Fruit ON b.Fruit = c.Fruit ON a.Fruit = b.Fruit
+ORDER BY 1;
 ```
 
 | ID | Fruit |
@@ -284,7 +287,8 @@ SELECT  a.ID,
         b.ID,
         b.Fruit
 FROM    ##TableA a INNER JOIN
-        ##TableB b USING(Fruit);  
+        ##TableB b USING(Fruit)
+ORDER BY 1;
 ```
   
 | ID | Fruit | ID | Fruit |
