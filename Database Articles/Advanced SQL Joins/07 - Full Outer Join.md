@@ -35,17 +35,18 @@ SELECT  a.ID,
         b.ID,
         b.Fruit
 FROM    ##TableA a FULL OUTER JOIN
-        ##TableB b ON a.Fruit = b.Fruit;
+        ##TableB b ON a.Fruit = b.Fruit
+ORDER BY 1;
 ```
 
 |    ID   |  Fruit  |    ID   |  Fruit  |
 |---------|---------|---------|---------|
+|         |         | 3       | Kiwi    |
+|         |         | 4       |         |
 | 1       | Apple   | 1       | Apple   |
 | 2       | Peach   | 2       | Peach   |
 | 3       | Mango   |         |         |
 | 4       |         |         |         |
-|         |         | 3       | Kiwi    |
-|         |         | 4       |         |
 
 ---------------------------------------------------------------------------------
   
@@ -58,14 +59,15 @@ SELECT  ISNULL(a.ID, b.ID) AS ID,
         ISNULL(a.Fruit, b.Fruit) AS Fruit
 FROM    ##TableA a FULL OUTER JOIN
         ##TableB b ON a.Fruit = b.Fruit
-WHERE   a.ID IS NULL OR B.ID IS NULL;
+WHERE   a.ID IS NULL OR B.ID IS NULL
+ORDER BY 1, 2;
 ```
   
 |   ID   |  Fruit  |
 |--------|---------|
 | 3      | Mango   |
-| 4      |         |
 | 3      | Kiwi    |
+| 4      |         |
 | 4      |         |
   
 ---------------------------------------------------------------------------------
@@ -79,7 +81,8 @@ SELECT  a.ID,
         b.Fruit
 FROM    ##TableA a FULL OUTER JOIN
         ##TableB b ON a.Fruit = b.Fruit
-WHERE   a.ID IS NOT NULL AND b.ID IS NOT NULL;
+WHERE   a.ID IS NOT NULL AND b.ID IS NOT NULL
+ORDER BY 1, 2;
 ```
 
 | ID | Fruit | ID | Fruit |
@@ -111,17 +114,18 @@ SELECT  NULL,
         a.ID,
         a.Fruit
 FROM    ##TableB a
-WHERE   NOT EXISTS (SELECT 1 FROM ##TableA b WHERE a.Fruit = b.Fruit); 
+WHERE   NOT EXISTS (SELECT 1 FROM ##TableA b WHERE a.Fruit = b.Fruit)
+ORDER BY 1, 2;
 ```        
  
 |   ID    |  Fruit  |    ID   |  Fruit  |
 |---------|---------|---------|---------|
+|         |         | 3       | Kiwi    |
+|         |         | 4       |         |
 | 1       | Apple   | 1       | Apple   |
 | 2       | Peach   | 2       | Peach   |
 | 3       | Mango   |         |         |
 | 4       |         |         |         |
-|         |         | 3       | Kiwi    |
-|         |         | 4       |         |
 
 ---------------------------------------------------------------------------------
 
@@ -130,24 +134,25 @@ You can also use the `LEFT OUTER JOIN` and a `RIGHT OUTER JOIN` to simulate the 
 This may be the only case where a `LEFT OUTER JOIN` and a `RIGHT OUTER JOIN` can be used in the same SQL statement, as it preserves the column and table orders between the two statements.
      
 ```sql
-SELECT  a.ID, b.Fruit, b.ID, b.Fruit
+SELECT  a.ID, a.Fruit, b.ID, b.Fruit
 FROM    ##TableA a LEFT JOIN 
         ##TableB b ON a.Fruit = b.Fruit
 UNION
-SELECT  a.ID, b.Fruit, b.ID, b.Fruit
+SELECT  a.ID, a.Fruit, b.ID, b.Fruit
 FROM    ##TableA a RIGHT JOIN 
-        ##TableB b ON a.Fruit = b.Fruit;
+        ##TableB b ON a.Fruit = b.Fruit
+ORDER BY 1, 2;
 ```
 
 |    ID   |  Fruit  |    ID   |  Fruit  |
 |---------|---------|---------|---------|
+|         |         | 3       | Kiwi    |
+|         |         | 4       |         |
 | 1       | Apple   | 1       | Apple   |
 | 2       | Peach   | 2       | Peach   |
 | 3       | Mango   |         |         |
 | 4       |         |         |         |
-|         |         | 3       | Kiwi    |
-|         |         | 4       |         |
-        
+
 ---------------------------------------------------------
 
 1. [Introduction](01%20-%20Introduction.md)
