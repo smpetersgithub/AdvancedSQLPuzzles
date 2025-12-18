@@ -50,7 +50,7 @@ FROM   sys.sql_expression_dependencies
 WHERE  is_caller_dependent = 1;
 ```
 
-The following will identify cross-database dependencies (*Example 07*).
+The following will identify cross-database dependencies (*Example 01*).
 
 ```sql
 SELECT * 
@@ -58,7 +58,7 @@ FROM   sys.sql_expression_dependencies
 WHERE  referenced_database_name IN (SELECT name FROM sys.databases);
 ```
 
-This should give you a start analyzing the `sys.sql_expression_dependencies` table.
+This should give you a start at analyzing the `sys.sql_expression_dependencies` table.
 
 
 ***
@@ -131,3 +131,4 @@ The following list can be used to reference the corresponding example numbers.
 
 
 ***
+
