@@ -532,7 +532,7 @@ Here is the expected output.
 | 7/2/2018  | 75                  | 175       |
 | 7/3/2018  | -150                | 25        |
 | 7/4/2018  | 50                  | 75        |
-| 7/5/2018  | -75                 | 0         |
+| 7/5/2018  | -100                | -25       |
 
 [🔙 Back to Table of Contents](#table-of-contents)
 
