@@ -312,10 +312,10 @@ Here is the truth table pivoted, with a dense rank and row number added.
 
 | p | q | p⊕q | ¬p→¬q ∧ ¬q→¬p |
 |---|---|-----|----------------|
-| 1 | 1 | 0   |       0        |
-| 1 | 0 | 1   |       1        | 
-| 0 | 1 | 1   |       1        |
-| 0 | 0 | 0   |       0        |
+| 1 | 1 | 0   |       1        |
+| 1 | 0 | 1   |       0        | 
+| 0 | 1 | 1   |       0        |
+| 0 | 0 | 0   |       1        |
 
 -----
 
