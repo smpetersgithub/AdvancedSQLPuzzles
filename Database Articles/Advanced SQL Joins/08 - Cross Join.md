@@ -52,7 +52,8 @@ SELECT  a.ID,
         b.ID,
         b.Fruit
 FROM    ##TableA a CROSS JOIN
-        ##TableB b;
+        ##TableB b
+ORDER BY 3, 1;
 ```
 
 | ID |  Fruit  | ID |  Fruit  |
@@ -86,7 +87,8 @@ SELECT  a.ID,
         b.Fruit
 FROM    ##TableA a CROSS JOIN
         ##TableB b
-WHERE   a.Fruit = b.Fruit;
+WHERE   a.Fruit = b.Fruit
+ORDER BY 1;
 ```
   
 | ID | Fruit | ID | Fruit |
@@ -113,7 +115,8 @@ SELECT  a.ID,
         NULL,
         NULL
 FROM    ##TableA a
-WHERE   NOT EXISTS (SELECT 1 FROM ##TableB b where a.Fruit = b.Fruit);
+WHERE   NOT EXISTS (SELECT 1 FROM ##TableB b where a.Fruit = b.Fruit)
+ORDER BY 1;
 ```
 
 | ID |  Fruit  |    ID   |  Fruit  |
@@ -143,6 +146,7 @@ SELECT
 FROM    cte_DistinctFruits a CROSS JOIN
         cte_DistinctFruits b
 WHERE   a.Fruit < b.Fruit
+ORDER BY 1, 2;
 ```                          
 
 | Fruit | Fruit |
@@ -164,7 +168,8 @@ SELECT  DISTINCT
         (CASE WHEN a.Fruit < b.Fruit THEN b.Fruit ELSE a.Fruit END) AS Fruit
 FROM    ##TableA a CROSS JOIN
         ##TableB b
-WHERE   a.Fruit <> b.Fruit OR a.Fruit IS NULL OR b.Fruit IS NULL;
+WHERE   a.Fruit <> b.Fruit OR a.Fruit IS NULL OR b.Fruit IS NULL
+ORDER BY 1, 2;
 ```
 
 |  Fruit  |  Fruit  |
@@ -195,7 +200,8 @@ SELECT  a.ID,
         b.ID,
         b.Fruit
 FROM    ##TableA a CROSS APPLY
-        ##TableB b;
+        ##TableB b
+ORDER BY 3, 1;
 ```
   
 | ID |  Fruit  | ID |  Fruit  |
@@ -243,7 +249,8 @@ SELECT  a.ID,
         b.Fruit
 FROM    ##TableA a CROSS APPLY
         (SELECT * FROM ##TableB) b
-WHERE   a.Fruit = b.Fruit;
+WHERE   a.Fruit = b.Fruit
+ORDER BY 1;
 ```
   
 | ID |  Fruit  | ID |  Fruit  |
