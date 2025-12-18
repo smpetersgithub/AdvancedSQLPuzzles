@@ -2,7 +2,7 @@
 
 Complex joins are SQL join operations that involve multiple tables, complex join conditions, or combinations of different join types. These joins often require careful planning and a deep understanding of table relationships, query execution order, and performance considerations. While simple joins typically connect two tables with a single condition, complex joins may involve recursive operations, graph traversal, temporal logic, or multi-step data transformations.
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Mastering complex joins is essential for solving real-world data problems such as finding mutual connections in social networks, calculating shortest paths in routing systems, consolidating overlapping time periods, or traversing hierarchical organizational structures.
+Mastering complex joins is essential for solving real-world data problems, such as finding mutual connections in social networks, calculating shortest paths in routing systems, consolidating overlapping time periods, and traversing hierarchical organizational structures.
 
 -----------------------------------------------------------
 
