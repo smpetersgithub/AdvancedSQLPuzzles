@@ -196,7 +196,7 @@ SELECT  ID,
         MAX(Fruit) OVER (PARTITION BY DistinctCount) AS Fruit,
         Quantity
 FROM    cte_Count
-ORDER BY ID;
+ORDER BY 1;
 ```
 
 | ID | Fruit | Quantity |
