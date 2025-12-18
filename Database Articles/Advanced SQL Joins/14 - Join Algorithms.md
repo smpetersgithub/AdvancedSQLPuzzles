@@ -1,19 +1,19 @@
 # Join Algorithms
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;There are several types of join algorithms that the SQL Server optimizer can choose from, including nested loop join, hash join, and merge join. The choice of the join algorithm depends on various factors, such as the size of the datasets, the presence of indexes, and the distribution of data. The optimizer makes a cost-based decision to choose the most efficient algorithm for the given query to return the results in the quickest possible time.  These types of joins are created by the optimizer and not the developer (although you can add query hints).
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;There are several types of join algorithms that the SQL Server optimizer can choose from, including nested loop join, hash join, and merge join. The choice of the join algorithm depends on various factors, such as dataset size, index availability, and data distribution. The optimizer makes a cost-based decision to choose the most efficient algorithm for the given query, returning results in the quickest possible time.  The optimizer creates these types of joins, not the developer (though you can add query hints).
 
 ---------------------------------------------------------------------
 ##### Types Of Join Algorithms
 
-Here is a brief overview of each of the join algorithms.
+Here is a brief overview of each join algorithm.
 
-*  The nested loop join is a logical structure in which one loop resides inside another loop.  This join typically occurs when one table is smaller than the other table by a considerable size.  The more significant the difference between the number of input rows, the more benefit this operator will provide.  The inner loop executes for each outer row and searches for matching rows in the inner input table.
+*  The nested loop join is a logical structure in which one loop resides inside another loop.  This join typically occurs when one table is much smaller than the other.  The greater the difference in the number of input rows, the greater the benefit this operator provides.  The inner loop executes for each outer row and searches the inner input table for matching rows.
 
-*  The merge join requires both the inputs to be sorted on keys and requires a minimum of one equality expression between the matching columns.  The algorithm reads a row for each input and compares them using a join key.  When a match is detected, both rows in the sets are returned.  If a match is not detected, the row with the smaller value is discarded.  Because there is a sort key, the algorithm can efficiently transverse the input tables.
+*  The merge join requires both inputs to be sorted on keys and requires a minimum of one equality expression between the matching columns.  The algorithm reads a row for each input and compares them using a join key.  When a match is detected, both rows in the sets are returned.  If a match is not detected, the row with the smaller value is discarded.  Because there is a sort key, the algorithm can efficiently traverse the input tables.
 
 *  A hash join is used when large tables are joined, often where an index is not available.  The hash join builds a hash table in memory and then scans for matches.  It is the least efficient of the joins.
 
-Also, numerous factors make tuning complex because there are so many individual items to address and so many ways they can interact for better or worse outcomes.  Factors can include the physical hardware and its configuration, the data model, the volume of data, along with the traditional use of indexes and statistics, etc.
+Also, numerous factors make tuning complex because there are so many individual items to address and so many ways they can interact for better or worse outcomes.  Factors can include the physical hardware and its configuration, the data model, and the volume of data, among others.
 
 ---------------------------------------------------------------------
 ##### Query Parsing
@@ -30,7 +30,7 @@ Upon running an SQL statement, the query becomes parsed and is checked for the f
 ##### Developer Considerations
 
 Overall, as a developer, there are some ways to write the most optimized SQL from the start.
-1.  Use indexes: Indexes can greatly improve the speed of your queries. Make sure to use indexes on columns frequently used in `WHERE`, `JOIN`, and `ORDER BY` clauses.
+1.  Use indexes: Indexes can significantly improve the speed of your queries. Make sure to use indexes on columns frequently used in `WHERE`, `JOIN`, and `ORDER BY` clauses.
 
 2.  Avoid using wildcard characters: Using wildcard characters in a `SELECT` statement can slow down your query. Instead, use specific column names.
 
@@ -46,7 +46,7 @@ Overall, as a developer, there are some ways to write the most optimized SQL fro
 
 8.  Monitor query performance: Regularly monitoring query performance is essential for identifying performance issues and making necessary improvements. Use tools like the SQL Server Profiler or the EXPLAIN PLAN statement to monitor performance.
 
-9.  Keep statistics current: The database's optimizer uses statistics to determine the best execution plan for a query. Keeping statistics up to date can help ensure that the optimizer makes the best decision and that your queries run efficiently.
+9.  Keep statistics current: The database's optimizer uses statistics to determine the best execution plan for a query. Keeping statistics up to date helps ensure the optimizer makes the best decisions and that your queries run efficiently.
 
 ---------------------------------------------------------
 
