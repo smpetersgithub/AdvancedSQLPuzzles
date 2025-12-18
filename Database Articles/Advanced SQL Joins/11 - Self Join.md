@@ -27,7 +27,8 @@ SELECT  a.EmployeeID,
         a.ManagerID,
         b.Title
 FROM    Employees a INNER JOIN
-        Employees b ON a.ManagerID = b.EmployeeID;
+        Employees b ON a.ManagerID = b.EmployeeID
+ORDER BY 1;
 ```
 
 | EmployeeID  |      Title     | Manager ID  |      Title     |
@@ -92,14 +93,14 @@ List all cities with more than one customer, along with their customer details.
 | 3  | Dallas    |
 | 4  | Detroit   |
 
-  
 The syntax to solve this puzzle with a self-join is shown below.
   
 ```sql
 SELECT  a.ID,
         a.City
 FROM    Customer a INNER JOIN
-        Customer b ON a.City = b.City AND a.ID <> b.ID;
+        Customer b ON a.City = b.City AND a.ID <> b.ID
+ORDER BY 1;
 ```
   
 The above query uses a self-join and returns the following result set.
@@ -148,16 +149,16 @@ SELECT  a.ID,
 FROM    Animals a CROSS JOIN
         Animals b
 WHERE   a.ID >= b.ID
-GROUP BY a.ID, a.Animal;
-```  
-  
+GROUP BY a.ID, a.Animal
+ORDER BY 1;
+```
 
 | ID |    Animal     | Cumulative Weight |
 |----|---------------|-------------------|
 | 1  | Elephant      | 13000             |
-| 4  | Giraffe       | 26000             |
-| 3  | Hippopotamus  | 24000             |
 | 2  | Rhinoceros    | 21000             |
+| 3  | Hippopotamus  | 24000             |
+| 4  | Giraffe       | 26000             |
 | 5  | Water Buffalo | 28000             |
 
 However, a better way to write this statement is by using a windowing function.
@@ -166,7 +167,8 @@ However, a better way to write this statement is by using a windowing function.
 SELECT  ID,
         Animal,
         SUM(Weight) OVER (ORDER BY ID ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS Cumulative_Weight
-FROM    #Animals;  
+FROM    #Animals
+ORDER BY 1;
 ```
 
 ----------------------------------------------------
@@ -228,7 +230,8 @@ SELECT  DISTINCT
         a.CountWindow AS LicenseCount
 FROM    cte_CountWindow a INNER JOIN
         cte_Count b ON a.CountWindow = b.LicenseCount AND a.EmployeeID_A = b.EmployeeID INNER JOIN
-        cte_Count c ON a.CountWindow = c.LicenseCount AND a.EmployeeID_B = c.EmployeeID;
+        cte_Count c ON a.CountWindow = c.LicenseCount AND a.EmployeeID_B = c.EmployeeID
+ORDER BY 1;
 ```
 ----------------------------------------------------
   
