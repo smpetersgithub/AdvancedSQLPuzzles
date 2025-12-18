@@ -326,7 +326,7 @@ Here is the truth table pivoted, with a dense rank and row number added.
 | p | q | p→q<br>Conditional | ¬q→¬p<br>Contrapositive | q→p<br>Converse | ¬p→¬q<br>Inverse |
 |---|---|--------------------|-------------------------|-----------------|------------------|
 | 1 | 1 | 1                  | 1                       | 1               | 1                |
-| 1 | 0 | 0                  | 1                       | 1               | 0                |
+| 1 | 0 | 0                  | 0                       | 1               | 0                |
 | 0 | 1 | 1                  | 0                       | 0               | 1                |
 | 0 | 0 | 1                  | 1                       | 1               | 1                |
 
