@@ -69,7 +69,8 @@ The query behaves like an `INNER JOIN` and returns only records from `TableA`.
 ```sql
 SELECT  *
 FROM    ##TableA a
-WHERE   EXISTS (SELECT 1 FROM ##TableB b WHERE a.Fruit = b.Fruit);
+WHERE   EXISTS (SELECT 1 FROM ##TableB b WHERE a.Fruit = b.Fruit)
+ORDER BY 1;
 ```
 
 | ID | Fruit | Quantity |
@@ -82,7 +83,8 @@ When we use negation (the `NOT` operator) with the `EXISTS` clause, we return th
 ```sql
 SELECT  *
 FROM    ##TableA a
-WHERE   NOT EXISTS (SELECT 1 FROM ##TableB b WHERE a.Fruit = b.Fruit);
+WHERE   NOT EXISTS (SELECT 1 FROM ##TableB b WHERE a.Fruit = b.Fruit)
+ORDER BY 1;
 ```
 
 | ID | Fruit   | Quantity |
@@ -109,7 +111,7 @@ ORDER BY 1,2;
 SELECT  *
 FROM    ##TableA a INNER JOIN
         ##TableB b ON EXISTS(SELECT NULL)
-ORDER BY 1,2;
+ORDER BY 1, 4;
 ```    
 
 | ID |  Fruit  | Quantity | ID |  Fruit  | Quantity |
@@ -141,7 +143,8 @@ This query will return all the rows of `TableA` and `TableB` where the values of
 SELECT  a.*,
         b.*
 FROM    ##TableA a INNER JOIN
-        ##TableB b ON EXISTS(SELECT a.Fruit INTERSECT SELECT b.Fruit);
+        ##TableB b ON EXISTS(SELECT a.Fruit INTERSECT SELECT b.Fruit)
+ORDER BY 1;
 ```
 
 | ID | Fruit   | Quantity | ID |  Fruit  | Quantity |
@@ -157,7 +160,8 @@ A similar statement to the above would be the following, which explicitly handle
 SELECT  *
 FROM    ##TableA a CROSS JOIN
         ##TableB b
-WHERE   ISNULL(a.Fruit,'') = ISNULL(b.Fruit,'');
+WHERE   ISNULL(a.Fruit,'') = ISNULL(b.Fruit,'')
+ORDER BY 1;
 ```
 
 | ID |  Fruit  | Quantity | ID |  Fruit  | Quantity |
@@ -173,7 +177,8 @@ We can also apply De Morgan's law and use the `NOT EXISTS` and the `EXCEPT` oper
 SELECT  a.*,
         b.*
 FROM    ##TableA a INNER JOIN
-        ##TableB b ON NOT EXISTS(SELECT a.Fruit EXCEPT SELECT b.Fruit);
+        ##TableB b ON NOT EXISTS(SELECT a.Fruit EXCEPT SELECT b.Fruit)
+ORDER BY 1;
 ```
 
 | ID |  Fruit  | Quantity | ID |  Fruit  | Quantity |
@@ -193,7 +198,8 @@ This query will return all the rows of `TableA` and `TableB` where the values of
 SELECT  a.*,
         b.*
 FROM    ##TableA a INNER JOIN
-        ##TableB b ON EXISTS(SELECT a.Fruit EXCEPT SELECT b.Fruit);
+        ##TableB b ON EXISTS(SELECT a.Fruit EXCEPT SELECT b.Fruit)
+ORDER BY 1, 4;
 ```
 
 | ID |  Fruit  | Quantity | ID |  Fruit  | Quantity |
@@ -226,7 +232,8 @@ The equivalent statement for this is below.
 SELECT  *
 FROM    ##TableA a CROSS JOIN
         ##TableB b
-WHERE   NOT(ISNULL(a.Fruit,'') = ISNULL(b.Fruit,''));
+WHERE   NOT(ISNULL(a.Fruit,'') = ISNULL(b.Fruit,''))
+ORDER BY 1, 4;
 ```
   
 | ID |  Fruit  | Quantity | ID |  Fruit  | Quantity |
@@ -252,7 +259,8 @@ De Morgan's Law is in effect, and you can accomplish the above with the `NOT EXI
 SELECT  a.*,
         b.*
 FROM    ##TableA a INNER JOIN
-        ##TableB b ON NOT EXISTS(SELECT a.Fruit INTERSECT SELECT b.Fruit);
+        ##TableB b ON NOT EXISTS(SELECT a.Fruit INTERSECT SELECT b.Fruit)
+ORDER BY 1, 4;
 ```
 
 | ID |  Fruit  | Quantity | ID |  Fruit  | Quantity |
