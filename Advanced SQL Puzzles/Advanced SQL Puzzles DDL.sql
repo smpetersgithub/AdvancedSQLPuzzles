@@ -839,15 +839,13 @@ GO
        
 INSERT INTO #Orders (InvoiceId, SalesRepID, Amount, SalesType) VALUES
 (1,1001,13454,'International'),
-(2,1001,3434,'International'),
-(3,2002,54645,'International'),
-(4,3003,234345,'International'),
-(5,4004,776,'International'),
-(6,1001,4564,'Domestic'),
-(7,2002,34534,'Domestic'),
-(8,2002,345,'Domestic'),
-(9,5005,6543,'Domestic'),
-(10,6006,67,'Domestic');
+(2,2002,3434,'International'),
+(3,4004,54645,'International'),
+(4,5005,234345,'International'),
+(5,1001,4564,'Domestic'),
+(6,2002,34534,'Domestic'),
+(7,3003,345,'Domestic'),
+(8,6006,6543,'Domestic');
 GO
 
 /*----------------------------------------------------
@@ -1928,6 +1926,7 @@ GO
 /*----------------------------------------------------
 The End
 */----------------------------------------------------
+
 
 
 
