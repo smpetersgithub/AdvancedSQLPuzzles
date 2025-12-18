@@ -73,7 +73,7 @@ WHERE   b.Fruit IS NULL;
 
 Predicate logic in the `ON` clause behaves differently from predicate logic in the `WHERE` clause.  Please take a look at the output differences between these two queries.
 
-Placing predicate login in the `ON` statement preserves the outer join.
+Placing predicate logic in the `ON` statement preserves the outer join.
 
 ```sql
 SELECT  a.ID,
