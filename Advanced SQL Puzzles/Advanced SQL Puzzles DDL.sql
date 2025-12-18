@@ -568,7 +568,7 @@ Amount      MONEY NOT NULL,
 );
 GO
 
-INSERT INTO Orders ([Order ID], [Customer ID], [Order Date], [Amount], [State]) VALUES
+INSERT INTO #Orders (OrderID, CustomerID, OrderDate, Amount, [State]) VALUES
 (1, 1001, '2018-01-01', 100, 'TX'),
 (2, 3003, '2018-01-01', 100, 'IA'),
 (3, 1001, '2018-03-01', 100, 'TX'),
@@ -1915,6 +1915,7 @@ GO
 /*----------------------------------------------------
 The End
 */----------------------------------------------------
+
 
 
 
