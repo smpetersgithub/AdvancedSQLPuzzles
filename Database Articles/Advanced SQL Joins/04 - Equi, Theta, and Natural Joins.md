@@ -74,7 +74,8 @@ SELECT  a.ID,
         b.Fruit
 FROM    ##TableA a CROSS JOIN
         ##TableB b
-WHERE   a.Fruit = b.Fruit;
+WHERE   a.Fruit = b.Fruit
+ORDER BY 1;
 ```
 
 | ID | Fruit | ID | Fruit |
