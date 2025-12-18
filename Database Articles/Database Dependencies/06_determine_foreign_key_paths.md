@@ -25,7 +25,7 @@ Foreign key dependencies can be viewed via the system views `sys.foreign_keys` a
 
 Also, foreign keys cannot be created across databases, so unlike object dependency paths, we do not need to account for cross-database foreign keys.  Before you run the script, you will need to modify the `USE` statement to use the correct database.
 
-🔍 Before running the script, please review the following concepts. Due to its length, the script is not included here—please retrieve it from the GitHub repository.  Additional analyses related to object dependencies are provided as addendums—please review those as well.
+🔍 Before running the script, please review the following concepts. Due to its length, the script is not included here—please retrieve it from the GitHub repository.  Additional analyses related to object dependencies are provided as addenda; please review them as well.
 
 ----
 
@@ -114,7 +114,7 @@ For this example, we are using the `WideWorldImports` database on the `Sales.Ord
 
 The `##foreign_keys_map` table is available if you need details about the columns involved in each foreign key relationship.
 
-⚠️ During testing, no missing index recommendations were generated and performance was not an issue. However, if performance issues do arise, you may want to consider applying a custom indexing strategy.
+⚠️ During testing, no missing index recommendations were generated, and performance was not an issue. However, if performance issues do arise, you may want to consider applying a custom indexing strategy.
 
 #### Example Execution
 
@@ -137,4 +137,5 @@ Use one of the following stored procedures based on the direction of analysis. Y
 * `##temp_sp_master_execution_fk_reverse_paths` – Traces upstream foreign key dependencies (what depends on the object)
 
 ---
+
 
