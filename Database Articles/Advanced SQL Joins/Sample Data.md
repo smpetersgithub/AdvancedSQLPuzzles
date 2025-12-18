@@ -1,6 +1,6 @@
 # Sample Data
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;For the following examples you will need to understand the behavior of NULL markers.  I’ve provided some rather simple tables with minimal records.  I've also included a few NULL markers to understand how the various joins treat this particular case.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;For the following examples, you will need to understand the behavior of NULL markers.  I’ve provided some relatively simple tables with minimal records.  I've also included a few NULL markers to understand how the various joins handle this particular case.
 
 **Table A**
 | ID |  Fruit  | Quantity |
