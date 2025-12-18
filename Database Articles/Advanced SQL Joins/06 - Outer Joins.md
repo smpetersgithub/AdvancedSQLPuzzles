@@ -43,7 +43,8 @@ SELECT  a.ID,
         b.ID,
         b.Fruit
 FROM    ##TableA a LEFT OUTER JOIN
-        ##TableB b ON a.Fruit = b.Fruit;
+        ##TableB b ON a.Fruit = b.Fruit
+ORDER BY 1;
 ```
 
 | ID |  Fruit  |    ID   |  Fruit  |
@@ -61,7 +62,8 @@ A `LEFT OUTER JOIN` is one of several methods to determine records in `TableA` t
 SELECT  a.*
 FROM    ##TableA a LEFT OUTER JOIN
         ##TableB b ON a.Fruit = b.Fruit
-WHERE   b.Fruit IS NULL;
+WHERE   b.Fruit IS NULL
+ORDER BY 1;
 ```
 
 | ID | Fruit  | Quantity |
@@ -81,7 +83,8 @@ SELECT  a.ID,
         b.ID,
         b.Fruit
 FROM    ##TableA a LEFT OUTER JOIN
-        ##TableB b ON a.Fruit = b.Fruit AND b.Fruit = 'Apple';
+        ##TableB b ON a.Fruit = b.Fruit AND b.Fruit = 'Apple'
+ORDER BY 1;
 ```
 
 | ID |  Fruit  |   ID    |  Fruit  |
@@ -100,7 +103,8 @@ SELECT  a.ID,
         b.Fruit
 FROM    ##TableA a LEFT OUTER JOIN
         ##TableB b ON a.Fruit = b.Fruit
-WHERE   b.Fruit = 'Apple';
+WHERE   b.Fruit = 'Apple'
+ORDER BY 1;
 ```
 
 | ID | Fruit | ID | Fruit |
@@ -118,7 +122,8 @@ SELECT  a.ID,
         a.Fruit,
         (SELECT B.ID FROM ##TableB b WHERE a.Fruit = b.Fruit) AS ID,
         (SELECT b.Fruit FROM ##TableB b WHERE a.Fruit = b.Fruit) AS Fruit
-FROM    ##TableA a;
+FROM    ##TableA a
+ORDER BY 1;
 ```
   
 | ID |   Fruit |   ID    |  Fruit  |
@@ -137,7 +142,8 @@ SELECT  a.ID,
         a.Fruit,
         (SELECT B.ID FROM ##TableB b WHERE a.Fruit = b.Fruit) AS ID,
         (SELECT (SELECT Fruit FROM ##TableB b WHERE b.Fruit = c.Fruit) FROM ##TableB c WHERE c.Fruit = a.Fruit) AS Fruit
-FROM    ##TableA a;
+FROM    ##TableA a
+ORDER BY 1;
 ```
   
 | ID |  Fruit  |    ID   |  Fruit  |
@@ -164,7 +170,8 @@ SELECT  a.ID,
                     FROM ##TableA c
                     WHERE c.ID <= a.ID AND c.Fruit != '')) Fruit,
         a.Quantity
-FROM    ##TableA a;
+FROM    ##TableA a
+ORDER BY 1;
 ```
 
 | ID | Fruit | Quantity |
@@ -212,15 +219,16 @@ SELECT  a.ID,
         c.Fruit
 FROM    ##TableA a RIGHT OUTER JOIN
         ##TableB b ON a.Fruit = b.Fruit LEFT OUTER JOIN
-        ##TableA c ON b.Fruit = c.Fruit;
+        ##TableA c ON b.Fruit = c.Fruit
+ORDER BY 1;
 ```
 
 |   ID    |  Fruit  | ID |  Fruit  |   ID    |  Fruit  |
 |---------|---------|----|---------|---------|---------|
-| 1       | Apple   | 1  | Apple   | 1       | Apple   |
-| 2       | Peach   | 2  | Peach   | 2       | Peach   |
 |         |         | 3  | Kiwi    |         |         |
 |         |         | 4  |         |         |         |
+| 1       | Apple   | 1  | Apple   | 1       | Apple   |
+| 2       | Peach   | 2  | Peach   | 2       | Peach   |
 
 -----------------------------------------------------------
 
@@ -234,6 +242,7 @@ SELECT  a.ID,
 FROM    ##TableA a,
         ##TableB b
 WHERE   a.Fruit = b.Fruit(+)
+ORDER BY 1;
 ```
   
 | ID |  Fruit  |   ID    |  Fruit  |
