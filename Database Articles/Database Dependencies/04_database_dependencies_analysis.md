@@ -26,7 +26,7 @@ From our previous walkthrough—where we created each example and reviewed the `
    * **`referencing_id` and `referenced_id` are not foreign keys to `sys.objects`**\
      Some dependencies listed in `sys.sql_expression_dependency`—such as XML schemas, user-defined table types, user-defined data types, server-level triggers, and database-level triggers—do not correspond to entries in `sys.objects`. To retrieve additional details about these objects, you’ll need to join with their respective system views (e.g., `sys.xml_schema_collections`, `sys.types`, etc.).
    * **Identifying invalid dependencies is not straightforward**\
-     Invalid dependencies, such as a missing table referenced by a view or stored procedure (*Example 03*), are difficult to detect reliably. This is because certain patterns, such as cross-database dependencies (*Example 01*), stored procedures that call other stored procedures using only a one-part naming convention (*Example 06*), and object aliases (*Example 11*), can mimic the same behavior as broken or missing references.
+     Invalid dependencies, such as a missing table referenced by a view or stored procedure (*Example 03*), are difficult to detect reliably. This is because specific patterns, such as cross-database dependencies (*Example 01*), stored procedures that call other stored procedures using only a one-part naming convention (*Example 06*), and object aliases (*Example 11*), can mimic the same behavior as broken or missing references.
    * **Feature installed components may exist in the `sys.sql_expression_dependencies` table**\
      Certain feature-installed components—such as Database Diagrams and Change Data Capture (CDC)—create entries in the `sys.sql_expression_dependencies` table. This list is not exhaustive; other components may also do the same.
 
@@ -128,5 +128,6 @@ The following list can be used to reference the corresponding example numbers.
 | 35     | Change Data Capture (CDC)                  | No                  | No               |
 | 36     | Temporal Tables                            | Not Represented     | Not Represented  |
 | 37     | Change Tracking                            | Not Represented     | Not Represented  |
+
 
 ***
