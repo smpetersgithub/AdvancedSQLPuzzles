@@ -110,7 +110,7 @@ The script generates the following global temporary stored procedures. I’ve mo
 
 To execute the temporary stored procedures, first run the script to create them, then execute the temporary stored procedures.
 
-For this example, we are using the `WideWorldImports` database on the `Sales.Orders` table.  You’ll need to update the script’s `USE` statement to point to the correct database.
+For this example, we are using the `WideWorldImporters` database on the `Sales.Orders` table.  You’ll need to update the script’s `USE` statement to point to the correct database...
 
 The `##foreign_keys_map` table is available if you need details about the columns involved in each foreign key relationship.
 
@@ -121,8 +121,8 @@ The `##foreign_keys_map` table is available if you need details about the column
 ```sql
 -- Use the following to execute the stored procedures
 
-EXECUTE ##temp_sp_master_execution_fk_paths 'Sales.Orders'
-EXECUTE ##temp_sp_master_execution_fk_reverse_paths 'Sales.Orders'
+EXECUTE ##temp_sp_master_execution_fk_paths 'WideWorldImporters.Sales.Orders'
+EXECUTE ##temp_sp_master_execution_fk_reverse_paths 'WideWorldImporters.Sales.Orders'
 
 -- Use the following to view the foreign key mappings
 
@@ -137,5 +137,6 @@ Use one of the following stored procedures based on the direction of analysis. Y
 * `##temp_sp_master_execution_fk_reverse_paths` – Traces upstream foreign key dependencies (what depends on the object)
 
 ---
+
 
 
