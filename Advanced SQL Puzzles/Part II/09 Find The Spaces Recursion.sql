@@ -23,7 +23,7 @@ GO
 -------------------------------
 -------------------------------
 --Display the results using recursion
-;WITH cte_CAST AS
+WITH cte_CAST AS
 (
 SELECT Id, CAST(String AS VARCHAR(200)) AS String FROM #Strings
 ),
