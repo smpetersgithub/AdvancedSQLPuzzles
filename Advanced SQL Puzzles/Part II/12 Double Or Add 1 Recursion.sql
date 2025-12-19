@@ -4,19 +4,6 @@ Double Or Add 1
 https://advancedsqlpuzzles.com
 Last Updated: 01/13/2023
 Microsoft SQL Server T-SQL
-
-The script creates a temporary table called #Numbers and populates it 
-with a range of numbers specified by the variable @vTotalNumbers. 
-The script uses a common table expression (CTE) to generate the numbers.
-
-The script then defines a second CTE called cte_Recursion, which performs 
-the logic of either doubling or adding one to the previous number, depending 
-on the condition (number * 2 < 100), using a CASE statement. The cte_recursion joins the cte_number table, 
-and the number is incremented by one in the join clause.
-
-Finally, the script uses a SELECT statement to display the results of the cte_recursion. 
-
-
 **********************************************************************/
 
 -------------------------------
@@ -51,7 +38,7 @@ OPTION (MAXRECURSION 101)--A value of 0 means no limit to the recursion level
 -------------------------------
 -------------------------------
 
-;WITH cte_Numbers AS
+WITH cte_Numbers AS
 (
 --Add a ranking function here if needed
 --Test data has StepNumber to rank/sort the records.
@@ -76,3 +63,4 @@ SELECT   *
 FROM     cte_Recursion
 WHERE    RunningSum <= 100
 ORDER BY Number DESC;
+GO
