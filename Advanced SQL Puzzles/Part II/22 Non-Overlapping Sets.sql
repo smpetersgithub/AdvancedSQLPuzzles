@@ -3,20 +3,7 @@ Scott Peters
 Non-Overlapping Sets
 https://advancedsqlpuzzles.com
 Last Updated: 12/15/2025
-
 Microsoft SQL Server T-SQL
-
-This script consists of an SQL function definition and a series of SQL queries to perform various data manipulations.
-The function defined in the script is named dbo.fnCompareStrings. This function takes two input strings, @string1 and @string2, and returns a BIT value indicating whether at least one letter (case-sensitive) from @string1 is found in @string2. The function ignores non-letter characters, such as commas and hyphens. Several examples are provided to illustrate how to use the function.
-The script then creates several temporary tables that store intermediate results for the subsequent queries.
-The first table, #Orders, contains a list of orders, their line items, and the cost associated with each line item. This table is used as the starting point for most of the subsequent queries.
-The second table, #MyAlphabet, contains a list of letters in the alphabet and their corresponding ASCII values. This table is used to generate all possible combinations of two letters.
-The third table, #AlphabetTranslation, contains a translation of the two-letter combinations generated from #MyAlphabet into a format that can be used in subsequent queries.
-The fourth table, #OrdersSetsOverEvaluation, is used to identify pairs of line items within each order whose total cost is greater than or equal to a given threshold value.
-The fifth table, #OrdersSetsOverEvaluationFinal, generates all possible combinations of line item pairs from #OrdersSetsOverEvaluation.
-The sixth table, #OrdersDetermineCombinations, is used to split the combinations of line item pairs into individual elements and translate those elements into the format used in #AlphabetTranslation.
-The seventh table, #OrdersCombinationsFinal, is the final output table. It lists the maximum number of non-overlapping sets of line items for each order and the sets themselves.
-
 **********************************************************************/
 
 CREATE OR ALTER FUNCTION fnCompareStrings
@@ -153,7 +140,7 @@ FROM    #MyAlphabet
 SELECT ROW_NUMBER() OVER (ORDER BY MySetIndividual) AS RowNumber,
        *
 INTO   #AlphabetTranslation
-FROM   cte_Alphabet
+FROM   cte_Alphabet;
 GO
 
 ------------------------------------------------------------------------------------
@@ -178,7 +165,7 @@ SELECT *,
        CHAR(LineItem2+64) AS CharAsciiValue2,
        CONCAT(CHAR(LineItem1+64),CHAR(LineItem2+64)) AS MySet
 INTO   #OrdersSetsOverEvaluation
-FROM   cte_rank
+FROM   cte_rank;
 GO
 
 ------------------------------------------------------------------------------------
@@ -207,7 +194,7 @@ BEGIN
             #OrdersSetsOverEvaluation b ON a.OrderID = b.OrderID
     WHERE   InsertSequenceNumber = (SELECT MAX(InsertSequenceNumber) FROM #OrdersSetsOverEvaluationFinal) AND
             dbo.fnCompareStrings(a.MySet,b.MySet) = 0;
-END;
+END
 GO
 
 ------------------------------------------------------------------------------------
@@ -265,7 +252,7 @@ BEGIN
     SET    MySetOrdered = a.MySetOrdered
     FROM   cte_StringAgg a INNER JOIN
            #OrdersDetermineCombinations b ON a.RowNumber = b.RowNumber;
-END;
+END
 GO
 
 ------------------------------------------------------------------------------------
