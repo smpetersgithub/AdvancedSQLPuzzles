@@ -4,10 +4,6 @@ Double the Number
 https://advancedsqlpuzzles.com
 Last Updated: 02/07/2023
 Microsoft SQL Server T-SQL
-
-Beginning at 1, this script uses a recursive statement to double the number for each record.
-1, 2, 4, 8, 16, 32, etc.....
-
 */----------------------------------------------------
 
 ---------------------
