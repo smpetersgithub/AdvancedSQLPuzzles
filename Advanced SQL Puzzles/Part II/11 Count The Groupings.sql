@@ -4,22 +4,6 @@ Count the Groupings
 https://advancedsqlpuzzles.com
 Last Updated: 01/13/2023
 Microsoft SQL Server T-SQL
-
-The script creates two temporary tables: #Groupings and #Groupings2. 
-The #Groupings table contains test case information, including a step number, 
-test case name, and status (Passed or Failed).
-
-The script then uses a SELECT statement to insert data into the #Groupings2 table, 
-which includes the StepNumber, Status, and a calculated column Rnk. 
-The Rnk column is calculated using the ROW_NUMBER() function with a window frame 
-defined by the "PARTITION BY [Status] ORDER BY StepNumber" clause. 
-This results in a unique ranking for each group of test cases with the same status.
-
-Finally, the script uses a SELECT statement with GROUP BY and aggregate functions to 
-group the results in #Groupings2 by the Rnk column and the status. The query returns the minimum and 
-maximum step numbers, the status, and the number of consecutive test cases in each group. 
-The results are ordered by the minimum step number and status.
-
 **********************************************************************/
 
 --------------
