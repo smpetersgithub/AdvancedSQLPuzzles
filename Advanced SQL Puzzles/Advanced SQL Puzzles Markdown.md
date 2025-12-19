@@ -237,7 +237,7 @@ CREATE TABLE #EmployeePayRecord
 
 Write an SQL statement given the following requirements.  
 
-For every customer who had a delivery to California (`CA`), provide a result set of the customer orders that were delivered to Texas (`TX`).  
+For every customer who had a delivery to California ("CA"), provide a result set of the customer orders that were delivered to Texas ("TX").  
 
 | Customer ID | Order ID | Delivery State | Amount |
 |-------------|----------|----------------|--------|
@@ -608,7 +608,7 @@ You work for a software company that released a 2-player game, and you need to t
 
 Given the following table, write an SQL statement to determine the reciprocals and calculate their aggregate score.  
 
-In the data below, players 3003 and 4004 have two valid entries, but their scores need to be aggregated together.  
+In the data below, players `3003` and `4004` have two valid entries, but their scores need to be aggregated together.  
 
 | Player A | Player B | Score |
 |----------|----------|-------|
@@ -658,7 +658,7 @@ Here is the expected output.
 # Puzzle #18 - Seating Chart
 
 Given the set of integers provided in the following DDL statement, write the SQL statements to determine the following:
-- Gap start and gap ends
+- Gap start and end
 - Total missing numbers
 - Count of odd and even numbers
 
