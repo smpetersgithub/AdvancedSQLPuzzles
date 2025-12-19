@@ -4,9 +4,6 @@ Sudoku
 https://advancedsqlpuzzles.com
 Last Updated: 01/13/2023
 Microsoft SQL Server T-SQL
-
-This script uses recursion to solve a Sudoku puzzle.
-
 */----------------------------------------------------
 
 -------------------------------
@@ -58,3 +55,4 @@ Here is the answer:
 492138756
 653742981
 */
+
