@@ -4,11 +4,6 @@ Add The Numbers Up
 https://advancedsqlpuzzles.com
 Last Updated: 03/27/2023
 Microsoft SQL Server T-SQL
-
-This script finds all possible permutations of numbers 
-and arithmetic operations (+, -) on a given set of numbers, and then 
-calculates the result of each permutation.
-
 **********************************************************************/
 
 ---------------------
