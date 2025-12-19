@@ -258,9 +258,9 @@ Here is the expected output.
 | 1001        | 3        | TX             | 670    |
 | 1001        | 4        | TX             | 860    |
 
-- Customer ID `1001` appears in the result set because they had deliveries to both California (`CA`) and Texas (`TX`).  
-- Customer ID `3003` does not appear because they never had a delivery to Texas (`TX`).  
-- Customer ID `4004` does not appear because they never had a delivery to California (`CA`).  
+- `Customer ID` `1001` appears in the result set because they had deliveries to both California (`CA`) and Texas (`TX`).  
+- `Customer ID` `3003` does not appear because they never had a delivery to Texas (`TX`).  
+- `Customer ID` `4004` does not appear because they never had a delivery to California (`CA`).  
 
 [🔙 Back to Table of Contents](#table-of-contents)
 
@@ -356,9 +356,9 @@ Here is the expected output.
 |--------------|
 | 1001         |
 
-- The expected output would be Candidate ID `1001`, as this candidate has all the necessary skills for the space mission.  
-- Candidate IDs `2002` and `3003` would not be in the output as they have some but not all the required skills.  
-- Candidate ID `4004` has none of the needed requirements.
+- The expected output would be `Candidate ID` `1001`, as this candidate has all the necessary skills for the space mission.  
+- `Candidate ID` `2002` and `3003` would not be in the output as they have some but not all the required skills.  
+- `Candidate ID` `4004` has none of the needed requirements.
 
 [🔙 Back to Table of Contents](#table-of-contents)
 
@@ -422,9 +422,9 @@ Here is the expected output.
 | 4004        | 5005        | 3     |
 | 5005        | 4004        | 3     |
 
-- Employee IDs `1001` and `2002` would be in the expected output as they both carry a `Class A`, `Class B`, and a `Class C` license.  
-- Employee IDs `4004` and `5005` would be in the expected output as they both carry a `Class A`, `Class B`, and a `Class D` license.  
-- Although Employee ID `3003` has the same licenses as Employee ID `4004` and `5005`, these Employee IDs do not have the same licenses as Employee ID `3003`.  
+- `Employee ID` `1001` and `2002` would be in the expected output as they both carry a `Class A`, `Class B`, and a `Class C` license.  
+- `Employee ID` `4004` and `5005` would be in the expected output as they both carry a `Class A`, `Class B`, and a `Class D` license.  
+- Although `Employee ID` `3003` has the same licenses as `Employee ID` `4004` and `5005`, these Employee IDs do not have the same licenses as `Employee ID` `3003`.  
 
 [🔙 Back to Table of Contents](#table-of-contents)
 
@@ -767,8 +767,8 @@ Here is the expected output.
 |-------|
 | TX    |
 
-- Texas (`TX`) would show in the result set as Customer ID `1001` and `2002` each has their average monthly value over $100.
-- Iowa (`IA`) would not show in the result set because Customer ID `4004` did not have an average monthly value over $100 in May 2018.
+- Texas (`TX`) would show in the result set as `Customer ID` `1001` and `2002` each has their average monthly value over $100.
+- Iowa (`IA`) would not show in the result set because `Customer ID` `4004` did not have an average monthly value over $100 in May 2018.
 
 [🔙 Back to Table of Contents](#table-of-contents)
 
@@ -979,7 +979,7 @@ Here is the expected output.
 
 # Puzzle #29 - Count the Groupings
 
-Write an SQL statement that counts the consecutive values in the Status column.
+Write an SQL statement that counts the consecutive values in the `Status` column.
 
 | Step Number | Status |
 |-------------|--------|
@@ -1128,7 +1128,7 @@ Here is the expected output.
 
 # Puzzle #34 - Specific Exclusion
 
-Write an SQL statement that returns all rows except where the Customer ID is `1001` and the Amount is `$50`.
+Write an SQL statement that returns all rows except where the `Customer ID` is `1001` and the `Amount` is `$50`.
 
 | Order ID | Customer ID | Amount |
 |----------|-------------|--------|
@@ -1175,7 +1175,7 @@ Here is the expected output.
 | 5005         |
 | 6006         |
 
-- Sales Rep IDs `3003`, `4004`, `5005`, and `6006` appear because they had either an international sale or a domestic sale, but not both.
+- `Sales Rep ID` `3003`, `4004`, `5005`, and `6006` appear because they had either an international sale or a domestic sale, but not both.
 
 [🔙 Back to Table of Contents](#table-of-contents)
 
@@ -1396,7 +1396,7 @@ Here is the expected output.
 
 # Puzzle #43 - Unbounded Preceding
 
-Determine the minimum quantity for each record between the current row and all previous rows for each Customer ID.
+Determine the minimum quantity for each record between the current row and all previous rows for each `Customer ID`.
 
 | Order ID | Customer ID | Quantity |
 |----------|-------------|----------|
@@ -1502,7 +1502,7 @@ Here is the expected output.
 |------------|
 | 2002       |
 
-- Account ID `2002` would appear in the result set, as this account has never had a positive balance.
+- `Account ID` `2002` would appear in the result set, as this account has never had a positive balance.
 - There are a multitude of ways to write this statement. Can you think of them all?
 
 [🔙 Back to Table of Contents](#table-of-contents)
@@ -1511,7 +1511,7 @@ Here is the expected output.
 
 # Puzzle #47 - Work Schedule
 
-Given a table of employee shifts and another table of their activities, merge the two tables and write an SQL statement that produces the desired output. If an employee is scheduled and has no activity planned, label the time frame as “Work”.
+Given a table of employee shifts and another table of their activities, merge the two tables and write an SQL statement that produces the desired output. If an employee is scheduled and has no activity planned, label the time frame as `Work`.
 
 **Schedule**    
 | Schedule ID | Start Time      | End Time        |
@@ -1547,7 +1547,7 @@ Here is the expected output.
 
 # Puzzle #48 - Consecutive Sales
 
-For the following Customer IDs, write an SQL statement to determine customers who had a sale in the current year, plus the previous two consecutive years.
+Write an SQL statement to determine the `Sales IDs` that have a record in the current year, plus the previous two consecutive years.
 
 You will need to adjust the test data for the current year, as it is coded for the year 2021.
 
@@ -1571,7 +1571,7 @@ Here is the expected output.
 |----------|
 | 4004     |
 
-- Sales ID `4004` would be in the expected output as this customer had a sale in the current year, plus the previous two years.
+- `Sales ID` `4004` would be in the expected output as this salesman had a sale in the current year, plus the previous two years.
 
 [🔙 Back to Table of Contents](#table-of-contents)
 
@@ -1604,7 +1604,7 @@ Here is the expected output.
 
 For this puzzle, you will need to understand the rules of baseball's balls and strike count.
 
-Given a table containing the columns Batter ID, Pitch Number, and Result for each pitch. Construct an SQL statement that returns Start Of Pitch Count and End Of Pitch Count.
+Given a table containing the columns `Batter ID`, `Pitch Number`, and `Result` for each pitch. Construct an SQL statement that returns `Start Of Pitch Count` and `End Of Pitch Count`.
 
 Here is the expected output.
 
@@ -1993,8 +1993,8 @@ Here is the expected output.
 |----------|
 | 3        |
 
-- Order ID `3` meets these criteria because it has a connection to only one product (`Item 1`), and all the products linked to it have a discount value of "PROMO".  
-- Order ID `1` does not meet the criteria as it is linked to two different products (`Item 1` and `Item 2`).
+- `Order ID` `3` meets these criteria because it has a connection to only one product (`Item 1`), and all the products linked to it have a discount value of `PROMO`.  
+- `Order ID` `1` does not meet the criteria as it is linked to two different products (`Item 1` and `Item 2`).
 
 [🔙 Back to Table of Contents](#table-of-contents)
 
@@ -2034,7 +2034,7 @@ Here is the expected output.
 
 # Puzzle #65 - Home Listings
 
-You are presented with a dataset of home listings, each with a unique Home ID and a Status. Your objective is to assign a grouping key to each record based on specific conditions. A new grouping key should be initiated whenever a record is in the status `New Listing` or `Relisted`. Each subsequent record, following either of these statuses, should inherit the same grouping key until the next occurrence of `New Listing` or `Relisted`.
+You are presented with a dataset of home listings, each with a unique `Home ID` and a `Status`. Your objective is to assign a grouping key to each record based on specific conditions. A new grouping key should be initiated whenever a record is in the status `New Listing` or `Relisted`. Each subsequent record, following either of these statuses, should inherit the same grouping key until the next occurrence of `New Listing` or `Relisted`.
 
 | Listing ID | Home ID |     Status     |
 |------------|---------|----------------|
@@ -2149,7 +2149,7 @@ Here is the expected output.
 
 # Puzzle #69 - Splitting a Hierarchy
 
-You are given the following unbalanced hierarchical structure and must split the branches into two groups, “Group A” and “Group B”.
+You are given the following unbalanced hierarchical structure and must split the branches into two groups, `Group A` and `Group B`.
 
 | Parent | Child |
 |--------|-------|
@@ -2681,7 +2681,7 @@ GO
 
 # Puzzle #11 - Count the Groupings
 
-Write an SQL statement that counts the consecutive values in the Status column.
+Write an SQL statement that counts the consecutive values in the `Status` column.
 
 | Step Number | Status |
 |-------------|--------|
@@ -2837,11 +2837,11 @@ Here is the expected output.
 | 5        | 1         | (1,3)            |
 | 5        | 1         | (2,3)            |
 
-- Order ID `1` has 2 possible combinations of line items that total over $10, each with 3 sets.  
-- Order ID `2` has 1 possible combination of line items that total over $10, which has 3 sets.  
-- Order ID `3` has 0 possible combinations of line items that total over $10.  
-- Order ID `4` has 1 possible combination of line items that total over $10, which has 1 set.  
-- Order ID `5` has 3 possible combinations of line items that total over $10, each with 2 sets.
+- `Order ID` `1` has 2 possible combinations of line items that total over $10, each with 3 sets.  
+- `Order ID` `2` has 1 possible combination of line items that total over $10, which has 3 sets.  
+- `Order ID` `3` has 0 possible combinations of line items that total over $10.  
+- `Order ID` `4` has 1 possible combination of line items that total over $10, which has 1 set.  
+- `Order ID` `5` has 3 possible combinations of line items that total over $10, each with 2 sets.
 
 [🔙 Back to Table of Contents](#table-of-contents)
 
@@ -2854,8 +2854,8 @@ Write an SQL query to identify all possible next moves for a Knight piece from i
 Account for the Knight’s L-shaped movement pattern: two squares along one axis and one square along the perpendicular axis.  
 Assume the chessboard is numerically indexed 1 to 8 on both axes.
 
-For example, if you placed a Knight into square `4D`, the output of the SQL statement would be `5B, 3B, 
-6C, 2C, 6E, 2E, 5F, and 3F`.
+For example, if you placed a Knight into square 4D, the output of the SQL statement would be 5B, 3B, 
+6C, 2C, 6E, 2E, 5F, and 3F.
 
 [🔙 Back to Table of Contents](#table-of-contents)
 
