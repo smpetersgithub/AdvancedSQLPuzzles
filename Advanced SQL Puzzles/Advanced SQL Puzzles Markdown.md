@@ -1,4 +1,4 @@
-# 🟦 Welcome  
+﻿# ðŸŸ¦ Welcome  
 
 I hope you enjoy these puzzles as much as I have enjoyed creating them!  
 
@@ -31,7 +31,7 @@ Happy coding!
 
 - [Welcome](#welcome)
 - [Table of Contents](#table-of-contents)
-  - 🗂️ **Part I - Thinking in Sets**
+  - ðŸ—‚ï¸ **Part I - Thinking in Sets**
     - [Puzzle #1 - Shopping Carts](#puzzle-1---shopping-carts)
     - [Puzzle #2 - Managers and Employees](#puzzle-2---managers-and-employees)
     - [Puzzle #3 - Fiscal Year Table Constraints](#puzzle-3---fiscal-year-table-constraints)
@@ -57,7 +57,7 @@ Happy coding!
     - [Puzzle #23 - Divide in Half](#puzzle-23---divide-in-half)
     - [Puzzle #24 - Page Views](#puzzle-24---page-views)
     - [Puzzle #25 - Top Vendors](#puzzle-25---top-vendors)
-    - [Puzzle #26 - Previous Year’s Sales](#puzzle-26---previous-years-sales)
+    - [Puzzle #26 - Previous Yearâ€™s Sales](#puzzle-26---previous-years-sales)
     - [Puzzle #27 - Delete the Duplicates](#puzzle-27---delete-the-duplicates)
     - [Puzzle #28 - Fill the Gaps](#puzzle-28---fill-the-gaps)
     - [Puzzle #29 - Count the Groupings](#puzzle-29---count-the-groupings)
@@ -109,7 +109,7 @@ Happy coding!
     - [Puzzle #75 - Symmetric Matches](#puzzle-75---symmetric-matches)
     - [Puzzle #76 - Determine Batches](#puzzle-76---determine-batches)
     - [Puzzle #77 - Temperature Readings](#puzzle-77---temperature-readings)
-  - 🗂️ **Part II - Permutations, Combinations, Sequences, and Random Numbers**
+  - ðŸ—‚ï¸ **Part II - Permutations, Combinations, Sequences, and Random Numbers**
     - [Puzzle #1 - Factorials](#puzzle-1---factorials)
     - [Puzzle #2 - All Permutations](#puzzle-2---all-permutations)
     - [Puzzle #3 - Growing Numbers](#puzzle-3---growing-numbers)
@@ -142,6 +142,8 @@ Happy coding!
 <br/>
 
 --------
+
+<img src="../images/icons8-puzzle-piece-64.png" alt="Puzzle" width="64" height="64"/>
 
 # Puzzle #1 - Shopping Carts
 
@@ -180,9 +182,11 @@ Here is the expected output.
 |             | Cheese      |
 |             | Fruit       |
 
-[🔙 Back to Table of Contents](#table-of-contents)
+[ðŸ”™ Back to Table of Contents](#table-of-contents)
 
 --------
+
+<img src="../images/icons8-puzzle-piece-64.png" alt="Puzzle" width="64" height="64"/>
 
 # Puzzle #2 - Managers and Employees
 
@@ -208,9 +212,11 @@ Here is the expected output.
 | 5005        | 2002       | Engineer        | 2     |
 | 6006        | 2002       | Engineer        | 2     |
 
-[🔙 Back to Table of Contents](#table-of-contents)
+[ðŸ”™ Back to Table of Contents](#table-of-contents)
 
 --------
+
+<img src="../images/icons8-puzzle-piece-64.png" alt="Puzzle" width="64" height="64"/>
 
 # Puzzle #3 - Fiscal Year Table Constraints
 
@@ -229,9 +235,11 @@ CREATE TABLE #EmployeePayRecord
 );
 ```
 
-[🔙 Back to Table of Contents](#table-of-contents)
+[ðŸ”™ Back to Table of Contents](#table-of-contents)
 
 --------
+
+<img src="../images/icons8-puzzle-piece-64.png" alt="Puzzle" width="64" height="64"/>
 
 # Puzzle #4 - Two Predicates
 
@@ -258,13 +266,15 @@ Here is the expected output.
 | 1001        | 3        | TX             | 670    |
 | 1001        | 4        | TX             | 860    |
 
-- Customer ID 1001 appears in the result set because they had deliveries to both California and Texas.  
-- Customer ID 3003 does not appear because they never had a delivery to Texas.  
-- Customer ID 4004 does not appear because they never had a delivery to California.  
+- Customer ID `1001` appears in the result set because they had deliveries to both California (`CA`) and Texas (`TX`).  
+- Customer ID `3003` does not appear because they never had a delivery to Texas (`TX`).  
+- Customer ID `4004` does not appear because they never had a delivery to California (`CA`).  
 
-[🔙 Back to Table of Contents](#table-of-contents)
+[ðŸ”™ Back to Table of Contents](#table-of-contents)
 
 --------
+
+<img src="../images/icons8-puzzle-piece-64.png" alt="Puzzle" width="64" height="64"/>
 
 # Puzzle #5 - Phone Directory
 
@@ -289,9 +299,11 @@ Here is the expected output.
 | 2002        | 555-963-6544| 555-812-9856 |              |
 | 3003        | 555-987-6541|              |              |
 
-[🔙 Back to Table of Contents](#table-of-contents)
+[ðŸ”™ Back to Table of Contents](#table-of-contents)
 
 --------
+
+<img src="../images/icons8-puzzle-piece-64.png" alt="Puzzle" width="64" height="64"/>
 
 # Puzzle #6 - Workflow Steps
 
@@ -315,12 +327,14 @@ Here is the expected output.
 | Bravo    |
 | Charlie  |
  
-- The expected output would be Bravo and Charlie, as they have a workflow that has started but has not been completed.  
+- The expected output would be `Bravo` and `Charlie`, as they have a workflow that has started but has not been completed.  
 - **Bonus:** Write this query using only the `COUNT` function with no subqueries. Can you figure out the trick?  
 
-[🔙 Back to Table of Contents](#table-of-contents)
+[ðŸ”™ Back to Table of Contents](#table-of-contents)
 
 --------
+
+<img src="../images/icons8-puzzle-piece-64.png" alt="Puzzle" width="64" height="64"/>
 
 # Puzzle #7 - Mission to Mars
 
@@ -356,13 +370,15 @@ Here is the expected output.
 |--------------|
 | 1001         |
 
-- The expected output would be Candidate ID 1001, as this candidate has all the necessary skills for the space mission.  
-- Candidate IDs 2002 and 3003 would not be in the output as they have some but not all the required skills.  
-- Candidate ID 4004 has none of the needed requirements.
+- The expected output would be Candidate ID `1001`, as this candidate has all the necessary skills for the space mission.  
+- Candidate IDs `2002` and `3003` would not be in the output as they have some but not all the required skills.  
+- Candidate ID `4004` has none of the needed requirements.
 
-[🔙 Back to Table of Contents](#table-of-contents)
+[ðŸ”™ Back to Table of Contents](#table-of-contents)
 
 --------
+
+<img src="../images/icons8-puzzle-piece-64.png" alt="Puzzle" width="64" height="64"/>
 
 # Puzzle #8 - Workflow Cases
 
@@ -388,9 +404,11 @@ Here is the expected output.
 | Charlie  | 1      |
 | Delta    | 0      |
 
-[🔙 Back to Table of Contents](#table-of-contents)
+[ðŸ”™ Back to Table of Contents](#table-of-contents)
 
 --------
+
+<img src="../images/icons8-puzzle-piece-64.png" alt="Puzzle" width="64" height="64"/>
 
 # Puzzle #9 - Matching Sets
 
@@ -422,13 +440,15 @@ Here is the expected output.
 | 4004        | 5005        | 3     |
 | 5005        | 4004        | 3     |
 
-- Employee IDs 1001 and 2002 would be in the expected output as they both carry a Class A, Class B, and Class C license.  
-- Employee IDs 4004 and 5005 would be in the expected output as they both carry a Class A, Class B, and a Class D license.  
-- Although Employee ID 3003 has the same licenses as Employee ID 4004 and 5005, these Employee IDs do not have the same licenses as Employee ID 3003.  
+- Employee IDs `1001` and `2002` would be in the expected output as they both carry a `Class A`, `Class B`, and a `Class C` license.  
+- Employee IDs `4004` and `5005` would be in the expected output as they both carry a `Class A`, `Class B`, and a `Class D` license.  
+- Although Employee ID `3003` has the same licenses as Employee ID `4004` and `5005`, these Employee IDs do not have the same licenses as Employee ID `3003`.  
 
-[🔙 Back to Table of Contents](#table-of-contents)
+[ðŸ”™ Back to Table of Contents](#table-of-contents)
 
 --------
+
+<img src="../images/icons8-puzzle-piece-64.png" alt="Puzzle" width="64" height="64"/>
 
 # Puzzle #10 - Mean, Median, Mode, and Range
 
@@ -449,9 +469,11 @@ INSERT INTO #SampleData
 VALUES (5),(6),(10),(10),(13),(14),(17),(20),(81),(90),(76);
 ```
 
-[🔙 Back to Table of Contents](#table-of-contents)
+[ðŸ”™ Back to Table of Contents](#table-of-contents)
 
 --------
+
+<img src="../images/icons8-puzzle-piece-64.png" alt="Puzzle" width="64" height="64"/>
 
 # Puzzle #11 - Permutations
 
@@ -476,9 +498,11 @@ Here is the expected output.
 | C,A,B      |
 | C,B,A      |
 
-[🔙 Back to Table of Contents](#table-of-contents)
+[ðŸ”™ Back to Table of Contents](#table-of-contents)
 
 --------
+
+<img src="../images/icons8-puzzle-piece-64.png" alt="Puzzle" width="64" height="64"/>
 
 # Puzzle #12 - Average Days
 
@@ -504,9 +528,11 @@ Here is the expected output.
 | Bravo    | 9            |
 | Charlie  | 14           |
 
-[🔙 Back to Table of Contents](#table-of-contents)
+[ðŸ”™ Back to Table of Contents](#table-of-contents)
 
 --------
+
+<img src="../images/icons8-puzzle-piece-64.png" alt="Puzzle" width="64" height="64"/>
 
 # Puzzle #13 - Inventory Tracking
 
@@ -534,9 +560,11 @@ Here is the expected output.
 | 7/4/2018  | 50                  | 75        |
 | 7/5/2018  | -100                | -25       |
 
-[🔙 Back to Table of Contents](#table-of-contents)
+[ðŸ”™ Back to Table of Contents](#table-of-contents)
 
 --------
+
+<img src="../images/icons8-puzzle-piece-64.png" alt="Puzzle" width="64" height="64"/>
 
 # Puzzle #14 - Indeterminate Process Log
 
@@ -572,9 +600,11 @@ Here is the expected output.
 | Delta    | Error         |
 | Echo     | Running       |
 
-[🔙 Back to Table of Contents](#table-of-contents)
+[ðŸ”™ Back to Table of Contents](#table-of-contents)
 
 --------
+
+<img src="../images/icons8-puzzle-piece-64.png" alt="Puzzle" width="64" height="64"/>
 
 # Puzzle #15 - Group Concatenation
 
@@ -598,9 +628,11 @@ Here is the expected output.
 |------------------------------------------------------------------------------|
 | SELECT Product, UnitPrice, EffectiveDate FROM Products WHERE UnitPrice > 100 |
 
-[🔙 Back to Table of Contents](#table-of-contents)
+[ðŸ”™ Back to Table of Contents](#table-of-contents)
 
 --------
+
+<img src="../images/icons8-puzzle-piece-64.png" alt="Puzzle" width="64" height="64"/>
 
 # Puzzle #16 - Reciprocals
 
@@ -623,9 +655,11 @@ Here is the expected output.
 | 1001     | 2002     | 150   |
 | 3003     | 4004     | 140   |
 
-[🔙 Back to Table of Contents](#table-of-contents)
+[ðŸ”™ Back to Table of Contents](#table-of-contents)
 
 --------
+
+<img src="../images/icons8-puzzle-piece-64.png" alt="Puzzle" width="64" height="64"/>
 
 # Puzzle #17 - De-Grouping
 
@@ -651,9 +685,11 @@ Here is the expected output.
 | Notebook | 1        |
 | Notebook | 1        |
 
-[🔙 Back to Table of Contents](#table-of-contents)
+[ðŸ”™ Back to Table of Contents](#table-of-contents)
 
 --------
+
+<img src="../images/icons8-puzzle-piece-64.png" alt="Puzzle" width="64" height="64"/>
 
 # Puzzle #18 - Seating Chart
 
@@ -688,9 +724,11 @@ Here is the expected output.
 | Even Numbers | 7     |
 | Odd Numbers  | 9     |
 
-[🔙 Back to Table of Contents](#table-of-contents)
+[ðŸ”™ Back to Table of Contents](#table-of-contents)
 
 --------
+
+<img src="../images/icons8-puzzle-piece-64.png" alt="Puzzle" width="64" height="64"/>
 
 # Puzzle #19 - Back to the Future
 
@@ -714,9 +752,11 @@ Here is the expected output.
 | 1/10/2018  | 1/11/2018 |
 | 1/12/2018  | 1/19/2018 |
 
-[🔙 Back to Table of Contents](#table-of-contents)
+[ðŸ”™ Back to Table of Contents](#table-of-contents)
 
 --------
+
+<img src="../images/icons8-puzzle-piece-64.png" alt="Puzzle" width="64" height="64"/>
 
 # Puzzle #20 - Price Points
 
@@ -737,9 +777,11 @@ Here is the expected output.
 | 1001       | 6/8/2018       | 3.99       |
 | 2002       | 5/19/2018      | 2.99       |
 
-[🔙 Back to Table of Contents](#table-of-contents)
+[ðŸ”™ Back to Table of Contents](#table-of-contents)
 
 --------
+
+<img src="../images/icons8-puzzle-piece-64.png" alt="Puzzle" width="64" height="64"/>
 
 # Puzzle #21 - Average Monthly Sales
 
@@ -767,12 +809,14 @@ Here is the expected output.
 |-------|
 | TX    |
 
-- Texas would show in the result set as Customer ID 1001 and 2002 each has their average monthly value over $100.
-- Iowa would not show in the result set because Customer ID 4004 did not have an average monthly value over $100 in May 2018.
+- Texas (`TX`) would show in the result set as Customer ID `1001` and `2002` each has their average monthly value over $100.
+- Iowa (`IA`) would not show in the result set because Customer ID `4004` did not have an average monthly value over $100 in May 2018.
 
-[🔙 Back to Table of Contents](#table-of-contents)
+[ðŸ”™ Back to Table of Contents](#table-of-contents)
 
 --------
+
+<img src="../images/icons8-puzzle-piece-64.png" alt="Puzzle" width="64" height="64"/>
 
 # Puzzle #22 - Occurrences
 
@@ -798,9 +842,11 @@ Here is the expected output.
 | Charlie  | Error: Unidentified error occurred | 10          |
 | Alpha    | Status Complete                    | 8           |
 
-[🔙 Back to Table of Contents](#table-of-contents)
+[ðŸ”™ Back to Table of Contents](#table-of-contents)
 
 --------
+
+<img src="../images/icons8-puzzle-piece-64.png" alt="Puzzle" width="64" height="64"/>
 
 # Puzzle #23 - Divide in Half
 
@@ -828,9 +874,11 @@ Here is the expected output.
 | 2        | 1001      | 2343  |
 | 2        | 4004      | 1054  |
 
-[🔙 Back to Table of Contents](#table-of-contents)
+[ðŸ”™ Back to Table of Contents](#table-of-contents)
 
 --------
+
+<img src="../images/icons8-puzzle-piece-64.png" alt="Puzzle" width="64" height="64"/>
 
 # Puzzle #24 - Page Views
 
@@ -863,9 +911,11 @@ Here is the expected output.
 | 9        | 4004        | 4/1/2018   | 100    | IA    |
 | 10       | 1001        | 1/1/2018   | 75     | TX    |
 
-[🔙 Back to Table of Contents](#table-of-contents)
+[ðŸ”™ Back to Table of Contents](#table-of-contents)
 
 --------
+
+<img src="../images/icons8-puzzle-piece-64.png" alt="Puzzle" width="64" height="64"/>
 
 # Puzzle #25 - Top Vendors
 
@@ -887,13 +937,15 @@ Here is the expected output.
 | 1001        | Direct Parts |
 | 2002        | ACME         |
 
-[🔙 Back to Table of Contents](#table-of-contents)
+[ðŸ”™ Back to Table of Contents](#table-of-contents)
 
 --------
 
-# Puzzle #26 - Previous Year’s Sales
+<img src="../images/icons8-puzzle-piece-64.png" alt="Puzzle" width="64" height="64"/>
 
-Write an SQL statement that shows the current year’s sales, along with the previous year’s sales, and the sales from two years ago.
+# Puzzle #26 - Previous Yearâ€™s Sales
+
+Write an SQL statement that shows the current yearâ€™s sales, along with the previous yearâ€™s sales, and the sales from two years ago.
 
 | Year |  Amount  |
 |------|----------|
@@ -910,9 +962,11 @@ Here is the expected output.
 |---------|---------|---------|
 | 352,645 | 420,219 | 411,217 |
 
-[🔙 Back to Table of Contents](#table-of-contents)
+[ðŸ”™ Back to Table of Contents](#table-of-contents)
 
 --------
+
+<img src="../images/icons8-puzzle-piece-64.png" alt="Puzzle" width="64" height="64"/>
 
 # Puzzle #27 - Delete the Duplicates
 
@@ -937,9 +991,11 @@ Here is the expected output.
 | 3             |
 | 4             |
 
-[🔙 Back to Table of Contents](#table-of-contents)
+[ðŸ”™ Back to Table of Contents](#table-of-contents)
 
 --------
+
+<img src="../images/icons8-puzzle-piece-64.png" alt="Puzzle" width="64" height="64"/>
 
 # Puzzle #28 - Fill the Gaps
 
@@ -973,9 +1029,11 @@ Here is the expected output.
 | 8          | Charlie  |
 | 9          | Charlie  |
 
-[🔙 Back to Table of Contents](#table-of-contents)
+[ðŸ”™ Back to Table of Contents](#table-of-contents)
 
 --------
+
+<img src="../images/icons8-puzzle-piece-64.png" alt="Puzzle" width="64" height="64"/>
 
 # Puzzle #29 - Count the Groupings
 
@@ -1004,9 +1062,11 @@ Here is the expected outcome.
 | 5               | 9               | Failed | 5                 |
 | 10              | 12              | Passed | 3                 |
 
-[🔙 Back to Table of Contents](#table-of-contents)
+[ðŸ”™ Back to Table of Contents](#table-of-contents)
 
 --------
+
+<img src="../images/icons8-puzzle-piece-64.png" alt="Puzzle" width="64" height="64"/>
 
 # Puzzle #30 - Select Star
 
@@ -1022,9 +1082,11 @@ ProductName VARCHAR(200)
 );
 ```
 
-[🔙 Back to Table of Contents](#table-of-contents)
+[ðŸ”™ Back to Table of Contents](#table-of-contents)
 
 --------
+
+<img src="../images/icons8-puzzle-piece-64.png" alt="Puzzle" width="64" height="64"/>
 
 # Puzzle #31 - Second Highest
 
@@ -1057,9 +1119,11 @@ How would you construct an SQL query to retrieve the second-highest salary (a no
 | Sophie Germain       | 150,000 |
 | Leonhard Euler       | 100,000 |
 
-[🔙 Back to Table of Contents](#table-of-contents)
+[ðŸ”™ Back to Table of Contents](#table-of-contents)
 
 --------
+
+<img src="../images/icons8-puzzle-piece-64.png" alt="Puzzle" width="64" height="64"/>
 
 # Puzzle #32 - First and Last
 
@@ -1085,9 +1149,11 @@ Here is the expected output.
 | Geologist       | 4004             | 6006              |
 | Technician      | 7007             | 8008              |
 
-[🔙 Back to Table of Contents](#table-of-contents)
+[ðŸ”™ Back to Table of Contents](#table-of-contents)
 
 --------
+
+<img src="../images/icons8-puzzle-piece-64.png" alt="Puzzle" width="64" height="64"/>
 
 # Puzzle #33 - Deadlines
 
@@ -1122,9 +1188,11 @@ Here is the expected output.
 | 2        | Twilight | 7             | 3               | Behind Schedule   |
 | 3        | SunRay   | 3             | 9               | Ahead of Schedule |
 
-[🔙 Back to Table of Contents](#table-of-contents)
+[ðŸ”™ Back to Table of Contents](#table-of-contents)
 
 --------
+
+<img src="../images/icons8-puzzle-piece-64.png" alt="Puzzle" width="64" height="64"/>
 
 # Puzzle #34 - Specific Exclusion
 
@@ -1145,9 +1213,11 @@ Here is the expected output.
 | 3        | 2002        | 65     |
 | 4        | 3003        | 50     |
 
-[🔙 Back to Table of Contents](#table-of-contents)
+[ðŸ”™ Back to Table of Contents](#table-of-contents)
 
 --------
+
+<img src="../images/icons8-puzzle-piece-64.png" alt="Puzzle" width="64" height="64"/>
 
 # Puzzle #35 - International vs. Domestic Sales
 
@@ -1175,11 +1245,13 @@ Here is the expected output.
 | 5005         |
 | 6006         |
 
-- Sales Rep IDs 3003, 4004, 5005, and 6006 appear because they had either an international sale or a domestic sale, but not both.
+- Sales Rep IDs `3003`, `4004`, `5005`, and `6006` appear because they had either an international sale or a domestic sale, but not both.
 
-[🔙 Back to Table of Contents](#table-of-contents)
+[ðŸ”™ Back to Table of Contents](#table-of-contents)
 
 --------
+
+<img src="../images/icons8-puzzle-piece-64.png" alt="Puzzle" width="64" height="64"/>
 
 # Puzzle #36 - Traveling Salesman
 
@@ -1203,9 +1275,11 @@ Here is the expected output.
 | Austin --> Dallas --> Des Moines             | 500        |
 | Austin --> Dallas --> Memphis --> Des Moines | 600        |
 
-[🔙 Back to Table of Contents](#table-of-contents)
+[ðŸ”™ Back to Table of Contents](#table-of-contents)
 
 --------
+
+<img src="../images/icons8-puzzle-piece-64.png" alt="Puzzle" width="64" height="64"/>
 
 # Puzzle #37 - Group Criteria Keys
 
@@ -1227,9 +1301,11 @@ Here is the expected output.
 | 2           | 3        | Direct Parts | 789      | XYZ  | 150    |
 | 2           | 4        | Direct Parts | 789      | XYZ  | 125    |
 
-[🔙 Back to Table of Contents](#table-of-contents)
+[ðŸ”™ Back to Table of Contents](#table-of-contents)
 
 --------
+
+<img src="../images/icons8-puzzle-piece-64.png" alt="Puzzle" width="64" height="64"/>
 
 # Puzzle #38 - Reporting Elements
 
@@ -1267,9 +1343,11 @@ Here is the expected output.
 
 - In the result set, ACE and Direct Parts each have a fabricated record with 0 sales.
 
-[🔙 Back to Table of Contents](#table-of-contents)
+[ðŸ”™ Back to Table of Contents](#table-of-contents)
 
 --------
+
+<img src="../images/icons8-puzzle-piece-64.png" alt="Puzzle" width="64" height="64"/>
 
 # Puzzle #39 - Prime Numbers
 
@@ -1296,9 +1374,11 @@ Here is the expected output.
 | 5             |
 | 7             |
 
-[🔙 Back to Table of Contents](#table-of-contents)
+[ðŸ”™ Back to Table of Contents](#table-of-contents)
 
 --------
+
+<img src="../images/icons8-puzzle-piece-64.png" alt="Puzzle" width="64" height="64"/>
 
 # Puzzle #40 - Sort Order
 
@@ -1320,9 +1400,11 @@ Here is the expected output.
 | Atlanta   |
 | Chicago   |
 
-[🔙 Back to Table of Contents](#table-of-contents)
+[ðŸ”™ Back to Table of Contents](#table-of-contents)
 
 --------
+
+<img src="../images/icons8-puzzle-piece-64.png" alt="Puzzle" width="64" height="64"/>
 
 # Puzzle #41 - Associate IDs
 
@@ -1355,9 +1437,11 @@ Here is the expected output.
 | 2        | George    |
 | 2        | Harriet   |
 
-[🔙 Back to Table of Contents](#table-of-contents)
+[ðŸ”™ Back to Table of Contents](#table-of-contents)
 
 --------
+
+<img src="../images/icons8-puzzle-piece-64.png" alt="Puzzle" width="64" height="64"/>
 
 # Puzzle #42 - Mutual Friends
 
@@ -1390,9 +1474,11 @@ Here is the expected output.
 - Jason and Mike have 1 mutual friend: Mary.
 - etc........
 
-[🔙 Back to Table of Contents](#table-of-contents)
+[ðŸ”™ Back to Table of Contents](#table-of-contents)
 
 --------
+
+<img src="../images/icons8-puzzle-piece-64.png" alt="Puzzle" width="64" height="64"/>
 
 # Puzzle #43 - Unbounded Preceding
 
@@ -1418,9 +1504,11 @@ Here is the expected output.
 | 1        | 2002        | 4        | 4         |
 | 2        | 2002        | 9        | 4         |
 
-[🔙 Back to Table of Contents](#table-of-contents)
+[ðŸ”™ Back to Table of Contents](#table-of-contents)
 
 --------
+
+<img src="../images/icons8-puzzle-piece-64.png" alt="Puzzle" width="64" height="64"/>
 
 # Puzzle #44 - Slowly Changing Dimension Part I
 
@@ -1454,9 +1542,11 @@ Here is the expected output.
 | 2002        | 9/10/2021  | 9/14/2021  | 47.34  |
 | 2002        | 9/2/2021   | 9/9/2021   | 11.11  |
 
-[🔙 Back to Table of Contents](#table-of-contents)
+[ðŸ”™ Back to Table of Contents](#table-of-contents)
 
 --------
+
+<img src="../images/icons8-puzzle-piece-64.png" alt="Puzzle" width="64" height="64"/>
 
 # Puzzle #45 - Slowly Changing Dimension Part II
 
@@ -1478,9 +1568,11 @@ Here is the expected output.
 | 1001        | 9/18/2021  | 10/12/2021 | 65.56  |
 | 2002        | 9/1/2021   | 9/17/2021  | 42.12  |
 
-[🔙 Back to Table of Contents](#table-of-contents)
+[ðŸ”™ Back to Table of Contents](#table-of-contents)
 
 --------
+
+<img src="../images/icons8-puzzle-piece-64.png" alt="Puzzle" width="64" height="64"/>
 
 # Puzzle #46 - Negative Account Balances
 
@@ -1502,16 +1594,18 @@ Here is the expected output.
 |------------|
 | 2002       |
 
-- Account ID 2002 would appear in the result set, as this account has never had a positive balance.
+- Account ID `2002` would appear in the result set, as this account has never had a positive balance.
 - There are a multitude of ways to write this statement. Can you think of them all?
 
-[🔙 Back to Table of Contents](#table-of-contents)
+[ðŸ”™ Back to Table of Contents](#table-of-contents)
 
 --------
 
+<img src="../images/icons8-puzzle-piece-64.png" alt="Puzzle" width="64" height="64"/>
+
 # Puzzle #47 - Work Schedule
 
-Given a table of employee shifts and another table of their activities, merge the two tables and write an SQL statement that produces the desired output. If an employee is scheduled and has no activity planned, label the time frame as “Work”.
+Given a table of employee shifts and another table of their activities, merge the two tables and write an SQL statement that produces the desired output. If an employee is scheduled and has no activity planned, label the time frame as â€œWorkâ€.
 
 **Schedule**    
 | Schedule ID | Start Time      | End Time        |
@@ -1541,9 +1635,11 @@ Here is the expected output.
 | B           | Break    | 10/1/2021 11:00 | 10/1/2021 11:15 |
 | B           | Work     | 10/1/2021 11:15 | 10/1/2021 12:15 |
 
-[🔙 Back to Table of Contents](#table-of-contents)
+[ðŸ”™ Back to Table of Contents](#table-of-contents)
 
 --------
+
+<img src="../images/icons8-puzzle-piece-64.png" alt="Puzzle" width="64" height="64"/>
 
 # Puzzle #48 - Consecutive Sales
 
@@ -1571,11 +1667,13 @@ Here is the expected output.
 |----------|
 | 4004     |
 
-- Sales ID 4004 would be in the expected output as this customer had a sale in the current year, plus the previous two years.
+- Sales ID `4004` would be in the expected output as this customer had a sale in the current year, plus the previous two years.
 
-[🔙 Back to Table of Contents](#table-of-contents)
+[ðŸ”™ Back to Table of Contents](#table-of-contents)
 
 --------
+
+<img src="../images/icons8-puzzle-piece-64.png" alt="Puzzle" width="64" height="64"/>
 
 # Puzzle #49 - Sumo Wrestlers
 
@@ -1596,9 +1694,11 @@ Here is the expected output.
 |--------|
 | Haruki |
 
-[🔙 Back to Table of Contents](#table-of-contents)
+[ðŸ”™ Back to Table of Contents](#table-of-contents)
 
 --------
+
+<img src="../images/icons8-puzzle-piece-64.png" alt="Puzzle" width="64" height="64"/>
 
 # Puzzle #50 - Baseball Balls and Strikes
 
@@ -1610,31 +1710,33 @@ Here is the expected output.
 
 | Batter ID | Pitch Number | Result | Start Of Pitch Count | End Of Pitch Count |
 |-----------|--------------|--------|----------------------|--------------------|
-| 1001      | 1            | Foul   | 0 – 0                | 0 – 1              |
-| 1001      | 2            | Foul   | 0 – 1                | 0 – 2              |
-| 1001      | 3            | Ball   | 0 – 2                | 1 – 2              |
-| 1001      | 4            | Ball   | 1 – 2                | 2 – 2              |
-| 1001      | 5            | Strike | 2 – 2                | 2 – 3              |
-| 2002      | 1            | Ball   | 0 – 0                | 1 – 0              |
-| 2002      | 2            | Strike | 1 – 0                | 1 – 1              |
-| 2002      | 3            | Foul   | 1 – 1                | 1 – 2              |
-| 2002      | 4            | Foul   | 1 – 2                | 1 – 2              |
-| 2002      | 5            | Foul   | 1 – 2                | 1 – 2              |
-| 2002      | 6            | In Play| 1 – 2                | In-Play            |
-| 3003      | 1            | Ball   | 0 – 0                | 1 – 0              |
-| 3003      | 2            | Ball   | 1 – 0                | 2 – 0              |
-| 3003      | 3            | Ball   | 2 – 0                | 3 – 0              |
-| 3003      | 4            | Ball   | 3 – 0                | 4 – 0              |
-| 4004      | 1            | Foul   | 0 – 0                | 0 – 1              |
-| 4004      | 2            | Foul   | 0 – 1                | 0 – 2              |
-| 4004      | 3            | Foul   | 0 – 2                | 0 – 2              |
-| 4004      | 4            | Foul   | 0 – 2                | 0 – 2              |
-| 4004      | 5            | Foul   | 0 – 2                | 0 – 2              |
-| 4004      | 6            | Strike | 0 – 2                | 0 – 3              |
+| 1001      | 1            | Foul   | 0 â€“ 0                | 0 â€“ 1              |
+| 1001      | 2            | Foul   | 0 â€“ 1                | 0 â€“ 2              |
+| 1001      | 3            | Ball   | 0 â€“ 2                | 1 â€“ 2              |
+| 1001      | 4            | Ball   | 1 â€“ 2                | 2 â€“ 2              |
+| 1001      | 5            | Strike | 2 â€“ 2                | 2 â€“ 3              |
+| 2002      | 1            | Ball   | 0 â€“ 0                | 1 â€“ 0              |
+| 2002      | 2            | Strike | 1 â€“ 0                | 1 â€“ 1              |
+| 2002      | 3            | Foul   | 1 â€“ 1                | 1 â€“ 2              |
+| 2002      | 4            | Foul   | 1 â€“ 2                | 1 â€“ 2              |
+| 2002      | 5            | Foul   | 1 â€“ 2                | 1 â€“ 2              |
+| 2002      | 6            | In Play| 1 â€“ 2                | In-Play            |
+| 3003      | 1            | Ball   | 0 â€“ 0                | 1 â€“ 0              |
+| 3003      | 2            | Ball   | 1 â€“ 0                | 2 â€“ 0              |
+| 3003      | 3            | Ball   | 2 â€“ 0                | 3 â€“ 0              |
+| 3003      | 4            | Ball   | 3 â€“ 0                | 4 â€“ 0              |
+| 4004      | 1            | Foul   | 0 â€“ 0                | 0 â€“ 1              |
+| 4004      | 2            | Foul   | 0 â€“ 1                | 0 â€“ 2              |
+| 4004      | 3            | Foul   | 0 â€“ 2                | 0 â€“ 2              |
+| 4004      | 4            | Foul   | 0 â€“ 2                | 0 â€“ 2              |
+| 4004      | 5            | Foul   | 0 â€“ 2                | 0 â€“ 2              |
+| 4004      | 6            | Strike | 0 â€“ 2                | 0 â€“ 3              |
 
-[🔙 Back to Table of Contents](#table-of-contents)
+[ðŸ”™ Back to Table of Contents](#table-of-contents)
 
 --------
+
+<img src="../images/icons8-puzzle-piece-64.png" alt="Puzzle" width="64" height="64"/>
 
 # Puzzle #51 - Primary Key Creation
 
@@ -1651,9 +1753,11 @@ The goal here is to create a single column that is unique and re-creatable. The 
 | 3003        | Toggle |
 | 3003        | Bolt   |
 
-[🔙 Back to Table of Contents](#table-of-contents)
+[ðŸ”™ Back to Table of Contents](#table-of-contents)
 
 --------
+
+<img src="../images/icons8-puzzle-piece-64.png" alt="Puzzle" width="64" height="64"/>
 
 # Puzzle #52 - Phone Numbers Table
 
@@ -1671,9 +1775,11 @@ Here are a few sample records.
 | 2002        | (555)-555-5555 |
 | 3003        | (555)-555-5555 |
 
-[🔙 Back to Table of Contents](#table-of-contents)
+[ðŸ”™ Back to Table of Contents](#table-of-contents)
 
 --------
+
+<img src="../images/icons8-puzzle-piece-64.png" alt="Puzzle" width="64" height="64"/>
 
 # Puzzle #53 - Spouse IDs
 
@@ -1699,13 +1805,15 @@ Here is the expected output.
 | 3        | Charlie    | Pat       |
 | 3        | Pat        | Charlie   |
 
-[🔙 Back to Table of Contents](#table-of-contents)
+[ðŸ”™ Back to Table of Contents](#table-of-contents)
 
 --------
 
+<img src="../images/icons8-puzzle-piece-64.png" alt="Puzzle" width="64" height="64"/>
+
 # Puzzle #54 - Winning the Lottery
 
-You are part of an office lottery pool where you keep a table of the winning lottery numbers along with a table of each ticket’s chosen numbers. If a ticket has some but not all the winning numbers, you win $10. If a ticket has all the winning numbers, you win $100. Calculate the total winnings for today’s drawing.
+You are part of an office lottery pool where you keep a table of the winning lottery numbers along with a table of each ticketâ€™s chosen numbers. If a ticket has some but not all the winning numbers, you win $10. If a ticket has all the winning numbers, you win $100. Calculate the total winnings for todayâ€™s drawing.
 
 **Winning Numbers**
 | Number |
@@ -1733,9 +1841,11 @@ Here is the expected output.
 |--------|
 | 110    |
 
-[🔙 Back to Table of Contents](#table-of-contents)
+[ðŸ”™ Back to Table of Contents](#table-of-contents)
 
 --------
+
+<img src="../images/icons8-puzzle-piece-64.png" alt="Puzzle" width="64" height="64"/>
 
 # Puzzle #55 - Table Audit
 
@@ -1764,9 +1874,11 @@ Here is the expected output.
 | Product does not exist in table B            | Gizmo        |
 | Quantity in table A and table B do not match | Doodad       |
 
-[🔙 Back to Table of Contents](#table-of-contents)
+[ðŸ”™ Back to Table of Contents](#table-of-contents)
 
 --------
+
+<img src="../images/icons8-puzzle-piece-64.png" alt="Puzzle" width="64" height="64"/>
 
 # Puzzle #56 - Numbers Using Recursion
 
@@ -1787,9 +1899,11 @@ Here is the expected output.
 | 9      |
 | 10     |
 
-[🔙 Back to Table of Contents](#table-of-contents)
+[ðŸ”™ Back to Table of Contents](#table-of-contents)
 
 --------
+
+<img src="../images/icons8-puzzle-piece-64.png" alt="Puzzle" width="64" height="64"/>
 
 # Puzzle #57 - Find the Spaces
 
@@ -1813,9 +1927,11 @@ Here is the expected output.
 | 3          | 2        | SELECT `*` FROM Transactions; | 10     | 13   | FROM          |
 | 4          | 2        | SELECT `*` FROM Transactions; | 15     | 27   | Transactions; |
 
-[🔙 Back to Table of Contents](#table-of-contents)
+[ðŸ”™ Back to Table of Contents](#table-of-contents)
 
 --------
+
+<img src="../images/icons8-puzzle-piece-64.png" alt="Puzzle" width="64" height="64"/>
 
 # Puzzle #58 - Add Them Up
 
@@ -1847,9 +1963,11 @@ Here is the expected output.
 | 12+3        | 15  |
 | 12-3        | 9   |
 
-[🔙 Back to Table of Contents](#table-of-contents)
+[ðŸ”™ Back to Table of Contents](#table-of-contents)
 
 --------
+
+<img src="../images/icons8-puzzle-piece-64.png" alt="Puzzle" width="64" height="64"/>
 
 # Puzzle #59 - Balanced String
 
@@ -1887,9 +2005,11 @@ Here is the expected output.
 | 8  | ((())))  | Unbalanced |
 | 9  | }()[][   | Unbalanced |
 
-[🔙 Back to Table of Contents](#table-of-contents)
+[ðŸ”™ Back to Table of Contents](#table-of-contents)
 
 --------
+
+<img src="../images/icons8-puzzle-piece-64.png" alt="Puzzle" width="64" height="64"/>
 
 # Puzzle #60 - Products Without Duplicates
 
@@ -1909,9 +2029,11 @@ Here is the expected output.
 | 01           |
 | 03           |
 
-[🔙 Back to Table of Contents](#table-of-contents)
+[ðŸ”™ Back to Table of Contents](#table-of-contents)
 
 --------
+
+<img src="../images/icons8-puzzle-piece-64.png" alt="Puzzle" width="64" height="64"/>
 
 # Puzzle #61 - Player Scores
 
@@ -1937,9 +2059,11 @@ Here is the expected output.
 | 2          | 2002      | 9     | 3                | 2               | 1                       | 0                   |
 | 3          | 2002      | 7     | 1                | 0               | 0                       | 0                   |
 
-[🔙 Back to Table of Contents](#table-of-contents)
+[ðŸ”™ Back to Table of Contents](#table-of-contents)
 
 --------
+
+<img src="../images/icons8-puzzle-piece-64.png" alt="Puzzle" width="64" height="64"/>
 
 # Puzzle #62 - Car and Boat Purchase
 
@@ -1966,9 +2090,11 @@ Here is the expected outcome.
 | Rolls-Royce Phantom | Malibu      |
 | Rolls-Royce Phantom | Mastercraft |
 
-[🔙 Back to Table of Contents](#table-of-contents)
+[ðŸ”™ Back to Table of Contents](#table-of-contents)
 
 --------
+
+<img src="../images/icons8-puzzle-piece-64.png" alt="Puzzle" width="64" height="64"/>
 
 # Puzzle #63 - Promotion Codes
 
@@ -1993,20 +2119,22 @@ Here is the expected output.
 |----------|
 | 3        |
 
-- Order ID 3 meets these criteria because it has a connection to only one product (Item 1), and all the products linked to it have a discount value of "PROMO".  
-- Order ID 1 does not meet the criteria as it is linked to two different products (Item 1 and Item 2).
+- Order ID `3` meets these criteria because it has a connection to only one product (`Item 1`), and all the products linked to it have a discount value of `PROMO`.  
+- Order ID `1` does not meet the criteria as it is linked to two different products (`Item 1` and `Item 2`).
 
-[🔙 Back to Table of Contents](#table-of-contents)
+[ðŸ”™ Back to Table of Contents](#table-of-contents)
 
 --------
+
+<img src="../images/icons8-puzzle-piece-64.png" alt="Puzzle" width="64" height="64"/>
 
 # Puzzle #64 - Between Quotes
 
 Given the following table of strings that have embedded quotes, return the result based on the following:
 
-1. If the string has more than two quotes or has zero quotes, return “Error”.
-2. If the string has two quotes and more than 10 characters between the quotes, return “True”.
-3. If the string has two quotes and fewer than or equal to 10 characters between the quotes, return “False”.
+1. If the string has more than two quotes or has zero quotes, return â€œErrorâ€.
+2. If the string has two quotes and more than 10 characters between the quotes, return â€œTrueâ€.
+3. If the string has two quotes and fewer than or equal to 10 characters between the quotes, return â€œFalseâ€.
 
 | ID |      String       | Result |
 |----|-------------------|--------|
@@ -2028,13 +2156,15 @@ Here is the expected output.
 | 5  | 12345678901"234"  | False  |
 | 6  | 12345678901234    | Error  |
 
-[🔙 Back to Table of Contents](#table-of-contents)
+[ðŸ”™ Back to Table of Contents](#table-of-contents)
 
 --------
 
+<img src="../images/icons8-puzzle-piece-64.png" alt="Puzzle" width="64" height="64"/>
+
 # Puzzle #65 - Home Listings
 
-You are presented with a dataset of home listings, each with a unique Home ID and a Status. Your objective is to assign a grouping key to each record based on specific conditions. A new grouping key should be initiated whenever a record is in the status “New Listing” or “Relisted”. Each subsequent record, following either of these statuses, should inherit the same grouping key until the next occurrence of “New Listing” or “Relisted”.
+You are presented with a dataset of home listings, each with a unique Home ID and a Status. Your objective is to assign a grouping key to each record based on specific conditions. A new grouping key should be initiated whenever a record is in the status â€œNew Listingâ€ or â€œRelistedâ€. Each subsequent record, following either of these statuses, should inherit the same grouping key until the next occurrence of â€œNew Listingâ€ or â€œRelistedâ€.
 
 | Listing ID | Home ID |     Status     |
 |------------|---------|----------------|
@@ -2062,9 +2192,11 @@ Here is the expected output.
 | 8          | Home C  | Under Contract | 5           |
 | 9          | Home C  | Closed         | 5           |
 
-[🔙 Back to Table of Contents](#table-of-contents)
+[ðŸ”™ Back to Table of Contents](#table-of-contents)
 
 --------
+
+<img src="../images/icons8-puzzle-piece-64.png" alt="Puzzle" width="64" height="64"/>
 
 # Puzzle #66 - Matching Parts
 
@@ -2090,9 +2222,11 @@ Here is the expected output.
 | B111 | E222   | H333 |
 | C111 | F222   | I333 |
 
-[🔙 Back to Table of Contents](#table-of-contents)
+[ðŸ”™ Back to Table of Contents](#table-of-contents)
 
 --------
+
+<img src="../images/icons8-puzzle-piece-64.png" alt="Puzzle" width="64" height="64"/>
 
 # Puzzle #67 - Matching Birthdays
 
@@ -2117,9 +2251,11 @@ Here is the expected output.
 | 04/15/2015 | Susan, Tim, Jacob |
 | 05/23/2015 | Mike, Angie       |
 
-[🔙 Back to Table of Contents](#table-of-contents)
+[ðŸ”™ Back to Table of Contents](#table-of-contents)
 
 --------
+
+<img src="../images/icons8-puzzle-piece-64.png" alt="Puzzle" width="64" height="64"/>
 
 # Puzzle #68 - Removing Outliers
 
@@ -2143,13 +2279,15 @@ Here is the expected output.
 | Cougars  | 53    |
 | Bulldogs | 61    |
 
-[🔙 Back to Table of Contents](#table-of-contents)
+[ðŸ”™ Back to Table of Contents](#table-of-contents)
 
 --------
 
+<img src="../images/icons8-puzzle-piece-64.png" alt="Puzzle" width="64" height="64"/>
+
 # Puzzle #69 - Splitting a Hierarchy
 
-You are given the following unbalanced hierarchical structure and must split the branches into two groups, “Group A” and “Group B”.
+You are given the following unbalanced hierarchical structure and must split the branches into two groups, â€œGroup Aâ€ and â€œGroup Bâ€.
 
 | Parent | Child |
 |--------|-------|
@@ -2173,9 +2311,11 @@ Here is the expected output.
 | Group B | C  |
 | Group B | F  |
 
-[🔙 Back to Table of Contents](#table-of-contents)
+[ðŸ”™ Back to Table of Contents](#table-of-contents)
 
 --------
+
+<img src="../images/icons8-puzzle-piece-64.png" alt="Puzzle" width="64" height="64"/>
 
 # Puzzle #70 - Student Facts
 
@@ -2201,16 +2341,18 @@ Here is the expected output.
 | 3003      | 2               | 13          | 2              | 2               | 12           | 14         | F, M    |
 | 4004      | 1               | 7           | 0              | 0               | 7            | 7          | M       |
 
-[🔙 Back to Table of Contents](#table-of-contents)
+[ðŸ”™ Back to Table of Contents](#table-of-contents)
 
 --------
+
+<img src="../images/icons8-puzzle-piece-64.png" alt="Puzzle" width="64" height="64"/>
 
 # Puzzle #71 - Employee Validation
 
 Due to a sub-optimal database design by the database architecture team, employee records are split across two separate tables: one for temporary employees and another for permanent employees. You face the following challenges.
 
-1. Ensure that an employee is not simultaneously listed in both the Temporary and Permanent employee tables. An INSERT into the Temporary or Permanent tables should fail if this criterion is not met.
-2. Confirm that any employee added to either the Temporary or Permanent table has a corresponding entry in the main Employees table. An INSERT into the Temporary or Permanent table should fail if this criterion is not met.
+1. Ensure that an employee is not simultaneously listed in both the `Temporary Employees` and `Permanent Employees` tables. An `INSERT` into the `Temporary Employees` or `Permanent Employees` tables should fail if this criterion is not met.
+2. Confirm that any employee added to either the `Temporary Employees` or `Permanent Employees` table has a corresponding entry in the main `Employees` table. An `INSERT` into the `Temporary Employees` or `Permanent Employees` table should fail if this criterion is not met.
 
 **Temporary Employees**
 
@@ -2239,9 +2381,11 @@ Due to a sub-optimal database design by the database architecture team, employee
 | 5005        | Stuart   |
 | 6006        | Angie    |
 
-[🔙 Back to Table of Contents](#table-of-contents)
+[ðŸ”™ Back to Table of Contents](#table-of-contents)
 
 --------
+
+<img src="../images/icons8-puzzle-piece-64.png" alt="Puzzle" width="64" height="64"/>
 
 # Puzzle #72 - Under Warranty
 
@@ -2267,9 +2411,11 @@ Here is the expected output.
 | A           | 5005      | 4004               | 04/01/2023  | 03/24/2023           | 1               | 8               |
 | B           | 7007      | 6006               | 06/23/2023  | 06/22/2023           | 1               | 1               |
 
-[🔙 Back to Table of Contents](#table-of-contents)
+[ðŸ”™ Back to Table of Contents](#table-of-contents)
 
 --------
+
+<img src="../images/icons8-puzzle-piece-64.png" alt="Puzzle" width="64" height="64"/>
 
 # Puzzle #73 - Distinct Statuses
 
@@ -2299,9 +2445,11 @@ Here is the expected output.
 | 7       | Bravo    | Open     | 2     |
 | 8       | Bravo    | Inactive | 3     |
 
-[🔙 Back to Table of Contents](#table-of-contents)
+[ðŸ”™ Back to Table of Contents](#table-of-contents)
 
 --------
+
+<img src="../images/icons8-puzzle-piece-64.png" alt="Puzzle" width="64" height="64"/>
 
 # Puzzle #74 - Bowling League
 
@@ -2328,9 +2476,11 @@ Here is the expected output.
 | Dennis  | John    | 1     |
 | Anthony | Dennis  | 1     |
 
-[🔙 Back to Table of Contents](#table-of-contents)
+[ðŸ”™ Back to Table of Contents](#table-of-contents)
 
 --------
+
+<img src="../images/icons8-puzzle-piece-64.png" alt="Puzzle" width="64" height="64"/>
 
 # Puzzle #75 - Symmetric Matches
 
@@ -2350,9 +2500,11 @@ Here is the expected output.
 | B      | 1           |
 | C      | 2           |
 
-[🔙 Back to Table of Contents](#table-of-contents)
+[ðŸ”™ Back to Table of Contents](#table-of-contents)
 
 --------
+
+<img src="../images/icons8-puzzle-piece-64.png" alt="Puzzle" width="64" height="64"/>
 
 # Puzzle #76 - Determine Batches
 
@@ -2381,9 +2533,11 @@ Here is the expected output.
 | A     | 1           | 3         |
 | A     | 5           | 6         |
 
-[🔙 Back to Table of Contents](#table-of-contents)
+[ðŸ”™ Back to Table of Contents](#table-of-contents)
 
 --------
+
+<img src="../images/icons8-puzzle-piece-64.png" alt="Puzzle" width="64" height="64"/>
 
 # Puzzle #77 - Temperature Readings
 
@@ -2421,7 +2575,7 @@ Here is the expected output.
 | 11             | 80                |
 | 12             | 80                |
 
-[🔙 Back to Table of Contents](#table-of-contents)
+[ðŸ”™ Back to Table of Contents](#table-of-contents)
 
 --------
 
@@ -2430,6 +2584,8 @@ Here is the expected output.
 <br/>
 
 --------
+
+<img src="../images/icons8-puzzle-piece-64.png" alt="Puzzle" width="64" height="64"/>
 
 # Puzzle #1 - Factorials
 
@@ -2450,9 +2606,11 @@ Here is the expected output.
 | 9      | 362,880   |
 | 10     | 3,628,800 |
 
-[🔙 Back to Table of Contents](#table-of-contents)
+[ðŸ”™ Back to Table of Contents](#table-of-contents)
 
 --------
+
+<img src="../images/icons8-puzzle-piece-64.png" alt="Puzzle" width="64" height="64"/>
 
 # Puzzle #2 - All Permutations
 
@@ -2469,9 +2627,11 @@ Here is the expected output.
 | 3          | 3,1,2       |
 | 3          | 3,2,1       |
 
-[🔙 Back to Table of Contents](#table-of-contents)
+[ðŸ”™ Back to Table of Contents](#table-of-contents)
 
 --------
+
+<img src="../images/icons8-puzzle-piece-64.png" alt="Puzzle" width="64" height="64"/>
 
 # Puzzle #3 - Growing Numbers
 
@@ -2487,9 +2647,11 @@ Here is the expected output.
 | 1234        |
 | 12345       |
 
-[🔙 Back to Table of Contents](#table-of-contents)
+[ðŸ”™ Back to Table of Contents](#table-of-contents)
 
 --------
+
+<img src="../images/icons8-puzzle-piece-64.png" alt="Puzzle" width="64" height="64"/>
 
 # Puzzle #4 - Non-Adjacent Numbers
 
@@ -2505,13 +2667,15 @@ Here is the expected output.
 | 2,4,1,3     |
 | 3,1,4,2     |
 
-[🔙 Back to Table of Contents](#table-of-contents)
+[ðŸ”™ Back to Table of Contents](#table-of-contents)
 
 --------
 
+<img src="../images/icons8-puzzle-piece-64.png" alt="Puzzle" width="64" height="64"/>
+
 # Puzzle #5 - Add the Numbers Up
 
-Given an ordered set of numbers 1 through n (for example, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10), and a `+` or `–` sign at all possible groupings, create all possible permutations and the amount to which they add up.
+Given an ordered set of numbers 1 through n (for example, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10), and a `+` or `â€“` sign at all possible groupings, create all possible permutations and the amount to which they add up.
 
 Here is the expected output for the set of {1, 2, 3}.
 
@@ -2527,9 +2691,11 @@ Here is the expected output for the set of {1, 2, 3}.
 | 12+3        | 15  |
 | 12-3        | 9   |
 
-[🔙 Back to Table of Contents](#table-of-contents)
+[ðŸ”™ Back to Table of Contents](#table-of-contents)
 
 --------
+
+<img src="../images/icons8-puzzle-piece-64.png" alt="Puzzle" width="64" height="64"/>
 
 # Puzzle #6 - Permutations of 0 and 1
 
@@ -2548,9 +2714,11 @@ Here is the expected output.
 | 110         |
 | 111         |
 
-[🔙 Back to Table of Contents](#table-of-contents)
+[ðŸ”™ Back to Table of Contents](#table-of-contents)
 
 --------
+
+<img src="../images/icons8-puzzle-piece-64.png" alt="Puzzle" width="64" height="64"/>
 
 # Puzzle #7 - Permutations 1 through n
 
@@ -2585,9 +2753,11 @@ Here is the expected output for all 24 permutations of the set {1, 2, 3, 4}, dis
 | 4,3,1       |
 | 4,3,2       |
 
-[🔙 Back to Table of Contents](#table-of-contents)
+[ðŸ”™ Back to Table of Contents](#table-of-contents)
 
 --------
+
+<img src="../images/icons8-puzzle-piece-64.png" alt="Puzzle" width="64" height="64"/>
 
 # Puzzle #8 - Four Vehicles Problem
 
@@ -2607,11 +2777,13 @@ Here is the expected output.
 | 7,200              |
 
 We can determine there are 7,200 arrangements by using the following equation.    
-`Total Arrangements = (5! / 1!) × (6! / (3! × 2! × 1! × 0!)) = 7,200`
+`Total Arrangements = (5! / 1!) Ã— (6! / (3! Ã— 2! Ã— 1! Ã— 0!)) = 7,200`
 
-[🔙 Back to Table of Contents](#table-of-contents)
+[ðŸ”™ Back to Table of Contents](#table-of-contents)
 
 --------
+
+<img src="../images/icons8-puzzle-piece-64.png" alt="Puzzle" width="64" height="64"/>
 
 # Puzzle #9 - Find the Spaces
 
@@ -2635,9 +2807,11 @@ Here is the expected output.
 | 3         | 2  | `SELECT * FROM Trans;`    | 10     | 14           | FROM   | 3           |
 | 4         | 2  | `SELECT * FROM Trans;`    | 15     |              | Trans  | 3           |
 
-[🔙 Back to Table of Contents](#table-of-contents)
+[ðŸ”™ Back to Table of Contents](#table-of-contents)
 
 --------
+
+<img src="../images/icons8-puzzle-piece-64.png" alt="Puzzle" width="64" height="64"/>
 
 # Puzzle #10 - Seating Chart
 
@@ -2675,9 +2849,11 @@ GO
 | Even Numbers | 8     |
 | Odd Numbers  | 9     |
 
-[🔙 Back to Table of Contents](#table-of-contents)
+[ðŸ”™ Back to Table of Contents](#table-of-contents)
 
 --------
+
+<img src="../images/icons8-puzzle-piece-64.png" alt="Puzzle" width="64" height="64"/>
 
 # Puzzle #11 - Count the Groupings
 
@@ -2706,31 +2882,42 @@ Here is the expected output.
 | 5               | 9               | Failed | 5                 |
 | 10              | 12              | Passed | 3                 |
 
-[🔙 Back to Table of Contents](#table-of-contents)
+[ðŸ”™ Back to Table of Contents](#table-of-contents)
 
 --------
+
+<img src="../images/icons8-puzzle-piece-64.png" alt="Puzzle" width="64" height="64"/>
 
 # Puzzle #12 - Double or Add 1
 
 Create a numbers table where you start with the number 1, and then double the number if the result is less than 100, else add 1.  
 
-[🔙 Back to Table of Contents](#table-of-contents)
+[ðŸ”™ Back to Table of Contents](#table-of-contents)
 
 --------
-# Puzzle #13 - Pascal’s Triangle
 
-Solve for any position in [Pascal’s Triangle](https://en.wikipedia.org/wiki/Pascal%27s_triangle).  
+<img src="../images/icons8-puzzle-piece-64.png" alt="Puzzle" width="64" height="64"/>
 
-[🔙 Back to Table of Contents](#table-of-contents)
+# Puzzle #13 - Pascalâ€™s Triangle
+
+Solve for any position in [Pascalâ€™s Triangle](https://en.wikipedia.org/wiki/Pascal%27s_triangle).  
+
+[ðŸ”™ Back to Table of Contents](#table-of-contents)
 
 --------
+
+<img src="../images/icons8-puzzle-piece-64.png" alt="Puzzle" width="64" height="64"/>
+
 # Puzzle #14 - Josephus Problem
 
 Solve the [Josephus Problem](https://en.wikipedia.org/wiki/Josephus_problem).  
 
-[🔙 Back to Table of Contents](#table-of-contents)
+[ðŸ”™ Back to Table of Contents](#table-of-contents)
 
 --------
+
+<img src="../images/icons8-puzzle-piece-64.png" alt="Puzzle" width="64" height="64"/>
+
 # Puzzle #15 - High-Low Card Game
 
 Write a program that shuffles a standard deck of cards and plays a game of High-Low.  
@@ -2738,16 +2925,22 @@ Write a program that shuffles a standard deck of cards and plays a game of High-
 The game is played by receiving an initial card and then determining if the next card will be of higher or lower value based on probability.  
 Make a random decision of higher or lower where necessary.  
 
-[🔙 Back to Table of Contents](#table-of-contents)
+[ðŸ”™ Back to Table of Contents](#table-of-contents)
 
 --------
+
+<img src="../images/icons8-puzzle-piece-64.png" alt="Puzzle" width="64" height="64"/>
+
 # Puzzle #16 - Monty Hall Simulation
 
 Run 10,000 simulations of the [Monty Hall problem](https://en.wikipedia.org/wiki/Monty_Hall_problem) to prove it is true.  
 
-[🔙 Back to Table of Contents](#table-of-contents)
+[ðŸ”™ Back to Table of Contents](#table-of-contents)
 
 --------
+
+<img src="../images/icons8-puzzle-piece-64.png" alt="Puzzle" width="64" height="64"/>
+
 # Puzzle #17 - Dice Roll Game
 
 What is the average number of dice throws needed to reach 100 points, given the following rules?  
@@ -2756,29 +2949,38 @@ What is the average number of dice throws needed to reach 100 points, given the 
 - If you roll a 6 (even on a re-roll), re-roll the dice and reduce your score by this amount.  
 - You cannot go lower than 0 points.  
 
-[🔙 Back to Table of Contents](#table-of-contents)
+[ðŸ”™ Back to Table of Contents](#table-of-contents)
 
 --------
+
+<img src="../images/icons8-puzzle-piece-64.png" alt="Puzzle" width="64" height="64"/>
+
 # Puzzle #18 - The Birthday Problem
 
 Run 10,000 simulations of the [Birthday problem](https://en.wikipedia.org/wiki/Birthday_problem) to prove it is true.  
 
-[🔙 Back to Table of Contents](#table-of-contents)
+[ðŸ”™ Back to Table of Contents](#table-of-contents)
 
 --------
+
+<img src="../images/icons8-puzzle-piece-64.png" alt="Puzzle" width="64" height="64"/>
+
 # Puzzle #19 - Random Walk
 
 Perform a random walk best described by the following puzzle:
 
-As the host of a weekly dinner gathering with you and seven friends (8 people total), you devise a method to choose next week’s host. After the meal, everyone sits around a circular table. As the current host, you flip a fair coin. If it’s heads, pass the coin to the person on your right; if it’s tails, pass it to your left. Whoever receives the coin repeats the process—flipping and passing right on heads, left on tails.
+As the host of a weekly dinner gathering with you and seven friends (8 people total), you devise a method to choose next weekâ€™s host. After the meal, everyone sits around a circular table. As the current host, you flip a fair coin. If itâ€™s heads, pass the coin to the person on your right; if itâ€™s tails, pass it to your left. Whoever receives the coin repeats the processâ€”flipping and passing right on heads, left on tails.
 
 The game continues until exactly one person remains who has not yet received the coin. The last person to be untouched is declared the winner and will host the next dinner party.
 
 Because you were the first to flip, you are ineligible to host next week.
 
-[🔙 Back to Table of Contents](#table-of-contents)
+[ðŸ”™ Back to Table of Contents](#table-of-contents)
 
 --------
+
+<img src="../images/icons8-puzzle-piece-64.png" alt="Puzzle" width="64" height="64"/>
+
 # Puzzle #20 - Markov Chain
 
 Perform a Markov Chain best described by the following puzzle:  
@@ -2789,19 +2991,25 @@ In Probability Land, on a sunny day, there is an equal probability of the next d
 
 On average, how many rainy days are there in Probability Land?  
 
-[🔙 Back to Table of Contents](#table-of-contents)
+[ðŸ”™ Back to Table of Contents](#table-of-contents)
 
 --------
+
+<img src="../images/icons8-puzzle-piece-64.png" alt="Puzzle" width="64" height="64"/>
+
 # Puzzle #21 - 100 Prisoners Riddle
 
 Run 10,000 simulations of the [100 prisoners problem](https://en.wikipedia.org/wiki/100_prisoners_problem) to prove it is true.  
 
-[🔙 Back to Table of Contents](#table-of-contents)
+[ðŸ”™ Back to Table of Contents](#table-of-contents)
 
 --------
+
+<img src="../images/icons8-puzzle-piece-64.png" alt="Puzzle" width="64" height="64"/>
+
 # Puzzle #22 - Non-Overlapping Sets
 
-You are given a table of orders, their line items, and the associated costs for each line item. Your task is to write an SQL statement that finds the maximum number of non-overlapping sets of line items for each order, with the condition that the total cost of line items in each set must be ≥ $10.  
+You are given a table of orders, their line items, and the associated costs for each line item. Your task is to write an SQL statement that finds the maximum number of non-overlapping sets of line items for each order, with the condition that the total cost of line items in each set must be â‰¥ $10.  
 
 A set can contain no more than 2 records.
 
@@ -2837,27 +3045,30 @@ Here is the expected output.
 | 5        | 1         | (1,3)            |
 | 5        | 1         | (2,3)            |
 
-- Order ID 1 has 2 possible combinations of line items that total over $10, each with 3 sets.  
-- Order ID 2 has 1 possible combination of line items that total over $10, which has 3 sets.  
-- Order ID 3 has 0 possible combinations of line items that total over $10.  
-- Order ID 4 has 1 possible combination of line items that total over $10, which has 1 set.  
-- Order ID 5 has 3 possible combinations of line items that total over $10, each with 2 sets.
+- Order ID `1` has 2 possible combinations of line items that total over $10, each with 3 sets.  
+- Order ID `2` has 1 possible combination of line items that total over $10, which has 3 sets.  
+- Order ID `3` has 0 possible combinations of line items that total over $10.  
+- Order ID `4` has 1 possible combination of line items that total over $10, which has 1 set.  
+- Order ID `5` has 3 possible combinations of line items that total over $10, each with 2 sets.  
 
-[🔙 Back to Table of Contents](#table-of-contents)
+[ðŸ”™ Back to Table of Contents](#table-of-contents)
 
 --------
+
+<img src="../images/icons8-puzzle-piece-64.png" alt="Puzzle" width="64" height="64"/>
+
 # Puzzle #23 - Knight's Tour
 
-This type of problem is often referred to as the [Knight’s Tour](https://en.wikipedia.org/wiki/Knight%27s_tour).
+This type of problem is often referred to as the [Knightâ€™s Tour](https://en.wikipedia.org/wiki/Knight%27s_tour).
 
-Write an SQL query to identify all possible next moves for a Knight piece from its current position on an 8×8 chessboard.  
-Account for the Knight’s L-shaped movement pattern: two squares along one axis and one square along the perpendicular axis.  
+Write an SQL query to identify all possible next moves for a Knight piece from its current position on an 8Ã—8 chessboard.  
+Account for the Knightâ€™s L-shaped movement pattern: two squares along one axis and one square along the perpendicular axis.  
 Assume the chessboard is numerically indexed 1 to 8 on both axes.
 
-For example, if you placed a Knight into square 4D, the output of the SQL statement would be 5B, 3B, 
-6C, 2C, 6E, 2E, 5F, and 3F.
+For example, if you placed a Knight into square `4D`, the output of the SQL statement would be `5B`, `3B`, 
+`6C`, `2C`, `6E`, `2E`, `5F`, and `3F`.
 
-[🔙 Back to Table of Contents](#table-of-contents)
+[ðŸ”™ Back to Table of Contents](#table-of-contents)
 
 --------
 
