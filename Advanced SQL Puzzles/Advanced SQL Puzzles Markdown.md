@@ -237,7 +237,7 @@ CREATE TABLE #EmployeePayRecord
 
 Write an SQL statement given the following requirements.  
 
-For every customer who had a delivery to California, provide a result set of the customer orders that were delivered to Texas.  
+For every customer who had a delivery to California (`CA`), provide a result set of the customer orders that were delivered to Texas (`TX`).  
 
 | Customer ID | Order ID | Delivery State | Amount |
 |-------------|----------|----------------|--------|
@@ -258,9 +258,9 @@ Here is the expected output.
 | 1001        | 3        | TX             | 670    |
 | 1001        | 4        | TX             | 860    |
 
-- Customer ID 1001 appears in the result set because they had deliveries to both California and Texas.  
-- Customer ID 3003 does not appear because they never had a delivery to Texas.  
-- Customer ID 4004 does not appear because they never had a delivery to California.  
+- Customer ID `1001` appears in the result set because they had deliveries to both California (`CA`) and Texas (`TX`).  
+- Customer ID `3003` does not appear because they never had a delivery to Texas (`TX`).  
+- Customer ID `4004` does not appear because they never had a delivery to California (`CA`).  
 
 [🔙 Back to Table of Contents](#table-of-contents)
 
@@ -315,7 +315,7 @@ Here is the expected output.
 | Bravo    |
 | Charlie  |
  
-- The expected output would be Bravo and Charlie, as they have a workflow that has started but has not been completed.  
+- The expected output would be `Bravo` and `Charlie`, as they have a workflow that has started but has not been completed.  
 - **Bonus:** Write this query using only the `COUNT` function with no subqueries. Can you figure out the trick?  
 
 [🔙 Back to Table of Contents](#table-of-contents)
@@ -356,9 +356,9 @@ Here is the expected output.
 |--------------|
 | 1001         |
 
-- The expected output would be Candidate ID 1001, as this candidate has all the necessary skills for the space mission.  
-- Candidate IDs 2002 and 3003 would not be in the output as they have some but not all the required skills.  
-- Candidate ID 4004 has none of the needed requirements.
+- The expected output would be Candidate ID `1001`, as this candidate has all the necessary skills for the space mission.  
+- Candidate IDs `2002` and `3003` would not be in the output as they have some but not all the required skills.  
+- Candidate ID `4004` has none of the needed requirements.
 
 [🔙 Back to Table of Contents](#table-of-contents)
 
@@ -368,7 +368,7 @@ Here is the expected output.
 
 You have a report of all workflows and their case results.  
 
-A value of 0 indicates the workflow failed, and 1 indicates it passed.  
+A value of `0` indicates the workflow failed, and a value of `1` indicates it passed.  
 
 Write an SQL statement that transforms the following table into the expected output.  
 
@@ -422,9 +422,9 @@ Here is the expected output.
 | 4004        | 5005        | 3     |
 | 5005        | 4004        | 3     |
 
-- Employee IDs 1001 and 2002 would be in the expected output as they both carry a Class A, Class B, and Class C license.  
-- Employee IDs 4004 and 5005 would be in the expected output as they both carry a Class A, Class B, and a Class D license.  
-- Although Employee ID 3003 has the same licenses as Employee ID 4004 and 5005, these Employee IDs do not have the same licenses as Employee ID 3003.  
+- Employee IDs `1001` and `2002` would be in the expected output as they both carry a `Class A`, `Class B`, and a `Class C` license.  
+- Employee IDs `4004` and `5005` would be in the expected output as they both carry a `Class A`, `Class B`, and a `Class D` license.  
+- Although Employee ID `3003` has the same licenses as Employee ID `4004` and `5005`, these Employee IDs do not have the same licenses as Employee ID `3003`.  
 
 [🔙 Back to Table of Contents](#table-of-contents)
 
@@ -540,13 +540,13 @@ Here is the expected output.
 
 # Puzzle #14 - Indeterminate Process Log
 
-Your process log contains several workflows, each broken down by step number, with possible status values of Complete, Running, or Error.  
+Your process log contains several workflows, each broken down by step number, with possible status values of `Complete`, `Running`, or `Error`.  
 
 Your task is to write an SQL statement that creates an overall status based on the following requirements:  
 
-- If all steps of a workflow are of the same status (Error, Complete, or Running), then return the distinct status.  
-- If any steps of a workflow have an Error status along with a status of Complete or Running, set the overall status to Indeterminate.  
-- If the workflow steps have a combination of Complete and Running (without any Errors), set the overall status to Running.  
+- If all steps of a workflow are of the same status (`Error`, `Complete`, or `Running`), then return the distinct status.  
+- If any steps of a workflow have an `Error` status along with a status of `Complete` or `Running`, set the overall status to `Indeterminate`.  
+- If the workflow steps have a combination of `Complete` and `Running` (without any Errors), set the overall status to Running.  
 
 | Workflow | Step Number |  Status  |
 |----------|-------------|----------|
@@ -767,8 +767,8 @@ Here is the expected output.
 |-------|
 | TX    |
 
-- Texas would show in the result set as Customer ID 1001 and 2002 each has their average monthly value over $100.
-- Iowa would not show in the result set because Customer ID 4004 did not have an average monthly value over $100 in May 2018.
+- Texas (`TX`) would show in the result set as Customer ID `1001` and `2002` each has their average monthly value over $100.
+- Iowa (`IA`) would not show in the result set because Customer ID `4004` did not have an average monthly value over $100 in May 2018.
 
 [🔙 Back to Table of Contents](#table-of-contents)
 
@@ -806,7 +806,7 @@ Here is the expected output.
 
 You work for a gaming company and need to rank players by their score into two categories.
 
-Players that rank in the top half must be given a value of 1, and the remaining players must be given a value of 2.
+Players that rank in the top half must be given a value of `1`, and the remaining players must be given a value of `2`.
 
 Write an SQL statement that meets these requirements.
 
@@ -1063,7 +1063,7 @@ How would you construct an SQL query to retrieve the second-highest salary (a no
 
 # Puzzle #32 - First and Last
 
-Write an SQL statement that determines the most and least experienced Spaceman ID by their job description.
+Write an SQL statement that determines the most and least experienced spaceman by their job description.
 
 | Spaceman ID | Job Description | Mission Count |
 |-------------|-----------------|---------------|
@@ -1128,7 +1128,7 @@ Here is the expected output.
 
 # Puzzle #34 - Specific Exclusion
 
-Write an SQL statement that returns all rows except where the Customer ID is 1001 and the Amount is $50.
+Write an SQL statement that returns all rows except where the Customer ID is `1001` and the Amount is `$50`.
 
 | Order ID | Customer ID | Amount |
 |----------|-------------|--------|
@@ -1175,7 +1175,7 @@ Here is the expected output.
 | 5005         |
 | 6006         |
 
-- Sales Rep IDs 3003, 4004, 5005, and 6006 appear because they had either an international sale or a domestic sale, but not both.
+- Sales Rep IDs `3003`, `4004`, `5005`, and `6006` appear because they had either an international sale or a domestic sale, but not both.
 
 [🔙 Back to Table of Contents](#table-of-contents)
 
@@ -1209,7 +1209,7 @@ Here is the expected output.
 
 # Puzzle #37 - Group Criteria Keys
 
-Write an SQL statement that provides a key based on the distinct combination of the columns Distributor, Facility, and Zone.
+Write an SQL statement that provides a key based on the distinct combination of the columns `Distributor`, `Facility`, and `Zone`.
 
 | Order ID | Distributor  | Facility | Zone | Amount |
 |----------|--------------|----------|------|--------|
@@ -1265,7 +1265,7 @@ Here is the expected output.
 | East   | Direct Parts | 0     |
 | West   | Direct Parts | 12    |
 
-- In the result set, ACE and Direct Parts each have a fabricated record with 0 sales.
+- In the result set, `ACE` and `Direct Parts` each have a fabricated record with `0` sales.
 
 [🔙 Back to Table of Contents](#table-of-contents)
 
@@ -1502,7 +1502,7 @@ Here is the expected output.
 |------------|
 | 2002       |
 
-- Account ID 2002 would appear in the result set, as this account has never had a positive balance.
+- Account ID `2002` would appear in the result set, as this account has never had a positive balance.
 - There are a multitude of ways to write this statement. Can you think of them all?
 
 [🔙 Back to Table of Contents](#table-of-contents)
@@ -1571,7 +1571,7 @@ Here is the expected output.
 |----------|
 | 4004     |
 
-- Sales ID 4004 would be in the expected output as this customer had a sale in the current year, plus the previous two years.
+- Sales ID `4004` would be in the expected output as this customer had a sale in the current year, plus the previous two years.
 
 [🔙 Back to Table of Contents](#table-of-contents)
 
@@ -1638,7 +1638,7 @@ Here is the expected output.
 
 # Puzzle #51 - Primary Key Creation
 
-Given the following table, whose natural key is a combination of the columns Assembly ID and Part, use the HASHBYTES and CHECKSUM functions to create two new columns that can be used as primary keys.
+Given the following table, whose natural key is a combination of the columns Assembly ID and Part, use the `HASHBYTES` and `CHECKSUM` functions to create two new columns that can be used as primary keys.
 
 The goal here is to create a single column that is unique and re-creatable. The benefit of creating a hashbytes or checksum column is to aid in data profiling and integrity checks when a table contains a multitude of columns that form the natural key (and some of these columns can be NULL).
 
@@ -1819,7 +1819,7 @@ Here is the expected output.
 
 # Puzzle #58 - Add Them Up
 
-You are given the following table, which contains a VARCHAR column that contains mathematical equations. Sum the equations and provide the answers in the output.
+You are given the following table, which contains a `VARCHAR` column that contains mathematical equations. Sum the equations and provide the answers in the output.
 
 | Equation |
 |----------|
@@ -1972,7 +1972,7 @@ Here is the expected outcome.
 
 # Puzzle #63 - Promotion Codes
 
-Identify all orders linked to a single product with a "PROMO" discount value. If an order is associated with multiple products or multiple discounts, it should not be included in the result.
+Identify all orders linked to a single product with a `PROMO` discount value. If an order is associated with multiple products or multiple discounts, it should not be included in the result.
 
 | Order ID | Product | Discount |
 |----------|---------|----------|
@@ -1993,8 +1993,8 @@ Here is the expected output.
 |----------|
 | 3        |
 
-- Order ID 3 meets these criteria because it has a connection to only one product (Item 1), and all the products linked to it have a discount value of "PROMO".  
-- Order ID 1 does not meet the criteria as it is linked to two different products (Item 1 and Item 2).
+- Order ID `3` meets these criteria because it has a connection to only one product (`Item 1`), and all the products linked to it have a discount value of "PROMO".  
+- Order ID `1` does not meet the criteria as it is linked to two different products (`Item 1` and `Item 2`).
 
 [🔙 Back to Table of Contents](#table-of-contents)
 
@@ -2004,9 +2004,9 @@ Here is the expected output.
 
 Given the following table of strings that have embedded quotes, return the result based on the following:
 
-1. If the string has more than two quotes or has zero quotes, return “Error”.
-2. If the string has two quotes and more than 10 characters between the quotes, return “True”.
-3. If the string has two quotes and fewer than or equal to 10 characters between the quotes, return “False”.
+1. If the string has more than two quotes or has zero quotes, return `Error`.
+2. If the string has two quotes and more than 10 characters between the quotes, return `True`.
+3. If the string has two quotes and fewer than or equal to 10 characters between the quotes, return `False`.
 
 | ID |      String       | Result |
 |----|-------------------|--------|
@@ -2034,7 +2034,7 @@ Here is the expected output.
 
 # Puzzle #65 - Home Listings
 
-You are presented with a dataset of home listings, each with a unique Home ID and a Status. Your objective is to assign a grouping key to each record based on specific conditions. A new grouping key should be initiated whenever a record is in the status “New Listing” or “Relisted”. Each subsequent record, following either of these statuses, should inherit the same grouping key until the next occurrence of “New Listing” or “Relisted”.
+You are presented with a dataset of home listings, each with a unique Home ID and a Status. Your objective is to assign a grouping key to each record based on specific conditions. A new grouping key should be initiated whenever a record is in the status `New Listing` or `Relisted`. Each subsequent record, following either of these statuses, should inherit the same grouping key until the next occurrence of `New Listing` or `Relisted`.
 
 | Listing ID | Home ID |     Status     |
 |------------|---------|----------------|
@@ -2209,8 +2209,8 @@ Here is the expected output.
 
 Due to a sub-optimal database design by the database architecture team, employee records are split across two separate tables: one for temporary employees and another for permanent employees. You face the following challenges.
 
-1. Ensure that an employee is not simultaneously listed in both the Temporary and Permanent employee tables. An INSERT into the Temporary or Permanent tables should fail if this criterion is not met.
-2. Confirm that any employee added to either the Temporary or Permanent table has a corresponding entry in the main Employees table. An INSERT into the Temporary or Permanent table should fail if this criterion is not met.
+1. Ensure that an employee is not simultaneously listed in both the `Temporary Employees` and `Permanent Employees` tables. An `INSERT` into the `Temporary Employees` or `Permanent Employees` tables should fail if this criterion is not met.
+2. Confirm that any employee added to either the `Temporary Employees` or `Permanent Employees` table has a corresponding entry in the `Employees` table. An `INSERT` into the `Temporary Employees` or `Permanent Employees` table should fail if this criterion is not met.
 
 **Temporary Employees**
 
@@ -2273,7 +2273,7 @@ Here is the expected output.
 
 # Puzzle #73 - Distinct Statuses
 
-You are given a list of workflows with different statuses. For each record, you need to determine the number of unique statuses that occurred prior to and including the current status.
+You are given a list of workflows with different statuses. For each record, determine the number of unique statuses that occurred prior to and including the current status.
 
 | Step ID | Workflow | Status  |
 |---------|----------|---------|
@@ -2642,7 +2642,7 @@ Here is the expected output.
 # Puzzle #10 - Seating Chart
 
 Given the set of integers provided in the following DDL statement, write the SQL statements to determine the following:
-- Gap start and gap ends
+- Gap start and gap end
 - Total missing numbers
 - Count of odd and even numbers
 
@@ -2837,11 +2837,11 @@ Here is the expected output.
 | 5        | 1         | (1,3)            |
 | 5        | 1         | (2,3)            |
 
-- Order ID 1 has 2 possible combinations of line items that total over $10, each with 3 sets.  
-- Order ID 2 has 1 possible combination of line items that total over $10, which has 3 sets.  
-- Order ID 3 has 0 possible combinations of line items that total over $10.  
-- Order ID 4 has 1 possible combination of line items that total over $10, which has 1 set.  
-- Order ID 5 has 3 possible combinations of line items that total over $10, each with 2 sets.
+- Order ID `1` has 2 possible combinations of line items that total over $10, each with 3 sets.  
+- Order ID `2` has 1 possible combination of line items that total over $10, which has 3 sets.  
+- Order ID `3` has 0 possible combinations of line items that total over $10.  
+- Order ID `4` has 1 possible combination of line items that total over $10, which has 1 set.  
+- Order ID `5` has 3 possible combinations of line items that total over $10, each with 2 sets.
 
 [🔙 Back to Table of Contents](#table-of-contents)
 
@@ -2854,8 +2854,8 @@ Write an SQL query to identify all possible next moves for a Knight piece from i
 Account for the Knight’s L-shaped movement pattern: two squares along one axis and one square along the perpendicular axis.  
 Assume the chessboard is numerically indexed 1 to 8 on both axes.
 
-For example, if you placed a Knight into square 4D, the output of the SQL statement would be 5B, 3B, 
-6C, 2C, 6E, 2E, 5F, and 3F.
+For example, if you placed a Knight into square `4D`, the output of the SQL statement would be `5B, 3B, 
+6C, 2C, 6E, 2E, 5F, and 3F`.
 
 [🔙 Back to Table of Contents](#table-of-contents)
 
