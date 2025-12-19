@@ -126,7 +126,7 @@ Happy coding!
     - [Puzzle #14 - Josephus Problem](#puzzle-14---josephus-problem)
     - [Puzzle #15 - High-Low Card Game](#puzzle-15---high-low-card-game)
     - [Puzzle #16 - Monty Hall Simulation](#puzzle-16---monty-hall-simulation)
-    - [Puzzle #17 - Dice Throw Game](#puzzle-17---dice-throw-game)
+    - [Puzzle #17 - Dice Roll Game](#puzzle-17---dice-roll-game)
     - [Puzzle #18 - The Birthday Problem](#puzzle-18---the-birthday-problem)
     - [Puzzle #19 - Random Walk](#puzzle-19---random-walk)
     - [Puzzle #20 - Markov Chain](#puzzle-20---markov-chain)
@@ -2748,7 +2748,7 @@ Run 10,000 simulations of the [Monty Hall problem](https://en.wikipedia.org/wiki
 [🔙 Back to Table of Contents](#table-of-contents)
 
 --------
-# Puzzle #17 - Dice Throw Game 
+# Puzzle #17 - Dice Roll Game 
 
 What is the average number of dice throws needed to reach 100 points, given the following rules?  
 
