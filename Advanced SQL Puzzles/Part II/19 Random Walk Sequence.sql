@@ -5,9 +5,7 @@ https://advancedsqlpuzzles.com
 Last Updated: 02/07/2023
 Microsoft SQL Server T-SQL
 
-In mathematics, a random walk is a random process that describes a path that consists of a succession of random steps on some mathematical space.
 https://en.wikipedia.org/wiki/Random_walk
-
 **********************************************************************/
 
 ---------------------
@@ -245,3 +243,4 @@ SELECT  99999 AS Participant,
         STDEV(CoinFlips) AS StandardDeviation
 FROM    #WinnerResultsHistory;
 GO
+
