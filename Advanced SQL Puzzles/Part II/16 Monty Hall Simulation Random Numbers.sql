@@ -5,15 +5,8 @@ https://advancedsqlpuzzles.com
 Last Updated: 02/07/2023
 Microsoft SQL Server T-SQL
 
-This script creates a simulation of the Monty Hall problem.
+This script simulates the Monty Hall problem.
 https://en.wikipedia.org/wiki/Monty_Hall_problem
-
-The script creates a table called #WinningProbability and uses a while loop to simulate 
-the game for a set number of iterations. Before the loop, the script declares and sets 
-several variables.  The script uses various conditional statements to 
-check if the variables are valid. It then uses various INSERT and SELECT statements
-to perform the simulation and store the results in the #WinningProbability table.
-
 **********************************************************************/
 
 ---------------
@@ -40,7 +33,7 @@ GO
 --Declare and set variables
 
 --Number of simulations
-DECLARE @vNumberOfSimulations INTEGER = 100 --Number of simulations to run
+DECLARE @vNumberOfSimulations INTEGER = 100; --Number of simulations to run
 ---------------------
 --Number of doors in the simulation
 DECLARE @vNumberDoors INTEGER = 3;
@@ -73,7 +66,7 @@ DECLARE @vNumberOfPrizeDoorsSelectedNeededToWin INTEGER = 1;
 --3) the number of doors the contestant will switch
 IF  NOT(@vNumberDoors >= @vNumberHostDoors + @vNumberContestantDoors + @vNumberOfDoorsSwitch)
     BEGIN
-    PRINT 'Fail 1'
+    PRINT 'Fail 1';
     RETURN
     END
 
@@ -81,7 +74,7 @@ IF  NOT(@vNumberDoors >= @vNumberHostDoors + @vNumberContestantDoors + @vNumberO
 --1) the number of doors in the simulation
 IF  NOT(@vNumberGoats <  @vNumberDoors)
     BEGIN
-    PRINT 'Fail 2'
+    PRINT 'Fail 2';
     RETURN
     END
 
@@ -91,7 +84,7 @@ IF  NOT(@vNumberGoats <  @vNumberDoors)
 --2) the number of doors the contestant will choose 
 IF  NOT(@vNumberGoats >=  @vNumberHostDoors + @vNumberContestantDoors)
     BEGIN
-    PRINT 'Fail 3'
+    PRINT 'Fail 3';
     RETURN
     END
 
@@ -99,7 +92,7 @@ IF  NOT(@vNumberGoats >=  @vNumberHostDoors + @vNumberContestantDoors)
 --1) the number of doors the contestant can choose
 IF  NOT(@vNumberOfPrizeDoorsSelectedNeededToWin <= @vNumberContestantDoors)
     BEGIN
-    PRINT 'Fail 4'
+    PRINT 'Fail 4';
     RETURN
     END
 
@@ -108,7 +101,7 @@ IF  NOT(@vNumberOfPrizeDoorsSelectedNeededToWin <= @vNumberContestantDoors)
 --2) the number of goats in the simulation
 IF  NOT(@vNumberOfPrizeDoorsSelectedNeededToWin <= @vNumberDoors - @vNumberGoats)
     BEGIN
-    PRINT 'Fail 5'
+    PRINT 'Fail 5';
     RETURN
     END
 
@@ -202,7 +195,7 @@ SELECT
         (SELECT COUNT(*) FROM #Doors WHERE PrizeFlag = 'Car' AND ContestantChooseFlag = 1),
         (SELECT COUNT(*) FROM #Doors WHERE PrizeFlag = 'Car' AND ContestantSwitchFlag = 1)
 
-END;
+END
 
 ---------------
 ---------------
@@ -215,3 +208,4 @@ SELECT  'After Switch' as Type,
         SUM(CASE WHEN NumberOfDoorsNeededToWin <= AfterSwitchPrizeDoors THEN 1 END) / cast(@vNumberOfSimulations AS FLOAT)
 FROM    #WinningProbability;
 GO
+
