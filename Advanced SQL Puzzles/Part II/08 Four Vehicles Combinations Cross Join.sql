@@ -4,30 +4,17 @@ Four Vehicles Puzzle
 https://advancedsqlpuzzles.com
 Last Updated: 12/15/2025
 Microsoft SQL Server T-SQL
-
-This script solves the "Four Vehicles Puzzle", which is about assigning five children and five adults to four 
-different vehicles (Motorcycle, Sidecar, Golf Cart, Car) with different seating capacities (1, 2, 3, 4).
-The script starts by dropping and creating several tables, one of which is the #Passengers table, which 
-stores information about the passengers (name and type). The script then populates the #Passengers table 
-with five children and five adults.  The script then creates four additional tables (#Motorcycle, #Sidecar, #Golfcart, #Car) 
-that are used to store the permutations of the passengers assigned to each vehicle. The script uses common 
-table expressions (CTEs) and CROSS JOINs to generate all possible permutations of the passengers for each 
-vehicle and stores them in the appropriate table. The script also uses CASE statements to treat reciprocals 
-and sorts the passenger names alphabetically.  The final query uses a CROSS JOIN between the #Motorcycle, 
-#Sidecar, #Golfcart, and #Car table to produce the final set of permutations. Each table is hardcoded 
-to the number of seats in each vehicle, and the number of children and adults is also hardcoded in the script.
-
 **********************************************************************/
 
 ----------------------------------------------------
 ----------------------------------------------------
 ----------------------------------------------------
 --Tables used
-DROP TABLE IF EXISTS #Passengers
-DROP TABLE IF EXISTS #Motorcycle
-DROP TABLE IF EXISTS #Sidecar
-DROP TABLE IF EXISTS #Golfcart
-DROP TABLE IF EXISTS #Car
+DROP TABLE IF EXISTS #Passengers;
+DROP TABLE IF EXISTS #Motorcycle;
+DROP TABLE IF EXISTS #Sidecar;
+DROP TABLE IF EXISTS #Golfcart;
+DROP TABLE IF EXISTS #Car;
 GO
 
 ----------------------------------------------------
