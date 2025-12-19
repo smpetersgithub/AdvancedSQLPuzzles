@@ -5,9 +5,7 @@ https://advancedsqlpuzzles.com
 Last Updated: 01/13/2023
 Microsoft SQL Server T-SQL
 
-This script uses recursion to solve the Traveling Salesman Problem
 https://en.wikipedia.org/wiki/Travelling_salesman_problem
-
 */----------------------------------------------------
 
 SET NOCOUNT ON;
