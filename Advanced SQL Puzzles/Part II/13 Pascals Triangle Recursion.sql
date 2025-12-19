@@ -7,39 +7,6 @@ Microsoft SQL Server T-SQL
 
 This script solves Pascal's Triangle.
 https://en.wikipedia.org/wiki/Pascal%27s_triangle
-
-The position is determined by the user-specified variables @vRowNumber and @vPositionNumber, 
-which correspond to the row and position of the value in the triangle, respectively. 
-The script uses zero-based indexing, so the first row is row 0, and the first position is position 0.
-
-The script first checks if the value of the position is one. If the value is 1, it will return 1. 
-If the value is not 1, the script uses common table expressions (CTEs) and the recursion to 
-calculate the factorials of the specified row, position, and row minus position. 
-Then the script calculates the final value of the position using the formula (Row! / (Position! * (Row-Position)!)). 
-Finally, the script prints the final result of the calculated value of the position in Pascal's Triangle.
-
-
-Pascal's Triangle uses 0-based indexing.
-The first row is row 0.
-The first position is position 0.
-The factorial of 0! is 1.
-------
-
-Here are the first eight rows.
-
-0   |   1  |
-1   |   1  |  1  |
-2   |   1  |  2  |  1  |
-3   |   1  |  3  |  3  |  1  |
-4   |   1  |  4  |  6  |  4  |  1  |
-5   |   1  |  5  | 10  | 10  |  5  |  1  |
-6   |   1  |  6  | 15  | 20  | 15  |  6  | 1  |
-7   |   1  |  7  | 21  | 35  | 35  | 21  | 7  | 1  |
--------------------------------------------
-Pos.    0  |  1  |  2  |  3  |  4  |  5  | 6  | 7  |
--------------------------------------------
-
-
 **********************************************************************/
 
 --Set your row and position
