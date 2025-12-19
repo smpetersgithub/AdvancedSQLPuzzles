@@ -34,7 +34,7 @@ Happy coding!
   - 🗂️ **Part I - Thinking in Sets**
     - [Puzzle #1 - Shopping Carts](#puzzle-1---shopping-carts)
     - [Puzzle #2 - Managers and Employees](#puzzle-2---managers-and-employees)
-    - [Puzzle #3 - Fiscal Year Pay Rates](#puzzle-3---fiscal-year-pay-rates)
+    - [Puzzle #3 - Fiscal Year Table Constraints](#puzzle-3---fiscal-year-table=constraints)
     - [Puzzle #4 - Two Predicates](#puzzle-4---two-predicates)
     - [Puzzle #5 - Phone Directory](#puzzle-5---phone-directory)
     - [Puzzle #6 - Workflow Steps](#puzzle-6---workflow-steps)
@@ -122,7 +122,7 @@ Happy coding!
     - [Puzzle #10 - Seating Chart](#puzzle-10---seating-chart)
     - [Puzzle #11 - Count the Groupings](#puzzle-11---count-the-groupings)
     - [Puzzle #12 - Double or Add 1](#puzzle-12---double-or-add-1)
-    - [Puzzle #13 - Pascals Triangle](#puzzle-13---pascals-triangle)
+    - [Puzzle #13 - Pascal's Triangle](#puzzle-13---pascal's-triangle)
     - [Puzzle #14 - Josephus Problem](#puzzle-14---josephus-problem)
     - [Puzzle #15 - High-Low Card Game](#puzzle-15---high-low-card-game)
     - [Puzzle #16 - Monty Hall Simulation](#puzzle-16---monty-hall-simulation)
@@ -2748,7 +2748,7 @@ Run 10,000 simulations of the [Monty Hall problem](https://en.wikipedia.org/wiki
 [🔙 Back to Table of Contents](#table-of-contents)
 
 --------
-# Puzzle #17 - Dice Roll Game 
+# Puzzle #17 - Dice Roll Game
 
 What is the average number of dice throws needed to reach 100 points, given the following rules?  
 
@@ -2846,7 +2846,7 @@ Here is the expected output.
 [🔙 Back to Table of Contents](#table-of-contents)
 
 --------
-# Puzzle #23 - Knights Tour
+# Puzzle #23 - Knight's Tour
 
 This type of problem is often referred to as the [Knight’s Tour](https://en.wikipedia.org/wiki/Knight%27s_tour).
 
