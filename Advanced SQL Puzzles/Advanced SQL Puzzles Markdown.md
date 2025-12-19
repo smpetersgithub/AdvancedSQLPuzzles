@@ -1638,7 +1638,7 @@ Here is the expected output.
 
 # Puzzle #51 - Primary Key Creation
 
-Given the following table, whose natural key is a combination of the columns Assembly ID and Part, use the `HASHBYTES` and `CHECKSUM` functions to create two new columns that can be used as primary keys.
+Given the following table, whose natural key is a combination of the columns `Assembly ID` and `Part`, use the `HASHBYTES` and `CHECKSUM` functions to create two new columns that can be used as primary keys.
 
 The goal here is to create a single column that is unique and re-creatable. The benefit of creating a hashbytes or checksum column is to aid in data profiling and integrity checks when a table contains a multitude of columns that form the natural key (and some of these columns can be NULL).
 
