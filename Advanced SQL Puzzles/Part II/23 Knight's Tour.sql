@@ -2,12 +2,10 @@
 Scott Peters
 Knight's Tour
 https://advancedsqlpuzzles.com
-Last Updated: 12/15/2025
-
+Last Updated: 02/10/2024
 Microsoft SQL Server T-SQL
 
-This SQL statement solves a variation of the Knight's Tour problem.
-
+https://en.wikipedia.org/wiki/Knight%27s_tour
 **********************************************************************/
 
 DECLARE @CurrentPosition VARCHAR(2);
@@ -16,14 +14,17 @@ SET @CurrentPosition = '4D'; -- Example starting position
 -- Mapping Letters to Numbers for calculation 
 WITH cte_ChessBoard AS
 (
-SELECT 'A' AS Letter, 1 AS Num
-UNION ALL SELECT 'B', 2
-UNION ALL SELECT 'C', 3
-UNION ALL SELECT 'D', 4
-UNION ALL SELECT 'E', 5
-UNION ALL SELECT 'F', 6
-UNION ALL SELECT 'G', 7
-UNION ALL SELECT 'H', 8
+SELECT v.Letter, v.Num
+FROM (VALUES
+    ('A', 1),
+    ('B', 2),
+    ('C', 3),
+    ('D', 4),
+    ('E', 5),
+    ('F', 6),
+    ('G', 7),
+    ('H', 8)
+) AS v(Letter, Num)
 ),
 cte_CurrentPosition AS
 (
