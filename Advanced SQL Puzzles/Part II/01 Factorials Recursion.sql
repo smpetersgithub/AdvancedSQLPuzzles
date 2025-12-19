@@ -4,14 +4,6 @@ Factorials
 https://advancedsqlpuzzles.com
 Last Updated: 01/13/2023
 Microsoft SQL Server T-SQL
-
-The script creates a temporary table called #Numbers that contains the 
-factorials of a range of numbers specified by the variable @vTotalNumbers. 
-The script uses a common table expression (CTE) with recursion to calculate the factorials, 
-starting with the number one and incrementing by one until the value of @vTotalNumbers is reached. 
-The results of the CTE are then inserted into the #Numbers table and displayed at the end. 
-The OPTION (MAXRECURSION 0) setting ensures that there is no limit to the recursion level.
-
 **********************************************************************/
 
 ---------------------
@@ -22,7 +14,7 @@ GO
 
 ---------------------
 ---------------------
---Declare and set and variables
+--Declare and set variables
 DECLARE @vTotalNumbers INTEGER = 10;
 
 ---------------------
@@ -42,7 +34,7 @@ SELECT Number,
        Factorial
 INTO   #Numbers
 FROM   cte_Factorial
-OPTION (MAXRECURSION 0);--A value of 0 means no limit to the recursion level;
+OPTION (MAXRECURSION 0);--A value of 0 means no limit to the recursion level
 GO
 
 ---------------------
@@ -51,4 +43,5 @@ GO
 SELECT *
 FROM   #Numbers;
 GO
+
 
