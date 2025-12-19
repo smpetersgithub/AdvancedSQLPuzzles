@@ -4,7 +4,6 @@ DeGrouping
 https://advancedsqlpuzzles.com
 Last Updated: 01/13/2023
 Microsoft SQL Server T-SQL
-
 */----------------------------------------------------
 
 ---------------------
