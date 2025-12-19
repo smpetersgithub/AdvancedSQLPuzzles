@@ -4,9 +4,6 @@ String Split Each Character
 https://advancedsqlpuzzles.com
 Last Updated: 01/13/2023
 Microsoft SQL Server T-SQL
-
-This script uses recursion to split a string into rows of substrings for each character in the string.
-
 */----------------------------------------------------
 
 -------------------------------
