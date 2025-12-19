@@ -4,17 +4,6 @@ All Permutations
 https://advancedsqlpuzzles.com
 Last Updated: 02/07/2023
 Microsoft SQL Server T-SQL
-
-This script generates all permutations of a given set of numbers using a while loop. 
-It starts by creating a #Numbers table with a specified number of integers using a recursive CTE. 
-Then, it creates an empty #Permutations table and seeds it with the initial values from the #Numbers table. 
-Then, it enters a while loop, and in each iteration of the loop, it first performs a DELETE statement to 
-keep the number of records in the #Permutations table minimal. Then, it uses an INSERT statement 
-to add new permutations to the #Permutations table by combining the current permutations with the 
-remaining numbers from the #Numbers table. The while loop continues until the number of rows 
-affected by the DELETE statement is 0. Finally, it selects and displays the final 
-permutations from the #Permutations table.
-
 **********************************************************************/
 
 ---------------------
@@ -81,3 +70,4 @@ SELECT  @vTotalNumbers AS MaxNumber,
 FROM    #Permutations
 ORDER BY Permutation;
 GO
+
