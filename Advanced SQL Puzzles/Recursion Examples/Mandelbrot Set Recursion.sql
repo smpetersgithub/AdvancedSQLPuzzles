@@ -5,11 +5,7 @@ https://advancedsqlpuzzles.com
 Last Updated: 07/03/2023
 Microsoft SQL Server T-SQL
 
-This script uses recursion to create a Mandelbrot set.
-
-See the link below for the original author of the SQL code.
 https://thedailywtf.com/articles/stupid-coding-tricks-the-tsql-madlebrot
-
 */----------------------------------------------------
 
 WITH 
@@ -57,4 +53,5 @@ PIVOT (
       X40,X41,X42,X43,X44,X45,X46,X47,X48,X49,X50,X51,X52,X53,X54,X55,X56,X57,X58,X59,
       X60,X61,X62,X63,X64,X65,X66,X67,X68,X69,X70,X71,X72,X73,X74,X75,X76,X77,X78,X79,
       X80,X81,X82,X83,X84,X85,X86,X87,X88,X89,X90,X91,X92,X93,X94,X95,X96,X97,X98,X99)
-) AS PZT
+) AS PZT;
+GO
