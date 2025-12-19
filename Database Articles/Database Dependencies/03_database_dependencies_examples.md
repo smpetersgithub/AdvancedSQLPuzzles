@@ -1477,7 +1477,7 @@ These dependencies are recorded in the `sys.sql_expression_dependencies` table. 
 
 ***
 
-### 34 Security Policies
+### 34. Security Policies
 
 Security policies in SQL Server enforce row-level security by filtering or blocking access to data based on user context. They use predicate functions to determine which rows a user can view or modify, and are applied directly to tables.
 
