@@ -4,9 +4,6 @@ Managers and Employees
 https://advancedsqlpuzzles.com
 Last Updated: 01/13/2023
 Microsoft SQL Server T-SQL
-
-This script uses recursion to display the depth given a managers and employees table.
-
 */----------------------------------------------------
 
 ---------------------
