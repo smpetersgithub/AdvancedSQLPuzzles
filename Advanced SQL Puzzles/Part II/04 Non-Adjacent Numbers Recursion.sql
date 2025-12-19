@@ -4,19 +4,6 @@ Non-Adjacent Numbers
 https://advancedsqlpuzzles.com
 Last Updated: 01/13/2023
 Microsoft SQL Server T-SQL
-
-This script is used to find all permutations of a set of integers in a specific range that do not have any adjacent numbers. 
-The script creates three temporary tables: #Numbers, #Permutations, and #PermutationsMaxCharIndex. It first populates the 
-#Numbers table with a set of integers, and then uses a recursive CTE to generate all possible permutations of those integers 
-and store them in the #Permutations table, along with a flag column indicating whether the permutation has any adjacent numbers or not.
-
-The script then creates a new CTE called cte_AdjacentNumbers, which finds all pairs of adjacent numbers in the set. 
-It then uses this CTE to populate the #PermutationsMaxCharIndex table with the maximum index of each adjacent number pair in each permutation.
-
-Finally, the script updates the #Permutations table to set the flag column to 1 for any permutation with an adjacent number pair 
-by joining it with the #PermutationsMaxCharIndex table and checking the MaxCharIndex column. The script then uses a SELECT statement 
-to display the contents of the #Permutations table, ordered by the flag column.
-
 **********************************************************************/
 
 ---------------------
@@ -112,3 +99,4 @@ SELECT *
 FROM   #Permutations
 ORDER BY 2;
 GO
+
