@@ -4,7 +4,6 @@ Associates
 https://advancedsqlpuzzles.com
 Last Updated: 07/03/2024
 Microsoft SQL Server T-SQL
-
 */----------------------------------------------------
 
 ---------------------
