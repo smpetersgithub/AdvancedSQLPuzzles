@@ -4,17 +4,6 @@ Non-Adjacent Numbers
 https://advancedsqlpuzzles.com
 Last Updated: 01/13/2023
 Microsoft SQL Server T-SQL
-
-This script is used to find all permutations of a set of integers that are not 
-adjacent to each other. The script creates a temporary table called #Permutations, 
-which is initially seeded with the integers from a table called #Numbers. The script 
-then enters a WHILE loop that runs as long as there are still permutations to be generated. 
-In each iteration of the loop, it selects all permutations from the #Permutations table, 
-concatenates them with the current value of a number from the #Numbers table, and insert the 
-resulting value into the #Permutations table. It also checks to ensure that the new permutation 
-doesn't have any adjacent numbers. The script uses a SELECT statement to display the contents of 
-the #Permutations table after the loop has completed.
-
 **********************************************************************/
 
 ---------------------
@@ -62,7 +51,7 @@ GO
 WHILE @@ROWCOUNT > 0
     BEGIN
 
-    --Used to keep the table record count to a minimal
+    --Used to keep the table record count to a minimum
     DELETE #Permutations WHERE InsertDate < (SELECT MAX(InsertDate) FROM #Permutations);
 
     INSERT INTO #Permutations (Permutation)
@@ -76,7 +65,7 @@ WHILE @@ROWCOUNT > 0
             --AND
             --CHARINDEX(CONCAT(',',b.Number,','),CONCAT(',',a.Permutation,',')) = 0;
             AND
-            CHARINDEX(CONCAT(b.Number,','),CONCAT(a.Permutation,',')) = 0;--479306
+            CHARINDEX(CONCAT(b.Number,','),CONCAT(a.Permutation,',')) = 0;
     END
 GO
 ---------------------
@@ -85,3 +74,4 @@ GO
 SELECT  *
 FROM    #Permutations;
 GO
+
