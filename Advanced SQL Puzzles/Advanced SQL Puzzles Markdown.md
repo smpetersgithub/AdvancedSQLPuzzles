@@ -1659,7 +1659,7 @@ The goal here is to create a single column that is unique and re-creatable. The 
 
 You are creating a table that customer agents will use to enter customer phone numbers.
 
-Create a table with the columns Customer ID and Phone Number, where the Phone Number column must be formatted as (999)-999-9999.
+Create a table with the columns `Customer ID` and `Phone Number`, where the `Phone Number` column must be formatted as (999)-999-9999.
 
 Agents will enter phone numbers into this table via a form, and it is imperative that phone numbers are formatted correctly when inputted. Create a table that meets these requirements.
 
@@ -1677,7 +1677,7 @@ Here are a few sample records.
 
 # Puzzle #53 - Spouse IDs
 
-You are given the following table of individuals and their spouses. Every individual exists both as a Primary ID and a Spouse ID. You need to create a group criteria key to match the associated records.
+You are given the following table of individuals and their spouses. Every individual exists both as a `Primary ID` and a `Spouse ID`. You need to create a group criteria key to match the associated records.
 
 | Primary ID | Spouse ID |
 |------------|-----------|
