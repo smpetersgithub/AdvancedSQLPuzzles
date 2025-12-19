@@ -834,7 +834,7 @@ Here is the expected output.
 
 # Puzzle #24 - Page Views
 
-Write an SQL statement that retrieves records 5 through 10, ordered by the Order ID column.
+Write an SQL statement that retrieves records 5 through 10, ordered by the `Order ID` column.
 
 | Order ID | Customer ID | Order Date | Amount | State |
 |----------|-------------|------------|--------|-------|
