@@ -4,9 +4,6 @@ Permutations
 https://advancedsqlpuzzles.com
 Last Updated: 01/13/2023
 Microsoft SQL Server T-SQL
-
-Displays all permutations for the numbers 1 through n.
-
 */----------------------------------------------------
 
 ---------------------
