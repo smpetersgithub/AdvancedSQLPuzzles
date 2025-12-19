@@ -237,7 +237,7 @@ CREATE TABLE #EmployeePayRecord
 
 Write an SQL statement given the following requirements.  
 
-For every customer who had a delivery to California ("CA"), provide a result set of the customer orders that were delivered to Texas ("TX").  
+For every customer who had a delivery to California (CA), provide a result set of the customer orders that were delivered to Texas (TX).  
 
 | Customer ID | Order ID | Delivery State | Amount |
 |-------------|----------|----------------|--------|
@@ -1915,7 +1915,7 @@ Here is the expected output.
 
 # Puzzle #61 - Player Scores
 
-In this SQL puzzle, your task is to analyze a dataset of players' scores across multiple attempts. For each player, you need to calculate two key differences: the change in score from their first attempt to the current record, and the change from their last attempt to the current record. A record should be flagged as "improved" if the player's score has increased from their previous attempt or if it's their first attempt. Additionally, determine if a player has shown consistent improvement across all attempts. If so, mark them as "overall improved."
+In this SQL puzzle, your task is to analyze a dataset of players' scores across multiple attempts. For each player, you need to calculate two key differences: the change in score from their first attempt to the current record, and the change from their last attempt to the current record. A record should be flagged as improved if the player's score has increased from their previous attempt or if it's their first attempt. Additionally, determine if a player has shown consistent improvement across all attempts. If so, mark them as overall improved.
 
 | Attempt ID | Player ID | Score |
 |------------|-----------|-------|
