@@ -4,16 +4,6 @@ Permutations 1 Through 10 (Bit Mask)
 https://advancedsqlpuzzles.com
 Last Updated: 01/13/2023
 Microsoft SQL Server T-SQL
-
-This script generates permutations of a set of numbers using a bitmask. The script starts by 
-declaring a variable for the length of numbers that will be used in the permutations and then 
-creates a table called #Numbers that is populated with a set of numbers. The script then uses 
-common table expressions (CTEs) and bitwise operators to generate permutations of the numbers 
-in the #Numbers table and stores them in a table called #Permutations. The script also creates 
-another table called #PermutationsPosition that determines the position of commas in the permutations. 
-Finally, the script selects distinct permutations of a specific length, specified by the @vLengthNumbers 
-variable, and displays the results.
-
 */--------------------------------------------------------------------------------------------------------
 
 -------------------------------
