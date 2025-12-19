@@ -4,10 +4,6 @@ Numbers Table
 https://advancedsqlpuzzles.com
 Last Updated: 01/13/2023
 Microsoft SQL Server T-SQL
-
-This script uses recursion to build a numbers table.
-Set the start and end numbers via the variables @vStartNumber and @vEndNumber.
-
 */----------------------------------------------------
 
 ---------------------
