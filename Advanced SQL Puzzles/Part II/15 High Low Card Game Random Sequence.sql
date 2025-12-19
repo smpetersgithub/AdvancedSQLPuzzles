@@ -4,20 +4,6 @@ High-Low Card Game
 https://advancedsqlpuzzles.com
 Last Updated: 01/13/2023
 Microsoft SQL Server T-SQL
-
-This script implements a card game called High-Low, where an initial card is
-dealt face up, and the script predicts if the next card is higher or lower. 
-
-This script uses various temporary tables, a sequence, and a while loop to simulate the 
-game for a set number of iterations. The script starts by creating and populating
-a temporary table called #Numbers, then creates a sequence called dbo.CardDeckSequence, 
-and creates several other temporary tables such as #CardShuffle, #CardShuffle2, 
-#CardShuffle3, #CardShuffle4, #CardShuffle5, and #CardShuffleResults. The script then 
-uses various INSERT and SELECT statements to perform calculations and store the results 
-in the temporary tables and uses a WHILE loop to perform the simulation for the 
-specified number of iterations.  The script also uses various control flow statements 
-such as IF and CASE to predict the game's outcome.
-
 **********************************************************************/
 
 -------------------------------
@@ -26,11 +12,11 @@ such as IF and CASE to predict the game's outcome.
 DROP SEQUENCE IF EXISTS dbo.CardDeckSequence; --Sequence
 DROP TABLE IF EXISTS #Numbers;
 DROP TABLE IF EXISTS #CardShuffle;
-DROP TABLE IF EXISTS #CardShuffle2
-DROP TABLE IF EXISTS #CardShuffle3
-DROP TABLE IF EXISTS #CardShuffle4
-DROP TABLE IF EXISTS #CardShuffle5
-DROP TABLE IF EXISTS #CardShuffleResults
+DROP TABLE IF EXISTS #CardShuffle2;
+DROP TABLE IF EXISTS #CardShuffle3;
+DROP TABLE IF EXISTS #CardShuffle4;
+DROP TABLE IF EXISTS #CardShuffle5;
+DROP TABLE IF EXISTS #CardShuffleResults;
 GO
 -------------------------------
 -------------------------------
@@ -88,10 +74,10 @@ WHILE (SELECT COUNT(*) FROM #CardShuffleResults) <= @vIterations --Number of sim
     BEGIN
 
     TRUNCATE TABLE #CardShuffle;
-    DROP TABLE IF EXISTS #CardShuffle2
-    DROP TABLE IF EXISTS #CardShuffle3
-    DROP TABLE IF EXISTS #CardShuffle4
-    DROP TABLE IF EXISTS #CardShuffle5
+    DROP TABLE IF EXISTS #CardShuffle2;
+    DROP TABLE IF EXISTS #CardShuffle3;
+    DROP TABLE IF EXISTS #CardShuffle4;
+    DROP TABLE IF EXISTS #CardShuffle5;
 
     INSERT INTO #CardShuffle (CardNumber)
     SELECT  (NEXT VALUE FOR dbo.CardDeckSequence)
@@ -147,3 +133,4 @@ WHILE (SELECT COUNT(*) FROM #CardShuffleResults) <= @vIterations --Number of sim
 -------------------------------
 --Display the results
 SELECT * FROM #CardShuffleResults ORDER BY 2 DESC;
+
