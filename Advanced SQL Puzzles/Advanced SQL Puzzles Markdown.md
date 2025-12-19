@@ -212,7 +212,7 @@ Here is the expected output.
 
 --------
 
-# Puzzle #3 - Fiscal Year Pay Rates
+# Puzzle #3 - Fiscal Year Table Constraints
 
 For each standard fiscal year, a record exists for each employee stating their current pay rate for that year.  
 
