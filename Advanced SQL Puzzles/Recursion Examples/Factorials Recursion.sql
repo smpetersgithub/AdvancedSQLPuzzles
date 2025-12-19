@@ -4,9 +4,6 @@ Factorials
 https://advancedsqlpuzzles.com
 Last Updated: 01/13/2023
 Microsoft SQL Server T-SQL
-
-This script uses recursion to calculate factorials.
-
 */----------------------------------------------------
 
 ---------------------
@@ -29,4 +26,4 @@ SELECT Number,
        Factorial
 FROM   cte_Recursion
 OPTION (MAXRECURSION 0);--A value of 0 means no limit to the recursion level;
-
+GO
