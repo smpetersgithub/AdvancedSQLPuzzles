@@ -4,13 +4,6 @@ Growing Numbers
 https://advancedsqlpuzzles.com
 Last Updated: 01/13/2023
 Microsoft SQL Server T-SQL
-
-This script uses recursion to create a growing number list.
-Given the input (1,2,3), this script will produce the following:
-1
-1,2
-1,2,3
-
 */----------------------------------------------------
 
 ---------------------
@@ -63,6 +56,7 @@ WHERE   a.Depth < @vTotalNumbers AND
 SELECT  Permutation
 INTO    #Permutations
 FROM    cte_Recursion;
+GO
 
 ---------------------
 ---------------------
@@ -70,3 +64,4 @@ FROM    cte_Recursion;
 SELECT  *
 FROM    #Permutations
 WHERE   LEFT(Permutation,1) = (SELECT MIN(Number) FROM #Numbers);
+GO
