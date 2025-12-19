@@ -546,7 +546,7 @@ Your task is to write an SQL statement that creates an overall status based on t
 
 - If all steps of a workflow are of the same status (`Error`, `Complete`, or `Running`), then return the distinct status.  
 - If any steps of a workflow have an `Error` status along with a status of `Complete` or `Running`, set the overall status to `Indeterminate`.  
-- If the workflow steps have a combination of `Complete` and `Running` (without any Errors), set the overall status to Running.  
+- If the workflow steps have a combination of `Complete` and `Running` (without any Errors), set the overall status to `Running`.  
 
 | Workflow | Step Number |  Status  |
 |----------|-------------|----------|
