@@ -4,10 +4,6 @@ Group Concatenation
 https://advancedsqlpuzzles.com
 Last Updated: 02/07/2023
 Microsoft SQL Server T-SQL
-
-This script uses recursion to concatenate the values of string expressions and places separator values between them.
-Note this provides the same functionality as the STRING_AGG function.
-
 */----------------------------------------------------
 
 -------------------------------
@@ -45,3 +41,4 @@ FROM    cte_Recursion r INNER JOIN
 SELECT  String2
 FROM    cte_Recursion
 WHERE   Depth = 0;
+GO
