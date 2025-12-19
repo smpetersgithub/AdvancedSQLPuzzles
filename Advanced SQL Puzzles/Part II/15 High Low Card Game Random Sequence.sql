@@ -117,7 +117,7 @@ WHILE (SELECT COUNT(*) FROM #CardShuffleResults) <= @vIterations --Number of sim
                     END) AS Outcome
     INTO    #CardShuffle4
     FROM    #CardShuffle3;
-
+    
     SELECT  *,
             (CASE WHEN Prediction = Outcome THEN 1 ELSE 0 END) AS Result
     INTO    #CardShuffle5
@@ -128,9 +128,9 @@ WHILE (SELECT COUNT(*) FROM #CardShuffleResults) <= @vIterations --Number of sim
     FROM    #CardShuffle5;
 
     END--End Loop
-
+GO
 -------------------------------
 -------------------------------
 --Display the results
 SELECT * FROM #CardShuffleResults ORDER BY 2 DESC;
-
+GO
