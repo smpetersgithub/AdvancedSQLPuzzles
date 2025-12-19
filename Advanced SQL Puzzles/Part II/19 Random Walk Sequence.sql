@@ -8,25 +8,7 @@ Microsoft SQL Server T-SQL
 In mathematics, a random walk is a random process that describes a path that consists of a succession of random steps on some mathematical space.
 https://en.wikipedia.org/wiki/Random_walk
 
-Problem:
-You are the dinner host of a weekly gathering of 8 friends (including yourself).
-You want to determine who hosts the next dinner party using the following scheme:
-
-After dinner, the guests sit around a round table. You (the current host) flip a fair coin.
-If it comes up heads, you pass it to the person on your right, and if it comes up tails, 
-you pass it to the person on your left.  The person who receives the coin repeats the procedure, 
-flipping it and passing it right or left, depending on the outcome of the flip.  This process 
-continues until all but one dinner guest has held the coin. The last member who has not yet 
-touched the coin is declared the winner and must host the next dinner party.
-
-The script creates various tables to store information such as numbers, participants, coin flip results, 
-winner results, and a history of winner results. It uses recursion and various SQL commands such as SELECT, 
-CREATE, INSERT, UPDATE, and DROP to manipulate and analyze the data. The script also uses sequences to 
-generate the participants and coin-flip results. The final table generated, #WinnerResultsHistory, contains 
-the iteration, participant, and number of coin flips it took for that participant to be declared the winner.
-
 **********************************************************************/
-SET NOCOUNT ON;
 
 ---------------------
 ---------------------
