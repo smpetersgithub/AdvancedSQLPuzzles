@@ -34,7 +34,7 @@ Happy coding!
   - 🗂️ **Part I - Thinking in Sets**
     - [Puzzle #1 - Shopping Carts](#puzzle-1---shopping-carts)
     - [Puzzle #2 - Managers and Employees](#puzzle-2---managers-and-employees)
-    - [Puzzle #3 - Fiscal Year Table Constraints](#puzzle-3---fiscal-year-table=constraints)
+    - [Puzzle #3 - Fiscal Year Table Constraints](#puzzle-3---fiscal-year-table-constraints)
     - [Puzzle #4 - Two Predicates](#puzzle-4---two-predicates)
     - [Puzzle #5 - Phone Directory](#puzzle-5---phone-directory)
     - [Puzzle #6 - Workflow Steps](#puzzle-6---workflow-steps)
