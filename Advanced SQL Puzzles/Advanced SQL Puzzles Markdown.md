@@ -2724,14 +2724,14 @@ Solve for any position in [Pascal’s Triangle](https://en.wikipedia.org/wiki/Pa
 [🔙 Back to Table of Contents](#table-of-contents)
 
 --------
-# Puzzle #14 - Josephus Problem  
+# Puzzle #14 - Josephus Problem
 
 Solve the [Josephus Problem](https://en.wikipedia.org/wiki/Josephus_problem).  
 
 [🔙 Back to Table of Contents](#table-of-contents)
 
 --------
-# Puzzle #15 - High-Low Card Game  
+# Puzzle #15 - High-Low Card Game
 
 Write a program that shuffles a standard deck of cards and plays a game of High-Low.  
 
@@ -2741,7 +2741,7 @@ Make a random decision of higher or lower where necessary.
 [🔙 Back to Table of Contents](#table-of-contents)
 
 --------
-# Puzzle #16 - Monty Hall Simulation  
+# Puzzle #16 - Monty Hall Simulation
 
 Run 10,000 simulations of the [Monty Hall problem](https://en.wikipedia.org/wiki/Monty_Hall_problem) to prove it is true.  
 
@@ -2779,7 +2779,7 @@ Because you were the first to flip, you are ineligible to host next week.
 [🔙 Back to Table of Contents](#table-of-contents)
 
 --------
-# Puzzle #20 - Markov Chain 
+# Puzzle #20 - Markov Chain
 
 Perform a Markov Chain best described by the following puzzle:  
 
@@ -2792,7 +2792,7 @@ On average, how many rainy days are there in Probability Land?
 [🔙 Back to Table of Contents](#table-of-contents)
 
 --------
-# Puzzle #21 - 100 Prisoners Riddle  
+# Puzzle #21 - 100 Prisoners Riddle
 
 Run 10,000 simulations of the [100 prisoners problem](https://en.wikipedia.org/wiki/100_prisoners_problem) to prove it is true.  
 
