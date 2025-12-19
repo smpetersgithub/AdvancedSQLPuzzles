@@ -4,10 +4,6 @@ String Split
 https://advancedsqlpuzzles.com
 Last Updated: 01/13/2023
 Microsoft SQL Server T-SQL
-
-This script uses recursion to split a string into rows of substrings based on a specified separator character 
-This script provides the same functionality as the STRING_SPLIT function.
-
 */----------------------------------------------------
 
 -------------------------------
@@ -50,3 +46,4 @@ SELECT  ROW_NUMBER() OVER (PARTITION BY Id ORDER BY Starts) AS RowNumber,
         SUBSTRING(String, Starts, CASE WHEN Position > 0 THEN Position - Starts ELSE LEN(String) END) Word
 FROM   cte_Recursion
 ORDER BY Id, Starts;
+GO
