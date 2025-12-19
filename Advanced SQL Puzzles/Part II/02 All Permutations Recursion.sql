@@ -4,12 +4,6 @@ All Permutations
 https://advancedsqlpuzzles.com
 Last Updated: 01/13/2023
 Microsoft SQL Server T-SQL
-
-This script creates all the possible permutations of a set of numbers (from one to a user-specified value) 
-using a recursive CTE. It creates a #Numbers table using recursion and then uses that table to populate 
-the #Permutations table with all possible permutations. It then uses a WHERE clause to limit the output 
-to only the permutations of the same length as the longest permutation. The results are then ordered by the permutation.
-
 **********************************************************************/
 
 ---------------------
