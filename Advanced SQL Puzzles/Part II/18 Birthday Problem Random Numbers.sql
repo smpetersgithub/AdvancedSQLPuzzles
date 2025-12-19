@@ -7,17 +7,6 @@ Microsoft SQL Server T-SQL
 
 This script runs a simulation of the Birthday Problem.
 https://en.wikipedia.org/wiki/Birthday_problem
-
-This script uses several tables, including #Birthdays, #BirthDaysHistory, #BirthdaysPercentile, and #Numbers. 
-The script uses variables to set the total number of people in the simulation and the number of 
-iterations to run the simulation. The script uses a while loop to run the simulation and check 
-if the number of iterations has been reached. Within the while loop, the script uses recursion 
-to create a table of random birthdays for a set number of people. It then uses a join to find 
-the first pair of people with the same birthday and saves that information in the #BirthDaysHistory table. 
-After completing the loop, it creates a percentile table using the information from #BirthDaysHistory, 
-and fills in any missing values with a percentile of 0 or 100. The final table shows the number of people 
-needed for the first pair to have the same birthday and the corresponding percentile for that number of people.
-
 **********************************************************************/
 
 ---------------------
@@ -41,7 +30,7 @@ GO
 
 ---------------------
 ---------------------
---Declare and set and variables
+--Declare and set variables
 DECLARE @vTotalNumbers INTEGER = 365;
 DECLARE @vIterations INTEGER = 10000;
 
@@ -98,7 +87,7 @@ WHILE (SELECT COUNT(*) FROM #BirthDaysHistory) < @vIterations
      SELECT MIN(LinkingNumber) 
      FROM cte_Min;
 
-     END;
+     END
 
 -------------------------------
 -------------------------------
