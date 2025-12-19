@@ -7,19 +7,7 @@ Microsoft SQL Server T-SQL
 
 This script runs an iteration of the Josephus Problem.
 https://en.wikipedia.org/wiki/Josephus_problem
-
-This script creates and populates a table of soldiers using a sequence. 
-It then uses a while loop to determine which soldier is eliminated in each iteration 
-based on a specified cycle value. The script keeps track of the soldiers who have 
-been eliminated and the order in which they were eliminated and returns the soldier 
-who remains the winner. The number of soldiers and the cycle 
-value can be adjusted by changing the MAXVALUE of the sequence and the @vCycle 
-variable respectively. The script also displays the result in order of 
-elimination and indicates the winner.
-
 **********************************************************************/
-SET NOCOUNT ON;
-GO
 
 -------------------------------
 -------------------------------
@@ -159,3 +147,4 @@ END
 PRINT @ans + 1;
 GO
 */
+
