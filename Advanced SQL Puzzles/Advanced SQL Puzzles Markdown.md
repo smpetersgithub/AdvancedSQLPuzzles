@@ -2495,8 +2495,8 @@ Here is the expected output.
 
 Given an ordered set of numbers (for example, {1, 2, 3, 4, 5, 6, 7, 8, 9, 10}), create a result set of permutations where no two adjacent entries are adjacent numbers.
 
-For example, `{1, 3, 5, 7, 9, 2, 4, 6, 8, 10}` fits the criteria.  
-However, `{1, 2, 4, 6, 8, 10, 3, 5, 7, 9}`, `{1, 4, 2, 6, 7, 10, 3, 5, 8, 9}`, and `{1, 3, 2, 6, 7, 10, 9, 5, 8, 4}` do not fit because they contain adjacent numbers next to each other.
+For example, {1, 3, 5, 7, 9, 2, 4, 6, 8, 10} fits the criteria.  
+However, {1, 2, 4, 6, 8, 10, 3, 5, 7, 9}, {1, 4, 2, 6, 7, 10, 3, 5, 8, 9}, and {1, 3, 2, 6, 7, 10, 9, 5, 8, 4} do not fit because they contain adjacent numbers next to each other.
 
 Here is the expected output.
 
