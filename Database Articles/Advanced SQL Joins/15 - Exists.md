@@ -49,7 +49,7 @@ ELSE
 PRINT 'FALSE'
 ```
 
-This statement will return TRUE when we supply a NULL value.  Even though we provide a NULL value, it still returns a record set with a NULL value, which is different from an empty record set.
+This statement will return TRUE when we supply a NULL marker.  Even though we provide a NULL marker, it still returns a record set with a NULL marker, which is different from an empty record set.
 
 ```sql
 IF EXISTS (SELECT NULL)
