@@ -2511,7 +2511,7 @@ Here is the expected output.
 
 # Puzzle #5 - Add the Numbers Up
 
-Given an ordered set of numbers 1 through n (for example, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10), and a `+` or `–` sign at all possible groupings, create all possible permutations and the amount to which they add up.
+Given an ordered set of numbers 1 through n (for example, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10), and a + or – sign at all possible groupings, create all possible permutations and the amount to which they add up.
 
 Here is the expected output for the set of {1, 2, 3}.
 
