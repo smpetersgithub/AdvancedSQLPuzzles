@@ -17,10 +17,10 @@ Here is a brief description of each type of join:
 
 |     Type    |       Join       |                                                                                                             Description                                                                                               |
 |-------------|------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Logical     | INNER JOIN       | An INNER JOIN returns only the rows with matching values in both tables.                                                                                                                                              |
-| Logical     | OUTER JOIN       | An outer join (LEFT OUTER JOIN/RIGHT OUTER JOIN) returns all the rows from one table and any matching rows from the other table. If there is no match, the result will contain NULL markers. |
-| Logical     | FULL OUTER JOIN  | A FULL OUTER JOIN returns all the rows from both tables.  If there are no matching rows, the result will contain NULL markers.  |
-| Logical     | CROSS JOIN       | A CROSS JOIN returns the Cartesian product of the two tables and returns every possible combination of rows from the two tables. |
+| Logical     | INNER JOIN       | An `INNER JOIN` returns only the rows with matching values in both tables.                                                                                                                                              |
+| Logical     | OUTER JOIN       | An outer join (`LEFT OUTER JOIN`/`RIGHT OUTER JOIN`) returns all the rows from one table and any matching rows from the other table. If there is no match, the result will contain NULL markers. |
+| Logical     | FULL OUTER JOIN  | A `FULL OUTER JOIN` returns all the rows from both tables.  If there are no matching rows, the result will contain NULL markers.  |
+| Logical     | CROSS JOIN       | A `CROSS JOIN` returns the Cartesian product of the two tables and returns every possible combination of rows from the two tables. |
 | Physical    | NESTED LOOP JOIN | Nested loop join is a type of join algorithm that compares each row of one table with all rows of another table. |
 | Physical    | HASH JOIN        | Hash join is a join algorithm that uses a hash table to quickly match rows from one table with rows from another table.  |
 | Physical    | MERGE SORT JOIN  | Merge sort join is a join algorithm that sorts both tables on the join column and then merges the sorted rows. |
@@ -33,7 +33,7 @@ Here is a brief description of each type of join:
 | Model       | THETA-JOIN       | A theta-join is a join based on a binary operator (equality or inequality).  Both equi and non-equi-joins are theta joins. |
 | Model       | EQUI-JOIN        | An equi-join is a join condition that involves only an equality operator. |
 | Model       | NON-EQUI-JOIN    | A non-equi-join is a join condition that involves any operator besides equality. |
-| Model       | NATURAL JOIN     | A NATURAL JOIN returns the rows where the values in the specified columns of both tables are equal and the column names are the same. |
+| Model       | NATURAL JOIN     | A `NATURAL JOIN` returns the rows where the values in the specified columns of both tables are equal and the column names are the same. |
 
 ---------------------------------------------------------
 
