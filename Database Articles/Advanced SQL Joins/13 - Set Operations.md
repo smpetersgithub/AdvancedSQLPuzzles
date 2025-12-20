@@ -8,16 +8,6 @@
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Here are some examples of set operators in SQL and how they interact with the NULL markers in our example tables.
 
------------------------------------------------------------------
-
-#### Note on Venn Diagrams
-
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;We often think of Venn Diagrams for both set operations and join operations.  Venn Diagrams are suitable for set theory but poor for join theory.  Frequently, Venn diagrams are used for pedagogical reasons to quickly show the behavior of `INNER`, `RIGHT OUTER`, `LEFT OUTER`, and `FULL OUTER JOINs`.  However, they are not well-suited for representing complex relationships that can exist between tables in a relational database.  While Venn diagrams can show the overlap between two sets of data, they cannot easily convey the specific conditions used to filter the data. They can become very complex and challenging to read as the number of tables and join conditions increases.  Simply put, Venn diagrams are intended to show traditional set operations and not join operations.  Some of the limitations of Venn Diagrams include their inability to accurately depict `CROSS JOINs, semi-joins, and anti-joins, as well as the introduction of duplicate records in the resulting dataset.
-
-❗&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;A good resource that I have found that provides a more accurate graphical representation of different SQL joins can be found in the book "R for Data Science" by Hadley Wicham and Garrett Grolemund. The chapter on relational data includes these improved graphics, available at the following link. Due to potential copyright issues, I will not display the diagrams. Still, they are worth examining, and it is hoped that they will become the standard for graphically representing SQL joins.
-
-Link to the chapter: https://r4ds.had.co.nz/relational-data.html (The improved join representations are located approximately halfway through the chapter.)
-
 --------------------------------------------------------------------------------
 We will use the following tables, which contain types of fruits and their quantities.  
 
