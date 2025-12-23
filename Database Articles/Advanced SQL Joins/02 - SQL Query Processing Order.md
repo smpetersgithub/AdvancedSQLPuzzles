@@ -4,7 +4,7 @@ To better understand the processing order of an SQL statement, please take a loo
 
 ![SQL Processing Order](/Database%20Articles/Advanced%20SQL%20Joins/images/SQLQueryProcessingOrderPage.png)
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SQL does not process the query in the order in which it is written, as the `SELECT` statement is processed almost last.  The correct processing order is `FROM`, `WHERE`, `GROUP BY`, `HAVING`, `SELECT`, `DISTINCT`, `ORDER BY`, and `LIMIT`.  Once a query first enters the `FROM` statement, there are four types of table operators, `JOIN`, `APPLY`, `PIVOT`, and `UNPIVOT` that can be performed, and each of these operators has a series of subphases.
+SQL does not process the query in the order in which it is written, as the `SELECT` statement is processed almost last.  The correct processing order is `FROM`, `WHERE`, `GROUP BY`, `HAVING`, `SELECT`, `DISTINCT`, `ORDER BY`, and `LIMIT`.  Once a query first enters the `FROM` statement, there are four types of table operators, `JOIN`, `APPLY`, `PIVOT`, and `UNPIVOT` that can be performed, and each of these operators has a series of subphases.
 
 ---------------------------------------------------------
 
@@ -21,7 +21,7 @@ Processing order of a SQL statement:
 | 7     | ORDER BY | Specifies which values to order the result set by                                          |
 | 8     | LIMIT    | Constrains the number of rows returned by a `SELECT` statement                             |
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The SQL Server Database Engine parses the entire query and analyzes its syntax and semantics. It then generates a single execution plan for the entire query, rather than individual plans for each clause. This execution plan determines the most efficient way to access and process the requested data, based on factors such as indexes, statistics, and available resources.
+The SQL Server Database Engine parses the entire query and analyzes its syntax and semantics. It then generates a single execution plan for the entire query, rather than individual plans for each clause. This execution plan determines the most efficient way to access and process the requested data, based on factors such as indexes, statistics, and available resources.
 
 ---------------------------------------------------------
 
@@ -63,11 +63,11 @@ WHERE   emp.CustomerID = ord.CustomerID;
 *  Because the `CROSS JOIN` has an `ON` statement specifying how to join the tables, this join acts as an `INNER JOIN`.
 ---------------------------------------------------------
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The most significant difference between `INNER`, `OUTER`, and `CROSS JOIN` is that the `INNER JOIN` acts as a **filtering criterion**, `OUTER JOIN` acts as a **matching criterion**, and a `CROSS JOIN` gives all possible combinations.  More simply stated, `INNER JOIN` returns only rows that match the join condition, `OUTER JOIN` returns matching rows plus unmatched rows from one or both tables, and the `CROSS JOIN` returns the Cartesian product.
+The most significant difference between `INNER`, `OUTER`, and `CROSS JOIN` is that the `INNER JOIN` acts as a **filtering criterion**, `OUTER JOIN` acts as a **matching criterion**, and a `CROSS JOIN` gives all possible combinations.  More simply stated, `INNER JOIN` returns only rows that match the join condition, `OUTER JOIN` returns matching rows plus unmatched rows from one or both tables, and the `CROSS JOIN` returns the Cartesian product.
   
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;For `INNER` and `OUTER JOIN`, these types of joins require a comparison operator to equate rows from the participating tables based on a common field in both tables. These comparison operators are described as equi-joins and theta-joins, which are rooted in Relational Algebra.  Introduced by Edgar F. Codd in 1970, Relational Algebra uses algebraic structures with well-founded semantics to model data and define queries over it.
+For `INNER` and `OUTER JOIN`, these types of joins require a comparison operator to equate rows from the participating tables based on a common field in both tables. These comparison operators are described as equi-joins and theta-joins, which are rooted in Relational Algebra.  Introduced by Edgar F. Codd in 1970, Relational Algebra uses algebraic structures with well-founded semantics to model data and define queries over it.
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Lastly, SQL is a declarative language, meaning you tell the SQL engine what to do, and not how to do it.  The logical order is defined by SQL semantics, but the physical execution plan chosen by the engine can differ for optimization.  When a table operation is performed, the SQL engine determines the best method for physically joining the tables (the join algorithm).  These join algorithms optimize query performance during join operations and are based on table size, data type, available indexes, and table statistics.
+Lastly, SQL is a declarative language, meaning you tell the SQL engine what to do, and not how to do it.  The logical order is defined by SQL semantics, but the physical execution plan chosen by the engine can differ for optimization.  When a table operation is performed, the SQL engine determines the best method for physically joining the tables (the join algorithm).  These join algorithms optimize query performance during join operations and are based on table size, data type, available indexes, and table statistics.
 
 ---------------------------------------------------------
 
