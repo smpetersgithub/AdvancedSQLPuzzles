@@ -42,7 +42,7 @@ SQL provides the following operators for joining tables.
 *  The `IS [NOT] DISTINCT FROM` is a comparison operator and is a relatively new feature being added to the various database systems.
  
 --------------------------------------------------------------------------------
-We will use the following tables, which list the types of fruit and their quantities.  
+We will use the following tables, which contain types of fruits and their quantities.
 
 [The DDL to create these tables can be found here.](Sample%20Data.md)
 
