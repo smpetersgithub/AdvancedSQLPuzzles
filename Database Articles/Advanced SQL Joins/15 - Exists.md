@@ -1,10 +1,10 @@
 # EXISTS
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The `EXISTS` operator in SQL is a Boolean operator that tests for the existence of any rows in a subquery. It returns TRUE if the subquery returns at least one row, and FALSE if it returns none. The `EXISTS` can be used with the `IF`, `WHERE`, and `ON` clauses.  The `EXIST` operator can also be used with the `NOT` operator for negation.
+The `EXISTS` operator in SQL is a Boolean operator that tests for the existence of any rows in a subquery. The `EXISTS` clause evaluates to a Boolean (TRUE or FALSE); it does not return data from the subquery - it checks for the existence of at least one matching row. The `EXISTS` can be used with the `IF`, `WHERE`, and `ON` clauses.  The `EXISTS` operator can also be used with the `NOT` operator for negation.
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;This document will concentrate on the `EXISTS` statement with the `ON` clause.  Strangely, I cannot find any documentation from Microsoft or PostgreSQL on the use of `ON EXISTS`.  Itzik Ben-Gan does mention it in passing in an article [here](https://sqlperformance.com/2019/12/t-sql-queries/null-complexities-part-1) about its usage, and he does mention it in the [T-SQL Fundamentals](https://www.amazon.com/T-SQL-Fundamentals-3rd-Itzik-Ben-Gan/dp/150930200X/ref=sr_1_1?adgrpid=1331509151302817&hvadid=83219393942729&hvbmt=be&hvdev=c&hvlocphy=66021&hvnetw=o&hvqmt=e&hvtargid=kwd-83219680138630%3Aloc-190&hydadcr=16377_10417921&keywords=t-sql+fundamentals&qid=1675204165&sr=8-1) book.
+This document will concentrate on the `EXISTS` statement with the `ON` clause.  Strangely, I cannot find any documentation from Microsoft or PostgreSQL on the use of `ON EXISTS`.  Itzik Ben-Gan does mention it in passing in an article [here](https://sqlperformance.com/2019/12/t-sql-queries/null-complexities-part-1) about its usage, and he does mention it in the [T-SQL Fundamentals](https://www.amazon.com/T-SQL-Fundamentals-3rd-Itzik-Ben-Gan/dp/150930200X/ref=sr_1_1?adgrpid=1331509151302817&hvadid=83219393942729&hvbmt=be&hvdev=c&hvlocphy=66021&hvnetw=o&hvqmt=e&hvtargid=kwd-83219680138630%3Aloc-190&hydadcr=16377_10417921&keywords=t-sql+fundamentals&qid=1675204165&sr=8-1) book.
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;First, let's look at some examples of the `EXISTS`.  It is important to remember that the `EXISTS` clause returns TRUE or FALSE and not a result set.
+First, let's look at some examples of the `EXISTS`.  It is important to remember that the `EXISTS` clause returns TRUE or FALSE and not a result set.
 
 --------------------------------------------------------------------------------
 We will be using the following tables, which contain types of fruits and their quantities.  
@@ -97,8 +97,8 @@ ORDER BY 1;
 #### ON EXISTS
   
 Probably one of the more difficult joins to understand is the `ON EXISTS` clause.  It is best to learn by example, and remember that `EXISTS` returns TRUE or FALSE, not a subset of records.  The `ON EXISTS` will work with the `INNER JOIN`, `LEFT OUTER JOIN`, `RIGHT OUTER JOIN`, and `FULL OUTER JOIN` clauses, but not the `CROSS JOIN`.
- 
-These statements will return TRUE and behave like a `CROSS JOIN`.
+
+This query evaluates whether `a.Fruit` exists in the result set of `b.Fruit`, effectively acting like an equality join on Fruit, but also matching NULL markers (since `INTERSECT` treats NULL as not distinct from NULL). These statements will return TRUE and behave like a `CROSS JOIN`.
   
 ```sql
 SELECT  *
