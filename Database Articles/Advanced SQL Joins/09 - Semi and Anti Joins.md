@@ -1,10 +1,10 @@
 # Semi and Anti-Joins
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Semi and anti-joins are two types of join operations used in SQL.
+Semi and anti-joins are two types of join operations used in SQL.
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The term "semi", meaning half in quantity or value, refers to the fact that a semi-join only returns a subset (or a half) of the tables involved in the join.  Specifically, semi-joins return only the rows from the first table (the left table) that match values in the second table (the right table). The columns of the right table are not included in the projection.
+The term "semi", meaning half in quantity or value, refers to the fact that a semi-join only returns a subset (or a half) of the tables involved in the join.  Specifically, semi-joins return only the rows from the first table (the left table) that match values in the second table (the right table). The columns of the right table are not included in the projection.
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The opposite of semi-joins are anti-joins, which look for inequality between the two sets, i.e., the left and right tables.
+The opposite of semi-joins are anti-joins, which look for inequality between the two sets, i.e., the left and right tables.
 
 *  Anti-joins use the `NOT IN` or `NOT EXISTS` operators in the WHERE clause of an SQL statement.    
 *  Semi-joins use the `IN` or `EXISTS` operators in the `WHERE` clause of an SQL statement.
