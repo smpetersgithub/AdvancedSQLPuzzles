@@ -1,6 +1,8 @@
 # FULL OUTER JOIN
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;A `FULL OUTER JOIN` is a method of combining tables so that the result includes unmatched rows of both tables. It is often underutilized and has a more specific use case than the other joins.  This join best compares two similar tables, as shown below.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;A `FULL OUTER JOIN` returns all rows from both tables, including unmatched rows from each side. Where a match does not exist, the result will contain NULL markers for the columns from the non-matching table.
+
+Although less commonly used than `INNER JOIN` or `LEFT JOIN`, `FULL OUTER JOIN` is especially useful when you want a complete comparison between two related datasets—such as identifying what rows are missing or different between them.
 
 ---------------------------------------------------------------------------------
 
@@ -52,7 +54,7 @@ ORDER BY 1;
   
 You can use a `FULL OUTER JOIN` to find the symmetric difference of two datasets using the `ISNULL` function.
 
-This SQL statement returns the records that are in `TableA` but not in `TableB`, along with the records in `TableB` that are not in `TableA`.  This is known in set theory as the symmetric difference.  The result set will include two NULL markers, as NULLs are neither equal to nor not equal to each other. They are unknown.
+This query returns the symmetric difference between `TableA` and `TableB` — rows that exist in one table but not the other. Using `ISNULL()` ensures values from either side appear in a unified result, even when one side is NULL.
  
 ```sql 
 SELECT  ISNULL(a.ID, b.ID) AS ID,
@@ -92,8 +94,8 @@ ORDER BY 1, 2;
 
 ---------------------------------------------------------------------------------
         
-You can simulate a `FULL OUTER JOIN` by using set operators (`UNION`) and anti-joins (`NOT EXISTS`).
-        
+If `FULL OUTER JOIN` is unavailable or unsupported, you can simulate it using a combination of `INNER JOIN`, `LEFT JOIN`, `RIGHT JOIN`, and `NOT EXISTS` with `UNION`. This approach ensures all matching and unmatched rows from both tables are included.
+
 ```sql
 SELECT  a.ID,
         a.Fruit,
