@@ -278,7 +278,7 @@ ORDER BY 1;
      
 --------------------------------------------------------------------------------- 
 
-This SQL statement works in `SQL Server` when joining three or more tables.  The table referenced in the `ON` clause must be in reverse order for this to work.
+This SQL statement works in SQL Server when joining three or more tables.  The table referenced in the `ON` clause must be in reverse order for this to work.
 
 For this SQL statement, I am self-joining to `TableA` three times.
         
