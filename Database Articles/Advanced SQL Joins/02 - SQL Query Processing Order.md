@@ -4,7 +4,7 @@ To better understand the processing order of an SQL statement, please take a loo
 
 ![SQL Processing Order](/Database%20Articles/Advanced%20SQL%20Joins/images/SQLQueryProcessingOrderPage.png)
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SQL does not process the query in the order in which it is written, as the `SELECT` statement is processed almost last.  The correct processing order is `FROM`, `WHERE`, `GROUP BY`, `HAVING`, `SELECT`, `ORDER BY`, and `LIMIT`.  Once a query first enters the `FROM` statement, there are four types of table operators, `JOIN`, `APPLY`, `PIVOT`, and `UNPIVOT` that can be performed, and each of these operators has a series of subphases.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SQL does not process the query in the order in which it is written, as the `SELECT` statement is processed almost last.  The correct processing order is `FROM`, `WHERE`, `GROUP BY`, `HAVING`, `SELECT`, `DISTINCT`, `ORDER BY`, and `LIMIT`.  Once a query first enters the `FROM` statement, there are four types of table operators, `JOIN`, `APPLY`, `PIVOT`, and `UNPIVOT` that can be performed, and each of these operators has a series of subphases.
 
 ---------------------------------------------------------
 
@@ -15,10 +15,11 @@ Processing order of a SQL statement:
 | 1     | FROM     | Specifies a table, view, table variable, or derived table source, with or without an alias |
 | 2     | WHERE    | Specifies the search condition for the rows returned by the query                          |
 | 3     | GROUP BY | Specifies the records to group on                                                          |
-| 4     | HAVING   | Restricts the results of a GROUP BY                                                        |
+| 4     | HAVING   | Restricts the results of a `GROUP BY`                                                      |
 | 5     | SELECT   | Specifies which values are returned                                                        |
-| 6     | ORDER BY | Specifies which values to order the result set by                                          |
-| 7     | LIMIT    | Constrains the number of rows returned by a SELECT statement                               |
+| 6     | DISTINCT | Removed duplicate rows                                                                     |
+| 7     | ORDER BY | Specifies which values to order the result set by                                          |
+| 8     | LIMIT    | Constrains the number of rows returned by a `SELECT` statement                             |
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The SQL Server Database Engine parses the entire query and analyzes its syntax and semantics. It then generates a single execution plan for the entire query, rather than individual plans for each clause. This execution plan determines the most efficient way to access and process the requested data, based on factors such as indexes, statistics, and available resources.
 
