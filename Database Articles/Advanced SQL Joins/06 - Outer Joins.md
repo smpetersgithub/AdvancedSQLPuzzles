@@ -2,9 +2,9 @@
 
 SQL Server supports three types of outer joins:
 
-*  LEFT OUTER JOIN
-*  RIGHT OUTER JOIN
-*  FULL OUTER JOIN
+*  `LEFT OUTER JOIN`
+*  `RIGHT OUTER JOIN`
+*  `FULL OUTER JOIN`
 
 Each outer join type includes all rows from one table and matching rows from the other, inserting NULL markers where no match exists.
 
