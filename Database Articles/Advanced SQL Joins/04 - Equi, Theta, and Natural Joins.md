@@ -10,11 +10,11 @@
 
 #### Equi and Theta-joins Overview
 
-*  A theta-join is a join with an explicit join predicate based on a binary operator. These operators include both comparison and logical operators.  Theta-joins can be broken into equi-joins, which look for equality, and non-equi-joins are joins that use an operator other than equality.
-  
-*  Equi-joins look for equality in the join condition.  It is a join operation that combines rows from two or more tables based on a matching value in one or more columns. This matching value, known as the join condition, is an equality condition. The term "equi" comes from the Latin aequus, meaning "equal."
+*  A theta-join is a join that uses a condition based on any binary comparison operator (such as `=`, `<`, `>`, `<=`, `>=`, or `<>`). These joins allow flexible matching logic beyond just equality. Theta-joins include both equi-joins, which test for equality, and non-equi-joins, which use other comparison operators.
 
-*  A non-equi-join is a join that uses an operator other than equality. It is the opposite of an equi-join.
+*  An equi-join is a specific type of theta-join that matches rows based on equality conditions between columns in the joined tables. In other words, it returns rows where the values in the specified columns are equal. The term "equi" comes from the Latin word aequus, meaning "equal."
+
+*  A non-equi-join is a type of theta-join that uses a condition other than equality (such as `<`, `>`, or `BETWEEN`) to compare columns. It returns rows where the join condition evaluates to true based on those non-equality comparisons.
 
 --------------------------------------------------------------------------------
 SQL provides the following operators for joining tables.
@@ -32,17 +32,17 @@ SQL provides the following operators for joining tables.
 | Comparison | <=                   | Less Than or Equal To                               |
 | Logical    | BETWEEN              | Defines a range and is inclusive                    |
 | Logical    | LIKE                 | Matches a string value to a specified pattern       |
-|            | IS DISTINCT FROM     | Treats NULLs as known values for comparing equality |
-|            | IS NOT DISTINCT FROM | Treats NULLs as known values for comparing equality |
+| Comparison | IS DISTINCT FROM     | Treats NULLs as known values for comparing equality |
+| Comparison | IS NOT DISTINCT FROM | Treats NULLs as known values for comparing equality |
 
 *  Logical operators test for the truth of some condition. Like comparison operators, logical operators return a Boolean data type with a value of **TRUE**, **FALSE**, or **UNKNOWN**.
 
 *  Comparison operators test whether two expressions are the same. Comparison operators can be used on all expressions except expressions of the `text`, `ntext`, or `image` data types.
 
-*  The `IS [NOT] DISTINCT FROM` operator is a relatively new feature being added to the various database systems.  I have set it to NULL as I have not found any vendor documentation categorizing this operator as logical or a comparison.
+*  The `IS [NOT] DISTINCT FROM` is a comparison operator and is a relatively new feature being added to the various database systems.
  
 --------------------------------------------------------------------------------
-We will use the following tables, which contain types of fruits and their quantities.  
+We will use the following tables, which list the types of fruit and their quantities.  
 
 [The DDL to create these tables can be found here.](Sample%20Data.md)
 
@@ -65,7 +65,9 @@ We will use the following tables, which contain types of fruits and their quanti
 --------------------------------------------------------------------------------
 #### Equi-joins
 
-Equi-joins look for equality in a relationship.  They can be used with `INNER`, `OUTER`, `FULL OUTER`, and `CROSS JOINS`. The example below uses the `CROSS JOIN` syntax but functions like an `INNER JOIN` because the join logic is in the `WHERE` clause.
+Equi-joins look for equality in a relationship.  They can be used with `INNER`, `OUTER`, `FULL OUTER`, and `CROSS JOINS`. The example below uses the `CROSS JOIN` syntax, but functions like an `INNER JOIN` because the join logic is in the `WHERE` clause.
+
+Note that it's functionally equivalent to an inner join in this context, but it's not the preferred syntax for clarity.
 
 ```sql
 SELECT  a.ID,
