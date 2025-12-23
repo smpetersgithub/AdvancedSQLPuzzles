@@ -1,6 +1,6 @@
 # INNER JOINS
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The `INNER JOIN` selects records from two tables given a join condition.  This type of join requires a comparison operator to combine rows from the participating tables based on a common field(s) in both tables.  Because of this, `INNER JOIN` acts as a filter criterion.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;An `INNER JOIN` returns rows from two tables where a specified join condition is true. It requires a comparison between columns from each table, typically on a shared attribute. This makes `INNER JOIN` behave as a filtering join, returning only matching rows.
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;We can use both equi-join and theta-join operators between the joining fields.  An equi-join is a type of join in which the join condition is based on equality between the values of the specified columns in the two joined tables.  Conversely, a theta-join is a type of join in which the join condition is based on a comparison operator other than equality.
 
@@ -87,7 +87,7 @@ ORDER BY 1;
 
 ---------------------------------------------------------------------------------
   
-In MySQL, the following SQL statement will work and mimic an `INNER JOIN`.   This SQL statement has an `ON` clause of `1=1` and a `WHERE` clause specifying the join criteria.  If you remove the `WHERE` clause, this statement will work in both MySQL and SQLite to return a full Cartesian product.
+In MySQL, the following SQL statement will work and mimic an `INNER JOIN`. This SQL statement has an `ON` clause of `1=1` and a `WHERE` clause specifying the join criteria. If you remove the `WHERE` clause, this statement will work in both MySQL and SQLite to return a full Cartesian product.
 
 ```sql
 SELECT a.ID,
@@ -217,7 +217,8 @@ ORDER BY 1;
 |  2 | Peach   | 20       | 2  | Peach   | 25       |
 
 ---  
-Functions can also be used in the join condition. Assigning the empty string to a NULL value via the `ISNULL` function causes the NULLs to equate to each other.
+
+You can also use functions in the join condition. For example, wrapping a nullable column with ISNULL(column, '') treats NULL values as empty strings, allowing them to match. This technique can help when joining on columns that may contain NULLs, but use it with caution—functions like ISNULL can prevent index usage and negatively impact performance.
 
 ```sql
 SELECT  a.ID,
@@ -236,6 +237,7 @@ ORDER BY 1;
 |  4 |         | 4  |         |
 
 ---------------------------------------------------------------------------------
+
 In Microsoft SQL Server and PostgreSQL, you can also write the above query using the `ON EXISTS` clause. This is a little-known trick you can use that may (or may not) yield a bit better execution plan than the above statement, but it is worth checking.  I will cover the `ON EXISTS` syntax in another document, as it takes some thinking to understand its behavior. 
 
 ```sql
@@ -253,8 +255,9 @@ ORDER BY 1;
 |  4 |         | 5        | 4  |         |          |
 
 ---------------------------------------------------------------------------------
-You can use a `CASE` statement to specify the join condition in the `WHERE` clause.  This is considered a bad practice, and you should find a better way of writing this query.
-        
+
+You can use a `CASE` statement to specify the join condition in the `WHERE` clause. Using a `CASE` expression in the `WHERE` clause to simulate join logic is not recommended. It makes queries harder to read, can disable join optimizations, and may produce unexpected results.
+
 ```sql
  SELECT  a.ID,
         a.Fruit,
@@ -274,6 +277,7 @@ ORDER BY 1;
 | 4  |         | 2  | Peach |
      
 --------------------------------------------------------------------------------- 
+
 This SQL statement works in `SQL Server` when joining three or more tables.  The table referenced in the `ON` clause must be in reverse order for this to work.
 
 For this SQL statement, I am self-joining to `TableA` three times.
@@ -295,6 +299,7 @@ ORDER BY 1;
 | 3  | Mango |
 
 ---------------------------------------------------------------------------------
+
 In MySQL and Oracle, there is a `USING` clause that you can use to specify the joining columns.  Each vendor's implementation is slightly different; please consult your vendor's documentation for specifics.
   
 The below SQL statement works in MySQL.
@@ -315,6 +320,7 @@ ORDER BY 1;
 | 2  | Peach | 2  | Peach |
   
 ---------------------------------------------------------------------------------
+
 Oracle supports the `NATURAL JOIN` syntax.  I classify the natural join as a model join, as E.F. Codd first conceived it in his work on the Relational Model.
   
 The use of an asterisk in the `SELECT` statement is mandatory, and the output does not show duplicate column names.  This query is the same as an equi-join on the `ID`, `Fruit`, and `Quantity` columns between `TableA` and `TableB`.
