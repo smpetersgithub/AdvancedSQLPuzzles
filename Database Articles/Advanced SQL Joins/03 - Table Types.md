@@ -1,22 +1,22 @@
 # Table Types
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Within SQL Server, you can create a join to the following eleven table types. Table types can be schema-bound objects, meaning they are saved as database objects within a named schema, or unbound, meaning they are only durable for the life of an SQL statement or your current session.  Items that are not schema-bound are created in the `tempdb` and do not have any data of their existence in the catalog views.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Within SQL Server, you can create a join to the following eleven table types. Table types can be schema-bound objects, meaning they are saved as database objects within a named schema, or unbound, meaning they are only durable for the life of an SQL statement or your current session.  Temporary tables and table variables reside in `tempdb`.  The optimizer may also use `tempdb` for spills, hashes, sorts, etc., depending on query complexity.
 
 Here are the eleven different types of tables you can create.
 
-| Id |              Name              |  Schema Bound |                                                                 Description                                                                |
-|----|--------------------------------|---------------|--------------------------------------------------------------------------------------------------------------------------------------------|
-| 1  | Table                          | True          | A regular table that is stored in the database.                                                                                            |
-| 2  | View                           | True          | A virtual table that is based on the result of a `SELECT` statement.                                                                       |
-| 3  | Values Constructor             | False         | The `VALUES` constructor can be used to create a derived table, which is a table that is created and used within a single SQL query.       |
-| 4  | Table Valued Function          | True          | A function that returns a table as its result.                                                                                             |
-| 5  | Subquery                       | False         | A query that is embedded within another query. The results of a subquery can be used in the outer query.                                   |
-| 6  | Derived Table                  | False         | A special type of subquery that is defined in the `FROM` statement                                                                         |
-| 7  | Common Table Expression (CTE)  | False         | A named temporary result set that can be used in a `SELECT`, `INSERT`, `UPDATE`, or `DELETE` statement.                                    |
-| 8  | Temporary Table                | False         | A table created for a specific session or connection and is automatically dropped when the session or connection ends.                     |
-| 9  | Table Variable                 | False         | A variable that holds a table of data. It is similar to a temporary table, but it differs in behavior and scope.                           |
-| 10 | User-Defined Table Type        | True          | Used as parameters when you pass tabular data into stored procedures or user-defined functions.                                            |
-| 11 | External Tables                | False         | Used to access external data, such as Hadoop or Azure Blob storage. They are created using the `CREATE EXTERNAL TABLE` statement.          |
+| Id |              Name              |  Schema Owned |                                                                 Description                                                                 |
+|----|--------------------------------|---------------|---------------------------------------------------------------------------------------------------------------------------------------------|
+| 1  | Table                          | True          | A regular table that is stored in the database.                                                                                             |
+| 2  | View                           | True          | A virtual table that is based on the result of a `SELECT` statement.                                                                        |
+| 3  | Values Constructor             | False         | The `VALUES` constructor can be used to create a derived table, which is a table that is created and used within a single SQL query.        |
+| 4  | Table Valued Function          | True          | A function that returns a table as its result.                                                                                              |
+| 5  | Subquery                       | False         | A query that is embedded within another query. The results of a subquery can be used in the outer query.                                    |
+| 6  | Derived Table                  | False         | A special type of subquery that is defined in the `FROM` statement                                                                          |
+| 7  | Common Table Expression (CTE)  | False         | A named temporary result set that can be used in a `SELECT`, `INSERT`, `UPDATE`, or `DELETE` statement.                                     |
+| 8  | Temporary Table                | False         | A table created for a specific session or connection and is automatically dropped when the session or connection ends.                      |
+| 9  | Table Variable                 | False         | A variable that holds a table of data. It is similar to a temporary table, but it differs in behavior and scope.                            |
+| 10 | User-Defined Table Type        | True          | Used as parameters when you pass tabular data into stored procedures or user-defined functions.                                             |
+| 11 | External Tables                | True          | External tables allow access to data in sources like Hadoop or Azure Blob Storage and are created using the CREATE EXTERNAL TABLE statement.|
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`Tempdb` is used by SQL Server to store intermediate results when processing queries, such as those created by derived tables and subqueries. This allows the database engine to reuse the results multiple times in the same query instead of recomputing them each time they're needed. It's important to note that the use of `tempdb` and the extent to which it's used can vary depending on the complexity of the query and other factors, such as the amount of memory available and the indexes present on the involved tables.
 
@@ -56,7 +56,7 @@ SELECT * FROM Employees ORDER BY 1;
 --------------------------------------------------------------------------------------------------------
 #### View
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;An SQL view is a virtual table that provides a specific, customized data perspective from one or more tables in a database.  There are two main types of SQL views: materialized views and non-materialized (or simple) views. Materialized views store the result set of the view query. In contrast, non-materialized views do not store data and dynamically retrieve data from the underlying tables each time the view is accessed.  You can issue `INSERT`, `UPDATE`, and `DELETE` commands through views and can manipulate the underlying table(s) in the view.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;An SQL view is a virtual table that provides a specific, customized data perspective from one or more tables in a database.  There are two main types of SQL views: materialized views (indexed views in SQL Server) and non-materialized views. Materialized views store the result set of the view query. In contrast, non-materialized views do not store data and dynamically retrieve data from the underlying tables each time the view is accessed.  Under certain conditions, you can issue DML commands  (`INSERT`, `UPDATE`, and `DELETE`) through views and can manipulate the underlying table(s) in the view.
 
 In SQL Server, we can set the following options for views.
 
@@ -95,7 +95,7 @@ SELECT * FROM vwEmployees ORDER BY 1;
 --------------------------------------------------------------------------------------------------------
 #### VALUES Operator
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The `VALUES` constructor has a few considerations that are often overlooked and deserve its own recognition.  The `VALUES` constructor specifies a set of row value expressions to be constructed into a table and allows multiple sets of values to be defined in a single DML statement.  Typically, we use the `VALUES` constructor to specify the data to insert into a table, as we initially did with our test data. Still, it can also be used as a derived table in an SQL statement.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The `VALUES` constructor has a few considerations that are often overlooked and deserve its own recognition.  The `VALUES` constructor specifies a set of row value expressions to be constructed into a table and allows multiple sets of values to be defined in a single DML statement.  Typically, we use the `VALUES` constructor to specify the data to insert into a table, as we initially did with our test data, and it can also be used as a derived table in an SQL statement.  The `VALUES` constructor is not a persistent object, it is an inline rowset.
 
 Here is a basic example of using the `VALUES` constructor as a derived table.
 
@@ -147,7 +147,7 @@ ORDER BY 1;
 --------------------------------------------------------------------------------------------------------
 #### Table-Valued Function
 
-A table-valued function acts like a view with the added benefit of being parameterized.  
+A table-valued function acts like a view with the added benefit of being parameterized.  Table-valued functions can be single-statement or multi-statement, and you can join to other datasets using `CROSS APPLY` or `OUTER APPLY`.  Multi-statement TVFs should be avoided, as they cause performance issues because the optimizer cannot inline the functions.
 
 For this example, we create a table-valued function using the `Employees` table.  To use the table values function, we can select from the function or use the `CROSS APPLY` join operation.
 
@@ -176,7 +176,7 @@ FROM    Employees a CROSS APPLY
 --------------------------------------------------------------------------------------------------------
 #### Subquery
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;A subquery is a query nested within another query. Subqueries can be used in various parts of a SQL query, such as the `SELECT`, `FROM`, and `WHERE` clauses. They are handy for performing operations that require multiple scans of the same or different tables, complex calculations, or referencing results that are not part of the main query.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;A subquery is a query nested within another query. Subqueries can be used in various parts of a SQL query, such as the `SELECT`, `FROM`, and `WHERE` clauses. They are handy for performing operations that require multiple scans of the same or different tables, complex calculations, or referencing results that are not part of the main query.  A subquery can be correlated (which depends on the outer query) or non-correlated.
 
 Here is an example of a correlated subquery using the `Employees` table.  We will discuss correlated subqueries more in the semi-join and anti-join portions of this repository.
 
@@ -240,7 +240,6 @@ ORDER BY 2;
 #### Common Table Expression (CTE) 
 
 A Common Table Expression (CTE) is a named, temporary result set that is defined within a `SELECT` statement.
-
 ```sql        
 WITH EmployeesByDepartment AS 
 (
@@ -256,6 +255,22 @@ WHERE   EmployeeCount > 2;
 | Department | EmployeeCount |
 |------------|---------------|
 | Accounting | 3             |
+
+Besides improving the readability of an SQL statement, CTEs can be used for recursion.  This example creates a Fibernocci sequence using a self-referencing CTE.
+
+```sql
+WITH cte_Recursion (PrevNumber, Number) AS
+(
+SELECT  0, 1
+UNION ALL
+SELECT  Number, PrevNumber + Number
+FROM    cte_Recursion
+WHERE   Number < 1000000000
+)
+SELECT PrevNumber AS Fibonacci
+FROM   cte_Recursion
+OPTION (MAXRECURSION 0);
+```
 
 --------------------------------------------------------------------------------------------------------
 #### Temporary Table        
@@ -321,7 +336,7 @@ SELECT * FROM #Employees2 ORDER BY 1;
 *  You cannot alter the table variable once it is created.
 *  You cannot create an explicit index on a table variable.
 *  An index is created when creating a `PRIMARY KEY` or a `UNIQUE` constraint.
-*  The `TRUNCATE` statement does not work on table variables.
+*  Modern SQL Server does support `TRUNCATE TABLE` on table variables.  You will need to verify if your version of SQL Server supports `TRUNCATE TABLE` on table variables.
 *  Table variables are stored in `tempdb`. 
 *  Table variables are not affected by rollbacks. Temporary tables can be rolled back as they are part of the transaction log.
 
@@ -350,7 +365,7 @@ SELECT * FROM @TableVariable ORDER BY 1;
 --------------------------------------------------------------------------------------------------------
 #### User-Defined Table Types
 
-User-defined table types are a special type in SQL Server that allows for the definition of table structures. These structures can be used as parameters in stored procedures or functions, allowing for the passage of multiple rows of data in a single parameter. 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;User-defined table types are a special type in SQL Server that allows for the definition of table structures. These structures can be used as parameters in stored procedures or functions, allowing for the passage of multiple rows of data in a single parameter. 
 
 They function the same as table variables but are schema-bound and can be used with stored procedures and functions.  By defining a specific structure for the table data being passed, table types enforce a level of data integrity and consistency. This ensures the data conforms to the expected format, reducing errors and improving reliability.
 
@@ -366,7 +381,17 @@ CREATE TYPE MyTableType AS TABLE
 --------------------------------------------------------------------------------------------------------
 #### External Tables           
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;External tables in Microsoft SQL Server exist outside of the database and are used to access data stored in external sources such as Hadoop or Azure Blob storage. External tables provide a way to access external data as if it were a regular table within the database, allowing you to use standard SQL statements to retrieve and manipulate data stored in external sources. This can be useful for tasks such as performing data integration, bulk data loading, and data archiving, as well as for querying and processing large datasets stored in external sources. However, external tables in Microsoft SQL Server have limitations such as limited indexing options and slower query performance compared to regular tables stored in the SQL Server database.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;External tables in Microsoft SQL Server are database objects that allow access to data stored outside the SQL Server instance, typically through PolyBase or linked services. They reference external data sources and external file formats, enabling SQL Server to query data stored in locations such as Hadoop, Azure Blob Storage, Azure Data Lake Storage, or another SQL Server via PolyBase.
+
+These tables appear like regular tables but are read-only and do not physically store data within the SQL Server database. Instead, they act as a metadata layer that enables querying external data using T-SQL. This is particularly useful for data integration, bulk data loading, archiving, and working with large datasets without importing them into SQL Server.
+
+However, external tables have some limitations:
+
+Indexing is not supported on external tables.
+
+Query performance may be slower due to reliance on external storage and network latency.
+
+DML operations (like INSERT, UPDATE, DELETE) are not supported directly on external tables.
 
 Please review your vendor's documentation on external tables, as it varies by vendor.
 
