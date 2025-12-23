@@ -1,13 +1,19 @@
 # OUTER JOINS
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Outer joins include `LEFT OUTER JOIN`, `RIGHT OUTER JOIN`, and `FULL OUTER JOIN`.
+SQL Server supports three types of outer joins:
 
-*  `LEFT OUTER JOIN` returns all records from the left table and matching records from the right table. If no matches exist, `NULL` markers are returned for the columns of the right table. If multiple matching records exist in the right table, multiple rows will appear in the result set.    
-*  `RIGHT OUTER JOIN` operates similarly, returning all records from the right table and matching records from the left table. If no matches exist, `NULL` markers are returned for the left table's columns. If multiple matching records are present in the left table, multiple rows will appear in the result set.
+*  LEFT OUTER JOIN
+*  RIGHT OUTER JOIN
+*  FULL OUTER JOIN
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;It is best practice to use the `LEFT OUTER JOIN` over the `RIGHT OUTER JOIN`, as we naturally read from left to right.  The `LEFT OUTER JOIN` is more intuitive in terms of its behavior, as the left table is preserved, and the right table is optional.  I will mainly demonstrate the `LEFT OUTER JOIN` for this reason.  Using `RIGHT OUTER JOIN` is considered a bad practice and should be avoided.
+Each outer join type includes all rows from one table and matching rows from the other, inserting NULL markers where no match exists.
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;This document covers the `LEFT OUTER JOIN,` and the `RIGHT OUTER JOIN`.  The `FULL OUTER JOIN` has its own separate document.
+*  `LEFT OUTER JOIN` returns all rows from the left table and matched rows from the right table. Unmatched rows from the right table are returned with NULL markers in the result set.
+*  `RIGHT OUTER JOIN` is the mirror image—it returns all rows from the right table and matched rows from the left. Unmatched rows from the left table return NULL markers.
+
+Although both are functionally valid, `LEFT OUTER JOIN` is preferred in most scenarios because it aligns with how we naturally read queries (left to right). Using `RIGHT OUTER JOIN` is considered poor style and should generally be avoided.
+
+🔍 Note: This document focuses on `LEFT OUTER JOIN` and `RIGHT OUTER JOIN`. `FULL OUTER JOIN` is covered separately.
 
 -----------------------------------------------------------
 
@@ -73,9 +79,10 @@ ORDER BY 1;
 
 ---
 
-Predicate logic in the `ON` clause behaves differently from predicate logic in the `WHERE` clause.  Please take a look at the output differences between these two queries.
+Join predicates in the `ON` clause determine matching criteria, while conditions in the `WHERE` clause act as filters. This distinction affects query results with outer joins.
 
-Placing predicate logic in the `ON` statement preserves the outer join.
+*  Conditions in the `ON` clause preserve unmatched rows from the outer table.
+*  Conditions in the `WHERE` clause can filter out NULL markers, converting the outer join into an effective inner join.
 
 ```sql
 SELECT  a.ID,
