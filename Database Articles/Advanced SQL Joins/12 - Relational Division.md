@@ -1,10 +1,10 @@
 # Relational Division
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Relational division is a Relational Algebra operation that represents the division of one relation into another relation based on certain conditions. In SQL, relational division can be achieved using multiple join operations and conditional statements to partition a table's data into multiple groups based on specific criteria. This can be useful for solving problems such as finding all employees who have had a shift in every department or employees with the same licenses or skillsets.
+Relational division is a Relational Algebra operation that represents the division of one relation into another relation based on certain conditions. In SQL, relational division can be achieved using multiple join operations and conditional statements to partition a table's data into multiple groups based on specific criteria. This can be useful for solving problems such as finding all employees who have had a shift in every department or employees with the same licenses or skillsets.
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Relational division is not a built-in operator in SQL, so it must be simulated using a combination of other SQL operations, such as joins, subqueries, and conditional statements. The exact implementation of relational division may vary depending on the problem's specific requirements and the database management system being used.
+Relational division is a concept from relational algebra, typically used to find entities that are related to all members of another set. Since SQL doesn't offer a native operator for relational division, it's implemented using joins, subqueries, grouping, and filtering techniques.
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Here are some examples of problems that require the use of relational division.
+Here are some examples of problems that require the use of relational division.
 *  I want to find all pilots who can fly 100% of the airplanes in the hangar (the most common example of relational division).
 *  I want to find all employees who match on their issued licenses.  
 *  I want to find all managers who have worked in every department.
@@ -74,9 +74,8 @@ INSERT INTO #Hangar (PlaneName) VALUES ('B-52 Bomber');
 INSERT INTO #Hangar (PlaneName) VALUES ('F-14 Fighter');
 
 SELECT  ps.PilotName
-FROM    #PilotSkills ps,
-        #Hangar h
-WHERE   ps.PlaneName = h.PlaneName
+FROM    #PilotSkills ps INNER JOIN
+        #Hangar h ON ps.PlaneName = h.PlaneName
 GROUP BY ps.PilotName 
 HAVING  COUNT(ps.PlaneName) = (SELECT COUNT(PlaneName) FROM #Hangar);
 ```
@@ -138,7 +137,7 @@ SELECT  EmployeeID,
 FROM    #Employees
 GROUP BY EmployeeID
 ),
-cte_CountWindow AS
+cte_MatchingPairs AS
 (
 SELECT  a.EmployeeID AS EmployeeID_A,
         b.EmployeeID AS EmployeeID_B,
@@ -151,7 +150,7 @@ SELECT  DISTINCT
         a.EmployeeID_A,
         a.EmployeeID_B,
         a.CountWindow AS LicenseCount
-FROM    cte_CountWindow a INNER JOIN
+FROM    cte_MatchingPairs a INNER JOIN
         cte_Count b ON a.CountWindow = b.LicenseCount AND a.EmployeeID_A = b.EmployeeID INNER JOIN
         cte_Count c ON a.CountWindow = c.LicenseCount AND a.EmployeeID_B = c.EmployeeID
 ORDER BY 1;
