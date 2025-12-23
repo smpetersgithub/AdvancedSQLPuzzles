@@ -1,22 +1,19 @@
 # CROSS JOINS
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;In `Microsoft SQL Server`, there are two join functions for performing a cross join, `CROSS JOIN` and `CROSS APPLY`.
+SQL Server provides two ways to perform cross joins: `CROSS JOIN` and `CROSS APPLY`. While both can produce Cartesian products, they differ in their use cases and behavior:
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;A `CROSS JOIN` creates all permutations (i.e., a cartesian product) of the two joining tables.  It will produce a result set that is the number of rows in the first table multiplied by the number of rows in the second table.
+`CROSS JOIN` generates a Cartesian product between two tables—every row in the first table is combined with every row in the second. If Table A has 100 rows and Table B has 1,000 rows, the result will contain 100,000 rows.
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;It is essential to be mindful of the number of rows in each table because a `CROSS JOIN` will return the product of the number of rows of both tables. If one table has 100 rows and the other has 1000 rows, a `CROSS JOIN` will return 100,000 rows. Therefore, `CROSS JOIN` can cause performance issues if used on large tables.
+`CROSS APPLY` can also be used to perform a cross join–like operation, but it is more powerful: it allows joining each row to a table-valued function or subquery that can vary per row.
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Note, you can also use recursion to generate permutation sets.  The benefit of using recursion is when you have an unknown number of elements you need to create permutations on, which you may not know at runtime.  With `CROSS JOIN`, you need to create each join manually.
-
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Also of note is that in Microsoft SQL Server, there are two join functions for performing a cross join, `CROSS JOIN` and `CROSS APPLY`.  `CROSS JOIN` and `CROSS APPLY` will work when only dealing with tables, but `CROSS APPLY` will only work with table-valued functions and sub-queries, which I will demonstrate below.
+⚠️ Be cautious: both join types can produce large result sets and may impact performance when used on large datasets.
 
 #### Permutations vs Combinations
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Permutations and combinations are both ways of arranging a set of items, but they differ in how the items are arranged.  Permutations are arrangements of items in a specific order, while combinations are selections of items without regard to the order.
+Permutations and combinations are common patterns when using CROSS JOIN:
 
-*  Permutations are a way of arranging a set of items in a specific order. For example, if you have the set of items {A, B, C}, there are 3! (3 factorial) or 6 possible permutations: ABC, ACB, BAC, BCA, CAB, CBA.
-
-*  Combinations, conversely, are a way of selecting a subset of items from a set without regard to the order. For example, if you have the set of items {A, B, C}, there are 3 C 2 (read as "3 choose 2") or 3 possible combinations: AB, AC, BC.
+*  Permutations involve arranging items in order. For example, with {A, B, C}, permutations include: ABC, ACB, BAC, etc. A `CROSS JOIN` is often used to generate these.
+*  Combinations involve selecting subsets without considering order. From {A, B, C}, the 2-item combinations are AB, AC, and BC.
 
 ---------------------------------------------------------------------------------
 
