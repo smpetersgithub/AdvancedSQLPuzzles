@@ -68,7 +68,7 @@ In SQL Server, we can set the following options for views.
 `[ WITH CHECK OPTION ]`
 Ensures that all data modifications through the view comply with the view's `SELECT` statement. If a row is modified through the view that would not be selected by the view's `SELECT` statement, the modification is disallowed. This maintains data integrity by ensuring only valid data is entered through the view.
 
-In this example, we create a view from the `Employees` table, insert a record into the table, and then select from the view;
+In this example, we create a view from the `Employees` table, insert a record into the table, and then select from the view.
 
 ```sql
 CREATE OR ALTER VIEW vwEmployees AS
@@ -387,13 +387,9 @@ These tables appear like regular tables but are read-only and do not physically 
 
 However, external tables have some limitations:
 
-Indexing is not supported on external tables.
-
-Query performance may be slower due to reliance on external storage and network latency.
-
-DML operations (like INSERT, UPDATE, DELETE) are not supported directly on external tables.
-
-Please review your vendor's documentation on external tables, as it varies by vendor.
+*  Indexing is not supported on external tables.
+*  Query performance may be slower due to reliance on external storage and network latency.
+*  DML operations (like INSERT, UPDATE, DELETE) are not supported directly on external tables.
 
 The Microsoft SQL Server documentation has the following examples.
 
