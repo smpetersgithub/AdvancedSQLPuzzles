@@ -1,8 +1,8 @@
 # Welcome
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Besides the standard `INNER`, `LEFT OUTER`, `RIGHT OUTER`, `FULL OUTER` and `CROSS` joins that are specified in the ANSI SQL standard, there are several joins that are not part of the standard SQL join syntax, but rather ways to classify different types of joins based on their behavior and the conditions used to join the tables.  
+Besides the standard `INNER`, `LEFT OUTER`, `RIGHT OUTER`, `FULL OUTER` and `CROSS` joins that are specified in the ANSI SQL standard, there are several joins that are not part of the standard SQL join syntax, but rather ways to classify different types of joins based on their behavior and the conditions used to join the tables.  
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;I classify joins into the following four categories; Logical, Physical, Descriptive, and Model.  The term "Model" comes from the Relational Model developed by Edgar F. Codd in the 1970s, on which SQL is based.  This name may warrant a rename if I come up with a better one.
+I classify joins into the following four categories: Logical, Physical, Descriptive, and Model.  The term "Model" comes from the Relational Model developed by Edgar F. Codd in the 1970s, on which SQL is based.  This name may warrant a rename if I come up with a better one.
 
 
 | ID |    Type     |                                                          Description                                                     |
