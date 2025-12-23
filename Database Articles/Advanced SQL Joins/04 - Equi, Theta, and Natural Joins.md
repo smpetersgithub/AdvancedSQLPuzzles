@@ -121,7 +121,7 @@ FROM    ##TableA a INNER JOIN
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;A natural join in relational algebra is a join operation that combines two relational tables via an equi-join based on their common attributes. In a natural join, only the rows with matching values in the common columns are included in the result. The common columns of the two tables serve as the join criteria, and the result set includes only one copy of each column. The columns in the result set correspond to the combination of columns from both tables.
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Oracle is currently the only vendor that supports the `NATURAL JOIN` syntax.  It is considered a bad practice for the following reasons:
+Oracle is currently the only vendor that supports the `NATURAL JOIN` syntax.  It is considered a bad practice for the following reasons:
 *  Ambiguity: Natural joins can cause ambiguity if two or more columns in the participating tables have the same name. This can lead to unexpected results and make the SQL statement difficult to understand and maintain.
 *  Maintenance: Natural joins can make the database schema more challenging to maintain because changes to the common columns in one of the participating tables will affect the join result.
 
