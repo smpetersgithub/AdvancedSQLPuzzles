@@ -1,6 +1,6 @@
 # Self Joins
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;A self-join in SQL is a join operation where a table is joined with itself. The join conditions in a self-join specify how to relate the rows of a table to itself. Self-joins can be used to compare rows within a table, create subsets of data based on conditions, or combine information from multiple rows. The result of a self-join is a new table that contains the combined data from the two instances of the original table. Self-joins can be helpful when working with hierarchical data or analyzing relationships within a table.
+A self-join in SQL is a join operation where a table is joined with itself. The join conditions in a self-join specify how to relate the rows of a table to itself. Self-joins can be used to compare rows within a table, create subsets of data based on conditions, or combine information from multiple rows. The result of a self-join is a new table that contains the combined data from the two instances of the original table. Self-joins can be helpful when working with hierarchical data or analyzing relationships within a table.
 
 ----------------------------------------------------
 
@@ -98,8 +98,8 @@ The syntax to solve this puzzle with a self-join is shown below.
 ```sql
 SELECT  a.ID,
         a.City
-FROM    Customer a INNER JOIN
-        Customer b ON a.City = b.City AND a.ID <> b.ID
+FROM    Customers a INNER JOIN
+        Customers b ON a.City = b.City AND a.ID <> b.ID
 ORDER BY 1;
 ```
   
@@ -110,13 +110,13 @@ The above query uses a self-join and returns the following result set.
 | 2  | Detroit |
 | 4  | Detroit |
 
-Because the `Customer` table does not have a foreign key relationship, the above query could (and most probably should) be written using the following syntax.  This statement is slightly more verbose, but its intent becomes a bit clearer.
+Because the `Customers` table does not have a foreign key relationship, the above query could (and most probably should) be written using the following syntax.  This statement is slightly more verbose, but its intent becomes a bit clearer.
 
 ```sql
 WITH cte_CountCity AS
 (
 SELECT  City
-FROM    Cities
+FROM    Customers
 GROUP BY City
 HAVING  COUNT(City) > 1
 )
@@ -137,10 +137,10 @@ Given the dataset below consisting of various animals' weights, create a cumulat
 | ID  |    Animal     | Weight |
 |-----|---------------|--------|
 | 1   | Elephant      | 13000  |
-| 2   | Rhinoceros    | 8000  |
-| 3   | Hippopotamus  | 3000  |
-| 4   | Giraffe       | 2000  |
-| 5   | Water Buffalo | 2000  |
+| 2   | Rhinoceros    | 8000   |
+| 3   | Hippopotamus  | 3000   |
+| 4   | Giraffe       | 2000   |
+| 5   | Water Buffalo | 2000   |
 
 ```sql
 SELECT  a.ID,
@@ -167,7 +167,7 @@ However, a better way to write this statement is by using a windowing function.
 SELECT  ID,
         Animal,
         SUM(Weight) OVER (ORDER BY ID ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS Cumulative_Weight
-FROM    #Animals
+FROM    Animals
 ORDER BY 1;
 ```
 
