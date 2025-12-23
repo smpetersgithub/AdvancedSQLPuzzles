@@ -1,10 +1,10 @@
 # Equi, Theta, and Natural Joins
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SQL is considered a lenient interpretation of relational algebra because it deviates from the strict mathematical principles of relational algebra in some ways. While relational algebra provides a rigorous mathematical foundation for relational database management, SQL is a more practical, user-friendly language for querying and manipulating data in relational databases.
+SQL is considered a lenient interpretation of relational algebra because it deviates from the strict mathematical principles of relational algebra in some ways. While relational algebra provides a rigorous mathematical foundation for relational database management, SQL is a more practical, user-friendly language for querying and manipulating data in relational databases.
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SQL has added various features and capabilities beyond those found in relational algebra, such as aggregate functions, subqueries, and the ability to manipulate data directly. It also provides a way to work with NULL markers, which are not part of the mathematical model of relational algebra. Additionally, SQL uses a syntax that is more accessible and easier to read than the mathematical notation used in relational algebra.
+SQL has added various features and capabilities beyond those found in relational algebra, such as aggregate functions, subqueries, and the ability to manipulate data directly. It also provides a way to work with NULL markers, which are not part of the mathematical model of relational algebra. Additionally, SQL uses a syntax that is more accessible and easier to read than the mathematical notation used in relational algebra.
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;However, the basic principles of relational algebra still form the basis of SQL, and many SQL operations can be directly mapped to relational algebra operations. Understanding relational algebra can deepen your understanding of SQL and improve your ability to write effective, efficient SQL queries. Nevertheless, SQL remains a lenient interpretation of relational algebra, as it deviates from the mathematical principles to provide a practical and user-friendly way to work with relational databases.
+However, the basic principles of relational algebra still form the basis of SQL, and many SQL operations can be directly mapped to relational algebra operations. Understanding relational algebra can deepen your understanding of SQL and improve your ability to write effective, efficient SQL queries. Nevertheless, SQL remains a lenient interpretation of relational algebra, as it deviates from the mathematical principles to provide a practical and user-friendly way to work with relational databases.
 
 ----------------------------------
 
@@ -119,13 +119,13 @@ FROM    ##TableA a INNER JOIN
 --------------------------------------------------------------------------------
 #### Natural Joins Overview
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;A natural join in relational algebra is a join operation that combines two relational tables via an equi-join based on their common attributes. In a natural join, only the rows with matching values in the common columns are included in the result. The common columns of the two tables serve as the join criteria, and the result set includes only one copy of each column. The columns in the result set correspond to the combination of columns from both tables.
+A natural join in relational algebra is a join operation that combines two relational tables via an equi-join based on their common attributes. In a natural join, only the rows with matching values in the common columns are included in the result. The common columns of the two tables serve as the join criteria, and the result set includes only one copy of each column. The columns in the result set correspond to the combination of columns from both tables.
 
 Oracle is currently the only vendor that supports the `NATURAL JOIN` syntax.  It is considered a bad practice for the following reasons:
 *  Ambiguity: Natural joins can cause ambiguity if two or more columns in the participating tables have the same name. This can lead to unexpected results and make the SQL statement difficult to understand and maintain.
 *  Maintenance: Natural joins can make the database schema more challenging to maintain because changes to the common columns in one of the participating tables will affect the join result.
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;For these reasons, it is generally recommended to use explicit join syntax and specify the join conditions explicitly rather than relying on natural joins. This allows more control over the join conditions and the resulting data, making the query easier to understand and maintain.
+For these reasons, it is generally recommended to use explicit join syntax and specify the join conditions explicitly rather than relying on natural joins. This allows more control over the join conditions and the resulting data, making the query easier to understand and maintain.
 
 ------------------------------------------------
 
