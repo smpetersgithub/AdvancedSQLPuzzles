@@ -1,8 +1,8 @@
 # INNER JOINS
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;An `INNER JOIN` returns rows from two tables where a specified join condition is true. It requires a comparison between columns from each table, typically on a shared attribute. This makes `INNER JOIN` behave as a filtering join, returning only matching rows.
+An `INNER JOIN` returns rows from two tables where a specified join condition is true. It requires a comparison between columns from each table, typically on a shared attribute. This makes `INNER JOIN` behave as a filtering join, returning only matching rows.
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;We can use both equi-join and theta-join operators between the joining fields.  An equi-join is a type of join in which the join condition is based on equality between the values of the specified columns in the two joined tables.  Conversely, a theta-join is a type of join in which the join condition is based on a comparison operator other than equality.
+We can use both equi-join and theta-join operators between the joining fields.  An equi-join is a type of join in which the join condition is based on equality between the values of the specified columns in the two joined tables.  Conversely, a theta-join is a type of join in which the join condition is based on a comparison operator other than equality.
 
 ---------------------------------------------------------------------------------
 
