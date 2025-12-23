@@ -1,6 +1,6 @@
 # FULL OUTER JOIN
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;A `FULL OUTER JOIN` returns all rows from both tables, including unmatched rows from each side. Where a match does not exist, the result will contain NULL markers for the columns from the non-matching table.
+A `FULL OUTER JOIN` returns all rows from both tables, including unmatched rows from each side. Where a match does not exist, the result will contain NULL markers for the columns from the non-matching table.
 
 Although less commonly used than `INNER JOIN` or `LEFT JOIN`, `FULL OUTER JOIN` is especially useful when you want a complete comparison between two related datasets—such as identifying what rows are missing or different between them.
 
