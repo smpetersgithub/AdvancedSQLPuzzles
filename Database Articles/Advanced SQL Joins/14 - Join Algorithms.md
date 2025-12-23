@@ -1,16 +1,16 @@
 # Join Algorithms
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;There are several types of join algorithms that the SQL Server optimizer can choose from, including nested loop join, hash join, and merge join. The choice of the join algorithm depends on various factors, such as dataset size, index availability, and data distribution. The optimizer makes a cost-based decision to choose the most efficient algorithm for the given query, returning results in the quickest possible time.  The optimizer creates these types of joins, not the developer (though you can add query hints).
+There are several types of join algorithms that the SQL Server optimizer can choose from, including nested loop join, hash join, and merge join. The choice of the join algorithm depends on various factors, such as dataset size, index availability, and data distribution. The optimizer makes a cost-based decision to choose the most efficient algorithm for the given query, returning results in the quickest possible time.  These physical join algorithms are chosen by the SQL Server query optimizer, not the developer. However, you can influence the decision using query hints like OPTION (HASH JOIN), LOOP JOIN, or MERGE JOIN.
 
 ---------------------------------------------------------------------
 ##### Types Of Join Algorithms
 
 Here is a brief overview of each join algorithm.
 
-*  The nested loop join is a logical structure in which one loop resides inside another loop.  This join typically occurs when one table is much smaller than the other.  The greater the difference in the number of input rows, the greater the benefit this operator provides.  The inner loop executes for each outer row and searches the inner input table for matching rows.
+*  A nested loop join iterates over each row in the outer input and, for each row, searches for matching rows in the inner input. This method is efficient when the outer input is small and the inner input is indexed.
 
-*  The merge join requires both inputs to be sorted on keys and requires a minimum of one equality expression between the matching columns.  The algorithm reads a row for each input and compares them using a join key.  When a match is detected, both rows in the sets are returned.  If a match is not detected, the row with the smaller value is discarded.  Because there is a sort key, the algorithm can efficiently traverse the input tables.
-
+*  A merge join requires both inputs to be sorted on the join key. If not already sorted, SQL Server may introduce an explicit sort operation. It efficiently traverses the inputs, comparing rows and returning matches.
+  
 *  A hash join is used when large tables are joined, often where an index is not available.  The hash join builds a hash table in memory and then scans for matches.  It is the least efficient of the joins.
 
 Also, numerous factors make tuning complex because there are so many individual items to address and so many ways they can interact for better or worse outcomes.  Factors can include the physical hardware and its configuration, the data model, and the volume of data, among others.
