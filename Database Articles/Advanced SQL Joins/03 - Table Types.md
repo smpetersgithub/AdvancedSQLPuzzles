@@ -389,7 +389,7 @@ However, external tables have some limitations:
 
 *  Indexing is not supported on external tables.
 *  Query performance may be slower due to reliance on external storage and network latency.
-*  DML operations (like INSERT, UPDATE, DELETE) are not supported directly on external tables.
+*  DML operations (`INSERT`, `UPDATE`, `DELETE`) are not supported directly on external tables.
 
 The Microsoft SQL Server documentation has the following examples.
 
