@@ -74,7 +74,9 @@ We will use the following tables, which contain types of fruits and their quanti
         
 ----------------------------------------------------------------------------------------
         
-#### Semi-Joins
+## Semi-Joins
+
+#### Example 1
 
 The `IN` operator is typically used to filter a column for a specific list of values.  Even though we include a NULL marker in the inner query, the results do not include it.
 
@@ -92,6 +94,8 @@ ORDER BY 1;
 
 ----------------------------------------------------------------------------------------
 
+#### Example 2
+
 Using the `IN` operator, this query will return results, but does not return a NULL marker even though there is both a NULL marker in `##TableA` and `##TableB`.  The `NOT IN` operator treats NULL markers as neither equal to nor unequal to each other; they are unknown. 
 
 ```sql
@@ -108,6 +112,8 @@ ORDER BY 1;
 
 ----------------------------------------------------------------------------------------
 
+#### Example 3
+
 Using the `IN` operator, you can join the outer and inner `SELECT` statements, creating a correlated subquery.
 
 ```sql
@@ -122,6 +128,8 @@ WHERE   Fruit IN (SELECT Fruit FROM ##TableB b WHERE a.Quantity = b.Quantity);
 | 1  | Apple |
 
 ----------------------------------------------------------------------------------------
+
+#### Example 4
 
 The `EXISTS` operator is used to test for the existence of any record in a subquery. The `EXISTS` operator returns TRUE if the subquery returns one or more records, and the `EXISTS` operator treats NULL markers as neither equal to nor unequal to each other; they are unknown. 
 
@@ -142,6 +150,8 @@ ORDER BY 1;
 
 ----------------------------------------------------------------------------------------
 
+#### Example 5
+
 Be aware that when using correlated subqueries without a join condition, they will always evaluate to true. In the following SQL example, the subquery returns NULL but isn't joined to the main query. Despite the `NOT EXISTS (SELECT NULL)`, the query retrieves all rows from `##TableA` because the subquery will always be true without a join condition.
 
 ```sql
@@ -159,6 +169,8 @@ ORDER BY 1;
 | 4  |         | 5        |
 
 ----------------------------------------------------------------------------------------
+
+#### Example 6
 
 Be cautious using the `IN` operator, as it can lead to unexpected behavior!
 
@@ -187,7 +199,9 @@ FROM    @Table1;
 
 ----------------------------------------------------------------------------------------
 
-#### Anti-Joins
+## Anti-Joins
+
+#### Example 7
 
 This statement returns an empty dataset because the `NOT IN` operator returns an empty set when the outer query contains a NULL marker.
 
@@ -201,6 +215,8 @@ WHERE   Fruit NOT IN (SELECT Fruit FROM ##TableB)
 \<Empty Data Set>
 
 ----------------------------------------------------------------------------------------
+
+#### Example 8
 
 The `NOT EXISTS` operator handles NULL markers implicitly and will return a result set with a NULL marker.  The `NOT EXISTS` operator treats NULL markers as neither equal to nor unequal to each other. They are unknown. 
 
