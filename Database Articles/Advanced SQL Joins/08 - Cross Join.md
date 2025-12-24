@@ -10,7 +10,7 @@ SQL Server provides two ways to perform cross joins: `CROSS JOIN` and `CROSS APP
 
 #### Permutations vs Combinations
 
-Permutations and combinations are common patterns when using CROSS JOIN:
+Permutations and combinations are common patterns when using `CROSS JOIN`:
 
 *  Permutations involve arranging items in order. For example, with {A, B, C}, permutations include: ABC, ACB, BAC, etc. A `CROSS JOIN` is often used to generate these.
 *  Combinations involve selecting subsets without considering order. From {A, B, C}, the 2-item combinations are AB, AC, and BC.
