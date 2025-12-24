@@ -5,11 +5,11 @@ In SQL, complex joins are not a specific, distinct command but a term used to de
 ### Characteristics of Complex Joins    
 *  Complex joins typically involve one or more of the following aspects:
 *  Joining Multiple Tables: A query that joins three or more tables to gather all necessary information is generally considered complex.
-*  Multiple ON Conditions: Using logical operators (AND, OR) within the ON clause to specify multiple criteria for matching rows.
-*  Combining Join Types: Employing different join types (e.g., INNER JOIN and LEFT JOIN) within the same query to handle various data relationships.
+*  Multiple `ON` Conditions: Using logical operators (`AND`, `OR`) within the `ON` clause to specify multiple criteria for matching rows.
+*  Combining Join Types: Employing different join types (e.g., `INNER JOIN` and `LEFT JOIN`) within the same query to handle various data relationships.
 *  Self Joins: Joining a table to itself to compare rows within the same table, often requiring the use of aliases.
-*  Conditional Logic: Incorporating complex expressions like ranges, pattern matching, or CASE statements directly within the join conditions or the broader query.
-*  Integration with Other Advanced Features: Complex joins frequently work in concert with other advanced SQL features like subqueries, Common Table Expressions (CTEs), window functions, or aggregate functions with GROUP BY to produce the desired results. 
+*  Conditional Logic: Incorporating complex expressions like ranges, pattern matching, or `CASE` statements directly within the join conditions or the broader query.
+*  Integration with Other Advanced Features: Complex joins frequently work in concert with other advanced SQL features like subqueries, Common Table Expressions (CTEs), window functions, or aggregate functions with `GROUP BY` to produce the desired results. 
 
 ### 1. **Multiple Conditions in the JOIN Clause**
 
