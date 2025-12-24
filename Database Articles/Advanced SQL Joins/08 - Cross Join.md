@@ -96,7 +96,8 @@ ORDER BY 1;
  
 
 ---------------------------------------------------------------------------------
-  
+#### Simulating a LEFT OUTER JOIN
+
 To simulate a `LEFT OUTER JOIN` using a `CROSS JOIN`, you will need to incorporate set operators (`UNION`) and an anti-join (`NOT EXISTS`).  
 
 ```sql
@@ -126,7 +127,9 @@ ORDER BY 1;
 
 
 ---------------------------------------------------------------------------------
-  
+
+#### Determining Combinations
+
 The following produces all combinations (not permutations).
   
 Given all fruits in both `TableA` and `TableB`, here is a result set of all fruit combinations.  Because of the theta-join in the `WHERE` clause, the fruits are listed in alphabetical order from left to right.  Note that NULL markers are not included in the result set, as NULL markers are neither equal to nor not equal to each other. They are unknown.
@@ -157,6 +160,7 @@ ORDER BY 1, 2;
 | Mango | Peach |
                         
 ---------------------------------------------------------------------------------
+#### Reciprocals
                          
 If you need to find reciprocals on a result set and preserve NULL markers, you can use the following `CASE` statement.
                          
@@ -223,7 +227,8 @@ ORDER BY 3, 1;
 
 
 ---------------------------------------------------------
-  
+#### Use with TVFs
+
 The `CROSS APPLY` is used when joining to a table-valued function.
 
 This performs an `INNER JOIN` as the join logic is placed in the `WHERE` clause of the SQL statement.
@@ -236,8 +241,9 @@ FROM    CalendarDaysTemp cd CROSS APPLY
         dbo.FnReturnCalendarTable(cd.CalendarDate) ct
 WHERE   cd.DateKey = ct.DateKey;
 ```  
----------------------------------------------------------  
- 
+---------------------------------------------------------
+#### Use with a sub-query
+
 If you need to do a `CROSS JOIN` on a sub-query, the `CROSS APPLY` operator must be used.  Some databases like `PostgreSQL` have the `LATERAL` join instead of `CROSS APPLY`.
   
 ```sql
