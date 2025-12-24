@@ -1,6 +1,6 @@
 # CROSS JOINS
 
-SQL Server provides two ways to perform cross joins: `CROSS JOIN` and `CROSS APPLY`. While both can produce Cartesian products, they differ in their use cases and behavior:
+SQL Server provides two ways to perform cross joins: `CROSS JOIN` and `CROSS APPLY`. While both can produce Cartesian products, they differ in their use cases and behavior.
 
 `CROSS JOIN` generates a Cartesian product between two tables—every row in the first table is combined with every row in the second. If Table A has 100 rows and Table B has 1,000 rows, the result will contain 100,000 rows.
 
