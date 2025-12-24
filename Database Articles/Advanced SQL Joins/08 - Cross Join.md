@@ -74,6 +74,7 @@ ORDER BY 3, 1;
 
 
 ---------------------------------------------------------------------------------
+#### Simulating an INNER JOIN
 
 You can simulate an `INNER JOIN` using a `CROSS JOIN` by placing the join logic in the `WHERE` clause using an equi-join
   
