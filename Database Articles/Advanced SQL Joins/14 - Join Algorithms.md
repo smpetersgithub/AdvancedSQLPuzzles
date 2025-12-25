@@ -3,7 +3,7 @@
 There are several types of join algorithms that the SQL Server optimizer can choose from, including nested loop join, hash join, and merge join. The choice of the join algorithm depends on various factors, such as dataset size, index availability, and data distribution. The optimizer makes a cost-based decision to choose the most efficient algorithm for the given query, returning results in the quickest possible time.  These physical join algorithms are chosen by the SQL Server query optimizer, not the developer. However, you can influence the decision using query hints like OPTION (HASH JOIN), LOOP JOIN, or MERGE JOIN.
 
 ---------------------------------------------------------------------
-##### Types Of Join Algorithms
+### Types Of Join Algorithms
 
 Here is a brief overview of each join algorithm.
 
@@ -16,7 +16,7 @@ Here is a brief overview of each join algorithm.
 Also, numerous factors make tuning complex because there are so many individual items to address and so many ways they can interact for better or worse outcomes.  Factors can include the physical hardware and its configuration, the data model, and the volume of data, among others.
 
 ---------------------------------------------------------------------
-##### Query Parsing
+### Query Parsing
 
 Upon running an SQL statement, the query becomes parsed and is checked for the following items:
 
@@ -27,7 +27,7 @@ Upon running an SQL statement, the query becomes parsed and is checked for the f
 5.  Semantic analysis: The database checks the logical validity of the query, such as the presence of ambiguous references or circular dependencies.
    
 ---------------------------------------------------------------------
-##### Developer Considerations
+### Developer Considerations
 
 Overall, as a developer, there are some ways to write the most optimized SQL from the start.
 1.  Use indexes: Indexes can significantly improve the speed of your queries. Make sure to use indexes on columns frequently used in `WHERE`, `JOIN`, and `ORDER BY` clauses.
