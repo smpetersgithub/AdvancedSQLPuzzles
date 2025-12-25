@@ -12,7 +12,7 @@ Here are some examples of problems that require the use of relational division.
 Let’s look at a few examples.
 
 --------------------------------------------------------------
-#### Planes In The Hangar
+### Planes In The Hangar
 
 The most common example on the internet is the Airplanes in the Hangar example.  Here, you need to find all pilots who can fly all planes located in the hangar.
 
@@ -86,7 +86,7 @@ HAVING  COUNT(ps.PlaneName) = (SELECT COUNT(PlaneName) FROM #Hangar);
 | Jones      |
 
 -------------------------------------------------------------------------
-#### Employees With Matching Licenses.
+### Employees With Matching Licenses.
 
 Another example is finding all employees who have the same licenses.
 
@@ -166,7 +166,7 @@ ORDER BY 1;
 
 
 -------------------------------------------------------------------------
-#### All Departments
+### All Departments
 
 The last example shows all employees who have worked in all departments.
 
