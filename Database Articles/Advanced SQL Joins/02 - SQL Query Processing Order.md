@@ -8,7 +8,7 @@ SQL does not process the query in the order in which it is written, as the `SELE
 
 ---------------------------------------------------------
 
-Processing order of a SQL statement:
+### Processing order of a SQL statement
 
 | Order |   Syntax |                                         Description                                        |
 |-------|----------|--------------------------------------------------------------------------------------------|
@@ -25,6 +25,8 @@ The SQL Server Database Engine parses the entire query and analyzes its syntax a
 
 ---------------------------------------------------------
 
+### Operator Type
+
 The `JOIN`, `APPLY`, `PIVOT`, and `UNPIVOT` are logical operations supported in T-SQL that transform or combine rowsets.
 
 | Operator |                     Subphases                          |
@@ -32,15 +34,12 @@ The `JOIN`, `APPLY`, `PIVOT`, and `UNPIVOT` are logical operations supported in 
 | JOIN     | 1) Cartesian Product 2) ON Predicate 3) Add Outer Rows |
 | APPLY    | 1) Apply Table Expression 2) Add Outer Rows            |
 | PIVOT    | 1) Group 2) Spread 3) Aggregate                        |
-| UNPIVOT  | 1) Generate Copies 2) Extract Element 3) Remove NULLs  |
-
----------------------------------------------------------
+| UNPIVOT  | 1) Generate Copies 2) Extract Element 3) Remove        |
 
 We can summarize the four table operators into the following:
 *  There is only one actual type of table join, the Cartesian product.  `INNER` and `OUTER JOIN` are restricted cartesian products where the `ON` predicate specifies the restriction.
 *  The `APPLY` operator is used when you want to return values from a correlated table expression (including table-valued functions).
 *  The `PIVOT` and `UNPIVOT` are two operators in SQL Server that rotate rows into columns and vice versa.
-
 
 To best understand that joins are restricted cartesian products, the following two statements below produce the same result set.  The first statement uses an `INNER JOIN`, and the second uses the `CROSS JOIN` syntax.  
 
