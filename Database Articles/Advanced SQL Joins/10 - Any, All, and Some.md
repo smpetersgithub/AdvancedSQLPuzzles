@@ -10,7 +10,7 @@ Because `ANY`, `ALL`, and `SOME` can be used with the nine different logical ope
 `ANY`, `ALL`, and `SOME` are not join types, but rather methods for creating predicate logic between tables. They can be used in correlated subqueries, where the outer query is joined to the subquery in an `ANY`, `ALL`, or `SOME` statement. These methods are similar to semi and anti-joins in that they cannot be used in the `SELECT` clause and do not introduce duplicates. However, they differ in that they allow for comparisons between a range of values, rather than only equality or inequality.
 
 ---------------------------------------------------------
-#### Comarison Operators
+### Comarison Operators
 
 Here are the nine different comparison operators that can be used with `ANY`, `ALL`, and `SOME`.
 
@@ -31,7 +31,7 @@ There are two usages, `<> ANY` and `= ALL`, that I will elaborate on, as they ha
 
 Understanding these nine operations will easily enable you to understand any combination you encounter in your daily SQL work.
 
-#### Equivalent Statements
+### Equivalent Statements
 
 Here is a breakdown of equivalent statements that can be used in place of `ANY`, `ALL`, and `SOME`. 
  
