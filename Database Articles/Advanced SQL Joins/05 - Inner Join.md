@@ -49,6 +49,9 @@ ORDER BY 1;
 | 2  | Peach | 2  | Peach |
 
 ---
+
+### Example 2
+
 We can also specify the matching criteria in the `WHERE` clause without explicitly specifying an `INNER JOIN`.
 
 ```sql
@@ -69,6 +72,8 @@ ORDER BY 1;
 
 ---------------------------------------------------------------------------------
   
+### Example 3
+
 Remembering that all types of joins are restricted Cartesian products, the following `CROSS JOIN` produces the same results as above, as it establishes the join predicate in the `WHERE` clause.
 
 ```sql
@@ -90,6 +95,8 @@ ORDER BY 1;
 
 ---------------------------------------------------------------------------------
   
+### Example 4
+
 In MySQL, the following SQL statement will work and mimic an `INNER JOIN`. This SQL statement has an `ON` clause of `1=1` and a `WHERE` clause specifying the join criteria. If you remove the `WHERE` clause, this statement will work in both MySQL and SQLite to return a full Cartesian product.
 
 ```sql
@@ -110,6 +117,8 @@ ORDER BY 1;
    
 ---------------------------------------------------------------------------------
   
+### Example 5
+
 This `LEFT OUTER JOIN` acts as an `INNER JOIN` because we specify a predicate in the `WHERE` clause on the outer joined table, `TableB`.
 
 ```sql
@@ -128,6 +137,8 @@ WHERE   b.Fruit = 'Apple';
 
 ---------------------------------------------------------------------------------
   
+### Example 6
+
 The following statement incorporates an `INNER JOIN` with a non-equi-join.
 
 An excellent example of using a non-equi-join is when someone wants to pair two different fruits of different quantities.
@@ -155,6 +166,8 @@ ORDER BY 1, 4;
 
 ---------------------------------------------------------------------------------
   
+### Example 7
+
 This query uses an equi-join and a non-equi-join and functions similarly to a `CROSS JOIN`, but with one big difference: NULL markers are not returned.  NULL markers are neither equal to nor not equal to each other. They are unknown.
 
 ```sql
@@ -181,6 +194,8 @@ ORDER BY 3, 1;
 
 ---------------------------------------------------------------------------------
   
+### Example 8
+
 Here are some other examples of `INNER JOINS` using non-equi-joins.
 
 This query looks for all values where the quantity in `TableA` is greater than or equal to the quantity in the corresponding `TableB`.
@@ -200,6 +215,8 @@ ORDER BY 1, 4;
 
 ---------------------------------------------------------------------------------
   
+### Example 9
+
 This query uses an equi-join and a non-equi-join negated with a `NOT` operator.  Determining whether the `ID` falls between the `Quantity` columns may be an absurd SQL statement to write, but this shows the possibilities for creating join logic. We often forget we can use comparison operators such as `LIKE` or `BETWEEN` in an SQL statement's `ON` clause and then negate it with `NOT`.
   
 ```sql
@@ -221,6 +238,8 @@ ORDER BY 1;
 
 ---  
 
+### Example 10
+
 You can also use functions in the join condition. For example, wrapping a nullable column with ISNULL(column, '') treats NULL values as empty strings, allowing them to match. This technique can help when joining on columns that may contain NULLs, but use it with caution—functions like ISNULL can prevent index usage and negatively impact performance.
 
 ```sql
@@ -241,6 +260,8 @@ ORDER BY 1;
 
 ---------------------------------------------------------------------------------
 
+### Example 11
+
 In Microsoft SQL Server and PostgreSQL, you can also write the above query using the `ON EXISTS` clause. This is a little-known trick you can use that may (or may not) yield a bit better execution plan than the above statement, but it is worth checking.  I will cover the `ON EXISTS` syntax in another document, as it takes some thinking to understand its behavior. 
 
 ```sql
@@ -258,6 +279,8 @@ ORDER BY 1;
 |  4 |         | 5        | 4  |         |          |
 
 ---------------------------------------------------------------------------------
+
+### Example 12
 
 You can use a `CASE` statement to specify the join condition in the `WHERE` clause. Using a `CASE` expression in the `WHERE` clause to simulate join logic is not recommended. It makes queries harder to read, can disable join optimizations, and may produce unexpected results.
 
@@ -281,6 +304,8 @@ ORDER BY 1;
      
 --------------------------------------------------------------------------------- 
 
+### Example 13
+
 This SQL statement works in SQL Server when joining three or more tables.  The table referenced in the `ON` clause must be in reverse order for this to work.
 
 For this SQL statement, I am self-joining to `TableA` three times.
@@ -303,6 +328,8 @@ ORDER BY 1;
 
 ---------------------------------------------------------------------------------
 
+### Example 14
+
 In MySQL and Oracle, there is a `USING` clause that you can use to specify the joining columns.  Each vendor's implementation is slightly different; please consult your vendor's documentation for specifics.
   
 The below SQL statement works in MySQL.
@@ -323,6 +350,8 @@ ORDER BY 1;
 | 2  | Peach | 2  | Peach |
   
 ---------------------------------------------------------------------------------
+
+### Example 15
 
 Oracle supports the `NATURAL JOIN` syntax.  I classify the natural join as a model join, as E.F. Codd first conceived it in his work on the Relational Model.
   
