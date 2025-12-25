@@ -193,7 +193,7 @@ WHERE   e.Salary >  (SELECT AVG(Salary)
 | 1          | John      | Wilson   | Accounting | 100000.00 |
 
 --------------------------------------------------------------------------------------------------------
-#### Derived Table
+### Derived Table
 
 A derived table is a special type of subquery. It is an expression that generates a table within the scope of the `FROM` clause.  
 
