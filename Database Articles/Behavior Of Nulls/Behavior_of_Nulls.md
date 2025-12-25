@@ -97,7 +97,7 @@ SELECT 3 WHERE NOT(1=2) AND NOT(NULL=1);
 
 >:exclamation:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The standard setting for `ANSI_NULLS` is `ON`.  In a future version of Microsoft SQL Server, `ANSI_NULLS` will always be `ON`, and any applications that explicitly set the option to `OFF` will produce an error.  Avoid using this feature in new development work, and plan to modify applications that currently use this feature.
 
-In Microsoft SQL Server, the `SET ANSI_NULLS` setting specifies the ISO-compliant behavior of the equality (=) and inequality (<>) comparison operators.  The following table shows how the `ANSI_NULLS` session setting affects the results of Boolean expressions using NULL markers.
+In Microsoft SQL Server, the `SET ANSI_NULLS` setting specifies the ISO-compliant behavior of the equality (`=`) and inequality (`<>`) comparison operators.  The following table shows how the `ANSI_NULLS` session setting affects the results of Boolean expressions using NULL markers.
 
 | Boolean Expression     | SET ANSI_NULLS ON | SET ANSI_NULLS OFF |
 |------------------------|-------------------|--------------------|
