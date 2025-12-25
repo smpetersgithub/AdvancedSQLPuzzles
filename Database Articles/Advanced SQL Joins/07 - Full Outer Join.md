@@ -169,6 +169,8 @@ ORDER BY 1, 2;
 
 ---------------------------------------------------------
 
+### Continue Reading
+
 1. [Introduction](01%20-%20Introduction.md)
 2. [SQL Processing Order](02%20-%20SQL%20Query%20Processing%20Order.md)
 3. [Table Types](03%20-%20Table%20Types.md)
