@@ -803,17 +803,9 @@ CREATE TABLE ##TableA
 ID          INTEGER,
 Fruit       VARCHAR(255),
 Quantity    INTEGER,
-CONSTRAINT chk_Quantity1 CHECK (Quantity IS NOT NULL)
+CONSTRAINT chk_Quantity CHECK (Quantity IS NOT NULL)
 );
 ```
-
-The `ALTER TABLE` statement to add the `CHECK` constraint enforcing Fruit IS NOT NULL will fail. The failure occurs because existing data violates the constraint we are attempting to add. SQL Server checks existing data against the new constraint when it is created, and if any row violates the constraint, the statement fails.
-
-```sql
-ALTER TABLE ##TableA ADD CONSTRAINT CK_Quantity_NOT_NULL CHECK (Fruit IS NOT NULL);
-```
-
-The ALTER TABLE statement conflicted with the CHECK constraint "CK_Quantity_NOT_NULL". The conflict occurred in the database "tempdb", table "dbo.##TableA", column 'Fruit'.
 
 ---------------------------------------------------------
 ## Referential Integrity
@@ -1211,10 +1203,11 @@ IGNORE NULLS - Ignore null values in the dataset when computing the first value 
 
 RESPECT NULLS - Respect null values in the dataset when computing the first value over a partition. RESPECT NULLS is the default behavior if a NULLS option is not specified.
 
-
 Here is an SQL statement that combines all the different combinations of use.
 
 Interestingly, there is a bug in SQL Server: if you combine `LAG` and `LEAD` with the `IGNORE NULLS` clause, you get erroneous results in the `LeadIgnoreNulls` column.  You can test this by commenting out the different function calls and reviewing the results.
+
+> This bug appears to be correct in version 2025.
 
 ```sql
 WITH cte_Lag_Lead AS
