@@ -30,9 +30,7 @@ Lastly, providing a solution using recursion rather than a loop-based solution i
 
 > "The main benefits I see in recursive queries are the brevity of the code and the ability to traverse graph structures based only on the parent and child IDs. The main drawback of recursive queries is performance. They tend to perform less efficiently than alternative methods, even your own loop-based solutions. With recursive queries, you don't have any control over the worktable; for example, you can't define your own indexes on it, you can't define how to filter the rows from the previous round, and so on.  If you know how to optimize T-SQL code, you can usually get better performance with your own solution." 
 
-## Conclusion
-
-In the future, my aim is to enhance this article by incorporating a variety of examples and providing a deeper explanation of hierarchical structures.
+---
 
 :mailbox:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;If you find any inaccuracies, misspellings, bugs, dead links, etc., please report an issue!  No detail is too small, and I appreciate all the help.
 
