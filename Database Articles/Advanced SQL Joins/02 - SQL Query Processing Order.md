@@ -87,6 +87,7 @@ SELECT  *
 FROM    Customers emp
 CROSS JOIN Orders ord
 WHERE   emp.CustomerID = ord.CustomerID;
+```
 
 ### Key observations
 
