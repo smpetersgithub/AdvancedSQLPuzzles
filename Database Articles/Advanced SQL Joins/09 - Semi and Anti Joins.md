@@ -52,6 +52,8 @@ Semi-joins and anti-joins are powerful tools for expressing relational intent cl
 
 ----------------------------------------------------------------------------------------
 
+### Sample Data
+
 We will use the following tables, which contain types of fruits and their quantities.  
 
 [The DDL to create these tables can be found here.](Sample%20Data.md)
