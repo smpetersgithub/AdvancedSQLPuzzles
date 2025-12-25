@@ -6,6 +6,8 @@ Although less commonly used than `INNER JOIN` or `LEFT JOIN`, `FULL OUTER JOIN` 
 
 ---------------------------------------------------------------------------------
 
+### Sample Data
+
 We will use the following tables, which contain types of fruits and their quantities.  
 
 [The DDL to create these tables can be found here.](Sample%20Data.md)
@@ -28,6 +30,8 @@ We will use the following tables, which contain types of fruits and their quanti
         
 
 ---------------------------------------------------------------------------------
+
+### Example 1
 
 The following shows the contents of fruits in both `TableA` and `TableB`.
 
@@ -52,6 +56,8 @@ ORDER BY 1;
 
 ---------------------------------------------------------------------------------
   
+### Example 2
+
 You can use a `FULL OUTER JOIN` to find the symmetric difference of two datasets using the `ISNULL` function.
 
 This query returns the symmetric difference between `TableA` and `TableB` — rows that exist in one table but not the other. Using `ISNULL()` ensures values from either side appear in a unified result, even when one side is NULL.
@@ -74,6 +80,8 @@ ORDER BY 1, 2;
   
 ---------------------------------------------------------------------------------
   
+### Example 3
+
 You can simulate an `INNER JOIN` by placing the following predicate logic in the `WHERE` clause
   
 ```sql
@@ -94,6 +102,8 @@ ORDER BY 1, 2;
 
 ---------------------------------------------------------------------------------
         
+### Example 4
+
 If `FULL OUTER JOIN` is unavailable or unsupported, you can simulate it using a combination of `INNER JOIN`, `LEFT JOIN`, `RIGHT JOIN`, and `NOT EXISTS` with `UNION`. This approach ensures all matching and unmatched rows from both tables are included.
 
 ```sql
@@ -130,6 +140,8 @@ ORDER BY 1, 2;
 | 4       |         |         |         |
 
 ---------------------------------------------------------------------------------
+
+### Example 5
 
 You can also use the `LEFT OUTER JOIN` and a `RIGHT OUTER JOIN` to simulate the `FULL OUTER JOIN`.
         
