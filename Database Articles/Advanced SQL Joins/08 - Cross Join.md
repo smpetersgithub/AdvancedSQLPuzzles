@@ -246,7 +246,7 @@ WHERE   cd.DateKey = ct.DateKey;
 ```  
 ---------------------------------------------------------
 
-#### CROSS APPLY with a sub-query
+### CROSS APPLY with a sub-query
 
 If you need to do a `CROSS JOIN` on a sub-query, the `CROSS APPLY` operator must be used.  Some databases like `PostgreSQL` have the `LATERAL` join instead of `CROSS APPLY`.
   
