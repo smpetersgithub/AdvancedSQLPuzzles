@@ -1,6 +1,6 @@
 # Section 3
 
-#### Table of Contents
+### Table of Contents
 
 1. [Introduction to SQL Server Object Dependencies](01_introduction_database_dependencies.md)
 2. [Create Demo Databases and Schemas](02_create_demo_databases_and_schemas.md)
