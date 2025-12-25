@@ -4,6 +4,8 @@
 
 :star: If you enjoy this list, please consider giving my GitHub a star!
 
+---
+
 :exclamation: Note, I am no longer maintaining the original list that is found on my WordPress blog at (https://advancedsqlpuzzles.com). GitHub markdown language is simply easier to use and update.
 
 📫 Feel free to message me with any certifications I have missed.  Additionally, some of these links will become inactive over time, and vendors are continually adding new certifications. Any assistance in keeping this information up to date is greatly appreciated.
