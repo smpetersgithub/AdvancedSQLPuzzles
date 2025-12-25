@@ -11,6 +11,8 @@ In SQL, complex joins are not a specific, distinct command but a term used to de
 *  Conditional Logic: Incorporating complex expressions like ranges, pattern matching, or `CASE` statements directly within the join conditions or the broader query.
 *  Integration with Other Advanced Features: Complex joins frequently work in concert with other advanced SQL features like subqueries, Common Table Expressions (CTEs), window functions, or aggregate functions with `GROUP BY` to produce the desired results. 
 
+---
+
 ### 1. **Multiple Conditions in the JOIN Clause**
 
 Example:
@@ -23,6 +25,8 @@ JOIN Customers c
  AND o.Region = c.Region;
 ```
 
+---
+
 ### 2. **Joins Involving Inequality Operators**
 
 These joins use conditions like `<`, `>`, `<=`, `>=`, or `<>`.
@@ -34,6 +38,8 @@ FROM   Employees e INNER JOIN
        Salaries s ON e.Salary > s.MinSalary;
 ```
 
+---
+
 ### 3. **Joining More Than Two Tables**
 
 Joining multiple tables together:
@@ -44,6 +50,8 @@ FROM   Orders o INNER JOIN
        Customers c ON o.CustomerID = c.CustomerID INNER JOIN
        Employees e ON o.EmployeeID = e.EmployeeID;
 ```
+
+---
 
 ### 4. **Using Subqueries in JOINs**
 
@@ -60,6 +68,8 @@ JOIN (
   ON o.CustomerID = last_order.CustomerID
  AND o.OrderDate = last_order.LastOrder;
 ```
+
+---
 
 ### 5. **Self-Joins**
 
