@@ -27,7 +27,7 @@ We will cover these aspects and many more in the following document.
 :mailbox: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;I welcome any corrections, new tricks, new techniques, dead links, misspellings, or bugs!
 
 ----------------------------------------------------------
-#### Table Of Contents
+### Table Of Contents
 
 👍 I recommend navigating using the **Table Of Contents**.
 
@@ -328,7 +328,7 @@ There are a few key differences between semi-joins and anti-joins:
 2.  The `IN`, `EXISTS`, and `NOT EXISTS` operators will return a dataset if the join contains a NULL marker.
 3.  The `IN` and `NOT IN` can take 1) a list of arguments or 2) an SQL statement.
 
-:small_red_triangle:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;If you are performing an anti-join to a NULLable column, consider using the `NOT EXISTS` operator over the `NOT` operator.
+> If you are performing an anti-join to a NULLable column, consider using the `NOT EXISTS` operator over the `NOT` operator.
 
 --------------------------------------------------------
 **NOT IN**
@@ -577,8 +577,8 @@ FROM    ##Test;
 
 However, the following two SQL statements will produce the following error in Microsoft SQL Server.
 
-Msg 8117, Level 16, State 1, Line 24
-Operand data type NULL is invalid for sum operator.
+> Msg 8117, Level 16, State 1, Line 24
+> Operand data type NULL is invalid for sum operator.
 
 ```sql
 --Statement 1
@@ -745,8 +745,8 @@ ALTER TABLE ##TableA
 ADD CONSTRAINT PK_NULLConstraints PRIMARY KEY CLUSTERED (Fruit);
 ```
 
->❗&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Msg 8111, Level 16, State 1, Line 1
->Cannot define `PRIMARY KEY` constraint on nullable column in table `##TableA`.
+> Msg 8111, Level 16, State 1, Line 1
+> Cannot define `PRIMARY KEY` constraint on nullable column in table `##TableA`.
 
 ---------------------------------------------------------
 **UNIQUE**
@@ -763,8 +763,8 @@ GO
 ```
 
 The second statement produces the following error.
->❗&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Msg 2627, Level 14, State 1, Line 5
-Violation of `UNIQUE KEY` constraint `UNIQUE_NULLConstraints`. Cannot insert duplicate key in object `dbo.##TableB`. The duplicate key value is (<NULL>).
+> Msg 2627, Level 14, State 1, Line 5
+> Violation of `UNIQUE KEY` constraint `UNIQUE_NULLConstraints`. Cannot insert duplicate key in object `dbo.##TableB`. The duplicate key value is (<NULL>).
 
 --------------------------------------------------------
 **CHECK CONSTRAINTS**
@@ -795,7 +795,7 @@ SELECT * FROM ##CheckConstraints;
 |----|----------|
 | 1  | \<NULL>  |
 
-You can mimic a NOT NULL constraint using a check constraint, as demonstrated below.
+You can mimic a `NOT NULL` constraint using a check constraint, as demonstrated below.
 
 ```sql
 CREATE TABLE ##TableA
@@ -1190,8 +1190,8 @@ FROM    ##Identity;
 
 Microsoft SQL Server returns the following error.
 
-Msg 339, Level 16, State 1, Line 6
-DEFAULT or NULL are not allowed as explicit identity values.
+> Msg 339, Level 16, State 1, Line 6
+> DEFAULT or NULL are not allowed as explicit identity values.
 
 ---------------------------------------------------------
 ## LAG and LEAD Functions
