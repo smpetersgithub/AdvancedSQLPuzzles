@@ -1,6 +1,6 @@
 # Section 6
 
-#### Table of Contents
+### Table of Contents
 
 1. [Introduction to SQL Server Object Dependencies](01_introduction_database_dependencies.md)
 2. [Create Demo Databases and Schemas](02_create_demo_databases_and_schemas.md)
@@ -138,5 +138,6 @@ Use one of the following stored procedures based on the direction of analysis. Y
 
 ---
 
+[🔍 The script used to determine foreign key paths referenced in this section can be accessed here.](https://github.com/smpetersgithub/AdvancedSQLPuzzles/blob/main/Database%20Articles/Database%20Dependencies/SQL%20Scripts/Additional%20SQL%20Scripts/06_Determine_Foreign_Key_Paths.sql)
 
 
