@@ -355,7 +355,7 @@ ORDER BY 1;
 
 Oracle supports the `NATURAL JOIN` syntax.  I classify the natural join as a model join, as E.F. Codd first conceived it in his work on the Relational Model.
   
-The use of an asterisk in the `SELECT` statement is mandatory, and the output does not show duplicate column names.  This query is the same as an equi-join on the `ID`, `Fruit`, and `Quantity` columns between `TableA` and `TableB`.
+The use of an asterisk in the `SELECT` statement does not show duplicate column names.  This query is the same as an equi-join on the `ID`, `Fruit`, and `Quantity` columns between `TableA` and `TableB`.
 
 ```sql
 SELECT  *
