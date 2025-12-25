@@ -9,6 +9,9 @@ SQL only supports the intersection, union, and relative complement in set theory
 Here are some examples of set operators in SQL and how they interact with the NULL markers in our example tables.
 
 --------------------------------------------------------------------------------
+
+### Sample Data
+
 We will use the following tables, which contain types of fruits and their quantities.  
 
 [The DDL to create these tables can be found here.](Sample%20Data.md)
@@ -30,7 +33,7 @@ We will use the following tables, which contain types of fruits and their quanti
 | 4  |         |          |
   
 -----------------------------------------------------------------
-#### UNION
+### UNION
 
 `UNION` returns all rows without duplicates.  Here, the `UNION` interprets the NULLS as similar and combines the records into one. The `UNION` operator demonstrates that NULL is not distinct from NULL.
 
@@ -52,7 +55,7 @@ ORDER BY 1, 2;
 
 -----------------------------------------------------------------
   
-#### UNION ALL
+### UNION ALL
 
 The `UNION ALL` operator returns all values, including each NULL marker.
 
@@ -76,6 +79,8 @@ ORDER BY 1, 2;
 
 ---------------------------------------------------------------------
 
+### Intersect
+
 `INTERSECT` will return matching rows, and the NULL marker is included in the output.  
   
 ```sql
@@ -94,6 +99,8 @@ ORDER BY 1, 2;
 
 ---------------------------------------------------------------------
 
+### Except
+
 `EXCEPT` returns the records in the table in the first statement that do not exist in the second statement below it.  Some SQL languages use `MINUS` or `DIFFERENCE` instead of `EXCEPT`.  
 
 ```sql
@@ -108,7 +115,7 @@ SELECT ID, Fruit FROM ##TableB;
 
 ---------------------------------------------------------------------
 
-#### Symmetric Difference
+### Symmetric Difference
 
 There is no SQL set operation to find the symmetric difference of a dataset.  You can use a `FULL OUTER JOIN` to find the symmetric difference of two datasets using the `ISNULL` function.
 
