@@ -573,7 +573,7 @@ FROM    ##Test;
 
 |  mySum  |
 |---------|
-| \<NULL> |
+|         |
 
 However, the following two SQL statements will produce the following error in Microsoft SQL Server.
 
