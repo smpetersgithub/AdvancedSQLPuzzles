@@ -1,6 +1,6 @@
 # Section 5
 
-#### Table of Contents
+### Table of Contents
 
 1. [Introduction to SQL Server Object Dependencies](01_introduction_database_dependencies.md)
 2. [Create Demo Databases and Schemas](02_create_demo_databases_and_schemas.md)
@@ -164,6 +164,8 @@ Use one of the following stored procedures based on the direction of analysis. Y
 
 * `##temp_sp_master_execution_paths` – Traces downstream dependencies (what the object depends on)
 * `##temp_sp_master_execution_reverse_paths` – Traces upstream dependencies (what depends on the object)
+
+----
 
 [🔍 The script used to determine object dependency paths referenced in this section can be accessed here.](https://github.com/smpetersgithub/AdvancedSQLPuzzles/blob/main/Database%20Articles/Database%20Dependencies/SQL%20Scripts/Additional%20SQL%20Scripts/05_Determine_Object_Dependency_Paths.sql)
 
