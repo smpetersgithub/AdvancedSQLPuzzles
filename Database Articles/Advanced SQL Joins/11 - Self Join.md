@@ -4,7 +4,7 @@ A self-join in SQL is a join operation where a table is joined with itself. The 
 
 ----------------------------------------------------
 
-#### Example 1:  Hierarchical Relationships
+### Example 1:  Hierarchical Relationships
 
 Here is an example using a self-join on a hierarchy table.
 
@@ -80,7 +80,7 @@ ORDER BY 1;
 
 ----------------------------------------------------
 
-#### Example 2: Finding Pairs
+### Example 2: Finding Pairs
 
 Here is another example problem that can be solved with a self-join.  Unlike the above problem, this table does not have a foreign key that references its primary key.
 
@@ -127,7 +127,7 @@ WHERE   City IN (SELECT City FROM cte_CountCity);
 
  ----------------------------------------------------
   
-#### Example 3: Windowing
+### Example 3: Windowing
 
   
 Often, if you need to use a self-join, you can use options (such as window functions) to avoid using a self-join. Let’s look at an example.
@@ -173,7 +173,7 @@ ORDER BY 1;
 
 ----------------------------------------------------
 
-#### Example 4: Relational Division
+### Example 4: Relational Division
   
 Self-joins are also used in relational division.
 
@@ -235,7 +235,7 @@ ORDER BY 1;
 ```
 ----------------------------------------------------
   
-#### Examples of what is not a self-join
+### Examples of what is not a self-join
   
 The following are **not** considered self-joins.
 
