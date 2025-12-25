@@ -79,7 +79,7 @@ ORDER BY 1, 2;
 
 ---------------------------------------------------------------------
 
-### Intersect
+### INTERSECT
 
 `INTERSECT` will return matching rows, and the NULL marker is included in the output.  
   
@@ -99,7 +99,7 @@ ORDER BY 1, 2;
 
 ---------------------------------------------------------------------
 
-### Except
+### EXCEPT
 
 `EXCEPT` returns the records in the table in the first statement that do not exist in the second statement below it.  Some SQL languages use `MINUS` or `DIFFERENCE` instead of `EXCEPT`.  
 
