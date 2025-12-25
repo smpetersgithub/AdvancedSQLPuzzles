@@ -8,7 +8,7 @@ SQL Server provides two ways to perform cross joins: `CROSS JOIN` and `CROSS APP
 
 ⚠️ Be cautious: both join types can produce large result sets and may impact performance when used on large datasets.
 
-#### Permutations vs Combinations
+### Permutations vs Combinations
 
 Permutations and combinations are common patterns when using `CROSS JOIN`:
 
@@ -17,6 +17,7 @@ Permutations and combinations are common patterns when using `CROSS JOIN`:
 
 ---------------------------------------------------------------------------------
 
+### Sample Data 
 We will use the following tables, which contain types of fruits and their quantities.  
 
 [The DDL to create these tables can be found here.](Sample%20Data.md)
@@ -74,7 +75,7 @@ ORDER BY 3, 1;
 
 
 ---------------------------------------------------------------------------------
-#### Simulating an INNER JOIN
+### Simulating an INNER JOIN
 
 You can simulate an `INNER JOIN` using a `CROSS JOIN` by placing the join logic in the `WHERE` clause using an equi-join
   
@@ -96,7 +97,7 @@ ORDER BY 1;
  
 
 ---------------------------------------------------------------------------------
-#### Simulating a LEFT OUTER JOIN
+### Simulating a LEFT OUTER JOIN
 
 To simulate a `LEFT OUTER JOIN` using a `CROSS JOIN`, you will need to incorporate set operators (`UNION`) and an anti-join (`NOT EXISTS`).  
 
@@ -128,7 +129,7 @@ ORDER BY 1;
 
 ---------------------------------------------------------------------------------
 
-#### Determining Combinations
+### Determining Combinations
 
 The following produces all combinations (not permutations).
   
@@ -160,7 +161,8 @@ ORDER BY 1, 2;
 | Mango | Peach |
                         
 ---------------------------------------------------------------------------------
-#### Reciprocals
+
+### Reciprocals
                          
 If you need to find reciprocals on a result set and preserve NULL markers, you can use the following `CASE` statement.
                          
@@ -227,7 +229,8 @@ ORDER BY 3, 1;
 
 
 ---------------------------------------------------------
-#### Use with TVFs
+
+### CROSS APPLY with TVFs
 
 The `CROSS APPLY` is used when joining to a table-valued function.
 
@@ -242,7 +245,8 @@ FROM    CalendarDaysTemp cd CROSS APPLY
 WHERE   cd.DateKey = ct.DateKey;
 ```  
 ---------------------------------------------------------
-#### Use with a sub-query
+
+#### CROSS APPLY with a sub-query
 
 If you need to do a `CROSS JOIN` on a sub-query, the `CROSS APPLY` operator must be used.  Some databases like `PostgreSQL` have the `LATERAL` join instead of `CROSS APPLY`.
   
