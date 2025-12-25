@@ -6,6 +6,7 @@ We can use both equi-join and theta-join operators between the joining fields.  
 
 ---------------------------------------------------------------------------------
 
+## Sample Data 
 We will use the following tables, which contain types of fruits and their quantities.  
 
 [The DDL to create these tables can be found here.](Sample%20Data.md)
@@ -28,6 +29,8 @@ We will use the following tables, which contain types of fruits and their quanti
 
 ---------------------------------------------------------------------------------
   
+### Example 1
+
 To start, here is the most common join you will use, an `INNER JOIN` between two tables.  This join uses an equi-join to look for equality between the two fields.  Note that the query does not return NULL markers, as NULL markers are neither equal to nor not equal to each other. They are unknown.
 
 ```sql
