@@ -7,6 +7,9 @@ This document will concentrate on the `EXISTS` statement with the `ON` clause.  
 First, let's look at some examples of the `EXISTS`.  It is important to remember that the `EXISTS` clause returns TRUE or FALSE and not a result set.
 
 --------------------------------------------------------------------------------
+
+### Sample Data
+
 We will be using the following tables, which contain types of fruits and their quantities.  
 
 [The DDL to create these tables can be found here.](Sample%20Data.md)
@@ -26,8 +29,10 @@ We will be using the following tables, which contain types of fruits and their q
 |  2 | Peach  | 25       |
 |  3 | Kiwi   | 20       |
 |  4 |        |          |
-  
-#### IF EXISTS
+
+----
+
+### IF EXISTS
 
 Here is an example of using `EXISTS` with `IF` to check whether records exist.  
 
@@ -60,7 +65,7 @@ PRINT 'FALSE'
 
 
 --------------------------------------------------------------
-#### EXISTS
+### EXISTS
 
 Typically, we use the `EXISTS` operator with the `WHERE` clause to create a correlated subquery.
 
@@ -94,7 +99,7 @@ ORDER BY 1;
 
   
 --------------------------------------------------------------
-#### ON EXISTS
+### ON EXISTS
   
 Probably one of the more difficult joins to understand is the `ON EXISTS` clause.  It is best to learn by example, and remember that `EXISTS` returns TRUE or FALSE, not a subset of records.  The `ON EXISTS` will work with the `INNER JOIN`, `LEFT OUTER JOIN`, `RIGHT OUTER JOIN`, and `FULL OUTER JOIN` clauses, but not the `CROSS JOIN`.
 
@@ -134,6 +139,8 @@ ORDER BY 1, 4;
 | 4  |         | 5        | 4  |         |          |
 
 ----------------------------------------------------
+
+### Example 1
 
 From our previous SQL statement, we can see that the `INNER JOIN` acts like a `CROSS JOIN`.  Now, let’s add a more practical use of the `ON EXISTS`.
 
@@ -190,6 +197,8 @@ ORDER BY 1;
 
 -----------------------------------------------------------------------------------------
   
+### Example 2
+
 If we replace `INTERSECT` with `EXCEPT`, we get the following.
   
 This query will return all the rows of `TableA` and `TableB` where the values of column `Fruit` are different in both tables, and the columns of both tables will be included in the result set. The query will exclude rows from `TableA` where the `Fruit` value exists in `TableB`.  
