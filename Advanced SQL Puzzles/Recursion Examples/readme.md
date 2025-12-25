@@ -12,7 +12,7 @@ In this directory, you will find my collection of SQL scripts to solve various c
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;In a hierarchical structure, each element (or "node") has a parent-child relationship with other elements. This is commonly represented in organizational charts, file systems, and nested data models, among others. Each node in the hierarchy is linked to one parent node and zero or more child nodes.
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Data can have an implicit or an explicit hierarchy.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Data can have an implicit or an explicit hierarchy.**
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;An example of an **explicit hierarchy** is an organizational chart of a company. Each employee has a direct manager, and the top-level manager is at the root of the hierarchy.
 
