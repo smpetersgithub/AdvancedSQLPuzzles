@@ -240,7 +240,7 @@ ORDER BY 1;
 
 ### Example 10
 
-You can also use functions in the join condition. For example, wrapping a nullable column with ISNULL(column, '') treats NULL values as empty strings, allowing them to match. This technique can help when joining on columns that may contain NULLs, but use it with caution—functions like ISNULL can prevent index usage and negatively impact performance.
+You can also use functions in the join condition. For example, wrapping a NULLable column with `ISNULL(column, '')` treats NULL values as empty strings, allowing them to match. This technique can help when joining on columns that may contain NULLs, but use it with caution—functions like `ISNULL` can prevent index usage and negatively impact performance.
 
 ```sql
 SELECT  a.ID,
