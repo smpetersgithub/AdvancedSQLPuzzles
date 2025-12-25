@@ -140,7 +140,7 @@ Understanding the logical processing order helps explain *why* queries behave th
 
 ---
 
-## Continue Reading
+### Continue Reading
 
 1. [Introduction](01%20-%20Introduction.md)
 2. [SQL Processing Order](02%20-%20SQL%20Query%20Processing%20Order.md)
