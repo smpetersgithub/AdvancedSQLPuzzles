@@ -1,7 +1,6 @@
 # Creating Truth Tables Using SQL
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;A truth table is a mathematical table utilized in logic, particularly relevant to Boolean algebra, Boolean functions, and propositional calculus. This table methodically displays the output values of logical expressions based on various combinations of input values (True or False) assigned to their logical variables. Moreover, truth tables serve as a tool for determining whether a given propositional expression consistently yields a true value for all legitimate input values, thereby establishing its logical validity.
-
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;A truth table is a mathematical tool used in logic to represent the output of Boolean expressions based on all possible combinations of input values (True or False). Commonly applied in Boolean algebra, Boolean functions, and propositional calculus, truth tables are also used to determine the logical validity of an expression by confirming whether it evaluates to true for all possible inputs.
 | p | q | p ∧ q | p ∨ q |
 |---|---|-------|-------|
 | 1 | 1 | 1     | 1     |
