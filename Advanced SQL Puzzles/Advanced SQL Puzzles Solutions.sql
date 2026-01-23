@@ -1233,6 +1233,7 @@ FROM #ProcessLog
 SELECT Workflow, LogMessage, Occurrences
 FROM   cte_RankedMessages
 WHERE rnk = 1;
+GO
 
 --Solution 2
 --MAX
@@ -1257,7 +1258,8 @@ GO
 SELECT Workflow, LogMessage, Occurrences
 FROM #ProcessLog p
 WHERE Occurrences = (SELECT MAX(Occurrences) FROM #ProcessLog WHERE LogMessage = p.LogMessage);
-	
+GO
+
 --Solution 4
 --ALL
 --Correlated Subquery
@@ -1612,6 +1614,7 @@ FROM    #Gaps
 SELECT  RowNumber,
         (CASE WHEN TestCase IS NOT NULL THEN TestCase ELSE LagIgnoreNulls END) AS TestCase
 FROM    cte_Lag;	
+GO
 
 /*----------------------------------------------------
 Answer to Puzzle #29
@@ -1842,7 +1845,8 @@ SELECT  MAX(CASE WHEN rn_max = 1 THEN JobDescription END) AS [Job Description],
         MAX(CASE WHEN rn_min = 1 THEN SpacemanID END) AS [Least Experienced]
 FROM    RankedExperience
 GROUP BY JobDescription;
-
+GO
+	
 --Solution 2
 --MIN and MAX
 WITH cte_MinMax AS
@@ -1879,7 +1883,7 @@ SELECT  s.JobDescription,
          ORDER BY MissionCount ASC) AS [Least Experienced]
 FROM     #Personal s
 GROUP BY s.JobDescription;
-
+GO
     
 /*----------------------------------------------------
 Answer to Puzzle #33
@@ -2027,6 +2031,7 @@ SELECT  SalesRepID
 FROM    #Orders
 GROUP BY SalesRepID
 HAVING   COUNT(DISTINCT SalesType) = 1;
+GO
 
 /*----------------------------------------------------
 Answer to Puzzle #36
@@ -4181,6 +4186,7 @@ GO
 /*----------------------------------------------------
 The End
 */----------------------------------------------------
+
 
 
 
