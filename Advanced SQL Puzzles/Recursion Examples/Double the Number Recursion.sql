@@ -2,7 +2,7 @@
 Scott Peters
 Double the Number
 https://advancedsqlpuzzles.com
-Last Updated: 02/07/2023
+Last Updated: 01/23/2026
 Microsoft SQL Server T-SQL
 */----------------------------------------------------
 
@@ -37,7 +37,7 @@ WHERE Number = 1
 UNION ALL
 SELECT  
         t.Number,
-		(RunningSum * 2) AS RunningSum
+        (RunningSum * 2) AS RunningSum
 FROM    cte_Recursion cte
         INNER JOIN
         cte_Numbers t ON t.Number = (cte.Number + 1)
@@ -46,3 +46,4 @@ SELECT   *
 FROM     cte_Recursion
 ORDER BY Number;
 GO
+
