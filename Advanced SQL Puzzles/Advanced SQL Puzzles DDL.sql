@@ -596,7 +596,7 @@ CREATE TABLE #Orders
 (
 OrderID     INTEGER PRIMARY KEY,
 CustomerID  INTEGER NOT NULL,
-[Count]     MONEY NOT NULL,
+[Count]     INTEGER NOT NULL,
 Vendor      VARCHAR(100) NOT NULL
 );
 GO
@@ -1927,6 +1927,7 @@ GO
 /*----------------------------------------------------
 The End
 */----------------------------------------------------
+
 
 
 
