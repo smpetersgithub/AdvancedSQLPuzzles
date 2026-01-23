@@ -23,7 +23,7 @@ GO
 
 CREATE VIEW dbo.vw_example_08 AS
 SELECT  *
-FROM    dbo.tbl_example_08
+FROM    dbo.tbl_example_08;
 GO
 
 DROP TABLE dbo.tbl_example_08;
@@ -66,6 +66,7 @@ DECLARE @vDropObjects SMALLINT = 1;
 IF @vDropObjects = 1
 BEGIN
      DROP VIEW IF EXISTS dbo.vw_example_08;
-     DROP TABLE IF EXISTS dbo.tbl_example_08
+     DROP TABLE IF EXISTS dbo.tbl_example_08;
 END;
+
 GO
