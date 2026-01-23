@@ -3,7 +3,7 @@ USE foo;
 GO
 
 DROP VIEW IF EXISTS dbo.vw_example_08;
-DROP TABLE IF EXISTS dbo.tbl_example_08
+DROP TABLE IF EXISTS dbo.tbl_example_08;
 GO
 
 ---------------------------------------------
@@ -70,3 +70,4 @@ BEGIN
 END;
 
 GO
+
