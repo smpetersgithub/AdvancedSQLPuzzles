@@ -2,7 +2,7 @@
 Scott Peters
 DDL for Advanced SQL Puzzles
 https://advancedsqlpuzzles.com
-Last Updated 12/15/2025
+Last Updated 01/23/2026
 Microsoft SQL Server T-SQL
 
 */----------------------------------------------------
@@ -1183,7 +1183,7 @@ CREATE TABLE #ElevatorOrder
 (
 LineOrder  INTEGER PRIMARY KEY,
 [Name]     VARCHAR(100) NOT NULL,
-[Weight]   INTEGER NOT NULL,
+[Weight]   INTEGER NOT NULL
 );
 GO
 
@@ -1864,6 +1864,7 @@ INSERT INTO #Boxes (Box, [Length], Width, Height) VALUES
 ('A', 10, 25, 15),
 ('B', 15, 10, 25),
 ('C', 10, 16, 24);
+GO
 
 /*----------------------------------------------------
 DDL for Puzzle #76
@@ -1926,6 +1927,7 @@ GO
 /*----------------------------------------------------
 The End
 */----------------------------------------------------
+
 
 
 
