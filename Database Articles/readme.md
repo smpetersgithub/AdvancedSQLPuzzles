@@ -15,6 +15,7 @@ The items in this directory can be grouped into two categories:
 *  Behavior of Nulls
 *  Database Certifications
 *  Database Dependencies
+*  Truth Tables
 
 :point_right: &nbsp;&nbsp;**Azure Demos**
 *  Azure Databricks Hive Demo
