@@ -1,6 +1,13 @@
 # Creating Truth Tables Using SQL
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;A truth table is a mathematical tool used in logic to represent the output of Boolean expressions based on all possible combinations of input values (True or False). Commonly applied in Boolean algebra, Boolean functions, and propositional calculus, truth tables are also used to determine the logical validity of an expression by confirming whether it evaluates to true for all possible inputs.
+----------
+
+❗This article is not meant to be a lesson in propositional logic but simply an exploration of how to create truth tables using SQL.  If you are unfamiliar with propositional logic, I recommend taking a discrete mathematics course to understand the principles.
+
+----------
+
+A truth table is a mathematical tool used in logic to represent the output of Boolean expressions based on all possible combinations of input values (True or False). Commonly applied in Boolean algebra, Boolean functions, and propositional calculus, truth tables are also used to determine the logical validity of an expression by confirming whether it evaluates to true for all possible inputs.
+
 | p | q | p ∧ q | p ∨ q |
 |---|---|-------|-------|
 | 1 | 1 | 1     | 1     |
@@ -8,31 +15,51 @@
 | 0 | 1 | 0     | 1     |
 | 0 | 0 | 0     | 0     |
 
-This exploration explores the intriguing crossroads of propositional logic and SQL, uncovering their interconnectedness. It focuses on demonstrating SQL's ability to construct comprehensive truth tables, a fundamental aspect of logical reasoning. This article not only reveals the practical application of SQL in logical operations but also deepens the understanding of how these two domains complement each other.
+This exploration examines the intersection of propositional logic and SQL, demonstrating how SQL can be used to generate truth tables. By doing so, it highlights SQL's ability to model logical expressions.
 
 ----------
 
-❗This article is not meant to be a lesson in propositional logic but simply an exploration of how to create truth tables using SQL.  If you are unfamiliar with propositional logic, I recommend taking a discrete mathematics course to understand the principles.
+### Truth Tables and SQL
 
-----------
+Additionally, before we begin, a few SQL tidbits are worth mentioning.  
 
-Additionally, before we begin, a few SQL tidbits should be mentioned.  
+•  SQL is based on relational algebra and relational calculus.  Although SQL is rooted in predicate logic, it is not based on propositional calculus.
+•  SQL includes the possibility of NULL markers when creating predicate logic statements.   Propositional logic does not incorporate the concept of NULL markers into its paradigm.  We will ignore the concept of NULL markers entirely in this article.
+*  The `BIT` data type in SQL is not an accurate Boolean representation, as it has three possible values: True, False, and NULL.  Many SQL experts recommend avoiding the `BIT` data type because of this and instead using `SMALLINT` with permissible values 0 and 1.  Also, SQL Server does not allow arithmetic operations on the `BIT` data type; using the `SMALLINT` data type allows us to create mathematical expressions that can be used to evaluate conditions.   
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;•	SQL is based on relational algebra and relational calculus.  Although SQL is rooted in predicate logic, it is not based on propositional calculus.
-
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;•	SQL includes the possibility of NULL markers when creating predicate logic statements.   Propositional logic does not incorporate the concept of NULL markers into its paradigm.  We will ignore the concept of NULL markers entirely in this article.
-
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;•	The `BIT` data type in SQL is not an accurate Boolean representation, as it has three possible values: True, False, and NULL.  Many SQL experts recommend avoiding the `BIT` data type because of this and instead using `SMALLINT` with permissible values 0 and 1.  Also, SQL Server does not allow arithmetic operations on the `BIT` data type; using the `SMALLINT` data type allows us to create mathematical expressions that can be used to evaluate conditions.   
-
-🔌To learn more about NULL markers and their effect on predicate logic, check out my article Behavior of NULLS.
+🔌To learn more about NULL markers and their effect on predicate logic, check out my article "Behavior of NULLS".
 
 -----------------------------------
 
 ### Propositional Statements
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Propositional statements form the core of logical reasoning in both natural language and mathematical logic. These statements, characterized by their ability to be distinctly true or false, are the building blocks of logical expressions. Commonly, in everyday language, we encounter propositions in statements like "If it is sunny, I wear my sunglasses." In this case, the proposition "It is sunny" is represented by the uppercase variable `P`, and "I wear my sunglasses" by `Q`. In the realm of discrete mathematics, these propositions are often denoted more abstractly with lowercase variables such as `p`, `q`, and `r`.
+Propositional statements form the foundation of logical reasoning in both natural language and mathematical logic. A propositional statement is any statement that has a definite truth value—it is either **true or false**, but not both.
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The relationship between these propositions can be articulated through logical connectives. In the provided example, the conditional "If P, then Q" (symbolized as `P → Q`) establishes a logical link between the two propositions. This implies that the occurrence of `Q` (wearing sunglasses) is contingent upon `P` (it being sunny). The use of such propositional variables and logical connectives allows for a formal and systematic approach to dissecting and understanding the structure of arguments and logical processes.
+In everyday language, we encounter simple propositions such as:
+
+* “It is sunny.”
+* “I wear my sunglasses.”
+
+These can be represented using variables:
+
+* `p`: It is sunny
+* `q`: I wear my sunglasses
+
+In discrete mathematics, propositions are typically denoted using lowercase letters like `p`, `q`, and `r`.
+
+Propositions can be combined using **logical connectives** to form more complex statements. For example, the conditional statement:
+
+> *“If it is sunny, then I wear my sunglasses”*
+
+is written as:
+
+```
+p → q
+```
+
+This does **not** mean that wearing sunglasses only happens when it is sunny. Instead, it states that whenever `p` is true, `q` must also be true.
+
+Using propositional variables and logical connectives allows us to analyze and reason about statements in a precise and systematic way.
 
 -----------------------------------
 
@@ -254,7 +281,7 @@ Here is the truth table pivoted, with a dense rank and row number added.
 
 ### Logic Laws
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Propositional logic consists of several fundamental laws that are crucial for logical reasoning and manipulation of logical expressions. These laws are important because they provide a framework for constructing valid arguments, proving theorems, and simplifying logical statements. The following are the most popular laws, but there are several more.
+Propositional logic consists of several fundamental laws that are crucial for logical reasoning and manipulation of logical expressions. These laws are important because they provide a framework for constructing valid arguments, proving theorems, and simplifying logical statements. The following are the most popular laws, but there are several more.
 
 |      Law Name        |    Formula                                                              |
 |----------------------|-------------------------------------------------------------------------|
@@ -274,20 +301,20 @@ Here is the truth table pivoted, with a dense rank and row number added.
 | Exclusive Or Law     | p ⊕ q ⇔ (p ∨ q) ∧ ¬(p ∧ q)                                            |
 
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Many of these laws may seem trivial in nature, but the most important one for SQL developers to understand is De Morgan's law.  We will look at this law along with a few others.
+Many of these laws may seem trivial in nature, but the most important one for SQL developers to understand is De Morgan's law.  We will look at this law along with a few others.
 
 ---------------
 
 ### De Morgan's Law
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;De Morgan's Laws are two transformation rules that are used in propositional logic and Boolean algebra. They state that:
+De Morgan's Laws are two transformation rules that are used in propositional logic and Boolean algebra. They state that:
 
 1. The negation of a conjunction is the disjunction of the negations: `¬(p ∧ q) ⇔ ¬p ∨ ¬q`
 2. The negation of a disjunction is the conjunction of the negations: `¬(p ∨ q) ⇔ ¬p ∧ ¬q`
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;These laws are important because they allow for the expression of logical statements in different forms, which can be very useful in various logical and computational applications, such as simplifying logical expressions and digital circuit design.
+These laws are important because they allow for the expression of logical statements in different forms, which can be very useful in various logical and computational applications, such as simplifying logical expressions and digital circuit design.
 
-#### Negation of Conjunction
+### Negation of Conjunction
 
 | p | q | ¬(p∧q) | ¬p∨¬q |
 |---|---|--------|-------|
@@ -296,7 +323,7 @@ Here is the truth table pivoted, with a dense rank and row number added.
 | 1 | 0 |   1    |   1   |
 | 1 | 1 |   0    |   0   |
 
-####  Negation of Disjunction
+###  Negation of Disjunction
 
 | p | q | ¬(p∨q) | ¬p∧¬q |
 |---|---|--------|-------|
@@ -305,9 +332,9 @@ Here is the truth table pivoted, with a dense rank and row number added.
 | 1 | 0 |   0    |   0   |
 | 1 | 1 |   0    |   0   |
 
-#### Exclusive Or Law (XOR)
+### Exclusive Or Law (XOR)
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;A closer examination of logical laws reveals that various logical truths can be expressed in multiple ways. Notably, the XOR operation, represented as `p⊕q`, is logically equivalent to the negation of the biconditional: `p⊕q≡¬[(¬p→¬q)∧(¬q→¬p)]`.
+A closer examination of logical laws reveals that various logical truths can be expressed in multiple ways. Notably, the XOR operation, represented as `p⊕q`, is logically equivalent to the negation of the biconditional: `p⊕q≡¬[(¬p→¬q)∧(¬q→¬p)]`.
 
 | p | q | p⊕q | ¬p→¬q ∧ ¬q→¬p |
 |---|---|-----|----------------|
@@ -318,9 +345,61 @@ Here is the truth table pivoted, with a dense rank and row number added.
 
 -----
 
-#### Conditional Statements
+### Conditional Statements
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The conditional statement `p → q` possesses several related forms: its contrapositive `¬q → ¬p`, its converse `q → p`, and its inverse `¬p → ¬q`. Each of these forms offers a different perspective on the same underlying logical relationship.
+The conditional statement `p → q` has several related forms: the **contrapositive** (`¬q → ¬p`), the **converse** (`q → p`), and the **inverse** (`¬p → ¬q`). While these are all connected, only the original statement and its contrapositive are logically equivalent.
+
+A common example is:
+
+> *“When it is sunny, I wear my sunglasses.”*
+
+Let:
+
+* `p` = It is sunny
+* `q` = I wear my sunglasses
+
+We evaluate this statement by considering all possible combinations of `p` and `q`:
+
+* It is sunny, and I am wearing sunglasses
+* It is sunny, and I am not wearing sunglasses
+* It is not sunny, and I am wearing sunglasses
+* It is not sunny, and I am not wearing sunglasses
+
+Only one of these violates the original statement:
+
+> **It is sunny, and I am not wearing sunglasses**
+
+This is false because it contradicts the rule that sunny weather implies wearing sunglasses. All other cases are valid since the statement makes no claim about what happens when it is not sunny.
+
+---
+
+### Converse and Inverse
+
+Now consider the **converse**:
+
+> *“If I am wearing my sunglasses, then it is sunny.”*
+
+Here:
+
+* `q` = I am wearing my sunglasses
+* `p` = It is sunny
+
+This is a different statement and not logically equivalent to the original. It assumes that wearing sunglasses only happens when it is sunny, which is not necessarily true.
+
+Looking again at all possibilities:
+
+* It is sunny, and I am wearing sunglasses
+* It is sunny, and I am not wearing sunglasses
+* It is not sunny, and I am wearing sunglasses
+* It is not sunny, and I am not wearing sunglasses
+
+The incorrect case is now:
+
+> **It is not sunny, and I am wearing sunglasses**
+
+This makes the converse false because it provides a counterexample—wearing sunglasses does not guarantee that it is sunny.
+
+The **inverse** fails for the same reason, since it also assumes a stronger relationship than the original statement provides.
 
 | p | q | p→q<br>Conditional | ¬q→¬p<br>Contrapositive | q→p<br>Converse | ¬p→¬q<br>Inverse |
 |---|---|--------------------|-------------------------|-----------------|------------------|
@@ -331,9 +410,9 @@ Here is the truth table pivoted, with a dense rank and row number added.
 
 -----
 
-#### Tautology (⊤) and Contradiction (⊥)
+### Tautology (⊤) and Contradiction (⊥)
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tautology (⊤) and contradiction (⊥) are fundamental concepts in propositional logic. A tautology is a statement that is always true, regardless of the truth values of its components. It represents a universal truth and is used to express logical certainties. On the other hand, a contradiction is a statement that is always false, no matter what the truth values of its components are. It symbolizes an inherent inconsistency and is used to denote logical impossibilities. Both concepts are crucial in logical reasoning, helping to understand and define the limits of logical arguments and establish the validity of logical proofs.
+Tautology (⊤) and contradiction (⊥) are fundamental concepts in propositional logic. A tautology is a statement that is always true, regardless of the truth values of its components. It represents a universal truth and is used to express logical certainties. On the other hand, a contradiction is a statement that is always false, no matter what the truth values of its components are. It symbolizes an inherent inconsistency and is used to denote logical impossibilities. Both concepts are crucial in logical reasoning, helping to understand and define the limits of logical arguments and establish the validity of logical proofs.
 
 #### Tautology
 | p | q | ¬p∨p | ¬q∨q | p∨T | p→q∨q→p | q∨T |
@@ -351,6 +430,8 @@ Here is the truth table pivoted, with a dense rank and row number added.
 | 0 | 1 |     0      |   0  |   0  |  0  |  0  |
 | 1 | 0 |     0      |   0  |   0  |  0  |  0  |
 | 1 | 1 |     0      |   0  |   0  |  0  |  0  |
+
+----
 
 ### Conclusion
 
