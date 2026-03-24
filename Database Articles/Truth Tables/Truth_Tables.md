@@ -344,6 +344,13 @@ A closer examination of logical laws reveals that various logical truths can be 
 
 ### Conditional Statements
 
+| p | q | p→q<br>Conditional | ¬q→¬p<br>Contrapositive | q→p<br>Converse | ¬p→¬q<br>Inverse |
+|---|---|--------------------|-------------------------|-----------------|------------------|
+| 1 | 1 | 1                  | 1                       | 1               | 1                |
+| 1 | 0 | 0                  | 0                       | 1               | 1                |
+| 0 | 1 | 1                  | 1                       | 0               | 0                |
+| 0 | 0 | 1                  | 1                       | 1               | 1                |
+
 The conditional statement `p → q` has several related forms: the **contrapositive** (`¬q → ¬p`), the **converse** (`q → p`), and the **inverse** (`¬p → ¬q`). While these are all connected, only the original statement and its contrapositive are logically equivalent.
 
 A common example is:
