@@ -375,9 +375,7 @@ Only one of these violates the original statement:
 
 This is false because it contradicts the rule that sunny weather implies wearing sunglasses. All other cases are valid since the statement makes no claim about what happens when it is not sunny.
 
----
-
-### Converse and Inverse
+#### Converse and Inverse
 
 Now consider the **converse**:
 
@@ -404,6 +402,8 @@ The incorrect case is now:
 This makes the converse false because it provides a counterexample—wearing sunglasses does not guarantee that it is sunny.
 
 The **inverse** fails for the same reason, since it also assumes a stronger relationship than the original statement provides.
+
+Here is the truth table again, so you can review the converse and inverse and how it relates to the conditional and contrapositive without scrolling to the top of this section.
 
 | p | q | p→q<br>Conditional | ¬q→¬p<br>Contrapositive | q→p<br>Converse | ¬p→¬q<br>Inverse |
 |---|---|--------------------|-------------------------|-----------------|------------------|
