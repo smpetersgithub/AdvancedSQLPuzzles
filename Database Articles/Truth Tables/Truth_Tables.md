@@ -23,8 +23,8 @@ This exploration examines the intersection of propositional logic and SQL, demon
 
 Additionally, before we begin, a few SQL tidbits are worth mentioning.  
 
-•  SQL is based on relational algebra and relational calculus.  Although SQL is rooted in predicate logic, it is not based on propositional calculus.
-•  SQL includes the possibility of NULL markers when creating predicate logic statements.   Propositional logic does not incorporate the concept of NULL markers into its paradigm.  We will ignore the concept of NULL markers entirely in this article.
+*  SQL is based on relational algebra and relational calculus.  Although SQL is rooted in predicate logic, it is not based on propositional calculus.    
+*  SQL includes the possibility of NULL markers when creating predicate logic statements.   Propositional logic does not incorporate the concept of NULL markers into its paradigm.  We will ignore the concept of NULL markers entirely in this article.    
 *  The `BIT` data type in SQL is not an accurate Boolean representation, as it has three possible values: True, False, and NULL.  Many SQL experts recommend avoiding the `BIT` data type because of this and instead using `SMALLINT` with permissible values 0 and 1.  Also, SQL Server does not allow arithmetic operations on the `BIT` data type; using the `SMALLINT` data type allows us to create mathematical expressions that can be used to evaluate conditions.   
 
 🔌To learn more about NULL markers and their effect on predicate logic, check out my article "Behavior of NULLS".
@@ -51,11 +51,8 @@ Propositions can be combined using **logical connectives** to form more complex 
 
 > *“If it is sunny, then I wear my sunglasses”*
 
-is written as:
+is written as `p → q`
 
-```
-p → q
-```
 
 This does **not** mean that wearing sunglasses only happens when it is sunny. Instead, it states that whenever `p` is true, `q` must also be true.
 
