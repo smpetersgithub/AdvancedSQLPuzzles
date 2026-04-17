@@ -178,7 +178,7 @@ Be cautious using the `IN` operator, as it can lead to unexpected behavior!
 
 In this example, I use two table variables for demonstration.
 
-In the SQL snippet below, you might anticipate that the inner `SELECT` statement would produce an error since `Column_AAA` doesn't exist in `@Table2`. However, this query runs without issue and updates `@Table1`, setting `Column_AAA` to 3. This is because Microsoft SQL Server treats it as a correlated subquery. To trigger a column reference error, you can use a table alias to refer to the column from `@Table2 explicitly`.
+In the SQL snippet below, you might anticipate that the inner `SELECT` statement would produce an error since `Column_AAA` doesn't exist in `@Table2`. However, this query runs without issue and updates `@Table1`, setting `Column_A` to 3. This is because Microsoft SQL Server treats it as a correlated subquery. To trigger a column reference error, you can use a table alias to refer to the column from `@Table2 explicitly`.
 
 ```sql
 DECLARE @Table1 TABLE (Column_A INT);
@@ -195,9 +195,9 @@ SELECT  Column_A
 FROM    @Table1;
 ```
 
-| Column_AAA |
-|------------|
-| 3          |
+| Column_A |
+|----------|
+| 3        |
 
 ----------------------------------------------------------------------------------------
 
