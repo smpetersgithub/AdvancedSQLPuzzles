@@ -528,7 +528,7 @@ This approach is useful when you need to limit the number of returned rows but d
 
 ```sql
 SELECT  TOP 1
-        Fruit,
+        Fruit
 FROM    ##TableA
 ORDER BY (SELECT NULL);
 ```
