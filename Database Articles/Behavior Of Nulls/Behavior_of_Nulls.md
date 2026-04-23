@@ -31,31 +31,34 @@ We will cover these aspects and many more in the following document.
 
 👍 I recommend navigating using the **Table Of Contents**.
 
-[1. Predicate Logic](#predicate-logic)     
-[2. ANSI_NULLS](#ansi_nulls)     
-[3. IS NULL and IS NOT NULL](#is-null-and-is-not-null)     
-[4. Sample Data](#sample-data)     
-[5. Join Syntax](#join-syntax)     
-[6. Semi and Anti Joins](#semi-and-anti-joins)     
-[7. Set Operators](#set-operators)     
-[8. GROUP BY](#group-by)     
-[9. Aggregate Functions](#aggregate-functions)     
-[10. Windowing Functions](#windowing-functions)     
-[11. Constraints](#constraints)     
-[12. Referential Integrity](#referential-integrity)     
-[13. Computed Columns](#computed-columns)     
-[14. SQL NULL Functions (NULLIF, ISNULL, COALESCE)](#sql-null-functions)     
-[15. Empty Strings, NULL, and ASCII Values](#empty-strings-null-and-ascii-values)     
-[16. CONCAT](#concat)     
-[17. Views](#views)     
-[18. Boolean Values](#boolean-values)     
-[19. Return Statement](#return)     
-[20. Identity Columns](#identity-columns)     
-[21. LAG and LEAD functions](#lag-and-lead-functions)     
-[22. Arithmetic Operators](#arithmetic-operators)     
+[1. Brief History of NULLs](#1-brief-history-of-nulls)     
+[2. Predicate Logic](#2-predicate-logic)     
+[3. ANSI_NULLS](#3-ansi_nulls)     
+[4. IS NULL and IS NOT NULL](#4-is-null-and-is-not-null)     
+[5. Sample Data](#5-sample-data)     
+[6. Join Syntax](#6-join-syntax)     
+[7. Semi and Anti Joins](#7-semi-and-anti-joins)     
+[8. Set Operators](#8-set-operators)     
+[9. GROUP BY](#9-group-by)     
+[10. ORDER BY](#10-order-by)     
+[11. Aggregate Functions](#11-aggregate-functions)     
+[12. Windowing Functions](#12-windowing-functions)     
+[13. Constraints](#13-constraints)     
+[14. Referential Integrity](#14-referential-integrity)     
+[15. Computed Columns](#15-computed-columns)     
+[16. SQL NULL Functions (NULLIF, ISNULL, COALESCE)](#16-sql-null-functions)     
+[17. Empty Strings, NULL, and ASCII Values](#17-empty-strings-null-and-ascii-values)     
+[18. CONCAT](#18-concat)     
+[19. Views](#19-views)     
+[20. Boolean Values](#20-boolean-values)     
+[21. RETURN](#21-return)     
+[22. Identity Columns](#22-identity-columns)     
+[23. LAG and LEAD Functions](#23-lag-and-lead-functions)     
+[24. Arithmetic Operators](#24-arithmetic-operators)     
+[25. Conclusion](#25-conclusion)     
 
 --------------------------------------------------------
-### Brief History of Nulls
+## 1. Brief History of Nulls
 🔵&nbsp;&nbsp;&nbsp;[Table Of Contents](#table-of-contents)
 
 NULL markers in relational databases are a source of debate: some proponents reject them entirely, while others, including Edgar F. Codd, advocate their use. Codd, a computer scientist who revolutionized database management with his work on relational database theory, introduced the concept of NULL markers in the late 1960s and early 1970s to represent the absence of a value.
@@ -65,7 +68,7 @@ Edgar F. Codd's work ensured data consistency and accuracy in relational databas
 Despite these criticisms, NULL markers are widely used and accepted, but must be used appropriately to understand their limitations and impact on data quality and performance. For further information, refer to C.J. Date's book, [Database in Depth: Relational Theory for Practitioners](https://www.amazon.com/Database-Depth-Relational-Theory-Practitioners/dp/0596100124).
 
 ---------------------------------------------------------
-### Predicate Logic
+## 2. Predicate Logic
 🔵&nbsp;&nbsp;&nbsp;[Table Of Contents](#table-of-contents)
 
 To best understand NULL markers in SQL, we must recognize the three-valued logic outcomes: **TRUE**, **FALSE**, and **UNKNOWN**.  Unique to SQL, the logic result will always be **UNKNOWN** when comparing a NULL marker to any other value.   SQL’s three-valued logic system presents a surprising amount of complexity in a seemingly straightforward query!
@@ -92,7 +95,7 @@ SELECT 3 WHERE NOT(1=2) AND NOT(NULL=1);
 ```
 
 ---------------------------------------------------------
-### ANSI_NULLS
+## 3. ANSI_NULLS
 🔵&nbsp;&nbsp;&nbsp;[Table Of Contents](#table-of-contents)
 
 >:exclamation:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The standard setting for `ANSI_NULLS` is `ON`.  In a future version of Microsoft SQL Server, `ANSI_NULLS` will always be `ON`, and any applications that explicitly set the option to `OFF` will produce an error.  Avoid using this feature in new development work, and plan to modify applications that currently use this feature.
@@ -114,7 +117,7 @@ In Microsoft SQL Server, the `SET ANSI_NULLS` setting specifies the ISO-complian
 
 
 ---------------------------------------------------------
-### IS NULL and IS NOT NULL
+## 4. IS NULL and IS NOT NULL
 🔵&nbsp;&nbsp;&nbsp;[Table Of Contents](#table-of-contents)
 
 We can experiment with setting `ANSI_NULLS` to `ON` and `OFF` to review how NULL marker behavior changes.  In the following examples, we will set the default `ANSI_NULLS` setting to `ON`.
@@ -148,7 +151,7 @@ SELECT 1 WHERE NULL IS NOT NULL;
 Now that we have covered the basics of NULL markers, let's create two sample data tables and start working through examples.
 
 ---------------------------------------------------------
-### Sample Data
+## 5. Sample Data
 🔵&nbsp;&nbsp;&nbsp;[Table Of Contents](#table-of-contents)
 
 We will use the following tables of fruits and their quantities to understand the behavior of NULL markers.  Using two tables of the same type gives us the best example for understanding NULL markers.  We will work with this data throughout these exercises.
@@ -212,7 +215,7 @@ SELECT * from ##TableB;
 ```
 
 ---------------------------------------------------------
-## Join Syntax
+## 6. Join Syntax
 🔵&nbsp;&nbsp;&nbsp;[Table Of Contents](#table-of-contents)
 
 The standard ANSI:SQL joins are `INNER`, `LEFT OUTER JOIN`, `RIGHT OUTER JOIN`, `FULL OUTER JOIN`, and `CROSS JOIN`.  For NULL markers, all five of these joins treat the NULL marker as **UNKNOWN**.  For this reason, I don't show all these joins; I only show the relevant ones needed to understand the behavior of NULL markers.  Also, I include some alternative methods for joining if you need to treat NULL markers as equals; these methods use the `ISNULL`, `ON EXISTS`, and the `IS [NOT] DISTINCT FROM` clauses.  Please take a look at my documentation **Advanced SQL Joins** for more examples of these clauses.
@@ -312,7 +315,7 @@ ORDER BY 1;
 | 6  | \<NULL> | 3        | 4  | \<NULL> | \<NULL>   |
 
 ---------------------------------------------------------
-## Semi and Anti Joins
+## 7. Semi and Anti Joins
 🔵&nbsp;&nbsp;&nbsp;[Table Of Contents](#table-of-contents)
 
 Semi-joins and anti-joins are two closely related join methods.  Semi-joins and anti-joins are types of joins between two tables where rows from the outer query are returned based on the presence or absence of a matching row in the joined table.
@@ -404,7 +407,7 @@ ORDER BY 1;
 | 6  | \<NULL> |
 
 ---------------------------------------------------------
-## Set Operators
+## 8. Set Operators
 🔵&nbsp;&nbsp;&nbsp;[Table Of Contents](#table-of-contents)
 
 The SQL standard for set operators does not use the term **EQUAL TO or NOT EQUAL TO** when describing their behavior.  Instead, it uses the terminology of **IS [NOT] DISTINCT FROM**, and the following expressions are **TRUE** when using set operators.
@@ -493,7 +496,7 @@ ORDER BY 1;
 | Peach   |
 
 ---------------------------------------------------------
-## GROUP BY
+## 9. GROUP BY
 🔵&nbsp;&nbsp;&nbsp;[Table Of Contents](#table-of-contents)
 
 The `GROUP BY` clause aggregates the NULL markers together.
@@ -515,7 +518,24 @@ ORDER BY 1;
 | Peach   | 1          | 1           |
 
 ---------------------------------------------------------
-## Aggregate Functions
+## 10. ORDER BY
+🔵&nbsp;&nbsp;&nbsp;[Table Of Contents](#table-of-contents)
+
+A NULL marker can be used in the `ORDER BY` clause via the following syntax.
+
+This approach is useful when you need to limit the number of returned rows but do not require a specific sort order.  When other developers review the syntax, it clearly indicates that the arbitrary ordering is intentional.
+
+
+```sql
+SELECT  TOP 1
+        Fruit,
+FROM    ##TableA
+ORDER BY (SELECT NULL);
+```
+
+
+---------------------------------------------------------
+## 11. Aggregate Functions
 🔵&nbsp;&nbsp;&nbsp;[Table Of Contents](#table-of-contents)
 
 Aggregate functions have a few nuances when handling NULL markers, as we will demonstrate below.
@@ -672,7 +692,7 @@ FROM    ##TableA;
 | 20      | 3       |
 
 ---------------------------------------------------------
-## Windowing Functions
+## 12. Windowing Functions
 🔵&nbsp;&nbsp;&nbsp;[Table Of Contents](#table-of-contents)
 
 When working with window functions, we can use the NULL marker when order is not essential.
@@ -727,7 +747,7 @@ ORDER BY Fruit, ID;
 
 ---------------------------------------------------------
 
-## CONSTRAINTS
+## 13. CONSTRAINTS
 🔵&nbsp;&nbsp;&nbsp;[Table Of Contents](#table-of-contents)
 
 SQL provides the following constraints: `NOT NULL`, `PRIMARY KEY`, `FOREIGN KEY`, `UNIQUE`, and `CHECK CONSTRAINTS`.
@@ -808,7 +828,7 @@ CONSTRAINT chk_Quantity CHECK (Quantity IS NOT NULL)
 ```
 
 ---------------------------------------------------------
-## Referential Integrity
+## 14. Referential Integrity
 🔵&nbsp;&nbsp;&nbsp;[Table Of Contents](#table-of-contents)
 
 Multiple NULL markers can be inserted into a child column with a foreign key constraint.
@@ -865,7 +885,7 @@ SELECT * FROM Child ORDER BY 1;
 | 4         | \<NULL>   |
 
 ---------------------------------------------------------
-## Computed Columns
+## 15. Computed Columns
 🔵&nbsp;&nbsp;&nbsp;[Table Of Contents](#table-of-contents)
 
 A computed column is a virtual column that is not physically stored in a table.  A computed column expression can use data from other columns to calculate a value.  When an expression is applied to a column with a NULL marker, a NULL marker will be the return value.   Here, we add the value `2` to the `Quantity` field in `TableB` (which includes a NULL marker in the `Quantity` field.
@@ -916,7 +936,7 @@ GO
 Commands completed successfully.
 
 ---------------------------------------------------------
-## SQL NULL Functions
+## 16. SQL NULL Functions
 🔵&nbsp;&nbsp;&nbsp;[Table Of Contents](#table-of-contents)
 
 Besides the `IS NULL` and `IS NOT NULL` predicate logic constructs, SQL also provides three functions to help evaluate NULL markers.
@@ -965,7 +985,7 @@ SELECT  1 AS ID,
 
 
 ---------------------------------------------------------
-## Empty Strings, NULL, and ASCII VALUES
+## 17. Empty Strings, NULL, and ASCII VALUES
 🔵&nbsp;&nbsp;&nbsp;[Table Of Contents](#table-of-contents)
 
 Using the empty string is a valuable feature to combat NULL markers in character fields.  The empty string character is not an ASCII value, and the following function returns a NULL marker for both the empty string and the NULL marker parameters.  Also, when reviewing an ASCII code chart, you would assume the ASCII value for a NULL marker is 0. However, this is not the case.  SQL does not use the standard ANSI NULL marker.
@@ -1005,7 +1025,7 @@ ORDER BY 1;
 
 
 ---------------------------------------------------------
-## CONCAT
+## 18. CONCAT
 🔵&nbsp;&nbsp;&nbsp;[Table Of Contents](#table-of-contents)
 
 
@@ -1047,7 +1067,7 @@ In query editors, NULL markers and empty strings appear differently (by default,
 
 
 ---------------------------------------------------------
-## Views
+## 19. Views
 🔵&nbsp;&nbsp;&nbsp;[Table Of Contents](#table-of-contents)
 
 When creating a view, if you perform a `CAST` function or create a computed column on a column that has a `NOT NULL` constraint, the result will yield a NULLable column.
@@ -1095,7 +1115,7 @@ ORDER BY 1, 2, 3;
 | MyVarchar_Cast     | varchar  | 1           |
 
 ---------------------------------------------------------
-## Boolean Values
+## 20. Boolean Values
 🔵&nbsp;&nbsp;&nbsp;[Table Of Contents](#table-of-contents)
 
 Here we will discuss two SQL constructs, the `BIT` data type and the `NOT` operator.
@@ -1142,7 +1162,7 @@ ORDER BY 1, 2;
 | 2  | Peach | 20       |
 
 ---------------------------------------------------------
-## RETURN
+## 21. RETURN
 🔵&nbsp;&nbsp;&nbsp;[Table Of Contents](#table-of-contents)
 
 The `RETURN` statement exists unconditionally from a query or procedure.  All stored procedures return 0 for a successful execution and a nonzero value for a failure.  When the `RETURN` statement is used with a stored procedure, it cannot return a NULL marker.  If a procedure tries to return a NULL marker in the `RETURN` statement, a warning message is generated, and a value of 0 is returned.
@@ -1171,7 +1191,7 @@ The `SpReturnStatement` procedure attempted to return a status of NULL, which is
 | 0             |
 
 ---------------------------------------------------------
-## Identity Columns
+## 22. Identity Columns
 🔵&nbsp;&nbsp;&nbsp;[Table Of Contents](#table-of-contents)
 
 In some databases, such as MySQL, when you insert a NULL marker into an identity column, the column will take the next available value.  In Microsoft SQL Server, an error is produced, as demonstrated below.
@@ -1194,7 +1214,7 @@ Microsoft SQL Server returns the following error.
 > DEFAULT or NULL are not allowed as explicit identity values.
 
 ---------------------------------------------------------
-## LAG and LEAD Functions
+## 23. LAG and LEAD Functions
 🔵&nbsp;&nbsp;&nbsp;[Table Of Contents](#table-of-contents)
 
 SQL Server now supports ignoring or respecting NULLS.
@@ -1268,7 +1288,7 @@ ORDER BY 1;
 
 ---------------------------------------------------------
 
-## Arithmetic Operators
+## 24. Arithmetic Operators
 🔵&nbsp;&nbsp;&nbsp;[Table Of Contents](#table-of-contents)
 
 Lastly, arithmetic operations that involve a NULL marker will return a NULL marker.
@@ -1300,7 +1320,7 @@ SELECT  '1 + NULL',
 
 ---------------------------------------------------------
 
-## Conclusion
+## 25. Conclusion
 🔵&nbsp;&nbsp;&nbsp;[Table Of Contents](#table-of-contents)
 
 Throughout this document, we have touched on many SQL constructs and how they treat NULL markers.  This document is helpful for future development, and most importantly, always remember to include NULL markers in your test data.
