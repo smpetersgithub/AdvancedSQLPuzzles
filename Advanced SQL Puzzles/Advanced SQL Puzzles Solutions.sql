@@ -2,7 +2,7 @@
 Scott Peters
 Solutions for Advanced SQL Puzzles
 https://advancedsqlpuzzles.com
-Last Updated: 01/23/2026
+Last Updated: 06/11/2026
 Microsoft SQL Server T-SQL
 
 */----------------------------------------------------
@@ -11,8 +11,7 @@ SET NOCOUNT ON;
 GO
 
 /*----------------------------------------------------
-Answer to Puzzle #1
-Shopping Carts
+Puzzle #1 - Shopping Carts
 */----------------------------------------------------
 
 DROP TABLE IF EXISTS #Cart1;
@@ -21,13 +20,13 @@ GO
 
 CREATE TABLE #Cart1
 (
-Item  VARCHAR(100) PRIMARY KEY
+Item  VARCHAR(100)
 );
 GO
 
 CREATE TABLE #Cart2
 (
-Item  VARCHAR(100) PRIMARY KEY
+Item  VARCHAR(100)
 );
 GO
 
@@ -79,8 +78,7 @@ ORDER BY 1,2;
 GO
 
 /*----------------------------------------------------
-Answer to Puzzle #2
-Managers and Employees
+Puzzle #2 - Managers and Employees
 */----------------------------------------------------
 
 DROP TABLE IF EXISTS #Employees;
@@ -88,9 +86,9 @@ GO
 
 CREATE TABLE #Employees
 (
-EmployeeID  INTEGER PRIMARY KEY,
-ManagerID   INTEGER NULL,
-JobTitle    VARCHAR(100) NOT NULL
+EmployeeID  INTEGER,
+ManagerID   INTEGER,
+JobTitle    VARCHAR(100)
 );
 GO
 
@@ -119,8 +117,7 @@ FROM    cte_Recursion;
 GO
 
 /*----------------------------------------------------
-Answer to Puzzle #3
-Fiscal Year Table Constraints
+Puzzle #3 - Fiscal Year Table Constraints
 */----------------------------------------------------
 
 DROP TABLE IF EXISTS #EmployeePayRecords;
@@ -164,8 +161,7 @@ ALTER TABLE #EmployeePayRecords ADD CONSTRAINT Check_Payrate
 GO
 
 /*----------------------------------------------------
-Answer to Puzzle #4
-Two Predicates
+Puzzle #4 - Two Predicates
 */----------------------------------------------------
 
 DROP TABLE IF EXISTS #Orders;
@@ -175,9 +171,8 @@ CREATE TABLE #Orders
 (
 CustomerID     INTEGER,
 OrderID        INTEGER,
-DeliveryState  VARCHAR(100) NOT NULL,
-Amount         MONEY NOT NULL,
-PRIMARY KEY (CustomerID, OrderID)
+DeliveryState  VARCHAR(100),
+Amount         MONEY
 );
 GO
 
@@ -198,7 +193,8 @@ WHERE   DeliveryState = 'CA'
 SELECT  b.CustomerID, b.OrderID, b.DeliveryState, b.Amount
 FROM    cte_CA a INNER JOIN
         #Orders b ON a.CustomerID = B.CustomerID
-WHERE   b.DeliveryState = 'TX';
+WHERE   b.DeliveryState = 'TX'
+ORDER BY b.CustomerID, b.OrderID;
 GO
 
 --Solution 2
@@ -215,26 +211,27 @@ SELECT  CustomerID,
         Amount
 FROM    #Orders
 WHERE   DeliveryState = 'TX' AND
-        CustomerID IN (SELECT b.CustomerID FROM cte_CA b);
+        CustomerID IN (SELECT b.CustomerID FROM cte_CA b)
+ORDER BY CustomerID, OrderID;
 GO
 
 --Solution 3
---COUNT
-WITH cte_distinct AS
-(
-SELECT DISTINCT CustomerID, DeliveryState
-FROM   #Orders
-WHERE  DeliveryState IN ('CA','TX')
-)
-SELECT CustomerID
-FROM   cte_distinct
-GROUP BY CustomerID
-HAVING COUNT(*) = 2;
+--EXISTS
+SELECT  CustomerID,
+        OrderID,
+        DeliveryState,
+        Amount
+FROM    #Orders o
+WHERE   DeliveryState = 'TX'
+  AND   EXISTS (SELECT 1
+                FROM #Orders o2
+                WHERE o2.CustomerID = o.CustomerID AND 
+                      o2.DeliveryState = 'CA')
+ORDER BY CustomerID, OrderID;
 GO
-	
+
 /*----------------------------------------------------
-Answer to Puzzle #5
-Phone Directory
+Puzzle #5 - Phone Directory
 */----------------------------------------------------
 
 DROP TABLE IF EXISTS #PhoneDirectory;
@@ -244,8 +241,7 @@ CREATE TABLE #PhoneDirectory
 (
 CustomerID   INTEGER,
 [Type]       VARCHAR(100),
-PhoneNumber  VARCHAR(12) NOT NULL,
-PRIMARY KEY (CustomerID, [Type])
+PhoneNumber  VARCHAR(12)
 );
 GO
 
@@ -268,9 +264,9 @@ GO
 --Solution 2
 --MAX and CASE
 SELECT  CustomerID,
-        MAX(CASE [Type] WHEN 'Cellular' THEN PhoneNumber END),
-        MAX(CASE [Type] WHEN 'Work' THEN PhoneNumber END),
-        MAX(CASE [Type] WHEN 'Home' THEN PhoneNumber END)
+        MAX(CASE [Type] WHEN 'Cellular' THEN PhoneNumber END) AS Cellular,
+        MAX(CASE [Type] WHEN 'Work' THEN PhoneNumber END)     AS Work,
+        MAX(CASE [Type] WHEN 'Home' THEN PhoneNumber END)     AS Home
 FROM    #PhoneDirectory
 GROUP BY CustomerID;
 GO
@@ -339,8 +335,7 @@ GROUP BY CustomerID;
 GO
 
 /*----------------------------------------------------
-Answer to Puzzle #6
-Workflow Steps
+Puzzle #6 - Workflow Steps
 */----------------------------------------------------
 
 DROP TABLE IF EXISTS #WorkflowSteps;
@@ -350,56 +345,26 @@ CREATE TABLE #WorkflowSteps
 (
 Workflow        VARCHAR(100),
 StepNumber      INTEGER,
-CompletionDate  DATE NULL,
-PRIMARY KEY (Workflow, StepNumber)
+CompletionDate  DATE
 );
 GO
 
 INSERT INTO #WorkflowSteps (Workflow, StepNumber, CompletionDate) VALUES
 ('Alpha',1,'7/2/2018'),('Alpha',2,'7/2/2018'),('Alpha',3,'7/1/2018'),
 ('Bravo',1,'6/25/2018'),('Bravo',2,NULL),('Bravo',3,'6/27/2018'),
-('Charlie',1,NULL),('Charlie',2,'7/1/2018');
+('Charlie',1,NULL),('Charlie',2,'7/1/2018'),
+('Delta',1,NULL),('Delta',2,NULL);
 GO
 
---Solution 1
 --NULL operators
-WITH cte_NotNull AS
-(
-SELECT  DISTINCT
-        Workflow
+SELECT  DISTINCT Workflow
 FROM    #WorkflowSteps
-WHERE   CompletionDate IS NOT NULL
-),
-cte_Null AS
-(
-SELECT  Workflow
-FROM    #WorkflowSteps
-WHERE   CompletionDate IS NULL
-)
-SELECT  Workflow
-FROM    cte_NotNull
-WHERE   Workflow IN (SELECT Workflow FROM cte_Null);
-GO
-
---Solution 2
---HAVING clause and COUNT functions
-SELECT  Workflow
-FROM    #WorkflowSteps
-GROUP BY Workflow
-HAVING  COUNT(*) <> COUNT(CompletionDate);
-GO
-
---Solution 3
---HAVING clause with MAX function
-SELECT  Workflow
-FROM    #WorkflowSteps
-GROUP BY Workflow
-HAVING  MAX(CASE WHEN CompletionDate IS NULL THEN 1 ELSE 0 END) = 1;
+WHERE   Workflow IN (SELECT Workflow FROM #WorkflowSteps WHERE CompletionDate IS NULL) 
+  AND   CompletionDate IS NOT NULL;
 GO
 
 /*----------------------------------------------------
-Answer to Puzzle #7
-Mission to Mars
+Puzzle #7 - Mission to Mars
 */----------------------------------------------------
 
 DROP TABLE IF EXISTS #Candidates;
@@ -409,8 +374,7 @@ GO
 CREATE TABLE #Candidates
 (
 CandidateID  INTEGER,
-Occupation   VARCHAR(100),
-PRIMARY KEY (CandidateID, Occupation)
+Occupation   VARCHAR(100)
 );
 GO
 
@@ -422,7 +386,7 @@ GO
 
 CREATE TABLE #Requirements
 (
-Requirement  VARCHAR(100) PRIMARY KEY
+Requirement  VARCHAR(100)
 );
 GO
 
@@ -438,8 +402,7 @@ HAVING COUNT(*) = (SELECT COUNT(*) FROM #Requirements);
 GO
 
 /*----------------------------------------------------
-Answer to Puzzle #8
-Workflow Cases
+Puzzle #8 - Workflow Cases
 */----------------------------------------------------
 
 DROP TABLE IF EXISTS #WorkflowCases;
@@ -447,10 +410,10 @@ GO
 
 CREATE TABLE #WorkflowCases
 (
-Workflow  VARCHAR(100) PRIMARY KEY,
-Case1     INTEGER NOT NULL DEFAULT 0,
-Case2     INTEGER NOT NULL DEFAULT 0,
-Case3     INTEGER NOT NULL DEFAULT 0
+Workflow  VARCHAR(100),
+Case1     INTEGER,
+Case2     INTEGER,
+Case3     INTEGER,
 );
 GO
 
@@ -483,8 +446,7 @@ ORDER BY 1;
 GO
 
 /*----------------------------------------------------
-Answer to Puzzle #9
-Matching Sets
+Puzzle #9 - Matching Sets
 */----------------------------------------------------
 
 DROP TABLE IF EXISTS #Employees;
@@ -493,8 +455,7 @@ GO
 CREATE TABLE #Employees
 (
 EmployeeID  INTEGER,
-License     VARCHAR(100),
-PRIMARY KEY (EmployeeID, License)
+License     VARCHAR(100)
 );
 GO
 
@@ -506,6 +467,7 @@ INSERT INTO #Employees (EmployeeID, License) VALUES
 (5005,'Class A'),(5005,'Class B'),(5005,'Class D');
 GO
 
+--Solution 1
 WITH cte_Count AS
 (
 SELECT  EmployeeID,
@@ -531,9 +493,33 @@ FROM    cte_CountWindow a INNER JOIN
         cte_Count c ON a.CountWindow = c.LicenseCount AND a.EmployeeID_B = c.EmployeeID;
 GO
 
+--Solution 2
+WITH EmployeeLicenseCounts AS
+(
+SELECT  EmployeeID,
+        COUNT(*) AS LicenseCount
+FROM    #Employees
+GROUP BY EmployeeID
+)
+SELECT  e1.EmployeeID AS Employee_A,
+        e2.EmployeeID AS Employee_B,
+        COUNT(*) AS LicenseCount
+FROM #Employees e1 INNER JOIN 
+     #Employees e2 ON e1.License = e2.License AND e1.EmployeeID <> e2.EmployeeID INNER JOIN
+     EmployeeLicenseCounts c1 ON e1.EmployeeID = c1.EmployeeID INNER JOIN
+     EmployeeLicenseCounts c2 ON e2.EmployeeID = c2.EmployeeID
+GROUP BY
+    e1.EmployeeID,
+    e2.EmployeeID,
+    c1.LicenseCount,
+    c2.LicenseCount
+HAVING
+    COUNT(*) = c1.LicenseCount
+    AND COUNT(*) = c2.LicenseCount;
+GO
+
 /*----------------------------------------------------
-Answer to Puzzle #10
-Mean, Median, Mode, and Range
+Puzzle #10 - Mean, Median, Mode, and Range
 */----------------------------------------------------
 
 DROP TABLE IF EXISTS #SampleData;
@@ -541,7 +527,7 @@ GO
 
 CREATE TABLE #SampleData
 (
-IntegerValue  INTEGER NOT NULL
+IntegerValue  INTEGER
 );
 GO
 
@@ -549,43 +535,26 @@ INSERT INTO #SampleData (IntegerValue) VALUES
 (5),(6),(10),(10),(13),(14),(17),(20),(81),(90),(76);
 GO
 
---Median
-SELECT
-        ((SELECT TOP 1 IntegerValue
-        FROM    (
-                SELECT  TOP 50 PERCENT IntegerValue
-                FROM    #SampleData
-                ORDER BY IntegerValue
-                ) a
-        ORDER BY IntegerValue DESC) +  --Add the Two Together
-        (SELECT TOP 1 IntegerValue
-        FROM (
-            SELECT  TOP 50 PERCENT IntegerValue
-            FROM    #SampleData
-            ORDER BY IntegerValue DESC
-            ) a
-        ORDER BY IntegerValue ASC)
-        ) * 1.0 /2 AS Median;
-GO
-
---Mean and Range
-SELECT  AVG(IntegerValue) AS Mean,
-        MAX(IntegerValue) - MIN(IntegerValue) AS [Range]
-FROM    #SampleData;
-GO
-
---Mode
-SELECT  TOP 1
-        IntegerValue AS Mode,
-        COUNT(*) AS ModeCount
-FROM    #SampleData
-GROUP BY IntegerValue
-ORDER BY ModeCount DESC;
+WITH ModeValue AS
+(
+    SELECT TOP (1)
+        IntegerValue
+    FROM #SampleData
+    GROUP BY IntegerValue
+    ORDER BY COUNT(*) DESC, IntegerValue
+)
+SELECT DISTINCT
+    CAST(AVG(CAST(IntegerValue AS DECIMAL(10,2))) OVER () AS DECIMAL(10,2)) AS Mean,
+    PERCENTILE_CONT(0.5)
+        WITHIN GROUP (ORDER BY IntegerValue)
+        OVER () AS Median,
+    (SELECT IntegerValue FROM ModeValue) AS Mode,
+    MAX(IntegerValue) OVER () - MIN(IntegerValue) OVER () AS [Range]
+FROM #SampleData;
 GO
 
 /*----------------------------------------------------
-Answer to Puzzle #11
-Permutations
+Puzzle #11 - Permutations
 */----------------------------------------------------
 
 DROP TABLE IF EXISTS #TestCases;
@@ -593,7 +562,7 @@ GO
 
 CREATE TABLE #TestCases
 (
-TestCase  VARCHAR(1) PRIMARY KEY
+TestCase  VARCHAR(1)
 );
 GO
 
@@ -601,33 +570,36 @@ INSERT INTO #TestCases (TestCase) VALUES
 ('A'),('B'),('C');
 GO
 
-DECLARE @vTotalElements INTEGER = (SELECT COUNT(*) FROM #TestCases);
-
---Recursion
-WITH cte_Permutations (Permutation, Id, Depth)
-AS
+WITH Permutations AS
 (
-SELECT  CAST(TestCase AS VARCHAR(MAX)),
-        CONCAT(CAST(TestCase AS VARCHAR(MAX)),';'),
-        1 AS Depth
-FROM    #TestCases
-UNION ALL
-SELECT  CONCAT(a.Permutation,',',b.TestCase),
-        CONCAT(a.Id,b.TestCase,';'),
-        a.Depth + 1
-FROM    cte_Permutations a,
-        #TestCases b
-WHERE   a.Depth < @vTotalElements AND
-        a.Id NOT LIKE CONCAT('%',b.TestCase,';%')
+    -- Anchor
+    SELECT
+        CAST(TestCase AS VARCHAR(MAX)) AS Permutation,
+        CAST(',' + TestCase + ',' AS VARCHAR(MAX)) AS UsedValues,
+        1 AS Level
+    FROM #TestCases
+
+    UNION ALL
+
+    -- Recursive
+    SELECT
+        p.Permutation + ',' + t.TestCase,
+        p.UsedValues + t.TestCase + ',',
+        p.Level + 1
+    FROM Permutations p
+    JOIN #TestCases t
+        ON p.UsedValues NOT LIKE '%,' + t.TestCase + ',%'
 )
-SELECT  Permutation
-FROM    cte_Permutations
-WHERE   Depth = @vTotalElements;
+SELECT
+    Permutation AS [Test Cases]
+FROM Permutations
+WHERE Level = (SELECT COUNT(*) FROM #TestCases)
+ORDER BY Permutation
+OPTION (MAXRECURSION 0);
 GO
 
 /*----------------------------------------------------
-Answer to Puzzle #12
-Average Days
+Puzzle #12 - Average Days
 */----------------------------------------------------
 
 DROP TABLE IF EXISTS #ProcessLog;
@@ -636,8 +608,7 @@ GO
 CREATE TABLE #ProcessLog
 (
 Workflow       VARCHAR(100),
-ExecutionDate  DATE,
-PRIMARY KEY (Workflow, ExecutionDate)
+ExecutionDate  DATE
 );
 GO
 
@@ -662,8 +633,7 @@ GROUP BY Workflow;
 GO
 
 /*----------------------------------------------------
-Answer to Puzzle #13
-Inventory Tracking
+Puzzle #13 - Inventory Tracking
 */----------------------------------------------------
 
 DROP TABLE IF EXISTS #Inventory;
@@ -671,8 +641,8 @@ GO
 
 CREATE TABLE #Inventory
 (
-InventoryDate       DATE PRIMARY KEY,
-QuantityAdjustment  INTEGER NOT NULL
+InventoryDate       DATE,
+QuantityAdjustment  INTEGER
 );
 GO
 
@@ -683,13 +653,12 @@ GO
 
 SELECT  InventoryDate,
         QuantityAdjustment,
-        SUM(QuantityAdjustment) OVER (ORDER BY InventoryDate)
+        SUM(QuantityAdjustment) OVER (ORDER BY InventoryDate ROWS UNBOUNDED PRECEDING) AS Inventory
 FROM    #Inventory;
 GO
 
 /*----------------------------------------------------
-Answer to Puzzle #14
-Indeterminate Process Log
+Puzzle #14 - Indeterminate Process Log
 */----------------------------------------------------
 
 DROP TABLE IF EXISTS #ProcessLog;
@@ -699,8 +668,7 @@ CREATE TABLE #ProcessLog
 (
 Workflow    VARCHAR(100),
 StepNumber  INTEGER,
-RunStatus   VARCHAR(100) NOT NULL,
-PRIMARY KEY (Workflow, StepNumber)
+RunStatus   VARCHAR(100)
 );
 GO
 
@@ -713,6 +681,25 @@ INSERT INTO #ProcessLog (Workflow, StepNumber, RunStatus) VALUES
 GO
 
 --Solution 1
+--Conditional with CASE
+SELECT  Workflow,
+        CASE
+        WHEN COUNT(DISTINCT RunStatus) = 1
+            THEN MAX(RunStatus)
+
+        WHEN SUM(CASE WHEN RunStatus = 'Error' THEN 1 ELSE 0 END) > 0
+            THEN 'Indeterminate'
+
+        WHEN SUM(CASE WHEN RunStatus = 'Running' THEN 1 ELSE 0 END) > 0
+             AND SUM(CASE WHEN RunStatus = 'Complete' THEN 1 ELSE 0 END) > 0
+            THEN 'Running'
+        END AS RunStatus
+FROM #ProcessLog
+GROUP BY Workflow
+ORDER BY Workflow;
+GO
+
+--Solution 2
 --MIN and MAX
 WITH cte_MinMax AS
 (
@@ -740,7 +727,7 @@ FROM    cte_MinMax a LEFT OUTER JOIN
 ORDER BY 1;
 GO
 
---Solution 2
+--Solution 3
 --COUNT and STRING_AGG
 WITH cte_Distinct AS
 (
@@ -763,11 +750,9 @@ SELECT  Workflow,
              WHEN RunStatus_Agg LIKE '%Running%' THEN 'Running' END AS RunStatus
 FROM    cte_StringAgg
 ORDER BY 1;
-GO
 
 /*----------------------------------------------------
-Answer to Puzzle #15
-Group Concatenation
+Puzzle #15 - Group Concatenation
 */----------------------------------------------------
 
 DROP TABLE IF EXISTS #DMLTable;
@@ -775,8 +760,8 @@ GO
 
 CREATE TABLE #DMLTable
 (
-SequenceNumber  INTEGER PRIMARY KEY,
-String          VARCHAR(100) NOT NULL
+SequenceNumber  INTEGER,
+String          VARCHAR(100)
 );
 GO
 
@@ -817,19 +802,18 @@ GO
 
 --Solution 3
 --XML Path
---There is an error; the ">" gets converted to "&gt;".
-SELECT  DISTINCT
-        STUFF((
-            SELECT  CAST(' ' AS VARCHAR(MAX)) + String
-            FROM    #DMLTable U
-            ORDER BY SequenceNumber
-        FOR XML PATH('')), 1, 1, '') AS DML_String
-FROM    #DMLTable;
-GO
+SELECT  STUFF((SELECT ' ' + [String]
+               FROM #DMLTable
+               ORDER BY SequenceNumber FOR XML PATH(''), TYPE
+              ).value('.', 'varchar(max)'),
+             1,
+             1,
+             ''
+             ) AS [Syntax];
+
 
 /*----------------------------------------------------
-Answer to Puzzle #16
-Reciprocals
+Puzzle #16 - Reciprocals
 */----------------------------------------------------
 
 DROP TABLE IF EXISTS #PlayerScores;
@@ -839,8 +823,7 @@ CREATE TABLE #PlayerScores
 (
 PlayerA  INTEGER,
 PlayerB  INTEGER,
-Score    INTEGER NOT NULL,
-PRIMARY KEY (PlayerA, PlayerB)
+Score    INTEGER
 );
 GO
 
@@ -862,8 +845,7 @@ GROUP BY PlayerA, PlayerB;
 GO
 
 /*----------------------------------------------------
-Answer to Puzzle #17
-De-Grouping
+Puzzle #17 - De-Grouping
 */----------------------------------------------------
 
 DROP TABLE IF EXISTS #Ungroup;
@@ -872,8 +854,8 @@ GO
 
 CREATE TABLE #Ungroup
 (
-ProductDescription  VARCHAR(100) PRIMARY KEY,
-Quantity            INTEGER NOT NULL
+ProductDescription  VARCHAR(100),
+Quantity            INTEGER
 );
 GO
 
@@ -886,9 +868,6 @@ GO
 SELECT IntegerValue
 INTO   #Numbers
 FROM   (VALUES(1),(2),(3),(4)) a(IntegerValue) 
-GO
-
-ALTER TABLE #Ungroup ADD FOREIGN KEY (Quantity) REFERENCES #Numbers(IntegerValue);
 GO
 
 SELECT  a.ProductDescription,
@@ -915,8 +894,7 @@ ORDER BY ProductDescription DESC;
 GO
 
 /*----------------------------------------------------
-Answer to Puzzle #18
-Seating Chart
+Puzzle #18 - Seating Chart
 */----------------------------------------------------
 
 DROP TABLE IF EXISTS #SeatingChart;
@@ -924,7 +902,7 @@ GO
 
 CREATE TABLE #SeatingChart
 (
-SeatNumber  INTEGER PRIMARY KEY
+SeatNumber  INTEGER
 );
 GO
 
@@ -932,12 +910,36 @@ INSERT INTO #SeatingChart (SeatNumber) VALUES
 (7),(13),(14),(15),(27),(28),(29),(30),(31),(32),(33),(34),(35),(52),(53),(54);
 GO
 
+-------------------
+--Gap start and gap end
+--Solution 1
+WITH SeatRanges AS
+(
+    SELECT
+        SeatNumber,
+        LAG(SeatNumber) OVER (ORDER BY SeatNumber) AS PreviousSeat
+    FROM #SeatingChart
+)
+SELECT
+    1 AS GapStart,
+    MIN(SeatNumber) - 1 AS GapEnd
+FROM #SeatingChart
+WHERE (SELECT MIN(SeatNumber) FROM #SeatingChart) > 1
+
+UNION ALL
+
+SELECT
+    PreviousSeat + 1,
+    SeatNumber - 1
+FROM SeatRanges
+WHERE SeatNumber - PreviousSeat > 1
+ORDER BY GapStart;
+
+--Solution 2
 --Place a value of 0 in the SeatingChart table
 INSERT INTO #SeatingChart (SeatNumber) VALUES (0);
 GO
 
--------------------
---Gap start and gap end
 WITH cte_Gaps AS 
 (
 SELECT  SeatNumber AS GapStart,
@@ -951,8 +953,11 @@ FROM    cte_Gaps
 WHERE Gap > 1;
 GO
 
+DELETE #SeatingChart WHERE SeatNumber = 0;
+GO
+
 -------------------
---Sequence start and sequence End
+--Sequence start and sequence end
 WITH cte_Sequences AS 
 (
 SELECT  SeatNumber,
@@ -965,6 +970,8 @@ FROM    cte_Sequences
 GROUP BY GroupID
 ORDER BY SequenceStart;
 GO
+
+DELETE #SeatingChart WHERE SeatNumber = 0;
 
 -------------------
 --Missing Numbers
@@ -979,7 +986,7 @@ SELECT  SeatNumber,
 FROM    #SeatingChart
 WHERE   SeatNumber > 0
 )
-SELECT  MAX(Rnk) AS MissingNumbers 
+SELECT  MAX(Rnk) AS MissingNumbers
 FROM    cte_Rank;
 GO
 
@@ -1004,8 +1011,7 @@ GROUP BY (CASE SeatNumber%2 WHEN 1 THEN 'Odd' WHEN 0 THEN 'Even' END);
 GO
 
 /*----------------------------------------------------
-Answer to Puzzle #19
-Back to the Future
+Puzzle #19 - Back to the Future
 */----------------------------------------------------
 
 DROP TABLE IF EXISTS #TimePeriods;
@@ -1018,8 +1024,7 @@ GO
 CREATE TABLE #TimePeriods
 (
 StartDate  DATE,
-EndDate    DATE,
-PRIMARY KEY (StartDate, EndDate)
+EndDate    DATE
 );
 GO
 
@@ -1031,50 +1036,30 @@ INSERT INTO #TimePeriods (StartDate, EndDate) VALUES
 ('1/15/2018','1/19/2018');
 GO
 
---Step 1
-SELECT  DISTINCT
-        StartDate
-INTO    #Distinct_StartDates
-FROM    #TimePeriods;
-GO
-
---Step 2
-SELECT  a.StartDate AS StartDate_A,
-        a.EndDate AS EndDate_A,
-        b.StartDate AS StartDate_B,
-        b.EndDate AS EndDate_B
-INTO    #OuterJoin
-FROM    #TimePeriods AS a LEFT OUTER JOIN
-        #TimePeriods AS b ON a.EndDate >= b.StartDate AND
-                                a.EndDate < b.EndDate;
-GO
-
---Step 3
-SELECT  EndDate_A
-INTO    #DetermineValidEndDates
-FROM    #OuterJoin
-WHERE   StartDate_B IS NULL
-GROUP BY EndDate_A;
-GO
-
---Step 4
-SELECT  a.StartDate, MIN(b.EndDate_A) AS MinEndDate_A
-INTO    #DetermineValidEndDates2
-FROM    #Distinct_StartDates a INNER JOIN
-        #DetermineValidEndDates b ON a.StartDate <= b.EndDate_A
-GROUP BY a.StartDate;
-GO
-
---Results
+WITH cte_Lag AS
+(
+SELECT  StartDate,
+        EndDate,
+        LAG(EndDate) OVER (ORDER BY StartDate) AS PreviousEndDate
+FROM #TimePeriods
+),
+cte_Islands AS
+(
+SELECT  StartDate,
+        EndDate,
+        SUM(CASE WHEN StartDate <= ISNULL(PreviousEndDate, StartDate) THEN 0 ELSE 1 
+        END) OVER (ORDER BY StartDate ROWS UNBOUNDED PRECEDING) AS IslandID
+FROM cte_Lag
+)
 SELECT  MIN(StartDate) AS StartDate,
-        MAX(MinEndDate_A) AS EndDate
-FROM    #DetermineValidEndDates2
-GROUP BY MinEndDate_A;
+        MAX(EndDate)   AS EndDate
+FROM    cte_Islands
+GROUP BY IslandID
+ORDER BY StartDate;
 GO
 
 /*----------------------------------------------------
-Answer to Puzzle #20
-Price Points
+Puzzle #20 - Price Points
 */----------------------------------------------------
 
 DROP TABLE IF EXISTS #ValidPrices;
@@ -1084,8 +1069,7 @@ CREATE TABLE #ValidPrices
 (
 ProductID      INTEGER,
 UnitPrice      MONEY,
-EffectiveDate  DATE,
-PRIMARY KEY (ProductID, UnitPrice, EffectiveDate)
+EffectiveDate  DATE
 );
 GO
 
@@ -1103,17 +1087,17 @@ SELECT  ProductID,
         EffectiveDate,
         COALESCE(UnitPrice,0) AS UnitPrice
 FROM    #ValidPrices AS pp
-WHERE   NOT EXISTS (SELECT    1
-                    FROM      #ValidPrices AS ppl
-                    WHERE     ppl.ProductID = pp.ProductID AND
-                              ppl.EffectiveDate > pp.EffectiveDate);
+WHERE   NOT EXISTS (SELECT 1
+                    FROM   #ValidPrices AS ppl
+                    WHERE  ppl.ProductID = pp.ProductID AND
+                           ppl.EffectiveDate > pp.EffectiveDate);
 GO
 
 --Solution 2
 --RANK
 WITH cte_ValidPrices AS
 (
-SELECT  RANK() OVER (PARTITION BY ProductID ORDER BY EffectiveDate DESC) AS Rnk,
+SELECT  ROW_NUMBER() OVER (PARTITION BY ProductID ORDER BY EffectiveDate DESC) AS Rnk,
         ProductID,
         EffectiveDate,
         UnitPrice
@@ -1139,8 +1123,7 @@ FROM    #ValidPrices a INNER JOIN
 GO
 
 /*----------------------------------------------------
-Answer to Puzzle #21
-Average Monthly Sales
+Puzzle #21 - Average Monthly Sales
 */----------------------------------------------------
 
 DROP TABLE IF EXISTS #Orders;
@@ -1148,11 +1131,11 @@ GO
 
 CREATE TABLE #Orders
 (
-OrderID     INTEGER PRIMARY KEY,
-CustomerID  INTEGER NOT NULL,
-OrderDate   DATE NOT NULL,
-Amount      MONEY NOT NULL,
-[State]     VARCHAR(2) NOT NULL
+OrderID     INTEGER,
+CustomerID  INTEGER,
+OrderDate   DATE,
+Amount      MONEY,
+[State]     VARCHAR(2)
 );
 GO
 
@@ -1172,29 +1155,24 @@ INSERT INTO #Orders (OrderID, CustomerID, OrderDate, Amount, [State]) VALUES
 (13,4004,'5/1/2018',100,'IA');
 GO
 
-WITH cte_AvgMonthlySalesCustomer AS
+WITH cte_MonthlyAverages AS
 (
-SELECT  CustomerID,
-        OrderDate,
-        [State],
-        AVG(Amount) AS AverageValue
-FROM    #Orders
-GROUP BY CustomerID,OrderDate,[State]
-),
-cte_MinAverageValueState AS
-(
-SELECT  [State]
-FROM    cte_AvgMonthlySalesCustomer
-GROUP BY [State]
-HAVING  MIN(AverageValue) >= 100
+SELECT  [State],
+        CustomerID,
+        YEAR(OrderDate)  AS OrderYear,
+        MONTH(OrderDate) AS OrderMonth,
+        AVG(CAST(Amount AS DECIMAL(10,2))) AS MonthlyAverage
+FROM #Orders
+GROUP BY [State], CustomerID, YEAR(OrderDate), MONTH(OrderDate)
 )
 SELECT  [State]
-FROM    cte_MinAverageValueState;
+FROM    cte_MonthlyAverages
+GROUP BY [State]
+HAVING MIN(MonthlyAverage) >= 100;
 GO
 
 /*----------------------------------------------------
-Answer to Puzzle #22
-Occurrences
+Puzzle #22 - Occurrences
 */----------------------------------------------------
 
 DROP TABLE IF EXISTS #ProcessLog;
@@ -1204,8 +1182,7 @@ CREATE TABLE #ProcessLog
 (
 Workflow     VARCHAR(100),
 LogMessage   VARCHAR(100),
-Occurrences  INTEGER NOT NULL,
-PRIMARY KEY (Workflow, LogMessage)
+Occurrences  INTEGER
 );
 GO
 
@@ -1221,18 +1198,19 @@ INSERT INTO #ProcessLog (Workflow, LogMessage, Occurrences) VALUES
 GO
 
 --Solution 1
---Rank 
+--Row Number
 WITH cte_RankedMessages AS 
 (
 SELECT  Workflow,
         LogMessage,
         Occurrences,
-        RANK() OVER (PARTITION BY LogMessage ORDER BY Occurrences DESC) AS rnk
+        ROW_NUMBER() OVER (PARTITION BY LogMessage ORDER BY Occurrences DESC) AS rnk
 FROM #ProcessLog
 )
 SELECT Workflow, LogMessage, Occurrences
 FROM   cte_RankedMessages
-WHERE rnk = 1;
+WHERE rnk = 1
+ORDER BY 1
 GO
 
 --Solution 2
@@ -1257,7 +1235,8 @@ GO
 --Correlated Subquery
 SELECT Workflow, LogMessage, Occurrences
 FROM #ProcessLog p
-WHERE Occurrences = (SELECT MAX(Occurrences) FROM #ProcessLog WHERE LogMessage = p.LogMessage);
+WHERE Occurrences = (SELECT MAX(Occurrences) FROM #ProcessLog WHERE LogMessage = p.LogMessage)
+ORDER BY 1;
 GO
 
 --Solution 4
@@ -1267,15 +1246,15 @@ SELECT  WorkFlow,
         LogMessage,
         Occurrences
 FROM    #ProcessLog AS e1
-WHERE   Occurrences > ALL(SELECT    e2.Occurrences
-                            FROM    #ProcessLog AS e2
-                           WHERE    e2.LogMessage = e1.LogMessage AND
-                                    e2.WorkFlow <> e1.WorkFlow);
+WHERE   Occurrences > ALL(SELECT e2.Occurrences
+                            FROM #ProcessLog AS e2
+                           WHERE e2.LogMessage = e1.LogMessage AND
+                                 e2.WorkFlow <> e1.WorkFlow)
+ORDER BY 1;
 GO
 
 /*----------------------------------------------------
-Answer to Puzzle #23
-Divide in Half
+Puzzle #23 - Divide in Half
 */----------------------------------------------------
 
 DROP TABLE IF EXISTS #PlayerScores;
@@ -1283,8 +1262,8 @@ GO
 
 CREATE TABLE #PlayerScores
 (
-PlayerID  INTEGER PRIMARY KEY,
-Score     INTEGER NOT NULL
+PlayerID  INTEGER,
+Score     INTEGER
 );
 GO
 
@@ -1302,8 +1281,7 @@ ORDER BY Score DESC;
 GO
 
 /*----------------------------------------------------
-Answer to Puzzle #24
-Page Views
+Puzzle #24 - Page Views
 */----------------------------------------------------
 
 DROP TABLE IF EXISTS #Orders;
@@ -1311,11 +1289,11 @@ GO
 
 CREATE TABLE #Orders
 (
-OrderID     INTEGER PRIMARY KEY,
-CustomerID  INTEGER NOT NULL,
-OrderDate   DATE NOT NULL,
-Amount      MONEY NOT NULL,
-[State]     VARCHAR(2) NOT NULL
+OrderID     INTEGER,
+CustomerID  INTEGER,
+OrderDate   DATE,
+Amount      MONEY,
+[State]     VARCHAR(2)
 );
 GO
 
@@ -1357,8 +1335,7 @@ WHERE   RowNumber BETWEEN 5 AND 10;
 GO
 
 /*----------------------------------------------------
-Answer to Puzzle #25
-Top Vendors
+Puzzle #25 - Top Vendors
 */----------------------------------------------------
 
 DROP TABLE IF EXISTS #Orders;
@@ -1366,87 +1343,50 @@ GO
 
 CREATE TABLE #Orders
 (
-OrderID     INTEGER PRIMARY KEY,
-CustomerID  INTEGER NOT NULL,
-[Count]     INTEGER NOT NULL,
-Vendor      VARCHAR(100) NOT NULL
+OrderID     INTEGER,
+CustomerID  INTEGER,
+[Count]     INTEGER,
+Vendor      VARCHAR(100)
 );
 GO
 
-INSERT INTO #Orders (OrderID, CustomerID, [Count], Vendor) VALUES
-(1,1001,12,'Direct Parts'),
-(2,1001,54,'Direct Parts'),
-(3,1001,32,'ACME'),
-(4,2002,7,'ACME'),
-(5,2002,16,'ACME'),
-(6,2002,5,'Direct Parts');
+INSERT INTO #Orders (OrderID, CustomerID, [Count], Vendor)
+VALUES
+-- Customer 1001
+(1,1001,35,'Direct Parts'),
+(2,1001,35,'Direct Parts'),
+(3,1001,50,'ACME'),
+
+-- Customer 2002
+(4,2002,10,'ACME'),
+(5,2002,10,'ACME'),
+(6,2002,15,'Direct Parts');
 GO
 
---Solution 1
---MAX window function
-WITH cte_Max AS
-(
-SELECT  OrderID, CustomerID, [Count], Vendor,
-        MAX([Count]) OVER (PARTITION BY CustomerID ORDER BY CustomerID) AS MaxCount
-FROM    #Orders
-)
-SELECT  CustomerID, Vendor
-FROM    cte_Max
-WHERE   [Count] = MaxCount
-ORDER BY 1, 2;
-GO
-
---Solution 1
---RANK function
-WITH cte_Rank AS
+WITH cte_VendorTotals AS
 (
 SELECT  CustomerID,
         Vendor,
-        RANK() OVER (PARTITION BY CustomerID ORDER BY [Count] DESC) AS Rnk
+        SUM([Count]) AS TotalOrders
 FROM    #Orders
-GROUP BY CustomerID, Vendor, [Count]
-)
-SELECT  DISTINCT b.CustomerID, b.Vendor
-FROM    #Orders a INNER JOIN
-        cte_Rank b ON a.CustomerID = b.CustomerID AND a.Vendor = b.Vendor
-WHERE   Rnk = 1
-ORDER BY 1, 2;
-GO
-
---Solution 3
---MAX with Correlated SubQuery
-WITH cte_Max AS
+GROUP BY CustomerID, Vendor
+),
+cte_Ranked AS
 (
 SELECT  CustomerID,
-        MAX([Count]) AS MaxOrderCount
-FROM    #Orders
-GROUP BY CustomerID
+        Vendor,
+        TotalOrders,
+        ROW_NUMBER() OVER (PARTITION BY CustomerID ORDER BY TotalOrders DESC ) AS rn
+FROM    cte_VendorTotals
 )
-SELECT  CustomerID, Vendor
-FROM    #Orders a
-WHERE   EXISTS (SELECT 1 FROM cte_Max b WHERE a.CustomerID = b.CustomerID and a.[Count] = MaxOrderCount)
-ORDER BY 1, 2;
-GO
-
---Solution 4
---ALL Operator with Correlated Subquery
-SELECT  CustomerID, Vendor
-FROM    #Orders a
-WHERE   [Count] >= ALL(SELECT [Count] FROM #Orders b WHERE a.CustomerID = b.CustomerID)
-ORDER BY 1, 2;
-GO
-
---Solution 5
---MAX Functionr with Correlated Subquery
-SELECT  CustomerID, Vendor
-FROM    #Orders a
-WHERE   [Count] >= (SELECT MAX([Count]) FROM #Orders b WHERE a.CustomerID = b.CustomerID)
-ORDER BY 1, 2;
+SELECT  CustomerID,
+        Vendor
+FROM    cte_Ranked
+WHERE   rn = 1;
 GO
 
 /*----------------------------------------------------
-Answer to Puzzle #26
-Previous Year's Sales
+Puzzle #26 - Previous Year's Sales
 */----------------------------------------------------
 
 DROP TABLE IF EXISTS #Sales;
@@ -1454,8 +1394,8 @@ GO
 
 CREATE TABLE #Sales
 (
-[Year]  INTEGER NOT NULL,
-Amount  INTEGER NOT NULL
+[Year]  INTEGER,
+Amount  INTEGER
 );
 GO
 
@@ -1527,8 +1467,7 @@ END;
 GO
 
 /*----------------------------------------------------
-Answer to Puzzle #27
-Delete the Duplicates
+Puzzle #27 - Delete the Duplicates
 */----------------------------------------------------
 
 DROP TABLE IF EXISTS #SampleData;
@@ -1536,7 +1475,7 @@ GO
 
 CREATE TABLE #SampleData
 (
-IntegerValue  INTEGER NOT NULL
+IntegerValue  INTEGER
 );
 GO
 
@@ -1546,19 +1485,17 @@ GO
 
 WITH cte_Duplicates AS
 (
-SELECT  ROW_NUMBER() OVER (PARTITION BY IntegerValue ORDER BY IntegerValue) AS Rnk
+SELECT  ROW_NUMBER() OVER (PARTITION BY IntegerValue ORDER BY (SELECT NULL)) AS Rn
 FROM    #SampleData
 )
-DELETE FROM cte_Duplicates WHERE Rnk > 1
+DELETE FROM cte_Duplicates WHERE Rn > 1
 GO
 
 SELECT * FROM #SampleData;
 GO
 
 /*----------------------------------------------------
-Answer to Puzzle #28
-Fill the Gaps
-Note, this is often called a flash fill or a data smudge.
+Puzzle #28 - Fill the Gaps
 */----------------------------------------------------
 
 DROP TABLE IF EXISTS #Gaps;
@@ -1566,8 +1503,8 @@ GO
 
 CREATE TABLE #Gaps
 (
-RowNumber  INTEGER PRIMARY KEY,
-TestCase   VARCHAR(100) NULL
+RowNumber  INTEGER,
+TestCase   VARCHAR(100)
 );
 GO
 
@@ -1598,8 +1535,9 @@ SELECT  a.RowNumber,
         FROM    #Gaps b
         WHERE   b.RowNumber =
                     (SELECT MAX(c.RowNumber)
-                    FROM #Gaps c
-                    WHERE c.RowNumber <= a.RowNumber AND c.TestCase != '')) TestCase
+                       FROM #Gaps c
+                      WHERE c.RowNumber <= a.RowNumber 
+                        AND c.TestCase IS NOT NULL)) TestCase
 FROM #Gaps a;
 GO
 
@@ -1613,21 +1551,20 @@ FROM    #Gaps
 )
 SELECT  RowNumber,
         (CASE WHEN TestCase IS NOT NULL THEN TestCase ELSE LagIgnoreNulls END) AS TestCase
-FROM    cte_Lag;	
+FROM    cte_Lag;
 GO
 
 /*----------------------------------------------------
-Answer to Puzzle #29
-Count the Groupings
+Puzzle #29 - Count the Groupings
 */----------------------------------------------------
 DROP TABLE IF EXISTS #Groupings;
 GO
 
 CREATE TABLE #Groupings
 (
-StepNumber  INTEGER PRIMARY KEY,
-TestCase    VARCHAR(100) NOT NULL,
-[Status]    VARCHAR(100) NOT NULL
+StepNumber  INTEGER,
+TestCase    VARCHAR(100),
+[Status]    VARCHAR(100)
 );
 GO
 
@@ -1651,7 +1588,7 @@ WITH cte_Groupings AS
 (
 SELECT  StepNumber,
         [Status],
-        StepNumber - ROW_NUMBER() OVER (PARTITION BY [Status] ORDER BY StepNumber) AS Rnk
+        StepNumber - ROW_NUMBER() OVER (PARTITION BY [Status] ORDER BY StepNumber) AS Rn
 FROM    #Groupings
 )
 SELECT  MIN(StepNumber) AS MinStepNumber,
@@ -1660,7 +1597,7 @@ SELECT  MIN(StepNumber) AS MinStepNumber,
         COUNT(*) AS ConsecutiveCount,
         MAX(StepNumber) - MIN(StepNumber) + 1 AS ConsecutiveCount_MinMax
 FROM    cte_Groupings
-GROUP BY Rnk,
+GROUP BY Rn,
         [Status]
 ORDER BY 1, 2;
 GO
@@ -1688,8 +1625,7 @@ GROUP BY [Status], GroupNumber;
 GO
 
 /*----------------------------------------------------
-Answer to Puzzle #30
-Select Star
+Puzzle #30 - Select Star
 */----------------------------------------------------
 
 DROP TABLE IF EXISTS #Products;
@@ -1697,8 +1633,8 @@ GO
 
 CREATE TABLE #Products
 (
-ProductID    INTEGER PRIMARY KEY,
-ProductName  VARCHAR(100) NOT NULL
+ProductID    INTEGER,
+ProductName  VARCHAR(100)
 );
 GO
 
@@ -1707,8 +1643,7 @@ ALTER TABLE #Products ADD ComputedColumn AS (0/0);
 GO
 
 /*----------------------------------------------------
-Answer to Puzzle #31
-Second Highest
+Puzzle #31 - Second Highest
 */----------------------------------------------------
 
 DROP TABLE IF EXISTS #SampleData;
@@ -1716,7 +1651,7 @@ GO
 
 CREATE TABLE #SampleData
 (
-IntegerValue  INTEGER PRIMARY KEY
+IntegerValue  INTEGER
 );
 GO
 
@@ -1726,6 +1661,7 @@ GO
 
 --Solution 1
 --RANK
+--This will handle duplicate values
 WITH cte_Rank AS
 (
 SELECT  RANK() OVER (ORDER BY IntegerValue DESC) AS MyRank,
@@ -1739,6 +1675,7 @@ GO
 
 --Solution 2
 --Top 1 and Max
+--This will NOT handle duplicate values
 SELECT  TOP 1
         IntegerValue
 FROM    #SampleData
@@ -1748,15 +1685,16 @@ GO
 
 --Solution 3
 --Offset and Fetch
+--This will NOT handle duplicate values
 SELECT  IntegerValue
 FROM    #SampleData
 ORDER BY IntegerValue DESC
-OFFSET 1 ROWS
-FETCH NEXT 1 ROWS ONLY;
+OFFSET 1 ROWS FETCH NEXT 1 ROWS ONLY;
 GO
 
 --Solution 4
 --Top 1 and Top 2
+--This will NOT handle duplicate values
 SELECT  TOP 1
         IntegerValue
 FROM    (
@@ -1769,6 +1707,7 @@ GO
 
 --Solution 5
 --Min and Top 2
+--This will NOT handle duplicate values
 WITH cte_TopMin AS
 (
 SELECT  MIN(IntegerValue) AS MinIntegerValue
@@ -1785,6 +1724,7 @@ GO
 
 --Solution 6
 --Correlated Sub-Query
+--This will handle duplicate values
 SELECT  IntegerValue
 FROM    #SampleData a
 WHERE   2 = (SELECT COUNT(DISTINCT b.IntegerValue)
@@ -1794,6 +1734,7 @@ GO
 
 --Solution 7
 --Top 1 and Lag
+--This will NOT handle duplicate values
 WITH cte_LeadLag AS
 (
 SELECT  *,
@@ -1808,8 +1749,7 @@ ORDER BY IntegerValue DESC;
 GO
 
 /*----------------------------------------------------
-Answer to Puzzle #32
-First and Last
+Puzzle #32 - First and Last
 */----------------------------------------------------
 
 DROP TABLE IF EXISTS #Personal;
@@ -1817,9 +1757,9 @@ GO
 
 CREATE TABLE #Personal
 (
-SpacemanID      INTEGER PRIMARY KEY,
-JobDescription  VARCHAR(100) NOT NULL,
-MissionCount    INTEGER NOT NULL
+SpacemanID      INTEGER,
+JobDescription  VARCHAR(100),
+MissionCount    INTEGER
 );
 GO
 
@@ -1840,13 +1780,13 @@ SELECT  JobDescription,
         ROW_NUMBER() OVER (PARTITION BY JobDescription ORDER BY MissionCount ASC) AS rn_min
 FROM #Personal
 )
-SELECT  MAX(CASE WHEN rn_max = 1 THEN JobDescription END) AS [Job Description],
-        MAX(CASE WHEN rn_max = 1 THEN SpacemanID END) AS [Most Experienced],
-        MAX(CASE WHEN rn_min = 1 THEN SpacemanID END) AS [Least Experienced]
+SELECT  JobDescription,
+        MAX(CASE WHEN rn_max = 1 THEN SpacemanID END) AS MostExperienced,
+        MAX(CASE WHEN rn_min = 1 THEN SpacemanID END) AS LeastExperienced
 FROM    RankedExperience
 GROUP BY JobDescription;
 GO
-	
+
 --Solution 2
 --MIN and MAX
 WITH cte_MinMax AS
@@ -1884,10 +1824,9 @@ SELECT  s.JobDescription,
 FROM     #Personal s
 GROUP BY s.JobDescription;
 GO
-    
+
 /*----------------------------------------------------
-Answer to Puzzle #33
-Deadlines
+Puzzle #33 - Deadlines
 */----------------------------------------------------
 
 DROP TABLE IF EXISTS #Orders;
@@ -1896,9 +1835,9 @@ GO
 
 CREATE TABLE #Orders
 (
-OrderID        INTEGER PRIMARY KEY,
-Product        VARCHAR(100) NOT NULL,
-DaysToDeliver  INTEGER NOT NULL
+OrderID        INTEGER,
+Product        VARCHAR(100),
+DaysToDeliver  INTEGER
 );
 GO
 
@@ -1906,8 +1845,7 @@ CREATE TABLE #ManufacturingTimes
 (
 Product            VARCHAR(100),
 Component          VARCHAR(100),
-DaysToManufacture  INTEGER NOT NULL,
-PRIMARY KEY (Product, Component)
+DaysToManufacture  INTEGER
 );
 GO
 
@@ -1941,13 +1879,13 @@ SELECT  a.OrderID,
         a.DaysToDeliver,
         CASE WHEN b.DaystoBuild = DaystoDeliver THEN 'On Schedule'
              WHEN b.DaystoBuild < DaystoDeliver THEN 'Ahead of Schedule'
-             WHEN b.DaystoBuild > DaystoDeliver THEN 'Behind Schedule' END AS Schedule
+             WHEN b.DaystoBuild > DaystoDeliver THEN 'Behind Schedule' END AS Schedule  --You can use ELSE here as well
 FROM    #Orders a INNER JOIN
         cte_Max b ON a.Product = b.Product;
 GO
 
 /*----------------------------------------------------
-Answer to Puzzle #34
+Puzzle #34
 Specific Exclusion
 */----------------------------------------------------
 
@@ -1956,9 +1894,9 @@ GO
 
 CREATE TABLE #Orders
 (
-OrderID     INTEGER PRIMARY KEY,
-CustomerID  INTEGER NOT NULL,
-Amount      MONEY NOT NULL
+OrderID     INTEGER,
+CustomerID  INTEGER,
+Amount      MONEY
 );
 GO
 
@@ -2000,8 +1938,7 @@ WHERE   CustomerID = 1001 AND Amount = 50;
 GO
 
 /*----------------------------------------------------
-Answer to Puzzle #35
-International vs Domestic Sales
+Puzzle #35 - International vs Domestic Sales
 */----------------------------------------------------
 
 DROP TABLE IF EXISTS #Orders;
@@ -2009,10 +1946,10 @@ GO
 
 CREATE TABLE #Orders
 (
-InvoiceID   INTEGER PRIMARY KEY,
-SalesRepID  INTEGER NOT NULL,
-Amount      MONEY NOT NULL,
-SalesType   VARCHAR(100) NOT NULL
+InvoiceID   INTEGER,
+SalesRepID  INTEGER,
+Amount      MONEY,
+SalesType   VARCHAR(100)
 );
 GO
 
@@ -2034,8 +1971,7 @@ HAVING   COUNT(DISTINCT SalesType) = 1;
 GO
 
 /*----------------------------------------------------
-Answer to Puzzle #36
-Traveling Salesman
+Puzzle #36 - Traveling Salesman
 */----------------------------------------------------
 
 DROP TABLE IF EXISTS #Routes;
@@ -2043,11 +1979,10 @@ GO
 
 CREATE TABLE #Routes
 (
-RouteID        INTEGER NOT NULL,
-DepartureCity  VARCHAR(30) NOT NULL,
-ArrivalCity    VARCHAR(30) NOT NULL,
-Cost           MONEY NOT NULL,
-PRIMARY KEY (DepartureCity, ArrivalCity)
+RouteID        INTEGER,
+DepartureCity  VARCHAR(30),
+ArrivalCity    VARCHAR(30),
+Cost           MONEY
 );
 GO
 
@@ -2111,10 +2046,10 @@ GO
 
 CREATE TABLE #RoutesList
 (
-InsertDate      DATETIME DEFAULT GETDATE() NOT NULL,
-RouteInsertID   INTEGER NOT NULL,
-RoutePath       VARCHAR(8000) NOT NULL,
-TotalCost       MONEY NOT NULL,
+InsertDate      DATETIME DEFAULT GETDATE(),
+RouteInsertID   INTEGER,
+RoutePath       VARCHAR(8000),
+TotalCost       MONEY,
 LastArrival     VARCHAR(100)
 );
 GO
@@ -2167,8 +2102,7 @@ ORDER BY 1;
 GO
 
 /*----------------------------------------------------
-Answer to Puzzle #37
-Group Criteria Keys
+Puzzle #37 - Group Criteria Keys
 */----------------------------------------------------
 
 DROP TABLE IF EXISTS #GroupCriteria;
@@ -2176,11 +2110,11 @@ GO
 
 CREATE TABLE #GroupCriteria
 (
-OrderID      INTEGER PRIMARY KEY,
-Distributor  VARCHAR(100) NOT NULL,
-Facility     INTEGER NOT NULL,
-[Zone]       VARCHAR(100) NOT NULL,
-Amount       MONEY NOT NULL
+OrderID      INTEGER,
+Distributor  VARCHAR(100),
+Facility     INTEGER,
+[Zone]       VARCHAR(100),
+Amount       MONEY
 );
 GO
 
@@ -2197,12 +2131,12 @@ SELECT  DENSE_RANK() OVER (ORDER BY Distributor, Facility, [Zone]) AS CriteriaID
         Facility,
         [Zone],
         Amount
-FROM    #GroupCriteria;
+FROM    #GroupCriteria
+ORDER BY OrderID;
 GO
 
 /*----------------------------------------------------
-Answer to Puzzle #38
-Reporting Elements
+Puzzle #38 - Reporting Elements
 */----------------------------------------------------
 
 DROP TABLE IF EXISTS #RegionSales;
@@ -2212,8 +2146,7 @@ CREATE TABLE #RegionSales
 (
 Region       VARCHAR(100),
 Distributor  VARCHAR(100),
-Sales        INTEGER NOT NULL,
-PRIMARY KEY (Region, Distributor)
+Sales        INTEGER
 );
 GO
 
@@ -2259,8 +2192,7 @@ ORDER BY a.Distributor,
 GO
 
 /*----------------------------------------------------
-Answer to Puzzle #39
-Prime Numbers
+Puzzle #39 - Prime Numbers
 */----------------------------------------------------
 
 DROP TABLE IF EXISTS #PrimeNumbers;
@@ -2268,7 +2200,7 @@ GO
 
 CREATE TABLE #PrimeNumbers
 (
-IntegerValue  INTEGER PRIMARY KEY
+IntegerValue  INTEGER
 );
 GO
 
@@ -2284,12 +2216,10 @@ AND NOT EXISTS (
     FROM    #PrimeNumbers d
     WHERE   d.IntegerValue > 1
       AND   d.IntegerValue < p.IntegerValue
-      AND   p.IntegerValue % d.IntegerValue = 0
-);
+      AND   p.IntegerValue % d.IntegerValue = 0);
 
 /*----------------------------------------------------
-Answer to Puzzle #40
-Sort Order
+Puzzle #40 - Sort Order
 */----------------------------------------------------
 
 DROP TABLE IF EXISTS #SortOrder;
@@ -2297,7 +2227,7 @@ GO
 
 CREATE TABLE #SortOrder
 (
-City  VARCHAR(100) PRIMARY KEY
+City  VARCHAR(100)
 );
 GO
 
@@ -2314,8 +2244,7 @@ ORDER BY (CASE City WHEN 'Atlanta' THEN 2
 GO
 
 /*----------------------------------------------------
-Answer to Puzzle #41
-Associate IDs
+Puzzle #41 - Associate IDs
 */----------------------------------------------------
 
 DROP TABLE IF EXISTS #Associates;
@@ -2326,8 +2255,7 @@ GO
 CREATE TABLE #Associates
 (
 Associate1  VARCHAR(100),
-Associate2  VARCHAR(100),
-PRIMARY KEY (Associate1, Associate2)
+Associate2  VARCHAR(100)
 );
 GO
 
@@ -2374,21 +2302,17 @@ FROM    #Associates3;
 GO
 
 /*----------------------------------------------------
-Answer to Puzzle #42
-Mutual Friends
+Puzzle #42 - Mutual Friends
 */----------------------------------------------------
 
 DROP TABLE IF EXISTS #Friends;
-DROP TABLE IF EXISTS #Nodes;
 DROP TABLE IF EXISTS #Edges;
-DROP TABLE IF EXISTS Nodes_Edges_To_Evaluate;
 GO
 
 CREATE TABLE #Friends
 (
 Friend1  VARCHAR(100),
-Friend2  VARCHAR(100),
-PRIMARY KEY (Friend1, Friend2)
+Friend2  VARCHAR(100)
 );
 GO
 
@@ -2403,63 +2327,41 @@ INTO    #Edges
 FROM    #Friends
 UNION
 SELECT  Friend2, Friend1
-FROM #Friends;
-GO
-
---Created Nodes
-SELECT Friend1 AS Person
-INTO   #Nodes
-FROM   #Friends
-UNION
-SELECT  Friend2
 FROM    #Friends;
 GO
 
---Cross join all Edges and Nodes
-SELECT  a.Friend1, a.Friend2, b.Person
-INTO    Nodes_Edges_To_Evaluate
-FROM    #Edges a CROSS JOIN
-        #Nodes b
-ORDER BY 1,2,3;
-GO
-
---Evaluates the cross join to the edges
-WITH cte_JoinLogic AS
+WITH cte_MutualFriends AS
 (
-SELECT  a.Friend1
-        ,a.Friend2
-        ,'---' AS Id1
-        ,b.Friend2 AS MutualFriend1
-        ,'----' AS Id2
-        ,c.Friend2 AS MutualFriend2
-FROM   Nodes_Edges_To_Evaluate a LEFT OUTER JOIN
-       #Edges b ON a.Friend1 = b.Friend1 and a.Person = b.Friend2 LEFT OUTER JOIN
-       #Edges c ON a.Friend2 = c.Friend1 and a.Person = c.Friend2
-),
-cte_Predicate AS
-(
---Apply predicate logic
-SELECT  Friend1, Friend2, MutualFriend1 AS MutualFriend
-FROM    cte_JoinLogic
-WHERE   MutualFriend1 = MutualFriend2 AND MutualFriend1 IS NOT NULL AND MutualFriend2 IS NOT NULL
+SELECT  a.Friend1,
+        a.Friend2,
+        b.Friend2 AS MutualFriend
+FROM    #Edges a INNER JOIN
+        #Edges b ON a.Friend1 = b.Friend1 INNER JOIN
+        #Edges c ON a.Friend2 = c.Friend1
+                 AND b.Friend2 = c.Friend2
+WHERE   b.Friend2 <> a.Friend1
+AND     b.Friend2 <> a.Friend2
 ),
 cte_Count AS
 (
-SELECT  Friend1, Friend2, COUNT(*) AS CountMutualFriends
-FROM    cte_Predicate
-GROUP BY Friend1, Friend2
+SELECT  Friend1,
+        Friend2,
+        COUNT(*) AS CountMutualFriends
+FROM    cte_MutualFriends
+GROUP BY Friend1,
+         Friend2
 )
 SELECT  DISTINCT
-        (CASE WHEN Friend1 < Friend2 THEN Friend1 ELSE Friend2 END) AS Friend1,
-        (CASE WHEN Friend1 < Friend2 THEN Friend2 ELSE Friend1 END) AS Friend2,
-        CountMutualFriends
-FROM    cte_Count
+        CASE WHEN e.Friend1 < e.Friend2 THEN e.Friend1 ELSE e.Friend2 END AS Friend1,
+        CASE WHEN e.Friend1 < e.Friend2 THEN e.Friend2 ELSE e.Friend1 END AS Friend2,
+        ISNULL(c.CountMutualFriends,0) AS CountMutualFriends
+FROM    #Edges e LEFT OUTER JOIN
+        cte_Count c ON e.Friend1 = c.Friend1 AND e.Friend2 = c.Friend2
 ORDER BY 1,2;
 GO
 
 /*----------------------------------------------------
-Answer to Puzzle #43
-Unbounded Preceding
+Puzzle #43 - Unbounded Preceding
 */----------------------------------------------------
 
 DROP TABLE IF EXISTS #CustomerOrders;
@@ -2469,8 +2371,7 @@ CREATE TABLE #CustomerOrders
 (
 OrderID     INTEGER,
 CustomerID  INTEGER,
-Quantity    INTEGER NOT NULL,
-PRIMARY KEY (OrderID, CustomerID)
+Quantity    INTEGER
 );
 GO
 
@@ -2482,13 +2383,13 @@ GO
 SELECT  OrderID,
         CustomerID,
         Quantity,
-        MIN(Quantity) OVER (PARTITION by CustomerID ORDER BY OrderID) AS MinQuantity
-FROM    #CustomerOrders;
+        MIN(Quantity) OVER (PARTITION by CustomerID ORDER BY OrderID ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS MinQuantity
+FROM    #CustomerOrders
+ORDER BY CustomerID, OrderID;
 GO
 
 /*----------------------------------------------------
-Answer to Puzzle #44
-Slowly Changing Dimension Part I
+Puzzle #44 - Slowly Changing Dimension Part I
 */----------------------------------------------------
 
 DROP TABLE IF EXISTS #Balances;
@@ -2498,8 +2399,7 @@ CREATE TABLE #Balances
 (
 CustomerID   INTEGER,
 BalanceDate  DATE,
-Amount       MONEY NOT NULL,
-PRIMARY KEY (CustomerID, BalanceDate)
+Amount       MONEY
 );
 GO
 
@@ -2520,9 +2420,7 @@ WITH cte_Customers AS
 (
 SELECT  CustomerID,
         BalanceDate,
-        LAG(BalanceDate) OVER 
-                (PARTITION BY CustomerID ORDER BY BalanceDate DESC)
-                    AS EndDate,
+        LAG(BalanceDate) OVER (PARTITION BY CustomerID ORDER BY BalanceDate DESC) AS EndDate,
         Amount
 FROM    #Balances
 )
@@ -2535,8 +2433,7 @@ ORDER BY CustomerID, BalanceDate DESC;
 GO
 
 /*----------------------------------------------------
-Answer to Puzzle #45
-Slowly Changing Dimension Part II
+Puzzle #45 - Slowly Changing Dimension Part II
 */----------------------------------------------------
 
 DROP TABLE IF EXISTS #Balances;
@@ -2547,8 +2444,7 @@ CREATE TABLE #Balances
 CustomerID  INTEGER,
 StartDate   DATE,
 EndDate     DATE,
-Amount      MONEY,
-PRIMARY KEY (CustomerID, StartDate)
+Amount      MONEY
 );
 GO
 
@@ -2561,11 +2457,12 @@ INSERT INTO #Balances (CustomerID, StartDate, EndDate, Amount) VALUES
 (2002,'8/15/2021','8/31/2021',16.32);
 GO
 
+--Solution 1
+--LAG
 WITH cte_Lag AS
 (
 SELECT  CustomerID, StartDate, EndDate, Amount,
-        LAG(StartDate) OVER 
-            (PARTITION BY CustomerID ORDER BY StartDate DESC) AS StartDate_Lag
+        LAG(StartDate) OVER (PARTITION BY CustomerID ORDER BY StartDate DESC) AS StartDate_Lag
 FROM    #Balances
 )
 SELECT  CustomerID, StartDate, EndDate, Amount, StartDate_Lag
@@ -2574,9 +2471,23 @@ WHERE   EndDate >= StartDate_Lag
 ORDER BY CustomerID, StartDate DESC;
 GO
 
+--Solution 2
+--Self Join
+SELECT DISTINCT
+       a.CustomerID,
+       a.StartDate,
+       a.EndDate,
+       a.Amount
+FROM   #Balances a INNER JOIN
+       #Balances b ON a.CustomerID = b.CustomerID
+                  AND a.StartDate < b.StartDate
+                  AND a.EndDate >= b.StartDate
+ORDER BY CustomerID,
+         StartDate;
+GO
+
 /*----------------------------------------------------
-Answer to Puzzle #46
-Negative Account Balances
+Puzzle #46 - Negative Account Balances
 */----------------------------------------------------
 
 DROP TABLE IF EXISTS #AccountBalances;
@@ -2585,8 +2496,7 @@ GO
 CREATE TABLE #AccountBalances
 (
 AccountID  INTEGER,
-Balance    MONEY,
-PRIMARY KEY (AccountID, Balance)
+Balance    MONEY
 );
 GO
 
@@ -2607,7 +2517,7 @@ GO
 SELECT  AccountID
 FROM    #AccountBalances
 GROUP BY AccountID
-HAVING  MAX(Balance) < 0;
+HAVING  MAX(Balance) <= 0;
 GO
 
 --Solution 3
@@ -2632,9 +2542,84 @@ FROM    #AccountBalances a LEFT OUTER JOIN
 WHERE   b.AccountID IS NULL;
 GO
 
+--Solution 6
+--COUNT with CASE
+SELECT  AccountID
+FROM    #AccountBalances
+GROUP BY AccountID
+HAVING  COUNT(CASE WHEN Balance > 0 THEN 1 END) = 0;
+GO
+
+--Solution 7
+--SUM with CASE
+SELECT  AccountID
+FROM    #AccountBalances
+GROUP BY AccountID
+HAVING  SUM(CASE WHEN Balance > 0 THEN 1 ELSE 0 END) = 0;
+GO
+
+--Solution 8
+--ALL Operator
+SELECT  DISTINCT AccountID
+FROM    #AccountBalances a
+WHERE   0 >= ALL
+        (
+        SELECT  Balance
+        FROM    #AccountBalances b
+        WHERE   a.AccountID = b.AccountID
+        );
+GO
+
+--Solution 9
+--Window Function
+WITH cte_Max AS
+(
+SELECT  AccountID,
+        MAX(Balance) OVER (PARTITION BY AccountID) AS MaxBalance
+FROM    #AccountBalances
+)
+SELECT  DISTINCT AccountID
+FROM    cte_Max
+WHERE   MaxBalance <= 0;
+GO
+
+--Solution 10
+--Correlated COUNT
+SELECT  DISTINCT AccountID
+FROM    #AccountBalances a
+WHERE   0 =
+        (
+        SELECT  COUNT(*)
+        FROM    #AccountBalances b
+        WHERE   a.AccountID = b.AccountID
+        AND     b.Balance > 0
+        );
+GO
+
+--Solution 11
+--HAVING MIN(SIGN())
+SELECT  AccountID
+FROM    #AccountBalances
+GROUP BY AccountID
+HAVING  MAX(SIGN(Balance)) <= 0;
+GO
+
+--Solution 12
+--OUTER APPLY
+SELECT  DISTINCT a.AccountID
+FROM    #AccountBalances a
+OUTER APPLY
+(
+    SELECT TOP 1 1 AS PositiveBalanceExists
+    FROM   #AccountBalances b
+    WHERE  a.AccountID = b.AccountID
+    AND    b.Balance > 0
+) x
+WHERE   x.PositiveBalanceExists IS NULL;
+GO
+
 /*----------------------------------------------------
-Answer to Puzzle #47
-Work Schedule
+Puzzle #47 - Work Schedule
 */----------------------------------------------------
 
 DROP TABLE IF EXISTS #Schedule;
@@ -2645,9 +2630,9 @@ GO
 
 CREATE TABLE #Schedule
 (
-ScheduleId  CHAR(1) PRIMARY KEY,
-StartTime   DATETIME NOT NULL,
-EndTime     DATETIME NOT NULL
+ScheduleId  CHAR(1),
+StartTime   DATETIME,
+EndTime     DATETIME
 );
 GO
 
@@ -2656,8 +2641,7 @@ CREATE TABLE #Activity
 ScheduleID   CHAR(1) REFERENCES #Schedule (ScheduleID),
 ActivityName VARCHAR(100),
 StartTime    DATETIME,
-EndTime      DATETIME,
-PRIMARY KEY (ScheduleID, ActivityName, StartTime, EndTime)
+EndTime      DATETIME
 );
 GO
 
@@ -2673,58 +2657,63 @@ INSERT INTO #Activity (ScheduleID, ActivityName, StartTime, EndTime) VALUES
 ('B','Break',CAST('2021-10-01 11:00:00'AS DATETIME),CAST('2021-10-01 11:15:00' AS DATETIME));
 GO
 
---Step 1
-SELECT  ScheduleID, StartTime AS ScheduleTime 
-INTO    #ScheduleTimes
-FROM    #Schedule
-UNION
-SELECT  ScheduleID, EndTime FROM #Schedule
-UNION
-SELECT  ScheduleID, StartTime FROM #Activity
-UNION
-SELECT  ScheduleID, EndTime FROM #Activity;
-GO
+WITH cte_TimePoints AS
+(
+        -- Schedule boundaries
+        SELECT  ScheduleID,
+                StartTime AS TimePoint
+        FROM    #Schedule
 
---Step 2
-SELECT  a.ScheduleID
-        ,a.ScheduleTime
-        ,COALESCE(b.ActivityName, c.ActivityName, 'Work') AS ActivityName
-INTO    #ActivityCoalesce
-FROM    #ScheduleTimes a LEFT OUTER JOIN
-        #Activity b ON a.ScheduleTime = b.StartTime AND a.ScheduleId = b.ScheduleID LEFT OUTER JOIN
-        #Activity c ON a.ScheduleTime = c.EndTime AND a.ScheduleId = b.ScheduleID LEFT OUTER JOIN
-        #Schedule d ON a.ScheduleTime = d.StartTime AND a.ScheduleId = b.ScheduleID LEFT OUTER JOIN
-        #Schedule e ON a.ScheduleTime = e.EndTime AND a.ScheduleId = b.ScheduleID 
-ORDER BY a.ScheduleID, a.ScheduleTime;
-GO
+        UNION
 
---Step 3
-WITH cte_Lead AS
+        SELECT  ScheduleID,
+                EndTime
+        FROM    #Schedule
+
+        UNION
+
+        -- Activity boundaries
+        SELECT  ScheduleID,
+                StartTime
+        FROM    #Activity
+
+        UNION
+
+        SELECT  ScheduleID,
+                EndTime
+        FROM    #Activity
+),
+cte_TimeSlices AS
 (
 SELECT  ScheduleID,
-        ActivityName,
-        ScheduleTime AS StartTime,
-        LEAD(ScheduleTime) OVER (PARTITION BY ScheduleID ORDER BY ScheduleTime) AS EndTime
-FROM    #ActivityCoalesce
+        TimePoint AS StartTime,
+        LEAD(TimePoint) OVER (PARTITION BY ScheduleID ORDER BY TimePoint) AS EndTime
+FROM    cte_TimePoints
 )
-SELECT  ScheduleID, ActivityName, StartTime, EndTime
-FROM    cte_Lead
-WHERE   EndTime IS NOT NULL;
+SELECT  t.ScheduleID,
+        ISNULL(a.ActivityName,'Work') AS Activity,
+        t.StartTime,
+        t.EndTime
+FROM    cte_TimeSlices t LEFT OUTER JOIN
+        #Activity a ON t.ScheduleID = a.ScheduleID
+                   AND t.StartTime >= a.StartTime
+                   AND t.EndTime <= a.EndTime
+WHERE   t.EndTime IS NOT NULL
+ORDER BY t.ScheduleID,
+         t.StartTime;
 GO
 
 /*----------------------------------------------------
-Answer to Puzzle #48
-Consecutive Sales
+Puzzle #48 - Consecutive Sales
 */----------------------------------------------------
-	
+
 DROP TABLE IF EXISTS #Sales;
 GO
 
 CREATE TABLE #Sales
 (
 SalesID  INTEGER,
-[Year]   INTEGER,
-PRIMARY KEY (SalesID, [Year])
+[Year]   INTEGER
 );
 GO
 
@@ -2733,18 +2722,108 @@ INSERT INTO #Sales (SalesID, [Year]) VALUES
 (3003,2018),(3003,2020),(3003,2021),(4004,2019),(4004,2020),(4004,2021);
 GO
 
+--Solution 1
+--Conditional Aggregation
 SELECT  SalesID
 FROM    #Sales
 GROUP BY SalesID
-HAVING  SUM(CASE WHEN [Year] = '2021'     THEN 1 ELSE 0 END) > 0
-    AND SUM(CASE WHEN [Year] = '2021' - 1 THEN 1 ELSE 0 END) > 0
-    AND SUM(CASE WHEN [Year] = '2021' - 2 THEN 1 ELSE 0 END) > 0
-ORDER BY SalesID;
+HAVING  COUNT(DISTINCT CASE WHEN [Year] IN (2021,2020,2019) THEN [Year] END) = 3
+   AND  MAX(CASE WHEN [Year] = 2021 THEN 1 ELSE 0 END) = 1;
+GO
+
+
+--Solution 2
+--Self Join
+SELECT DISTINCT
+       a.SalesID
+FROM   #Sales a INNER JOIN 
+       #Sales b ON a.SalesID = b.SalesID INNER JOIN 
+       #Sales c ON a.SalesID = c.SalesID
+WHERE  a.[Year] = 2021
+AND    b.[Year] = 2020
+AND    c.[Year] = 2019;
+GO
+
+--Solution 3
+--INTERSECT
+SELECT SalesID
+FROM #Sales
+WHERE [Year] = 2021
+
+INTERSECT
+
+SELECT SalesID
+FROM #Sales
+WHERE [Year] = 2020
+
+INTERSECT
+
+SELECT SalesID
+FROM #Sales
+WHERE [Year] = 2019;
+GO
+
+--Solution 4
+--EXISTS
+
+SELECT DISTINCT
+       SalesID
+FROM   #Sales a
+WHERE  EXISTS
+       (
+           SELECT 1
+           FROM #Sales b
+           WHERE b.SalesID = a.SalesID
+           AND b.[Year] = 2021
+       )
+AND    EXISTS
+       (
+           SELECT 1
+           FROM #Sales b
+           WHERE b.SalesID = a.SalesID
+           AND b.[Year] = 2020
+       )
+AND    EXISTS
+       (
+           SELECT 1
+           FROM #Sales b
+           WHERE b.SalesID = a.SalesID
+           AND b.[Year] = 2019
+       );
+GO
+
+--Solution 5
+--ROW_NUMBER
+WITH cte_Consecutive AS
+(
+SELECT  SalesID,
+        [Year],
+        [Year] - ROW_NUMBER() OVER (PARTITION BY SalesID ORDER BY [Year]) AS grp
+FROM    #Sales
+)
+SELECT  SalesID
+FROM    cte_Consecutive
+GROUP BY SalesID,
+         grp
+HAVING  COUNT(*) >= 3
+AND     MAX([Year]) = 2021;
+GO
+
+--Solution 6
+DECLARE @CurrentYear INTEGER = 2021;
+
+SELECT  SalesID
+FROM    #Sales
+WHERE   [Year] BETWEEN @CurrentYear - 2
+                   AND @CurrentYear
+GROUP BY SalesID
+HAVING  MIN([Year]) = @CurrentYear - 2
+AND     MAX([Year]) = @CurrentYear
+AND     COUNT(DISTINCT [Year]) = 3;
 GO
 
 /*----------------------------------------------------
-Answer to Puzzle #49
-Sumo Wrestlers
+Puzzle #49 - Sumo Wrestlers
 */----------------------------------------------------
 
 DROP TABLE IF EXISTS #ElevatorOrder;
@@ -2752,9 +2831,9 @@ GO
 
 CREATE TABLE #ElevatorOrder
 (
-LineOrder  INTEGER PRIMARY KEY,
-[Name]     VARCHAR(100) NOT NULL,
-[Weight]   INTEGER NOT NULL
+LineOrder  INTEGER,
+[Name]     VARCHAR(100),
+[Weight]   INTEGER
 );
 GO
 
@@ -2767,7 +2846,7 @@ GO
 WITH cte_Running_Total AS
 (
 SELECT  [Name], [Weight], LineOrder,
-        SUM(Weight) OVER (ORDER BY LineOrder) AS Running_Total
+        SUM(Weight) OVER (ORDER BY LineOrder ROWS UNBOUNDED PRECEDING) AS Running_Total
 FROM    #ElevatorOrder
 )
 SELECT  TOP 1
@@ -2778,8 +2857,7 @@ ORDER BY Running_Total DESC;
 GO
 
 /*----------------------------------------------------
-Answer to Puzzle #50
-Baseball Balls and Strikes
+Puzzle #50 - Baseball Balls and Strikes
 */----------------------------------------------------
 
 DROP TABLE IF EXISTS #Pitches;
@@ -2792,8 +2870,7 @@ CREATE TABLE #Pitches
 (
 BatterID     INTEGER,
 PitchNumber  INTEGER,
-Result       VARCHAR(100) NOT NULL,
-PRIMARY KEY (BatterID, PitchNumber)
+Result       VARCHAR(100)
 );
 GO
 
@@ -2852,8 +2929,7 @@ ORDER BY 1,2;
 GO
 
 /*----------------------------------------------------
-Answer to Puzzle #51
-Primary Key Creation
+Puzzle #51 - Primary Key Creation
 */----------------------------------------------------
 
 DROP TABLE IF EXISTS #Assembly;
@@ -2862,8 +2938,7 @@ GO
 CREATE TABLE #Assembly
 (
 AssemblyID  INTEGER,
-Part        VARCHAR(100),
-PRIMARY KEY (AssemblyID, Part)
+Part        VARCHAR(100)
 );
 GO
 
@@ -2880,8 +2955,7 @@ FROM    #Assembly;
 GO
 
 /*----------------------------------------------------
-Answer to Puzzle #52
-Phone Numbers Table
+Puzzle #52 - Phone Numbers Table
 */----------------------------------------------------
 
 DROP TABLE IF EXISTS #CustomerInfo;
@@ -2889,8 +2963,8 @@ GO
 
 CREATE TABLE #CustomerInfo
 (
-CustomerID   INTEGER PRIMARY KEY,
-PhoneNumber  VARCHAR(14) NOT NULL,
+CustomerID   INTEGER,
+PhoneNumber  VARCHAR(14),
 CONSTRAINT ckPhoneNumber CHECK (LEN(PhoneNumber) = 14
                             AND SUBSTRING(PhoneNumber,1,1)= '('
                             AND SUBSTRING(PhoneNumber,5,1)= ')'
@@ -2908,8 +2982,7 @@ FROM    #CustomerInfo;
 GO
 
 /*----------------------------------------------------
-Answer to Puzzle #53
-Spouse IDs
+Puzzle #53 - Spouse IDs
 */----------------------------------------------------
 
 DROP TABLE IF EXISTS #Spouses;
@@ -2918,8 +2991,7 @@ GO
 CREATE TABLE #Spouses
 (
 PrimaryID  VARCHAR(100),
-SpouseID   VARCHAR(100),
-PRIMARY KEY (PrimaryID, SpouseID)
+SpouseID   VARCHAR(100)
 );
 GO
 
@@ -2952,8 +3024,7 @@ FROM    cte_DenseRank a INNER JOIN
 GO
 
 /*----------------------------------------------------
-Answer to Puzzle #54
-Winning the Lottery
+Puzzle #54 - Winning the Lottery
 */----------------------------------------------------
 
 DROP TABLE IF EXISTS #WinningNumbers;
@@ -2962,7 +3033,7 @@ GO
 
 CREATE TABLE #WinningNumbers
 (
-Number  INTEGER PRIMARY KEY
+Number  INTEGER
 );
 GO
 
@@ -2973,8 +3044,7 @@ GO
 CREATE TABLE #LotteryTickets
 (
 TicketID  VARCHAR(3),
-Number    INTEGER,
-PRIMARY KEY (TicketID, Number)
+Number    INTEGER
 );
 GO
 
@@ -3002,8 +3072,7 @@ FROM    cte_Payout;
 GO
 
 /*----------------------------------------------------
-Answer to Puzzle #55
-Table Audit
+Puzzle #55 - Table Audit
 */----------------------------------------------------
 
 DROP TABLE IF EXISTS #ProductsA;
@@ -3012,15 +3081,15 @@ GO
 
 CREATE TABLE #ProductsA
 (
-ProductName  VARCHAR(100) PRIMARY KEY,
-Quantity     INTEGER NOT NULL
+ProductName  VARCHAR(100),
+Quantity     INTEGER
 );
 GO
 
 CREATE TABLE #ProductsB
 (
-ProductName  VARCHAR(100) PRIMARY KEY,
-Quantity     INTEGER NOT NULL
+ProductName  VARCHAR(100),
+Quantity     INTEGER
 );
 GO
 
@@ -3036,6 +3105,8 @@ INSERT INTO #ProductsB (ProductName, Quantity) VALUES
 ('Dingbat',9);
 GO
 
+--Solution 1
+--UNION
 WITH cte_FullOuter AS
 (
 SELECT  a.ProductName AS ProductNameA,
@@ -3066,9 +3137,24 @@ FROM    cte_FullOuter
 WHERE   ProductNameA = ProductNameB AND QuantityA <> QuantityB;
 GO
 
+--Solution 2
+--CASE statement
+SELECT  CASE WHEN a.ProductName IS NOT NULL AND b.ProductName IS NOT NULL AND a.Quantity = b.Quantity
+             THEN 'Matches in both table A and table B'
+             WHEN a.ProductName IS NULL
+             THEN 'Product does not exist in table A'
+             WHEN b.ProductName IS NULL
+             THEN 'Product does not exist in table B'
+             WHEN a.Quantity <> b.Quantity
+             THEN 'Quantity in table A and table B do not match'
+             END AS [Type],
+        COALESCE(a.ProductName,b.ProductName) AS ProductName
+FROM    #ProductsA a
+FULL OUTER JOIN #ProductsB b ON a.ProductName = b.ProductName
+ORDER BY 1;
+
 /*----------------------------------------------------
-Answer to Puzzle #56
-Numbers Using Recursion
+Puzzle #56 - Numbers Using Recursion
 */----------------------------------------------------
 
 DECLARE @vTotalNumbers INTEGER = 10;
@@ -3094,8 +3180,7 @@ OPTION (MAXRECURSION 0);--A value of 0 means no limit to the recursion level
 GO
 
 /*----------------------------------------------------
-Answer to Puzzle #57
-Find the Spaces
+Puzzle #57 - Find the Spaces
 */----------------------------------------------------
 
 DROP TABLE IF EXISTS #Strings;
@@ -3104,7 +3189,7 @@ GO
 CREATE TABLE #Strings
 (
 QuoteId  INTEGER IDENTITY(1,1) PRIMARY KEY,
-String   VARCHAR(100) NOT NULL
+String   VARCHAR(100)
 );
 GO
 
@@ -3112,6 +3197,8 @@ INSERT INTO #Strings (String) VALUES
 ('SELECT EmpID FROM Employees;'),('SELECT * FROM Transactions;');
 GO
 
+
+--Solution 1
 WITH cte_StringSplit AS
 (
 SELECT b.Ordinal AS RowNumber,
@@ -3128,12 +3215,11 @@ SELECT RowNumber,
        CHARINDEX(Word, String) AS Starts,
        (CHARINDEX(Word, String) + WordLength) - 1 AS Ends,
        Word
-FROM cte_StringSplit;
+FROM   cte_StringSplit;
 GO
 
 /*----------------------------------------------------
-Answer to Puzzle #58
-Add Them Up
+Puzzle #58 - Add Them Up
 */----------------------------------------------------
 
 DROP TABLE IF EXISTS #Equations;
@@ -3141,8 +3227,8 @@ GO
 
 CREATE TABLE #Equations
 (
-Equation  VARCHAR(200) PRIMARY KEY,
-TotalSum  INTEGER NULL
+Equation  VARCHAR(200),
+TotalSum  INTEGER
 );
 GO
 
@@ -3152,7 +3238,7 @@ GO
 
 --Solution 1
 --CURSOR and DYNAMIC SQL
---This solution if you have to multiple and divide
+--Use this solution if you have to multiple and divide
 DECLARE @vSQLStatement NVARCHAR(1000);
 DECLARE c_cursor CURSOR FOR (SELECT Equation FROM #Equations);
 DECLARE @vEquation NVARCHAR(1000);
@@ -3180,16 +3266,12 @@ CLOSE c_cursor;
 DEALLOCATE c_cursor;
 
 SELECT  Equation, TotalSum
-FROM    #Equations;
+FROM    #Equations
+ORDER BY 1;
 GO
 
 --Solution 2
 --STRING_SPLIT
---This solution will work if you need to only add and subtract.
---Note that STRING_SPLIT does not guarantee order.  Use enable_oridinal if you need to order the output.
---The enable_ordinal argument and ordinal output column are currently supported in Azure SQL Database, Azure SQL Managed Instance, 
---and Azure Synapse Analytics (serverless SQL pool only). Beginning with SQL Server 2022 (16.x), the argument and output column are available in SQL Server.
-	
 WITH cte_ReplacePositive AS
 (
 SELECT  Equation,
@@ -3210,12 +3292,27 @@ FROM    cte_ReplaceNegative a CROSS APPLY
 )
 SELECT Equation, SUM([Value]) AS EquationSum
 FROM   cte_StringSplit
-GROUP BY Equation;
+GROUP BY Equation
+ORDER BY 1;
+GO
+
+--Solution 3
+--XML
+WITH cte_Expressions AS
+(
+SELECT  Equation,
+        CAST('<x>' + REPLACE(REPLACE(REPLACE(Equation,'-','</x><x>-'),'+','</x><x>'),'<x></x>','') + '</x>' AS XML) AS XmlData
+FROM    #Equations
+)
+SELECT  Equation AS Permutation,
+        (SELECT SUM(CAST(N.value('.','varchar(20)') AS int))
+         FROM XmlData.nodes('/x') AS T(N)) AS [Sum]
+FROM    cte_Expressions
+ORDER BY 1;
 GO
 
 /*----------------------------------------------------
-Answer to Puzzle #59
-Balanced String
+Puzzle #59 - Balanced String
 */----------------------------------------------------
 
 DROP TABLE IF EXISTS #BalancedString;
@@ -3266,27 +3363,29 @@ WHILE @vLoop <> 0
     -------------------
 
     --Determine if there are any more matching objects to update
-    WITH cte_Charindex AS
-    (
-    SELECT CHARINDEX('()',UpdateString) AS LoopDetermine FROM #BalancedString
-    UNION
-    SELECT CHARINDEX('[]',UpdateString) AS LoopDetermine FROM #BalancedString
-    UNION
-    SELECT CHARINDEX('{}',UpdateString) AS LoopDetermine FROM #BalancedString
-    )
-    SELECT @vLoop = MAX(LoopDetermine) FROM cte_Charindex;
+    SELECT @vLoop =
+           CASE WHEN EXISTS
+               (
+                SELECT 1
+                FROM #BalancedString
+                WHERE UpdateString LIKE '%()%'
+                   OR UpdateString LIKE '%[]%'
+                   OR UpdateString LIKE '%{}%'
+               )
+               THEN 1 ELSE 0 END;
+
     -------------------
 
     END;
 
 --If the UpdateString column is empty, then it is a balanced string 
 SELECT  *, CASE WHEN UpdateString = '' THEN 'Balanced' ELSE 'Unbalanced' END AS FinalResult 
-FROM    #BalancedString;
-
+FROM    #BalancedString
+ORDER BY 1;
+GO
 
 /*----------------------------------------------------
-Answer to Puzzle #60
-Products Without Duplicates
+Puzzle #60 - Products Without Duplicates
 */----------------------------------------------------
 
 DROP TABLE IF EXISTS #Products;
@@ -3295,8 +3394,7 @@ GO
 CREATE TABLE #Products
 (
 Product      VARCHAR(10),
-ProductCode  VARCHAR(2),
-PRIMARY KEY (Product, ProductCode)
+ProductCode  VARCHAR(2)
 );
 GO
 
@@ -3310,12 +3408,12 @@ GO
 SELECT ProductCode
 FROM   #Products
 GROUP BY ProductCode
-HAVING COUNT(DISTINCT Product) = 1;
+HAVING COUNT(DISTINCT Product) = 1
+ORDER BY 1;
 GO
 
 /*----------------------------------------------------
-Answer to Puzzle #61
-Player Scores
+Puzzle #61 - Player Scores
 */----------------------------------------------------
 
 DROP TABLE IF EXISTS #PlayerScores;
@@ -3325,8 +3423,7 @@ CREATE TABLE #PlayerScores
 (
 AttemptID  INTEGER,
 PlayerID   INTEGER,
-Score      INTEGER,
-PRIMARY KEY (AttemptID, PlayerID)
+Score      INTEGER
 );
 GO
 
@@ -3338,8 +3435,7 @@ WITH cte_FirstLastValues AS
 (
 SELECT  *
         ,FIRST_VALUE(Score) OVER (PARTITION BY PlayerID ORDER BY AttemptID) AS FirstValue
-        ,LAST_VALUE(Score) OVER  (PARTITION BY PlayerID ORDER BY AttemptID
-                                  ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING) LastValue
+        ,LAST_VALUE(Score) OVER  (PARTITION BY PlayerID ORDER BY AttemptID ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING) LastValue
         ,LAG(Score,1,99999999) OVER (PARTITION BY PlayerID ORDER BY AttemptID) AS LagScore
         ,CASE WHEN Score - LAG(Score,1,0) OVER (PARTITION BY PlayerID ORDER BY AttemptID) > 0 THEN 1 ELSE 0 END AS IsImproved
 FROM    #PlayerScores
@@ -3351,19 +3447,19 @@ SELECT  AttemptID
        ,Score - LastValue AS Difference_Last
        ,IsImproved AS IsPreviousScoreLower
        ,MIN(IsImproved) OVER (PARTITION BY PlayerID) AS IsOverallImproved
-FROM   cte_FirstLastValues;
+FROM   cte_FirstLastValues
+ORDER BY 1;
 GO
 
 /*----------------------------------------------------
-Answer to Puzzle #62
-Car and Boat Purchase
+Puzzle #62 - Car and Boat Purchase
 */----------------------------------------------------
 
 DROP TABLE IF EXISTS #Vehicles;
 GO
 
 CREATE TABLE #Vehicles (
-VehicleID  INTEGER PRIMARY KEY,
+VehicleID  INTEGER,
 [Type]     VARCHAR(20),
 Model      VARCHAR(20),
 Price      MONEY
@@ -3392,16 +3488,15 @@ ORDER BY 1,2;
 GO
 
 /*----------------------------------------------------
-Answer to Puzzle #63
-Promotion Codes
+Puzzle #63 - Promotion Codes
 */----------------------------------------------------
 
 DROP TABLE IF EXISTS #Promotions;
 GO
 
 CREATE TABLE #Promotions (
-OrderID   INTEGER NOT NULL,
-Product   VARCHAR(255) NOT NULL,
+OrderID   INTEGER,
+Product   VARCHAR(255),
 Discount  VARCHAR(255)
 );
 GO
@@ -3416,19 +3511,41 @@ INSERT INTO #Promotions (OrderID, Product, Discount) VALUES
 (2, 'Item3', NULL),
 (3, 'Item1', 'PROMO'),
 (3, 'Item1', 'PROMO'),
-(3, 'Item1', 'PROMO');
+(3, 'Item1', 'PROMO'),
+(4, 'Item1', 'PROMO'),
+(4, 'Item1', 'MARKDOWN');
 GO
 
-SELECT OrderID
-FROM   #Promotions
-WHERE  Discount = ALL(SELECT 'PROMO')
+--Solution 1
+--HAVING
+SELECT  OrderID
+FROM    #Promotions
 GROUP BY OrderID
-HAVING COUNT(DISTINCT Product) = 1;
+HAVING  COUNT(DISTINCT Product) = 1
+AND     SUM(CASE WHEN Discount = 'PROMO' THEN 1 ELSE 0 END) > 0
+AND     SUM(CASE WHEN Discount <> 'PROMO'
+                  OR Discount IS NULL
+                 THEN 1 ELSE 0 END) = 0;
+GO
+
+--Solution 2
+--Correlated Subquery
+SELECT  DISTINCT a.OrderID
+FROM    #Promotions a
+WHERE   NOT EXISTS
+(
+    SELECT 1
+    FROM #Promotions b
+    WHERE b.OrderID = a.OrderID AND 
+          (b.Discount <> 'PROMO' OR b.Discount IS NULL)
+)
+GROUP BY a.OrderID
+HAVING COUNT(DISTINCT Product) = 1
+ORDER BY 1;
 GO
 
 /*----------------------------------------------------
-Answer to Puzzle #64
-Between Quotes
+Puzzle #64 - Between Quotes
 */----------------------------------------------------
 
 DROP TABLE IF EXISTS #Strings;
@@ -3437,7 +3554,7 @@ GO
 CREATE TABLE #Strings
 (
 ID      INTEGER IDENTITY(1,1) PRIMARY KEY,
-String  VARCHAR(256) NOT NULL
+String  VARCHAR(256)
 );
 GO
 
@@ -3450,41 +3567,27 @@ INSERT INTO #Strings (String) VALUES
 ('12345678901234');
 GO
 
---Note that STRING_SPLIT does not guarantee order.  Use enable_oridinal if you need to order the output.
---The enable_ordinal argument and ordinal output column are currently supported in Azure SQL Database, Azure SQL Managed Instance, 
---and Azure Synapse Analytics (serverless SQL pool only). Beginning with SQL Server 2022 (16.x), the argument and output column are available in SQL Server.
-WITH cte_Strings AS
+WITH cte_CharIndex AS
 (
 SELECT  ID,
         String,
-        (CASE WHEN LEN(String) - LEN(REPLACE(String,'"','')) <> 2 THEN 'Error' END) AS Result
-FROM    #Strings
-),
-cte_StringSplit AS
-(
-SELECT  ROW_NUMBER() OVER (PARTITION BY String ORDER BY GETDATE()) AS RowNumber,
-        *
-FROM    cte_Strings CROSS APPLY
-        STRING_SPLIT(String,'"')
+        LEN(String) - LEN(REPLACE(String,'"','')) AS QuoteCount,
+        CASE WHEN LEN(String) - LEN(REPLACE(String,'"','')) = 2
+             THEN CHARINDEX('"',String, CHARINDEX('"',String) + 1) - CHARINDEX('"',String) - 1
+             END AS CharactersBetweenQuotes
+FROM #Strings
 )
 SELECT  ID,
         String,
-        (CASE WHEN LEN(Value) > 10 THEN 'True' ELSE 'False' END) AS Result
-FROM    cte_StringSplit
-WHERE   Result IS NULL AND 
-        RowNumber = 2
-UNION
-SELECT  ID,
-        String,
-        Result
-FROM    cte_Strings
-WHERE  Result = 'Error'
-ORDER BY 1;
+        CASE WHEN QuoteCount <> 2 THEN 'Error'
+             WHEN CharactersBetweenQuotes > 10 THEN 'True'
+             ELSE 'False' END AS Result
+FROM cte_CharIndex
+ORDER BY ID;
 GO
 
 /*----------------------------------------------------
-Answer to Puzzle #65
-Home Listings
+Puzzle #65 - Home Listings
 */----------------------------------------------------
 
 DROP TABLE IF EXISTS #HomeListings;
@@ -3492,9 +3595,9 @@ GO
 
 CREATE TABLE #HomeListings
 (
-ListingID  INTEGER PRIMARY KEY,
+ListingID  INTEGER,
 HomeID     VARCHAR(100),
-[Status]     VARCHAR(100)
+[Status]   VARCHAR(100)
 );
 GO
 
@@ -3510,20 +3613,40 @@ INSERT INTO #HomeListings (ListingID, HomeID, [Status]) VALUES
 (9, 'Home C', 'Closed');
 GO
 
+--Solution 1
+--SUM
 WITH cte_Case AS
 (
 SELECT  *,
-        (CASE WHEN Status IN ('New Listing', 'Relisted') THEN 1 END) AS IsNewOrRelisted
+        (CASE WHEN Status IN ('New Listing', 'Relisted') THEN 1 ELSE 0 END) AS IsNewOrRelisted
 FROM    #HomeListings
 )
 SELECT  ListingID, HomeID, Status,
-        SUM(IsNewOrRelisted) OVER (ORDER BY ListingID) AS GroupingID
-FROM    cte_Case;
+        SUM(IsNewOrRelisted) OVER (ORDER BY ListingID ROWS UNBOUNDED PRECEDING) AS GroupingID
+FROM    cte_Case
+ORDER BY ListingID;
+GO
+
+--Solution 2
+--SUM with Window
+WITH cte_Groupings AS
+(
+SELECT  ListingID,
+        HomeID,
+        [Status],
+        SUM(CASE WHEN [Status] IN ('New Listing', 'Relisted') THEN 1 ELSE 0 END) OVER (ORDER BY ListingID ROWS UNBOUNDED PRECEDING) AS GroupingID
+FROM    #HomeListings
+)
+SELECT  ListingID,
+        HomeID,
+        [Status],
+        GroupingID
+FROM    cte_Groupings
+ORDER BY ListingID;
 GO
 
 /*----------------------------------------------------
-Answer to Puzzle #66
-Matching Parts
+Puzzle #66 - Matching Parts
 */----------------------------------------------------
 
 DROP TABLE IF EXISTS #Parts;
@@ -3531,7 +3654,7 @@ GO
 
 CREATE TABLE #Parts
 (
-SerialNumber    VARCHAR(100) PRIMARY KEY,
+SerialNumber    VARCHAR(100),
 ManufactureDay  INTEGER,
 Product         VARCHAR(100)
 );
@@ -3549,6 +3672,8 @@ INSERT INTO #Parts (SerialNumber, ManufactureDay, Product) VALUES
 ('I333', 7, 'Nut');
 GO
 
+--Solution 1
+--ROW_NUMBER
 WITH cte_RowNumber AS
 (
 SELECT  ROW_NUMBER() OVER (PARTITION BY Product ORDER BY ManufactureDay) AS RowNumber,
@@ -3560,12 +3685,50 @@ SELECT  a.SerialNumber AS Bolt,
         c.SerialNumber AS Nut
 FROM    (SELECT * FROM cte_RowNumber WHERE Product = 'Bolt') a INNER JOIN
         (SELECT * FROM cte_RowNumber WHERE Product = 'Washer') b ON a.RowNumber = b.RowNumber INNER JOIN
-        (SELECT * FROM cte_RowNumber WHERE Product = 'Nut') c ON a.RowNumber = c.RowNumber;
+        (SELECT * FROM cte_RowNumber WHERE Product = 'Nut') c ON a.RowNumber = c.RowNumber
+ORDER BY a.SerialNumber;
+GO
+
+--Solution 2
+--ROW_NUMBER with MAX
+WITH cte_RowNumber AS
+(
+SELECT  SerialNumber,
+        Product,
+        ROW_NUMBER() OVER (PARTITION BY Product ORDER BY ManufactureDay) AS RN
+FROM    #Parts
+)
+SELECT  MAX(CASE WHEN Product = 'Bolt'   THEN SerialNumber END) AS Bolt,
+        MAX(CASE WHEN Product = 'Washer' THEN SerialNumber END) AS Washer,
+        MAX(CASE WHEN Product = 'Nut'    THEN SerialNumber END) AS Nut
+FROM    cte_RowNumber
+GROUP BY RN
+ORDER BY RN;
+GO
+
+--Solution 3
+--PIVOT
+WITH cte_RowNumber AS
+(
+SELECT  SerialNumber,
+        Product,
+        ROW_NUMBER() OVER (PARTITION BY Product ORDER BY ManufactureDay) AS RN
+FROM    #Parts
+)
+SELECT  Bolt,
+        Washer,
+        Nut
+FROM    (SELECT RN,
+                Product,
+                SerialNumber
+         FROM cte_RowNumber
+) a
+PIVOT (MAX(SerialNumber) FOR Product IN ([Bolt],[Washer],[Nut])) p
+ORDER BY RN;
 GO
 
 /*----------------------------------------------------
-Answer to Puzzle #67
-Matching Birthdays
+Puzzle #67 - Matching Birthdays
 */----------------------------------------------------
 
 DROP TABLE IF EXISTS #Students;
@@ -3573,7 +3736,7 @@ GO
 
 CREATE TABLE #Students
 (
-StudentName  VARCHAR(50) PRIMARY KEY,
+StudentName  VARCHAR(50),
 Birthday     DATE
 );
 GO
@@ -3590,15 +3753,37 @@ INSERT INTO #Students (StudentName, Birthday) VALUES
 ('Aaron', '2015-12-18');
 GO
 
-SELECT  Birthday, STRING_AGG(StudentName, ', ') AS Students
+--Solution 1
+--STRING_AGG
+SELECT  Birthday, STRING_AGG(StudentName, ', ') WITHIN GROUP (ORDER BY StudentName) AS Students
 FROM    #Students
 GROUP BY Birthday
-HAVING  COUNT(*) > 1;
+HAVING  COUNT(*) > 1
+ORDER BY BirthDay;
+GO
+
+--Solution 2
+--XML Path
+SELECT  a.Birthday,
+        STUFF
+        (
+            (
+                SELECT ', ' + b.StudentName
+                FROM #Students b
+                WHERE a.Birthday = b.Birthday
+                ORDER BY b.StudentName
+                FOR XML PATH(''), TYPE
+            ).value('.','varchar(max)')
+            ,1,2,''
+        ) AS Students
+FROM    #Students a
+GROUP BY a.Birthday
+HAVING  COUNT(*) > 1
+ORDER BY a.Birthday;
 GO
 
 /*----------------------------------------------------
-Answer to Puzzle #68
-Removing Outliers
+Puzzle #68 - Removing Outliers
 */----------------------------------------------------
 
 DROP TABLE IF EXISTS #Teams;
@@ -3607,8 +3792,7 @@ GO
 CREATE TABLE #Teams (
 Team    VARCHAR(50),
 [Year]  INTEGER,
-Score   INTEGER,
-PRIMARY KEY (Team, Year)
+Score   INTEGER
 );
 GO
 
@@ -3632,19 +3816,18 @@ FROM   #Teams a
 ),
 cte_RowNumber AS
 (
-SELECT  ROW_NUMBER() OVER (PARTITION BY Team ORDER BY ABS(Score - AverageScore) DESC) AS RowNumber,
+SELECT  ROW_NUMBER() OVER (PARTITION BY Team ORDER BY ABS(Score - AverageScore) DESC, Score DESC) AS RowNumber,
         *
 FROM    cte_SummaryStatistics
 )
-SELECT Team, AVG(Score) AS Score
+SELECT Team, CAST(AVG(Score) AS INT) AS Score
 FROM   cte_RowNumber
 WHERE  RowNumber <> 1
 GROUP BY Team;
 GO
 
 /*----------------------------------------------------
-Answer to Puzzle #69
-Splitting a Hierarchy
+Puzzle #69 - Splitting a Hierarchy
 */----------------------------------------------------
 
 DROP TABLE IF EXISTS #OrganizationChart;
@@ -3653,7 +3836,7 @@ GO
 CREATE TABLE #OrganizationChart
 (
 ManagerID   CHAR(1),
-EmployeeID  CHAR(1) NOT NULL PRIMARY KEY
+EmployeeID  CHAR(1)
 );
 GO
 
@@ -3672,9 +3855,12 @@ GO
 
 CREATE TABLE #OrganizationChartSummary
 (
-Summary  VARCHAR(5000) NOT NULL PRIMARY KEY
+Summary  VARCHAR(5000)
 );
 GO
+
+
+--This solution uses a WHILE loop.  Recursion can also be used.
 
 --Seed the table
 INSERT INTO #OrganizationChartSummary (Summary)
@@ -3685,17 +3871,17 @@ GO
 
 WHILE @@RowCount >= 1
 BEGIN
-INSERT INTO #OrganizationChartSummary (Summary)
-SELECT  CONCAT(a.Summary, ' / ', b.EmployeeID)
-FROM    #OrganizationChartSummary a INNER JOIN
-        #OrganizationChart b ON RIGHT(a.Summary,1) = b.ManagerID 
-WHERE   CONCAT(a.Summary, ' / ', b.EmployeeID) NOT IN (SELECT Summary FROM #OrganizationChartSummary);
-END;
+    INSERT INTO #OrganizationChartSummary (Summary)
+    SELECT  CONCAT(a.Summary, ' / ', b.EmployeeID)
+    FROM    #OrganizationChartSummary a INNER JOIN
+            #OrganizationChart b ON RIGHT(a.Summary,1) = b.ManagerID 
+    WHERE   CONCAT(a.Summary, ' / ', b.EmployeeID) NOT IN (SELECT Summary FROM #OrganizationChartSummary);
+    END;
 GO
 
 WITH cte_GroupID AS
 (
-SELECT  ROW_NUMBER() OVER (ORDER BY Summary) AS GroupID, 
+SELECT  ROW_NUMBER() OVER (ORDER BY Summary) AS GroupID,
         *
 FROM    #OrganizationChartSummary
 WHERE   LEN(Summary) = LEN(REPLACE(Summary,'/','')) + 1 AND
@@ -3705,7 +3891,7 @@ cte_Like AS
 (
 SELECT  a.GroupID, b.*
 FROM    cte_GroupID a INNER JOIN
-        #OrganizationChartSummary b ON b.Summary LIKE '%' + a.Summary + '%'
+        #OrganizationChartSummary b ON b.Summary LIKE a.Summary + ' / %'
 )
 SELECT  DISTINCT
         a.GroupID,
@@ -3716,8 +3902,7 @@ ORDER BY 1,2;
 GO
 
 /*----------------------------------------------------
-Answer to Puzzle #70
-Student Facts
+Puzzle #70 - Student Facts
 */----------------------------------------------------
 
 DROP TABLE IF EXISTS #Students;
@@ -3725,10 +3910,10 @@ GO
 
 CREATE TABLE #Students
 (
-ParentID  INTEGER NOT NULL,
-ChildID   CHAR(1) PRIMARY KEY,
-Age       INTEGER NOT NULL,
-Gender    CHAR(1) NOT NULL
+ParentID  INTEGER,
+ChildID   CHAR(1),
+Age       INTEGER,
+Gender    CHAR(1)
 );
 GO
 
@@ -3746,8 +3931,7 @@ GO
 
 WITH cte_LagAgeGap AS
 (
-SELECT  --ROW_NUMBER() OVER (PARTITION BY ParentID ORDER BY Age) AS RowNumber,
-        ParentID,
+SELECT  ParentID,
         AGE - LAG(AGE,1) OVER (PARTITION BY ParentID ORDER BY AGE) AS AgeDifference
 FROM    #Students
 GROUP BY ParentID, Age
@@ -3763,26 +3947,25 @@ HAVING COUNT(*) >= 2
 SELECT  a.ParentID,
         COUNT(*) AS NumberChildren,
         AVG(CAST(a.Age AS FLOAT)) AS AverageAge,
-        CASE WHEN COUNT(*) = 1 THEN NULL ELSE MAX(a.Age) - MIN(Age) END AS AgeDifference,
-        b.MaxAgeDifference,
+        ISNULL(CASE WHEN COUNT(*) = 1 THEN NULL ELSE MAX(a.Age) - MIN(Age) END,0) AS AgeDifference,
+        ISNULL(b.MaxAgeDifference,0) AS MaxAgeDifference,
         MIN(a.Age) AS YoungestAge,
         MAX(a.Age) AS OldestAge,
-        STRING_AGG(a.Gender, ', ') AS Genders
+        STRING_AGG(a.Gender, ', ') WITHIN GROUP (ORDER BY ChildID) AS Genders
 FROM    #Students a LEFT OUTER JOIN
         cte_MaxAgeGap b ON a.ParentID = b.ParentID
 GROUP BY a.ParentID, b.MaxAgeDifference
-ORDER BY 1;
+ORDER BY a.ParentID;
 GO
 
 /*----------------------------------------------------
-Answer to Puzzle #71
-Employee Validation
+Puzzle #71 - Employee Validation
 */----------------------------------------------------
 
 --Note this puzzle uses permanant tables
 --Setting the database to use "test" to avoid possible issues
 
-USE test;
+--USE test;
 GO
 
 DROP TABLE IF EXISTS TemporaryEmployees;
@@ -3793,21 +3976,21 @@ GO
 CREATE TABLE TemporaryEmployees
 (
 EmployeeID  INTEGER PRIMARY KEY,
-Department  VARCHAR(50) NOT NULL
+Department  VARCHAR(50)
 );
 GO
 
 CREATE TABLE PermanentEmployees
 (
 EmployeeID  INTEGER PRIMARY KEY,
-Department  VARCHAR(50) NOT NULL
+Department  VARCHAR(50)
 );
 GO
 
 CREATE TABLE Employees
 (
 EmployeeID  INTEGER PRIMARY KEY,
-[Name]      VARCHAR(50) NOT NULL
+[Name]      VARCHAR(50)
 );
 GO
 
@@ -3884,17 +4067,16 @@ GO
 */
 
 /*----------------------------------------------------
-Answer to Puzzle #72
-Under Warranty
+Puzzle #72 - Under Warranty
 */----------------------------------------------------
 
 DROP TABLE IF EXISTS #Repairs;
 GO
 
 CREATE TABLE #Repairs (
-RepairID    INTEGER PRIMARY KEY,
-CustomerID  CHAR(1) NOT NULL,
-RepairDate  DATE NOT NULL
+RepairID    INTEGER,
+CustomerID  CHAR(1),
+RepairDate  DATE
 );
 GO
 
@@ -3909,59 +4091,45 @@ INSERT INTO #Repairs (RepairID, CustomerID, RepairDate) VALUES
 (8008,'B','2023-09-01');
 GO
 
+
 WITH cte_Lag AS
 (
-SELECT  *,
-        LAG(RepairDate,1) OVER (PARTITION BY CustomerID ORDER BY RepairDate) AS LagRepairDate,
-        LAG(RepairID,1)   OVER (PARTITION BY CustomerID ORDER BY RepairDate) AS LagRepairID
+SELECT  CustomerID,
+        RepairID,
+        RepairDate,
+        LAG(RepairID) OVER (PARTITION BY CustomerID ORDER BY RepairDate) AS PreviousRepairID,
+        LAG(RepairDate) OVER (PARTITION BY CustomerID ORDER BY RepairDate) AS PreviousRepairDate
 FROM    #Repairs
 ),
-cte_DateDiff AS
-(
-SELECT  DATEDIFF(DAY, LagRepairDate, RepairDate) AS LagDateDiff,
-        ROW_NUMBER() OVER (ORDER BY RepairDate) AS RowNumber,
-        *
-FROM cte_Lag
-),
-cte_GroupKey AS
-(
-SELECT  CASE WHEN LagDateDiff > 30 THEN 1 END AS GroupKey,
-        *
-FROM    cte_DateDiff
-),
-cte_Sum AS
+cte_Groups AS
 (
 SELECT  *,
-        SUM(GroupKey) OVER (PARTITION BY CustomerID ORDER BY RowNumber) AS GroupingID
-FROM    cte_GroupKey
-),
-cte_RowNumber AS
-(
-SELECT  *
-        ,ROW_NUMBER() OVER (PARTITION BY CustomerID, GroupingID ORDER BY GroupingID, RepairDate) - 1 AS SequenceNumber
-FROM    cte_Sum
+        DATEDIFF(DAY, PreviousRepairDate, RepairDate) AS RepairGapDays,
+        SUM(CASE WHEN PreviousRepairDate IS NULL OR DATEDIFF(DAY, PreviousRepairDate, RepairDate) > 30 THEN 1 ELSE 0 END) 
+            OVER (PARTITION BY CustomerID ORDER BY RepairDate ROWS UNBOUNDED PRECEDING) AS GroupID
+FROM    cte_Lag
 )
-SELECT  CustomerID
-        ,RepairID
-        ,LagRepairID AS PreviousRepaidID
-        ,RepairDate
-        ,LagRepairDate AS PreviousRepairDate
-        ,SequenceNumber
-        ,LagDateDiff AS RepaidGapDays
-FROM    cte_RowNumber
-WHERE   SequenceNumber <> 0;
+SELECT  CustomerID,
+        RepairID,
+        PreviousRepairID,
+        RepairDate,
+        PreviousRepairDate,
+        ROW_NUMBER() OVER (PARTITION BY CustomerID, GroupID ORDER BY RepairDate) AS SequenceNumber,
+        RepairGapDays
+FROM    cte_Groups
+WHERE   RepairGapDays <= 30
+ORDER BY CustomerID, RepairDate;
 GO
 
 /*----------------------------------------------------
-Answer to Puzzle #73
-Distinct Statuses
+Puzzle #73 - Distinct Statuses
 */----------------------------------------------------
 DROP TABLE IF EXISTS #WorkflowSteps;
 GO
 
 CREATE TABLE #WorkflowSteps
 (
-StepID    INTEGER PRIMARY KEY,
+StepID    INTEGER,
 Workflow  VARCHAR(50),
 [Status]  VARCHAR(50)
 );
@@ -3978,6 +4146,8 @@ INSERT INTO #WorkflowSteps (StepID, Workflow, [Status]) VALUES
 (8, 'Bravo', 'Inactive');
 GO
 
+--Solution 1
+--COUNT DISTINCT
 SELECT  a.StepID,
         a.Workflow,
         a.[Status],
@@ -3985,12 +4155,30 @@ SELECT  a.StepID,
 FROM    #WorkflowSteps a INNER JOIN
         #WorkflowSteps b ON a.StepID >= b.StepID AND a.Workflow = b.Workflow
 GROUP BY a.StepID, a.Workflow, a.[Status]
-ORDER BY 1;
+ORDER BY a.StepID;
+GO
+
+--Solution 2
+--Windowing
+WITH cte_FirstOccurrence AS
+(
+SELECT  StepID,
+        Workflow,
+        Status,
+        CASE WHEN ROW_NUMBER() OVER (PARTITION BY Workflow, Status ORDER BY StepID) = 1
+             THEN 1 ELSE 0 END AS IsFirstOccurrence
+FROM    #WorkflowSteps
+)
+SELECT  StepID,
+        Workflow,
+        Status,
+        SUM(IsFirstOccurrence) OVER (PARTITION BY Workflow ORDER BY StepID ROWS UNBOUNDED PRECEDING) AS [Count]
+FROM    cte_FirstOccurrence
+ORDER BY StepID;
 GO
 
 /*----------------------------------------------------
-Answer to Puzzle #74
-Bowling League
+Puzzle #74 - Bowling League
 */----------------------------------------------------
 DROP TABLE IF EXISTS #BowlingResults;
 GO
@@ -3999,8 +4187,7 @@ CREATE TABLE #BowlingResults
 (
 GameID  INTEGER,
 Bowler  VARCHAR(50),
-Score   INTEGER,
-PRIMARY KEY (GameID, Bowler)
+Score   INTEGER
 );
 GO
 
@@ -4018,34 +4205,28 @@ GO
 WITH cte_Lead AS
 (
 SELECT  *,
-        LEAD(Bowler,1) OVER (PARTITION BY GameID ORDER BY Score DESC) AS LeadBowler
+        LEAD(Bowler) OVER (PARTITION BY GameID ORDER BY Score DESC) AS LeadBowler
 FROM    #BowlingResults
-),
-cte_Least_Greatest AS
-(
-SELECT  GameID,
-        LEAST(Bowler,LeadBowler) AS Bowler1,
-        GREATEST(Bowler,LeadBowler) AS Bowler2
-FROM    cte_Lead a
 )
-SELECT  Bowler1,
-        Bowler2,
+SELECT  LEAST(Bowler,LeadBowler) AS Bowler1,
+        GREATEST(Bowler,LeadBowler) AS Bowler2,
         COUNT(*) AS [Count]
-FROM    cte_Least_Greatest
-GROUP BY Bowler1, Bowler2
-ORDER BY 3 DESC;
+FROM    cte_Lead
+WHERE   LeadBowler IS NOT NULL
+GROUP BY LEAST(Bowler,LeadBowler),
+         GREATEST(Bowler,LeadBowler)
+ORDER BY [Count] DESC;
 GO
 
 /*----------------------------------------------------
-Answer to Puzzle #75
-Symmetric Matches
+Puzzle #75 - Symmetric Matches
 */----------------------------------------------------
 DROP TABLE IF EXISTS #Boxes;
 GO
 
 CREATE TABLE #Boxes 
 (
-Box      CHAR(1) PRIMARY KEY,
+Box      CHAR(1),
 [Length] INTEGER,
 Width    INTEGER,
 Height   INTEGER
@@ -4056,34 +4237,29 @@ INSERT INTO #Boxes (Box, [Length], Width, Height) VALUES
 ('A', 10, 25, 15),
 ('B', 15, 10, 25),
 ('C', 10, 16, 24);
-
 GO
 
-WITH cte_StringAgg AS 
+WITH cte_LeastGreatest AS
 (
 SELECT  Box,
-        -- Use CROSS APPLY to unpivot and then re-pivot sorted dimensions
-        STRING_AGG(CAST(value AS VARCHAR(10)), ',') WITHIN GROUP (ORDER BY value) AS SortedDims 
-FROM    #Boxes CROSS APPLY 
-        (VALUES ([Length]), (Width), (Height)) AS D(value)
-GROUP BY Box
-),
-cte_GroupID AS 
-(
-SELECT  DISTINCT 
-        SortedDims,
-        DENSE_RANK() OVER (ORDER BY SortedDims) AS GroupingID
-FROM    cte_StringAgg
+        LEAST(Length, Width, Height) AS Dim1,
+        Length + Width + Height
+            - LEAST(Length, Width, Height)
+            - GREATEST(Length, Width, Height) AS Dim2,
+        GREATEST(Length, Width, Height) AS Dim3
+FROM    #Boxes
 )
-SELECT  n.Box,
-        g.GroupingID
-FROM    cte_StringAgg n INNER JOIN 
-        cte_GroupID g ON n.SortedDims = g.SortedDims
-ORDER BY n.Box;
+SELECT  Box,
+        DENSE_RANK() OVER
+        (
+            ORDER BY Dim1, Dim2, Dim3
+        ) AS GroupingID
+FROM    cte_LeastGreatest
+ORDER BY GroupingID, Box;
+GO
 
 /*----------------------------------------------------
-Answer to Puzzle #76
-Determine Batches
+Puzzle #76 - Determine Batches
 */----------------------------------------------------
 DROP TABLE IF EXISTS #BatchStarts;
 DROP TABLE IF EXISTS #BatchLines;
@@ -4092,8 +4268,7 @@ GO
 CREATE TABLE #BatchStarts
 (
 Batch       CHAR(1),
-BatchStart  INTEGER,
-PRIMARY KEY (Batch, BatchStart)
+BatchStart  INTEGER
 );
 GO
 
@@ -4101,8 +4276,7 @@ CREATE TABLE #BatchLines
 (
 Batch   CHAR(1),
 Line    INTEGER,
-Syntax  VARCHAR(MAX),
-PRIMARY KEY (Batch, Line)
+Syntax  VARCHAR(MAX)
 );
 GO
 
@@ -4131,7 +4305,9 @@ WHERE   Syntax = 'GO'
 SELECT  a.Batch, a.BatchStart, MIN(b.Line) AS MinLine
 FROM    #BatchStarts a LEFT JOIN
         cte_BatchLines_Go b ON b.Line >= a.BatchStart AND a.Batch = b.Batch
-GROUP BY a.Batch, a.BatchStart;
+GROUP BY a.Batch, a.BatchStart
+ORDER BY Batch, BatchStart;
+GO
 
 --Solution 2
 --Correlated Subquery
@@ -4140,22 +4316,40 @@ SELECT  a.*,
 FROM    #BatchStarts a CROSS APPLY
         (SELECT  MIN(Line) AS MinLine
          FROM    #BatchLines b
-         WHERE   b.Line >= a.BatchStart AND Syntax = 'GO' AND a.Batch = b.Batch) b;
+         WHERE   b.Line >= a.BatchStart AND Syntax = 'GO' AND a.Batch = b.Batch) b
+ORDER BY Batch, BatchStart;
+GO
+
+--Solution 3
+--CROSS APPLY
+SELECT  a.Batch,
+        a.BatchStart,
+        b.BatchEnd
+FROM    #BatchStarts a
+        CROSS APPLY
+        (
+            SELECT TOP (1)
+                   Line AS BatchEnd
+            FROM   #BatchLines
+            WHERE  Batch = a.Batch
+            AND    Line >= a.BatchStart
+            AND    Syntax = 'GO'
+            ORDER BY Line
+        ) b
+ORDER BY a.Batch,
+         a.BatchStart;
 GO
 
 /*----------------------------------------------------
-Answer to Puzzle #77
-Temperature Readings
-
-Tags: Gaps and Islands
+Puzzle #77 - Temperature Readings
 */----------------------------------------------------
 DROP TABLE IF EXISTS #TemperatureData;
 GO
 
 CREATE TABLE #TemperatureData
 (
-TempID     INTEGER PRIMARY KEY,
-TempValue  INTEGER NULL
+TempID     INTEGER,
+TempValue  INTEGER
 );
 GO
 
@@ -4164,34 +4358,69 @@ INSERT INTO #TemperatureData (TempID, TempValue) VALUES
 (7,NULL),(8,70),(9,NULL),(10,75),(11,NULL),(12,80);
 GO
 
-WITH cte_Lag AS
+--Solution 1
+--This may give a wrong answer based upon your SQL Server version
+--LAG and LEAD
+WITH cte_Fill AS
 (
-SELECT  *,
-        LAG(TempValue) IGNORE NULLS OVER (ORDER BY TempID) AS LagIgnoreNulls
-FROM    #TemperatureData
-),
-cte_Lead AS
-(
-SELECT  *,
-        LEAD(TempValue) IGNORE NULLS OVER (ORDER BY TempID) AS LeadIgnoreNulls
-FROM    #TemperatureData
+SELECT  TemperatureID,
+        TemperatureValue,
+
+        LAG(TemperatureValue)
+            IGNORE NULLS
+            OVER (ORDER BY TemperatureID) AS PreviousValue,
+
+        LEAD(TemperatureValue)
+            IGNORE NULLS
+            OVER (ORDER BY TemperatureID) AS NextValue
+FROM    #Temperature
 )
-SELECT  a.TempID,
-        COALESCE(a.TempValue, GREATEST(a.LagIgnoreNulls, b.LeadIgnoreNulls)) AS TempValue
-FROM    cte_Lag a INNER JOIN
-        cte_Lead b ON a.TempID = b.TempID
-ORDER BY 1;
+SELECT  TemperatureID,
+        COALESCE
+        (
+            TemperatureValue,
+            GREATEST(PreviousValue, NextValue)
+        ) AS TemperatureValue
+FROM    cte_Fill
+ORDER BY TemperatureID;
+GO
+
+--Solution 2
+--OUTER APPLY
+WITH cte_Apply AS
+(
+SELECT  a.TemperatureID,
+        a.TemperatureValue,
+        p.TemperatureValue AS PreviousValue,
+        n.TemperatureValue AS NextValue
+FROM    #Temperature a
+OUTER APPLY
+(
+    SELECT TOP (1) TemperatureValue
+    FROM #Temperature
+    WHERE TemperatureID < a.TemperatureID
+      AND TemperatureValue IS NOT NULL
+    ORDER BY TemperatureID DESC
+) p
+OUTER APPLY
+(
+    SELECT TOP (1) TemperatureValue
+    FROM #Temperature
+    WHERE TemperatureID > a.TemperatureID
+      AND TemperatureValue IS NOT NULL
+    ORDER BY TemperatureID
+) n
+)
+SELECT  TemperatureID,
+        COALESCE
+        (
+            TemperatureValue,
+            GREATEST(PreviousValue, NextValue)
+        ) AS TemperatureValue
+FROM    cte_Apply
+ORDER BY TemperatureID;
 GO
 
 /*----------------------------------------------------
 The End
 */----------------------------------------------------
-
-
-
-
-
-
-
-
-

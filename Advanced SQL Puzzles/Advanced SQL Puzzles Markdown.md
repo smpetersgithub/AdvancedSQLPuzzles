@@ -25,6 +25,8 @@ https://advancedsqlpuzzles.com/
 
 Happy coding!
 
+Last Updated: 06/11/2026
+
 --------
 
 # Table of Contents
@@ -307,6 +309,9 @@ Write an SQL statement that determines all workflows that have started but have 
 | Bravo    | 3           | 6/27/2018       |
 | Charlie  | 1           |                 |
 | Charlie  | 2           | 7/1/2018        |
+| Charlie  | 2           | 7/1/2018        |
+| Delta    | 1           |                 |
+| Delta    | 2           |                 |
 
 Here is the expected output.
 
@@ -873,12 +878,12 @@ Write an SQL statement that returns the vendor from which each customer has plac
 
 | Order ID | Customer ID | Count |    Vendor    |
 |----------|-------------|-------|--------------|
-| 1        | 1001        | 12    | Direct Parts |
-| 2        | 1001        | 54    | Direct Parts |
-| 3        | 1001        | 32    | ACME         |
-| 4        | 2002        | 7     | ACME         |
-| 5        | 2002        | 16    | ACME         |
-| 6        | 2002        | 5     | Direct Parts |
+| 1        | 1001        | 35    | Direct Parts |
+| 2        | 1001        | 35    | Direct Parts |
+| 3        | 1001        | 50    | ACME         |
+| 4        | 2002        | 10    | ACME         |
+| 5        | 2002        | 10    | ACME         |
+| 6        | 2002        | 15    | Direct Parts |
 
 Here is the expected output.
 
@@ -1837,7 +1842,6 @@ Here is the expected output.
 
 | Permutation | Sum |
 |-------------|-----|
-| 123         | 123 |
 | 1+2+3       | 6   |
 | 1+2-3       | 0   |
 | 1+23        | 24  |
@@ -1846,6 +1850,7 @@ Here is the expected output.
 | 1-23        | -22 |
 | 12+3        | 15  |
 | 12-3        | 9   |
+| 123         | 123 |
 
 [🔙 Back to Table of Contents](#table-of-contents)
 
@@ -1915,7 +1920,11 @@ Here is the expected output.
 
 # Puzzle #61 - Player Scores
 
-In this SQL puzzle, your task is to analyze a dataset of players' scores across multiple attempts. For each player, you need to calculate two key differences: the change in score from their first attempt to the current record, and the change from their last attempt to the current record. A record should be flagged as improved if the player's score has increased from their previous attempt or if it's their first attempt. Additionally, determine if a player has shown consistent improvement across all attempts. If so, mark them as overall improved.
+In this SQL puzzle, your task is to analyze a dataset of players' scores across multiple attempts.    
+
+For each player, you need to calculate two key differences: the change in score from their first attempt to the current record, and the change from their last attempt to the current record.    
+
+A record should be flagged as improved if the player's score has increased from their previous attempt. Additionally, determine if a player has shown consistent improvement across all attempts. If so, mark them as overall improved.
 
 | Attempt ID | Player ID | Score |
 |------------|-----------|-------|
@@ -1986,6 +1995,8 @@ Identify all orders linked to a single product with a `PROMO` discount value. If
 | 3        | Item 1  | PROMO    |
 | 3        | Item 1  | PROMO    |
 | 3        | Item 1  | PROMO    |
+| 4        | Item 1  | PROMO    |
+| 4        | Item 1  | MARKDOWN |
 
 Here is the expected output.
 
@@ -1993,8 +2004,7 @@ Here is the expected output.
 |----------|
 | 3        |
 
-- `Order ID` `3` meets these criteria because it has a connection to only one product (`Item 1`), and all the products linked to it have a discount value of `PROMO`.  
-- `Order ID` `1` does not meet the criteria as it is linked to two different products (`Item 1` and `Item 2`).
+- `Order ID` `3` meets these criteria because it has a connection to only one product (`Item 1`), and all the products linked to it have a discount value of `PROMO`.    
 
 [🔙 Back to Table of Contents](#table-of-contents)
 
@@ -2020,7 +2030,7 @@ Given the following table of strings that have embedded quotes, return the resul
 Here is the expected output.
 
 | ID |      String       | Result |
-|-----|------------------|--------|
+|----|-------------------|--------|
 | 1  | "12345678901234"  | True   |
 | 2  | 1"12345678901234" | True   |
 | 3  | 123"45678"901234" | Error  |
@@ -2114,8 +2124,8 @@ Here is the expected output.
 
 |  Birthday  |     Students      |
 |------------|-------------------|
-| 04/15/2015 | Susan, Tim, Jacob |
-| 05/23/2015 | Mike, Angie       |
+| 04/15/2015 | Jacob, Susan, Tim |
+| 05/23/2015 | Angie, Mike       |
 
 [🔙 Back to Table of Contents](#table-of-contents)
 
@@ -2140,8 +2150,8 @@ Here is the expected output.
 
 | Team     | Score |
 |----------|-------|
-| Cougars  | 53    |
 | Bulldogs | 61    |
+| Cougars  | 53    |
 
 [🔙 Back to Table of Contents](#table-of-contents)
 
@@ -2149,7 +2159,17 @@ Here is the expected output.
 
 # Puzzle #69 - Splitting a Hierarchy
 
-You are given the following unbalanced hierarchical structure and must split the branches into two groups, `Group A` and `Group B`.
+You are given the following unbalanced hierarchical structure and must split the branches into two groups, `1` and `2`.
+
+          A
+        /   \
+       B     C
+      / \     \
+     D   E     F
+     |
+     G
+
+Here is the heirarchy in table format.
 
 | Parent | Child |
 |--------|-------|
@@ -2162,16 +2182,16 @@ You are given the following unbalanced hierarchical structure and must split the
 
 Here is the expected output.
 
-|  Group  | ID |
-|---------|----|
-| Group A | A  |
-| Group A | B  |
-| Group A | D  |
-| Group A | E  |
-| Group A | G  |
-| Group B | A  |
-| Group B | C  |
-| Group B | F  |
+|  GroupID  | ID |
+|-----------|----|
+| 1         | A  |
+| 1         | B  |
+| 1         | D  |
+| 1         | E  |
+| 1         | G  |
+| 2         | A  |
+| 2         | C  |
+| 2         | F  |
 
 [🔙 Back to Table of Contents](#table-of-contents)
 
