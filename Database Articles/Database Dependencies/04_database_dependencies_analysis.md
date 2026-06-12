@@ -128,6 +128,8 @@ The following list can be used to reference the corresponding example numbers.
 | 35     | Change Data Capture (CDC)                  | No                  | No               |
 | 36     | Temporal Tables                            | Not Represented     | Not Represented  |
 | 37     | Change Tracking                            | Not Represented     | Not Represented  |
+| 36     | In-Memory OLTP                             | Not Represented     | Not Represented  |
+| 37     | Extended Properties                        | Not Represented     | Not Represented  |
 
 
 ***
