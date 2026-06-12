@@ -2370,6 +2370,8 @@ Here is the expected output.
 | B      | 1           |
 | C      | 2           |
 
+- Box `A` and `B` have the same dimensions and get a `Grouping ID` of `1`.  Box `C` gets a `Grouping ID` of `2`.
+
 [🔙 Back to Table of Contents](#table-of-contents)
 
 --------
