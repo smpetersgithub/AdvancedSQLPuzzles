@@ -19,6 +19,8 @@ The following do not create objects in the sys.sql_expression_dependencies table
     27_Indexes_Table
     36_Temporal_Tables
     37_Change_Tracking
+    38_InMemory_OLTP
+    39_Extended_Properties
 
 
 The following scripts need to be run manually.
@@ -28,9 +30,11 @@ The following scripts need to be run manually.
      The script must be executed separately because it requires an exclusive connection to the database.
      Ensure that no other connections are active when running this script to avoid conflicts or execution errors.
 
-33_Feature_Installed_Procedures
+33_Feature_Installed_Procedures.sql
      Run this script manually.  You will first need to enable database diagrams (or similar).
 
+38_InMemory_OLTP.sql
+     This script creates a filegroup the user must define.
 
 ------------------------------------------------------------------------------------------------------------------*/
 
@@ -149,6 +153,10 @@ GO
 :r "C:\AdvancedSQLPuzzles-main\Database Articles\Database Dependencies\SQL Scripts\18_Defaults_and_Rules.sql"
 GO
 PRINT('------------------------------------------------------------------------------------------------------------------')
+PRINT(19)
+PRINT('Run example 19 manually: 19_Contracts_and_Queues_and_Message_Types.sql');
+GO
+PRINT('------------------------------------------------------------------------------------------------------------------')
 PRINT(20)
 PRINT 'C:\AdvancedSQLPuzzles-main\Database Articles\Database Dependencies\SQL Scripts\20_Sequences.sql';
 GO
@@ -257,6 +265,17 @@ PRINT 'C:\AdvancedSQLPuzzles-main\Database Articles\Database Dependencies\SQL Sc
 GO
 :r "C:\AdvancedSQLPuzzles-main\Database Articles\Database Dependencies\SQL Scripts\37_Change_Tracking.sql"
 GO
-
+PRINT('------------------------------------------------------------------------------------------------------------------')
+PRINT(38)
+-- In-Memory OLTP tables are not represented in the sys.sql_expression_dependencies table.
+PRINT "Run example 38 manually, this creates an In-Memory OLTP table."
+GO
+PRINT('------------------------------------------------------------------------------------------------------------------')
+PRINT(39)
+-- Extended Properties are not represented in the sys.sql_expression_dependencies table.
+PRINT 'C:\AdvancedSQLPuzzles-main\Database Articles\Database Dependencies\SQL Scripts\38_Extended_Properties.sql';
+GO
+:r "C:\AdvancedSQLPuzzles-main\Database Articles\Database Dependencies\SQL Scripts\38_Extended_Properties.sql"
+GO
 
 
