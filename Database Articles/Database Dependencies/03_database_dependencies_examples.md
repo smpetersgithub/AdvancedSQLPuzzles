@@ -64,9 +64,8 @@ Sections are labeled ✔️ if they are included in the `sys.sql_expression_depe
 35. [✔️ Change Data Capture](03_database_dependencies_examples.md#35-change-data-capture)
 36. [🚫 Temporal Tables](03_database_dependencies_examples.md#36-temporal-tables)
 37. [🚫 Change Tracking](03_database_dependencies_examples.md#37-change-tracking)
-
-
-
+38. [🚫 In-Memory OLTP](03_database_dependencies_examples.md#38-in-memory-oltp)
+39. [🚫 Extended Properties](03_database_dependencies_examples.md#39-extended-properties)
 
 ***
 
@@ -1627,6 +1626,139 @@ GO
 ALTER TABLE dbo.table_example_37
 ENABLE CHANGE_TRACKING
 WITH (TRACK_COLUMNS_UPDATED = ON);  -- Optional: track which columns changed
+GO
+```
+
+[Summary of Contents](03_database_dependencies_examples.md#summary-of-contents)
+
+***
+
+### 38. In-Memory OLTP
+
+In-Memory OLTP (Online Transaction Processing), also known as Hekaton, is a SQL Server feature that stores tables entirely in memory for high-throughput, low-latency workloads. Memory-optimized tables use a lock-free, latch-free architecture and support natively compiled stored procedures that execute entirely in memory.
+
+Memory-optimized tables have no dependencies in the `sys.sql_expression_dependencies` table that indicate it is memory-optimized.
+
+```sql
+USE foo;
+GO
+
+ALTER DATABASE foo ADD FILEGROUP foo_mod CONTAINS MEMORY_OPTIMIZED_DATA;
+GO
+
+ALTER DATABASE foo
+ADD FILE (NAME = foo_mod1, FILENAME = 'C:\temp\foo_mod1')
+TO FILEGROUP foo_mod;
+GO
+
+CREATE TABLE dbo.table_example_38
+(
+CustomerID     INT,
+FirstName      VARCHAR(50),
+LastName       VARCHAR(50),
+CreatedDate    DATETIME2(3) ,
+CONSTRAINT PK_Customer PRIMARY KEY NONCLUSTERED (CustomerID))
+WITH (MEMORY_OPTIMIZED = ON, DURABILITY = SCHEMA_AND_DATA);
+GO
+```
+
+[Summary of Contents](03_database_dependencies_examples.md#summary-of-contents)
+
+***
+
+### 39. Extended Properties
+
+Extended properties allow you to attach custom metadata—such as descriptions, data classifications, or audit information—directly to database objects (tables, columns, indexes, etc.) using `sys.sp_addextendedproperty`. This metadata is stored inside the database and travels with backups and restores.
+
+Extended properties are not represented in the `sys.sql_expression_dependencies` table.
+
+```sql
+USE foo;
+GO
+
+-- Step 1: Create the table
+CREATE TABLE dbo.table_example_39
+(
+OrderID     INT,
+CustomerID  INT,
+ProductName NVARCHAR(100),
+Quantity    INT,
+UnitPrice   MONEY,
+OrderDate   DATE,
+CONSTRAINT pk_example_39 PRIMARY KEY (OrderID)
+);
+GO
+
+-- Step 2: Add extended properties to the table
+EXEC sys.sp_addextendedproperty
+    @name       = N'MS_Description',
+    @value      = N'Stores order transactions for customers.',
+    @level0type = N'SCHEMA',   @level0name = N'dbo',
+    @level1type = N'TABLE',    @level1name = N'table_example_39';
+GO
+
+-- Step 3: Add extended properties to individual columns
+EXEC sys.sp_addextendedproperty
+    @name       = N'MS_Description',
+    @value      = N'Primary key. Unique identifier for each order.',
+    @level0type = N'SCHEMA',   @level0name = N'dbo',
+    @level1type = N'TABLE',    @level1name = N'table_example_39',
+    @level2type = N'COLUMN',   @level2name = N'OrderID';
+GO
+
+EXEC sys.sp_addextendedproperty
+    @name       = N'MS_Description',
+    @value      = N'Foreign key reference to the customer placing the order.',
+    @level0type = N'SCHEMA',   @level0name = N'dbo',
+    @level1type = N'TABLE',    @level1name = N'table_example_39',
+    @level2type = N'COLUMN',   @level2name = N'CustomerID';
+GO
+
+EXEC sys.sp_addextendedproperty
+    @name       = N'MS_Description',
+    @value      = N'Name of the product ordered.',
+    @level0type = N'SCHEMA',   @level0name = N'dbo',
+    @level1type = N'TABLE',    @level1name = N'table_example_39',
+    @level2type = N'COLUMN',   @level2name = N'ProductName';
+GO
+
+EXEC sys.sp_addextendedproperty
+    @name       = N'MS_Description',
+    @value      = N'Number of units ordered. Must be greater than zero.',
+    @level0type = N'SCHEMA',   @level0name = N'dbo',
+    @level1type = N'TABLE',    @level1name = N'table_example_39',
+    @level2type = N'COLUMN',   @level2name = N'Quantity';
+GO
+
+EXEC sys.sp_addextendedproperty
+    @name       = N'MS_Description',
+    @value      = N'Price per unit at the time of the order.',
+    @level0type = N'SCHEMA',   @level0name = N'dbo',
+    @level1type = N'TABLE',    @level1name = N'table_example_39',
+    @level2type = N'COLUMN',   @level2name = N'UnitPrice';
+GO
+
+EXEC sys.sp_addextendedproperty
+    @name       = N'MS_Description',
+    @value      = N'Date the order was placed.',
+    @level0type = N'SCHEMA',   @level0name = N'dbo',
+    @level1type = N'TABLE',    @level1name = N'table_example_39',
+    @level2type = N'COLUMN',   @level2name = N'OrderDate';
+GO
+
+-- Step 4: Add a custom property (non MS_Description) to the table
+EXEC sys.sp_addextendedproperty
+    @name       = N'Author',
+    @value      = N'Scott Peters',
+    @level0type = N'SCHEMA',   @level0name = N'dbo',
+    @level1type = N'TABLE',    @level1name = N'table_example_39';
+GO
+
+EXEC sys.sp_addextendedproperty
+    @name       = N'CreatedDate',
+    @value      = N'2026-06-12',
+    @level0type = N'SCHEMA',   @level0name = N'dbo',
+    @level1type = N'TABLE',    @level1name = N'table_example_39';
 GO
 ```
 
