@@ -1,52 +1,27 @@
 # Join Algorithms
 
-There are several types of join algorithms that the SQL Server optimizer can choose from, including nested loop join, hash join, and merge join. The choice of the join algorithm depends on various factors, such as dataset size, index availability, and data distribution. The optimizer makes a cost-based decision to choose the most efficient algorithm for the given query, returning results in the quickest possible time.  These physical join algorithms are chosen by the SQL Server query optimizer, not the developer. However, you can influence the decision using query hints like OPTION (HASH JOIN), LOOP JOIN, or MERGE JOIN.
+There are several types of join algorithms that the SQL Server optimizer can choose from, including **Nested Loops Join**, **Hash Join**, **Merge Join**, and **Adaptive Join**. The choice of join algorithm depends on various factors, such as dataset size, index availability, data distribution, and estimated row counts. The optimizer makes a cost-based decision to choose the most efficient algorithm for the given query, returning results in the quickest possible time. These physical join algorithms are chosen by the SQL Server query optimizer, not the developer. However, you can influence the decision using query hints such as `OPTION (HASH JOIN)`, `LOOP JOIN`, or `MERGE JOIN`.
+
+An **Adaptive Join**, introduced in SQL Server 2017, differs from the other join algorithms because it allows SQL Server to defer the choice between a Nested Loops Join and a Hash Join until query execution time. During execution, SQL Server evaluates the actual number of rows returned from one side of the join and selects the most efficient join strategy based on a predefined threshold. This can improve performance when row count estimates are uncertain or vary significantly between executions.
+
+A detailed discussion of join algorithms, along with practical examples of how each one operates, is beyond the scope of this article. For now, it is sufficient to understand that SQL Server's query optimizer selects the most appropriate join algorithm based on its cost estimates and available metadata. In some cases, SQL Server may choose an Adaptive Join to allow the final join strategy to be determined at runtime.
+
+To identify which join algorithm was chosen, examine the query's execution plan. Within the execution plan, the join operator will indicate whether SQL Server used a **Nested Loops**, **Hash Match**, **Merge Join**, or **Adaptive Join** operation. For Adaptive Joins, the execution plan also contains information about the runtime threshold and which join strategy was ultimately selected during execution.
 
 ---------------------------------------------------------------------
 ### Types Of Join Algorithms
 
 Here is a brief overview of each join algorithm.
 
-*  A nested loop join iterates over each row in the outer input and, for each row, searches for matching rows in the inner input. This method is efficient when the outer input is small and the inner input is indexed.
+* A **Nested Loops Join** iterates over each row in the outer input and, for each row, searches for matching rows in the inner input. This method is most efficient when the outer input is small and the inner input can be accessed efficiently through an index.
 
-*  A merge join requires both inputs to be sorted on the join key. If not already sorted, SQL Server may introduce an explicit sort operation. It efficiently traverses the inputs, comparing rows and returning matches.
-  
-*  A hash join is used when large tables are joined, often where an index is not available.  The hash join builds a hash table in memory and then scans for matches.  It is the least efficient of the joins.
+* A **Merge Join** requires both inputs to be sorted on the join key. If the inputs are not already sorted, SQL Server may introduce an explicit sort operation. The join then efficiently traverses both inputs in order, comparing rows and returning matching results.
 
-Also, numerous factors make tuning complex because there are so many individual items to address and so many ways they can interact for better or worse outcomes.  Factors can include the physical hardware and its configuration, the data model, and the volume of data, among others.
+* A **Hash Join** is commonly used when joining large datasets, particularly when suitable indexes are not available. SQL Server builds an in-memory hash table from one input and then probes it using rows from the other input to find matching values. Although Hash Joins typically require more memory and CPU resources than Nested Loops or Merge Joins, they are often the most efficient choice for large, unsorted datasets.
+
+* An **Adaptive Join**, introduced in SQL Server 2017, allows SQL Server to defer the choice between a Nested Loops Join and a Hash Join until execution time. During query execution, SQL Server evaluates the actual number of rows returned from the build input and selects the most efficient join strategy based on a predefined threshold. This can improve performance when row count estimates are uncertain or vary significantly between executions.
 
 ---------------------------------------------------------------------
-### Query Parsing
-
-Upon running an SQL statement, the query becomes parsed and is checked for the following items:
-
-1.  Syntax: The SQL statement is checked for correct syntax, spelling, and punctuation.
-2.  Authorization: The database checks the user's credentials to see if they have the necessary permissions to run the query.
-3.  Object existence: The database verifies that all the tables, views, and other objects mentioned in the query exist.
-4.  Data type compatibility: The database checks that the data types of the columns in the query match the data types in the database.
-5.  Semantic analysis: The database checks the logical validity of the query, such as the presence of ambiguous references or circular dependencies.
-   
----------------------------------------------------------------------
-### Developer Considerations
-
-Overall, as a developer, there are some ways to write the most optimized SQL from the start.
-1.  Use indexes: Indexes can significantly improve the speed of your queries. Make sure to use indexes on columns frequently used in `WHERE`, `JOIN`, and `ORDER BY` clauses.
-
-2.  Avoid using wildcard characters: Using wildcard characters in a `SELECT` statement can slow down your query. Instead, use specific column names.
-
-3.  Use the correct data types: Using the appropriate data types for columns can help improve query performance, as well as reduce storage requirements.
-
-4.  Avoid using subqueries and cursors: Subqueries and cursors can be slow and may impact performance. Instead, use alternative techniques such as joins or common table expressions (CTEs).
-
-5.  Use temporary tables: Temporary tables can store intermediate results, which can be used in subsequent queries. This can help to simplify complex queries and improve performance.
-
-6.  Write efficient joins: How you join tables can significantly impact query performance. Use inner joins instead of outer joins, and use the appropriate join conditions.
-
-7.  Use aggregate functions wisely: Aggregate functions can be slow, especially when used on large datasets. Avoid using them on large datasets, or use them with caution.
-
-8.  Monitor query performance: Regularly monitoring query performance is essential for identifying performance issues and making necessary improvements. Use tools like the SQL Server Profiler or the EXPLAIN PLAN statement to monitor performance.
-
-9.  Keep statistics current: The database's optimizer uses statistics to determine the best execution plan for a query. Keeping statistics up to date helps ensure the optimizer makes the best decisions and that your queries run efficiently.
 
 ---------------------------------------------------------
 

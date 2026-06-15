@@ -26,26 +26,26 @@ Below is a brief overview of the most common join types within each category.
 
 ## Join Types Overview
 
-| Type        | Join            | Description |
-|-------------|------------------|-------------|
-| Logical     | INNER JOIN       | Returns only rows with matching values in both tables. |
-| Logical     | OUTER JOIN       | (`LEFT OUTER JOIN` / `RIGHT OUTER JOIN`) Returns all rows from one table and matching rows from the other. Unmatched rows contain NULL markers. |
-| Logical     | FULL OUTER JOIN  | Returns all rows from both tables. Unmatched rows contain NULL markers. |
-| Logical     | CROSS JOIN       | Returns the Cartesian product of both tables—every possible row combination. |
-| Physical    | NESTED LOOP JOIN | Compares each row of one table to all rows of another table. |
-| Physical    | HASH JOIN        | Uses a hash table to efficiently match rows between tables. |
-| Physical    | MERGE SORT JOIN  | Sorts both inputs on the join key and merges the results. |
-| Descriptive | COMPLEX JOIN     | Combines multiple tables using various operators, often with subqueries and aggregates. |
-| Descriptive | COMPOSITE JOIN   | Uses multiple columns from each table in the join condition. |
-| Descriptive | MULTI-JOIN       | Refers to a query that joins more than two tables. |
-| Descriptive | SELF-JOIN        | Joins a table to itself using aliases. |
-| Model       | SEMI-JOIN        | Returns rows from the first table that have matching rows in the second table. |
-| Model       | ANTI-JOIN        | Returns rows from the first table that have no matching rows in the second table. |
-| Model       | THETA-JOIN       | A join based on any binary comparison operator (equality or inequality). |
-| Model       | EQUI-JOIN        | A theta-join that uses only the equality operator. |
-| Model       | NON-EQUI-JOIN    | A theta-join that uses operators other than equality. |
-| Model       | NATURAL JOIN     | Automatically joins tables on columns with the same name and compatible data types. |
-
+| #  | Type        | Join             | Description                                                                                                                                                                                                             |
+|----|-------------|------------------|-------------------------------------------------------------------------------------------------------------------------------------------------|
+| 1  | Logical     | INNER JOIN       | Returns only rows with matching values in both tables.                                                                                          |
+| 2  | Logical     | OUTER JOIN       | (`LEFT OUTER JOIN` / `RIGHT OUTER JOIN`) Returns all rows from one table and matching rows from the other. Unmatched rows contain NULL markers. |
+| 3  | Logical     | FULL OUTER JOIN  | Returns all rows from both tables. Unmatched rows contain NULL markers.                                                                         |
+| 4  | Logical     | CROSS JOIN       | Returns the Cartesian product of both tables—every possible row combination.                                                                    |
+| 5  | Physical    | NESTED LOOP JOIN | Compares each row of one table to matching rows in another table, typically using an index lookup.                                              |
+| 6  | Physical    | HASH JOIN        | Uses a hash table to efficiently match rows between tables, often for large, unsorted datasets.                                                 |
+| 7  | Physical    | MERGE JOIN       | Requires both inputs to be sorted on the join key and efficiently merges matching rows.                                                         |
+| 8  | Physical    | ADAPTIVE JOIN    | Defers the choice between a Nested Loops Join and a Hash Join until execution time based on the actual number of rows processed.                |
+| 9  | Descriptive | COMPLEX JOIN     | Combines multiple tables using various operators, often with subqueries and aggregates.                                                         |
+| 10 | Descriptive | COMPOSITE JOIN   | Uses multiple columns from each table in the join condition.                                                                                    |
+| 11 | Descriptive | MULTI-JOIN       | Refers to a query that joins more than two tables.                                                                                              |
+| 12 | Descriptive | SELF-JOIN        | Joins a table to itself using aliases.                                                                                                          |
+| 13 | Model       | SEMI-JOIN        | Returns rows from the first table that have matching rows in the second table.                                                                  |
+| 14 | Model       | ANTI-JOIN        | Returns rows from the first table that have no matching rows in the second table.                                                               |
+| 15 | Model       | THETA-JOIN       | A join based on any binary comparison operator (equality or inequality).                                                                        |
+| 16 | Model       | EQUI-JOIN        | A theta-join that uses only the equality operator.                                                                                              |
+| 17 | Model       | NON-EQUI-JOIN    | A theta-join that uses operators other than equality.                                                                                           |
+| 18 | Model       | NATURAL JOIN     | Automatically joins tables on columns with the same name and compatible data types.                                                             |
 ---
 
 :electric_plug: **What’s Next**
