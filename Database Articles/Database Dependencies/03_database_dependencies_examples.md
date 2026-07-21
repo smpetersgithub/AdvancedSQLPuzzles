@@ -1174,9 +1174,9 @@ GO
 
 ### 27. Indexes - Table
 
-Here, we will create the more common indexes typically seen on tables. Unlike filtered indexes, these are not represented in the `sys.sql_expression_dependencies` table.
+Here, we will create the more common indexes typically seen on tables. 
 
-Common indexes are not represented in the `sys.sql_expression_dependencies` table.
+Unlike filtered indexes, these are not represented in the `sys.sql_expression_dependencies` table.
 
 ```sql
 USE foo;
@@ -1225,8 +1225,27 @@ ON dbo.tbl_example_xml_27 (OrderCatalog)
 USING XML INDEX idx_xml_example_27
 FOR VALUE;
 GO
-
 ```
+
+When you add an index hint to a SQL query, the index also does not appear in the `sys.sql_expression_dependencies` table.
+
+The stored procedure `usp_IndexHints_Example_27` will show a dependency on `tbl_example_27`, but there will be no dependency on the index `idx_nonclustered_example_27` in the `sys.sql_expression_dependencies` table.
+
+```sql
+USE foo;
+GO
+
+CREATE OR ALTER PROCEDURE dbo.usp_IndexHints_Example_27 AS
+BEGIN
+
+    SELECT  ProductID
+    FROM    dbo.tbl_example_27 WITH (INDEX(idx_nonclustered_example_27))
+    WHERE   ProductID = 100;
+
+END;
+GO
+```
+
 
 [Summary of Contents](03_database_dependencies_examples.md#summary-of-contents)
 
