@@ -62,8 +62,8 @@ GO
 CREATE OR ALTER PROCEDURE dbo.usp_IndexHints_Example_27 AS
 BEGIN
     SELECT  ProductID
-    FROM    dbo.tbl_example_27 WITH (INDEX(idx_nonclustered_example_27))
-END;
+    FROM    dbo.tbl_example_27 WITH (INDEX(idx_nonclustered_example_27));
+END
 GO
 -------------------------------------------------------
 -------------------------------------------------------
