@@ -55,7 +55,9 @@ We will cover these aspects and many more in the following document.
 [22. Identity Columns](#22-identity-columns)     
 [23. LAG and LEAD Functions](#23-lag-and-lead-functions)     
 [24. Arithmetic Operators](#24-arithmetic-operators)     
-[25. Conclusion](#25-conclusion)     
+[25. WHERE](#25-where)     
+[26. Variables](#26-variables)     
+[27. Conclusion](#27-conclusion)     
 
 --------------------------------------------------------
 ## 1. Brief History of Nulls
@@ -1120,7 +1122,7 @@ ORDER BY 1, 2, 3;
 
 Here we will discuss two SQL constructs, the `BIT` data type and the `NOT` operator.
 
->❗&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Much like NULL markers and duplicate tuples, there is much debate in the SQL community if the `BIT` data type should be a permissible data type, as its allowance for the NULL marker does not mimic the real world.  Joe Celko and C.J. Date advocate against using the `BIT` data type and give further details in many of their writings.
+>❗&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Much like NULL markers and duplicate tuples, there is much debate in the SQL community about whether the `BIT` data type should be a permissible data type, as its allowance for the NULL marker does not mimic the real world.  Joe Celko and C.J. Date advocate against using the `BIT` data type and give further details in many of their writings.
 
 ------------------------------------------------------------------
 **BIT**
@@ -1219,15 +1221,15 @@ Microsoft SQL Server returns the following error.
 
 SQL Server now supports ignoring or respecting NULLS.
 
-IGNORE NULLS - Ignore null values in the dataset when computing the first value over a partition.
+`IGNORE NULLS` - Ignore null values in the dataset when computing the first value over a partition.
 
-RESPECT NULLS - Respect null values in the dataset when computing the first value over a partition. RESPECT NULLS is the default behavior if a NULLS option is not specified.
+`RESPECT NULLS` - Respect null values in the dataset when computing the first value over a partition. `RESPECT NULLS` is the default behavior if a NULLS option is not specified.
 
 Here is an SQL statement that combines all the different combinations of use.
 
 Interestingly, there is a bug in SQL Server: if you combine `LAG` and `LEAD` with the `IGNORE NULLS` clause, you get erroneous results in the `LeadIgnoreNulls` column.  You can test this by commenting out the different function calls and reviewing the results.
 
-> This bug appears to be correct in version 2025.
+> This bug appears to be fixed in version 2025.
 
 ```sql
 WITH cte_Lag_Lead AS
@@ -1291,7 +1293,7 @@ ORDER BY 1;
 ## 24. Arithmetic Operators
 🔵&nbsp;&nbsp;&nbsp;[Table Of Contents](#table-of-contents)
 
-Lastly, arithmetic operations that involve a NULL marker will return a NULL marker.
+Arithmetic operations that involve a NULL marker will return a NULL marker.
 
 ```sql
 SELECT  '1 / NULL' AS Description,
@@ -1320,7 +1322,42 @@ SELECT  '1 + NULL',
 
 ---------------------------------------------------------
 
-## 25. Conclusion
+## 25. WHERE
+
+When using an inequality operation in the `WHERE` clause, SQL will not return records that contain a NULL marker.
+
+```sql
+SELECT *
+FROM   ##TableA
+WHERE  Fruit <> 'Mango';
+```
+| ID | Fruit | Quantity |
+|----|-------|----------|
+| 1  | Apple | 17       |
+| 2  | Peach | 20       |
+
+---------------------------------------------------------
+
+## 26. Variables
+
+You might expect the variable `@Test` to become NULL when assigned from a `SELECT` statement that returns no rows. Instead, SQL Server leaves the variable unchanged, so it retains its previous value.
+
+```sql
+DECLARE @Test VARCHAR(100) = 'Default';
+
+SELECT @Test = 'My New Value'
+WHERE  1=0;
+
+SELECT @Test AS MyValue;
+```
+
+| MyValue |
+|---------|
+| Default |
+
+---------------------------------------------------------
+
+## 27. Conclusion
 🔵&nbsp;&nbsp;&nbsp;[Table Of Contents](#table-of-contents)
 
 Throughout this document, we have touched on many SQL constructs and how they treat NULL markers.  This document is helpful for future development, and most importantly, always remember to include NULL markers in your test data.
