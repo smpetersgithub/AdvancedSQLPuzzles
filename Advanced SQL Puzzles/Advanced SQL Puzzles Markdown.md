@@ -25,7 +25,7 @@ https://advancedsqlpuzzles.com/
 
 Happy coding!
 
-Last Updated: 06/11/2026
+Last Updated: 07/21/2026
 
 --------
 
@@ -2620,15 +2620,11 @@ Given the following four vehicles:
 - 3-seat golf cart
 - 4-seat car
 
-There are 10 people in total, consisting of 5 children and 5 adults. Only an adult can drive a vehicle.
-Create a table of all possible 7,200 arrangements, assuming seating order does not matter.
-Here is the expected output.
+There are 10 people in total, consisting of 5 children and 5 adults. Only an adult can drive a vehicle.    
 
-| Total Arrangements |
-|--------------------|
-| 7,200              |
+Create a table of **all** possible 7,200 arrangements, assuming seating order does not matter.   
 
-We can determine there are 7,200 arrangements by using the following equation.    
+Note: we can determine there are 7,200 arrangements by using the following equation.    
 `Total Arrangements = (5! / 1!) × (6! / (3! × 2! × 1! × 0!)) = 7,200`
 
 [🔙 Back to Table of Contents](#table-of-contents)
