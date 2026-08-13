@@ -88,7 +88,11 @@ A good example of the complexity is shown below.  [De Morgan's Law](https://en.w
 ```sql
 --TRUE OR UNKNOWN = TRUE
 SELECT 1 WHERE ((1=1) OR (NULL=1))
+```
 
+Here is an example of De Morgan's law.
+
+```sql
 --NOT(FALSE OR UNKNOWN) = UNKNOWN
 SELECT 2 WHERE NOT((1=2) OR (NULL=1))
 
