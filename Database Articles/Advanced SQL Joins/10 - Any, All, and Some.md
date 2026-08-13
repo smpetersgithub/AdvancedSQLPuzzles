@@ -332,24 +332,6 @@ You are given the following example table of runtime statuses. Provide an SQL st
 *  If all the statuses are completed, print "True", else print "False"
 *  If all the statuses are not completed, print "True", else print "False".
 
-This example table has statuses that are all completed.
-
-| ID |  Status   |
-|----|-----------|
-| 1  | Completed |
-| 2  | Completed |
-| 3  | Completed |
-| 4  | Completed |
-
-This example table has statuses that are not all completed.
-
-| ID |  Status   |
-|----|-----------|
-| 1  | Completed |
-| 2  | Completed |
-| 3  | Running   |
-| 4  | Completed |
-
 Here are the SQL statements (along with the DDL) that produce the required output.
 
 ```sql
