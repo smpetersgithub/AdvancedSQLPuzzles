@@ -40,7 +40,7 @@ The following T-SQL comparison operators and predicates can be used in join cond
 
 *  Comparison operators test whether two expressions are the same. Comparison operators can be used on all expressions except expressions of the `text`, `ntext`, or `image` data types.
 
-*  IS DISTINCT FROM and IS NOT DISTINCT FROM compare values while treating NULL as a known value. They were added to SQL Server in SQL Server 2022, although other database systems supported them earlier.
+*  `IS DISTINCT FROM` and `IS NOT DISTINCT FROM` compare values while treating NULL as a known value. They were added to SQL Server in SQL Server 2022, although other database systems supported them earlier.
  
 --------------------------------------------------------------------------------
 We will use the following tables, which contain types of fruits and their quantities.
