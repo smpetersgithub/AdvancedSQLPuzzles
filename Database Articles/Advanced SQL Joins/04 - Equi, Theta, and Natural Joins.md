@@ -8,7 +8,7 @@ However, the basic principles of relational algebra still form the basis of SQL,
 
 ----------------------------------
 
-### Equi and Theta-joins Overview
+## Equi and Theta-joins Overview
 
 *  A theta-join is a join that uses a condition based on any binary comparison operator (`=`, `<`, `>`, `<=`, `>=`, or `<>`). These joins allow flexible matching logic beyond just equality. Theta-joins include both equi-joins, which test for equality, and non-equi-joins, which use other comparison operators.
 
@@ -65,7 +65,7 @@ We will use the following tables, which contain types of fruits and their quanti
 | 4  |         |          |
  
 --------------------------------------------------------------------------------
-#### Equi-joins
+## Equi-joins
 
 Equi-joins look for equality in a relationship.  
 
@@ -100,7 +100,7 @@ GO
 | 2  | Peach | 2  | Peach |
 
 --------------------------------------------------------------------------------
-#### Non-equi-joins
+## Non-equi-joins
 Non-equi-joins look for any non-equality comparison.  They can be used with `INNER`, `OUTER`, `FULL OUTER`, and `CROSS JOINS`.
 
 Here are some examples that you may not have realized are possible.
@@ -131,7 +131,7 @@ FROM    ##TableA a INNER JOIN
 |  2 | Peach | 20       | 1  | Apple | 17       |
 
 --------------------------------------------------------------------------------
-#### Natural Joins
+## Natural Joins
 
 A natural join automatically creates an equality condition for every column name shared by the two inputs. A plain `NATURAL JOIN` is normally an inner join, although database systems may also support natural outer joins.
 
