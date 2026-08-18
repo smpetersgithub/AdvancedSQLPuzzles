@@ -25,7 +25,7 @@ Next, let's create examples of each table type.
 ## Table Type 1
 ### Table
 
-The type of table referred to below is a base table. A base table is a permanent table stored in the database and contains the actual data in the form of rows and columns. The `SELECT *` statement retrieves all columns and all rows from the table. On base tables, you can implement `NOT NULL`, `UNIQUE`, `PRIMARY KEY`, `FOREIGN KEY`, `CHECK`, and `DEFAULT` constraints.
+The type of table referred to below is a base table. A base table is a permanent table stored in the database and contains the actual data in the form of rows and columns. On base tables, you can implement `NOT NULL`, `UNIQUE`, `PRIMARY KEY`, `FOREIGN KEY`, `CHECK`, and `DEFAULT` constraints.
 
 In this example, we create a table named `Employees`, insert a record using the `VALUES` constructor, and then select from the table. 
 
