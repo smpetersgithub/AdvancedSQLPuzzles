@@ -148,24 +148,34 @@ You can also use the `LEFT OUTER JOIN` and a `RIGHT OUTER JOIN` to simulate the 
 This may be the only case where a `LEFT OUTER JOIN` and a `RIGHT OUTER JOIN` can be used in the same SQL statement, as it preserves the column and table orders between the two statements.
      
 ```sql
-SELECT  a.ID, a.Fruit, b.ID, b.Fruit
-FROM    ##TableA a LEFT JOIN 
-        ##TableB b ON a.Fruit = b.Fruit
-UNION
-SELECT  a.ID, a.Fruit, b.ID, b.Fruit
-FROM    ##TableA a RIGHT JOIN 
-        ##TableB b ON a.Fruit = b.Fruit
-ORDER BY 1, 2;
+SELECT
+    a.ID       AS A_ID,
+    a.Fruit    AS A_Fruit,
+    a.Quantity AS A_Quantity,
+    b.ID       AS B_ID,
+    b.Fruit    AS B_Fruit,
+    b.Quantity AS B_Quantity
+FROM ##TableA a LEFT OUTER JOIN
+     ##TableB b ON a.ID = b.ID
+UNION ALL
+SELECT
+    a.ID,
+    a.Fruit,
+    a.Quantity,
+    b.ID,
+    b.Fruit,
+    b.Quantity
+FROM ##TableB b LEFT OUTER JOIN
+     ##TableA a ON a.ID = b.ID
+WHERE a.ID IS NULL;
 ```
 
-|    ID   |  Fruit  |    ID   |  Fruit  |
-|---------|---------|---------|---------|
-|         |         | 3       | Kiwi    |
-|         |         | 4       |         |
-| 1       | Apple   | 1       | Apple   |
-| 2       | Peach   | 2       | Peach   |
-| 3       | Mango   |         |         |
-| 4       |         |         |         |
+| A_ID | A_Fruit | A_Quantity |	B_ID | B_Fruit | B_Quantity |
+|------|---------|------------|------|---------|------------|
+| 1    | Apple	 | 17         |	1    |	Apple  | 17         |
+| 2    | Peach	 | 20         |	2    |	Peach  | 25         |
+| 3    | Mango	 | 11         |	3    |	Kiwi   | 20         |
+| 4    | NULL	 | 5          |	4    |         |            |
 
 ---------------------------------------------------------
 
