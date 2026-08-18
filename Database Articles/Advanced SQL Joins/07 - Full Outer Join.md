@@ -67,7 +67,7 @@ SELECT  ISNULL(a.ID, b.ID) AS ID,
         ISNULL(a.Fruit, b.Fruit) AS Fruit
 FROM    ##TableA a FULL OUTER JOIN
         ##TableB b ON a.Fruit = b.Fruit
-WHERE   a.ID IS NULL OR B.ID IS NULL
+WHERE   a.ID IS NULL OR b.ID IS NULL
 ORDER BY 1, 2;
 ```
   
@@ -123,17 +123,18 @@ SELECT
     b.Fruit
 FROM ##TableB b
 LEFT OUTER JOIN ##TableA a ON a.Fruit = b.Fruit
-WHERE a.ID IS NULL;
+WHERE a.ID IS NULL
+ORDER BY 1,2;
 ```
 
 | ID | Fruit | ID | Fruit |
 |----|-------|----|-------|
+|    |       | 3  | Kiwi  |
+|    |       | 4  |       |
 | 1  | Apple | 1  | Apple |
 | 2  | Peach | 2  | Peach |
 | 3  | Mango |    |       |
 | 4  |       |    |       |
-|    |       | 3  | Kiwi  |
-|    |       | 4  |       |
 
 ---------------------------------------------------------
 
