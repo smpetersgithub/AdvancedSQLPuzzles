@@ -101,49 +101,10 @@ ORDER BY 1, 2;
 | 2  | Peach | 2  | Peach |
 
 ---------------------------------------------------------------------------------
-        
+
 ### Example 4
 
-If `FULL OUTER JOIN` is unavailable or unsupported, you can simulate it using a combination of `INNER JOIN`, `LEFT JOIN`, `RIGHT JOIN`, and `NOT EXISTS` with `UNION`. This approach ensures all matching and unmatched rows from both tables are included.
-
-```sql
-SELECT  a.ID,
-        a.Fruit,
-        b.ID,
-        b.Fruit
-FROM    ##TableA a INNER JOIN
-        ##TableB b ON a.Fruit = b.Fruit
-UNION
-SELECT  a.ID,
-        a.Fruit,
-        NULL,
-        NULL
-FROM    ##TableA a
-WHERE   NOT EXISTS (SELECT 1 FROM ##TableB b WHERE a.Fruit = b.Fruit)
-UNION
-SELECT  NULL,
-        NULL,
-        a.ID,
-        a.Fruit
-FROM    ##TableB a
-WHERE   NOT EXISTS (SELECT 1 FROM ##TableA b WHERE a.Fruit = b.Fruit)
-ORDER BY 1, 2;
-```        
- 
-|   ID    |  Fruit  |    ID   |  Fruit  |
-|---------|---------|---------|---------|
-|         |         | 3       | Kiwi    |
-|         |         | 4       |         |
-| 1       | Apple   | 1       | Apple   |
-| 2       | Peach   | 2       | Peach   |
-| 3       | Mango   |         |         |
-| 4       |         |         |         |
-
----------------------------------------------------------------------------------
-
-### Example 5
-
-You can also use the `LEFT OUTER JOIN` and a `RIGHT OUTER JOIN` to simulate the `FULL OUTER JOIN`.
+You can use the `LEFT OUTER JOIN` and a `RIGHT OUTER JOIN` to simulate the `FULL OUTER JOIN`.
         
 This may be the only case where a `LEFT OUTER JOIN` and a `RIGHT OUTER JOIN` can be used in the same SQL statement, as it preserves the column and table orders between the two statements.
      
