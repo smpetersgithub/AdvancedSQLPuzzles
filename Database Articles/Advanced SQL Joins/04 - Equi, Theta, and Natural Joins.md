@@ -31,17 +31,13 @@ The following T-SQL comparison operators and predicates can be used in join cond
 | Comparison | !>                   | Not greater than (not ISO standard)                 |
 | Comparison | >=                   | Greater Than or Equal To                            |
 | Comparison | <=                   | Less Than or Equal To                               |
-| Logical    | BETWEEN              | Defines a range and is inclusive                    |
-| Logical    | LIKE                 | Matches a string value to a specified pattern       |
+| Logical    | `BETWEEN`            | Tests whether a value falls within an inclusive range. |
+| Logical    | `LIKE`               | Tests whether a character expression matches a specified pattern. |
 | Comparison | IS DISTINCT FROM     | Treats NULLs as known values for comparing equality |
 | Comparison | IS NOT DISTINCT FROM | Treats NULLs as known values for comparing equality |
 
-*  Logical operators test for the truth of some condition. Like comparison operators, logical operators return a Boolean data type with a value of **TRUE**, **FALSE**, or **UNKNOWN**.
-
-*  Comparison operators test whether two expressions are the same. Comparison operators can be used on all expressions except expressions of the `text`, `ntext`, or `image` data types.
-
-*  `IS DISTINCT FROM` and `IS NOT DISTINCT FROM` compare values while treating NULL as a known value. They were added to SQL Server in SQL Server 2022, although other database systems supported them earlier.
- 
+*  `>=` and `<=` are comparison operators because each directly compares two expressions and determines their relationship. `BETWEEN` is a logical operator because it combines two comparisons into one range test: `x BETWEEN a AND b` is equivalent to `x >= a AND x <= b`.
+>
 --------------------------------------------------------------------------------
 We will use the following tables, which contain types of fruits and their quantities.
 
@@ -72,7 +68,6 @@ Equality predicates can be used with inner, outer joins and cross joins. A cross
 
 Here are several examples of an equi-join.
 
-
 ```sql
 SELECT  a.ID,
         a.Fruit,
@@ -82,6 +77,7 @@ FROM    ##TableA a CROSS JOIN
         ##TableB b
 WHERE   a.Fruit = b.Fruit
 ORDER BY 1;
+GO
 
 SELECT  a.ID,
         a.Fruit,
@@ -90,6 +86,7 @@ SELECT  a.ID,
 FROM    ##TableA a INNER JOIN
         ##TableB b ON a.Fruit = b.Fruit
 ORDER BY 1;
+GO
 ```
 
 | ID | Fruit | ID | Fruit |
