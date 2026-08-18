@@ -112,16 +112,16 @@ SELECT
     a.Fruit,
     b.ID,
     b.Fruit
-FROM ##TableA a
-LEFT OUTER JOIN ##TableB b ON a.Fruit = b.Fruit
+FROM ##TableA a LEFT OUTER JOIN
+     ##TableB b ON a.Fruit = b.Fruit
 UNION ALL
 SELECT
     a.ID,
     a.Fruit,
     b.ID,
     b.Fruit
-FROM ##TableB b
-LEFT OUTER JOIN ##TableA a ON a.Fruit = b.Fruit
+FROM ##TableB b LEFT OUTER JOIN
+     ##TableA a ON a.Fruit = b.Fruit
 WHERE a.ID IS NULL
 ORDER BY 1,2;
 ```
