@@ -106,7 +106,7 @@ You can use the `LIKE` and `BETWEEN` operators with the `ON` statement, as well 
 SELECT  *
 FROM    ##TableA a INNER JOIN
         ##TableB b ON a.Quantity BETWEEN b.Quantity AND b.Quantity + 10
-                      AND a.Fruit LIKE '%' + b.Fruit + '%';
+                  AND a.Fruit LIKE '%' + b.Fruit + '%';
 ```
 
 | ID | Fruit | Quantity | ID | Fruit | Quantity |
