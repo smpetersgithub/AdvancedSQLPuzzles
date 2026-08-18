@@ -10,7 +10,7 @@ However, the basic principles of relational algebra still form the basis of SQL,
 
 #### Equi and Theta-joins Overview
 
-*  A theta-join is a join that uses a condition based on any binary comparison operator (such as `=`, `<`, `>`, `<=`, `>=`, or `<>`). These joins allow flexible matching logic beyond just equality. Theta-joins include both equi-joins, which test for equality, and non-equi-joins, which use other comparison operators.
+*  A theta-join is a join that uses a condition based on any binary comparison operator (`=`, `<`, `>`, `<=`, `>=`, or `<>`). These joins allow flexible matching logic beyond just equality. Theta-joins include both equi-joins, which test for equality, and non-equi-joins, which use other comparison operators.
 
 *  An equi-join is a specific type of theta-join that matches rows based on equality conditions between columns in the joined tables. In other words, it returns rows where the values in the specified columns are equal. The term "equi" comes from the Latin word aequus, meaning "equal."
 
