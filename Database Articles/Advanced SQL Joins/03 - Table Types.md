@@ -252,12 +252,12 @@ GROUP BY Department
 SELECT  Department,
         EmployeeCount
 FROM    EmployeesByDepartment
-WHERE   EmployeeCount > 2;
+WHERE   EmployeeCount > 1;
 ```
 
 | Department | EmployeeCount |
 |------------|---------------|
-| Accounting | 3             |
+| Accounting | 2             |
 
 Besides improving the readability of an SQL statement, CTEs can be used for recursion.  This example creates a Fibonacci sequence using a self-referencing CTE.
 
