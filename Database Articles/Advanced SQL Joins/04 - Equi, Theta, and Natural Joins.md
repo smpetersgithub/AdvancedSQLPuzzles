@@ -68,7 +68,7 @@ We will use the following tables, which contain types of fruits and their quanti
 
 Equi-joins look for equality in a relationship.  
 
-Equality predicates can be used with inner and outer joins. A `CROSS JOIN` does not have an `ON` clause, but applying an equality predicate in the WHERE clause produces a result logically equivalent to an inner equi-join. 
+Equality predicates can be used with inner, outer joins and cross joins. A cross join does not have an `ON` clause, but applying an equality predicate in the WHERE clause produces a result logically equivalent to an inner equi-join. 
 
 Here are several examples of an equi-join.
 
