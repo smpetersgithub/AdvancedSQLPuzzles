@@ -140,7 +140,6 @@ ORDER BY 1;
 | 3  | Mango   |         |         |
 | 4  |         |         |         |
 
-In Microsoft SQL Server, up to 32 levels of nesting are possible, although the limit varies based on available memory and the complexity of other expressions in the query. Individual queries may not support nesting up to 32 levels. A subquery can appear anywhere an expression can be used if it returns a single value.
 
 Here is a `SELECT`, within a `SELECT`, within a `SELECT` statement.  Nesting SQL statements can make them difficult to read and should be avoided if possible.
 
@@ -159,63 +158,10 @@ ORDER BY 1;
 | 2 | Peach    | 2       | Peach   |
 | 3 | Mango    |         |         |
 | 4 |          |         |         |
-
------------------------------------------------------------
-   
-Windowing functions were added to the `ANSI/ISO Standard SQL:2003` and then extended in `ANSI/ISO Standard SQL:2008`.  Microsoft SQL Server did not implement window functions until SQL Server 2012.
-
-Because of Microsoft SQL Server's delayed implementation, you may see statements such as the ones below that were used to mimic window functions.  This statement is often called a "Flash Fill" or "Data Smudge".
-
-This SQL statement will populate the NULL markers in the `Fruit` column with the nearest prior value.
-
-```sql
-SELECT  a.ID,
-        (SELECT b.Fruit
-        FROM    ##TableA b
-        WHERE   b.ID =
-                    (SELECT MAX(c.ID)
-                    FROM ##TableA c
-                    WHERE c.ID <= a.ID AND c.Fruit != '')) Fruit,
-        a.Quantity
-FROM    ##TableA a
-ORDER BY 1;
-```
-
-| ID | Fruit | Quantity |
-|----|-------|----------|
-| 1  | Apple | 17       |
-| 2  | Peach | 20       |
-| 3  | Mango | 11       |
-| 4  | Mango | 5        |
-
-Here, the query can be written much cleaner using a window function.
-
-```sql
-WITH cte_Count AS
-(
-SELECT  ID,
-        Fruit,
-        Quantity,
-        COUNT(Fruit) OVER (ORDER BY ID) AS DistinctCount
-FROM    ##TableA
-)
-SELECT  ID,
-        MAX(Fruit) OVER (PARTITION BY DistinctCount) AS Fruit,
-        Quantity
-FROM    cte_Count
-ORDER BY 1;
-```
-
-| ID | Fruit | Quantity |
-|----|-------|----------|
-| 1  | Apple | 17       |
-| 2  | Peach | 20       |
-| 3  | Mango | 11       |
-| 4  | Mango | 5        |
-                                     
+                                   
 -----------------------------------------------------------
 
-Using both `LEFT OUTER JOINS` and `RIGHT OUTER JOINS` in a single query is probably the worst SQL practice for an SQL developer, but it is possible.  Avoid this like the plague, as these queries are complex to read and easy to get wrong.
+Using both `LEFT OUTER JOINS` and `RIGHT OUTER JOINS` in a single query is probably the worst SQL practice for an SQL developer, but it is possible.
 
 ```sql
 SELECT  a.ID,
