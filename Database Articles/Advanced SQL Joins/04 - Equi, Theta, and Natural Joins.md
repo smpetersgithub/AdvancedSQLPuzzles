@@ -8,7 +8,7 @@ However, the basic principles of relational algebra still form the basis of SQL,
 
 ----------------------------------
 
-#### Equi and Theta-joins Overview
+### Equi and Theta-joins Overview
 
 *  A theta-join is a join that uses a condition based on any binary comparison operator (`=`, `<`, `>`, `<=`, `>=`, or `<>`). These joins allow flexible matching logic beyond just equality. Theta-joins include both equi-joins, which test for equality, and non-equi-joins, which use other comparison operators.
 
@@ -17,6 +17,8 @@ However, the basic principles of relational algebra still form the basis of SQL,
 *  A non-equi-join is a type of theta-join that uses a condition other than equality (such as `<`, `>`, or `BETWEEN`) to compare columns. It returns rows where the join condition evaluates to true based on those non-equality comparisons.
 
 --------------------------------------------------------------------------------
+
+## Operators
 
 The following T-SQL comparison operators and predicates can be used in join conditions.
 
@@ -39,6 +41,9 @@ The following T-SQL comparison operators and predicates can be used in join cond
 *  `>=` and `<=` are comparison operators because each directly compares two expressions and determines their relationship. `BETWEEN` is a logical operator because it combines two comparisons into one range test: `x BETWEEN a AND b` is equivalent to `x >= a AND x <= b`.
 >
 --------------------------------------------------------------------------------
+
+## Example Tables
+
 We will use the following tables, which contain types of fruits and their quantities.
 
 [The DDL to create these tables can be found here.](Sample%20Data.md)
