@@ -110,33 +110,32 @@ This may be the only case where a `LEFT OUTER JOIN` and a `RIGHT OUTER JOIN` can
      
 ```sql
 SELECT
-    a.ID       AS A_ID,
-    a.Fruit    AS A_Fruit,
-    a.Quantity AS A_Quantity,
-    b.ID       AS B_ID,
-    b.Fruit    AS B_Fruit,
-    b.Quantity AS B_Quantity
-FROM ##TableA a LEFT OUTER JOIN
-     ##TableB b ON a.ID = b.ID
+    a.ID,
+    a.Fruit,
+    b.ID,
+    b.Fruit
+
+FROM ##TableA a
+LEFT OUTER JOIN ##TableB b ON a.Fruit = b.Fruit
 UNION ALL
 SELECT
     a.ID,
     a.Fruit,
-    a.Quantity,
     b.ID,
-    b.Fruit,
-    b.Quantity
-FROM ##TableB b LEFT OUTER JOIN
-     ##TableA a ON a.ID = b.ID
+    b.Fruit
+FROM ##TableB b
+LEFT OUTER JOIN ##TableA a ON a.Fruit = b.Fruit
 WHERE a.ID IS NULL;
 ```
 
-| A_ID | A_Fruit | A_Quantity |	B_ID | B_Fruit | B_Quantity |
-|------|---------|------------|------|---------|------------|
-| 1    | Apple	 | 17         |	1    |	Apple  | 17         |
-| 2    | Peach	 | 20         |	2    |	Peach  | 25         |
-| 3    | Mango	 | 11         |	3    |	Kiwi   | 20         |
-| 4    | 	 | 5          |	4    |         |            |
+| ID | Fruit | ID | Fruit |
+|----|-------|----|-------|
+| 1  | Apple | 1  | Apple |
+| 2  | Peach | 2  | Peach |
+| 3  | Mango |    |       |
+| 4  |       |    |       |
+|    |       | 3  | Kiwi  |
+|    |       | 4  |       |
 
 ---------------------------------------------------------
 
