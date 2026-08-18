@@ -128,7 +128,7 @@ Note the following distinctions.
   
 - Every **equi-join** and **non-equi-join** is a **theta-join**.
 - **Equi-joins**, **theta-joins** and **non-equi-join** are classifications, not SQL Server keywords.
-- 
+
 These classifications originate from **Relational Algebra**, introduced by **Edgar F. Codd** in 1970. Relational Algebra provides the mathematical foundation for SQL by defining operations over relations using precise and well-defined semantics.
 
 ---
