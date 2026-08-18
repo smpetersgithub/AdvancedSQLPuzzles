@@ -2,6 +2,8 @@
 
 SQL Server allows queries to read from and join to many kinds of tables, table-like objects, and rowset expressions. This article examines eleven commonly encountered examples.
 
+❗For simplicity, we will be using the term "table" to describe the following. 
+
 | Id |              Name              |                                                                 Description                                                                 |
 |----|--------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------|
 | 1  | Table                          | A regular table that is stored in the database.                                                                                             |
@@ -23,7 +25,7 @@ Next, let's create examples of each type.
 ## Table Type 1
 ### Table
 
-The type of table referred to below is a base table. A base table is a permanent table stored in the database and contains the actual data in the form of rows and columns. On base tables, you can implement `NOT NULL`, `UNIQUE`, `PRIMARY KEY`, `FOREIGN KEY`, `CHECK`, and `DEFAULT` constraints.
+The type of table referred to below is a base table. A base table is a permanent table stored in the database and contains the actual data in the form of rows and columns. Base tables can have `NOT NULL`, `UNIQUE`, `PRIMARY KEY`, `FOREIGN KEY`, `CHECK`, and `DEFAULT` constraints.
 
 In this example, we create a table named `Employees`, insert a record using the `VALUES` constructor, and then select from the table. 
 
@@ -98,7 +100,7 @@ Here are the results before we removed Larry.
 ## Table Type 3
 ### VALUES Operator
 
-The `VALUES` constructor has a few considerations that are often overlooked and deserve its own recognition.  The `VALUES` constructor specifies a set of row value expressions to be constructed into a table and allows multiple sets of values to be defined in a single DML statement.  Typically, we use the `VALUES` constructor to specify the data to insert into a table, as we initially did with our test data, and it can also be used as a derived table in an SQL statement.  The `VALUES` constructor is not a persistent object, it is an inline rowset.
+The `VALUES` constructor has a few considerations that are often overlooked and deserves its own recognition.  The `VALUES` constructor specifies a set of row value expressions to be constructed into a table and allows multiple sets of values to be defined in a single DML statement.  Typically, we use the `VALUES` constructor to specify the data to insert into a table, as we initially did with our test data, and it can also be used as a derived table in an SQL statement.  The `VALUES` constructor is not a persistent object, it is an inline rowset.
 
 Here is a basic example of using the `VALUES` constructor as a derived table.
 
@@ -283,7 +285,7 @@ The syntax for creating temporary tables varies across database systems.  These 
 
 Session temporary tables and global temporary tables are two types of temporary tables in SQL. The main difference between them is their scope and visibility. 
 
-*  You can use a single octothorpe (#) for a session temporary table and two octothorpes (##) for a global session table.
+*  You can use a single octothorpe (#) for a session temporary table and two octothorpes (##) for a global temporary table.
 *  Session temporary tables are only visible to the user who created them and are automatically dropped when the user's session ends.  
 *  Global temporary tables are available to every user's session.  
 *  You can place the same constraints, except for `FOREIGN KEY` constraints, on a temp table as you can on a permanent table.  
@@ -331,17 +333,16 @@ SELECT * FROM #Employees2 ORDER BY 1;
 ## Table Type 9
 ### Table Variable   
 
-Table variables are much like temporary tables.  They are used when passing a record set to a stored procedure.  Each database may implement table variables slightly differently, but Microsoft SQL Server has the following considerations.
+Table variables store temporary tabular data within a batch, stored procedure, or function. A table variable declared from a user-defined table type can also be passed to a stored procedure as a table-valued parameter.  Each database may implement table variables slightly differently, but Microsoft SQL Server has the following considerations.
 
 *  You can place constraints on the table except for `FOREIGN KEY` constraints.
 *  The constraints must be placed on the table on creation.
 *  You cannot alter the table variable once it is created.
-*  You cannot create an explicit index on a table variable.
+*  You cannot execute CREATE INDEX against a table variable after declaring it. However, PRIMARY KEY and UNIQUE constraints create indexes.
 *  You cannot truncate a table variable.
-*  An index is created when creating a `PRIMARY KEY` or a `UNIQUE` constraint.
 *  Table variables are stored in `tempdb`. 
 *  Table variables are not affected by rollbacks.
-*  Statistics are not created on table variables.
+*  SQL Server does not maintain distribution statistics on table variables. SQL Server 2019 and later can use table-variable deferred compilation to improve cardinality estimates when the appropriate database compatibility level is enabled.
 
 ```sql
 DECLARE @TableVariable TABLE
@@ -412,7 +413,7 @@ GO
 ## Table Type 11
 ### External Tables           
 
-External tables in Microsoft SQL Server are database objects that allow access to data stored outside the SQL Server instance, typically through PolyBase or linked services. They reference external data sources and external file formats, enabling SQL Server to query data stored in locations such as Hadoop, Azure Blob Storage, Azure Data Lake Storage, or another SQL Server via PolyBase.
+External tables in Microsoft SQL Server are database objects that allow access to data stored outside the SQL Server instance, typically through PolyBase and an external data source. They reference external data sources and external file formats, enabling SQL Server to query data stored in locations such as Hadoop, Azure Blob Storage, Azure Data Lake Storage, or another SQL Server via PolyBase.
 
 These tables appear like regular tables but are read-only and do not physically store data within the SQL Server database. Instead, they act as a metadata layer that enables querying external data using T-SQL. This is particularly useful for data integration, bulk data loading, archiving, and working with large datasets without importing them into SQL Server.
 
