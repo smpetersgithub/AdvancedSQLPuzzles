@@ -1,25 +1,23 @@
 # Table Types
 
-Within SQL Server, you can create a join to the following eleven table types. Table types can be schema-bound objects, meaning they are saved as database objects within a named schema, or unbound, meaning they are only durable for the life of an SQL statement or your current session.  Temporary tables and table variables reside in `tempdb`.  The optimizer may also use `tempdb` for spills, hashes, sorts, etc., depending on query complexity.
+SQL Server allows queries to read from and join to many kinds of tables, table-like objects, and rowset expressions. This article examines eleven commonly encountered examples.
 
-Here are the eleven different types of tables you can create.
-
-| Id |              Name              |  Schema Owned |                                                                 Description                                                                 |
-|----|--------------------------------|---------------|---------------------------------------------------------------------------------------------------------------------------------------------|
-| 1  | Table                          | True          | A regular table that is stored in the database.                                                                                             |
-| 2  | View                           | True          | A virtual table that is based on the result of a `SELECT` statement.                                                                        |
-| 3  | Values Constructor             | False         | The `VALUES` constructor can be used to create a derived table, which is a table that is created and used within a single SQL query.        |
-| 4  | Table Valued Function          | True          | A function that returns a table as its result.                                                                                              |
-| 5  | Subquery                       | False         | A query that is embedded within another query. The results of a subquery can be used in the outer query.                                    |
-| 6  | Derived Table                  | False         | A special type of subquery that is defined in the `FROM` statement                                                                          |
-| 7  | Common Table Expression (CTE)  | False         | A named temporary result set that can be used in a `SELECT`, `INSERT`, `UPDATE`, or `DELETE` statement.                                     |
-| 8  | Temporary Table                | False         | A table created for a specific session or connection and is automatically dropped when the session or connection ends.                      |
-| 9  | Table Variable                 | False         | A variable that holds a table of data. It is similar to a temporary table, but it differs in behavior and scope.                            |
-| 10 | User-Defined Table Type        | True          | Used as parameters when you pass tabular data into stored procedures or user-defined functions.                                             |
-| 11 | External Tables                | True          | External tables allow access to data in sources like Hadoop or Azure Blob Storage and are created using the CREATE EXTERNAL TABLE statement.|
+| Id |              Name              |                                                                 Description                                                                 |
+|----|--------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------|
+| 1  | Table                          | A regular table that is stored in the database.                                                                                             |
+| 2  | View                           | A virtual table that is based on the result of a `SELECT` statement.                                                                        |
+| 3  | Values Constructor             | The `VALUES` constructor can be used to create a derived table, which is a table that is created and used within a single SQL query.        |
+| 4  | Table Valued Function          | A function that returns a table as its result.                                                                                              |
+| 5  | Subquery                       | A query that is embedded within another query. The results of a subquery can be used in the outer query.                                    |
+| 6  | Derived Table                  | A special type of subquery that is defined in the `FROM` statement                                                                          |
+| 7  | Common Table Expression (CTE)  | A named temporary result set that can be used in a `SELECT`, `INSERT`, `UPDATE`, or `DELETE` statement.                                     |
+| 8  | Temporary Table                | A table created for a specific session or connection and is automatically dropped when the session or connection ends.                      |
+| 9  | Table Variable                 | A variable that holds a table of data. It is similar to a temporary table, but it differs in behavior and scope.                            |
+| 10 | User-Defined Table Type        | Used as parameters when you pass tabular data into stored procedures or user-defined functions.                                             |
+| 11 | External Tables                | External tables allow access to data in sources like Hadoop or Azure Blob Storage and are created using the CREATE EXTERNAL TABLE statement.|
 
 
-Next, let's create examples of each table type.
+Next, let's create examples of each type.
 
 --------------------------------------------------------------------------------------------------------
 ## Table Type 1
@@ -39,8 +37,8 @@ Department VARCHAR(100) NOT NULL,
 Salary     MONEY NOT NULL
 );
 
-INSERT INTO Employees (EmployeeID, FirstName, LastName, Department,Salary) VALUES (1,'John','Wilson','Accounting',100000);
-INSERT INTO Employees (EmployeeID, FirstName, LastName, Department,Salary) VALUES (2,'Sarah','Shultz','Accounting',90000);
+INSERT INTO Employees (EmployeeID, FirstName, LastName, Department, Salary) VALUES (1,'John','Wilson','Accounting',100000);
+INSERT INTO Employees (EmployeeID, FirstName, LastName, Department, Salary) VALUES (2,'Sarah','Shultz','Accounting',90000);
 
 SELECT * FROM Employees ORDER BY 1;
 ```
@@ -69,25 +67,32 @@ In this example, we create a view from the `Employees` table, insert a record in
 
 ```sql
 CREATE OR ALTER VIEW vwEmployees AS
-(
 SELECT  EmployeeID,
         FirstName,
         LastName,
         Department,
         Salary
-FROM    Employees
-);
+FROM    Employees;
+GO
 
-INSERT INTO vwEmployees (EmployeeID,FirstName,LastName, Department,Salary) VALUES(3,'Larry','Johnson','Accounting','85000');
+INSERT INTO vwEmployees (EmployeeID, FirstName, LastName, Department, Salary) VALUES(3,'Larry','Johnson','Finance','85000');
+GO
 
 SELECT * FROM vwEmployees ORDER BY 1;
+GO
+
+--Remove Larry
+DELETE FROM vwEmployees WHERE FirstName = 'Larry';
+GO
 ```
+
+Here are the results before we removed Larry.
 
 | EmployeeID | FirstName | LastName | Department |  Salary   |
 |------------|-----------|----------|------------|-----------|
 | 1          | John      | Wilson   | Accounting | 100000.00 |
 | 2          | Sarah     | Shultz   | Accounting |  90000.00 |
-| 3          | Larry     | Johnson  | Accounting |  85000.00 |
+| 3          | Larry     | Johnson  | Finance    |  85000.00 |
 
 --------------------------------------------------------------------------------------------------------
 ## Table Type 3
@@ -125,7 +130,6 @@ FROM    Employees a INNER JOIN
 | 1          | John      | Wilson   | Accounting | 100000.00 |
 | 2          | Sarah     | Shultz   | Accounting |  90000.00 |
 
-
 You can also place functions into the `VALUES` constructor.  The `NEWID()` function creates a unique value of type `UNIQUEIDENTIFIER`.
 
 ```sql
@@ -139,7 +143,6 @@ ORDER BY 1;
 |     Name      |               UniqueID               |
 |---------------|--------------------------------------|
 | John Wilson   | 50CA5F8E-9090-4DB8-A7C4-43F1D6C89D57 |
-| Larry Johnson | 5CCCCBE3-F600-4E79-B16B-1BC6504152A2 |
 | Sarah Shultz  | 803DF712-0144-41AC-959A-A774F35DC600 |
 
 --------------------------------------------------------------------------------------------------------
@@ -148,7 +151,7 @@ ORDER BY 1;
 
 A table-valued function acts like a view with the added benefit of being parameterized.  Table-valued functions can be single-statement or multi-statement, and you can join to other datasets using `CROSS APPLY` or `OUTER APPLY`.
 
-For this example, we create a table-valued function using the `Employees` table.  To use the table values function, we can select from the function or use the `CROSS APPLY` join operation.
+For this example, we create a table-valued function using the `Employees` table.  To use the table-valued function, we can select from the function or use the `CROSS APPLY` join operation.
 
 ```sql
 CREATE OR ALTER FUNCTION FnGetEmployees (@EmployeeID INTEGER)
@@ -160,23 +163,36 @@ SELECT EmployeeID, FirstName, LastName, Department, Salary
 FROM   Employees
 WHERE  EmployeeID = @EmployeeID
 );
+GO
 
 SELECT * FROM fnGetEmployees(1);
 
-SELECT  a.*
+
+SELECT  a.*,
+        (CASE WHEN a.EmployeeID = f.EmployeeID THEN 1 ELSE 0 END) AS IsMatch
 FROM    Employees a CROSS APPLY
-        fnGetEmployees(1);
+        fnGetEmployees(1) f;
 ```
+
+Here are the results from the first `SELECT` statement.
 
 | EmployeeID | FirstName | LastName | Department |  Salary   |
 |------------|-----------|----------|------------|-----------|
 | 1          | John      | Wilson   | Accounting | 100000.00 |
 
+
+
+| EmployeeID | FirstName | LastName | Department |  Salary   | IsMatch |
+|------------|-----------|----------|------------|-----------|---------|     
+| 1          | John      | Wilson   | Accounting | 100000.00 |    1    |
+| 2          | Sarah     | Shultz   | Accounting |  90000.00 |    0    |
+
+
 --------------------------------------------------------------------------------------------------------
 ## Table Type 5
 ### Subquery
 
-A subquery is a query nested within another query. Subqueries can be used in various parts of a SQL query, such as the `SELECT`, `FROM`, and `WHERE` clauses. They are handy for performing operations that require multiple scans of the same or different tables, complex calculations, or referencing results that are not part of the main query.  A subquery can be correlated (which depends on the outer query) or non-correlated.
+A subquery is a query nested within another query. Subqueries can be used in various parts of a SQL query, such as the `SELECT`, `FROM`, `WHERE`, and `HAVING` clauses. They are handy for performing operations that require multiple scans of the same or different tables, complex calculations, or referencing results that are not part of the main query.  A subquery can be correlated (which depends on the outer query) or non-correlated.
 
 Here is an example of a correlated subquery using the `Employees` table.  We will discuss correlated subqueries more in the semi-join and anti-join portions of this repository.
 
@@ -205,13 +221,11 @@ A derived table has three characteristics:
 
 Here is an example of a derived table in SQL.
 
-    
 ```sql
 SELECT  e.*,
         e2.EmployeeID,
         e2.Salary
-FROM    (SELECT  EmployeeID, FirstName, LastName, Salary FROM Employees) e 
-        INNER JOIN 
+FROM    (SELECT EmployeeID, FirstName, LastName, Salary FROM Employees) e INNER JOIN 
         Employees e2 ON e.Salary > e2.Salary
 ORDER BY 1, 2, 3, 4, 5;
 ```
@@ -222,34 +236,22 @@ ORDER BY 1, 2, 3, 4, 5;
 | 1          | John      | Wilson   | 100000.00 | 3          | 85000.00 |
 | 2          | Sarah     | Shultz   | 90000.00  | 3          | 85000.00 |
 
-In Microsoft SQL Server, even when performing a `CROSS JOIN`, the derived table must be aliased.  This statement will error if the table alias is removed.  For brevity, I only show the top two records.
-
-```sql
-SELECT  TOP 2 *
-FROM    (SELECT DISTINCT Salary FROM Employees) e
-        CROSS JOIN
-        Employees
-ORDER BY 2;
-```
-
-|  Salary  | EmployeeID | FirstName | LastName | Department |  Salary   |
-|----------|------------|-----------|----------|------------|-----------|
-| 85000.00 | 1          | John      | Wilson   | Accounting | 100000.00 |
-| 85000.00 | 2          | Sarah     | Shultz   | Accounting |  90000.00 |
-  
 --------------------------------------------------------------------------------------------------------
 ## Table Type 7
 ### Common Table Expression (CTE) 
 
 A Common Table Expression (CTE) is a named, temporary result set that is defined within a `SELECT` statement.
+
 ```sql        
 WITH EmployeesByDepartment AS 
 (
-SELECT  Department, COUNT(*) AS EmployeeCount
+SELECT  Department,
+        COUNT(*) AS EmployeeCount
 FROM    Employees
 GROUP BY Department
 )
-SELECT  Department, EmployeeCount
+SELECT  Department,
+        EmployeeCount
 FROM    EmployeesByDepartment
 WHERE   EmployeeCount > 2;
 ```
@@ -280,14 +282,14 @@ OPTION (MAXRECURSION 0);
 
 The syntax for creating temporary tables varies across database systems.  These examples work in Microsoft SQL Server.
 
-Session temporary tables and global temporary tables are two types of temporary tables in SQL. The main difference between them is their scope and visibility.  
+Session temporary tables and global temporary tables are two types of temporary tables in SQL. The main difference between them is their scope and visibility. 
 
-*  In Microsoft SQL Server, you can use a single octothorpe (#) for a session temporary table and two octothorpes (##) for a global session table.
+*  You can use a single octothorpe (#) for a session temporary table and two octothorpes (##) for a global session table.
 *  Session temporary tables are only visible to the user who created them and are automatically dropped when the user's session ends.  
 *  Global temporary tables are available to every user's session.  
 *  You can place the same constraints, except for `FOREIGN KEY` constraints, on a temp table as you can on a permanent table.  
 *  Indexing is allowed on temporary tables.
-*  Temporary tables reside in `tempdb`, and their metadata cannot be seen in the information schema.
+*  Temporary tables reside in `tempdb`, and their metadata can be seen in the information schema.
 
 This creates a session temporary table in SQL Server.
 
@@ -304,14 +306,12 @@ Salary     MONEY NOT NULL
 INSERT INTO #Employees SELECT * FROM Employees;
 
 SELECT * FROM #Employees ORDER BY 1;
-
 ```
 
 | EmployeeID | FirstName | LastName | Department |  Salary   |
 |------------|-----------|----------|------------|-----------|
 | 1          | John      | Wilson   | Accounting | 100000.00 |
 | 2          | Sarah     | Shultz   | Accounting |  90000.00 |
-| 3          | Larry     | Johnson  | Accounting |  85000.00 |
 
 You can also create temporary tables via the `INTO` statement in a SQL statement.  This works in Microsoft SQL Server, and each database system has slightly different syntax for temporary tables.
 
@@ -327,22 +327,22 @@ SELECT * FROM #Employees2 ORDER BY 1;
 |------------|-----------|----------|------------|-----------|
 | 1          | John      | Wilson   | Accounting | 100000.00 |
 | 2          | Sarah     | Shultz   | Accounting |  90000.00 |
-| 3          | Larry     | Johnson  | Accounting |  85000.00 |
 
 --------------------------------------------------------------------------------------------------------
 ## Table Type 9
 ### Table Variable   
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Table variables are much like temporary tables.  They are used when passing a record set to a stored procedure.  Each database may implement table variables slightly differently, but Microsoft SQL Server has the following considerations.
+Table variables are much like temporary tables.  They are used when passing a record set to a stored procedure.  Each database may implement table variables slightly differently, but Microsoft SQL Server has the following considerations.
 
 *  You can place constraints on the table except for `FOREIGN KEY` constraints.
 *  The constraints must be placed on the table on creation.
 *  You cannot alter the table variable once it is created.
 *  You cannot create an explicit index on a table variable.
+*  You cannot truncate a table variable.
 *  An index is created when creating a `PRIMARY KEY` or a `UNIQUE` constraint.
-*  Modern SQL Server does support `TRUNCATE TABLE` on table variables.  You will need to verify if your version of SQL Server supports `TRUNCATE TABLE` on table variables.
 *  Table variables are stored in `tempdb`. 
-*  Table variables are not affected by rollbacks. Temporary tables can be rolled back as they are part of the transaction log.
+*  Table variables are not affected by rollbacks.
+*  Statistics are not created on table variables.
 
 ```sql
 DECLARE @TableVariable TABLE
@@ -364,24 +364,50 @@ SELECT * FROM @TableVariable ORDER BY 1;
 |------------|-----------|----------|------------|-----------|
 | 1          | John      | Wilson   | Accounting | 100000.00 |
 | 2          | Sarah     | Shultz   | Accounting |  90000.00 |
-| 3          | Larry     | Johnson  | Accounting |  85000.00 |
 
 --------------------------------------------------------------------------------------------------------
 ## Table Type 10
 ### User-Defined Table Types
 
-User-defined table types are a special type in SQL Server that allows for the definition of table structures. These structures can be used as parameters in stored procedures or functions, allowing for the passage of multiple rows of data in a single parameter. 
+User-defined table types are a special type in SQL Server that allows for the definition of table structures. These structures are used as parameters in stored procedures or functions, allowing for the passage of multiple rows of data in a single parameter. 
 
-They function the same as table variables but are schema-bound and can be used with stored procedures and functions.  By defining a specific structure for the table data being passed, table types enforce a level of data integrity and consistency. This ensures the data conforms to the expected format, reducing errors and improving reliability.
+A table type cannot have a FOREIGN KEY constraint. Also, a user-defined table type cannot be altered after creation; to change it, you generally must drop and recreate it after removing objects that depend on it.
+
+User-defined table types are used in conjunction with table variables such as the following.
 
 ```sql
 CREATE TYPE MyTableType AS TABLE
 (
-    ID INT,
-    Name VARCHAR(100),
-    Value DECIMAL(10, 2)
+EmployeeID INTEGER PRIMARY KEY,
+FirstName  VARCHAR(100) NOT NULL,
+LastName   VARCHAR(100) NOT NULL,
+Department VARCHAR(100) NOT NULL,
+Salary     MONEY NOT NULL
 );
+GO
+
+CREATE OR ALTER PROCEDURE MyProcedure
+    @Data dbo.MyTableType READONLY
+AS
+BEGIN
+    SELECT *
+    FROM @Data;
+END;
+GO
+
+DECLARE @Input MyTableType;
+
+INSERT INTO @Input (EmployeeID, FirstName, LastName, Department, Salary) VALUES (1,'John','Wilson','Accounting',100000);
+INSERT INTO @Input (EmployeeID, FirstName, LastName, Department, Salary) VALUES (2,'Sarah','Shultz','Accounting',90000);
+
+EXEC MyProcedure @Data = @Input;
+GO
 ```
+
+| EmployeeID | FirstName | LastName | Department |  Salary   |
+|------------|-----------|----------|------------|-----------|
+| 1          | John      | Wilson   | Accounting | 100000.00 |
+| 2          | Sarah     | Shultz   | Accounting |  90000.00 |
 
 --------------------------------------------------------------------------------------------------------
 ## Table Type 11
