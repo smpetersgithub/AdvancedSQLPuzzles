@@ -4,20 +4,14 @@ SQL Server allows queries to read from and join to many kinds of tables, table-l
 
 ❗For simplicity, we will be using the term "table" to describe the following. 
 
-| Id |              Name              |                                                                 Description                                                                 |
-|----|--------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------|
-| 1  | Table                          | A regular table that is stored in the database.                                                                                             |
-| 2  | View                           | A virtual table that is based on the result of a `SELECT` statement.                                                                        |
-| 3  | Values Constructor             | The `VALUES` constructor can be used to create a derived table, which is a table that is created and used within a single SQL query.        |
-| 4  | Table-Valued Function          | A function that returns a table as its result.                                                                                              |
-| 5  | Subquery                       | A query that is embedded within another query. The results of a subquery can be used in the outer query.                                    |
-| 6  | Derived Table                  | A special type of subquery that is defined in the `FROM` statement                                                                          |
-| 7  | Common Table Expression (CTE)  | A named temporary result set that can be used in a `SELECT`, `INSERT`, `UPDATE`, or `DELETE` statement.                                     |
-| 8  | Temporary Table                | A table created for a specific session or connection and is automatically dropped when the session or connection ends.                      |
-| 9  | Table Variable                 | A variable that holds a table of data. It is similar to a temporary table, but it differs in behavior and scope.                            |
-| 10 | User-Defined Table Type        | Used as parameters when you pass tabular data into stored procedures or user-defined functions.                                             |
-| 11 | External Table                 | External tables allow access to data in sources like Hadoop or Azure Blob Storage and are created using the `CREATE EXTERNAL TABLE` statement.|
-
+| Id | Name | Description |
+|----|------|-------------|
+| 3 | `VALUES` Constructor          | An inline rowset that can supply values to a DML statement or be used as a derived table. |
+| 6 | Derived Table                 | A subquery defined in the `FROM` clause. |
+| 7 | Common Table Expression (CTE) | A named query expression that exists for one statement. |
+| 8 | Temporary Table               | A table created in `tempdb` with local or global scope. |
+| 10 | User-Defined Table Type      | A schema-scoped type used to declare table variables and table-valued parameters. |
+| 11 | External Table               | A schema-scoped table that provides access to data stored outside SQL Server. |
 
 Next, let's create examples of each type.
 
@@ -27,10 +21,10 @@ Next, let's create examples of each type.
 
 The type of table referred to below is a base table. A base table is a permanent table stored in the database and contains the actual data in the form of rows and columns. Base tables can have `NOT NULL`, `UNIQUE`, `PRIMARY KEY`, `FOREIGN KEY`, `CHECK`, and `DEFAULT` constraints.
 
-In this example, we create a table named `Employees`, insert two records using the `VALUES` constructor, and then select from the table. 
+In this example, we create a table named `Employees`, insert two rows using the `VALUES` constructor, and then select from the table. 
 
 ```sql
-CREATE TABLE Employees
+CREATE TABLE dbo.Employees
 (
 EmployeeID INTEGER PRIMARY KEY,
 FirstName  VARCHAR(100) NOT NULL,
@@ -39,10 +33,10 @@ Department VARCHAR(100) NOT NULL,
 Salary     MONEY NOT NULL
 );
 
-INSERT INTO Employees (EmployeeID, FirstName, LastName, Department, Salary) VALUES (1,'John','Wilson','Accounting',100000);
-INSERT INTO Employees (EmployeeID, FirstName, LastName, Department, Salary) VALUES (2,'Sarah','Shultz','Accounting',90000);
+INSERT INTO dbo.Employees (EmployeeID, FirstName, LastName, Department, Salary) VALUES (1,'John','Wilson','Accounting',100000);
+INSERT INTO dbo.Employees (EmployeeID, FirstName, LastName, Department, Salary) VALUES (2,'Sarah','Shultz','Accounting',90000);
 
-SELECT * FROM Employees ORDER BY 1;
+SELECT * FROM dbo.Employees ORDER BY 1;
 ```
 
 
@@ -63,28 +57,31 @@ In SQL Server, we can set the following options for views.
 *  `ENCRYPTION`: Hides the text of the view definition from being viewed by using the `sys.sql_modules` catalog view or the `OBJECT_DEFINITION` function. It provides a layer of security against viewing the view's SQL syntax.
 *  `SCHEMABINDING`: Binds the view to the schema of the underlying tables. This prevents modifications to the underlying tables that would affect the view, ensuring the view's definition remains valid and unchanged.
 *  `VIEW_METADATA`: Causes SQL Server to return metadata about the view, rather than its underlying tables, to DB-Library, ODBC, and OLE DB APIs when browse-mode metadata is requested. This can help client applications create updatable cursors against a view.
-*  `WITH CHECK OPTION`: Ensures that all data modifications through the view comply with the view's `SELECT` statement. If a row is modified through the view that would not be selected by the view's `SELECT` statement, the modification is disallowed. This maintains data integrity by ensuring only valid data is entered through the view.
 
-In this example, we create a view from the `Employees` table, insert a record into the table, and then select from the view.
+SQL Server also supports `WITH CHECK OPTION`, which is placed after the view's defining `SELECT` statement.
+
+'WITH CHECK OPTION`: Ensures that all data modifications through the view comply with the view's `SELECT` statement. If a row is modified through the view that would not be selected by the view's `SELECT` statement, the modification is disallowed. This maintains data integrity by ensuring only valid data is entered through the view.
+
+In this example, we create a view from the `Employees` table, insert a row into the table, and then select from the view.
 
 ```sql
-CREATE OR ALTER VIEW vwEmployees AS
+CREATE OR ALTER VIEW dbo.vwEmployees AS
 SELECT  EmployeeID,
         FirstName,
         LastName,
         Department,
         Salary
-FROM    Employees;
+FROM    dbo.Employees;
 GO
 
-INSERT INTO vwEmployees (EmployeeID, FirstName, LastName, Department, Salary) VALUES(3,'Larry','Johnson','Finance','85000');
+INSERT INTO dbo.vwEmployees (EmployeeID, FirstName, LastName, Department, Salary) VALUES(3,'Larry','Johnson','Finance','85000');
 GO
 
-SELECT * FROM vwEmployees ORDER BY 1;
+SELECT * FROM dbo.vwEmployees ORDER BY 1;
 GO
 
 --Remove Larry
-DELETE FROM vwEmployees WHERE FirstName = 'Larry';
+DELETE FROM dbo.vwEmployees WHERE FirstName = 'Larry';
 GO
 ```
 
@@ -123,7 +120,7 @@ Here is a more elaborate example where the `VALUES` constructor specifies the va
 
 ```sql
 SELECT  a.*
-FROM    Employees a INNER JOIN
+FROM    dbo.Employees a INNER JOIN
         (VALUES (1), (2)) AS b(EmployeeID) ON a.EmployeeID = b.EmployeeID;
 ```
 
@@ -137,7 +134,7 @@ You can also place functions into the `VALUES` constructor.  The `NEWID()` funct
 ```sql
 SELECT  CONCAT(FirstName,' ',LastName) AS Name,
         b.UniqueID
-FROM    Employees a CROSS JOIN
+FROM    dbo.Employees a CROSS JOIN
         (VALUES (NEWID())) AS b(UniqueID)
 ORDER BY 1;
 ```
@@ -151,29 +148,29 @@ ORDER BY 1;
 ## Table Type 4
 ### Table-Valued Function
 
-A table-valued function acts like a view with the added benefit of being parameterized.  Table-valued functions can be single-statement or multi-statement, and you can join to other datasets using `CROSS APPLY` or `OUTER APPLY`.
+A table-valued function acts like a view with the added benefit of being parameterized.  Table-valued functions can be inline or multi-statement functions, and you can join to other datasets using `CROSS APPLY` or `OUTER APPLY`.
 
 For this example, we create a table-valued function using the `Employees` table.  To use the table-valued function, we can select from the function or use the `CROSS APPLY` join operation.
 
 ```sql
-CREATE OR ALTER FUNCTION FnGetEmployees (@EmployeeID INTEGER)
+CREATE OR ALTER FUNCTION dbo.FnGetEmployees (@EmployeeID INTEGER)
 RETURNS TABLE
 AS
 RETURN
 (
 SELECT EmployeeID, FirstName, LastName, Department, Salary
-FROM   Employees
+FROM   dbo.Employees
 WHERE  EmployeeID = @EmployeeID
 );
 GO
 
-SELECT * FROM fnGetEmployees(1);
+SELECT * FROM dbo.fnGetEmployees(1);
 
 
 SELECT  a.*,
         (CASE WHEN a.EmployeeID = f.EmployeeID THEN 1 ELSE 0 END) AS IsMatch
-FROM    Employees a CROSS APPLY
-        fnGetEmployees(1) f;
+FROM    dbo.Employees a CROSS APPLY
+        dbo.fnGetEmployees(1) f;
 ```
 
 Here are the results from the first `SELECT` statement.
@@ -199,9 +196,9 @@ Here is an example of a correlated subquery using the `Employees` table.  We wil
 
 ```sql
 SELECT  e.*
-FROM    Employees e
+FROM    dbo.Employees e
 WHERE   e.Salary >  (SELECT AVG(Salary)
-                     FROM Employees
+                     FROM dbo.Employees
                      WHERE Department = e.Department);
 ```
 
@@ -216,9 +213,10 @@ WHERE   e.Salary >  (SELECT AVG(Salary)
 A derived table is a special type of subquery. It is an expression that generates a table within the scope of the `FROM` clause.  
 
 A derived table has three characteristics:
-1) Defined in the `FROM` clause
-2) Surrounded in parentheses
-3) Has a table alias
+
+1. It is defined in the `FROM` clause.
+2. It is enclosed in parentheses.
+3. It has a table alias.
 
 Here is an example of a derived table in SQL.
 
@@ -226,8 +224,8 @@ Here is an example of a derived table in SQL.
 SELECT  e.*,
         e2.EmployeeID,
         e2.Salary
-FROM    (SELECT EmployeeID, FirstName, LastName, Salary FROM Employees) e INNER JOIN 
-        Employees e2 ON e.Salary > e2.Salary
+FROM    (SELECT EmployeeID, FirstName, LastName, Salary FROM dbo.Employees) e INNER JOIN 
+        dbo.Employees e2 ON e.Salary > e2.Salary
 ORDER BY 1, 2, 3, 4, 5;
 ```
 
@@ -239,14 +237,14 @@ ORDER BY 1, 2, 3, 4, 5;
 ## Table Type 7
 ### Common Table Expression (CTE) 
 
-A common table expression (CTE) is a named query expression that exists for the duration of a single statement. A CTE can be used with a SELECT, INSERT, UPDATE, DELETE, or MERGE statement and can also be used in a view definition.
+A common table expression (CTE) is a named query expression that exists for one statement and can be used with `SELECT`, `INSERT`, `UPDATE`, `DELETE`, or `MERGE`, or in a view definition.   
 
 ```sql        
 WITH EmployeesByDepartment AS 
 (
 SELECT  Department,
         COUNT(*) AS EmployeeCount
-FROM    Employees
+FROM    dbo.Employees
 GROUP BY Department
 )
 SELECT  Department,
@@ -284,7 +282,7 @@ The syntax for creating temporary tables varies across database systems.  These 
 Local temporary tables and global temporary tables are two types of temporary tables in SQL. The main difference between them is their scope and visibility. 
 
 *  You can use a single octothorpe (#) for a local temporary table and two octothorpes (##) for a global temporary table.
-*  Local temporary tables are only visible to the user who created them and are automatically dropped when the user's session ends.  
+*  Local temporary tables are visible only within the session that created them, including nested stored procedures executed by that session. They are automatically dropped when their scope ends. 
 *  Global temporary tables are available to every user's session.  
 *  You can place the same constraints, except for `FOREIGN KEY` constraints, on a temp table as you can on a permanent table.  
 *  Indexing is allowed on temporary tables.
@@ -302,7 +300,7 @@ Department VARCHAR(100) NOT NULL,
 Salary     MONEY NOT NULL
 );
 
-INSERT INTO #Employees SELECT * FROM Employees;
+INSERT INTO #Employees SELECT * FROM dbo.Employees;
 
 SELECT * FROM #Employees ORDER BY 1;
 ```
@@ -317,7 +315,7 @@ You can also create temporary tables via the `INTO` statement in a SQL statement
 ```sql
 SELECT  *
 INTO    #Employees2
-FROM    Employees;
+FROM    dbo.Employees;
 
 SELECT * FROM #Employees2 ORDER BY 1;
 ```
@@ -336,7 +334,7 @@ Table variables store temporary tabular data within a batch, stored procedure, o
 *  You can place constraints on the table except for `FOREIGN KEY` constraints.
 *  The constraints must be placed on the table on creation.
 *  You cannot alter the table variable once it is created.
-*  You cannot execute CREATE INDEX against a table variable after declaring it. However, PRIMARY KEY and UNIQUE constraints create indexes.
+*  You cannot execute `CREATE INDEX` against a table variable after declaring it. However, `PRIMARY KEY` and `UNIQUE` constraints create indexes.
 *  You cannot truncate a table variable.
 *  Table variables are stored in `tempdb`. 
 *  Table variables are not affected by rollbacks.
@@ -353,7 +351,7 @@ Salary     MONEY NOT NULL DEFAULT 0
 );
 
 INSERT INTO @TableVariable
-SELECT * FROM Employees;
+SELECT * FROM dbo.Employees;
 
 SELECT * FROM @TableVariable ORDER BY 1;
 ```
@@ -374,7 +372,7 @@ A table type cannot have a FOREIGN KEY constraint. Also, a user-defined table ty
 User-defined table types are used in conjunction with table variables such as the following.
 
 ```sql
-CREATE TYPE MyTableType AS TABLE
+CREATE TYPE dbo.MyTableType AS TABLE
 (
 EmployeeID INTEGER PRIMARY KEY,
 FirstName  VARCHAR(100) NOT NULL,
@@ -384,7 +382,7 @@ Salary     MONEY NOT NULL
 );
 GO
 
-CREATE OR ALTER PROCEDURE MyProcedure
+CREATE OR ALTER PROCEDURE dbo.MyProcedure
     @Data dbo.MyTableType READONLY
 AS
 BEGIN
@@ -393,12 +391,12 @@ BEGIN
 END;
 GO
 
-DECLARE @Input MyTableType;
+DECLARE @Input dbo.MyTableType;
 
 INSERT INTO @Input (EmployeeID, FirstName, LastName, Department, Salary) VALUES (1,'John','Wilson','Accounting',100000);
 INSERT INTO @Input (EmployeeID, FirstName, LastName, Department, Salary) VALUES (2,'Sarah','Shultz','Accounting',90000);
 
-EXEC MyProcedure @Data = @Input;
+EXEC dbo.MyProcedure @Data = @Input;
 GO
 ```
 
