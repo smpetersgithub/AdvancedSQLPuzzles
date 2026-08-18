@@ -17,7 +17,8 @@ However, the basic principles of relational algebra still form the basis of SQL,
 *  A non-equi-join is a type of theta-join that uses a condition other than equality (such as `<`, `>`, or `BETWEEN`) to compare columns. It returns rows where the join condition evaluates to true based on those non-equality comparisons.
 
 --------------------------------------------------------------------------------
-SQL provides the following operators for joining tables.
+
+The following T-SQL comparison operators and predicates can be used in join conditions.
 
 | Type       |       Operator       |                     Description                     |
 |------------|----------------------|-----------------------------------------------------|
@@ -39,7 +40,7 @@ SQL provides the following operators for joining tables.
 
 *  Comparison operators test whether two expressions are the same. Comparison operators can be used on all expressions except expressions of the `text`, `ntext`, or `image` data types.
 
-*  The `IS [NOT] DISTINCT FROM` is a comparison operator and is a relatively new feature being added to the various database systems.
+*  IS DISTINCT FROM and IS NOT DISTINCT FROM compare values while treating NULL as a known value. They were added to SQL Server in SQL Server 2022, although other database systems supported them earlier.
  
 --------------------------------------------------------------------------------
 We will use the following tables, which contain types of fruits and their quantities.
@@ -65,9 +66,12 @@ We will use the following tables, which contain types of fruits and their quanti
 --------------------------------------------------------------------------------
 #### Equi-joins
 
-Equi-joins look for equality in a relationship.  They can be used with `INNER`, `OUTER`, `FULL OUTER`, and `CROSS JOINS`. The example below uses the `CROSS JOIN` syntax, but functions like an `INNER JOIN` because the join logic is in the `WHERE` clause.
+Equi-joins look for equality in a relationship.  
 
-Note that it's functionally equivalent to an inner join in this context, but it's not the preferred syntax for clarity.
+Equality predicates can be used with inner and outer joins. A `CROSS JOIN` does not have an `ON` clause, but applying an equality predicate in the WHERE clause produces a result logically equivalent to an inner equi-join. 
+
+Here are several examples of an equi-join.
+
 
 ```sql
 SELECT  a.ID,
@@ -77,6 +81,14 @@ SELECT  a.ID,
 FROM    ##TableA a CROSS JOIN
         ##TableB b
 WHERE   a.Fruit = b.Fruit
+ORDER BY 1;
+
+SELECT  a.ID,
+        a.Fruit,
+        b.ID,
+        b.Fruit
+FROM    ##TableA a INNER JOIN
+        ##TableB b ON a.Fruit = b.Fruit
 ORDER BY 1;
 ```
 
@@ -117,35 +129,41 @@ FROM    ##TableA a INNER JOIN
 |  2 | Peach | 20       | 1  | Apple | 17       |
 
 --------------------------------------------------------------------------------
-#### Natural Joins Overview
-
-A natural join in relational algebra is a join operation that combines two relational tables via an equi-join based on their common attributes. In a natural join, only the rows with matching values in the common columns are included in the result. The common columns of the two tables serve as the join criteria, and the result set includes only one copy of each column. The columns in the result set correspond to the combination of columns from both tables.
-
-Oracle is currently the only vendor that supports the `NATURAL JOIN` syntax.  It is considered a bad practice for the following reasons:
-*  Ambiguity: Natural joins can cause ambiguity if two or more columns in the participating tables have the same name. This can lead to unexpected results and make the SQL statement difficult to understand and maintain.
-*  Maintenance: Natural joins can make the database schema more challenging to maintain because changes to the common columns in one of the participating tables will affect the join result.
-
-For these reasons, it is generally recommended to use explicit join syntax and specify the join conditions explicitly rather than relying on natural joins. This allows more control over the join conditions and the resulting data, making the query easier to understand and maintain.
-
-------------------------------------------------
-
 #### Natural Joins
 
-Using an asterisk in the `SELECT` statement is mandatory, and the output does not show duplicate column names. This query is the same as an equi-join on the `ID`, `Fruit`, and `Quantity` columns between `TableA` and `TableB`.
+A natural join automatically creates an equality condition for every column name shared by the two inputs. A plain `NATURAL JOIN` is normally an inner join, although database systems may also support natural outer joins.
+
+When `SELECT *` is used, each common join column appears only once in the result. Columns that are not common to both inputs are returned separately.
+
+Several database systems, including Oracle, MySQL, and PostgreSQL, support NATURAL JOIN. SQL Server does not support the syntax directly.  
+
+Natural joins are often discouraged for the following reasons:
+
+- **Implicit behavior:** The join condition is not visible in the SQL
+  statement, making the query harder to understand.
+- **Unintended matches:** Columns may share a name even though they are
+  not logically related.
+- **Schema sensitivity:** Adding, removing, or renaming a column can
+  silently change the join condition and the query result.
+- **Portability:** Some database systems, including SQL Server, do not
+  support `NATURAL JOIN`.
+  
+It is recommended to use explicit join syntax and specify the join conditions explicitly rather than relying on natural joins. This allows more control over the join conditions and the resulting data, making the query easier to understand and maintain.
+
+Here is an example of a `NATURAL JOIN`.
 
 ```sql
 SELECT  *
-FROM    ##TableA a NATURAL JOIN
-        ##TableB b;  
+FROM    TableA a NATURAL JOIN
+        TableB b;  
 ```
-
 
 | ID | Fruit | Quantity |
 |----|-------|----------|
 | 1  | Apple | 17       |
 
 
-Note that, to counteract some of the bad practices with `NATURAL JOIN`, Oracle and MySQL have the `USING` clause.  Below is the Oracle implementation of the `USING` clause.
+The `USING` clause provides a more explicit alternative when the join columns have the same names. Unlike `NATURAL JOIN`, it identifies exactly which common columns participate in the join. Oracle, MySQL, PostgreSQL, and several other database systems support `USING`; SQL Server does not.
 
 ```sql
 SELECT  *
