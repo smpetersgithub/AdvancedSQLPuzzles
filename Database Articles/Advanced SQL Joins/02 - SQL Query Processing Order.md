@@ -6,7 +6,9 @@ The diagram below illustrates this logical processing order.
 
 ![SQL Processing Order](/Database%20Articles/Advanced%20SQL%20Joins/images/SQLQueryProcessingOrderPage.png)
 
-At a high level, SQL begins by identifying the data sources in the `FROM` clause, applies row-level filtering, performs grouping and aggregation, and only then determines which columns to return and how the final result set should be presented. This distinction between *logical processing* and *written syntax* is essential for understanding joins, aggregations, and query behavior.
+At a high level, SQL begins by identifying the data sources in the `FROM` clause, applies row-level filtering, performs grouping and aggregation, and only then determines which columns to return and how the final result set should be presented. 
+
+This distinction between *logical processing order* and *written syntax order* is essential for understanding joins, aggregations, and query behavior.
 
 ---
 
@@ -63,15 +65,15 @@ Each operator follows a defined series of internal subphases.
 | `JOIN` | Form row combinations, apply the `ON` predicate, and add preserved rows when required by an outer join. |
 | `APPLY` | Evaluate the right table expression for each left row, combine the results, and preserve unmatched left rows for `OUTER APPLY`. |
 | `PIVOT` | Group, spread values into columns, and aggregate. |
-| `UNPIVOT` | Generate row copies, extract column names and values, and remove rows whose extracted values are `NULL`. |
+| `UNPIVOT` | Generate row copies, extract column names and values, and remove rows whose extracted values are NULL. |
 
 ---
 
 ## Understanding Joins as Restricted Cartesian Products
 
-In relational terms, an inner join can be understood as a Cartesian product followed by a predicate that retains only matching row combinations. This is a logical equivalence; SQL Server does not normally generate the complete Cartesian product and then filter it physically.
+In relational terms, an inner join can be understood as a Cartesian product followed by a predicate that retains only matching row combinations.
 
-An outer join adds another step by preserving unmatched rows from one or both inputs and supplying `NULL` markers for columns from the missing side.
+An outer join adds another step by preserving unmatched rows from one or both inputs and supplying NULL markers for columns from the missing side.
 
 A `CROSS JOIN` returns the Cartesian product directly, without an `ON` predicate.
 
@@ -96,18 +98,11 @@ FROM dbo.Customers emp CROSS JOIN
 WHERE emp.CustomerID = ord.CustomerID;
 ```
 
-### Key observations
-
-- Removing the join condition from an `INNER JOIN` results in a syntax error.
-- Removing the filter from a `CROSS JOIN` produces a full Cartesian product.
-- Both queries use an equi-join condition (`=`) on `CustomerID`.
-- A `CROSS JOIN` combined with a filtering predicate behaves the same as an `INNER JOIN`.
-
 ---
 
 ## Comparing INNER, OUTER, and CROSS Joins
 
-The primary difference is how each join handles matching and unmatched rows:
+The primary difference is how each join handles matching and unmatched rows. Inner joins use the join condition as a filtering criterion, while outer joins use it as a matching criterion and preserve unmatched rows from one or both tables.
 
 - An `INNER JOIN` returns only row combinations that satisfy its `ON` predicate.
 - A `LEFT OUTER JOIN` or `RIGHT OUTER JOIN` returns matching rows and preserves unmatched rows from one input.
