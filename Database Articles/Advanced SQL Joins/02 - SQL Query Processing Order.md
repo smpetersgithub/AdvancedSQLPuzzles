@@ -115,9 +115,10 @@ Both `INNER` and `OUTER` joins rely on comparison operators to relate rows acros
 - **Equi-joins** – joins using equality (`=`)
 - **Non-Equi-joins** – joins using any comparison operator other than equality (`<>  >  <  >=  <=  BETWEEN`)
 
+Note the following distinctions.
   
 - Every equi-join and non-equi-join is a theta-join.
-- Equi-join and Theta-join are concepts, not SQL Server keywords. You still write them using INNER JOIN, LEFT JOIN, and similar syntax.
+- Equi-joins and theta-joins are concepts, not SQL Server keywords. You still write them using INNER JOIN, LEFT JOIN, and similar syntax.
 
 These concepts originate from **Relational Algebra**, introduced by **Edgar F. Codd** in 1970. Relational Algebra provides the mathematical foundation for SQL by defining operations over relations using precise and well-defined semantics.
 
