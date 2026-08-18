@@ -14,18 +14,19 @@ At a high level, SQL begins by identifying the data sources in the `FROM` clause
 
 The logical order in which a SQL query is processed is shown below.
 
-| Order | Syntax   | Description |
-|------:|----------|-------------|
-| 1     | FROM     | Identifies the source tables, views, table variables, or derived tables |
-| 2     | WHERE    | Filters rows based on a search condition |
-| 3     | GROUP BY | Groups rows for aggregation |
-| 4     | HAVING   | Filters groups created by `GROUP BY` |
-| 5     | SELECT   | Determines which expressions and columns are returned |
-| 6     | DISTINCT | Removes duplicate rows from the result set |
-| 7     | ORDER BY | Sorts the final result set |
-| 8     | LIMIT    | Restricts the number of rows returned |
-
-> **Note:** SQL dialects vary slightly. For example, SQL Server uses `TOP` or `OFFSET / FETCH` instead of `LIMIT`, but the logical processing concept remains the same.
+| Order | Clause     | Description |
+|-------|------------|-------------|
+| 1     | `FROM`     | Identifies the input table sources. |
+| 2     | `ON`       | Evaluates join predicates. |
+| 3     | `JOIN`     | Produces matching rows and adds preserved rows for outer joins. |
+| 4     | `WHERE`    | Filters individual rows. |
+| 5     | `GROUP BY` | Organizes rows into groups. |
+| 6     | `WITH CUBE` or `WITH ROLLUP` | Produces additional aggregate groups when requested. |
+| 7     | `HAVING`   | Filters groups. |
+| 8     | `SELECT`   | Evaluates the expressions and columns to return. |
+| 9     | `DISTINCT` | Removes duplicate result rows. |
+| 10    | `ORDER BY` | Orders the result. |
+| 11    | `TOP`      | Limits the rows returned. |
 
 ---
 
@@ -33,7 +34,9 @@ The logical order in which a SQL query is processed is shown below.
 
 The SQL Server Database Engine (and other relational database engines) parses the entire query as a single unit and validates its syntax and semantics. It then produces **one execution plan for the entire query**, not separate plans for each clause.
 
-This execution plan represents the most efficient strategy the optimizer can determine for accessing and processing the data, based on factors such as:
+This execution plan represents a low-cost strategy selected by the optimizer from the alternatives it considered. The optimizer uses a cost-based search but does not guarantee that it finds the objectively best possible plan.
+
+It includes such factors such as:
 
 - Available indexes  
 - Table and column statistics  
@@ -55,36 +58,41 @@ Each operator follows a defined series of internal subphases.
 
 ### Operator Subphases
 
-| Operator | Subphases |
-|----------|-----------|
-| JOIN     | 1) Cartesian Product  2) ON Predicate  3) Add Outer Rows |
-| APPLY    | 1) Apply Table Expression  2) Add Outer Rows |
-| PIVOT    | 1) Group  2) Spread  3) Aggregate |
-| UNPIVOT  | 1) Generate Copies  2) Extract Element  3) Remove |
+| Operator | Conceptual subphases |
+|----------|----------------------|
+| `JOIN` | Form row combinations, apply the `ON` predicate, and add preserved rows when required by an outer join. |
+| `APPLY` | Evaluate the right table expression for each left row, combine the results, and preserve unmatched left rows for `OUTER APPLY`. |
+| `PIVOT` | Group, spread values into columns, and aggregate. |
+| `UNPIVOT` | Generate row copies, extract column names and values, and remove rows whose extracted values are `NULL`. |
 
 ---
 
 ## Understanding Joins as Restricted Cartesian Products
 
-All joins ultimately begin as a **Cartesian product**. The difference between join types lies in how that product is restricted or preserved.
+In relational terms, an inner join can be understood as a Cartesian product followed by a predicate that retains only matching row combinations. This is a logical equivalence; SQL Server does not normally generate the complete Cartesian product and then filter it physically.
+
+An outer join adds another step by preserving unmatched rows from one or both inputs and supplying `NULL` markers for columns from the missing side.
+
+A `CROSS JOIN` returns the Cartesian product directly, without an `ON` predicate.
 
 - There is only one fundamental join operation: the Cartesian product.
 - `INNER` and `OUTER` joins are **restricted Cartesian products**, where the `ON` predicate limits the rows returned.
 - The `APPLY` operator is used to evaluate correlated table expressions, including table-valued functions.
 - `PIVOT` and `UNPIVOT` reshape data by rotating rows into columns and columns into rows.
 
-The following two queries produce the **same result set**, demonstrating how an `INNER JOIN` is logically equivalent to a filtered `CROSS JOIN`.
+
+The following queries are logically equivalent. The optimizer may produce the same execution plan for both, although that is not guaranteed.
 
 ```sql
 -- Statement 1: INNER JOIN
 SELECT *
-FROM Customers emp INNER JOIN
-     Orders ord ON emp.CustomerID = ord.CustomerID;
+FROM dbo.Customers emp INNER JOIN
+     dbo.Orders ord ON emp.CustomerID = ord.CustomerID;
 
 -- Statement 2: CROSS JOIN with filter
 SELECT  *
-FROM Customers emp CROSS JOIN
-     Orders ord
+FROM dbo.Customers emp CROSS JOIN
+     dbo.Orders ord
 WHERE emp.CustomerID = ord.CustomerID;
 ```
 
@@ -99,11 +107,12 @@ WHERE emp.CustomerID = ord.CustomerID;
 
 ## Comparing INNER, OUTER, and CROSS Joins
 
-The most important distinction between join types is how unmatched rows are handled:
+The primary difference is how each join handles matching and unmatched rows:
 
-- `INNER JOIN` acts as a filtering criterion and returns only matching rows
-- `OUTER JOIN` acts as a matching criterion and returns matching rows plus unmatched rows from one or both tables
-- `CROSS JOIN` returns all possible combinations and returns the Cartesian product
+- An `INNER JOIN` returns only row combinations that satisfy its `ON` predicate.
+- A `LEFT OUTER JOIN` or `RIGHT OUTER JOIN` returns matching rows and preserves unmatched rows from one input.
+- A `FULL OUTER JOIN` preserves unmatched rows from both inputs.
+- A `CROSS JOIN` returns every possible row combination and does not use an `ON` predicate.
 
 ---
 
@@ -111,16 +120,16 @@ The most important distinction between join types is how unmatched rows are hand
 
 Both `INNER` and `OUTER` joins rely on comparison operators to relate rows across tables. These comparisons are formally described as:
 
-- **Theta-joins** – joins using any binary comparison operator (`=  <>  >  <  >=  <=`)
-- **Equi-joins** – joins using equality (`=`)
-- **Non-Equi-joins** – joins using any comparison operator other than equality (`<>  >  <  >=  <=  BETWEEN`)
+- **Theta-join** – uses comparison operators such as `=`, `<>`, `>`, `<`, `>=`, or `<=`.
+- **Equi-join** – uses equality comparisons.
+- **Non-equi-join** – uses comparisons or range predicates other than equality, such as `<`, `>`, `<>`, or `BETWEEN`.
 
 Note the following distinctions.
   
 - Every **equi-join** and **non-equi-join** is a **theta-join**.
-- **Equi-joins** and **theta-joins** are concepts, not SQL Server keywords. You still write them using `INNER JOIN`, `LEFT JOIN`, and similar syntax.
-
-These concepts originate from **Relational Algebra**, introduced by **Edgar F. Codd** in 1970. Relational Algebra provides the mathematical foundation for SQL by defining operations over relations using precise and well-defined semantics.
+- **Equi-joins**, **theta-joins** and **non-equi-join** are classifications, not SQL Server keywords.
+- 
+These classifications originate from **Relational Algebra**, introduced by **Edgar F. Codd** in 1970. Relational Algebra provides the mathematical foundation for SQL by defining operations over relations using precise and well-defined semantics.
 
 ---
 
