@@ -65,9 +65,9 @@ In SQL Server, we can set the following options for views.
 
 SQL Server also supports `WITH CHECK OPTION`, which is placed after the view's defining `SELECT` statement.
 
-'WITH CHECK OPTION`: Ensures that all data modifications through the view comply with the view's `SELECT` statement. If a row is modified through the view that would not be selected by the view's `SELECT` statement, the modification is disallowed. This maintains data integrity by ensuring only valid data is entered through the view.
+`WITH CHECK OPTION`: Ensures that all data modifications through the view comply with the view's `SELECT` statement. If a row is modified through the view that would not be selected by the view's `SELECT` statement, the modification is disallowed. This maintains data integrity by ensuring only valid data is entered through the view.
 
-In this example, we create a view from the `Employees` table, insert a row into the table, and then select from the view.
+In this example, we create a view over the `Employees` table, insert a row through the view, and then select from the view.
 
 ```sql
 CREATE OR ALTER VIEW dbo.vwEmployees AS
@@ -100,7 +100,7 @@ Here are the results before we removed Larry.
 
 --------------------------------------------------------------------------------------------------------
 ## Table Type 3
-### VALUES Operator
+### VALUES Constructor
 
 The `VALUES` constructor has a few considerations that are often overlooked and deserves its own recognition.  The `VALUES` constructor specifies a set of row value expressions to be constructed into a table and allows multiple sets of values to be defined in a single DML statement.  Typically, we use the `VALUES` constructor to specify the data to insert into a table, as we initially did with our test data, and it can also be used as a derived table in an SQL statement.  The `VALUES` constructor is not a persistent object; it is an inline rowset.
 
@@ -425,6 +425,11 @@ However, external tables have some limitations:
 *  DML operations (`INSERT`, `UPDATE`, `DELETE`) are not supported directly on external tables.
 
 The Microsoft SQL Server documentation has the following examples.
+
+> **Version note:** The following Hadoop example applies to SQL Server
+> 2016 through SQL Server 2019. SQL Server 2022 and later do not support
+> Hadoop external data sources through PolyBase.
+
 
 ```sql
 CREATE EXTERNAL DATA SOURCE mydatasource
