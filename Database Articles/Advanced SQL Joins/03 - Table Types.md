@@ -22,7 +22,7 @@ Here are the eleven different types of tables you can create.
 Next, let's create examples of each table type.
 
 --------------------------------------------------------------------------------------------------------
-## Example 1
+## Table Type 1
 ### Table
 
 The type of table referred to below is a base table. A base table is a permanent table stored in the database and contains the actual data in the form of rows and columns. The `SELECT *` statement retrieves all columns and all rows from the table. On base tables, you can implement `NOT NULL`, `UNIQUE`, `PRIMARY KEY`, `FOREIGN KEY`, `CHECK`, and `DEFAULT` constraints.
@@ -52,7 +52,7 @@ SELECT * FROM Employees ORDER BY 1;
 | 2          | Sarah     | Shultz   | Accounting |  90000.00 |
 
 --------------------------------------------------------------------------------------------------------
-## Example 2
+## Table Type 2
 ### View
 
 An SQL view is a virtual table that provides a specific, customized data perspective from one or more tables in a database.  There are two main types of SQL views: materialized views (indexed views in SQL Server) and non-materialized views. Materialized views store the result set of the view query. In contrast, non-materialized views do not store data and dynamically retrieve data from the underlying tables each time the view is accessed.  Under certain conditions, you can issue DML commands  (`INSERT`, `UPDATE`, and `DELETE`) through views and can manipulate the underlying table(s) in the view.
@@ -63,9 +63,7 @@ In SQL Server, we can set the following options for views.
 *  `ENCRYPTION`: Hides the text of the view definition from being viewed by using the `sys.sql_modules` catalog view or the `OBJECT_DEFINITION` function. It provides a layer of security against viewing the view's SQL syntax.
 *  `SCHEMABINDING`: Binds the view to the schema of the underlying tables. This prevents modifications to the underlying tables that would affect the view, ensuring the view's definition remains valid and unchanged.
 *  `VIEW_METADATA`: This setting causes the metadata about the view returned by metadata functions, like `sp_help`, to be the same as if the view were a base table. It affects how certain permissions and metadata are displayed for the view.
-
-`[ WITH CHECK OPTION ]`
-Ensures that all data modifications through the view comply with the view's `SELECT` statement. If a row is modified through the view that would not be selected by the view's `SELECT` statement, the modification is disallowed. This maintains data integrity by ensuring only valid data is entered through the view.
+*  `[ WITH CHECK OPTION ]`: Ensures that all data modifications through the view comply with the view's `SELECT` statement. If a row is modified through the view that would not be selected by the view's `SELECT` statement, the modification is disallowed. This maintains data integrity by ensuring only valid data is entered through the view.
 
 In this example, we create a view from the `Employees` table, insert a record into the table, and then select from the view.
 
@@ -92,7 +90,7 @@ SELECT * FROM vwEmployees ORDER BY 1;
 | 3          | Larry     | Johnson  | Accounting |  85000.00 |
 
 --------------------------------------------------------------------------------------------------------
-## Example 3
+## Table Type 3
 ### VALUES Operator
 
 The `VALUES` constructor has a few considerations that are often overlooked and deserve its own recognition.  The `VALUES` constructor specifies a set of row value expressions to be constructed into a table and allows multiple sets of values to be defined in a single DML statement.  Typically, we use the `VALUES` constructor to specify the data to insert into a table, as we initially did with our test data, and it can also be used as a derived table in an SQL statement.  The `VALUES` constructor is not a persistent object, it is an inline rowset.
@@ -145,7 +143,7 @@ ORDER BY 1;
 | Sarah Shultz  | 803DF712-0144-41AC-959A-A774F35DC600 |
 
 --------------------------------------------------------------------------------------------------------
-## Example 4
+## Table Type 4
 ### Table-Valued Function
 
 A table-valued function acts like a view with the added benefit of being parameterized.  Table-valued functions can be single-statement or multi-statement, and you can join to other datasets using `CROSS APPLY` or `OUTER APPLY`.  Multi-statement TVFs should be avoided, as they cause performance issues because the optimizer cannot inline the functions.
@@ -175,7 +173,7 @@ FROM    Employees a CROSS APPLY
 | 1          | John      | Wilson   | Accounting | 100000.00 |
 
 --------------------------------------------------------------------------------------------------------
-## Example 5
+## Table Type 5
 ### Subquery
 
 A subquery is a query nested within another query. Subqueries can be used in various parts of a SQL query, such as the `SELECT`, `FROM`, and `WHERE` clauses. They are handy for performing operations that require multiple scans of the same or different tables, complex calculations, or referencing results that are not part of the main query.  A subquery can be correlated (which depends on the outer query) or non-correlated.
@@ -195,7 +193,7 @@ WHERE   e.Salary >  (SELECT AVG(Salary)
 | 1          | John      | Wilson   | Accounting | 100000.00 |
 
 --------------------------------------------------------------------------------------------------------
-## Example 6
+## Table Type 6
 ### Derived Table
 
 A derived table is a special type of subquery. It is an expression that generates a table within the scope of the `FROM` clause.  
@@ -240,7 +238,7 @@ ORDER BY 2;
 | 85000.00 | 2          | Sarah     | Shultz   | Accounting |  90000.00 |
   
 --------------------------------------------------------------------------------------------------------
-## Example 7
+## Table Type 7
 ### Common Table Expression (CTE) 
 
 A Common Table Expression (CTE) is a named, temporary result set that is defined within a `SELECT` statement.
@@ -277,7 +275,7 @@ OPTION (MAXRECURSION 0);
 ```
 
 --------------------------------------------------------------------------------------------------------
-## Example 8
+## Table Type 8
 ### Temporary Table        
 
 The syntax for creating temporary tables varies across database systems.  These examples work in Microsoft SQL Server.
@@ -332,7 +330,7 @@ SELECT * FROM #Employees2 ORDER BY 1;
 | 3          | Larry     | Johnson  | Accounting |  85000.00 |
 
 --------------------------------------------------------------------------------------------------------
-## Example 9
+## Table Type 9
 ### Table Variable   
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Table variables are much like temporary tables.  They are used when passing a record set to a stored procedure.  Each database may implement table variables slightly differently, but Microsoft SQL Server has the following considerations.
@@ -369,7 +367,7 @@ SELECT * FROM @TableVariable ORDER BY 1;
 | 3          | Larry     | Johnson  | Accounting |  85000.00 |
 
 --------------------------------------------------------------------------------------------------------
-## Example 10
+## Table Type 10
 ### User-Defined Table Types
 
 User-defined table types are a special type in SQL Server that allows for the definition of table structures. These structures can be used as parameters in stored procedures or functions, allowing for the passage of multiple rows of data in a single parameter. 
@@ -386,7 +384,7 @@ CREATE TYPE MyTableType AS TABLE
 ```
 
 --------------------------------------------------------------------------------------------------------
-## Example 11
+## Table Type 11
 ### External Tables           
 
 External tables in Microsoft SQL Server are database objects that allow access to data stored outside the SQL Server instance, typically through PolyBase or linked services. They reference external data sources and external file formats, enabling SQL Server to query data stored in locations such as Hadoop, Azure Blob Storage, Azure Data Lake Storage, or another SQL Server via PolyBase.
