@@ -1,51 +1,47 @@
 # Welcome
 
-Joins are one of the most fundamental—and often most misunderstood—concepts in SQL. At a basic level, joins allow you to combine rows from two or more tables based on a related condition. Most SQL users are familiar with the standard join keywords defined by the ANSI SQL specification, such as `INNER`, `LEFT OUTER`, `RIGHT OUTER`, `FULL OUTER`, and `CROSS` joins.
+Joins are one of the most fundamental and often most misunderstood concepts in SQL. At a basic level, joins allow you to combine rows from two or more tables based on a related condition. Most SQL users are familiar with the standard join keywords defined by the ANSI SQL specification, such as `INNER JOIN`, `LEFT OUTER JOIN`, `RIGHT OUTER JOIN`, `FULL OUTER JOIN`, and `CROSS` joins.
 
 However, not all joins are defined purely by SQL syntax. Many commonly used “join types” are better understood as classifications based on *behavior*, *intent*, or *implementation*, rather than as explicit keywords you type into a query. Some describe how the database engine physically executes a join, others describe logical or relational concepts, and some are simply useful ways to talk about query complexity or structure.
 
 To make these distinctions clearer, I group joins into four broad categories:
 
-- **Logical** – joins expressed directly in SQL syntax  
-- **Physical** – joins describing how the database engine executes the operation  
-- **Descriptive** – joins used to describe query structure or complexity  
-- **Model** – joins derived from the Relational Model developed by Edgar F. Codd in the 1970s, on which SQL is based  
-
-> The term **Model** is borrowed from the Relational Model itself. I may rename this category in the future if a better term emerges.
-
 ## Join Categories
 
-| ID | Type        | Description |
-|----|-------------|-------------|
-| 1  | Logical     | Joins defined by ANSI SQL syntax and used to combine tables based on a condition. |
-| 2  | Physical    | Joins implemented by the DBMS that describe *how* rows are physically matched. |
-| 3  | Descriptive | Joins used to describe query behavior, structure, or complexity. |
-| 4  | Model       | Joins defined in the Relational Model on which SQL is based. |
+| ID | Type | Description |
+|----|------|-------------|
+| 1 | Logical | Describes the relationship requested between two inputs. |
+| 2 | Physical | Describes the algorithm the database engine uses to execute a join. |
+| 3 | Descriptive | Uses informal terminology to describe query behavior, structure, or complexity. |
+| 4 | Relational | Describes join operations and classifications derived from relational algebra. |
+
+These categories are used to organize this material and are not mutually exclusive. A join may fit into more than one category depending on whether it is being discussed as SQL syntax, a logical operation, a relational concept, or a physical execution algorithm.
 
 Below is a brief overview of the most common join types within each category.
 
 ## Join Types Overview
 
-| #  | Type        | Join             | Description                                                                                                                                                                                                             |
-|----|-------------|------------------|-------------------------------------------------------------------------------------------------------------------------------------------------|
-| 1  | Logical     | INNER JOIN       | Returns only rows with matching values in both tables.                                                                                          |
-| 2  | Logical     | OUTER JOIN       | (`LEFT OUTER JOIN` / `RIGHT OUTER JOIN`) Returns all rows from one table and matching rows from the other. Unmatched rows contain NULL markers. |
-| 3  | Logical     | FULL OUTER JOIN  | Returns all rows from both tables. Unmatched rows contain NULL markers.                                                                         |
-| 4  | Logical     | CROSS JOIN       | Returns the Cartesian product of both tables—every possible row combination.                                                                    |
-| 5  | Physical    | NESTED LOOP JOIN | Compares each row of one table to matching rows in another table, typically using an index lookup.                                              |
-| 6  | Physical    | HASH JOIN        | Uses a hash table to efficiently match rows between tables, often for large, unsorted datasets.                                                 |
-| 7  | Physical    | MERGE JOIN       | Requires both inputs to be sorted on the join key and efficiently merges matching rows.                                                         |
-| 8  | Physical    | ADAPTIVE JOIN    | Defers the choice between a Nested Loops Join and a Hash Join until execution time based on the actual number of rows processed.                |
-| 9  | Descriptive | COMPLEX JOIN     | Combines multiple tables using various operators, often with subqueries and aggregates.                                                         |
-| 10 | Descriptive | COMPOSITE JOIN   | Uses multiple columns from each table in the join condition.                                                                                    |
-| 11 | Descriptive | MULTI-JOIN       | Refers to a query that joins more than two tables.                                                                                              |
-| 12 | Descriptive | SELF-JOIN        | Joins a table to itself using aliases.                                                                                                          |
-| 13 | Model       | SEMI-JOIN        | Returns rows from the first table that have matching rows in the second table.                                                                  |
-| 14 | Model       | ANTI-JOIN        | Returns rows from the first table that have no matching rows in the second table.                                                               |
-| 15 | Model       | THETA-JOIN       | A join based on any binary comparison operator (equality or inequality).                                                                        |
-| 16 | Model       | EQUI-JOIN        | A theta-join that uses only the equality operator.                                                                                              |
-| 17 | Model       | NON-EQUI-JOIN    | A theta-join that uses operators other than equality.                                                                                           |
-| 18 | Model       | NATURAL JOIN     | Automatically joins tables on columns with the same name and compatible data types.                                                             |
+| #  | Type        | Join                  | Description |
+|----|-------------|-----------------------|-------------|
+| 1  | Logical     | INNER JOIN            | Returns row combinations that satisfy the join condition. |
+| 2  | Logical     | LEFT/RIGHT OUTER JOIN | Returns every row from the preserved input and matching rows from the other input. Unmatched columns contain `NULL` markers. |
+| 3  | Logical     | FULL OUTER JOIN       | Returns all matching and unmatched rows from both inputs. Unmatched columns contain `NULL` markers. |
+| 4  | Logical     | CROSS JOIN            | Returns the Cartesian product of both inputs: every possible row combination. |
+| 5  | Physical    | NESTED LOOPS JOIN     | Processes the outer input one row at a time and searches the inner input for matching rows. |
+| 6  | Physical    | HASH JOIN             | Builds a hash table from one input and probes it with rows from the other input. |
+| 7  | Physical    | MERGE JOIN            | Merges two inputs that are ordered on compatible equality join keys. |
+| 8  | Physical    | ADAPTIVE JOIN         | Chooses between a Hash Join and Nested Loops Join at runtime using a row-count threshold. |
+| 9  | Descriptive | COMPLEX JOIN          | An informal term for a query containing multiple joins, conditions, subqueries, or aggregates. |
+| 10 | Descriptive | COMPOSITE JOIN        | Uses multiple columns in its join condition. |
+| 11 | Descriptive | MULTI-JOIN            | An informal term for a query that joins more than two table sources. |
+| 12 | Descriptive | SELF-JOIN             | Joins a table to another reference to itself, normally using aliases. |
+| 13 | Relational  | SEMI-JOIN             | Returns rows from the first input that have at least one match in the second input. |
+| 14 | Relational  | ANTI-JOIN             | Returns rows from the first input that have no match in the second input. |
+| 15 | Relational  | THETA-JOIN            | Uses a comparison operator such as `=`, `<>`, `<`, `>`, `<=`, or `>=`. |
+| 16 | Relational  | EQUI-JOIN             | A theta-join that uses equality comparisons. |
+| 17 | Relational  | NON-EQUI-JOIN         | Uses a comparison other than equality. |
+| 18 | Relational  | NATURAL JOIN | Uses equality to match all columns that have the same names in both inputs. SQL Server does not support this syntax directly. |
+
 ---
 
 :electric_plug: **What’s Next**
