@@ -9,7 +9,7 @@ SQL Server allows queries to read from and join to many kinds of tables, table-l
 | 1  | Table                          | A regular table that is stored in the database.                                                                                             |
 | 2  | View                           | A virtual table that is based on the result of a `SELECT` statement.                                                                        |
 | 3  | Values Constructor             | The `VALUES` constructor can be used to create a derived table, which is a table that is created and used within a single SQL query.        |
-| 4  | Table Valued Function          | A function that returns a table as its result.                                                                                              |
+| 4  | Table-Valued Function          | A function that returns a table as its result.                                                                                              |
 | 5  | Subquery                       | A query that is embedded within another query. The results of a subquery can be used in the outer query.                                    |
 | 6  | Derived Table                  | A special type of subquery that is defined in the `FROM` statement                                                                          |
 | 7  | Common Table Expression (CTE)  | A named temporary result set that can be used in a `SELECT`, `INSERT`, `UPDATE`, or `DELETE` statement.                                     |
