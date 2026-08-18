@@ -180,13 +180,12 @@ Here are the results from the first `SELECT` statement.
 |------------|-----------|----------|------------|-----------|
 | 1          | John      | Wilson   | Accounting | 100000.00 |
 
-
+Here are the results from the second `SELECT statement using the `CROSS APPLY`.
 
 | EmployeeID | FirstName | LastName | Department |  Salary   | IsMatch |
 |------------|-----------|----------|------------|-----------|---------|     
 | 1          | John      | Wilson   | Accounting | 100000.00 |    1    |
 | 2          | Sarah     | Shultz   | Accounting |  90000.00 |    0    |
-
 
 --------------------------------------------------------------------------------------------------------
 ## Table Type 5
@@ -260,7 +259,7 @@ WHERE   EmployeeCount > 2;
 |------------|---------------|
 | Accounting | 3             |
 
-Besides improving the readability of an SQL statement, CTEs can be used for recursion.  This example creates a Fibernocci sequence using a self-referencing CTE.
+Besides improving the readability of an SQL statement, CTEs can be used for recursion.  This example creates a Fibonacci sequence using a self-referencing CTE.
 
 ```sql
 WITH cte_Recursion (PrevNumber, Number) AS
