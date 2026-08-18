@@ -18,13 +18,11 @@ Here are the eleven different types of tables you can create.
 | 10 | User-Defined Table Type        | True          | Used as parameters when you pass tabular data into stored procedures or user-defined functions.                                             |
 | 11 | External Tables                | True          | External tables allow access to data in sources like Hadoop or Azure Blob Storage and are created using the CREATE EXTERNAL TABLE statement.|
 
-`Tempdb` is used by SQL Server to store intermediate results when processing queries, such as those created by derived tables and subqueries. This allows the database engine to reuse the results multiple times in the same query instead of recomputing them each time they're needed. It's important to note that the use of `tempdb` and the extent to which it's used can vary depending on the complexity of the query and other factors, such as the amount of memory available and the indexes present on the involved tables.
 
-The most interesting of these table types is the `VALUES` keyword. We often think the only use of the `VALUES` operator is with an `INSERT` statement, but it can also be used to create a relation.  
-
-First, let's create examples of each table type.
+Next, let's create examples of each table type.
 
 --------------------------------------------------------------------------------------------------------
+## Example 1
 ### Table
 
 The type of table referred to below is a base table. A base table is a permanent table stored in the database and contains the actual data in the form of rows and columns. The `SELECT *` statement retrieves all columns and all rows from the table. On base tables, you can implement `NOT NULL`, `UNIQUE`, `PRIMARY KEY`, `FOREIGN KEY`, `CHECK`, and `DEFAULT` constraints.
@@ -54,6 +52,7 @@ SELECT * FROM Employees ORDER BY 1;
 | 2          | Sarah     | Shultz   | Accounting |  90000.00 |
 
 --------------------------------------------------------------------------------------------------------
+## Example 2
 ### View
 
 An SQL view is a virtual table that provides a specific, customized data perspective from one or more tables in a database.  There are two main types of SQL views: materialized views (indexed views in SQL Server) and non-materialized views. Materialized views store the result set of the view query. In contrast, non-materialized views do not store data and dynamically retrieve data from the underlying tables each time the view is accessed.  Under certain conditions, you can issue DML commands  (`INSERT`, `UPDATE`, and `DELETE`) through views and can manipulate the underlying table(s) in the view.
@@ -93,6 +92,7 @@ SELECT * FROM vwEmployees ORDER BY 1;
 | 3          | Larry     | Johnson  | Accounting |  85000.00 |
 
 --------------------------------------------------------------------------------------------------------
+## Example 3
 ### VALUES Operator
 
 The `VALUES` constructor has a few considerations that are often overlooked and deserve its own recognition.  The `VALUES` constructor specifies a set of row value expressions to be constructed into a table and allows multiple sets of values to be defined in a single DML statement.  Typically, we use the `VALUES` constructor to specify the data to insert into a table, as we initially did with our test data, and it can also be used as a derived table in an SQL statement.  The `VALUES` constructor is not a persistent object, it is an inline rowset.
@@ -145,6 +145,7 @@ ORDER BY 1;
 | Sarah Shultz  | 803DF712-0144-41AC-959A-A774F35DC600 |
 
 --------------------------------------------------------------------------------------------------------
+## Example 4
 ### Table-Valued Function
 
 A table-valued function acts like a view with the added benefit of being parameterized.  Table-valued functions can be single-statement or multi-statement, and you can join to other datasets using `CROSS APPLY` or `OUTER APPLY`.  Multi-statement TVFs should be avoided, as they cause performance issues because the optimizer cannot inline the functions.
@@ -174,6 +175,7 @@ FROM    Employees a CROSS APPLY
 | 1          | John      | Wilson   | Accounting | 100000.00 |
 
 --------------------------------------------------------------------------------------------------------
+## Example 5
 ### Subquery
 
 A subquery is a query nested within another query. Subqueries can be used in various parts of a SQL query, such as the `SELECT`, `FROM`, and `WHERE` clauses. They are handy for performing operations that require multiple scans of the same or different tables, complex calculations, or referencing results that are not part of the main query.  A subquery can be correlated (which depends on the outer query) or non-correlated.
@@ -193,6 +195,7 @@ WHERE   e.Salary >  (SELECT AVG(Salary)
 | 1          | John      | Wilson   | Accounting | 100000.00 |
 
 --------------------------------------------------------------------------------------------------------
+## Example 6
 ### Derived Table
 
 A derived table is a special type of subquery. It is an expression that generates a table within the scope of the `FROM` clause.  
@@ -237,6 +240,7 @@ ORDER BY 2;
 | 85000.00 | 2          | Sarah     | Shultz   | Accounting |  90000.00 |
   
 --------------------------------------------------------------------------------------------------------
+## Example 7
 ### Common Table Expression (CTE) 
 
 A Common Table Expression (CTE) is a named, temporary result set that is defined within a `SELECT` statement.
@@ -273,7 +277,8 @@ OPTION (MAXRECURSION 0);
 ```
 
 --------------------------------------------------------------------------------------------------------
-#### Temporary Table        
+## Example 8
+### Temporary Table        
 
 The syntax for creating temporary tables varies across database systems.  These examples work in Microsoft SQL Server.
 
@@ -327,6 +332,7 @@ SELECT * FROM #Employees2 ORDER BY 1;
 | 3          | Larry     | Johnson  | Accounting |  85000.00 |
 
 --------------------------------------------------------------------------------------------------------
+## Example 9
 ### Table Variable   
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Table variables are much like temporary tables.  They are used when passing a record set to a stored procedure.  Each database may implement table variables slightly differently, but Microsoft SQL Server has the following considerations.
@@ -363,6 +369,7 @@ SELECT * FROM @TableVariable ORDER BY 1;
 | 3          | Larry     | Johnson  | Accounting |  85000.00 |
 
 --------------------------------------------------------------------------------------------------------
+## Example 10
 ### User-Defined Table Types
 
 User-defined table types are a special type in SQL Server that allows for the definition of table structures. These structures can be used as parameters in stored procedures or functions, allowing for the passage of multiple rows of data in a single parameter. 
@@ -379,6 +386,7 @@ CREATE TYPE MyTableType AS TABLE
 ```
 
 --------------------------------------------------------------------------------------------------------
+## Example 11
 ### External Tables           
 
 External tables in Microsoft SQL Server are database objects that allow access to data stored outside the SQL Server instance, typically through PolyBase or linked services. They reference external data sources and external file formats, enabling SQL Server to query data stored in locations such as Hadoop, Azure Blob Storage, Azure Data Lake Storage, or another SQL Server via PolyBase.
