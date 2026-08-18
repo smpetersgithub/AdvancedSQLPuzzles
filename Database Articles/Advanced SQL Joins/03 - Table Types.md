@@ -6,12 +6,17 @@ SQL Server allows queries to read from and join to many kinds of tables, table-l
 
 | Id | Name | Description |
 |----|------|-------------|
-| 3 | `VALUES` Constructor          | An inline rowset that can supply values to a DML statement or be used as a derived table. |
-| 6 | Derived Table                 | A subquery defined in the `FROM` clause. |
-| 7 | Common Table Expression (CTE) | A named query expression that exists for one statement. |
-| 8 | Temporary Table               | A table created in `tempdb` with local or global scope. |
-| 10 | User-Defined Table Type      | A schema-scoped type used to declare table variables and table-valued parameters. |
-| 11 | External Table               | A schema-scoped table that provides access to data stored outside SQL Server. |
+| 1 | Table | A permanent, schema-scoped object that stores data as rows and columns. |
+| 2 | View | A schema-scoped virtual table whose columns and rows are defined by a `SELECT` statement. |
+| 3 | `VALUES` Constructor | An inline rowset that can supply values to a DML statement or be used as a derived table. |
+| 4 | Table-Valued Function | A schema-scoped function that accepts parameters and returns a tabular result. |
+| 5 | Subquery | A query nested inside another SQL statement that returns a scalar value, a single-column result, or a rowset. |
+| 6 | Derived Table | A subquery defined in the `FROM` clause and assigned a table alias. |
+| 7 | Common Table Expression (CTE) | A named query expression that exists for the duration of one statement. |
+| 8 | Temporary Table | A table created in `tempdb` with local or global scope. |
+| 9 | Table Variable | A variable that stores temporary tabular data within a batch, stored procedure, or function. |
+| 10 | User-Defined Table Type | A schema-scoped type used to declare table variables and table-valued parameters. |
+| 11 | External Table | A schema-scoped table that provides access to data stored outside SQL Server. |
 
 Next, let's create examples of each type.
 
