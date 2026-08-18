@@ -146,7 +146,7 @@ ORDER BY 1;
 ## Table Type 4
 ### Table-Valued Function
 
-A table-valued function acts like a view with the added benefit of being parameterized.  Table-valued functions can be single-statement or multi-statement, and you can join to other datasets using `CROSS APPLY` or `OUTER APPLY`.  Multi-statement TVFs should be avoided, as they cause performance issues because the optimizer cannot inline the functions.
+A table-valued function acts like a view with the added benefit of being parameterized.  Table-valued functions can be single-statement or multi-statement, and you can join to other datasets using `CROSS APPLY` or `OUTER APPLY`.
 
 For this example, we create a table-valued function using the `Employees` table.  To use the table values function, we can select from the function or use the `CROSS APPLY` join operation.
 
