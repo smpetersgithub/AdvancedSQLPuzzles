@@ -14,7 +14,7 @@ SQL Server allows queries to read from and join to many kinds of tables, table-l
 | 8  | Temporary Table                | A table created for a specific session or connection and is automatically dropped when the session or connection ends.                      |
 | 9  | Table Variable                 | A variable that holds a table of data. It is similar to a temporary table, but it differs in behavior and scope.                            |
 | 10 | User-Defined Table Type        | Used as parameters when you pass tabular data into stored procedures or user-defined functions.                                             |
-| 11 | External Tables                | External tables allow access to data in sources like Hadoop or Azure Blob Storage and are created using the CREATE EXTERNAL TABLE statement.|
+| 11 | External Tables                | External tables allow access to data in sources like Hadoop or Azure Blob Storage and are created using the `CREATE EXTERNAL TABLE` statement.|
 
 
 Next, let's create examples of each type.
