@@ -105,8 +105,6 @@ ORDER BY 1, 2;
 ### Example 4
 
 You can use the `LEFT OUTER JOIN` and a `RIGHT OUTER JOIN` to simulate the `FULL OUTER JOIN`.
-        
-This may be the only case where a `LEFT OUTER JOIN` and a `RIGHT OUTER JOIN` can be used in the same SQL statement, as it preserves the column and table orders between the two statements.
      
 ```sql
 SELECT
