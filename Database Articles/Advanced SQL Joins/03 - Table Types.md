@@ -16,7 +16,7 @@ SQL Server allows queries to read from and join to many kinds of tables, table-l
 | 8  | Temporary Table                | A table created for a specific session or connection and is automatically dropped when the session or connection ends.                      |
 | 9  | Table Variable                 | A variable that holds a table of data. It is similar to a temporary table, but it differs in behavior and scope.                            |
 | 10 | User-Defined Table Type        | Used as parameters when you pass tabular data into stored procedures or user-defined functions.                                             |
-| 11 | External Tables                | External tables allow access to data in sources like Hadoop or Azure Blob Storage and are created using the `CREATE EXTERNAL TABLE` statement.|
+| 11 | External Table                 | External tables allow access to data in sources like Hadoop or Azure Blob Storage and are created using the `CREATE EXTERNAL TABLE` statement.|
 
 
 Next, let's create examples of each type.
@@ -27,7 +27,7 @@ Next, let's create examples of each type.
 
 The type of table referred to below is a base table. A base table is a permanent table stored in the database and contains the actual data in the form of rows and columns. Base tables can have `NOT NULL`, `UNIQUE`, `PRIMARY KEY`, `FOREIGN KEY`, `CHECK`, and `DEFAULT` constraints.
 
-In this example, we create a table named `Employees`, insert a record using the `VALUES` constructor, and then select from the table. 
+In this example, we create a table named `Employees`, insert two records using the `VALUES` constructor, and then select from the table. 
 
 ```sql
 CREATE TABLE Employees
@@ -62,7 +62,7 @@ In SQL Server, we can set the following options for views.
 `[ WITH <view_attribute> [ ,...n ] ]`
 *  `ENCRYPTION`: Hides the text of the view definition from being viewed by using the `sys.sql_modules` catalog view or the `OBJECT_DEFINITION` function. It provides a layer of security against viewing the view's SQL syntax.
 *  `SCHEMABINDING`: Binds the view to the schema of the underlying tables. This prevents modifications to the underlying tables that would affect the view, ensuring the view's definition remains valid and unchanged.
-*  `VIEW_METADATA`: This setting causes the metadata about the view returned by metadata functions, like `sp_help`, to be the same as if the view were a base table. It affects how certain permissions and metadata are displayed for the view.
+*  `VIEW_METADATA`: Causes SQL Server to return metadata about the view, rather than its underlying tables, to DB-Library, ODBC, and OLE DB APIs when browse-mode metadata is requested. This can help client applications create updatable cursors against a view.
 *  `WITH CHECK OPTION`: Ensures that all data modifications through the view comply with the view's `SELECT` statement. If a row is modified through the view that would not be selected by the view's `SELECT` statement, the modification is disallowed. This maintains data integrity by ensuring only valid data is entered through the view.
 
 In this example, we create a view from the `Employees` table, insert a record into the table, and then select from the view.
@@ -100,7 +100,7 @@ Here are the results before we removed Larry.
 ## Table Type 3
 ### VALUES Operator
 
-The `VALUES` constructor has a few considerations that are often overlooked and deserves its own recognition.  The `VALUES` constructor specifies a set of row value expressions to be constructed into a table and allows multiple sets of values to be defined in a single DML statement.  Typically, we use the `VALUES` constructor to specify the data to insert into a table, as we initially did with our test data, and it can also be used as a derived table in an SQL statement.  The `VALUES` constructor is not a persistent object, it is an inline rowset.
+The `VALUES` constructor has a few considerations that are often overlooked and deserves its own recognition.  The `VALUES` constructor specifies a set of row value expressions to be constructed into a table and allows multiple sets of values to be defined in a single DML statement.  Typically, we use the `VALUES` constructor to specify the data to insert into a table, as we initially did with our test data, and it can also be used as a derived table in an SQL statement.  The `VALUES` constructor is not a persistent object; it is an inline rowset.
 
 Here is a basic example of using the `VALUES` constructor as a derived table.
 
@@ -182,7 +182,7 @@ Here are the results from the first `SELECT` statement.
 |------------|-----------|----------|------------|-----------|
 | 1          | John      | Wilson   | Accounting | 100000.00 |
 
-Here are the results from the second `SELECT statement using the `CROSS APPLY`.
+Here are the results from the second `SELECT` statement using the `CROSS APPLY`.
 
 | EmployeeID | FirstName | LastName | Department |  Salary   | IsMatch |
 |------------|-----------|----------|------------|-----------|---------|     
@@ -241,7 +241,7 @@ ORDER BY 1, 2, 3, 4, 5;
 ## Table Type 7
 ### Common Table Expression (CTE) 
 
-A Common Table Expression (CTE) is a named, temporary result set that is defined within a `SELECT` statement.
+A common table expression (CTE) is a named query expression that exists for the duration of a single statement. A CTE can be used with a SELECT, INSERT, UPDATE, DELETE, or MERGE statement and can also be used in a view definition.
 
 ```sql        
 WITH EmployeesByDepartment AS 
@@ -283,16 +283,16 @@ OPTION (MAXRECURSION 0);
 
 The syntax for creating temporary tables varies across database systems.  These examples work in Microsoft SQL Server.
 
-Session temporary tables and global temporary tables are two types of temporary tables in SQL. The main difference between them is their scope and visibility. 
+Local temporary tables and global temporary tables are two types of temporary tables in SQL. The main difference between them is their scope and visibility. 
 
-*  You can use a single octothorpe (#) for a session temporary table and two octothorpes (##) for a global temporary table.
-*  Session temporary tables are only visible to the user who created them and are automatically dropped when the user's session ends.  
+*  You can use a single octothorpe (#) for a local temporary table and two octothorpes (##) for a global temporary table.
+*  Local temporary tables are only visible to the user who created them and are automatically dropped when the user's session ends.  
 *  Global temporary tables are available to every user's session.  
 *  You can place the same constraints, except for `FOREIGN KEY` constraints, on a temp table as you can on a permanent table.  
 *  Indexing is allowed on temporary tables.
 *  Temporary tables reside in `tempdb`, and their metadata can be seen in the information schema.
 
-This creates a session temporary table in SQL Server.
+This creates a local temporary table in SQL Server.
 
 ```sql
 CREATE TABLE #Employees
