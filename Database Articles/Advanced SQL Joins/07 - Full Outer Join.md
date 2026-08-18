@@ -104,7 +104,7 @@ ORDER BY 1, 2;
 
 ### Example 4
 
-You can use the `LEFT OUTER JOIN` and a `RIGHT OUTER JOIN` to simulate the `FULL OUTER JOIN`.
+You can use the `LEFT OUTER JOIN` and a `UNION ALL` to simulate a `FULL OUTER JOIN`.
      
 ```sql
 SELECT
@@ -112,7 +112,6 @@ SELECT
     a.Fruit,
     b.ID,
     b.Fruit
-
 FROM ##TableA a
 LEFT OUTER JOIN ##TableB b ON a.Fruit = b.Fruit
 UNION ALL
