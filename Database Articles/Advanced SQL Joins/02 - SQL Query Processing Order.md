@@ -77,16 +77,15 @@ The following two queries produce the **same result set**, demonstrating how an 
 
 ```sql
 -- Statement 1: INNER JOIN
-SELECT  *
-FROM    Customers emp
-INNER JOIN Orders ord
-    ON emp.CustomerID = ord.CustomerID;
+SELECT *
+FROM Customers emp INNER JOIN
+     Orders ord ON emp.CustomerID = ord.CustomerID;
 
 -- Statement 2: CROSS JOIN with filter
 SELECT  *
-FROM    Customers emp
-CROSS JOIN Orders ord
-WHERE   emp.CustomerID = ord.CustomerID;
+FROM Customers emp CROSS JOIN
+     Orders ord
+WHERE emp.CustomerID = ord.CustomerID;
 ```
 
 ### Key observations
@@ -102,15 +101,9 @@ WHERE   emp.CustomerID = ord.CustomerID;
 
 The most important distinction between join types is how unmatched rows are handled:
 
-- **INNER JOIN** acts as a filtering criterion
-- **OUTER JOIN** acts as a matching criterion
-- **CROSS JOIN** returns all possible combinations
-
-More simply stated:
-
-- `INNER JOIN` returns only matching rows
-- `OUTER JOIN` returns matching rows plus unmatched rows from one or both tables
-- `CROSS JOIN` returns the Cartesian product
+- `INNER JOIN` acts as a filtering criterion and returns only matching rows
+- `OUTER JOIN` acts as a matching criterion and returns matching rows plus unmatched rows from one or both tables
+- `CROSS JOIN` returns all possible combinations and returns the Cartesian product
 
 ---
 
@@ -118,8 +111,13 @@ More simply stated:
 
 Both `INNER` and `OUTER` joins rely on comparison operators to relate rows across tables. These comparisons are formally described as:
 
+- **Theta-joins** – joins using any binary comparison operator (`=  <>  >  <  >=  <=`)
 - **Equi-joins** – joins using equality (`=`)
-- **Theta-joins** – joins using any binary comparison operator
+- **Non-Equi-joins** – joins using any comparison operator other than equality (`<>  >  <  >=  <=  BETWEEN`)
+
+  
+- Every equi-join and non-equi-join is a theta-join.
+- Equi-join and Theta-join are concepts, not SQL Server keywords. You still write them using INNER JOIN, LEFT JOIN, and similar syntax.
 
 These concepts originate from **Relational Algebra**, introduced by **Edgar F. Codd** in 1970. Relational Algebra provides the mathematical foundation for SQL by defining operations over relations using precise and well-defined semantics.
 
