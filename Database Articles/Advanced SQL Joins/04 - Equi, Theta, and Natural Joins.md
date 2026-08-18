@@ -14,7 +14,7 @@ However, the basic principles of relational algebra still form the basis of SQL,
 
 *  An equi-join is a specific type of theta-join that matches rows based on equality conditions between columns in the joined tables. In other words, it returns rows where the values in the specified columns are equal. The term "equi" comes from the Latin word aequus, meaning "equal."
 
-*  A non-equi-join is a type of theta-join that uses a condition other than equality (such as `<`, `>`, or `BETWEEN`) to compare columns. It returns rows where the join condition evaluates to true based on those non-equality comparisons.
+*  A non-equi-join is a type of theta-join that uses a condition other than equality (such as `<`, `<=`, `>`, `>=` or `BETWEEN`) to compare columns. It returns rows where the join condition evaluates to true based on those non-equality comparisons.
 
 --------------------------------------------------------------------------------
 
