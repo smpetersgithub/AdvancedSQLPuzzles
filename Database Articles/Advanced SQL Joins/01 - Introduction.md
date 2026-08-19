@@ -1,5 +1,12 @@
 # Welcome
 
+Welcome to my collection of articles on advanced SQL joins. Although joins are the primary focus, the discussion extends into several related topics, including:    
+
+*  The different ways the term “join” is used when discussing SQL.
+*  The methods, operators, and clauses SQL provides for comparing two datasets.    
+*  Other related concepts and observations that help explain how SQL queries work.    
+
+## Overview 
 Joins are one of the most fundamental and often most misunderstood concepts in SQL. At a basic level, joins allow you to combine rows from two or more tables based on a related condition. Most SQL users are familiar with the standard join keywords defined by the ANSI SQL specification, such as `INNER JOIN`, `LEFT OUTER JOIN`, `RIGHT OUTER JOIN`, `FULL OUTER JOIN`, and `CROSS JOIN`.
 
 However, not all joins are defined purely by SQL syntax. Many commonly used “join types” are better understood as classifications based on *behavior*, *intent*, or *implementation*, rather than as explicit keywords you type into a query. Some describe how the database engine physically executes a join, others describe logical or relational concepts, and some are simply useful ways to talk about query complexity or structure.
@@ -46,7 +53,7 @@ Below is a brief overview of the most common join types within each category.
 
 :electric_plug: **What’s Next**
 
-Each of these join types—and several related concepts—will be explored in detail throughout the following documents. The goal is not only to show *how* joins work, but *why* they behave the way they do, how they relate to the relational model, and how the database engine processes them internally.
+Many of these join types, and several related concepts, will be explored in detail throughout the following documents. The goal is not only to show *how* joins work, but *why* they behave the way they do, how they relate to the relational model, and how the database engine processes them internally.
 
 Continue reading using the links below.
 
