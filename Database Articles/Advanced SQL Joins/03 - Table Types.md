@@ -2,7 +2,7 @@
 
 SQL Server allows queries to read from and join to many kinds of tables, table-like objects, and rowset expressions. This article examines eleven commonly encountered examples.
 
-❗For simplicity, we will use the term “table” to describe any table-like object or expression that produces rows and columns. When such an object or result contains no rows, it is referred to as an empty table or empty result set.
+>❗For simplicity, we will use the term “table” to describe any table-like object or expression that produces rows and columns. When such an object or result contains no rows, it is referred to as an empty table or empty result set.
 
 | Id | Name | Description |
 |----|------|-------------|
@@ -18,7 +18,44 @@ SQL Server allows queries to read from and join to many kinds of tables, table-l
 | 10 | User-Defined Table Type | A schema-scoped type used to declare table variables and table-valued parameters. |
 | 11 | External Table | A schema-scoped table that provides access to data stored outside SQL Server. |
 
-Next, let's create examples of each type.
+## SQL Server Constraints
+
+Constraints enforce rules that help maintain the accuracy and integrity of table data.
+
+*  `PRIMARY KEY` uniquely identifies each row. It does not allow duplicate key values or NULL values. A table can have only one primary key, although that key may contain multiple columns.    
+*  `FOREIGN KEY` creates a relationship between tables. It requires a value to match an existing candidate key—normally a primary key or unique key—in the referenced table.    
+*  `UNIQUE` prevents duplicate values or combinations of values. A table can have multiple unique constraints.    
+*  `NOT NULL` requires a column to contain a value.    
+*  `DEFAULT` supplies a value when an INSERT statement does not provide one. It does not replace a NULL explicitly supplied by the statement.    
+*  `CHECK` requires inserted or updated values to satisfy a condition, such as Salary >= 0.    
+
+#### Primary Key vs. Unique
+
+Both prevent duplicate values, but they serve different purposes:
+
+| Feature            | PRIMARY KEY	                     | UNIQUE                                      |
+|--------------------|---------------------------------------|---------------------------------------------|
+| Main purpose       | Identifies each row                   | Enforces uniqueness                         |
+| Number per table   | One                                   | Multiple                                    |
+| NULL values        | Not allowed                           | One NULL allowed in SQL Server              |
+| Default index	     | Clustered, unless specified otherwise | Nonclustered, unless specified otherwise    |
+| Foreign-key target | Yes                                   | Yes                                         |
+
+
+Use a primary key for the table’s main row identifier, such as `EmployeeID`. Use unique constraints for additional candidate keys, such as an email address or account number.
+
+#### Constraint Support 
+
+The following table types support constraints, although the available constraint types vary. Most notably, `FOREIGN KEY` constraints are not supported on temporary tables, table variables, or user-defined table types. SQL Server accepts the syntax on a temporary table but issues a warning and skips the constraint. Attempting to define a foreign key on a table variable or user-defined table type results in an error.
+
+| Constraint  | Base table | Temporary table | Table variable | User-defined table type |
+|-------------|------------|-----------------|----------------|-------------------------|
+| PRIMARY KEY |	Yes	   | Yes	     | Yes	      | Yes                     |
+| FOREIGN KEY |	Yes	   | No	             | No	      | No                      |
+| UNIQUE      |	Yes	   | Yes	     | Yes	      | Yes                     |
+| NOT NULL    |	Yes	   | Yes	     | Yes	      | Yes                     |
+| DEFAULT     |	Yes	   | Yes	     | Yes	      | Yes                     |
+| CHECK	      | Yes	   | Yes	     | Yes	      | Yes                     |
 
 --------------------------------------------------------------------------------------------------------
 ## Table Type 1
