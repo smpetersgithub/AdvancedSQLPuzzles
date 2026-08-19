@@ -69,7 +69,7 @@ We will use the following tables, which contain types of fruits and their quanti
 
 Equi-joins look for equality in a relationship.  
 
-Equality predicates can be used with inner, outer joins and cross joins. A cross join does not have an `ON` clause, but applying an equality predicate in the WHERE clause produces a result logically equivalent to an inner equi-join. 
+Equality predicates can be used with inner, outer joins and cross joins. A `CROSS JOIN` does not have an `ON` clause, but applying an equality predicate in the `WHERE` clause produces a result logically equivalent to an inner equi-join. 
 
 Here are several examples of an equi-join.
 
@@ -101,7 +101,7 @@ GO
 
 --------------------------------------------------------------------------------
 ## Non-equi-joins
-Non-equi-joins look for any non-equality comparison.  They can be used with `INNER`, `OUTER`, `FULL OUTER`, and `CROSS JOINS`.
+Non-equi-joins look for any non-equality comparison.  They can be used with inner, outer, full and cross joins.
 
 Here are some examples that you may not have realized are possible.
 
@@ -118,7 +118,7 @@ FROM    ##TableA a INNER JOIN
 |----|-------|----------|----|-------|----------|
 | 1  | Apple | 17       | 1  | Apple | 17       |
  
-Here is an example of when you would use the greater-than operator.  Suppose you want to purchase two fruits, one fruit from `TableA` and one fruit from `TableB`; however, the quantity of the fruit in `TableA` needs to be larger than the quantity in `TableB`.  A typical example on the internet is when you need to purchase two items (such as a car and a boat), and one item must be worth more than the other.
+Here is an example of when you would use the greater-than operator.  Suppose you want to purchase two fruits, one fruit from `##TableA` and one fruit from `##TableB`; however, the quantity of the fruit in `##TableA` needs to be larger than the quantity in `##TableB`.  A typical example on the internet is when you need to purchase two items (such as a car and a boat), and one item must be worth more than the other.
 
 ```sql
 SELECT  *
@@ -137,7 +137,7 @@ A natural join automatically creates an equality condition for every column name
 
 When `SELECT *` is used, each common join column appears only once in the result. Columns that are not common to both inputs are returned separately.
 
-Several database systems, including Oracle, MySQL, and PostgreSQL, support NATURAL JOIN. SQL Server does not support the syntax directly.  
+Several database systems, including Oracle, MySQL, and PostgreSQL, support `NATURAL JOIN`. SQL Server does not support the syntax directly.  
 
 Natural joins are often discouraged for the following reasons:
 
