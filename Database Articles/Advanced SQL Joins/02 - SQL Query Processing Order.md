@@ -1,5 +1,9 @@
 # SQL Query Processing Order
 
+Before exploring the different join types and the methods, operators, and clauses SQL uses to compare datasets, it is helpful to understand the Cartesian product and SQL’s logical processing order. Conceptually, an inner join can be viewed as a Cartesian product restricted by a join condition, while an outer join also preserves unmatched rows from one or both inputs. 
+
+First, let’s examine the logical processing order of a SQL query and how its clauses relate to the execution plan created by the database engine.
+
 To better understand how an SQL statement is evaluated, it helps to separate **how a query is written** from **how it is logically processed**. Although SQL queries are typically written starting with the `SELECT` clause, the SQL engine does **not** execute them in that order. Instead, each clause is evaluated according to well-defined logical processing phases.
 
 The diagram below illustrates this logical processing order.
