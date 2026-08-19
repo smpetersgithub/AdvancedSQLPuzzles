@@ -1,6 +1,6 @@
 # Welcome
 
-Joins are one of the most fundamental and often most misunderstood concepts in SQL. At a basic level, joins allow you to combine rows from two or more tables based on a related condition. Most SQL users are familiar with the standard join keywords defined by the ANSI SQL specification, such as `INNER JOIN`, `LEFT OUTER JOIN`, `RIGHT OUTER JOIN`, `FULL OUTER JOIN`, and `CROSS` joins.
+Joins are one of the most fundamental and often most misunderstood concepts in SQL. At a basic level, joins allow you to combine rows from two or more tables based on a related condition. Most SQL users are familiar with the standard join keywords defined by the ANSI SQL specification, such as `INNER JOIN`, `LEFT OUTER JOIN`, `RIGHT OUTER JOIN`, `FULL OUTER JOIN`, and `CROSS JOIN`.
 
 However, not all joins are defined purely by SQL syntax. Many commonly used “join types” are better understood as classifications based on *behavior*, *intent*, or *implementation*, rather than as explicit keywords you type into a query. Some describe how the database engine physically executes a join, others describe logical or relational concepts, and some are simply useful ways to talk about query complexity or structure.
 
