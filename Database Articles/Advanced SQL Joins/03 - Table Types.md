@@ -298,6 +298,52 @@ WHERE   EmployeeCount > 1;
 |------------|---------------|
 | Accounting | 2             |
 
+-----
+
+#### Insert and Delete
+
+You can also insert and delete using a CTE.
+
+```sql
+-- Insert through a CTE
+WITH EmployeeCTE AS
+(
+SELECT EmployeeID,
+       FirstName,
+       LastName,
+       Department,
+       Salary
+FROM dbo.Employees
+)
+INSERT INTO EmployeeCTE (EmployeeID, FirstName, LastName, Department, Salary)
+VALUES (3, 'Larry', 'Johnson', 'Finance', 85000);
+GO
+
+SELECT * FROM dbo.Employees ORDER BY EmployeeID;
+GO
+
+-- Delete through a CTE
+WITH EmployeeCTE AS
+(
+SELECT EmployeeID,
+       FirstName,
+       LastName,
+       Department,
+       Salary
+FROM dbo.Employees
+WHERE EmployeeID = 3
+)
+DELETE FROM EmployeeCTE;
+GO
+
+SELECT * FROM dbo.Employees ORDER BY EmployeeID;
+GO
+```
+
+-----
+
+#### Recursion
+
 Besides improving the readability of an SQL statement, CTEs can be used for recursion.  This example creates a Fibonacci sequence using a self-referencing CTE.
 
 ```sql
@@ -312,6 +358,33 @@ WHERE   Number < 1000000000
 SELECT PrevNumber AS Fibonacci
 FROM   cte_Recursion
 OPTION (MAXRECURSION 0);
+```
+
+---
+
+#### Semicolon Use
+
+One minor nuisance of a common table expression is that the preceding SQL statement must end with a semicolon. Because `WITH` has several meanings in T-SQL, SQL Server uses the semicolon to distinguish a CTE from other uses. For convenience, CTEs are often written as `;WITH`. The leading semicolon is unnecessary when the CTE is the first statement in a batch.
+
+```sql
+PRINT('This statement does not have a semi-colon')
+
+;WITH EmployeeCTE AS
+(
+SELECT * FROM dbo.Employees
+)
+SELECT * FROM EmployeeCTE;
+GO
+
+PRINT('This statement does not have a semi-colon')
+GO
+
+WITH EmployeeCTE AS
+(
+SELECT * FROM dbo.Employees
+)
+SELECT * FROM EmployeeCTE;
+GO
 ```
 
 --------------------------------------------------------------------------------------------------------
