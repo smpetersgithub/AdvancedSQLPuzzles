@@ -398,7 +398,8 @@ Local temporary tables and global temporary tables are two types of temporary ta
 *  You can use a single octothorpe (#) for a local temporary table and two octothorpes (##) for a global temporary table.
 *  Local temporary tables are visible only within the session that created them, including nested stored procedures executed by that session. They are automatically dropped when their scope ends. 
 *  Global temporary tables are available to every user's session.  
-*  You can place the same constraints, except for `FOREIGN KEY` constraints, on a temp table as you can on a permanent table.  
+*  You can place the same constraints, except for foreign key constraints, on a temp table as you can on a permanent table.
+*  Adding a foreign key constraint will not cause the table creation to error, but the constraint will be ignored.  
 *  Indexing is allowed on temporary tables.
 *  Temporary tables reside in `tempdb`, and their metadata can be seen in the information schema.
 
@@ -445,8 +446,8 @@ SELECT * FROM #Employees2 ORDER BY 1;
 
 Table variables store temporary tabular data within a batch, stored procedure, or function. A table variable declared from a user-defined table type can also be passed to a stored procedure as a table-valued parameter.  Each database may implement table variables slightly differently, but Microsoft SQL Server has the following considerations.
 
-*  You can place constraints on the table except for `FOREIGN KEY` constraints.
-*  The constraints must be placed on the table on creation.
+*  You can place constraints on the table except for foreign key constraints.
+*  The constraints must be placed on the table at the time of creation.
 *  You cannot alter the table variable once it is created.
 *  You cannot execute `CREATE INDEX` against a table variable after declaring it. However, `PRIMARY KEY` and `UNIQUE` constraints create indexes.
 *  You cannot truncate a table variable.
@@ -481,9 +482,9 @@ SELECT * FROM @TableVariable ORDER BY 1;
 
 User-defined table types are a special type in SQL Server that allows for the definition of table structures. These structures are used as parameters in stored procedures or functions, allowing for the passage of multiple rows of data in a single parameter. 
 
-A table type cannot have a FOREIGN KEY constraint. Also, a user-defined table type cannot be altered after creation; to change it, you generally must drop and recreate it after removing objects that depend on it.
+A table type cannot have a foreign key constraint. Also, a user-defined table type cannot be altered after creation; to change it, you generally must drop and recreate it after removing objects that depend on it.
 
-User-defined table types are used in conjunction with table variables such as the following.
+User-defined table types are used in conjunction with table variables.
 
 ```sql
 CREATE TYPE dbo.MyTableType AS TABLE
