@@ -2,7 +2,7 @@
 
 SQL Server allows queries to read from and join to many kinds of tables, table-like objects, and rowset expressions. This article examines eleven commonly encountered examples.
 
-❗For simplicity, we will be using the term "table" to describe the following. 
+❗For simplicity, we will use the term “table” to describe any table-like object or expression that produces rows and columns. When such an object or result contains no rows, it is referred to as an empty table or empty result set.
 
 | Id | Name | Description |
 |----|------|-------------|
@@ -170,7 +170,6 @@ WHERE  EmployeeID = @EmployeeID
 GO
 
 SELECT * FROM dbo.fnGetEmployees(1);
-
 
 SELECT  a.*,
         (CASE WHEN a.EmployeeID = f.EmployeeID THEN 1 ELSE 0 END) AS IsMatch
