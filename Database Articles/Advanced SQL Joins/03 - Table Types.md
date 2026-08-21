@@ -58,14 +58,15 @@ The following table types support constraints, although the available constraint
 | CHECK	      | Yes	   | Yes	     | Yes	      | Yes                     |
 
 --------------------------------------------------------------------------------------------------------
-## Table Type 1
-### Table
+## 1 - Table
 
 The type of table referred to below is a base table. A base table is a permanent table stored in the database and contains the actual data in the form of rows and columns. Base tables can have `NOT NULL`, `UNIQUE`, `PRIMARY KEY`, `FOREIGN KEY`, `CHECK`, and `DEFAULT` constraints.
 
 In this example, we create a table named `Employees`, insert two rows using the `VALUES` constructor, and then select from the table. 
 
 ```sql
+DROP TABLE IF EXISTS dbo.Employees;
+
 CREATE TABLE dbo.Employees
 (
 EmployeeID INTEGER PRIMARY KEY,
@@ -77,6 +78,7 @@ Salary     MONEY NOT NULL
 
 INSERT INTO dbo.Employees (EmployeeID, FirstName, LastName, Department, Salary) VALUES (1,'John','Wilson','Accounting',100000);
 INSERT INTO dbo.Employees (EmployeeID, FirstName, LastName, Department, Salary) VALUES (2,'Sarah','Shultz','Accounting',90000);
+INSERT INTO dbo.Employees (EmployeeID, FirstName, LastName, Department, Salary) VALUES (3,'Nicole','Pena','Marketing',80000);
 
 SELECT * FROM dbo.Employees ORDER BY 1;
 ```
@@ -86,10 +88,10 @@ SELECT * FROM dbo.Employees ORDER BY 1;
 |------------|-----------|----------|------------|-----------|
 | 1          | John      | Wilson   | Accounting | 100000.00 |
 | 2          | Sarah     | Shultz   | Accounting |  90000.00 |
+| 3          | Nicole    | Pena     | Marketing  |  80000.00 |
 
 --------------------------------------------------------------------------------------------------------
-## Table Type 2
-### View
+## 2 - View
 
 An SQL view is a virtual table that provides a specific, customized data perspective from one or more tables in a database.  There are two main types of SQL views: materialized views (indexed views in SQL Server) and non-materialized views. Materialized views store the result set of the view query. In contrast, non-materialized views do not store data and dynamically retrieve data from the underlying tables each time the view is accessed.  Under certain conditions, you can issue DML commands  (`INSERT`, `UPDATE`, and `DELETE`) through views and can manipulate the underlying table(s) in the view.
 
@@ -104,40 +106,41 @@ SQL Server also supports `WITH CHECK OPTION`, which is placed after the view's d
 
 `WITH CHECK OPTION`: Ensures that all data modifications through the view comply with the view's `SELECT` statement. If a row is modified through the view that would not be selected by the view's `SELECT` statement, the modification is disallowed. This maintains data integrity by ensuring only valid data is entered through the view.
 
-In this example, we create a view over the `Employees` table, insert a row through the view, and then select from the view.
+In this example, we create a view based on the `Employees` table that includes a calculated `FullName` column. We then use the view to insert a row, retrieve data, and delete the row.
 
 ```sql
 CREATE OR ALTER VIEW dbo.vwEmployees AS
 SELECT  EmployeeID,
         FirstName,
         LastName,
+        CONCAT_WS(' ', FirstName, LastName) AS FullName,
         Department,
         Salary
 FROM    dbo.Employees;
 GO
 
-INSERT INTO dbo.vwEmployees (EmployeeID, FirstName, LastName, Department, Salary) VALUES(3,'Larry','Johnson','Finance','85000');
+INSERT INTO dbo.vwEmployees (EmployeeID, FirstName, LastName, Department, Salary) VALUES(4,'Larry','Johnson','Finance','85000');
 GO
 
 SELECT * FROM dbo.vwEmployees ORDER BY 1;
 GO
 
 --Remove Larry
-DELETE FROM dbo.vwEmployees WHERE FirstName = 'Larry';
+DELETE FROM dbo.vwEmployees WHERE EmployeeID = 4;
 GO
 ```
 
-Here are the results before we removed Larry.
+Here are the results before we removed Larry.    
 
-| EmployeeID | FirstName | LastName | Department |  Salary   |
-|------------|-----------|----------|------------|-----------|
-| 1          | John      | Wilson   | Accounting | 100000.00 |
-| 2          | Sarah     | Shultz   | Accounting |  90000.00 |
-| 3          | Larry     | Johnson  | Finance    |  85000.00 |
+| EmployeeID | FirstName | LastName |   FullName    | Department |  Salary   |
+|------------|-----------|----------|---------------|------------|-----------|
+| 1          | John      | Wilson   | John Wilson   | Accounting | 100000.00 |
+| 2          | Sarah     | Shultz   | Sarah Shultz  | Accounting |  90000.00 |
+| 3          | Nicole    | Pena     | Nicole Pena   | Marketing  |  80000.00 |
+| 4          | Larry     | Johnson  | Larry Johnson | Finance    |  85000.00 |
 
 --------------------------------------------------------------------------------------------------------
-## Table Type 3
-### VALUES Constructor
+## 3 - VALUES Constructor
 
 The `VALUES` constructor has a few considerations that are often overlooked and deserves its own recognition.  The `VALUES` constructor specifies a set of row value expressions to be constructed into a table and allows multiple sets of values to be defined in a single DML statement.  Typically, we use the `VALUES` constructor to specify the data to insert into a table, as we initially did with our test data, and it can also be used as a derived table in an SQL statement.  The `VALUES` constructor is not a persistent object; it is an inline rowset.
 
@@ -158,18 +161,19 @@ ORDER BY 1;
 | 7 | 8  |
 | 9 | 10 |
 
-Here is a more elaborate example where the `VALUES` constructor specifies the values to return.
+Here is a more elaborate example where we join the `Employees` table to the `VALUES` constructor. 
 
 ```sql
-SELECT  a.*
+SELECT  a.*, b.ManagerID
 FROM    dbo.Employees a INNER JOIN
-        (VALUES (1), (2)) AS b(EmployeeID) ON a.EmployeeID = b.EmployeeID;
+        (VALUES ('Accounting',1001), ('Finance',2002), ('Marketing',3003)) AS b(Department, ManagerID) ON a.Department = b.Department;
 ```
 
-| EmployeeID | FirstName | LastName | Department |  Salary   |
-|------------|-----------|----------|------------|-----------|
-| 1          | John      | Wilson   | Accounting | 100000.00 |
-| 2          | Sarah     | Shultz   | Accounting |  90000.00 |
+| EmployeeID | FirstName | LastName | Department |  Salary   | ManagerID |
+|------------|-----------|----------|------------|-----------|-----------|
+| 1          | John      | Wilson   | Accounting | 100000.00 | 1001      |
+| 2          | Sarah     | Shultz   | Accounting |  90000.00 | 1001      |
+| 3          | Nicole    | Pena     | Marketing  |  80000.00 | 3003      |
 
 You can also place functions into the `VALUES` constructor.  The `NEWID()` function creates a unique value of type `UNIQUEIDENTIFIER`.
 
@@ -187,53 +191,65 @@ ORDER BY 1;
 | Sarah Shultz  | 803DF712-0144-41AC-959A-A774F35DC600 |
 
 --------------------------------------------------------------------------------------------------------
-## Table Type 4
-### Table-Valued Function
+## 4 - Table-Valued Function
 
 A table-valued function acts like a view with the added benefit of being parameterized.  Table-valued functions can be inline or multi-statement functions, and you can join to other datasets using `CROSS APPLY` or `OUTER APPLY`.
 
 For this example, we create a table-valued function using the `Employees` table.  To use the table-valued function, we can select from the function or use the `CROSS APPLY` join operation.
 
 ```sql
-CREATE OR ALTER FUNCTION dbo.FnGetEmployees (@EmployeeID INTEGER)
+CREATE OR ALTER FUNCTION dbo.FnGetAverageSalary (@Department VARCHAR(100))
 RETURNS TABLE
 AS
 RETURN
 (
-SELECT EmployeeID, FirstName, LastName, Department, Salary
+SELECT Department, AVG(Salary) AS AvgSalary
 FROM   dbo.Employees
-WHERE  EmployeeID = @EmployeeID
+WHERE  Department = @Department
+GROUP BY Department
 );
 GO
 
-SELECT * FROM dbo.fnGetEmployees(1);
-
-SELECT  a.*,
-        (CASE WHEN a.EmployeeID = f.EmployeeID THEN 1 ELSE 0 END) AS IsMatch
-FROM    dbo.Employees a CROSS APPLY
-        dbo.fnGetEmployees(1) f;
+SELECT * FROM dbo.FnGetAverageSalary('Accounting');
 ```
 
-Here are the results from the first `SELECT` statement.
+| Department | AvgSalary |
+|------------|-----------|
+| Accounting | 95000.00  |
 
-| EmployeeID | FirstName | LastName | Department |  Salary   |
-|------------|-----------|----------|------------|-----------|
-| 1          | John      | Wilson   | Accounting | 100000.00 |
 
-Here are the results from the second `SELECT` statement using the `CROSS APPLY`.
+We can also use a TVF with `APPLY` to combine its results with a table. `CROSS APPLY` behaves like an inner join, while `OUTER APPLY` behaves like an outer join.
 
-| EmployeeID | FirstName | LastName | Department |  Salary   | IsMatch |
-|------------|-----------|----------|------------|-----------|---------|     
-| 1          | John      | Wilson   | Accounting | 100000.00 |    1    |
-| 2          | Sarah     | Shultz   | Accounting |  90000.00 |    0    |
+```sql
+SELECT e.EmployeeID,
+       e.FirstName,
+       e.LastName,
+       e.Department,
+       e.Salary,
+       f.AvgSalary
+FROM   dbo.Employees AS e CROSS APPLY
+       dbo.FnGetAverageSalary(e.Department) AS f;
+```
+
+| EmployeeID | FirstName | LastName | Department |  Salary   | AvgSalary |
+|------------|-----------|----------|------------|-----------|-----------|     
+| 1          | John      | Wilson   | Accounting | 100000.00 | 95000     |
+| 2          | Sarah     | Shultz   | Accounting |  90000.00 | 95000     |
+| 3          | Nicole    | Pena     | Marketing  |  80000.00 | 80000     |
 
 --------------------------------------------------------------------------------------------------------
-## Table Type 5
-### Subquery
+## 5 - Subquery
 
-A subquery is a query nested within another query. Subqueries can be used in various parts of a SQL query, such as the `SELECT`, `FROM`, `WHERE`, and `HAVING` clauses. They are handy for performing operations that require multiple scans of the same or different tables, complex calculations, or referencing results that are not part of the main query.  A subquery can be correlated (which depends on the outer query) or non-correlated.
+A subquery is a query nested within another query. Subqueries can be used in various parts of a SQL query, such as the `SELECT`, `FROM`, `WHERE`, and `HAVING` clauses. They are handy for performing operations that require multiple scans of the same or different tables, complex calculations, or referencing results that are not part of the main query.  
 
-Here is an example of a correlated subquery using the `Employees` table.  We will discuss correlated subqueries more in the semi-join and anti-join portions of this repository.
+A subquery can be either correlated or noncorrelated and can appear in several forms. Correlated subqueries can be used with CROSS APPLY, OUTER APPLY, [NOT] EXISTS, and [NOT] IN. These techniques will be covered in the semi-join and anti-join sections of this documentation.
+
+----
+
+#### Correlated Subquery
+
+Here is an example of a correlated subquery using the `Employees` table. Columns returned by a correlated subquery in the `FROM` clause cannot be referenced directly in the outer query’s `SELECT` list.
+
 
 ```sql
 SELECT  e.*
@@ -247,11 +263,32 @@ WHERE   e.Salary >  (SELECT AVG(Salary)
 |------------|-----------|----------|------------|-----------|
 | 1          | John      | Wilson   | Accounting | 100000.00 |
 
---------------------------------------------------------------------------------------------------------
-## Table Type 6
-### Derived Table
 
-A derived table is a special type of subquery. It is an expression that generates a table within the scope of the `FROM` clause.  
+-----
+
+#### Scalar Correlated Subquery
+
+We can create a scalar subquery by placing the subquery within the `SELECT` statement. Placing a subquery within the `SELECT` statement causes the inner subquery to act like a left join.
+
+```
+SELECT
+    e.EmployeeID,
+    e.Department,
+    (SELECT AVG(e2.Salary) FROM dbo.Employees AS e2 WHERE e2.Department = e.Department) AS AvgSalary
+FROM dbo.Employees AS e;
+```
+
+| EmployeeID | FirstName | LastName | Department |  Salary   | AvgSalary |
+|------------|-----------|----------|------------|-----------|-----------|     
+| 1          | John      | Wilson   | Accounting | 100000.00 | 95000     |
+| 2          | Sarah     | Shultz   | Accounting |  90000.00 | 95000     |
+| 3          | Nicole    | Pena     | Marketing  |  80000.00 | 80000     |
+
+
+--------------------------------------------------------------------------------------------------------
+## 6 - Derived Table
+
+A derived table is a type of subquery that produces a temporary result set within the scope of the FROM clause. In SQL Server, a regular derived table cannot reference columns from another table in the same FROM clause. To combine it with another table, specify the relationship in an ON clause outside the derived table.
 
 A derived table has three characteristics:
 
@@ -263,22 +300,21 @@ Here is an example of a derived table in SQL.
 
 ```sql
 SELECT  e.*,
-        e2.EmployeeID,
-        e2.Salary
-FROM    (SELECT EmployeeID, FirstName, LastName, Salary FROM dbo.Employees) e INNER JOIN 
-        dbo.Employees e2 ON e.Salary > e2.Salary
-ORDER BY 1, 2, 3, 4, 5;
+        e2.AvgSalary
+FROM    dbo.Employees e INNER JOIN 
+        (SELECT Department, AVG(Salary) AS AvgSalary FROM dbo.Employees GROUP BY Department) e2 ON e.Department = e2.Department;
 ```
 
-| EmployeeID | FirstName | LastName |  Salary   | EmployeeID |  Salary  |
-|------------|-----------|----------|-----------|------------|----------|
-| 1          | John      | Wilson   | 100000.00 | 2          | 90000.00 |
+| EmployeeID | FirstName | LastName | Department |  Salary   | AvgSalary |
+|------------|-----------|----------|------------|-----------|-----------|     
+| 1          | John      | Wilson   | Accounting | 100000.00 | 95000     |
+| 2          | Sarah     | Shultz   | Accounting |  90000.00 | 95000     |
+| 3          | Nicole    | Pena     | Marketing  |  80000.00 | 80000     |
 
 --------------------------------------------------------------------------------------------------------
-## Table Type 7
-### Common Table Expression (CTE) 
+## 7 - Common Table Expression (CTE) 
 
-A common table expression (CTE) is a named query expression that exists for one statement and can be used with `SELECT`, `INSERT`, `UPDATE`, `DELETE`, or `MERGE`, or in a view definition.   
+A common table expression (CTE) is a named query expression that exists for one statement and can be used with `SELECT`, `INSERT`, `UPDATE`, `DELETE`, or in a view definition.   
 
 ```sql        
 WITH EmployeesByDepartment AS 
@@ -388,8 +424,7 @@ GO
 ```
 
 --------------------------------------------------------------------------------------------------------
-## Table Type 8
-### Temporary Table        
+## 8 - Temporary Table        
 
 The syntax for creating temporary tables varies across database systems.  These examples work in Microsoft SQL Server.
 
@@ -441,8 +476,7 @@ SELECT * FROM #Employees2 ORDER BY 1;
 | 2          | Sarah     | Shultz   | Accounting |  90000.00 |
 
 --------------------------------------------------------------------------------------------------------
-## Table Type 9
-### Table Variable   
+## 9 - Table Variable   
 
 Table variables store temporary tabular data within a batch, stored procedure, or function. A table variable declared from a user-defined table type can also be passed to a stored procedure as a table-valued parameter.  Each database may implement table variables slightly differently, but Microsoft SQL Server has the following considerations.
 
@@ -477,8 +511,7 @@ SELECT * FROM @TableVariable ORDER BY 1;
 | 2          | Sarah     | Shultz   | Accounting |  90000.00 |
 
 --------------------------------------------------------------------------------------------------------
-## Table Type 10
-### User-Defined Table Types
+## 10 - User-Defined Table Types
 
 User-defined table types are a special type in SQL Server that allows for the definition of table structures. These structures are used as parameters in stored procedures or functions, allowing for the passage of multiple rows of data in a single parameter. 
 
@@ -521,8 +554,8 @@ GO
 | 2          | Sarah     | Shultz   | Accounting |  90000.00 |
 
 --------------------------------------------------------------------------------------------------------
-## Table Type 11
-### External Tables           
+### Table Type 11
+## External Tables           
 
 External tables in Microsoft SQL Server are database objects that allow access to data stored outside the SQL Server instance, typically through PolyBase and an external data source. They reference external data sources and external file formats, enabling SQL Server to query data stored in locations such as Hadoop, Azure Blob Storage, Azure Data Lake Storage, or another SQL Server via PolyBase.
 
