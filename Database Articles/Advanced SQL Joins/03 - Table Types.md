@@ -242,7 +242,7 @@ FROM   dbo.Employees AS e CROSS APPLY
 
 A subquery is a query nested within another query. Subqueries can be used in various parts of a SQL query, such as the `SELECT`, `FROM`, `WHERE`, and `HAVING` clauses. They are handy for performing operations that require multiple scans of the same or different tables, complex calculations, or referencing results that are not part of the main query.  
 
-A subquery can be either correlated or noncorrelated and can appear in several forms. Correlated subqueries can be used with CROSS APPLY, OUTER APPLY, [NOT] EXISTS, and [NOT] IN. These techniques will be covered in the semi-join and anti-join sections of this documentation.
+A subquery can be either correlated or noncorrelated and can appear in several forms. Correlated subqueries can be used with `CROSS APPLY`, `OUTER APPLY`, `[NOT] EXISTS`, and `[NOT] IN`. These techniques will be covered in the semi-join and anti-join sections of this documentation.
 
 ----
 
