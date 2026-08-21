@@ -62,7 +62,7 @@ The following table types support constraints, although the available constraint
 
 The type of table referred to below is a base table. A base table is a permanent table stored in the database and contains the actual data in the form of rows and columns. Base tables can have `NOT NULL`, `UNIQUE`, `PRIMARY KEY`, `FOREIGN KEY`, `CHECK`, and `DEFAULT` constraints.
 
-In this example, we create a table named `Employees`, insert two rows using the `VALUES` constructor, and then select from the table. 
+In this example, we create a table named `Employees`, insert three rows using the `VALUES` constructor, and then select from the table. 
 
 ```sql
 DROP TABLE IF EXISTS dbo.Employees;
@@ -178,7 +178,7 @@ FROM    dbo.Employees a INNER JOIN
 You can also place functions into the `VALUES` constructor.  The `NEWID()` function creates a unique value of type `UNIQUEIDENTIFIER`.
 
 ```sql
-SELECT  CONCAT(FirstName,' ',LastName) AS Name,
+SELECT  CONCAT_WS(' ', FirstName, LastName) AS Name,
         b.UniqueID
 FROM    dbo.Employees a CROSS JOIN
         (VALUES (NEWID())) AS b(UniqueID)
@@ -189,13 +189,19 @@ ORDER BY 1;
 |---------------|--------------------------------------|
 | John Wilson   | 50CA5F8E-9090-4DB8-A7C4-43F1D6C89D57 |
 | Sarah Shultz  | 803DF712-0144-41AC-959A-A774F35DC600 |
+| Nicole Pena   | EB2C9636-42ED-4F31-8776-D0BDD5A0CA91 |
 
 --------------------------------------------------------------------------------------------------------
 ## 4 - Table-Valued Function
 
-A table-valued function acts like a view with the added benefit of being parameterized.  Table-valued functions can be inline or multi-statement functions, and you can join to other datasets using `CROSS APPLY` or `OUTER APPLY`.
+A table-valued function acts like a view with the added benefit of being parameterized.  Table-valued functions can be inline or multi-statement functions.
+
+----
+
+#### TVF: Basic Example
 
 For this example, we create a table-valued function using the `Employees` table.  To use the table-valued function, we can select from the function or use the `CROSS APPLY` join operation.
+
 
 ```sql
 CREATE OR ALTER FUNCTION dbo.FnGetAverageSalary (@Department VARCHAR(100))
@@ -218,7 +224,11 @@ SELECT * FROM dbo.FnGetAverageSalary('Accounting');
 | Accounting | 95000.00  |
 
 
-We can also use a TVF with `APPLY` to combine its results with a table. `CROSS APPLY` behaves like an inner join, while `OUTER APPLY` behaves like an outer join.
+----
+
+#### TVF: APPLY
+
+We can also use `APPLY` to invoke a TVF for each row of another table. `CROSS APPLY` returns only rows for which the function produces a result, similar to an `INNER JOIN`. `OUTER APPLY` preserves every row from the left table, similar to a `LEFT OUTER JOIN`, and returns NULL for the function’s columns when the function produces no rows.
 
 ```sql
 SELECT  e.EmployeeID,
@@ -227,8 +237,8 @@ SELECT  e.EmployeeID,
         e.Department,
         e.Salary,
         f.AvgSalary
-FROM    dbo.Employees AS e CROSS APPLY
-        dbo.FnGetAverageSalary(e.Department) AS f;
+FROM    dbo.Employees e CROSS APPLY
+        dbo.FnGetAverageSalary(e.Department) f;
 ```
 
 | EmployeeID | FirstName | LastName | Department |  Salary   | AvgSalary |
@@ -236,6 +246,29 @@ FROM    dbo.Employees AS e CROSS APPLY
 | 1          | John      | Wilson   | Accounting | 100000.00 | 95000.00  |
 | 2          | Sarah     | Shultz   | Accounting |  90000.00 | 95000.00  |
 | 3          | Nicole    | Pena     | Marketing  |  80000.00 | 80000.00  |
+
+----
+
+#### TVF: INNER JOIN
+
+If the TVF does not need to reference columns from `dbo.Employees`, we can pass it a literal value and use a conventional `INNER JOIN`. The `ON` clause defines the relationship between the employee and function results.
+
+```sql
+SELECT  e.EmployeeID,
+        e.FirstName,
+        e.LastName,
+        e.Department,
+        e.Salary,
+        f.AvgSalary
+FROM    dbo.Employees e INNER JOIN
+        dbo.FnGetAverageSalary('Accounting') f ON f.Department = e.Department;
+
+```
+
+| EmployeeID | FirstName | LastName | Department |  Salary   | AvgSalary |
+|------------|-----------|----------|------------|-----------|-----------|     
+| 1          | John      | Wilson   | Accounting | 100000.00 | 95000.00  |
+| 2          | Sarah     | Shultz   | Accounting |  90000.00 | 95000.00  |
 
 --------------------------------------------------------------------------------------------------------
 ## 5 - Subquery
@@ -248,7 +281,7 @@ A subquery can be either correlated or noncorrelated and can appear in several f
 
 #### Correlated Subquery
 
-Here is an example of a correlated subquery using the `Employees` table. Columns returned by a correlated subquery in the `FROM` clause cannot be referenced directly in the outer query’s `SELECT` list.
+Here is an example of a correlated subquery using the `Employees` table. The following correlated subquery appears in the `WHERE` clause. It references `e.Department` from the outer query and returns the average salary for that employee’s department.
 
 
 ```sql
@@ -268,15 +301,18 @@ WHERE   e.Salary >  (SELECT AVG(Salary)
 
 #### Scalar Correlated Subquery
 
-We can create a scalar subquery by placing the subquery within the `SELECT` statement. Placing a subquery within the `SELECT` statement causes the inner subquery to act like a left join.
+We can create a scalar subquery by placing the subquery within the `SELECT` statement. A scalar correlated subquery can appear in the SELECT list and return one value for each outer row. If it returns no rows, SQL Server supplies NULL; if it returns more than one row, SQL Server raises an error.
+
+Because `AVG()` is used without `GROUP BY`, this subquery always returns exactly one row, although its value could be NULL.
+
 
 ```sql
 SELECT  e.EmployeeID,
         e.FirstName,
         e.LastName,
         e.Department,
-        e.Salary
-       (SELECT AVG(e2.Salary) FROM dbo.Employees AS e2 WHERE e2.Department = e.Department) AS AvgSalary
+        e.Salary,
+       (SELECT AVG(e2.Salary) FROM dbo.Employees e2 WHERE e2.Department = e.Department) AS AvgSalary
 FROM   dbo.Employees AS e;
 ```
 
@@ -295,8 +331,11 @@ Subqueries do not need to be correlated, as this example shows.
 
 ```sql
 SELECT  e.EmployeeID,
+        e.FirstName,
+        e.LastName,
         e.Department,
-        (SELECT AVG(e2.Salary) FROM dbo.Employees) AS AvgSalary
+        e.Salary,
+        (SELECT AVG(Salary) FROM dbo.Employees) AS AvgSalary
 FROM    dbo.Employees AS e;
 ```
 
@@ -374,7 +413,7 @@ SELECT EmployeeID,
 FROM dbo.Employees
 )
 INSERT INTO EmployeeCTE (EmployeeID, FirstName, LastName, Department, Salary)
-VALUES (3, 'Larry', 'Johnson', 'Finance', 85000);
+VALUES (4, 'Larry', 'Johnson', 'Finance', 85000);
 GO
 
 SELECT * FROM dbo.Employees ORDER BY EmployeeID;
@@ -389,7 +428,7 @@ SELECT EmployeeID,
        Department,
        Salary
 FROM dbo.Employees
-WHERE EmployeeID = 3
+WHERE EmployeeID = 4
 )
 DELETE FROM EmployeeCTE;
 GO
@@ -406,7 +445,6 @@ Here is the output before the record is deleted.
 | 2          | Sarah     | Shultz   | Accounting |  90000.00 |
 | 3          | Nicole    | Pena     | Marketing  |  80000.00 |
 | 4          | Larry     | Johnson  | Finance    |  85000.00 |
-
 
 -----
 
@@ -464,7 +502,7 @@ Local temporary tables and global temporary tables are two types of temporary ta
 
 *  You can use a single octothorpe (#) for a local temporary table and two octothorpes (##) for a global temporary table.
 *  Local temporary tables are visible only within the session that created them, including nested stored procedures executed by that session. They are automatically dropped when their scope ends. 
-*  Global temporary tables are available to every user's session.  
+*  Global temporary tables are available to every user's session. They are normally removed after the creating session ends and the last active statement referencing them finishes.
 *  You can place the same constraints, except for foreign key constraints, on a temp table as you can on a permanent table.
 *  Adding a foreign key constraint will not cause the table creation to error, but the constraint will be ignored.  
 *  Indexing is allowed on temporary tables.
@@ -491,6 +529,7 @@ SELECT * FROM #Employees ORDER BY 1;
 |------------|-----------|----------|------------|-----------|
 | 1          | John      | Wilson   | Accounting | 100000.00 |
 | 2          | Sarah     | Shultz   | Accounting |  90000.00 |
+| 3          | Nicole    | Pena     | Marketing  |  80000.00 |
 
 You can also create temporary tables via the `INTO` statement in a SQL statement.  This works in Microsoft SQL Server, and each database system has slightly different syntax for temporary tables.
 
@@ -506,6 +545,7 @@ SELECT * FROM #Employees2 ORDER BY 1;
 |------------|-----------|----------|------------|-----------|
 | 1          | John      | Wilson   | Accounting | 100000.00 |
 | 2          | Sarah     | Shultz   | Accounting |  90000.00 |
+| 3          | Nicole    | Pena     | Marketing  |  80000.00 |
 
 --------------------------------------------------------------------------------------------------------
 ## 9 - Table Variable   
@@ -515,10 +555,10 @@ Table variables store temporary tabular data within a batch, stored procedure, o
 *  You can place constraints on the table except for foreign key constraints.
 *  The constraints must be placed on the table at the time of creation.
 *  You cannot alter the table variable once it is created.
-*  You cannot execute `CREATE INDEX` against a table variable after declaring it. However, `PRIMARY KEY` and `UNIQUE` constraints create indexes.
+*  You cannot execute `CREATE INDEX` against a table variable after declaring it.
 *  You cannot truncate a table variable.
 *  Table variables are stored in `tempdb`. 
-*  Table variables are not affected by rollbacks.
+*  Changes made to table variables are not erased by `ROLLBACK TRANSACTION`.
 *  SQL Server does not maintain distribution statistics on table variables. SQL Server 2019 and later can use table-variable deferred compilation to improve cardinality estimates when the appropriate database compatibility level is enabled.
 
 ```sql
@@ -527,8 +567,10 @@ DECLARE @TableVariable TABLE
 EmployeeID INTEGER PRIMARY KEY,
 FirstName  VARCHAR(100) NOT NULL,
 LastName   VARCHAR(100) NOT NULL,
-Department VARCHAR(100) NOT NULL CHECK (Department IN ('Engineering', 'Accounting', 'Finance')),
-Salary     MONEY NOT NULL DEFAULT 0
+Department VARCHAR(100) NOT NULL CHECK (Department IN ('Engineering', 'Accounting', 'Finance', 'Marketing')),
+Salary     MONEY NOT NULL DEFAULT 0,
+
+INDEX IX_TableVariable_Department NONCLUSTERED (Department)
 );
 
 INSERT INTO @TableVariable
@@ -541,6 +583,7 @@ SELECT * FROM @TableVariable ORDER BY 1;
 |------------|-----------|----------|------------|-----------|
 | 1          | John      | Wilson   | Accounting | 100000.00 |
 | 2          | Sarah     | Shultz   | Accounting |  90000.00 |
+| 3          | Nicole    | Pena     | Marketing  |  80000.00 |
 
 --------------------------------------------------------------------------------------------------------
 ## 10 - User-Defined Table Types
@@ -573,8 +616,9 @@ GO
 
 DECLARE @Input dbo.MyTableType;
 
-INSERT INTO @Input (EmployeeID, FirstName, LastName, Department, Salary) VALUES (1,'John','Wilson','Accounting',100000);
-INSERT INTO @Input (EmployeeID, FirstName, LastName, Department, Salary) VALUES (2,'Sarah','Shultz','Accounting',90000);
+INSERT INTO @Input (EmployeeID, FirstName, LastName, Department, Salary)
+SELECT EmployeeID, FirstName, LastName, Department, Salary
+FROM   dbo.Employees;
 
 EXEC dbo.MyProcedure @Data = @Input;
 GO
@@ -584,6 +628,7 @@ GO
 |------------|-----------|----------|------------|-----------|
 | 1          | John      | Wilson   | Accounting | 100000.00 |
 | 2          | Sarah     | Shultz   | Accounting |  90000.00 |
+| 3          | Nicole    | Pena     | Marketing  |  80000.00 |
 
 --------------------------------------------------------------------------------------------------------
 ### Table Type 11
@@ -591,45 +636,9 @@ GO
 
 External tables in Microsoft SQL Server are database objects that allow access to data stored outside the SQL Server instance, typically through PolyBase and an external data source. They reference external data sources and external file formats, enabling SQL Server to query data stored in locations such as Hadoop, Azure Blob Storage, Azure Data Lake Storage, or another SQL Server via PolyBase.
 
-These tables appear like regular tables but are read-only and do not physically store data within the SQL Server database. Instead, they act as a metadata layer that enables querying external data using T-SQL. This is particularly useful for data integration, bulk data loading, archiving, and working with large datasets without importing them into SQL Server.
+For this section, I will reference the Microsoft documentation.
 
-However, external tables have some limitations:
-
-*  Indexing is not supported on external tables.
-*  Query performance may be slower due to reliance on external storage and network latency.
-*  DML operations (`INSERT`, `UPDATE`, `DELETE`) are not supported directly on external tables.
-
-The Microsoft SQL Server documentation has the following example.
-
-> **Version note:** The following Hadoop example applies to SQL Server
-> 2016 through SQL Server 2019. SQL Server 2022 and later do not support
-> Hadoop external data sources through PolyBase.
-
-
-```sql
-CREATE EXTERNAL DATA SOURCE mydatasource
-WITH (
-    TYPE = HADOOP,
-    LOCATION = 'hdfs://xxx.xxx.xxx.xxx:8020'
-);
-
-CREATE EXTERNAL FILE FORMAT myfileformat
-WITH (
-    FORMAT_TYPE = DELIMITEDTEXT,
-    FORMAT_OPTIONS (FIELD_TERMINATOR ='|')
-);
-
-CREATE EXTERNAL TABLE ClickStream (
-    url varchar(50),
-    event_date date,
-    user_IP varchar(50)
-)
-WITH (
-        LOCATION='/webdata/employee.tbl',
-        DATA_SOURCE = mydatasource,
-        FILE_FORMAT = myfileformat
-    );
-```
+https://learn.microsoft.com/en-us/SQL/t-sql/statements/create-external-table-as-select-transact-sql?view=sql-server-ver17&tabs=powershell
 
 ---------------------------------------------------------
 
