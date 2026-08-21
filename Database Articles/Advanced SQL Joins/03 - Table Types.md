@@ -4,19 +4,19 @@ SQL Server allows queries to read from and join to many kinds of tables, table-l
 
 >❗For simplicity, we will use the term “table” to describe any table-like object or expression that produces rows and columns. When such an object or result contains no rows, it is referred to as an empty table or empty result set.
 
-| Id | Name | Description |
-|----|------|-------------|
-| 1 | Table | A permanent, schema-scoped object that stores data as rows and columns. |
-| 2 | View | A schema-scoped virtual table whose columns and rows are defined by a `SELECT` statement. |
-| 3 | `VALUES` Constructor | An inline rowset that can supply values to a DML statement or be used as a derived table. |
-| 4 | Table-Valued Function | A schema-scoped function that accepts parameters and returns a tabular result. |
+| Id | Name | Description                                                                                                      |
+|----|------|------------------------------------------------------------------------------------------------------------------|
+| 1 | Table | A permanent, schema-scoped object that stores data as rows and columns.                                          |
+| 2 | View | A schema-scoped virtual table whose columns and rows are defined by a `SELECT` statement.                         |
+| 3 | `VALUES` Constructor | An inline rowset that can supply values to a DML statement or be used as a derived table.         |
+| 4 | Table-Valued Function | A schema-scoped function that accepts parameters and returns a tabular result.                   |
 | 5 | Subquery | A query nested inside another SQL statement that returns a scalar value, a single-column result, or a rowset. |
-| 6 | Derived Table | A subquery defined in the `FROM` clause and assigned a table alias. |
-| 7 | Common Table Expression (CTE) | A named query expression that exists for the duration of one statement. |
-| 8 | Temporary Table | A table created in `tempdb` with local or global scope. |
-| 9 | Table Variable | A variable that stores temporary tabular data within a batch, stored procedure, or function. |
-| 10 | User-Defined Table Type | A schema-scoped type used to declare table variables and table-valued parameters. |
-| 11 | External Table | A schema-scoped table that provides access to data stored outside SQL Server. |
+| 6 | Derived Table | A subquery defined in the `FROM` clause and assigned a table alias.                                      |
+| 7 | Common Table Expression (CTE) | A named query expression that exists for the duration of one statement.                  |
+| 8 | Temporary Table | A table created in `tempdb` with local or global scope.                                                |
+| 9 | Table Variable | A variable that stores temporary tabular data within a batch, stored procedure, or function.            |
+| 10 | User-Defined Table Type | A schema-scoped type used to declare table variables and table-valued parameters.             |
+| 11 | External Table | A schema-scoped table that provides access to data stored outside SQL Server.                          |
 
 ## SQL Server Constraints
 
@@ -203,9 +203,9 @@ RETURNS TABLE
 AS
 RETURN
 (
-SELECT Department, AVG(Salary) AS AvgSalary
-FROM   dbo.Employees
-WHERE  Department = @Department
+SELECT  Department, AVG(Salary) AS AvgSalary
+FROM    dbo.Employees
+WHERE   Department = @Department
 GROUP BY Department
 );
 GO
@@ -221,21 +221,21 @@ SELECT * FROM dbo.FnGetAverageSalary('Accounting');
 We can also use a TVF with `APPLY` to combine its results with a table. `CROSS APPLY` behaves like an inner join, while `OUTER APPLY` behaves like an outer join.
 
 ```sql
-SELECT e.EmployeeID,
-       e.FirstName,
-       e.LastName,
-       e.Department,
-       e.Salary,
-       f.AvgSalary
-FROM   dbo.Employees AS e CROSS APPLY
-       dbo.FnGetAverageSalary(e.Department) AS f;
+SELECT  e.EmployeeID,
+        e.FirstName,
+        e.LastName,
+        e.Department,
+        e.Salary,
+        f.AvgSalary
+FROM    dbo.Employees AS e CROSS APPLY
+        dbo.FnGetAverageSalary(e.Department) AS f;
 ```
 
 | EmployeeID | FirstName | LastName | Department |  Salary   | AvgSalary |
 |------------|-----------|----------|------------|-----------|-----------|     
-| 1          | John      | Wilson   | Accounting | 100000.00 | 95000     |
-| 2          | Sarah     | Shultz   | Accounting |  90000.00 | 95000     |
-| 3          | Nicole    | Pena     | Marketing  |  80000.00 | 80000     |
+| 1          | John      | Wilson   | Accounting | 100000.00 | 95000.00  |
+| 2          | Sarah     | Shultz   | Accounting |  90000.00 | 95000.00  |
+| 3          | Nicole    | Pena     | Marketing  |  80000.00 | 80000.00  |
 
 --------------------------------------------------------------------------------------------------------
 ## 5 - Subquery
@@ -270,19 +270,41 @@ WHERE   e.Salary >  (SELECT AVG(Salary)
 
 We can create a scalar subquery by placing the subquery within the `SELECT` statement. Placing a subquery within the `SELECT` statement causes the inner subquery to act like a left join.
 
-```
-SELECT
-    e.EmployeeID,
-    e.Department,
-    (SELECT AVG(e2.Salary) FROM dbo.Employees AS e2 WHERE e2.Department = e.Department) AS AvgSalary
-FROM dbo.Employees AS e;
+```sql
+SELECT  e.EmployeeID,
+        e.FirstName,
+        e.LastName,
+        e.Department,
+        e.Salary
+       (SELECT AVG(e2.Salary) FROM dbo.Employees AS e2 WHERE e2.Department = e.Department) AS AvgSalary
+FROM   dbo.Employees AS e;
 ```
 
 | EmployeeID | FirstName | LastName | Department |  Salary   | AvgSalary |
 |------------|-----------|----------|------------|-----------|-----------|     
-| 1          | John      | Wilson   | Accounting | 100000.00 | 95000     |
-| 2          | Sarah     | Shultz   | Accounting |  90000.00 | 95000     |
-| 3          | Nicole    | Pena     | Marketing  |  80000.00 | 80000     |
+| 1          | John      | Wilson   | Accounting | 100000.00 | 95000.00  |
+| 2          | Sarah     | Shultz   | Accounting |  90000.00 | 95000.00  |
+| 3          | Nicole    | Pena     | Marketing  |  80000.00 | 80000.00  |
+
+
+----
+
+#### Non-Correlated Subquery
+
+Subqueries do not need to be correlated, as this example shows.
+
+```sql
+SELECT  e.EmployeeID,
+        e.Department,
+        (SELECT AVG(e2.Salary) FROM dbo.Employees) AS AvgSalary
+FROM    dbo.Employees AS e;
+```
+
+| EmployeeID | FirstName | LastName | Department |  Salary   | AvgSalary |
+|------------|-----------|----------|------------|-----------|-----------|     
+| 1          | John      | Wilson   | Accounting | 100000.00 | 90000.00  |
+| 2          | Sarah     | Shultz   | Accounting |  90000.00 | 90000.00  |
+| 3          | Nicole    | Pena     | Marketing  |  80000.00 | 90000.00  |
 
 
 --------------------------------------------------------------------------------------------------------
@@ -307,9 +329,9 @@ FROM    dbo.Employees e INNER JOIN
 
 | EmployeeID | FirstName | LastName | Department |  Salary   | AvgSalary |
 |------------|-----------|----------|------------|-----------|-----------|     
-| 1          | John      | Wilson   | Accounting | 100000.00 | 95000     |
-| 2          | Sarah     | Shultz   | Accounting |  90000.00 | 95000     |
-| 3          | Nicole    | Pena     | Marketing  |  80000.00 | 80000     |
+| 1          | John      | Wilson   | Accounting | 100000.00 | 95000.00  |
+| 2          | Sarah     | Shultz   | Accounting |  90000.00 | 95000.00  |
+| 3          | Nicole    | Pena     | Marketing  |  80000.00 | 80000.00  |
 
 --------------------------------------------------------------------------------------------------------
 ## 7 - Common Table Expression (CTE) 
@@ -336,7 +358,7 @@ WHERE   EmployeeCount > 1;
 
 -----
 
-#### Insert and Delete
+#### CTE: Insert and Delete
 
 You can also insert and delete using a CTE.
 
@@ -376,9 +398,19 @@ SELECT * FROM dbo.Employees ORDER BY EmployeeID;
 GO
 ```
 
+Here is the output before the record is deleted.
+
+| EmployeeID | FirstName | LastName | Department |  Salary   |
+|------------|-----------|----------|------------|-----------|
+| 1          | John      | Wilson   | Accounting | 100000.00 |
+| 2          | Sarah     | Shultz   | Accounting |  90000.00 |
+| 3          | Nicole    | Pena     | Marketing  |  80000.00 |
+| 4          | Larry     | Johnson  | Finance    |  85000.00 |
+
+
 -----
 
-#### Recursion
+#### CTE: Recursion
 
 Besides improving the readability of an SQL statement, CTEs can be used for recursion.  This example creates a Fibonacci sequence using a self-referencing CTE.
 
@@ -567,7 +599,7 @@ However, external tables have some limitations:
 *  Query performance may be slower due to reliance on external storage and network latency.
 *  DML operations (`INSERT`, `UPDATE`, `DELETE`) are not supported directly on external tables.
 
-The Microsoft SQL Server documentation has the following examples.
+The Microsoft SQL Server documentation has the following example.
 
 > **Version note:** The following Hadoop example applies to SQL Server
 > 2016 through SQL Server 2019. SQL Server 2022 and later do not support
