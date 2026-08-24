@@ -1590,7 +1590,7 @@ Temporal tables in SQL Server are system-versioned tables that automatically tra
 
 Temporal tables are not represented in the `sys.sql_expression_dependencies` table.
 
-```
+```sql
 USE foo;
 GO
 
@@ -1652,7 +1652,7 @@ GO
 
 ### 38. In-Memory OLTP
 
-In-Memory OLTP (Online Transaction Processing), also known as Hekaton, is a SQL Server feature that stores tables entirely in memory for high-throughput, low-latency workloads. Memory-optimized tables use a lock-free, latch-free architecture and support natively compiled stored procedures that execute entirely in memory.
+In-Memory OLTP uses memory-optimized row and index structures for transaction processing. Durable memory-optimized tables also persist changes through the transaction log and checkpoint files so that their data survives restart and recovery.
 
 Memory-optimized tables have no dependencies in the `sys.sql_expression_dependencies` table that indicate it is memory-optimized.
 
@@ -1706,76 +1706,13 @@ CONSTRAINT pk_example_39 PRIMARY KEY (OrderID)
 );
 GO
 
--- Step 2: Add extended properties to the table
-EXEC sys.sp_addextendedproperty
-    @name       = N'MS_Description',
-    @value      = N'Stores order transactions for customers.',
-    @level0type = N'SCHEMA',   @level0name = N'dbo',
-    @level1type = N'TABLE',    @level1name = N'table_example_39';
-GO
 
--- Step 3: Add extended properties to individual columns
 EXEC sys.sp_addextendedproperty
     @name       = N'MS_Description',
     @value      = N'Primary key. Unique identifier for each order.',
     @level0type = N'SCHEMA',   @level0name = N'dbo',
     @level1type = N'TABLE',    @level1name = N'table_example_39',
     @level2type = N'COLUMN',   @level2name = N'OrderID';
-GO
-
-EXEC sys.sp_addextendedproperty
-    @name       = N'MS_Description',
-    @value      = N'Foreign key reference to the customer placing the order.',
-    @level0type = N'SCHEMA',   @level0name = N'dbo',
-    @level1type = N'TABLE',    @level1name = N'table_example_39',
-    @level2type = N'COLUMN',   @level2name = N'CustomerID';
-GO
-
-EXEC sys.sp_addextendedproperty
-    @name       = N'MS_Description',
-    @value      = N'Name of the product ordered.',
-    @level0type = N'SCHEMA',   @level0name = N'dbo',
-    @level1type = N'TABLE',    @level1name = N'table_example_39',
-    @level2type = N'COLUMN',   @level2name = N'ProductName';
-GO
-
-EXEC sys.sp_addextendedproperty
-    @name       = N'MS_Description',
-    @value      = N'Number of units ordered. Must be greater than zero.',
-    @level0type = N'SCHEMA',   @level0name = N'dbo',
-    @level1type = N'TABLE',    @level1name = N'table_example_39',
-    @level2type = N'COLUMN',   @level2name = N'Quantity';
-GO
-
-EXEC sys.sp_addextendedproperty
-    @name       = N'MS_Description',
-    @value      = N'Price per unit at the time of the order.',
-    @level0type = N'SCHEMA',   @level0name = N'dbo',
-    @level1type = N'TABLE',    @level1name = N'table_example_39',
-    @level2type = N'COLUMN',   @level2name = N'UnitPrice';
-GO
-
-EXEC sys.sp_addextendedproperty
-    @name       = N'MS_Description',
-    @value      = N'Date the order was placed.',
-    @level0type = N'SCHEMA',   @level0name = N'dbo',
-    @level1type = N'TABLE',    @level1name = N'table_example_39',
-    @level2type = N'COLUMN',   @level2name = N'OrderDate';
-GO
-
--- Step 4: Add a custom property (non MS_Description) to the table
-EXEC sys.sp_addextendedproperty
-    @name       = N'Author',
-    @value      = N'Scott Peters',
-    @level0type = N'SCHEMA',   @level0name = N'dbo',
-    @level1type = N'TABLE',    @level1name = N'table_example_39';
-GO
-
-EXEC sys.sp_addextendedproperty
-    @name       = N'CreatedDate',
-    @value      = N'2026-06-12',
-    @level0type = N'SCHEMA',   @level0name = N'dbo',
-    @level1type = N'TABLE',    @level1name = N'table_example_39';
 GO
 ```
 
