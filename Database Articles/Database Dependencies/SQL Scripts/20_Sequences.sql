@@ -2,23 +2,23 @@
 USE foo;
 GO
 
-DROP TABLE IF EXISTS tbl_example_20;
+DROP TABLE IF EXISTS dbo.tbl_example_20;
 DROP PROCEDURE IF EXISTS dbo.sp_example_20;
-DROP SEQUENCE IF EXISTS sequence_example_20;
+DROP SEQUENCE IF EXISTS dbo.sequence_example_20;
 GO
 
 ------------------------
 USE foo;
 GO
 
-CREATE SEQUENCE sequence_example_20
+CREATE SEQUENCE dbo.sequence_example_20
     START WITH 1
     INCREMENT BY 1;
 GO
 
-CREATE TABLE tbl_example_20
+CREATE TABLE dbo.tbl_example_20
 (
-ID INT DEFAULT NEXT VALUE FOR sequence_example_20
+ID INT DEFAULT NEXT VALUE FOR dbo.sequence_example_20
 );
 GO
 
@@ -27,9 +27,9 @@ AS
 BEGIN
     DECLARE @nextSeqValue BIGINT;
 
-    SET @nextSeqValue = NEXT VALUE FOR sequence_example_20;
+    SET @nextSeqValue = NEXT VALUE FOR dbo.sequence_example_20;
     
-    INSERT INTO tbl_example_20 (ID)
+    INSERT INTO dbo.tbl_example_20 (ID)
     VALUES (@nextSeqValue) 
 END;
 GO
@@ -70,8 +70,8 @@ GO
 DECLARE @vDropObjects SMALLINT = 1;
 IF @vDropObjects = 1
 BEGIN
-     DROP TABLE IF EXISTS tbl_example_20;
+     DROP TABLE IF EXISTS dbo.tbl_example_20;
      DROP PROCEDURE IF EXISTS dbo.sp_example_20;
-     DROP SEQUENCE IF EXISTS sequence_example_20;
+     DROP SEQUENCE IF EXISTS dbo.sequence_example_20;
 END;
 GO
