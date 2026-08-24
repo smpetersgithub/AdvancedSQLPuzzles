@@ -1541,13 +1541,10 @@ BEGIN
 END
 GO
 
-IF NOT EXISTS (SELECT * FROM sys.tables WHERE object_id = OBJECT_ID(N'dbo.tbl_example_35') AND is_tracked_by_cdc = 1)
-BEGIN
-    EXEC sys.sp_cdc_enable_table
-        @source_schema = N'dbo',
-        @source_name   = N'tbl_example_35',
-        @role_name     = NULL;
-END;
+EXEC sys.sp_cdc_enable_table
+    @source_schema = N'dbo',
+    @source_name   = N'tbl_example_35',
+    @role_name     = NULL;
 GO
 ```
 
