@@ -3,7 +3,7 @@ USE foo;
 GO
 
 DROP TABLE IF EXISTS dbo.tbl_example_24_child;
-DROP TABLE IF EXISTS tbl_example_24_parent;
+DROP TABLE IF EXISTS dbo.tbl_example_24_parent;
 GO
 
 ---------------------------------------------
@@ -12,20 +12,20 @@ GO
 USE foo;
 GO
 
-CREATE TABLE tbl_example_24_parent
+CREATE TABLE dbo.tbl_example_24_parent
 (
 ParentID   INT PRIMARY KEY,      -- Primary Key in parent table
 ParentName VARCHAR(100) NOT NULL
 );
 GO
 
-CREATE TABLE tbl_example_24_child
+CREATE TABLE dbo.tbl_example_24_child
 (
 ChildID INT PRIMARY KEY,       -- Primary Key in child table
 ChildName NVARCHAR(100) NOT NULL,
     ParentID INT,                  -- Foreign Key column referencing ParentID in parent table
     CONSTRAINT FK_Child_Parent FOREIGN KEY (ParentID) 
-    REFERENCES tbl_example_24_parent(ParentID)     -- Foreign Key constraint
+    REFERENCES dbo.tbl_example_24_parent(ParentID)     -- Foreign Key constraint
 );
 GO
 
