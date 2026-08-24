@@ -23,49 +23,6 @@ GO
 USE foo;
 GO
 
--- add filegroups to your database
-
--- fg1
-IF NOT EXISTS (SELECT 1 FROM sys.filegroups WHERE name = 'fg1')
-BEGIN
-    ALTER DATABASE foo ADD FILEGROUP fg1;
-END;
-GO
-
--- fg2
-IF NOT EXISTS (SELECT 1 FROM sys.filegroups WHERE name = 'fg2')
-BEGIN
-    ALTER DATABASE foo ADD FILEGROUP fg2;
-END;
-GO
-
--- fg3
-IF NOT EXISTS (SELECT 1 FROM sys.filegroups WHERE name = 'fg3')
-BEGIN
-    ALTER DATABASE foo ADD FILEGROUP fg3;
-END;
-GO
-
--- fg4
-IF NOT EXISTS (SELECT 1 FROM sys.filegroups WHERE name = 'fg4')
-BEGIN
-    ALTER DATABASE foo ADD FILEGROUP fg4;
-END;
-GO
-
--- add a file to the fg4 file group
-ALTER DATABASE foo
-ADD FILE 
-(
-    NAME = 'foo_fg4_data',
-    FILENAME = 'C:\data\foo_fg4_data.ndf',
-    SIZE = 5MB,
-    MAXSIZE = 100MB,
-    FILEGROWTH = 5MB
-)
-TO FILEGROUP fg4;
-GO
-
 ---------------------------------------------
 -- create a partition function
 CREATE PARTITION FUNCTION pf_example_17 (DATE) AS 
@@ -75,7 +32,7 @@ GO
 ---------------------------------------------
 -- create a partition scheme
 CREATE PARTITION SCHEME ps_example_17 AS 
-PARTITION pf_example_17 TO (fg1, fg2, fg3, fg4);
+PARTITION pf_example_17 ALL TO ([PRIMARY]);
 GO
 
 ---------------------------------------------
@@ -90,9 +47,6 @@ UnitPrice MONEY,
 CONSTRAINT PK_tbl_example_17 PRIMARY KEY (OrderID, OrderDate)
 )
 ON ps_example_17(OrderDate);
-GO
-
-INSERT INTO dbo.tbl_example_17 VALUES (1, '2024-10-10', 3, 4, 5);
 GO
 
 -------------------------------------------------------
