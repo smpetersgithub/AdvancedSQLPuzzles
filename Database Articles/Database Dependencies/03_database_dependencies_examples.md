@@ -858,32 +858,48 @@ Contrary to the SQL Server documentation, queues are not represented in the `sys
 USE foo;
 GO
 
---drop service
-IF EXISTS (SELECT 1 FROM sys.services WHERE [name] = 'service_example_19')
-BEGIN
-     DROP SERVICE service_example_19;
-END;
+-- Step 2: Create a Message Type (No validation)
+CREATE MESSAGE TYPE msg_type_example_19
+VALIDATION = NONE;
 GO
 
---drop queue
-IF EXISTS (SELECT 1 FROM sys.service_queues WHERE [name] = 'queue_example_19')
-BEGIN
-     DROP QUEUE queue_example_19;
-END;
+-- Step 3: Create a Contract (Message is sent by the initiator)
+CREATE CONTRACT contract_example_19
+(msg_type_example_19 SENT BY INITIATOR);
 GO
 
---drop contract
-IF EXISTS (SELECT 1 FROM sys.service_contracts WHERE [name] = 'contract_example_19')
-BEGIN
-     DROP CONTRACT contract_example_19;
-END;
+-- Step 4: Create a Queue
+CREATE QUEUE queue_example_19;
 GO
 
---drop message type
-IF EXISTS (SELECT 1 FROM sys.service_message_types WHERE name = 'msg_type_example_19')
-BEGIN
-     DROP MESSAGE TYPE msg_type_example_19;
-END;
+-- Step 5: Create a Service (Bound to the Queue and Contract)
+CREATE SERVICE service_example_19
+    ON QUEUE queue_example_19
+    (contract_example_19);
+GO
+
+---------------------------------
+-- Step 6: Send a Message to the Queue
+DECLARE @DialogHandle UNIQUEIDENTIFIER;
+
+-- Begin a conversation
+BEGIN DIALOG CONVERSATION @DialogHandle
+    FROM SERVICE service_example_19  -- Initiating from service_example_19
+    TO SERVICE 'service_example_19'  -- Target service is also service_example_19
+    ON CONTRACT contract_example_19
+    WITH ENCRYPTION = OFF;
+
+-- Send a message to the queue as NVARCHAR to ensure proper encoding
+SEND ON CONVERSATION @DialogHandle
+    MESSAGE TYPE msg_type_example_19
+    (N'Hello, this is a test message!');
+GO
+
+---------------------------------
+-- Step 7: Receive the Message from the Queue
+RECEIVE TOP(1) 
+    CONVERT(NVARCHAR(MAX), message_body) AS MessageBody
+FROM queue_example_19;
 GO
 ```
 
