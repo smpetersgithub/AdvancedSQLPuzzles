@@ -25,7 +25,7 @@ The result sets from each example use the `foo.dbo.sql_expression_dependencies` 
 
 ## Summary of Contents
 
-Sections are labeled ✔️ if they are included in the `sys.sql_expression_dependencies table`, and 🚫 if they are not.
+Sections are labeled ✔️ if they are included in the `sys.sql_expression_dependencies` view, and 🚫 if they are not.
 
 1. [✔️ Cross-Databases and Cross-Schema Dependencies](03_database_dependencies_examples.md#01-cross-databases-and-cross-schema-dependencies)
 2. [✔️ Cross Schema Dependencies](03_database_dependencies_examples.md#02-cross-schema-dependencies)
@@ -1515,7 +1515,7 @@ GO
 
 Change Data Capture (CDC) in SQL Server is a mechanism for tracking and recording changes to database tables. This feature captures insertions, updates, and deletions, and stores this change information in dedicated change tables.
 
-Enabling Change Data Capture (CDC) adds procedure dependencies to the sys.sql_expression_dependencies table. Once CDC is enabled on a table, additional entries related to that table will also be created in sys.sql_expression_dependencies.
+Enabling Change Data Capture (CDC) adds procedure dependencies to the `sys.sql_expression_dependencies` view. Once CDC is enabled on a table, additional entries related to that table will also be created in `sys.sql_expression_dependencies`.
 
 Unlike the database diagrams example, `is_ms_shipped` will have a value of 1, indicating the objects are internal SQL Server objects.
 
