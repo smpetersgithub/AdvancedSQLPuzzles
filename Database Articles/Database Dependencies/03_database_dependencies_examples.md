@@ -73,7 +73,7 @@ Sections are labeled ✔️ if they are included in the `sys.sql_expression_depe
 
 In this example, we create objects in two different databases and create a cross-database dependency. This will be the only example where we use different databases.
 
-To obtain more information about the object, you must use the `referenced_database_name`, `referenced_schema_name`, and `referencing_object_name` columns to join with the `sys.objects` table in the corresponding database.
+To obtain more information about the object, you must use the `referenced_database_name`, `referenced_schema_name`, and `referenced_entity_name` columns to join with the `sys.objects` table in the corresponding database.
 
 🔹For cross-database dependencies, the `referenced_id` column will contain a NULL marker. 
 
@@ -237,7 +237,7 @@ GO
 
 ### 05. Ambiguous References
 
-The ambiguity in this example arises because the function `dbo.fn_example_05` resolves the `OrderID` passed to it in the `SELECT` statement at runtime, rather than evaluating this dependency during compilation.
+This reference is marked as ambiguous because multipart function-style syntax can potentially resolve to a scalar function or to a method of a CLR user-defined type. SQL Server records this possibility in `is_ambiguous`, even though `referenced_id` is populated for the function.
 
 Although this dependency is marked as ambiguous, the `referenced_id` column is populated.
 
@@ -328,7 +328,7 @@ GO
 
 ### 07. Part Naming Conventions - Caller Dependent
 
-This example creates two stored procedures. The stored procedure `dbo.sp_example_07_b` references `sp_example_07_a` using a one-part naming convention. This dependency will be resolved at runtime, as SQL Server first checks the user's default schema (typically `dbo`) and then checks other schemas if necessary for the object. If you modify the stored procedure `dbo.sp_example_07_b` to reference `sp_example_07` using a two-part naming convention, the dependency will no longer be marked as `is_caller_dependent`.
+This example creates two stored procedures. The stored procedure `dbo.sp_example_07_b` references `sp_example_07_a` using a one-part naming convention. This dependency will be resolved at runtime, as SQL Server first checks the user's default schema (typically `dbo`) and then checks other schemas if necessary for the object. If you modify the stored procedure `dbo.sp_example_07_b` to reference `dbo.sp_example_07_a` using a two-part naming convention, the dependency will no longer be marked as `is_caller_dependent`.
 
 🔹For part naming conventions, the `referenced_id` column will contain a NULL marker. 
 
@@ -337,7 +337,7 @@ Stored procedures are marked as caller-dependent only if they reference other st
 This behavior in SQL Server is tied to ownership chaining and how SQL Server resolves dependencies within objects, such as stored procedures.
 
 * When a stored procedure references another stored procedure using a one-part name (e.g., ProcName without specifying the schema), SQL Server cannot resolve the schema of the referenced procedure until runtime.
-* For tables, functions, or views referenced with a one-part name, SQL Server assumes the schema of the objects is the same as the schema of the stored procedure itself (i.e., it uses the schema of the caller to resolve dependencies).
+* Unqualified table, view, and function references inside a module are normally bound when the module is created or refreshed. By contrast, an unqualified procedure call made through EXECUTE can remain caller-dependent and be resolved at runtime.
 
 ```sql
 USE foo;
@@ -366,7 +366,7 @@ GO
 
 ### 08. Dropping Objects
 
-In this example, we will create a valid object and then drop the referencing table, which will cause the view to become invalid.
+In this example, we will create a valid object and then drop the referenced table, which will cause the view to become invalid.
 
 🔹The `referenced_id` column will update with a NULL marker. 
 
@@ -617,7 +617,7 @@ GO
 
 In SQL Server, a DML trigger is a particular type of stored procedure that automatically executes in response to data modification events (such as `INSERT`, `UPDATE`, or `DELETE`) on a table or view. This allows you to enforce business rules or take additional actions when data changes.
 
-Here, you can see that the DML trigger references the internal SQL Server tables `deleted` and `inserted`, which store the deleted and inserted records, respectively, during DML statement execution.
+DML triggers can access the special logical tables `inserted` and `deleted`, which contain the rows affected by the triggering statement.
 
 ```sql
 USE foo;
@@ -807,6 +807,8 @@ GO
 
 Defaults are constraints that provide a default value for a column when no value is specified, ensuring that the column always has data. Rules are older SQL Server objects that enforce data validation by defining a condition that column values must meet. Still, they are primarily deprecated and have been replaced by check constraints for better functionality and management.
 
+This example uses deprecated standalone `DEFAULT` and `RULE` objects that are attached with `sp_bindefault` and `sp_bindrule`. These should not be confused with modern `DEFAULT` and `CHECK` constraints.
+
 Defaults and rules are not represented in the `sys.sql_expression_dependencies` table.
 
 ```sql
@@ -911,7 +913,8 @@ GO
 
 A Sequence is a user-defined object that generates a sequence of numeric values.
 
-When creating a sequence, the `sys.sql_expression_dependencies` table will create a record where the referencing object is a system default constraint, and the referenced object is the sequence.
+When a default constraint uses `NEXT VALUE FOR`, the constraint is recorded as the referencing object and the sequence as the referenced object. Because the constraint was not explicitly named, SQL Server generated its name.
+
 
 ```sql
 USE foo;
@@ -1025,9 +1028,9 @@ GO
 
 ### 23. Check Constraints
 
-A check constraint is a rule that enforces a condition on the values entered into a column to ensure data integrity. It restricts the values stored in a column by evaluating a Boolean expression. Data modifications (such as `INSERT` or `UPDATE`) will only be accepted if the condition is met.
+A check constraint is a rule that enforces a condition on the values entered into a column to ensure data integrity. SQL Server rejects an inserted or updated row when the `CHECK` expression evaluates to FALSE. A result of TRUE or UNKNOWN is accepted..
 
-The `refereced_minor_id` column will populate with an integer corresponding to the column on which the constraint is dependent.
+The `referenced_minor_id` column will populate with an integer corresponding to the column on which the constraint is dependent.
 
 ```sql
 USE foo;
@@ -1101,7 +1104,7 @@ GO
 
 ### 25. Computed Columns
 
-A computed column is a virtual column in a table whose value is calculated using an expression based on other columns in the same table. Computed columns can be either persisted, where the result is stored physically in the table, or non-persisted, where the value is calculated on the fly when the column is queried. If persisted, they can also be indexed, allowing for performance optimizations.
+A computed column is a virtual column in a table whose value is calculated using an expression based on other columns in the same table. Computed columns can be either persisted, where the result is stored physically in the table, or non-persisted, where the value is calculated on the fly when the column is queried. Computed columns can be indexed when their expressions meet SQL Server’s determinism, precision, ownership, data-type, and SET-option requirements. A computed column does not always have to be declared `PERSISTED` to be indexed.
 
 🔹In this example, the object appears as self-referencing because the `referencing_id` and `referenced_id` match.
 
@@ -1144,7 +1147,7 @@ GO
 In SQL Server, dynamic data masking is a feature that utilizes masked functions to conceal sensitive data by applying masks to columns, thereby limiting data visibility to unauthorized users. There are several masking functions available:
 
 * Default: Fully masks the data according to the column's data type.
-* Email: Masks email addresses by exposing only the first letter and domain (e.g., aXXX@domain.com).
+* Email: Masks email addresses by exposing the first character and replaces the remaining address with a fixed masked form. (e.g., aXXX@domain.com).
 * Partial: Masks part of the data, allowing you to define the visible prefix and suffix (e.g., for a phone number 123-XX-XXXX).
 * Random: Masks numeric data by generating a random number within a specified range.
 
