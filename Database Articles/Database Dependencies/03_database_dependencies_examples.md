@@ -21,6 +21,8 @@ Next, we will review examples of database dependencies and how they are represen
 
 The result sets from each example use the `foo.dbo.sql_expression_dependencies` table—a local table within the `foo` database—that has been populated with dependency data from each example. To populate this table, please review the SQL scripts located in the GitHub repository.
 
+Also, the server names, object IDs, generated constraint names, and index/statistics IDs will vary between systems.
+
 -----
 
 ## Summary of Contents
@@ -55,7 +57,7 @@ Sections are labeled ✔️ if they are included in the `sys.sql_expression_depe
 26. [🚫 Masked Functions](03_database_dependencies_examples.md#26-masked-functions)
 27. [🚫 Indexes - Table](03_database_dependencies_examples.md#27-indexes---table)
 28. [✔️ Indexes - Filtered NonClustered](03_database_dependencies_examples.md#28-indexes---filtered-nonclustered)
-29. [✔️ Indexes - Filtered XML](03_database_dependencies_examples.md#29-indexes---filtered-xml)
+29. [🚫 Indexes - Filtered XML](03_database_dependencies_examples.md#29-indexes---filtered-xml)
 30. [✔️ Statistics - Filtered](03_database_dependencies_examples.md#30-statistics---filtered)
 31. [✔️ XML Schema Collection](03_database_dependencies_examples.md#31-xml-schema-collection)
 32. [✔️ XML Methods](03_database_dependencies_examples.md#32-xml-methods)
@@ -279,7 +281,7 @@ GO
 
 ### 06. Part Naming Conventions
 
-Here, we create different objects using one-, two-, and three-part naming conventions. The `referenced_database_name`, `referenced_schema_name`, and `referencing_object_name` columns are populated accordingly.
+This example creates references using one-, two-, three-, and four-part names. Depending on the number of name parts supplied, SQL Server populates `referenced_server_name`, `referenced_database_name`, `referenced_schema_name`, and `referenced_entity_name`.
 
 ```sql
 USE foo;
@@ -328,16 +330,14 @@ GO
 
 ### 07. Part Naming Conventions - Caller Dependent
 
-This example creates two stored procedures. The stored procedure `dbo.sp_example_07_b` references `sp_example_07_a` using a one-part naming convention. This dependency will be resolved at runtime, as SQL Server first checks the user's default schema (typically `dbo`) and then checks other schemas if necessary for the object. If you modify the stored procedure `dbo.sp_example_07_b` to reference `dbo.sp_example_07_a` using a two-part naming convention, the dependency will no longer be marked as `is_caller_dependent`.
+This example creates two stored procedures. The stored procedure `dbo.sp_example_07_b` references `sp_example_07_a` using a one-part naming convention. Because the procedure is invoked without a schema name, its schema can depend on the caller’s execution context. Consequently, SQL Server records the reference as caller-dependent and leaves `referenced_id` as NULL. If you modify the stored procedure `dbo.sp_example_07_b` to reference `dbo.sp_example_07_a` using a two-part naming convention, the dependency will no longer be marked as `is_caller_dependent`.
 
 🔹For part naming conventions, the `referenced_id` column will contain a NULL marker. 
 
 Stored procedures are marked as caller-dependent only if they reference other stored procedures using a one-part naming convention. However, if a stored procedure references tables, functions, or views using a one-part naming convention, they are not marked as caller-dependent.
 
-This behavior in SQL Server is tied to ownership chaining and how SQL Server resolves dependencies within objects, such as stored procedures.
-
-* When a stored procedure references another stored procedure using a one-part name (e.g., ProcName without specifying the schema), SQL Server cannot resolve the schema of the referenced procedure until runtime.
-* Unqualified table, view, and function references inside a module are normally bound when the module is created or refreshed. By contrast, an unqualified procedure call made through EXECUTE can remain caller-dependent and be resolved at runtime.
+* When a stored procedure references another stored procedure using a one-part name, SQL Server cannot resolve the schema of the referenced procedure until runtime.
+* Unqualified table, view, and function references inside a module are normally bound when the module is created or refreshed. By contrast, an unqualified procedure call made through `EXECUTE` can remain caller-dependent and be resolved at runtime.
 
 ```sql
 USE foo;
@@ -444,6 +444,8 @@ GO
 
 We often associate self-referencing objects with common table expressions, which are used for recursion. However, stored procedures and functions can also reference themselves.
 
+These objects are created only to demonstrate self-referencing dependency metadata. Executing either object will repeatedly invoke the same object and eventually exceed SQL Server’s nesting limit.
+
 🔹This example represents a self-referencing object, as the `referencing_id` and `referenced_id` are identical.
 
 ```sql
@@ -515,11 +517,11 @@ GO
 
 ***
 
-### 12. Schemabindings
+### 12. Schema Binding
 
 In SQL Server, schema binding is an option that can be used when creating views or functions to bind the object to the schema of any underlying tables it references. When schema binding is applied, it prevents modifications to the underlying tables (such as changing the table structure or dropping columns) that would affect the object, ensuring data integrity and stability. This also allows for some performance optimizations, such as creating indexed views.
 
-With schemabinding, two records will be created, with `is_schema_bound_reference` set to 1 and one record having `referenced_minor_id` set to 1.
+For each schema-bound object, SQL Server records an object-level dependency and a column-level dependency. Therefore, the function and view in this example produce four rows in total.
 
 ```sql
 USE foo;
@@ -807,8 +809,7 @@ GO
 
 Defaults are constraints that provide a default value for a column when no value is specified, ensuring that the column always has data. Rules are older SQL Server objects that enforce data validation by defining a condition that column values must meet. Still, they are primarily deprecated and have been replaced by check constraints for better functionality and management.
 
-This example uses deprecated standalone `DEFAULT` and `RULE` objects that are attached with `sp_bindefault` and `sp_bindrule`. These should not be confused with modern `DEFAULT` and `CHECK` constraints.
-
+Standalone `DEFAULT` and `RULE` objects are deprecated SQL Server features. A standalone default supplies a value when no value is provided, while a rule restricts acceptable values. Modern database designs should use `DEFAULT` and `CHECK` constraints instead.
 Defaults and rules are not represented in the `sys.sql_expression_dependencies` table.
 
 ```sql
@@ -854,7 +855,7 @@ GO
 
 In SQL Server, contracts, queues, and message types are core components of Service Broker, a feature used for building reliable messaging and asynchronous communication between database services.
 
-Contrary to the SQL Server documentation, queues are not represented in the `sys.sql_expression_dependencies` table. Contracts and message types are also not included.
+Creating the Service Broker message type, contract, queue, and service in this example does not produce rows for those relationships in `sys.sql_expression_dependencies`.
 
 ```sql
 USE foo;
@@ -1080,14 +1081,14 @@ The `sys.sql_expression_dependencies` table does not represent foreign key const
 USE foo;
 GO
 
-CREATE TABLE tbl_example_24_parent
+CREATE TABLE dbo.tbl_example_24_parent
 (
 ParentID   INT PRIMARY KEY, -- Primary Key in the parent table
 ParentName VARCHAR(100) NOT NULL
 );
 GO
 
-CREATE TABLE tbl_example_24_child
+CREATE TABLE dbo.tbl_example_24_child
 (
 ChildID INT PRIMARY KEY, -- Primary Key in the child table
 ChildName NVARCHAR(100) NOT NULL,
@@ -1147,7 +1148,7 @@ GO
 In SQL Server, dynamic data masking is a feature that utilizes masked functions to conceal sensitive data by applying masks to columns, thereby limiting data visibility to unauthorized users. There are several masking functions available:
 
 * Default: Fully masks the data according to the column's data type.
-* Email: Masks email addresses by exposing the first character and replaces the remaining address with a fixed masked form. (e.g., aXXX@domain.com).
+* Email: Exposes the first character and replaces the remaining address with a fixed masked form, such as aXXX@XXXX.com.
 * Partial: Masks part of the data, allowing you to define the visible prefix and suffix (e.g., for a phone number 123-XX-XXXX).
 * Random: Masks numeric data by generating a random number within a specified range.
 
@@ -1251,7 +1252,7 @@ GO
 
 ### 28. Indexes - Filtered NonClustered
 
-In SQL Server, a filtered non-clustered index includes only a subset of rows from a table based on a specified `WHERE` clause. This makes the index smaller and more efficient because it only covers rows that meet the filtering criteria. This can significantly improve query performance and reduce storage requirements for large datasets with predictable patterns.
+In SQL Server, a filtered non clustered index includes only a subset of rows from a table based on a specified `WHERE` clause. This makes the index smaller and more efficient because it only covers rows that meet the filtering criteria. This can significantly improve query performance and reduce storage requirements for large datasets with predictable patterns.
 
 🔹In this example, the object appears as self-referencing because the `referencing_id` and `referenced_id` match.
 
@@ -1385,7 +1386,7 @@ This script illustrates XML handling in SQL Server using the following methods.
 * The `nodes()` method shreds XML data into rows, allowing easier access to each node.
 * The `modify()` method updates the XML content, changing the text from "Hello World" to "Goodbye World."
 
-Interestingly, the columns `referenced_database_name`, `referenced_schema_name`, and `referenced_entity_name` are repurposed to hold information about the XML method.
+XML method syntax can produce ambiguous dependency entries because an expression such as `t.Column_XML_Example_32.value(...)` resembles a multipart object reference. Parts of that expression can therefore appear in the referenced-name columns with `is_ambiguous = 1`.
 
 For XML methods, the `referenced_id` column will contain a NULL marker.
 
@@ -1450,7 +1451,7 @@ In SQL Server Management Studio (SSMS), enabling certain features—such as Data
 
 For example, enabling Database Diagrams by right-clicking the Database Diagrams folder under the foo database and selecting New Database Diagram will create several dependencies.
 
-These dependencies are recorded in the `sys.sql_expression_dependencies` table. Notably, the associated stored procedures will have `referencing_is_ms_shipped` and `referenced_is_ms_shipped` both set to 0, indicating they are not Microsoft-shipped system objects. Additionally, a table named `dtproperties` is created. This table is a system object explicitly used to support database diagrams in SSMS.
+These dependencies are recorded in the `sys.sql_expression_dependencies` table. Notably, the associated stored procedures will have `referencing_is_ms_shipped` and `referenced_is_ms_shipped` both set to 0, indicating they are not Microsoft-shipped system objects. The setup creates the sysdiagrams table and supporting routines. The upgrade procedure also references the legacy `dtproperties` table, which might not exist; when it does not exist, `referenced_id` is NULL.
 
 | Example Number | Referencing Object Type | Referencing Server Name      | Referencing Database Name | Referencing Schema Name | Referencing Entity Name   | Referencing ID | Referencing Minor ID | Referencing Class | Referencing Class Desc  | Is Schema Bound Reference | Referenced Class | Referenced Class Desc   | Referenced Server Name | Referenced Database Name | Referenced Schema Name | Referenced Entity Name | Referenced Object Type | Referenced ID | Referenced Minor ID | Is Caller Dependent | Is Ambiguous | Referencing Is Ms Shipped | Referenced Is Ms Shipped | Is User Defined Data Type | Is Self Referencing |
 | -------------- | ----------------------- | ---------------------------- | ------------------------- | ----------------------- | ------------------------- | -------------- | -------------------- | ----------------- | ----------------------- | ------------------------- | ---------------- | ----------------------- | ---------------------- | ------------------------ | ---------------------- | ---------------------- | ---------------------- | ------------- | ------------------- | ------------------- | ------------ | ------------------------- | ------------------------ | ------------------------- | ------------------- |
@@ -1517,7 +1518,7 @@ Change Data Capture (CDC) in SQL Server is a mechanism for tracking and recordin
 
 Enabling Change Data Capture (CDC) adds procedure dependencies to the `sys.sql_expression_dependencies` view. Once CDC is enabled on a table, additional entries related to that table will also be created in `sys.sql_expression_dependencies`.
 
-Unlike the database diagrams example, `is_ms_shipped` will have a value of 1, indicating the objects are internal SQL Server objects.
+Many CDC-created procedures and tables are marked as Microsoft-shipped, although the exact `is_ms_shipped` values vary by generated object, as shown in the results.
 
 ```sql
 USE foo;
