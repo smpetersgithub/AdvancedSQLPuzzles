@@ -1540,6 +1540,15 @@ BEGIN
     EXEC sys.sp_cdc_enable_db;
 END
 GO
+
+IF NOT EXISTS (SELECT * FROM sys.tables WHERE object_id = OBJECT_ID(N'dbo.tbl_example_35') AND is_tracked_by_cdc = 1)
+BEGIN
+    EXEC sys.sp_cdc_enable_table
+        @source_schema = N'dbo',
+        @source_name   = N'tbl_example_35',
+        @role_name     = NULL;
+END;
+GO
 ```
 
 | Example Number | Referencing Object Type | Referencing Server Name | Referencing Database Name | Referencing Schema Name | Referencing Entity Name                   | Referencing ID | Referencing Minor ID | Referencing Class | Referencing Class Desc | Is Schema Bound Reference | Referenced Class | Referenced Class Desc | Referenced Server Name | Referenced Database Name | Referenced Schema Name | Referenced Entity Name | Referenced Object Type | Referenced ID | Referenced Minor ID | Is Caller Dependent | Is Ambiguous | Referencing Is Ms Shipped | Referenced Is Ms Shipped | Is User Defined Data Type | Is Self Referencing |
