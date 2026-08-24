@@ -772,49 +772,31 @@ Contrary to the SQL Server documentation, partition functions are not represente
 USE foo;
 GO
 
--- add filegroups to your database
-
--- fg1
-IF NOT EXISTS (SELECT 1 FROM sys.filegroups WHERE name = 'fg1')
-BEGIN
-    ALTER DATABASE foo ADD FILEGROUP fg1;
-END;
+---------------------------------------------
+-- create a partition function
+CREATE PARTITION FUNCTION pf_example_17 (DATE) AS 
+RANGE LEFT FOR VALUES ('2020-12-31', '2021-12-31', '2022-12-31');
 GO
 
--- fg2
-IF NOT EXISTS (SELECT 1 FROM sys.filegroups WHERE name = 'fg2')
-BEGIN
-    ALTER DATABASE foo ADD FILEGROUP fg2;
-END;
+---------------------------------------------
+-- create a partition scheme
+CREATE PARTITION SCHEME ps_example_17 AS 
+PARTITION pf_example_17 ALL TO ([PRIMARY]);
 GO
 
--- fg3
-IF NOT EXISTS (SELECT 1 FROM sys.filegroups WHERE name = 'fg3')
-BEGIN
-    ALTER DATABASE foo ADD FILEGROUP fg3;
-END;
-GO
-
--- fg4
-IF NOT EXISTS (SELECT 1 FROM sys.filegroups WHERE name = 'fg4')
-BEGIN
-    ALTER DATABASE foo ADD FILEGROUP fg4;
-END;
-GO
-
--- add a file to the fg4 file group
-ALTER DATABASE foo
-ADD FILE 
+---------------------------------------------
+-- create a table using a partition scheme
+CREATE TABLE dbo.tbl_example_17
 (
-    NAME = 'foo_fg4_data',
-    FILENAME = 'C:\data\foo_fg4_data.ndf',
-    SIZE = 5MB,
-    MAXSIZE = 100MB,
-    FILEGROWTH = 5MB
+OrderID INT,
+OrderDate DATE,
+ProductID INT,
+Quantity INT,
+UnitPrice MONEY,
+CONSTRAINT PK_tbl_example_17 PRIMARY KEY (OrderID, OrderDate)
 )
-TO FILEGROUP fg4;
+ON ps_example_17(OrderDate);
 GO
-
 ```
 
 [Summary of Contents](03_database_dependencies_examples.md#summary-of-contents)
