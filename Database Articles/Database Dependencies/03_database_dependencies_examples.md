@@ -1284,33 +1284,7 @@ GO
 
 ### 29. Indexes - Filtered XML
 
-A filtered XML index is a specialized index created on an XML column that focuses on a subset of the XML data based on a specified XML PATH. This allows you to target specific XML nodes or elements, enabling faster, more efficient queries without indexing the entire XML content. Optimizing performance is beneficial when you frequently query particular sections of a large XML dataset.
-
-🔹In this example, the object appears as self-referencing because the `referencing_id` and `referenced_id` match.
-
-```sql
-USE foo;
-GO
-
-CREATE TABLE dbo.tbl_example_29
-(
-OrderID INT PRIMARY KEY,
-ProductID INT,
-Quantity INT,
-UnitPrice MONEY,
-OrderCatalog XML
-);
-GO
-
-CREATE NONCLUSTERED INDEX idx_example_29
-ON dbo.tbl_example_29 (ProductID)
-WHERE ProductID = 1;
-GO
-```
-
-| Example Number | Referencing Object Type | Referencing Server Name      | Referencing Database Name | Referencing Schema Name | Referencing Entity Name | Referencing ID | Referencing Minor ID | Referencing Class | Referencing Class Desc | Is Schema Bound Reference | Referenced Class | Referenced Class Desc | Referenced Server Name | Referenced Database Name | Referenced Schema Name | Referenced Entity Name | Referenced Object Type | Referenced ID | Referenced Minor ID | Is Caller Dependent | Is Ambiguous | Referencing Is Ms Shipped | Referenced Is Ms Shipped | Is User Defined Data Type | Is Self Referencing |
-| -------------- | ----------------------- | ---------------------------- | ------------------------- | ----------------------- | ----------------------- | -------------- | -------------------- | ----------------- | ---------------------- | ------------------------- | ---------------- | --------------------- | ---------------------- | ------------------------ | ---------------------- | ---------------------- | ---------------------- | ------------- | ------------------- | ------------------- | ------------ | ------------------------- | ------------------------ | ------------------------- | ------------------- |
-| 29             | U                       | DESKTOP-D324ETP              | foo                       | dbo                     | tbl\_example\_29        | 290100074      | 2                    | 7                 | INDEX                  | 1                         | 1                | OBJECT\_OR\_COLUMN    |                        |                          | dbo                    | tbl\_example\_29       | U                      | 290100074     | 2                   | 0                   | 0            | 0                         | 0                        |                           | 0                   |
+SQL Server does not support filtered XML indexes.  This section has been removed.
 
 [Summary of Contents](03_database_dependencies_examples.md#summary-of-contents)
 
