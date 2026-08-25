@@ -28,10 +28,10 @@ BEGIN
 END;
 GO
 
-CREATE PROCEDURE dbo.sp_example_05 (@inputInt INT) AS
+CREATE PROCEDURE dbo.sp_example_05 AS
 BEGIN
     SELECT dbo.fn_example_05(tbl_example_05.OrderID)
-    FROM   dbo.tbl_example_05;
+    FROM   dbo.tbl_example_05 a;
 END;
 GO
 
