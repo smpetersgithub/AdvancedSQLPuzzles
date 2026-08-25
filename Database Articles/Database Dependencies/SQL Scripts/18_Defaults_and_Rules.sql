@@ -36,11 +36,11 @@ SUBSTRING(@phone, 4, 1) = '/'
 GO
 
 -- Bind the default to the column
-EXEC sp_bindefault 'dbo.default_example_18', 'dbo.tbl_example_18.PhoneNumber';
+EXEC sys.sp_bindefault 'dbo.default_example_18', 'dbo.tbl_example_18.PhoneNumber';
 GO
 
 -- Bind the rule to the column
-EXEC sp_bindrule 'dbo.rule_example_18', 'dbo.tbl_example_18.PhoneNumber';
+EXEC sys.sp_bindrule 'dbo.rule_example_18', 'dbo.tbl_example_18.PhoneNumber';
 GO
 
 -------------------------------------------------------
