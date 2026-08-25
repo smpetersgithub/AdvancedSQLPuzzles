@@ -57,7 +57,7 @@ Sections are labeled ✔️ when the specific dependency demonstrated by the exa
 26. [🚫 Masked Functions](03_database_dependencies_examples.md#26-masked-functions)
 27. [🚫 Indexes - Table](03_database_dependencies_examples.md#27-indexes---table)
 28. [✔️ Indexes - Filtered Nonclustered](03_database_dependencies_examples.md#28-indexes---filtered-nonclustered)
-29. [🚫 Indexes - Filtered XML](03_database_dependencies_examples.md#29-indexes---filtered-xml)
+29. [🚫 JSON Functions and JSON Indexes](03_database_dependencies_examples.md#29-json-functions-and-json-indexes)
 30. [✔️ Statistics - Filtered](03_database_dependencies_examples.md#30-statistics---filtered)
 31. [✔️ XML Schema Collection](03_database_dependencies_examples.md#31-xml-schema-collection)
 32. [✔️ XML Methods](03_database_dependencies_examples.md#32-xml-methods)
@@ -1253,7 +1253,7 @@ GO
 
 In SQL Server, a filtered nonclustered index includes only a subset of rows from a table based on a specified `WHERE` clause. This makes the index smaller and more efficient because it only covers rows that meet the filtering criteria. This can significantly improve query performance and reduce storage requirements for large datasets with predictable patterns.
 
-🔹In this example, the object appears as self-referencing because the `referencing_id` and `referenced_id` match.
+In this example, the object appears as self-referencing because the `referencing_id` and `referenced_id` match.
 
 ```sql
 USE foo;
@@ -1282,9 +1282,91 @@ GO
 
 ***
 
-### 29. Indexes - Filtered XML
+### 29. JSON Functions
 
-SQL Server does not support filtered XML indexes using a relational `WHERE` predicate. It does support selective XML indexes, which index specified XML paths, but those are a different index type.
+Built-in JSON functions and JSON indexes are not recorded as referenced entities in `sys.sql_expression_dependencies`. In this example, SQL Server records the procedure’s dependency on `dbo.tbl_example_29`, but it does not create dependency entries for `ISJSON`, `JSON_VALUE`, `JSON_MODIFY`, `OPENJSON`, or `idx_json_document_example_29`.
+
+```sql
+USE foo;
+GO
+
+CREATE TABLE dbo.tbl_example_29
+(
+EmployeeID   INT PRIMARY KEY,
+JsonDocument JSON
+);
+GO
+
+INSERT INTO dbo.tbl_example_29
+VALUES
+(
+1,
+'{
+    "FirstName": "John",
+    "LastName": "Wilson",
+    "Department": "Accounting",
+    "Salary": 100000,
+    "Skills": ["SQL", "Excel"],
+    "Address": {
+        "Building": "North",
+        "Floor": 3
+    }
+}'
+);
+GO
+
+CREATE JSON INDEX idx_json_document_example_29
+ON dbo.tbl_example_29 (JsonDocument)
+FOR
+(
+    '$.FirstName',
+    '$.LastName',
+    '$.Department',
+    '$.Salary',
+    '$.Skills',
+    '$.Address'
+)
+WITH
+(
+    OPTIMIZE_FOR_ARRAY_SEARCH = ON
+);
+GO
+
+CREATE OR ALTER PROCEDURE dbo.sp_example_29
+AS
+BEGIN
+    SELECT  j.EmployeeID,
+
+            ISJSON(j.JsonDocument) AS IsValidJson,
+
+            JSON_VALUE
+            (
+                j.JsonDocument,
+                '$.FirstName'
+            ) AS FirstName,
+
+            JSON_MODIFY
+            (
+                j.JsonDocument,
+                '$.Salary',
+                105000
+            ) AS ModifiedDocument,
+
+            s.[value] AS Skill
+    FROM dbo.tbl_example_29 AS j
+    CROSS APPLY OPENJSON
+    (
+        CONVERT(NVARCHAR(MAX), j.JsonDocument),
+        '$.Skills'
+    ) AS s
+    WHERE ISJSON(j.JsonDocument) = 1;
+END;
+GO
+```
+
+| Example Number | Referencing Object Type | Referencing Server Name      | Referencing Database Name | Referencing Schema Name | Referencing Entity Name | Referencing ID | Referencing Minor ID | Referencing Class | Referencing Class Desc | Is Schema Bound Reference | Referenced Class | Referenced Class Desc | Referenced Server Name | Referenced Database Name | Referenced Schema Name | Referenced Entity Name | Referenced Object Type | Referenced ID | Referenced Minor ID | Is Caller Dependent | Is Ambiguous | Referencing Is Ms Shipped | Referenced Is Ms Shipped | Is User Defined Data Type | Is Self Referencing |
+| -------------- | ----------------------- | ---------------------------- | ------------------------- | ----------------------- | ----------------------- | -------------- | -------------------- | ----------------- | ---------------------- | ------------------------- | ---------------- | --------------------- | ---------------------- | ------------------------ | ---------------------- | ---------------------- | ---------------------- | ------------- | ------------------- | ------------------- | ------------ | ------------------------- | ------------------------ | ------------------------- | ------------------- |
+| 29	           | P 	                   | DESKTOP-D324ETP              | foo 	                     | dbo	                    | sp\_example\_29	       | 1717581157	   | 0	                 | 1	                | OBJECT\_OR\_COLUMN	  | 0	                        | 1	             | OBJECT\_OR\_COLUMN	 | 	                    |                          | dbo	                  | tbl\_example\_29	    | U 	                    | 1669580986	   | 0	                | 0	                 | 0	           | 0	                        | 0	                     |                           | 0                   | 
 
 [Summary of Contents](03_database_dependencies_examples.md#summary-of-contents)
 
@@ -1294,7 +1376,7 @@ SQL Server does not support filtered XML indexes using a relational `WHERE` pred
 
 Filtered statistics are statistics objects that collect data only for a subset of rows in a table, defined by a `WHERE` clause filter. They provide more accurate cardinality estimates for queries targeting specific subsets of data, leading to better execution plans and improved query performance. Filtered statistics are beneficial when dealing with skewed data distributions or when you frequently query specific portions of a dataset.
 
-🔹In this example, the object appears as self-referencing because the `referencing_id` and `referenced_id` match.
+In this example, the object appears as self-referencing because the `referencing_id` and `referenced_id` match.
 
 ```sql
 USE foo;
