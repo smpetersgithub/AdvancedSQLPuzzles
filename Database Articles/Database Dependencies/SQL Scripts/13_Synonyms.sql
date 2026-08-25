@@ -25,11 +25,11 @@ UnitPrice MONEY
 GO
 
 --Invalid
-CREATE SYNONYM dbo.syn_invalid_example_13 FOR tbl_does_not_exist_13;
+CREATE SYNONYM dbo.syn_invalid_example_13 FOR dbo.tbl_does_not_exist_13;
 GO
 
 --Valid
-CREATE SYNONYM dbo.syn_example_13 FOR tbl_example_13;
+CREATE SYNONYM dbo.syn_example_13 FOR dbo.tbl_example_13;
 GO
 
 CREATE VIEW dbo.vw_example_13 AS
