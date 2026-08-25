@@ -17,7 +17,7 @@
 
 ----
 
-Next, we will review examples of database dependencies and how they are represented in the `sys.sql_expression_dependencies` view. These examples provide a comprehensive demonstration of the various types of dependencies that can occur in a database and illustrate how each is reflected (or not reflected) in the `sys.sql_expression_dependencies` view.
+Next, we will review examples of database dependencies and how they are represented in the `sys.sql_expression_dependencies` catalog view. These examples provide a comprehensive demonstration of the various types of dependencies that can occur in a database and illustrate how each is reflected (or not reflected) in the `sys.sql_expression_dependencies` view.
 
 The result sets from each example use the `foo.dbo.sql_expression_dependencies` table—a local table within the `foo` database—that has been populated with dependency data from each example. To populate this table, please review the SQL scripts located in the GitHub repository.
 
@@ -27,7 +27,7 @@ Also, the server names, object IDs, generated constraint names, and index/statis
 
 ## Summary of Contents
 
-Sections are labeled ✔️ if they are included in the `sys.sql_expression_dependencies` view, and 🚫 if they are not.
+Sections are labeled ✔️ when the specific dependency demonstrated by the example is represented in sys.sql_expression_dependencies and 🚫 when it is not.
 
 1. [✔️ Cross-Databases and Cross-Schema Dependencies](03_database_dependencies_examples.md#01-cross-databases-and-cross-schema-dependencies)
 2. [✔️ Cross Schema Dependencies](03_database_dependencies_examples.md#02-cross-schema-dependencies)
@@ -45,7 +45,7 @@ Sections are labeled ✔️ if they are included in the `sys.sql_expression_depe
 14. [✔️ Triggers - DML](03_database_dependencies_examples.md#14-triggers---dml)
 15. [✔️ Triggers - DDL Database Level](03_database_dependencies_examples.md#15-triggers---ddl-database-level)
 16. [✔️ Triggers - DDL Server Level - Table Insert](03_database_dependencies_examples.md#16-triggers---ddl-server-level---table-insert)
-17. [🚫 Partition Functions](03_database_dependencies_examples.md#17-partition-functions)
+17. [✔️ Partition Functions](03_database_dependencies_examples.md#17-partition-functions)
 18. [🚫 Defaults and Rules](03_database_dependencies_examples.md#18-defaults-and-rules)
 19. [🚫 Contracts, Queues, and Message Types](03_database_dependencies_examples.md#19-contracts-queues-and-message-types)
 20. [✔️ Sequences](03_database_dependencies_examples.md#20-sequences)
@@ -75,9 +75,8 @@ Sections are labeled ✔️ if they are included in the `sys.sql_expression_depe
 
 In this example, we create objects in two different databases and create a cross-database dependency. This will be the only example where we use different databases.
 
-To obtain more information about the object, you must use the `referenced_database_name`, `referenced_schema_name`, and `referenced_entity_name` columns to join with the `sys.objects` table in the corresponding database.
+Because referenced_id is NULL for a cross-database reference, use `referenced_database_name` to identify the appropriate database and use `referenced_schema_name` and `referenced_entity_name` to locate the object through that database’s `sys.objects` and `sys.schemas` catalog views.
 
-🔹For cross-database dependencies, the `referenced_id` column will contain a NULL marker. 
 
 ```sql
 USE foo;
@@ -241,8 +240,6 @@ GO
 
 This reference is marked as ambiguous because multipart function-style syntax can potentially resolve to a scalar function or to a method of a CLR user-defined type. SQL Server records this possibility in `is_ambiguous`, even though `referenced_id` is populated for the function.
 
-Although this dependency is marked as ambiguous, the `referenced_id` column is populated.
-
 ```sql
 USE foo;
 GO
@@ -262,7 +259,7 @@ BEGIN
 END;
 GO
 
-CREATE PROCEDURE dbo.sp_example_05 (@inputInt INT) AS
+CREATE PROCEDURE dbo.sp_example_05 AS
 BEGIN
     SELECT dbo.fn_example_05(tbl_example_05.OrderID)
     FROM   dbo.tbl_example_05;
@@ -332,9 +329,6 @@ GO
 
 This example creates two stored procedures. The stored procedure `dbo.sp_example_07_b` references `sp_example_07_a` using a one-part naming convention. Because the procedure is invoked without a schema name, its schema can depend on the caller’s execution context. Consequently, SQL Server records the reference as caller-dependent and leaves `referenced_id` as NULL. If you modify the stored procedure `dbo.sp_example_07_b` to reference `dbo.sp_example_07_a` using a two-part naming convention, the dependency will no longer be marked as `is_caller_dependent`.
 
-🔹A procedure reference can be caller-dependent when the referenced procedure’s schema is omitted. SQL Server then resolves the schema at runtime and leaves `referenced_id` as NULL.
-
-
 ```sql
 USE foo;
 GO
@@ -398,7 +392,7 @@ GO
 
 ### 09. Dropping Objects Then Recreating
 
-Here's an interesting example: we create a valid view, drop the corresponding table, and then recreate the dropped object as a stored procedure. In the `sys.sql_expression_dependencies` view, the entry will still appear as a valid reference, even though a view cannot reference a stored procedure.
+Here's an interesting example: we create a valid view, drop the corresponding table, and then recreate the dropped object as a stored procedure. In the `sys.sql_expression_dependencies` view, the dependency entry resolves to the newly created procedure’s object `ID`, even though the view cannot use a stored procedure as its row source.
 
 ```sql
 USE foo;
@@ -583,11 +577,11 @@ UnitPrice MONEY
 GO
 
 --Invalid
-CREATE SYNONYM dbo.syn_invalid_example_13 FOR tbl_does_not_exist_13;
+CREATE SYNONYM dbo.syn_invalid_example_13 FOR dbo.tbl_does_not_exist_13;
 GO
 
 --Valid
-CREATE SYNONYM dbo.syn_example_13 FOR tbl_example_13;
+CREATE SYNONYM dbo.syn_example_13 FOR dbo.tbl_example_13;
 GO
 
 CREATE VIEW dbo.vw_example_13 AS
@@ -795,6 +789,15 @@ CONSTRAINT PK_tbl_example_17 PRIMARY KEY (OrderID, OrderDate)
 )
 ON ps_example_17(OrderDate);
 GO
+
+CREATE VIEW dbo.vw_example_17
+AS
+SELECT
+    OrderID,
+    OrderDate,
+    $PARTITION.pf_example_17(OrderDate) AS PartitionNumber
+FROM dbo.tbl_example_17;
+GO
 ```
 
 | Example Number | Referencing Object Type | Referencing Server Name      | Referencing Database Name | Referencing Schema Name | Referencing Entity Name | Referencing ID | Referencing Minor ID | Referencing Class | Referencing Class Desc | Is Schema Bound Reference | Referenced Class | Referenced Class Desc | Referenced Server Name | Referenced Database Name | Referenced Schema Name | Referenced Entity Name | Referenced Object Type | Referenced ID | Referenced Minor ID | Is Caller Dependent | Is Ambiguous | Referencing Is Ms Shipped | Referenced Is Ms Shipped | Is User Defined Data Type | Is Self Referencing |
@@ -955,7 +958,7 @@ GO
 
 ***
 
-### 21. User Defined Data Types
+### 21. User-Defined Data Types
 
 User-defined data types are custom data types you create to encapsulate commonly used data formats based on the system's existing data types. You can enforce consistent data formats across multiple tables by defining a custom type with specific attributes, such as size, length, or rules. UDDTs are often used to standardize data entry across the database.
 
@@ -993,7 +996,7 @@ GO
 
 ***
 
-### 22. User Defined Table Types
+### 22. User-Defined Table Types
 
 A user-defined table type (UDTT) is a custom table structure you can define and use to pass datasets as parameters for stored procedures or functions.
 
@@ -1370,7 +1373,7 @@ GO
 | Example Number | Referencing Object Type | Referencing Server Name      | Referencing Database Name | Referencing Schema Name | Referencing Entity Name | Referencing ID | Referencing Minor ID | Referencing Class | Referencing Class Desc  | Is Schema Bound Reference | Referenced Class | Referenced Class Desc   | Referenced Server Name | Referenced Database Name | Referenced Schema Name | Referenced Entity Name               | Referenced Object Type | Referenced ID | Referenced Minor ID | Is Caller Dependent | Is Ambiguous | Referencing Is Ms Shipped | Referenced Is Ms Shipped | Is User Defined Data Type | Is Self Referencing |
 | -------------- | ----------------------- | ---------------------------- | ------------------------- | ----------------------- | ----------------------- | -------------- | -------------------- | ----------------- | ----------------------- | ------------------------- | ---------------- | ----------------------- | ---------------------- | ------------------------ | ---------------------- | ------------------------------------ | ---------------------- | ------------- | ------------------- | ------------------- | ------------ | ------------------------- | ------------------------ | ------------------------- | ------------------- |
 | 31             | P                       | DESKTOP-D324ETP              | foo                       | dbo                     | sp\_example\_31         | 370100359      | 0                    | 1                 | OBJECT\_OR\_COLUMN      | 0                         | 1                | OBJECT\_OR\_COLUMN      |                        |                          | dbo                    | tbl\_example\_31                     | U                      | 338100245     | 0                   | 0                   | 0            | 0                         |                          |                           | 0                   |
-| 31             | P                       | DESKTOP-D324ETP              | foo                       | dbo                     | sp\_example\_31         | 370100359      | 0                    | 1                 | XML\_SCHEMA\_COLLECTION | 0                         | 10               | XML\_SCHEMA\_COLLECTION |                        |                          | dbo                    | xml\_schema\_collection\_example\_31 | XML                    | 65536         | 0                   | 0                   | 0            | 0                         |                          |                           | 0                   |
+| 31             | P                       | DESKTOP-D324ETP              | foo                       | dbo                     | sp\_example\_31         | 370100359      | 0                    | 1                 | OBJECT\_OR\_COLUMN      | 0                         | 10               | XML\_SCHEMA\_COLLECTION |                        |                          | dbo                    | xml\_schema\_collection\_example\_31 | XML                    | 65536         | 0                   | 0                   | 0            | 0                         |                          |                           | 0                   |
 
 [Summary of Contents](03_database_dependencies_examples.md#summary-of-contents)
 
