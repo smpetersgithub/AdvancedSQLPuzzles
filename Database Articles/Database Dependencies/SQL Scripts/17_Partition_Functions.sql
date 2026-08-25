@@ -3,6 +3,7 @@ USE foo;
 GO
 
 DROP TABLE IF EXISTS dbo.tbl_example_17;
+DROP VIEW IF EXISTS dbo.vw_example_17;
 GO
 
 -- drop scheme
@@ -49,6 +50,15 @@ CONSTRAINT PK_tbl_example_17 PRIMARY KEY (OrderID, OrderDate)
 ON ps_example_17(OrderDate);
 GO
 
+CREATE VIEW dbo.vw_example_17
+AS
+SELECT
+    OrderID,
+    OrderDate,
+    $PARTITION.pf_example_17(OrderDate) AS PartitionNumber
+FROM dbo.tbl_example_17;
+GO
+
 -------------------------------------------------------
 -------------------------------------------------------
 -------------------------------------------------------
@@ -68,12 +78,12 @@ GO
 
 INSERT INTO foo.dbo.sql_expression_dependencies
 (example_number, referencing_object_type, referencing_server_name, referencing_database_name, referencing_schema_name, referencing_entity_name, referencing_id, referencing_minor_id, referencing_class, referencing_class_desc, is_schema_bound_reference, referenced_class, referenced_class_desc, referenced_server_name, referenced_database_name, referenced_schema_name, referenced_entity_name, referenced_object_type, referenced_id, referenced_minor_id, is_caller_dependent, is_ambiguous, referencing_is_ms_shipped, referenced_is_ms_shipped, is_self_referencing)
-SELECT  '17', c.type, @@SERVERNAME, DB_NAME(), SCHEMA_NAME(c.schema_id), c.name, a.referencing_id, a.referencing_minor_id, a.referencing_class, a.referencing_class_desc, a.is_schema_bound_reference, a.referenced_class, a.referenced_class_desc, a.referenced_server_name, a.referenced_database_name, a.referenced_schema_name, a.referenced_entity_name, b.type, a.referenced_id, a.referenced_minor_id, a.is_caller_dependent, a.is_ambiguous, c.is_ms_shipped, b.is_ms_shipped, CASE WHEN a.referencing_id = a.referenced_id THEN 1 ELSE 0 END
+SELECT  '17', c.type, @@SERVERNAME, DB_NAME(), SCHEMA_NAME(c.schema_id), c.name, a.referencing_id, a.referencing_minor_id, a.referencing_class, a.referencing_class_desc, a.is_schema_bound_reference, a.referenced_class, a.referenced_class_desc, a.referenced_server_name, a.referenced_database_name, a.referenced_schema_name, a.referenced_entity_name, ISNULL(CAST(b.type AS VARCHAR(100)), 'Partition'), a.referenced_id, a.referenced_minor_id, a.is_caller_dependent, a.is_ambiguous, c.is_ms_shipped, b.is_ms_shipped, CASE WHEN a.referencing_id = a.referenced_id THEN 1 ELSE 0 END
 FROM    sys.sql_expression_dependencies a LEFT OUTER JOIN
         sys.objects b ON a.referenced_id = b.object_id LEFT OUTER JOIN
-        sys.objects c ON a.referencing_id = c.object_id;
+        sys.objects c ON a.referencing_id = c.object_id LEFT OUTER JOIN
+        sys.partitions d ON a.referenced_id = d.partition_id;
 GO
-
 -------------------------------------------------------
 SELECT * FROM foo.dbo.sql_expression_dependencies ORDER BY example_number;
 GO
@@ -86,6 +96,7 @@ DECLARE @vDropObjects SMALLINT = 1;
 IF @vDropObjects = 1
 BEGIN
      DROP TABLE IF EXISTS dbo.tbl_example_17;
+     DROP VIEW IF EXISTS dbo.vw_example_17
 END;
 GO
 
