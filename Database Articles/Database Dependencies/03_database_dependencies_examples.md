@@ -120,7 +120,7 @@ The results from the `bar` database are as follows.
 
 Next, we will examine a dependency between two schemas within the same database.
 
-The `referencing_schema_name` will populate the corresponding schema.
+The `referenced_schema_name` will populate the corresponding schema.
 
 ```sql
 USE foo;
@@ -332,12 +332,8 @@ GO
 
 This example creates two stored procedures. The stored procedure `dbo.sp_example_07_b` references `sp_example_07_a` using a one-part naming convention. Because the procedure is invoked without a schema name, its schema can depend on the caller’s execution context. Consequently, SQL Server records the reference as caller-dependent and leaves `referenced_id` as NULL. If you modify the stored procedure `dbo.sp_example_07_b` to reference `dbo.sp_example_07_a` using a two-part naming convention, the dependency will no longer be marked as `is_caller_dependent`.
 
-🔹For part naming conventions, the `referenced_id` column will contain a NULL marker. 
+🔹A procedure reference can be caller-dependent when the referenced procedure’s schema is omitted. SQL Server then resolves the schema at runtime and leaves `referenced_id` as NULL.
 
-A procedure reference can be caller-dependent when the referenced procedure’s schema is omitted. In that case, SQL Server resolves the schema at runtime and leaves `referenced_id` as NULL.
-
-* When a stored procedure references another stored procedure using a one-part name, SQL Server cannot resolve the schema of the referenced procedure until runtime.
-* Unqualified table, view, and function references inside a module are normally bound when the module is created or refreshed. By contrast, an unqualified procedure call made through `EXECUTE` can remain caller-dependent and be resolved at runtime.
 
 ```sql
 USE foo;
@@ -1284,7 +1280,7 @@ GO
 
 ### 29. Indexes - Filtered XML
 
-SQL Server does not support filtered XML indexes using a relational WHERE predicate. It does support selective XML indexes, which index specified XML paths, but those are a different index type.
+SQL Server does not support filtered XML indexes using a relational `WHERE` predicate. It does support selective XML indexes, which index specified XML paths, but those are a different index type.
 
 [Summary of Contents](03_database_dependencies_examples.md#summary-of-contents)
 
@@ -1368,8 +1364,8 @@ GO
 
 | Example Number | Referencing Object Type | Referencing Server Name      | Referencing Database Name | Referencing Schema Name | Referencing Entity Name | Referencing ID | Referencing Minor ID | Referencing Class | Referencing Class Desc  | Is Schema Bound Reference | Referenced Class | Referenced Class Desc   | Referenced Server Name | Referenced Database Name | Referenced Schema Name | Referenced Entity Name               | Referenced Object Type | Referenced ID | Referenced Minor ID | Is Caller Dependent | Is Ambiguous | Referencing Is Ms Shipped | Referenced Is Ms Shipped | Is User Defined Data Type | Is Self Referencing |
 | -------------- | ----------------------- | ---------------------------- | ------------------------- | ----------------------- | ----------------------- | -------------- | -------------------- | ----------------- | ----------------------- | ------------------------- | ---------------- | ----------------------- | ---------------------- | ------------------------ | ---------------------- | ------------------------------------ | ---------------------- | ------------- | ------------------- | ------------------- | ------------ | ------------------------- | ------------------------ | ------------------------- | ------------------- |
-| 31             | P                       | DESKTOP-D324ETP              | foo                       | dbo                     | sp\_example\_31         | 370100359      | 0                    | 1                 | OBJECT\_OR\_COLUMN      | 0                         | 1                | OBJECT\_OR\_COLUMN      |                        |                          | dbo                    | tbl\_example\_31                     | XML Schema Collection  | 338100245     | 0                   | 0                   | 0            | 0                         |                          |                           | 0                   |
-| 31             | P                       | DESKTOP-D324ETP              | foo                       | dbo                     | sp\_example\_31         | 370100359      | 0                    | 1                 | XML\_SCHEMA\_COLLECTION | 0                         | 10               | XML\_SCHEMA\_COLLECTION |                        |                          | dbo                    | xml\_schema\_collection\_example\_31 | XML Schema Collection  | 65536         | 0                   | 0                   | 0            | 0                         |                          |                           | 0                   |
+| 31             | P                       | DESKTOP-D324ETP              | foo                       | dbo                     | sp\_example\_31         | 370100359      | 0                    | 1                 | OBJECT\_OR\_COLUMN      | 0                         | 1                | OBJECT\_OR\_COLUMN      |                        |                          | dbo                    | tbl\_example\_31                     | U                      | 338100245     | 0                   | 0                   | 0            | 0                         |                          |                           | 0                   |
+| 31             | P                       | DESKTOP-D324ETP              | foo                       | dbo                     | sp\_example\_31         | 370100359      | 0                    | 1                 | XML\_SCHEMA\_COLLECTION | 0                         | 10               | XML\_SCHEMA\_COLLECTION |                        |                          | dbo                    | xml\_schema\_collection\_example\_31 | XML                    | 65536         | 0                   | 0                   | 0            | 0                         |                          |                           | 0                   |
 
 [Summary of Contents](03_database_dependencies_examples.md#summary-of-contents)
 
