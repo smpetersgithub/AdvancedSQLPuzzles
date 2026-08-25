@@ -81,7 +81,7 @@ Besides the previous key insights, I have found the following most relevant to u
 | XML Methods                   | `value`, `exist`, `query`, `modify` repurpose dependency fields to show XML details.                     | Example 32        |
 | Ambiguous Dependencies        | `is_ambiguous = 1` does not represent an unknown object.                                                 | Examples 05,32    |
 | Missing from `sys.objects`    | Database/server triggers, UDDTs, UDTTs, XML Schemas.                                                     | Multiple          |
-| Missing from dependencies     | Synonyms (referencing), partition functions, defaults/rules, contracts/queues/message types, FKs, etc.   | Multiple          |
+| Missing from dependencies     | Synonyms (referencing), defaults/rules, contracts/queues/message types, FKs, etc.                        | Multiple          |
 | Feature Installed Components  | Some feature installed components will appear, while others do not.                                      | Multiple          |
 ***
 
@@ -107,7 +107,7 @@ The following list can be used to reference the corresponding example numbers.
 | 14     | Triggers - DML                             | Yes                 | No               |
 | 15     | Triggers - DDL Database Level              | No                  | No               |
 | 16     | Triggers - DDL Server Level - Table Insert | No                  | No               |
-| 17     | Partition Functions                        | Not Represented     | Not Represented  |
+| 17     | Partition Functions                        | No                  | No               |
 | 18     | Defaults and Rules                         | Not Represented     | Not Represented  |
 | 19     | Contracts and Queues and Message Types     | Not Represented     | Not Represented  |
 | 20     | Sequences                                  | No                  | No               |
