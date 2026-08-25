@@ -13,17 +13,75 @@ GO
 
 CREATE TABLE dbo.tbl_example_29
 (
-OrderID INT PRIMARY KEY,
-ProductID INT,
-Quantity INT,
-UnitPrice MONEY,
-OrderCatalog XML
+EmployeeID   INT PRIMARY KEY,
+JsonDocument JSON
 );
 GO
 
-CREATE NONCLUSTERED INDEX idx_example_29
-ON dbo.tbl_example_29 (ProductID)
-WHERE ProductID = 1;
+INSERT INTO dbo.tbl_example_29
+VALUES
+(
+1,
+'{
+    "FirstName": "John",
+    "LastName": "Wilson",
+    "Department": "Accounting",
+    "Salary": 100000,
+    "Skills": ["SQL", "Excel"],
+    "Address": {
+        "Building": "North",
+        "Floor": 3
+    }
+}'
+);
+GO
+
+CREATE JSON INDEX idx_json_document_example_29
+ON dbo.tbl_example_29 (JsonDocument)
+FOR
+(
+    '$.FirstName',
+    '$.LastName',
+    '$.Department',
+    '$.Salary',
+    '$.Skills',
+    '$.Address'
+)
+WITH
+(
+    OPTIMIZE_FOR_ARRAY_SEARCH = ON
+);
+GO
+
+CREATE OR ALTER PROCEDURE dbo.sp_example_29
+AS
+BEGIN
+    SELECT  j.EmployeeID,
+
+            ISJSON(j.JsonDocument) AS IsValidJson,
+
+            JSON_VALUE
+            (
+                j.JsonDocument,
+                '$.FirstName'
+            ) AS FirstName,
+
+            JSON_MODIFY
+            (
+                j.JsonDocument,
+                '$.Salary',
+                105000
+            ) AS ModifiedDocument,
+
+            s.[value] AS Skill
+    FROM dbo.tbl_example_29 AS j
+    CROSS APPLY OPENJSON
+    (
+        CONVERT(NVARCHAR(MAX), j.JsonDocument),
+        '$.Skills'
+    ) AS s
+    WHERE ISJSON(j.JsonDocument) = 1;
+END;
 GO
 
 -------------------------------------------------------
