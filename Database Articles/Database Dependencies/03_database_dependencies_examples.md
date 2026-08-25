@@ -29,13 +29,13 @@ Also, the server names, object IDs, generated constraint names, and index/statis
 
 Sections are labeled ✔️ when the specific dependency demonstrated by the example is represented in sys.sql_expression_dependencies and 🚫 when it is not.
 
-1. [✔️ Cross-Databases and Cross-Schema Dependencies](03_database_dependencies_examples.md#01-cross-databases-and-cross-schema-dependencies)
-2. [✔️ Cross Schema Dependencies](03_database_dependencies_examples.md#02-cross-schema-dependencies)
+1. [✔️ Cross-Database Dependencies](03_database_dependencies_examples.md#01-cross-database-dependencies)
+2. [✔️ Cross-Schema Dependencies](03_database_dependencies_examples.md#02-cross-schema-dependencies)
 3. [✔️ Invalid Stored Procedures](03_database_dependencies_examples.md#03-invalid-stored-procedures)
 4. [✔️ Numbered Stored Procedures](03_database_dependencies_examples.md#04-numbered-stored-procedures)
 5. [✔️ Ambiguous References](03_database_dependencies_examples.md#05-ambiguous-references)
-6. [✔️ Part Naming Conventions](03_database_dependencies_examples.md#06-part-naming-conventions)
-7. [✔️ Part Naming Conventions - Caller Dependent](03_database_dependencies_examples.md#07-part-naming-conventions---caller-dependent)
+6. [✔️ Multipart Naming Conventions](03_database_dependencies_examples.md#06-multipart-naming-conventions)
+7. [✔️ One-Part Naming Conventions - Caller Dependent](03_database_dependencies_examples.md#07-one-part-naming-conventions---caller-dependent)
 8. [✔️ Dropping Objects](03_database_dependencies_examples.md#08-dropping-objects)
 9. [✔️ Dropping Objects Then Recreating](03_database_dependencies_examples.md#09-dropping-objects-then-recreating)
 10. [✔️ Self-Referencing Objects](03_database_dependencies_examples.md#10-self-referencing-objects)
@@ -49,8 +49,8 @@ Sections are labeled ✔️ when the specific dependency demonstrated by the exa
 18. [🚫 Defaults and Rules](03_database_dependencies_examples.md#18-defaults-and-rules)
 19. [🚫 Contracts, Queues, and Message Types](03_database_dependencies_examples.md#19-contracts-queues-and-message-types)
 20. [✔️ Sequences](03_database_dependencies_examples.md#20-sequences)
-21. [✔️ User Defined Data Types](03_database_dependencies_examples.md#21-user-defined-data-types)
-22. [✔️ User Defined Table Types](03_database_dependencies_examples.md#22-user-defined-table-types)
+21. [✔️ User-Defined Data Types](03_database_dependencies_examples.md#21-user-defined-data-types)
+22. [✔️ User-Defined Table Types](03_database_dependencies_examples.md#22-user-defined-table-types)
 23. [✔️ Check Constraints](03_database_dependencies_examples.md#23-check-constraints)
 24. [🚫 Foreign Key Constraints](03_database_dependencies_examples.md#24-foreign-key-constraints)
 25. [✔️ Computed Columns](03_database_dependencies_examples.md#25-computed-columns)
@@ -71,7 +71,7 @@ Sections are labeled ✔️ when the specific dependency demonstrated by the exa
 
 ***
 
-### 01. Cross-Databases and Cross-Schema Dependencies
+### 01. Cross-Database Dependencies
 
 In this example, we create objects in two different databases and create a cross-database dependency. This will be the only example where we use different databases.
 
@@ -115,7 +115,7 @@ The results from the `bar` database are as follows.
 
 ***
 
-### 02. Cross Schema Dependencies
+### 02. Cross-Schema Dependencies
 
 Next, we will examine a dependency between two schemas within the same database.
 
@@ -161,9 +161,7 @@ GO
 
 ### 03. Invalid Stored Procedures
 
-Here, we will create a stored procedure that references a non-existent table. This procedure will be compiled as SQL Server uses deferred name resolution, but it will not execute. Once the invalid object is created, the `referenced_id` column will populate with the correct ID.
-
-🔹For invalid stored procedures, the `referenced_id` column will contain a NULL marker. 
+Here, we will create a stored procedure that references a non-existent table. This procedure will be compiled as SQL Server uses deferred name resolution, but it will not execute. If the missing table is later created, the procedure’s reference becomes resolvable and `referenced_id` is populated with the table’s object `ID`.
 
 ```sql
 USE foo;
@@ -189,7 +187,7 @@ GO
 
 Numbered Stored Procedures in SQL Server are a legacy feature that allows you to create a sequence of procedures with the same base name, distinguished by a number (e.g., `procName;1`, `procName;2`). They are deprecated and not recommended for new development.
 
-Numbered Stored Procedures will only show dependencies of the base stored procedure.
+SQL Server tracks dependencies for procedure number ;1. Numbered procedures greater than 1, such as ;2, are not tracked as referencing or referenced entities.
 
 ```sql
 USE foo;
@@ -276,7 +274,7 @@ GO
 
 ***
 
-### 06. Part Naming Conventions
+### 06. Multipart Naming Conventions
 
 This example creates references using one-, two-, three-, and four-part names. Depending on the number of name parts supplied, SQL Server populates `referenced_server_name`, `referenced_database_name`, `referenced_schema_name`, and `referenced_entity_name`.
 
@@ -310,7 +308,7 @@ GO
 
 CREATE VIEW dbo.vw_four_part_name_example_06 AS
 SELECT  *
-FROM    [DESKTOP-D324ETP             ].foo.dbo.tbl_example_06; --four-part
+FROM    [DESKTOP-D324ETP].foo.dbo.tbl_example_06; --four-part
 GO
 ```
 
@@ -325,7 +323,7 @@ GO
 
 ***
 
-### 07. Part Naming Conventions - Caller Dependent
+### 07. One-Part Naming Conventions - Caller Dependent
 
 This example creates two stored procedures. The stored procedure `dbo.sp_example_07_b` references `sp_example_07_a` using a one-part naming convention. Because the procedure is invoked without a schema name, its schema can depend on the caller’s execution context. Consequently, SQL Server records the reference as caller-dependent and leaves `referenced_id` as NULL. If you modify the stored procedure `dbo.sp_example_07_b` to reference `dbo.sp_example_07_a` using a two-part naming convention, the dependency will no longer be marked as `is_caller_dependent`.
 
@@ -357,8 +355,6 @@ GO
 ### 08. Dropping Objects
 
 In this example, we will create a valid object and then drop the referenced table, which will cause the view to become invalid.
-
-🔹The `referenced_id` column will update with a NULL marker. 
 
 ```sql
 USE foo;
@@ -470,7 +466,7 @@ GO
 
 Here's another interesting example: when a temporary table is updated using an alias, the alias is recorded in the `referenced_entity_name` column.
 
-🔹For object aliases, the `referenced_id` column will contain a NULL marker. 
+The procedure can be created because of deferred name resolution, but execution will fail unless `#temp_table` was created in the same session and remains in scope.
 
 ```sql
 USE foo;
@@ -509,7 +505,7 @@ GO
 
 ### 12. Schema Binding
 
-In SQL Server, schema binding is an option that can be used when creating views or functions to bind the object to the schema of any underlying tables it references. When schema binding is applied, it prevents modifications to the underlying tables (such as changing the table structure or dropping columns) that would affect the object, ensuring data integrity and stability. This also allows for some performance optimizations, such as creating indexed views.
+In this example, each schema-bound object produces one object-level dependency and one column-level dependency because each object references one table and one column. When schema binding is applied, it prevents modifications to the underlying tables (such as changing the table structure or dropping columns) that would affect the object, ensuring data integrity and stability. This also allows for some performance optimizations, such as creating indexed views.
 
 For each schema-bound object, SQL Server records an object-level dependency and a column-level dependency. Therefore, the function and view in this example produce four rows in total.
 
@@ -1024,7 +1020,7 @@ GO
 
 | Example Number | Referencing Object Type | Referencing Server Name      | Referencing Database Name | Referencing Schema Name | Referencing Entity Name | Referencing ID | Referencing Minor ID | Referencing Class | Referencing Class Desc | Is Schema Bound Reference | Referenced Class | Referenced Class Desc | Referenced Server Name | Referenced Database Name | Referenced Schema Name | Referenced Entity Name | Referenced Object Type | Referenced ID | Referenced Minor ID | Is Caller Dependent | Is Ambiguous | Referencing Is Ms Shipped | Referenced Is Ms Shipped | Is User Defined Data Type | Is Self Referencing |
 | -------------- | ----------------------- | ---------------------------- | ------------------------- | ----------------------- | ----------------------- | -------------- | -------------------- | ----------------- | ---------------------- | ------------------------- | ---------------- | --------------------- | ---------------------- | ------------------------ | ---------------------- | ---------------------- | ---------------------- | ------------- | ------------------- | ------------------- | ------------ | ------------------------- | ------------------------ | ------------------------- | ------------------- |
-| 22             | P                       | DESKTOP-D324ETP              | foo                       | dbo                     | sp\_example\_22         | 2117582582     | 0                    | 1                 | OBJECT\_OR\_COLUMN     | 0                         | 6                | TYPE                  |                        |                          | dbo                    | udtt\_example\_22      | UDTT                   | 257           | 0                   | 0                   | 0            | 0                         |                          | 1                         | 0                   |
+| 22             | P                       | DESKTOP-D324ETP              | foo                       | dbo                     | sp\_example\_22         | 2117582582     | 0                    | 1                 | OBJECT\_OR\_COLUMN     | 0                         | 6                | TYPE                  |                        |                          | dbo                    | udtt\_example\_22      | UDTT                   | 467           | 0                   | 0                   | 0            | 0                         |                          | 1                         | 0                   |
 
 [Summary of Contents](03_database_dependencies_examples.md#summary-of-contents)
 
@@ -1032,7 +1028,7 @@ GO
 
 ### 23. Check Constraints
 
-A check constraint is a rule that enforces a condition on the values entered into a column to ensure data integrity. SQL Server rejects an inserted or updated row when the `CHECK` expression evaluates to FALSE. A result of TRUE or UNKNOWN is accepted..
+A check constraint is a rule that enforces a condition on the values entered into a column to ensure data integrity. SQL Server rejects an inserted or updated row when the `CHECK` expression evaluates to FALSE. A result of TRUE or UNKNOWN is accepted.
 
 The `referenced_minor_id` column will populate with an integer corresponding to the column on which the constraint is dependent.
 
@@ -1097,7 +1093,7 @@ ChildID INT PRIMARY KEY, -- Primary Key in the child table
 ChildName NVARCHAR(100) NOT NULL,
 ParentID INT, -- Foreign Key column referencing ParentID in parent table
 CONSTRAINT FK_Child_Parent FOREIGN KEY (ParentID) 
-REFERENCES tbl_example_24_parent(ParentID) -- Foreign Key constraint
+REFERENCES dbo.tbl_example_24_parent(ParentID) -- Foreign Key constraint
 );
 GO
 ```
@@ -1255,7 +1251,7 @@ GO
 
 ### 28. Indexes - Filtered Nonclustered
 
-In SQL Server, a filtered non clustered index includes only a subset of rows from a table based on a specified `WHERE` clause. This makes the index smaller and more efficient because it only covers rows that meet the filtering criteria. This can significantly improve query performance and reduce storage requirements for large datasets with predictable patterns.
+In SQL Server, a filtered nonclustered index includes only a subset of rows from a table based on a specified `WHERE` clause. This makes the index smaller and more efficient because it only covers rows that meet the filtering criteria. This can significantly improve query performance and reduce storage requirements for large datasets with predictable patterns.
 
 🔹In this example, the object appears as self-referencing because the `referencing_id` and `referenced_id` match.
 
@@ -1450,7 +1446,7 @@ GO
 
 ### 33. Database Diagrams
 
-In SQL Server Management Studio (SSMS), enabling certain features—such as Database Diagrams and Change Data Capture adds feature-specific system stored procedures and objects to your database to support that functionality.
+In SQL Server Management Studio (SSMS), enabling certain features (such as Database Diagrams and Change Data Capture) adds feature-specific system stored procedures and objects to your database to support that functionality.
 
 For example, enabling Database Diagrams by right-clicking the Database Diagrams folder under the foo database and selecting New Database Diagram will create several dependencies.
 
@@ -1570,7 +1566,7 @@ GO
 
 ### 36. Temporal Tables
 
-Temporal tables in SQL Server are system-versioned tables that automatically track and store the full history of data changes. They maintain a complete record of all modifications, including updates and deletions, by storing timestamped historical data in a separate "history table" whenever a change is made to the main table. This allows for querying and analyzing data at any point in time in the past.
+Temporal tables automatically preserve previous row versions when rows are updated or deleted while system versioning is enabled. These versions are stored in a history table and can be queried using temporal queries.
 
 Temporal tables are not represented in the `sys.sql_expression_dependencies` view.
 
