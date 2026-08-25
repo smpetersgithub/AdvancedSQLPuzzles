@@ -90,49 +90,53 @@ Besides the previous key insights, I have found the following most relevant to u
 
 The following list can be used to reference the corresponding example numbers.
 
-| Example | File Name                                  | NULL Referenced ID  | Self-Referencing |
-|---------|--------------------------------------------|---------------------|------------------|
-| 01      | Cross Database Dependencies                | Yes                 | No               |
-| 02      | Cross Schema Dependencies                  | No                  | No               |
-| 03      | Invalid Stored Procedures                  | Yes                 | No               |
-| 04      | Numbered Stored Procedures                 | No                  | No               |
-| 05      | Ambiguous References                       | No                  | No               |
-| 06      | Part Naming Conventions                    | No                  | No               |
-| 07      | Part Naming Conventions - Caller Dependent | Yes                 | No               |
-| 08      | Dropping Objects                           | Yes                 | No               |
-| 09      | Dropping Objects Then Recreating           | No                  | No               |
-| 10      | Self Referencing Objects                   | No                  | Yes              |
-| 11      | Object Aliases                             | Yes                 | No               |
-| 12      | Schemabindings                             | No                  | No               |
-| 13      | Synonyms                                   | No                  | No               |
-| 14      | Triggers - DML                             | Yes                 | No               |
-| 15      | Triggers - DDL Database Level              | No                  | No               |
-| 16      | Triggers - DDL Server Level - Table Insert | No                  | No               |
-| 17      | Partition Functions                        | No                  | No               |
-| 18      | Defaults and Rules                         | Not Represented     | Not Represented  |
-| 19      | Contracts and Queues and Message Types     | Not Represented     | Not Represented  |
-| 20      | Sequences                                  | No                  | No               |
-| 21      | User-Defined Data Types                    | No                  | No               |
-| 22      | User-Defined Table Types                   | No                  | No               |
-| 23      | Check Constraints                          | No                  | No               |
-| 24      | Foreign Key Constraints                    | Not Represented     | Not Represented  |
-| 25      | Computed Columns                           | No                  | Yes              |
-| 26      | Masked Functions                           | Not Represented     | Not Represented  |
-| 27      | Indexes - Table                            | Not Represented     | Not Represented  |
-| 28      | Indexes - Filtered NonClustered            | No                  | Yes              |
-| 29      | JSON Functions and Indexes                 | Not Represented     | Not Represented  |
-| 30      | Statistics Filtered                        | No                  | Yes              |
-| 31      | XML Schema Collections                     | No                  | No               |
-| 32      | XML Methods                                | Yes                 | No               |
-| 33      | Database Diagrams                          | No                  | No               |
-| 34      | Security Policies                          | No                  | No               |
-| 35      | Change Data Capture (CDC)                  | No                  | No               |
-| 36      | Temporal Tables                            | Not Represented     | Not Represented  |
-| 37      | Change Tracking                            | Not Represented     | Not Represented  |
-| 36      | In-Memory OLTP                             | Not Represented     | Not Represented  |
-| 37      | Extended Properties                        | Not Represented     | Not Represented  |
-| 38      | In-Memory OLTP                             | Not Represented     | Not Represented  |
-| 39      | Extended Properties                        | Not Represented     | Not Represented  |
+### Example List
+
+The table below summarizes whether the relationship demonstrated by each example is represented in `sys.sql_expression_dependencies`.
+
+| Example | Example Name                                      | Dependency Represented? | NULL `referenced_id`? | Self-Referencing? |
+| ------: | ------------------------------------------------- | :---------------------: | :-------------------: | :---------------: |
+| 01 | Cross-Database Dependencies                          | Yes | Yes | No |
+| 02 | Cross-Schema Dependencies                            | Yes | No  | No |
+| 03 | Invalid Stored Procedures                            | Yes | Yes | No |
+| 04 | Numbered Stored Procedures                           | Yes | No  | No |
+| 05 | Ambiguous References                                 | Yes | No  | No |
+| 06 | Multipart Naming Conventions                         | Yes | No  | No |
+| 07 | One-Part Naming Conventions—Caller Dependent         | Yes | Yes | No |
+| 08 | Dropping Objects                                     | Yes | Yes | No |
+| 09 | Dropping Objects and Recreating Them                  | Yes | No  | No |
+| 10 | Self-Referencing Objects                             | Yes | No  | Yes |
+| 11 | Object Aliases                                       | Yes | Yes | No |
+| 12 | Schema Binding                                       | Yes | No  | No |
+| 13 | Synonyms                                             | Yes | No  | No |
+| 14 | Triggers—DML                                        | Yes | Yes | No |
+| 15 | Triggers—Database-Level DDL                          | Yes | No  | No |
+| 16 | Triggers—Server-Level DDL and Table Insert           | Yes | No  | No |
+| 17 | Partition Functions                                  | Yes | No  | No |
+| 18 | Defaults and Rules                                   | No  | N/A | N/A |
+| 19 | Contracts, Queues, and Message Types                  | No  | N/A | N/A |
+| 20 | Sequences                                            | Yes | No  | No |
+| 21 | User-Defined Data Types                               | Yes | No  | No |
+| 22 | User-Defined Table Types                              | Yes | No  | No |
+| 23 | Check Constraints                                    | Yes | No  | No |
+| 24 | Foreign Key Constraints                              | No  | N/A | N/A |
+| 25 | Computed Columns                                     | Yes | No  | Yes |
+| 26 | Dynamic Data Masking Functions                        | No  | N/A | N/A |
+| 27 | Table Indexes                                        | No  | N/A | N/A |
+| 28 | Filtered Nonclustered Indexes                         | Yes | No  | Yes |
+| 29 | JSON Functions and Indexes                            | No  | N/A | N/A |
+| 30 | Filtered Statistics                                  | Yes | No  | Yes |
+| 31 | XML Schema Collections                               | Yes | No  | No |
+| 32 | XML Methods                                          | Yes | Yes | No |
+| 33 | Database Diagrams                                    | Yes | No  | No |
+| 34 | Security Policies                                    | Yes | No  | No |
+| 35 | Change Data Capture                                  | Yes | No  | No |
+| 36 | Temporal Tables                                      | No  | N/A | N/A |
+| 37 | Change Tracking                                      | No  | N/A | N/A |
+| 38 | In-Memory OLTP                                       | No  | N/A | N/A |
+| 39 | Extended Properties                                  | No  | N/A | N/A |
+
+> **Note:** `N/A` means that the relationship demonstrated by the example is not represented in `sys.sql_expression_dependencies`. Examples 27 and 29 may still produce module-to-table dependency rows, but ordinary index relationships, JSON built-in functions, and JSON indexes are not represented as separate dependencies.
 
 
 ***
