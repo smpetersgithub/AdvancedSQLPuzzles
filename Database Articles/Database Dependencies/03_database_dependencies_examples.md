@@ -56,7 +56,7 @@ Sections are labeled ✔️ if they are included in the `sys.sql_expression_depe
 25. [✔️ Computed Columns](03_database_dependencies_examples.md#25-computed-columns)
 26. [🚫 Masked Functions](03_database_dependencies_examples.md#26-masked-functions)
 27. [🚫 Indexes - Table](03_database_dependencies_examples.md#27-indexes---table)
-28. [✔️ Indexes - Filtered NonClustered](03_database_dependencies_examples.md#28-indexes---filtered-nonclustered)
+28. [✔️ Indexes - Filtered Nonclustered](03_database_dependencies_examples.md#28-indexes---filtered-nonclustered)
 29. [🚫 Indexes - Filtered XML](03_database_dependencies_examples.md#29-indexes---filtered-xml)
 30. [✔️ Statistics - Filtered](03_database_dependencies_examples.md#30-statistics---filtered)
 31. [✔️ XML Schema Collection](03_database_dependencies_examples.md#31-xml-schema-collection)
@@ -1250,7 +1250,7 @@ GO
 
 ***
 
-### 28. Indexes - Filtered NonClustered
+### 28. Indexes - Filtered Nonclustered
 
 In SQL Server, a filtered non clustered index includes only a subset of rows from a table based on a specified `WHERE` clause. This makes the index smaller and more efficient because it only covers rows that meet the filtering criteria. This can significantly improve query performance and reduce storage requirements for large datasets with predictable patterns.
 
