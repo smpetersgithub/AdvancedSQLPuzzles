@@ -764,7 +764,7 @@ GO
 
 A partition function determines how data is divided across multiple partitions within a table or index based on the specified values of a specified column. It maps rows to partitions using a set of boundary values, allowing you to manage and query large datasets more efficiently by distributing them into smaller, more manageable chunks. Partition functions are paired with partition schemes to determine the physical storage for each partition.
 
-Contrary to the SQL Server documentation, partition functions are not represented in the `sys.sql_expression_dependencies` view.
+The result set does not include the table’s dependency on the partition function, but it does include the view’s dependency on the partition function.
 
 ```sql
 USE foo;
@@ -796,6 +796,11 @@ CONSTRAINT PK_tbl_example_17 PRIMARY KEY (OrderID, OrderDate)
 ON ps_example_17(OrderDate);
 GO
 ```
+
+| Example Number | Referencing Object Type | Referencing Server Name      | Referencing Database Name | Referencing Schema Name | Referencing Entity Name | Referencing ID | Referencing Minor ID | Referencing Class | Referencing Class Desc | Is Schema Bound Reference | Referenced Class | Referenced Class Desc | Referenced Server Name | Referenced Database Name | Referenced Schema Name | Referenced Entity Name | Referenced Object Type | Referenced ID | Referenced Minor ID | Is Caller Dependent | Is Ambiguous | Referencing Is Ms Shipped | Referenced Is Ms Shipped | Is User Defined Data Type | Is Self Referencing |
+| -------------- | ----------------------- | ---------------------------- | ------------------------- | ----------------------- | ----------------------- | -------------- | -------------------- | ----------------- | ---------------------- | ------------------------- | ---------------- | --------------------- | ---------------------- | ------------------------ | ---------------------- | ---------------------- | ---------------------- | ------------- | ------------------- | ------------------- | ------------ | ------------------------- | ------------------------ | ------------------------- | ------------------- |
+| 17             | V                       | DESKTOP-D324ETP              | foo                       | dbo                     | vw_example_17           | 1058102810     | 0                    | 1                 | OBJECT_OR_COLUMN       | 0                         | 21               | PARTITION_FUNCTION    |                        |                          |                        | pf_example_17          | Partition              | 65540         | 0                   | 0                   | 0            | 0                         |                          |                           | 0                   |
+| 17             | V                       | DESKTOP-D324ETP              | foo                       | dbo                     | vw_example_17           | 1058102810     | 0                    | 1                 | OBJECT_OR_COLUMN       | 0                         | 1                | OBJECT_OR_COLUMN      |                        |                          | dbo                    | tbl_example_17         | U                      | 1026102696    | 0                   | 0                   | 0            | 0                         | 0                        |                           | 0                   |
 
 [Summary of Contents](03_database_dependencies_examples.md#summary-of-contents)
 
@@ -1102,7 +1107,7 @@ GO
 
 A computed column is a virtual column in a table whose value is calculated using an expression based on other columns in the same table. Computed columns can be either persisted, where the result is stored physically in the table, or non-persisted, where the value is calculated on the fly when the column is queried. Computed columns can be indexed when their expressions meet SQL Server’s determinism, precision, ownership, data-type, and SET-option requirements. A computed column does not always have to be declared `PERSISTED` to be indexed.
 
-🔹In this example, the object appears as self-referencing because the `referencing_id` and `referenced_id` match.
+In this example, the object appears as self-referencing because the `referencing_id` and `referenced_id` match.
 
 ```sql
 USE foo;
