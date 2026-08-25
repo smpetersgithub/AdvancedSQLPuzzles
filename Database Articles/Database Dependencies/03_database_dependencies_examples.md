@@ -1635,7 +1635,7 @@ GO
 
 In-Memory OLTP uses memory-optimized row and index structures for transaction processing. Durable memory-optimized tables also persist changes through the transaction log and checkpoint files so that their data survives restart and recovery.
 
-Memory-optimized tables have no dependencies in the `sys.sql_expression_dependencies` view that indicate it is memory-optimized.
+Memory-optimized tables have no dependencies in the `sys.sql_expression_dependencies` view that indicate that they are memory-optimized.
 
 ```sql
 USE foo;
