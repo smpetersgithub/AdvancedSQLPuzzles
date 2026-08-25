@@ -838,11 +838,11 @@ SUBSTRING(@phone, 4, 1) = '/'
 GO
 
 -- Bind the default to the column
-EXEC sp_bindefault 'dbo.default_example_18', 'dbo.tbl_example_18.PhoneNumber';
+EXEC sys.sp_bindefault 'dbo.default_example_18', 'dbo.tbl_example_18.PhoneNumber';
 GO
 
 -- Bind the rule to the column
-EXEC sp_bindrule 'dbo.rule_example_18', 'dbo.tbl_example_18.PhoneNumber';
+EXEC sys.sp_bindrule 'dbo.rule_example_18', 'dbo.tbl_example_18.PhoneNumber';
 GO
 ```
 
@@ -1450,7 +1450,7 @@ In SQL Server Management Studio (SSMS), enabling certain features—such as Data
 
 For example, enabling Database Diagrams by right-clicking the Database Diagrams folder under the foo database and selecting New Database Diagram will create several dependencies.
 
-These dependencies are recorded in the `sys.sql_expression_dependencies` view. Notably, the associated stored procedures will have `referencing_is_ms_shipped` and `referenced_is_ms_shipped` both set to 0, indicating they are not Microsoft-shipped system objects. The setup creates the sysdiagrams table and supporting routines. The upgrade procedure also references the legacy `dtproperties` table, which might not exist; when it does not exist, `referenced_id` is NULL.
+These dependencies are recorded in the `sys.sql_expression_dependencies` view. Notably, the associated stored procedures will have `referencing_is_ms_shipped` and `referenced_is_ms_shipped` both set to 0, indicating they are not Microsoft-shipped system objects. The setup creates the `sysdiagrams` table and supporting routines. The upgrade procedure also references the legacy `dtproperties` table, which might not exist; when it does not exist, `referenced_id` is NULL.
 
 | Example Number | Referencing Object Type | Referencing Server Name      | Referencing Database Name | Referencing Schema Name | Referencing Entity Name   | Referencing ID | Referencing Minor ID | Referencing Class | Referencing Class Desc  | Is Schema Bound Reference | Referenced Class | Referenced Class Desc   | Referenced Server Name | Referenced Database Name | Referenced Schema Name | Referenced Entity Name | Referenced Object Type | Referenced ID | Referenced Minor ID | Is Caller Dependent | Is Ambiguous | Referencing Is Ms Shipped | Referenced Is Ms Shipped | Is User Defined Data Type | Is Self Referencing |
 | -------------- | ----------------------- | ---------------------------- | ------------------------- | ----------------------- | ------------------------- | -------------- | -------------------- | ----------------- | ----------------------- | ------------------------- | ---------------- | ----------------------- | ---------------------- | ------------------------ | ---------------------- | ---------------------- | ---------------------- | ------------- | ------------------- | ------------------- | ------------ | ------------------------- | ------------------------ | ------------------------- | ------------------- |
