@@ -8,75 +8,180 @@
 4. [Database Dependencies Analysis](04_database_dependencies_analysis.md)
 5. [Determine Object Dependency Paths](05_determine_object_dependency_paths.md)
 6. [Determine Foreign Key Paths](06_determine_foreign_key_paths.md)
-   
+
 <img src="https://raw.githubusercontent.com/smpetersgithub/AdvancedSQLPuzzles/main/images/AdvancedSQLPuzzles_image.png" alt="Advanced SQL Puzzles" width="200"/>
 
 # Introduction to SQL Server Object Dependencies
 
-The following documentation is designed to help developers understand the `sys.sql_expression_dependencies` table in Microsoft SQL Server. This repository includes an example walkthrough of various dependencies, how they interact with the `sys.sql_expression_dependencies` table, and the corresponding scripts essential for grasping this table's functionality and data representation. These scripts also serve as a comprehensive repository of dependencies, including some you may not have yet encountered or considered.
+This documentation introduces the `sys.sql_expression_dependencies` catalog view in Microsoft SQL Server. The examples demonstrate how SQL Server records dependencies, how to interpret less-obvious dependency rows, and which relationships are not represented by the catalog view.
 
-[🐙 The documentation and example scripts can be found in the GitHub repository.](https://github.com/smpetersgithub/AdvancedSQLPuzzles/tree/main/Database%20Articles/Database%20Dependencies/)
+The accompanying scripts provide reproducible examples involving tables, views, stored procedures, functions, triggers, constraints, indexes, statistics, types, XML schema collections, partition functions, and other SQL Server features. Later sections use these relationships to construct object-dependency and foreign-key paths.
 
-***
+[🐙 The documentation and example scripts are available in the GitHub repository.](https://github.com/smpetersgithub/AdvancedSQLPuzzles/tree/main/Database%20Articles/Database%20Dependencies/)
 
-### Understanding the `sys.sql_expression_dependencies` Table
+---
 
-The `sys.sql_expression_dependencies` view is a system catalog view that details the dependencies of SQL expressions on database objects. It helps analyze the relationships between different database objects (tables, views, procedures, functions, etc.) and assess how modifications to one object could affect others.
+### Understanding `sys.sql_expression_dependencies`
 
-A dependency between two entities is created when one entity, the referenced entity, appears by name in a persisted SQL expression of another entity, the referencing entity. At the heart of this table are the `referencing_id` and `referenced_id` columns, along with several other columns that help describe the relationship and further details of the referenced object. These columns will become apparent as we work through examples.
+`sys.sql_expression_dependencies` is a system catalog view that reports by-name dependencies found in persisted SQL expressions. It can help answer questions such as:
 
-***
+* Which entities does this object reference?
+* Which entities reference this object?
+* Which references are unresolved, caller-dependent, schema-bound, or ambiguous?
+* Which dependency paths connect one object to another?
 
-**⚠️ Warning!**
+A dependency consists of two roles:
 
-The Microsoft documentation contains some inaccuracies and provides limited examples. I recommend reviewing the provided scripts to better understand how to use this table effectively.
+* The **referencing entity** contains the persisted SQL expression.
+* The **referenced entity** appears by name in that expression.
 
-[The Microsoft documentation can be found here](https://learn.microsoft.com/en-us/sql/relational-databases/system-catalog-views/sys-sql-expression-dependencies-transact-sql?view=sql-server-ver16).
+For example, if a view selects from a table, the view is the referencing entity and the table is the referenced entity. The dependency direction is therefore:
 
-***
+`view ➡️ table`
 
-### Deferred Name Resolution and Non-Strict Dependency Enforcement
+The most important columns include `referencing_id`, `referenced_id`, the corresponding class columns, multipart-name fields, and flags such as `is_schema_bound_reference`, `is_caller_dependent`, and `is_ambiguous`.
 
-Before beginning, I would like to briefly cover the concepts of deferred name resolution and non-strict dependency enforcement.
+[Review Microsoft’s `sys.sql_expression_dependencies` documentation.](https://learn.microsoft.com/en-us/sql/relational-databases/system-catalog-views/sys-sql-expression-dependencies-transact-sql?view=sql-server-ver17)
 
-Deferred name resolution is a SQL Server feature that allows the creation of database objects, even if the objects they reference, such as tables or views, do not exist at the time of creation.
+> The Microsoft documentation defines the supported entity classes and column semantics. The examples in this series supplement that documentation by demonstrating edge cases and feature-specific behavior.
 
-When these database objects are created, SQL Server does not immediately check whether the referenced objects exist; instead, it defers this validation until the object is executed or used. This feature facilitates the development process by allowing developers to write and compile these objects without worrying about the immediate availability of all referenced entities.
+---
 
-This is particularly useful in scenarios where object dependencies are created at different stages of the database deployment process. However, an error will occur if the referenced objects do not exist when the deferred name resolution object is executed.
+### Scope and Limitations
 
-Alternatively, there is the concept of non-strict dependency enforcement.
+`sys.sql_expression_dependencies` is not a complete inventory of every possible relationship in SQL Server. It records supported by-name dependencies in persisted SQL expressions.
 
-   In SQL Server, the ability to drop an object referenced by another object without cascading the drop is a behavior known as non-strict dependency enforcement. While a view may depend on the table, SQL Server allows you to drop the table without immediately dropping or updating the dependent view. However, this will cause the view to become invalid.
+Important limitations include:
 
-These concepts will come into play as we find objects referencing invalid objects and how these are represented in the `sys.sql_expression_dependencies` table. A quick internet search will provide ample documentation and examples of how deferred name resolution and non-strict dependency enforcement behave within SQL Server. It is also important to note that different vendors (such as Oracle, DB2, and PostgreSQL) exhibit different behavior with respect to these concepts. Therefore, SQL Server's behavior in these contexts does not necessarily apply to other database systems.
+* Foreign-key relationships are exposed through `sys.foreign_keys` and `sys.foreign_key_columns`, not through `sys.sql_expression_dependencies`.
+* Object names assembled and executed through dynamic SQL are not generally recorded as dependencies because SQL Server does not treat the contents of a runtime string as a persisted by-name reference.
+* Dependency information is not created or maintained for certain entities, including temporary tables, temporary stored procedures, rules, defaults, and system objects.
+* A synonym can be recorded as a referenced entity, but the synonym is not recorded as a referencing entity. The catalog view therefore does not expose the synonym-to-base-object relationship.
+* Cross-database and cross-server object names can be recorded, but their `referenced_id` values are not resolved.
+* Metadata visibility is limited by the permissions of the current user.
 
-***
+For non-schema-bound modules, the `sys.dm_sql_referenced_entities` and `sys.dm_sql_referencing_entities` dynamic management functions can provide useful supplemental information. However, these functions have their own requirements and behaviors and should not be treated as identical replacements for the catalog view.
 
-### Referenced and Referencing Identities
+---
 
-The `sys.sql_expression_dependencies` table is an adjacency list table containing `referencing_id` and `referenced_id` columns. These columns can be used to determine hierarchies and levels of depth for objects starting from a base object.
+### Deferred Name Resolution
 
-The Microsoft documentation best defines referencing versus referenced entities:
+Deferred name resolution allows certain SQL Server modules—most notably stored procedures—to be created even when a referenced object does not exist at creation time. The missing object name can still be recorded in `sys.sql_expression_dependencies`, but SQL Server cannot resolve its identifier. In that case, `referenced_id` is `NULL`.
 
-**"A dependency between two entities is created when one entity, called the referenced entity, appears by name in a persisted SQL expression of another entity, called the referencing entity."**
+If the referenced object still does not exist when the module is executed, execution fails when SQL Server attempts to resolve the name.
 
-For example, consider a view that references a table. The view will be the referencing entity, and the table will be the referenced entity.
+Deferred name resolution does not apply uniformly to every module or every type of reference. For example, views normally require referenced objects to exist when the view is created. Validation behavior can also differ depending on whether the referenced object exists and whether SQL Server can validate its columns. Therefore, deferred name resolution should not be described as a universal behavior for all database objects.
 
-The `referencing_id` and `referenced_id` columns are **not** foreign keys to the `sys.objects` table.  
+Deferred name resolution can be useful during staged deployments, but it can also allow unresolved dependencies to remain unnoticed until runtime.
 
-The table contains dependencies for database-level triggers, server-level triggers, XML schema collections, user-defined data types (UDDT), and user-defined table types (UDTT), all of which are not referenced in the `sys.objects` table.  
+---
 
-Also, when querying the dependency table, it is easy to misuse these columns during self-joins, grouping, and other operations. If you have trouble, please step back and ensure you understand the definition of these terms.
+### Schema-Bound and Non-Schema-Bound Dependencies
 
-***
+SQL Server distinguishes between schema-bound and non-schema-bound dependencies.
 
-**⚠️ Warning!**
+With a **schema-bound dependency**, SQL Server prevents the referenced object from being dropped or changed in a way that would invalidate the referencing entity. Schema-bound views and functions are common examples. Schema binding also requires referenced objects to be named using two-part names and to reside in the same database.
 
-**The `object_id` is unique only within a single database. The same `object_id` can be used in different databases to reference different objects.**
+With a **non-schema-bound dependency**, SQL Server can allow the referenced object to be dropped without automatically dropping the referencing module. For example, dropping a table can leave a non-schema-bound view or stored procedure unusable until the referenced object or module definition is corrected.
 
-***
+This behavior is not universal. SQL Server prevents some destructive operations when another enforced relationship exists. For example, a table referenced by a foreign-key constraint cannot be dropped until the constraint or referencing table is removed. A table referenced by a schema-bound view also cannot be dropped until the schema-bound dependency is removed.
 
-Lastly, a basic understanding of graph theory will help you comprehend how the data is represented and the potential reporting capabilities. Familiarity with terms such as nodes, edges, walks, paths, and routes will be beneficial when discussing and analyzing the data. Nodes represent entities; edges indicate relationships between those entities, and walks, paths, and routes describe how entities can be connected.
+The `is_schema_bound_reference` column identifies whether a row in `sys.sql_expression_dependencies` represents a schema-bound reference.
 
-***
+---
+
+### Referencing and Referenced Entities
+
+The rows in `sys.sql_expression_dependencies` can be treated as directed edges in a dependency graph:
+
+`referencing entity ➡️ referenced entity`
+
+For example:
+
+```sql
+CREATE VIEW dbo.EmployeeNames
+AS
+SELECT EmployeeID,
+       FirstName,
+       LastName
+FROM dbo.Employees;
+GO
+```
+
+In this dependency:
+
+* `dbo.EmployeeNames` is the referencing entity.
+* `dbo.Employees` is the referenced entity.
+
+When querying the catalog view, keep this direction in mind during self-joins, recursive queries, grouping, and path construction. Reversing these roles changes the meaning of the analysis:
+
+* Starting with `referencing_id` finds entities on which an object depends.
+* Starting with `referenced_id` finds entities that depend on an object.
+
+---
+
+### Interpreting Dependency IDs
+
+`sys.sql_expression_dependencies` should not be treated as though both ID columns were ordinary foreign keys to `sys.objects`.
+
+`referencing_id` is not nullable, but its meaning depends on `referencing_class`. A referencing entity can be an object or column, a database-level DDL trigger, or a server-level DDL trigger.
+
+`referenced_id` can be `NULL`, and its meaning depends on `referenced_class`. A referenced entity can be an object or column, user-defined type, index, XML schema collection, or partition function.
+
+Use the class columns to determine which catalog view should be used to resolve an ID. Examples include:
+
+| Dependency Class | Catalog View |
+| ---------------- | ------------ |
+| Object or column | `sys.objects` and `sys.columns` |
+| Database-level trigger | `sys.triggers` |
+| Server-level trigger | `sys.server_triggers` |
+| User-defined type | `sys.types` |
+| Index | `sys.indexes` |
+| XML schema collection | `sys.xml_schema_collections` |
+| Partition function | `sys.partition_functions` |
+
+A `NULL` `referenced_id` does not always mean the same thing. Common causes include:
+
+* The referenced object does not exist.
+* The reference is caller-dependent and is resolved at runtime.
+* The reference crosses a database or server boundary.
+
+The multipart-name columns and flags must be evaluated together with `referenced_id` to determine why the value is unresolved.
+
+---
+
+### Identifier Scope
+
+An `object_id` identifies an object only within its database. The same numeric value can identify unrelated objects in different databases. Consequently, a cross-database dependency cannot be matched safely using `object_id` alone.
+
+When analyzing dependencies across databases, use the server, database, schema, and entity-name columns as appropriate. SQL Server always returns `NULL` for `referenced_id` on cross-database and cross-server references, even when the referenced object exists.
+
+Identifiers for other dependency classes have different scopes. Always interpret an identifier together with its referencing or referenced class rather than assuming every ID is a database-scoped `object_id`.
+
+---
+
+### Metadata Visibility
+
+Catalog-view results are affected by metadata permissions. A user may see only objects the user owns or on which the user has permission. Incomplete results therefore do not necessarily mean that no additional dependencies exist.
+
+Viewing all rows in `sys.sql_expression_dependencies` generally requires `VIEW DEFINITION` permission on the database and `SELECT` permission on the catalog view.
+
+---
+
+### Dependency Data as a Graph
+
+Dependency information can be modeled as a directed graph:
+
+* **Nodes** represent entities such as tables, views, procedures, functions, types, and triggers.
+* **Edges** represent directed relationships from referencing entities to referenced entities.
+* **Paths** connect entities through one or more dependency edges.
+* **Cycles** occur when a path eventually returns to an entity already encountered.
+* **Reachability** describes whether one entity can be reached from another by following dependency edges.
+
+This graph model supports impact analysis in both directions. Forward traversal identifies the entities on which an object depends. Reverse traversal identifies the entities that depend on an object.
+
+Because dependency data can contain self-references, cycles, unresolved references, and cross-database names without resolved IDs, path-building queries must account for these conditions explicitly.
+
+---
+
+The following sections create a demonstration environment, examine individual dependency types, analyze the resulting catalog rows, and construct dependency paths.
