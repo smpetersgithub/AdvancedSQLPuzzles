@@ -17,7 +17,7 @@
 
 ----
 
-Next, we will review examples of database dependencies and how they are represented in the `sys.sql_expression_dependencies` table. These examples provide a comprehensive demonstration of the various types of dependencies that can occur in a database and illustrate how each is reflected (or not reflected) in the `sys.sql_expression_dependencies` table.
+Next, we will review examples of database dependencies and how they are represented in the `sys.sql_expression_dependencies` view. These examples provide a comprehensive demonstration of the various types of dependencies that can occur in a database and illustrate how each is reflected (or not reflected) in the `sys.sql_expression_dependencies` view.
 
 The result sets from each example use the `foo.dbo.sql_expression_dependencies` table—a local table within the `foo` database—that has been populated with dependency data from each example. To populate this table, please review the SQL scripts located in the GitHub repository.
 
@@ -40,7 +40,7 @@ Sections are labeled ✔️ if they are included in the `sys.sql_expression_depe
 9. [✔️ Dropping Objects Then Recreating](03_database_dependencies_examples.md#09-dropping-objects-then-recreating)
 10. [✔️ Self-Referencing Objects](03_database_dependencies_examples.md#10-self-referencing-objects)
 11. [✔️ Object Aliases](03_database_dependencies_examples.md#11-object-aliases)
-12. [✔️ Schemabindings](03_database_dependencies_examples.md#12-schemabindings)
+12. [✔️ Schema Binding](03_database_dependencies_examples.md#12-schema-binding)
 13. [✔️ Synonyms](03_database_dependencies_examples.md#13-synonyms)
 14. [✔️ Triggers - DML](03_database_dependencies_examples.md#14-triggers---dml)
 15. [✔️ Triggers - DDL Database Level](03_database_dependencies_examples.md#15-triggers---ddl-database-level)
@@ -334,7 +334,7 @@ This example creates two stored procedures. The stored procedure `dbo.sp_example
 
 🔹For part naming conventions, the `referenced_id` column will contain a NULL marker. 
 
-Stored procedures are marked as caller-dependent only if they reference other stored procedures using a one-part naming convention. However, if a stored procedure references tables, functions, or views using a one-part naming convention, they are not marked as caller-dependent.
+A procedure reference can be caller-dependent when the referenced procedure’s schema is omitted. In that case, SQL Server resolves the schema at runtime and leaves `referenced_id` as NULL.
 
 * When a stored procedure references another stored procedure using a one-part name, SQL Server cannot resolve the schema of the referenced procedure until runtime.
 * Unqualified table, view, and function references inside a module are normally bound when the module is created or refreshed. By contrast, an unqualified procedure call made through `EXECUTE` can remain caller-dependent and be resolved at runtime.
@@ -402,7 +402,7 @@ GO
 
 ### 09. Dropping Objects Then Recreating
 
-Here's an interesting example: we create a valid view, drop the corresponding table, and then recreate the dropped object as a stored procedure. In the `sys.sql_expression_dependencies` table, the entry will still appear as a valid reference, even though a view cannot reference a stored procedure.
+Here's an interesting example: we create a valid view, drop the corresponding table, and then recreate the dropped object as a stored procedure. In the `sys.sql_expression_dependencies` view, the entry will still appear as a valid reference, even though a view cannot reference a stored procedure.
 
 ```sql
 USE foo;
@@ -571,7 +571,7 @@ GO
 
 In SQL Server, a synonym is an alias or alternative name for another database object, such as a table, view, or stored procedure. It makes it easier to reference that object without using its full name. Synonyms provide a layer of abstraction, allowing underlying objects to be changed or moved without affecting the code that references them.
 
-The referencing object that points to the synonym is recorded in the `sys.sql_expression_dependencies` table, but the object that the synonym references is not captured. Refer to the `sys.synonyms` table to identify the underlying object for a synonym.
+The referencing object that points to the synonym is recorded in the `sys.sql_expression_dependencies` view, but the object that the synonym references is not captured. Refer to the `sys.synonyms` table to identify the underlying object for a synonym.
 
 ```sql
 USE foo;
@@ -768,7 +768,7 @@ GO
 
 A partition function determines how data is divided across multiple partitions within a table or index based on the specified values of a specified column. It maps rows to partitions using a set of boundary values, allowing you to manage and query large datasets more efficiently by distributing them into smaller, more manageable chunks. Partition functions are paired with partition schemes to determine the physical storage for each partition.
 
-Contrary to the SQL Server documentation, partition functions are not represented in the `sys.sql_expression_dependencies` table.
+Contrary to the SQL Server documentation, partition functions are not represented in the `sys.sql_expression_dependencies` view.
 
 ```sql
 USE foo;
@@ -807,10 +807,9 @@ GO
 
 ### 18. Defaults and Rules
 
-Defaults are constraints that provide a default value for a column when no value is specified, ensuring that the column always has data. Rules are older SQL Server objects that enforce data validation by defining a condition that column values must meet. Still, they are primarily deprecated and have been replaced by check constraints for better functionality and management.
-
 Standalone `DEFAULT` and `RULE` objects are deprecated SQL Server features. A standalone default supplies a value when no value is provided, while a rule restricts acceptable values. Modern database designs should use `DEFAULT` and `CHECK` constraints instead.
-Defaults and rules are not represented in the `sys.sql_expression_dependencies` table.
+
+Defaults and rules are not represented in the `sys.sql_expression_dependencies` view.
 
 ```sql
 USE foo;
@@ -1075,7 +1074,7 @@ GO
 
 In SQL Server, a foreign key constraint enforces a relationship between columns in two tables, ensuring that the value in a column (or set of columns) in one table matches the value in a referenced column in another table. This constraint maintains referential integrity by preventing actions that would leave orphaned rows or break relationships, such as inserting a nonexistent reference or deleting a referenced row.
 
-The `sys.sql_expression_dependencies` table does not represent foreign key constraints. Refer to the `sys.foreign_keys` table for information about foreign keys.
+The `sys.sql_expression_dependencies` view does not represent foreign key constraints. Refer to the `sys.foreign_keys` table for information about foreign keys.
 
 ```sql
 USE foo;
@@ -1152,7 +1151,7 @@ In SQL Server, dynamic data masking is a feature that utilizes masked functions 
 * Partial: Masks part of the data, allowing you to define the visible prefix and suffix (e.g., for a phone number 123-XX-XXXX).
 * Random: Masks numeric data by generating a random number within a specified range.
 
-Masked functions are not represented in the `sys.sql_expression_dependencies` table.
+Masked functions are not represented in the `sys.sql_expression_dependencies` view.
 
 ```sql
 USE foo;
@@ -1178,7 +1177,7 @@ GO
 
 Here, we will create the more common indexes typically seen on tables. 
 
-Unlike filtered indexes, these are not represented in the `sys.sql_expression_dependencies` table.
+Unlike filtered indexes, these are not represented in the `sys.sql_expression_dependencies` view.
 
 ```sql
 USE foo;
@@ -1229,9 +1228,9 @@ FOR VALUE;
 GO
 ```
 
-When you add an index hint to a SQL query, the index also does not appear in the `sys.sql_expression_dependencies` table.
+When you add an index hint to a SQL query, the index also does not appear in the `sys.sql_expression_dependencies` view.
 
-The stored procedure `usp_IndexHints_Example_27` will show a dependency on `tbl_example_27`, but there will be no dependency on the index `idx_nonclustered_example_27` in the `sys.sql_expression_dependencies` table.
+The stored procedure `usp_IndexHints_Example_27` will show a dependency on `tbl_example_27`, but there will be no dependency on the index `idx_nonclustered_example_27` in the `sys.sql_expression_dependencies` view.
 
 ```sql
 USE foo;
@@ -1285,7 +1284,7 @@ GO
 
 ### 29. Indexes - Filtered XML
 
-SQL Server does not support filtered XML indexes.  This section has been removed.
+SQL Server does not support filtered XML indexes using a relational WHERE predicate. It does support selective XML indexes, which index specified XML paths, but those are a different index type.
 
 [Summary of Contents](03_database_dependencies_examples.md#summary-of-contents)
 
@@ -1451,7 +1450,7 @@ In SQL Server Management Studio (SSMS), enabling certain features—such as Data
 
 For example, enabling Database Diagrams by right-clicking the Database Diagrams folder under the foo database and selecting New Database Diagram will create several dependencies.
 
-These dependencies are recorded in the `sys.sql_expression_dependencies` table. Notably, the associated stored procedures will have `referencing_is_ms_shipped` and `referenced_is_ms_shipped` both set to 0, indicating they are not Microsoft-shipped system objects. The setup creates the sysdiagrams table and supporting routines. The upgrade procedure also references the legacy `dtproperties` table, which might not exist; when it does not exist, `referenced_id` is NULL.
+These dependencies are recorded in the `sys.sql_expression_dependencies` view. Notably, the associated stored procedures will have `referencing_is_ms_shipped` and `referenced_is_ms_shipped` both set to 0, indicating they are not Microsoft-shipped system objects. The setup creates the sysdiagrams table and supporting routines. The upgrade procedure also references the legacy `dtproperties` table, which might not exist; when it does not exist, `referenced_id` is NULL.
 
 | Example Number | Referencing Object Type | Referencing Server Name      | Referencing Database Name | Referencing Schema Name | Referencing Entity Name   | Referencing ID | Referencing Minor ID | Referencing Class | Referencing Class Desc  | Is Schema Bound Reference | Referenced Class | Referenced Class Desc   | Referenced Server Name | Referenced Database Name | Referenced Schema Name | Referenced Entity Name | Referenced Object Type | Referenced ID | Referenced Minor ID | Is Caller Dependent | Is Ambiguous | Referencing Is Ms Shipped | Referenced Is Ms Shipped | Is User Defined Data Type | Is Self Referencing |
 | -------------- | ----------------------- | ---------------------------- | ------------------------- | ----------------------- | ------------------------- | -------------- | -------------------- | ----------------- | ----------------------- | ------------------------- | ---------------- | ----------------------- | ---------------------- | ------------------------ | ---------------------- | ---------------------- | ---------------------- | ------------- | ------------------- | ------------------- | ------------ | ------------------------- | ------------------------ | ------------------------- | ------------------- |
@@ -1569,7 +1568,7 @@ GO
 
 Temporal tables in SQL Server are system-versioned tables that automatically track and store the full history of data changes. They maintain a complete record of all modifications, including updates and deletions, by storing timestamped historical data in a separate "history table" whenever a change is made to the main table. This allows for querying and analyzing data at any point in time in the past.
 
-Temporal tables are not represented in the `sys.sql_expression_dependencies` table.
+Temporal tables are not represented in the `sys.sql_expression_dependencies` view.
 
 ```sql
 USE foo;
@@ -1598,7 +1597,7 @@ GO
 
 SQL Server offers Change Tracking as a lightweight solution for tracking DML changes (inserts, updates, deletes) to user tables in a database.
 
-Tables enabled for change tracking are not represented in the `sys.sql_expression_dependencies` table.
+Tables enabled for change tracking are not represented in the `sys.sql_expression_dependencies` view.
 
 ```sql
 USE foo;
@@ -1635,7 +1634,7 @@ GO
 
 In-Memory OLTP uses memory-optimized row and index structures for transaction processing. Durable memory-optimized tables also persist changes through the transaction log and checkpoint files so that their data survives restart and recovery.
 
-Memory-optimized tables have no dependencies in the `sys.sql_expression_dependencies` table that indicate it is memory-optimized.
+Memory-optimized tables have no dependencies in the `sys.sql_expression_dependencies` view that indicate it is memory-optimized.
 
 ```sql
 USE foo;
@@ -1668,7 +1667,7 @@ GO
 
 Extended properties allow you to attach custom metadata—such as descriptions, data classifications, or audit information—directly to database objects (tables, columns, indexes, etc.) using `sys.sp_addextendedproperty`. This metadata is stored inside the database and travels with backups and restores.
 
-Extended properties are not represented in the `sys.sql_expression_dependencies` table.
+Extended properties are not represented in the `sys.sql_expression_dependencies` view.
 
 ```sql
 USE foo;
