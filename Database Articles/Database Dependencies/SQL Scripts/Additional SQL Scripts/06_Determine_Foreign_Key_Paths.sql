@@ -1,5 +1,5 @@
-﻿/*----------------------------------------------------------------------------------------------------------
 
+/*
 Determine Foreign Key Paths
 
 📋 Instructions
@@ -22,273 +22,364 @@ EXECUTE ##temp_sp_master_execution_foreign_key_reverse_paths 'Sales.Orders';
 -- Use the following to view the foreign key mappings
 
 SELECT * FROM ##foreign_keys_map;
+*/
 
-----------------------------------------------------------------------------------------------------------*/
+
 
 USE WideWorldImporters;
 GO
 
--- Creates all temporary tables needed for foreign key path analysis
-CREATE OR ALTER PROCEDURE ##temp_create_tables  AS
+/* Create the global temporary working tables. */
+CREATE OR ALTER PROCEDURE ##temp_create_tables
+AS
 BEGIN
+    SET NOCOUNT ON;
 
-    PRINT('Executing ##temp_create_tables');
-
-    -- Drop existing temporary tables to ensure clean state
     DROP TABLE IF EXISTS ##foreign_key_paths;
     DROP TABLE IF EXISTS ##foreign_key_reverse_paths;
+    DROP TABLE IF EXISTS ##foreign_key_table_map;
     DROP TABLE IF EXISTS ##foreign_keys_map;
 
-    -- Stores forward foreign key paths
+    /* One row for each table reached during forward traversal. */
     CREATE TABLE ##foreign_key_paths
     (
-        [object_id] INT,
-        table_name VARCHAR(256),
-        object_name_path NVARCHAR(4000),
-        object_id_path NVARCHAR(4000),
-        depth INT,
-        processed BIT DEFAULT 0
+        object_id        INT            NOT NULL PRIMARY KEY,
+        table_name       NVARCHAR(257)  NOT NULL,
+        object_name_path NVARCHAR(MAX)  NOT NULL,
+        object_id_path   NVARCHAR(MAX)  NOT NULL,
+        depth            INT            NOT NULL,
+        processed        BIT            NOT NULL DEFAULT (0)
     );
 
-    -- Stores reverse foreign key paths
+    /* One row for each table reached during reverse traversal. */
     CREATE TABLE ##foreign_key_reverse_paths
     (
-        [object_id] INT,
-        table_name VARCHAR(256),
-        object_name_path NVARCHAR(4000),
-        object_id_path NVARCHAR(4000),
-        depth INT,
-        processed BIT DEFAULT 0
+        object_id        INT            NOT NULL PRIMARY KEY,
+        table_name       NVARCHAR(257)  NOT NULL,
+        object_name_path NVARCHAR(MAX)  NOT NULL,
+        object_id_path   NVARCHAR(MAX)  NOT NULL,
+        depth            INT            NOT NULL,
+        processed        BIT            NOT NULL DEFAULT (0)
     );
 
-    -- Build foreign key mapping table from system tables
-    SELECT fk.[name] AS foreign_key_name,
-           tp.[object_id] AS parent_object_id,
-           s_tp.[name] AS parent_schema,
-           CONCAT_WS('.', s_tp.[name], tp.[name]) AS parent_table,
-           cp.[name] AS parent_column,
-           refp.[object_id] AS child_id,
-           s_ref.[name] AS child_schema,
-           CONCAT_WS('.', s_ref.[name], refp.[name]) AS child_table,
-           cref.[name] AS child_column
-    INTO   ##foreign_keys_map
-    FROM   sys.foreign_keys fk
-    INNER JOIN sys.foreign_key_columns fkc
-        ON fkc.constraint_object_id = fk.[object_id]
-    INNER JOIN sys.tables tp
-        ON fkc.parent_object_id = tp.[object_id]
-    INNER JOIN sys.schemas s_tp
-        ON tp.[schema_id] = s_tp.[schema_id]
-    INNER JOIN sys.columns cp
-        ON fkc.parent_object_id = cp.[object_id]
-       AND fkc.parent_column_id = cp.column_id
-    INNER JOIN sys.tables refp
-        ON fkc.referenced_object_id = refp.[object_id]
-    INNER JOIN sys.schemas s_ref
-        ON refp.[schema_id] = s_ref.[schema_id]
-    INNER JOIN sys.columns cref
-        ON fkc.referenced_object_id = cref.[object_id]
-       AND fkc.referenced_column_id = cref.column_id;
-    PRINT(CONCAT('Inserted into ##foreign_keys_map: ', @@ROWCOUNT));
+    /*
+       Column-level foreign-key map. In sys.foreign_key_columns:
+         parent_object_id     = referencing table
+         referenced_object_id = referenced table
+    */
+    SELECT  fk.object_id AS foreign_key_id,
+            fk.name AS foreign_key_name,
+            fkc.constraint_column_id,
+            referencing_table.object_id AS referencing_object_id,
+            referencing_schema.name AS referencing_schema,
+            CONCAT(referencing_schema.name, N'.', referencing_table.name) AS referencing_table,
+            referencing_column.column_id AS referencing_column_id,
+            referencing_column.name AS referencing_column,
+            referenced_table.object_id AS referenced_object_id,
+            referenced_schema.name AS referenced_schema,
+            CONCAT(referenced_schema.name, N'.', referenced_table.name) AS referenced_table,
+            referenced_column.column_id AS referenced_column_id,
+            referenced_column.name AS referenced_column,
+            fk.is_disabled,
+            fk.is_not_trusted
+    INTO ##foreign_keys_map
+    FROM sys.foreign_keys AS fk
+    INNER JOIN sys.foreign_key_columns AS fkc
+        ON fkc.constraint_object_id = fk.object_id
+    INNER JOIN sys.tables AS referencing_table
+        ON referencing_table.object_id = fkc.parent_object_id
+    INNER JOIN sys.schemas AS referencing_schema
+        ON referencing_schema.schema_id = referencing_table.schema_id
+    INNER JOIN sys.columns AS referencing_column
+        ON referencing_column.object_id = fkc.parent_object_id
+       AND referencing_column.column_id = fkc.parent_column_id
+    INNER JOIN sys.tables AS referenced_table
+        ON referenced_table.object_id = fkc.referenced_object_id
+    INNER JOIN sys.schemas AS referenced_schema
+        ON referenced_schema.schema_id = referenced_table.schema_id
+    INNER JOIN sys.columns AS referenced_column
+        ON referenced_column.object_id = fkc.referenced_object_id
+       AND referenced_column.column_id = fkc.referenced_column_id;
 
+    /*
+       Table-level adjacency map used for traversal. Build it directly from the catalog views so
+       procedure compilation cannot bind this statement to an older ##foreign_keys_map schema.
+       DISTINCT collapses composite foreign keys and multiple constraints between the same tables.
+    */
+    SELECT DISTINCT
+           referencing_table.object_id AS referencing_object_id,
+           CONCAT(referencing_schema.name, N'.', referencing_table.name) AS referencing_table,
+           referenced_table.object_id AS referenced_object_id,
+           CONCAT(referenced_schema.name, N'.', referenced_table.name) AS referenced_table
+    INTO ##foreign_key_table_map
+    FROM sys.foreign_key_columns AS fkc
+    INNER JOIN sys.tables AS referencing_table
+        ON referencing_table.object_id = fkc.parent_object_id
+    INNER JOIN sys.schemas AS referencing_schema
+        ON referencing_schema.schema_id = referencing_table.schema_id
+    INNER JOIN sys.tables AS referenced_table
+        ON referenced_table.object_id = fkc.referenced_object_id
+    INNER JOIN sys.schemas AS referenced_schema
+        ON referenced_schema.schema_id = referenced_table.schema_id;
+
+    CREATE UNIQUE CLUSTERED INDEX CIX_foreign_key_table_map
+        ON ##foreign_key_table_map
+           (referencing_object_id, referenced_object_id);
+
+    CREATE NONCLUSTERED INDEX IX_foreign_key_table_map_reverse
+        ON ##foreign_key_table_map
+           (referenced_object_id, referencing_object_id)
+        INCLUDE (referencing_table, referenced_table);
 END;
 GO
 
--- Determines forward foreign key paths from a starting table
-CREATE OR ALTER PROCEDURE ##temp_sp_determine_foreign_key_paths (@v_object_name VARCHAR(256)) AS
+/* Resolve and validate a starting table, then trace tables that it references. */
+CREATE OR ALTER PROCEDURE ##temp_sp_determine_foreign_key_paths
+    @v_object_name NVARCHAR(776)
+AS
 BEGIN
+    SET NOCOUNT ON;
 
-    PRINT('Executing ##temp_sp_determine_foreign_key_paths');
+    DECLARE @database_name SYSNAME = PARSENAME(@v_object_name, 3);
+    DECLARE @schema_name   SYSNAME = PARSENAME(@v_object_name, 2);
+    DECLARE @table_name    SYSNAME = PARSENAME(@v_object_name, 1);
+
+    IF PARSENAME(@v_object_name, 4) IS NOT NULL
+        THROW 50001, 'Use a two-part or three-part table name.', 1;
+
+    IF @schema_name IS NULL OR @table_name IS NULL
+        THROW 50002, 'Specify the table as schema.table or database.schema.table.', 1;
+
+    IF @database_name IS NOT NULL
+       AND @database_name COLLATE DATABASE_DEFAULT
+           <> DB_NAME() COLLATE DATABASE_DEFAULT
+        THROW 50003, 'The database in the table name must match the current database.', 1;
 
     TRUNCATE TABLE ##foreign_key_paths;
 
-    DECLARE @max_iterations INT = 100;
-    DECLARE @iteration INT = 0;
+    INSERT INTO ##foreign_key_paths
+    (
+        object_id,
+        table_name,
+        object_name_path,
+        object_id_path,
+        depth,
+        processed
+    )
+    SELECT  t.object_id,
+            CONCAT(s.name, N'.', t.name),
+            CONCAT(s.name, N'.', t.name),
+            CONVERT(NVARCHAR(20), t.object_id),
+            0,
+            0
+    FROM sys.tables AS t
+    INNER JOIN sys.schemas AS s
+        ON s.schema_id = t.schema_id
+    WHERE s.name COLLATE DATABASE_DEFAULT = @schema_name COLLATE DATABASE_DEFAULT
+      AND t.name COLLATE DATABASE_DEFAULT = @table_name COLLATE DATABASE_DEFAULT;
 
-    -- Seed with starting table
-    INSERT INTO ##foreign_key_paths ([object_id], table_name, object_name_path, object_id_path, depth, processed)
-    SELECT t.[object_id],
-           CONCAT_WS('.', s.[name], t.[name]) AS table_name,
-           CONCAT_WS('.', s.[name], t.[name]) AS object_name_path,
-           CAST(t.object_id AS NVARCHAR(100)) AS object_id_path,
-           0 AS depth,
-           0 AS processed
-    FROM   sys.tables t INNER JOIN
-           sys.schemas s ON t.[schema_id] = s.[schema_id]
-    WHERE  s.[name] + '.' + t.[name] = @v_object_name;
-    PRINT(CONCAT('Inserted into ##foreign_key_paths (seed): ', @@ROWCOUNT));
+    IF @@ROWCOUNT = 0
+        THROW 50004, 'The starting table was not found in the current database.', 1;
 
-    -- Process unprocessed paths iteratively
-    WHILE EXISTS (SELECT 1 FROM ##foreign_key_paths WHERE processed = 0) AND @iteration < @max_iterations
+    WHILE EXISTS (SELECT 1 FROM ##foreign_key_paths WHERE processed = 0)
     BEGIN
+        DECLARE @current_object_id      INT;
+        DECLARE @current_path           NVARCHAR(MAX);
+        DECLARE @current_object_id_path NVARCHAR(MAX);
+        DECLARE @current_depth          INT;
 
-        PRINT('Entering WHILE loop');
-        SET @iteration += 1;
-        PRINT(CONCAT('Current @iteration is ', @iteration));
-
-        -- Get next unprocessed path
-        DECLARE @current_object_id INT, @current_path NVARCHAR(MAX), @current_object_id_path NVARCHAR(MAX), @current_depth INT;
         SELECT TOP (1)
-               @current_object_id = [object_id],
+               @current_object_id = object_id,
                @current_path = object_name_path,
                @current_object_id_path = object_id_path,
                @current_depth = depth
-        FROM   ##foreign_key_paths
-        WHERE  processed = 0
-        ORDER BY depth;
+        FROM ##foreign_key_paths
+        WHERE processed = 0
+        ORDER BY depth, table_name, object_id;
 
-        -- Add child tables (tables that reference current table)
-        INSERT INTO ##foreign_key_paths ([object_id], table_name, object_name_path, object_id_path, depth, processed)
-        SELECT fk.child_id AS [object_id],
-               fk.child_table AS table_name,
-               CONCAT_WS(N' ➡️ ', @current_path, fk.child_table) AS object_name_path,
-               CONCAT_WS(N' ➡️ ', @current_object_id_path, fk.child_id) AS object_id_path,
-               @current_depth + 1 AS depth,
-               0 AS processed
-        FROM ##foreign_keys_map fk
-        WHERE fk.parent_object_id = @current_object_id
-          AND NOT EXISTS (
-              SELECT 1 FROM ##foreign_key_paths
-              WHERE [object_id] = fk.child_id
-              AND object_name_path COLLATE DATABASE_DEFAULT LIKE '%' + fk.child_table COLLATE DATABASE_DEFAULT + '%'
-          );
-        PRINT(CONCAT('Inserted into ##foreign_key_paths (WHILE loop): ', @@ROWCOUNT));
+        /* Forward: referencing table -> referenced table. */
+        INSERT INTO ##foreign_key_paths
+        (
+            object_id,
+            table_name,
+            object_name_path,
+            object_id_path,
+            depth,
+            processed
+        )
+        SELECT  fk.referenced_object_id,
+                fk.referenced_table,
+                CONCAT(@current_path, N' ➡️ ', fk.referenced_table),
+                CONCAT(@current_object_id_path, N' ➡️ ', fk.referenced_object_id),
+                @current_depth + 1,
+                0
+        FROM ##foreign_key_table_map AS fk
+        WHERE fk.referencing_object_id = @current_object_id
+          AND NOT EXISTS
+              (
+                  SELECT 1
+                  FROM ##foreign_key_paths AS existing
+                  WHERE existing.object_id = fk.referenced_object_id
+              );
 
-        -- Add parent tables (tables that current table references)
-        INSERT INTO ##foreign_key_paths ([object_id], table_name, object_name_path, object_id_path, depth, processed)
-        SELECT fk.parent_object_id AS [object_id],
-               fk.parent_table AS table_name,
-               CONCAT_WS(N' ➡️ ', @current_path, fk.parent_table) AS object_name_path,
-               CONCAT_WS(N' ➡️ ', @current_object_id_path, fk.parent_object_id) AS object_id_path,
-               @current_depth + 1 AS depth,
-               0 AS processed
-        FROM ##foreign_keys_map fk
-        WHERE fk.child_id = @current_object_id
-          AND NOT EXISTS (
-              SELECT 1 FROM ##foreign_key_paths
-              WHERE [object_id] = fk.parent_object_id
-              AND object_name_path COLLATE DATABASE_DEFAULT LIKE '%' + fk.parent_table COLLATE DATABASE_DEFAULT + '%'
-          );
-        PRINT(CONCAT('Inserted into ##foreign_key_paths (WHILE loop): ', @@ROWCOUNT));
-
-        -- Mark current path as processed
         UPDATE ##foreign_key_paths
-        SET    processed = 1
-        WHERE  [object_id] = @current_object_id AND object_name_path = @current_path;
-        PRINT(CONCAT('Update ##foreign_key_paths (WHILE loop): ', @@ROWCOUNT));
-
+        SET processed = 1
+        WHERE object_id = @current_object_id;
     END;
 
-    -- Return final results
-    SELECT DISTINCT
-           table_name,
-           object_name_path,
-           depth,
-           object_id_path
-    FROM   ##foreign_key_paths
-    ORDER BY object_name_path, depth;
-    PRINT(CONCAT('Select from ##foreign_key_paths: ', @@ROWCOUNT));
+    SELECT  table_name,
+            object_name_path,
+            depth,
+            object_id_path
+    FROM ##foreign_key_paths
+    ORDER BY depth, object_name_path;
 END;
 GO
 
--- Determines reverse foreign key paths (what references the starting table)
-CREATE OR ALTER PROCEDURE ##temp_sp_determine_foreign_key_paths_reverse (@v_object_name VARCHAR(256)) AS
+/* Resolve and validate a starting table, then trace tables that reference it. */
+CREATE OR ALTER PROCEDURE ##temp_sp_determine_foreign_key_paths_reverse
+    @v_object_name NVARCHAR(776)
+AS
 BEGIN
+    SET NOCOUNT ON;
 
-    PRINT('Executing ##temp_sp_determine_foreign_key_paths_reverse');
+    DECLARE @database_name SYSNAME = PARSENAME(@v_object_name, 3);
+    DECLARE @schema_name   SYSNAME = PARSENAME(@v_object_name, 2);
+    DECLARE @table_name    SYSNAME = PARSENAME(@v_object_name, 1);
+
+    IF PARSENAME(@v_object_name, 4) IS NOT NULL
+        THROW 50011, 'Use a two-part or three-part table name.', 1;
+
+    IF @schema_name IS NULL OR @table_name IS NULL
+        THROW 50012, 'Specify the table as schema.table or database.schema.table.', 1;
+
+    IF @database_name IS NOT NULL
+       AND @database_name COLLATE DATABASE_DEFAULT
+           <> DB_NAME() COLLATE DATABASE_DEFAULT
+        THROW 50013, 'The database in the table name must match the current database.', 1;
 
     TRUNCATE TABLE ##foreign_key_reverse_paths;
 
-    DECLARE @max_iterations INT = 100;
-    DECLARE @iteration INT = 0;
+    INSERT INTO ##foreign_key_reverse_paths
+    (
+        object_id,
+        table_name,
+        object_name_path,
+        object_id_path,
+        depth,
+        processed
+    )
+    SELECT  t.object_id,
+            CONCAT(s.name, N'.', t.name),
+            CONCAT(s.name, N'.', t.name),
+            CONVERT(NVARCHAR(20), t.object_id),
+            0,
+            0
+    FROM sys.tables AS t
+    INNER JOIN sys.schemas AS s
+        ON s.schema_id = t.schema_id
+    WHERE s.name COLLATE DATABASE_DEFAULT = @schema_name COLLATE DATABASE_DEFAULT
+      AND t.name COLLATE DATABASE_DEFAULT = @table_name COLLATE DATABASE_DEFAULT;
 
-    -- Seed the table with starting table
-    INSERT INTO ##foreign_key_reverse_paths ([object_id], table_name, object_name_path, object_id_path, depth, processed)
-    SELECT t.[object_id],
-           CONCAT_WS('.', s.[name], t.[name]) AS table_name,
-           CONCAT_WS('.', s.[name], t.[name]) AS object_name_path,
-           CAST(t.[object_id] AS NVARCHAR(100)) AS object_id_path,
-           0 AS depth,
-           0 AS processed
-    FROM sys.tables t
-    INNER JOIN sys.schemas s ON t.[schema_id] = s.[schema_id]
-    WHERE CONCAT_WS('.', s.[name], t.[name]) = @v_object_name;
-    PRINT(CONCAT('Inserted into ##foreign_key_reverse_paths (seed): ', @@ROWCOUNT));
+    IF @@ROWCOUNT = 0
+        THROW 50014, 'The starting table was not found in the current database.', 1;
 
-    -- Process unprocessed paths iteratively
-    WHILE EXISTS (SELECT 1 FROM ##foreign_key_reverse_paths WHERE processed = 0) AND @iteration < @max_iterations
+    WHILE EXISTS (SELECT 1 FROM ##foreign_key_reverse_paths WHERE processed = 0)
     BEGIN
+        DECLARE @current_object_id      INT;
+        DECLARE @current_path           NVARCHAR(MAX);
+        DECLARE @current_object_id_path NVARCHAR(MAX);
+        DECLARE @current_depth          INT;
 
-        PRINT('Entering WHILE loop');
-        SET @iteration += 1;
-        PRINT(CONCAT('Current @iteration is ', @iteration));
-
-        -- Get next unprocessed path
-        DECLARE @current_object_id INT, @current_path NVARCHAR(MAX), @current_object_id_path NVARCHAR(MAX), @current_depth INT;
         SELECT TOP (1)
-               @current_object_id = [object_id],
+               @current_object_id = object_id,
                @current_path = object_name_path,
                @current_object_id_path = object_id_path,
                @current_depth = depth
-        FROM   ##foreign_key_reverse_paths
-        WHERE  processed = 0
-        ORDER BY depth;
+        FROM ##foreign_key_reverse_paths
+        WHERE processed = 0
+        ORDER BY depth, table_name, object_id;
 
-        -- Add parent tables (tables that reference current table)
-        INSERT INTO ##foreign_key_reverse_paths ([object_id], table_name, object_name_path, object_id_path, depth, processed)
-        SELECT fk.parent_object_id AS [object_id],
-               fk.parent_table AS table_name,
-               CONCAT_WS(N' ⬅️ ', fk.parent_table, @current_path) AS object_name_path,
-               CONCAT_WS(N' ⬅️ ', fk.parent_object_id, @current_object_id_path) AS object_id_path,
-               @current_depth + 1 AS depth,
-               0 AS processed
-        FROM ##foreign_keys_map fk
-        WHERE fk.child_id = @current_object_id
-          AND NOT EXISTS (
-              SELECT 1 FROM ##foreign_key_reverse_paths
-              WHERE [object_id] = fk.parent_object_id
-              AND object_name_path COLLATE DATABASE_DEFAULT LIKE '%' + fk.parent_table COLLATE DATABASE_DEFAULT + '%'
-          );
-        PRINT(CONCAT('Inserted into ##foreign_key_reverse_paths (WHILE loop): ', @@ROWCOUNT));
+        /* Reverse: referenced table -> referencing table. */
+        INSERT INTO ##foreign_key_reverse_paths
+        (
+            object_id,
+            table_name,
+            object_name_path,
+            object_id_path,
+            depth,
+            processed
+        )
+        SELECT  fk.referencing_object_id,
+                fk.referencing_table,
+                CONCAT(fk.referencing_table, N' ⬅️ ', @current_path),
+                CONCAT(fk.referencing_object_id, N' ⬅️ ', @current_object_id_path),
+                @current_depth + 1,
+                0
+        FROM ##foreign_key_table_map AS fk
+        WHERE fk.referenced_object_id = @current_object_id
+          AND NOT EXISTS
+              (
+                  SELECT 1
+                  FROM ##foreign_key_reverse_paths AS existing
+                  WHERE existing.object_id = fk.referencing_object_id
+              );
 
-        -- Mark current path as processed
         UPDATE ##foreign_key_reverse_paths
-        SET    processed = 1
-        WHERE  object_id = @current_object_id AND object_name_path = @current_path;
-        PRINT(CONCAT('Update ##foreign_key_reverse_paths (WHILE loop): ', @@ROWCOUNT));
+        SET processed = 1
+        WHERE object_id = @current_object_id;
     END;
 
-    -- Return final results
-    SELECT DISTINCT
-           table_name,
-           object_name_path,
-           depth,
-           object_id_path
-    FROM   ##foreign_key_reverse_paths
+    SELECT  table_name,
+            object_name_path,
+            depth,
+            object_id_path
+    FROM ##foreign_key_reverse_paths
     ORDER BY depth, object_name_path;
-    PRINT(CONCAT('Select from ##foreign_key_reverse_paths: ', @@ROWCOUNT));
-
 END;
 GO
 
--- Master procedure to execute forward foreign key path analysis
-CREATE OR ALTER PROCEDURE ##temp_sp_master_execution_foreign_key_paths (@v_object_name VARCHAR(256)) AS
+/* Master procedure for forward traversal. */
+CREATE OR ALTER PROCEDURE ##temp_sp_master_execution_foreign_key_paths
+    @v_object_name NVARCHAR(776)
+AS
 BEGIN
-
-    PRINT('Executing ##temp_sp_master_execution_fk_paths');
+    SET NOCOUNT ON;
 
     EXECUTE ##temp_create_tables;
     EXECUTE ##temp_sp_determine_foreign_key_paths @v_object_name;
 END;
 GO
 
--- Master procedure to execute reverse foreign key path analysis
-CREATE OR ALTER PROCEDURE ##temp_sp_master_execution_foreign_key_reverse_paths (@v_object_name VARCHAR(256)) AS
+/* Master procedure for reverse traversal. */
+CREATE OR ALTER PROCEDURE ##temp_sp_master_execution_foreign_key_reverse_paths
+    @v_object_name NVARCHAR(776)
+AS
 BEGIN
-
-    PRINT('Executing ##temp_sp_master_execution_fk_reverse_paths');
+    SET NOCOUNT ON;
 
     EXECUTE ##temp_create_tables;
     EXECUTE ##temp_sp_determine_foreign_key_paths_reverse @v_object_name;
 END;
+GO
+
+/*--------------------------------------------------------------------------------------------------
+Example executions
+--------------------------------------------------------------------------------------------------*/
+
+/* Forward: tables referenced by Sales.Orders. */
+EXECUTE ##temp_sp_master_execution_foreign_key_paths N'Sales.Orders';
+GO
+
+/* Reverse: tables that reference Sales.Orders. */
+EXECUTE ##temp_sp_master_execution_foreign_key_reverse_paths N'Sales.Orders';
+GO
+
+/* Column-level foreign-key details. */
+SELECT *
+FROM ##foreign_keys_map
+ORDER BY referencing_schema,
+         referencing_table,
+         foreign_key_name,
+         constraint_column_id;
 GO
