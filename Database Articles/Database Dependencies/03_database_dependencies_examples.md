@@ -1282,7 +1282,7 @@ GO
 
 ***
 
-### 29. JSON Functions
+### 29. JSON Functions and JSON Indexes
 
 Built-in JSON functions and JSON indexes are not recorded as referenced entities in `sys.sql_expression_dependencies`. In this example, SQL Server records the procedure’s dependency on `dbo.tbl_example_29`, but it does not create dependency entries for `ISJSON`, `JSON_VALUE`, `JSON_MODIFY`, `OPENJSON`, or `idx_json_document_example_29`.
 
