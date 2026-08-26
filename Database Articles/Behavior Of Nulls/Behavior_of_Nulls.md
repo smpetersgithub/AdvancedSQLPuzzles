@@ -128,7 +128,7 @@ In Microsoft SQL Server, the `SET ANSI_NULLS` setting specifies the ISO-complian
 
 We can experiment with setting `ANSI_NULLS` to `ON` and `OFF` to review how NULL marker behavior changes.  In the following examples, we will set the default `ANSI_NULLS` setting to `ON`.
 
-SQL provides two functions for handling NULL markers, `IS NULL` and `IS NOT NULL`, which we will also demonstrate below.
+SQL provides two operators for handling NULL markers, `IS NULL` and `IS NOT NULL`, which we will also demonstrate below.
 
 ```sql
 --2.1
@@ -224,7 +224,7 @@ SELECT * from ##TableB;
 ## 6. Join Syntax
 🔵&nbsp;&nbsp;&nbsp;[Table Of Contents](#table-of-contents)
 
-The standard ANSI:SQL joins are `INNER`, `LEFT OUTER JOIN`, `RIGHT OUTER JOIN`, `FULL OUTER JOIN`, and `CROSS JOIN`.  For NULL markers, all five of these joins treat the NULL marker as **UNKNOWN**.  For this reason, I don't show all these joins; I only show the relevant ones needed to understand the behavior of NULL markers.  Also, I include some alternative methods for joining if you need to treat NULL markers as equals; these methods use the `ISNULL`, `ON EXISTS`, and the `IS [NOT] DISTINCT FROM` clauses.  Please take a look at my documentation **Advanced SQL Joins** for more examples of these clauses.
+The standard ANSI SQL joins are `INNER`, `LEFT OUTER JOIN`, `RIGHT OUTER JOIN`, `FULL OUTER JOIN`, and `CROSS JOIN`.  For NULL markers, all five of these joins treat the NULL marker as **UNKNOWN**.  For this reason, I don't show all these joins; I only show the relevant ones needed to understand the behavior of NULL markers.  Also, I include some alternative methods for joining if you need to treat NULL markers as equals; these methods use the `ISNULL`, `ON EXISTS`, and the `IS [NOT] DISTINCT FROM` clauses.  Please take a look at my documentation **Advanced SQL Joins** for more examples of these clauses.
 
 ---------------------------------------------------------
 **INNER JOIN**
@@ -680,7 +680,7 @@ FROM    cte_Average;
 
 | Average_CountStar | Average_CountId | Average_AvgFunction |
 |-------------------|-----------------|---------------------|
-| 75.00000000000    | 150.000000      | 150.000000          |
+| 75.00000000000    | 100.000000      | 100.000000          |
 
 ---------------------------------------------------------
 **MIN and MAX**
@@ -883,7 +883,7 @@ SELECT * FROM Child ORDER BY 1;
 | 5        |
 
 **Child**
-| RowNumber |  ParentID |
+| RowNumber |  ChildID  |
 |-----------|-----------|
 | 1         | 1         |
 | 2         | 2         |
@@ -1171,7 +1171,7 @@ ORDER BY 1, 2;
 ## 21. RETURN
 🔵&nbsp;&nbsp;&nbsp;[Table Of Contents](#table-of-contents)
 
-The `RETURN` statement exists unconditionally from a query or procedure.  All stored procedures return 0 for a successful execution and a nonzero value for a failure.  When the `RETURN` statement is used with a stored procedure, it cannot return a NULL marker.  If a procedure tries to return a NULL marker in the `RETURN` statement, a warning message is generated, and a value of 0 is returned.
+The `RETURN` statement exits unconditionally from a query or procedure.  All stored procedures return 0 for a successful execution and a nonzero value for a failure.  When the `RETURN` statement is used with a stored procedure, it cannot return a NULL marker.  If a procedure tries to return a NULL marker in the `RETURN` statement, a warning message is generated, and a value of 0 is returned.
 
 Here, we will create a stored procedure that overrides the default `RETURN` value and attempts to return a NULL marker.
 
@@ -1254,9 +1254,6 @@ SELECT  *
 FROM    cte_Lag_Lead
 ORDER BY 1;
 ```
-
-Here are the erroneous results.
-
 
 |   ID    | MyValue | LagIgnoreNulls | LeadIgnoreNulls | LagRespectNulls | LeadRespectNulls |
 |---------|---------|----------------|-----------------|-----------------|------------------|
