@@ -31,7 +31,7 @@ GO
 CREATE PROCEDURE dbo.sp_example_05 AS
 BEGIN
     SELECT dbo.fn_example_05(tbl_example_05.OrderID)
-    FROM   dbo.tbl_example_05 a;
+    FROM   dbo.tbl_example_05;
 END;
 GO
 
