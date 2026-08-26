@@ -1,1098 +1,768 @@
-# Behavior of Nulls
+# Behavior of NULLs
 
-To record missing or unknown values, users of relational databases can assign NULL markers as a value to columns.  NULL is not a data value but a marker representing the absence of a value.
+SQL uses the `NULL` marker when a value is absent. A nullable column can contain a regular value or `NULL`; however, `NULL` does not itself explain why the value is missing. It might represent information that is unknown, unavailable, not applicable, withheld, or not yet recorded.
 
-NULL markers can mean one of two things:
-1)  The column does not apply to the other columns in the record.
-2)  The column applies, but the information is unknown.
+Understanding null behavior requires an understanding of SQL's three-valued logic: **TRUE**, **FALSE**, and **UNKNOWN**. It also requires recognizing that different SQL constructs do not all handle nulls identically. Predicates, joins, set operators, grouping, aggregates, constraints, and built-in functions each have specific rules.
 
-Because NULL markers represent the absence of a value, they can cause significant confusion and trouble for developers.  To best understand NULL markers, one must understand the three-valued logic of **TRUE**, **FALSE**, or **UNKNOWN**, and recognize how NULL markers are treated within the different constructs of the SQL language.
+The examples in this document use Microsoft SQL Server Transact-SQL.
 
-Because NULL markers do not represent a value, SQL has two conditions specific to the SQL language:
-1)  `IS NULL`
-2)  `IS NOT NULL`
+---
 
-SQL also provides three functions to evaluate NULL markers:
-1)  `NULLIF`
-2)  `ISNULL`
-3)  `COALESCE`
+### Table of Contents
 
-We will cover these aspects and many more in the following document.
+1. [Brief History of NULLs](#1-brief-history-of-nulls)
+2. [Predicate Logic](#2-predicate-logic)
+3. [ANSI_NULLS](#3-ansi_nulls)
+4. [IS NULL and IS NOT NULL](#4-is-null-and-is-not-null)
+5. [Sample Data](#5-sample-data)
+6. [Join Syntax](#6-join-syntax)
+7. [Semi-Joins and Anti-Joins](#7-semi-joins-and-anti-joins)
+8. [Set Operators](#8-set-operators)
+9. [GROUP BY](#9-group-by)
+10. [ORDER BY](#10-order-by)
+11. [Aggregate Functions](#11-aggregate-functions)
+12. [Window Functions](#12-window-functions)
+13. [Constraints](#13-constraints)
+14. [Referential Integrity](#14-referential-integrity)
+15. [Computed Columns](#15-computed-columns)
+16. [NULLIF, ISNULL, and COALESCE](#16-nullif-isnull-and-coalesce)
+17. [Empty Strings, SQL NULL, and ASCII NUL](#17-empty-strings-sql-null-and-ascii-nul)
+18. [CONCAT](#18-concat)
+19. [Views and Nullability Metadata](#19-views-and-nullability-metadata)
+20. [BIT and NOT](#20-bit-and-not)
+21. [RETURN](#21-return)
+22. [Identity Columns](#22-identity-columns)
+23. [LAG and LEAD](#23-lag-and-lead)
+24. [Arithmetic Operators](#24-arithmetic-operators)
+25. [WHERE](#25-where)
+26. [Variables](#26-variables)
+27. [Conclusion](#27-conclusion)
 
----------------------------------------------------------
-### Quick Notes
+---
 
-:keyboard: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The examples provided are written in Microsoft SQL Server T-SQL.
+## 1. Brief History of NULLs
 
-:mailbox: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;I welcome any corrections, new tricks, new techniques, dead links, misspellings, or bugs!
+Missing information has long been debated in relational theory. E. F. Codd proposed marked values to represent different kinds of missing information, while critics such as C. J. Date have argued that nulls complicate relational logic and database design.
 
-----------------------------------------------------------
-### Table Of Contents
+SQL ultimately adopted a single `NULL` marker. Because that marker does not preserve the reason a value is absent, applications that must distinguish states such as “unknown” and “not applicable” should model those states explicitly.
 
-👍 I recommend navigating using the **Table Of Contents**.
+For additional relational-theory discussion, see C. J. Date's *Database in Depth: Relational Theory for Practitioners*.
 
-[1. Brief History of NULLs](#1-brief-history-of-nulls)     
-[2. Predicate Logic](#2-predicate-logic)     
-[3. ANSI_NULLS](#3-ansi_nulls)     
-[4. IS NULL and IS NOT NULL](#4-is-null-and-is-not-null)     
-[5. Sample Data](#5-sample-data)     
-[6. Join Syntax](#6-join-syntax)     
-[7. Semi and Anti Joins](#7-semi-and-anti-joins)     
-[8. Set Operators](#8-set-operators)     
-[9. GROUP BY](#9-group-by)     
-[10. ORDER BY](#10-order-by)     
-[11. Aggregate Functions](#11-aggregate-functions)     
-[12. Windowing Functions](#12-windowing-functions)     
-[13. Constraints](#13-constraints)     
-[14. Referential Integrity](#14-referential-integrity)     
-[15. Computed Columns](#15-computed-columns)     
-[16. SQL NULL Functions (NULLIF, ISNULL, COALESCE)](#16-sql-null-functions)     
-[17. Empty Strings, NULL, and ASCII Values](#17-empty-strings-null-and-ascii-values)     
-[18. CONCAT](#18-concat)     
-[19. Views](#19-views)     
-[20. Boolean Values](#20-boolean-values)     
-[21. RETURN](#21-return)     
-[22. Identity Columns](#22-identity-columns)     
-[23. LAG and LEAD Functions](#23-lag-and-lead-functions)     
-[24. Arithmetic Operators](#24-arithmetic-operators)     
-[25. WHERE](#25-where)     
-[26. Variables](#26-variables)     
-[27. Conclusion](#27-conclusion)     
+[Back to the table of contents](#table-of-contents)
 
---------------------------------------------------------
-## 1. Brief History of Nulls
-🔵&nbsp;&nbsp;&nbsp;[Table Of Contents](#table-of-contents)
+---
 
-NULL markers in relational databases are a source of debate: some proponents reject them entirely, while others, including Edgar F. Codd, advocate their use. Codd, a computer scientist who revolutionized database management with his work on relational database theory, introduced the concept of NULL markers in the late 1960s and early 1970s to represent the absence of a value.
-
-Edgar F. Codd's work ensured data consistency and accuracy in relational databases, enabling them to better handle real-world scenarios where information may not always be complete. However, some critics argue that NULL markers can lead to ambiguity and confusion, a lack of default values, performance issues, and a negative impact on data quality.
-
-Despite these criticisms, NULL markers are widely used and accepted, but must be used appropriately to understand their limitations and impact on data quality and performance. For further information, refer to C.J. Date's book, [Database in Depth: Relational Theory for Practitioners](https://www.amazon.com/Database-Depth-Relational-Theory-Practitioners/dp/0596100124).
-
----------------------------------------------------------
 ## 2. Predicate Logic
-🔵&nbsp;&nbsp;&nbsp;[Table Of Contents](#table-of-contents)
 
-To best understand NULL markers in SQL, we must recognize the three-valued logic outcomes: **TRUE**, **FALSE**, and **UNKNOWN**.  Unique to SQL, the logic result will always be **UNKNOWN** when comparing a NULL marker to any other value.   SQL’s three-valued logic system presents a surprising amount of complexity in a seemingly straightforward query!
-
----------------------------------------------------------
-**Three-Valued Logic**
-
-The following truth tables display how the three-valued logic is applied.
-
-![Truth Tables Three Valued Logic](/Database%20Articles/Behavior%20Of%20Nulls/images/Truth_Tables_Three_Valued_Logic.png)
-
-
-A good example of the complexity is shown below.  [De Morgan's Law](https://en.wikipedia.org/wiki/De_Morgan%27s_laws) is also included below, showing both versions of negation.
+Under SQL's normal ANSI behavior, ordinary comparisons involving `NULL` evaluate to `UNKNOWN`:
 
 ```sql
---TRUE OR UNKNOWN = TRUE
-SELECT 1 WHERE ((1=1) OR (NULL=1))
+SELECT 1 WHERE NULL = NULL;  -- UNKNOWN: no row
+SELECT 1 WHERE NULL <> 1;    -- UNKNOWN: no row
+SELECT 1 WHERE NULL > 1;     -- UNKNOWN: no row
 ```
 
-Here is an example of De Morgan's law.
+A `WHERE`, `ON`, or `HAVING` search condition accepts rows only when its final result is `TRUE`. Both `FALSE` and `UNKNOWN` are rejected.
+
+The basic three-valued rules include:
+
+| Expression | Result |
+| ---------- | ------ |
+| `TRUE AND UNKNOWN` | `UNKNOWN` |
+| `FALSE AND UNKNOWN` | `FALSE` |
+| `TRUE OR UNKNOWN` | `TRUE` |
+| `FALSE OR UNKNOWN` | `UNKNOWN` |
+| `NOT UNKNOWN` | `UNKNOWN` |
+
+De Morgan's laws continue to hold under three-valued logic:
 
 ```sql
---NOT(FALSE OR UNKNOWN) = UNKNOWN
-SELECT 2 WHERE NOT((1=2) OR (NULL=1))
+-- Both predicates evaluate to UNKNOWN and return no rows.
+SELECT 1
+WHERE NOT (1 = 2 OR NULL = 1);
 
---NOT(FALSE) AND NOT(UNKNOWN) = UNKNOWN
-SELECT 3 WHERE NOT(1=2) AND NOT(NULL=1);
+SELECT 1
+WHERE NOT (1 = 2)
+  AND NOT (NULL = 1);
 ```
 
----------------------------------------------------------
+The predicates `IS NULL`, `IS NOT NULL`, and `IS [NOT] DISTINCT FROM` are exceptions because they always produce `TRUE` or `FALSE`.
+
+[Back to the table of contents](#table-of-contents)
+
+---
+
 ## 3. ANSI_NULLS
-🔵&nbsp;&nbsp;&nbsp;[Table Of Contents](#table-of-contents)
 
->:exclamation:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The standard setting for `ANSI_NULLS` is `ON`.  In a future version of Microsoft SQL Server, `ANSI_NULLS` will always be `ON`, and any applications that explicitly set the option to `OFF` will produce an error.  Avoid using this feature in new development work, and plan to modify applications that currently use this feature.
+`ANSI_NULLS` controls the historical behavior of `=` and `<>` when an operand is `NULL`. Under ANSI behavior, such comparisons return `UNKNOWN`.
 
-In Microsoft SQL Server, the `SET ANSI_NULLS` setting specifies the ISO-compliant behavior of the equality (`=`) and inequality (`<>`) comparison operators.  The following table shows how the `ANSI_NULLS` session setting affects the results of Boolean expressions using NULL markers.
-
-| Boolean Expression     | SET ANSI_NULLS ON | SET ANSI_NULLS OFF |
-|------------------------|-------------------|--------------------|
-| **NULL = NULL**        | UNKNOWN           | TRUE               |
-| **1 = NULL**           | UNKNOWN           | FALSE              |
-| **NULL <> NULL**       | UNKNOWN           | FALSE              |
-| **1 <> NULL**          | UNKNOWN           | TRUE               |
-| **NULL > NULL**        | UNKNOWN           | UNKNOWN            |
-| **1 > NULL**           | UNKNOWN           | UNKNOWN            |
-| **NULL IS NULL**       | TRUE              | TRUE               |
-| **1 IS NULL**          | FALSE             | FALSE              |
-| **NULL IS NOT NULL**   | FALSE             | FALSE              |
-| **1 IS NOT NULL**      | TRUE              | TRUE               |
-
-
----------------------------------------------------------
-## 4. IS NULL and IS NOT NULL
-🔵&nbsp;&nbsp;&nbsp;[Table Of Contents](#table-of-contents)
-
-We can experiment with setting `ANSI_NULLS` to `ON` and `OFF` to review how NULL marker behavior changes.  In the following examples, we will set the default `ANSI_NULLS` setting to `ON`.
-
-SQL provides two operators for handling NULL markers, `IS NULL` and `IS NOT NULL`, which we will also demonstrate below.
+> Starting with SQL Server 2017 (14.x), `ANSI_NULLS` is always `ON`. Code should use `IS NULL`, `IS NOT NULL`, or `IS [NOT] DISTINCT FROM` instead of relying on the obsolete `OFF` behavior.
 
 ```sql
---2.1
 SET ANSI_NULLS ON;
+GO
 
---UNKNOWN
-SELECT 1 WHERE NULL = NULL;
-SELECT 1 WHERE 1 = NULL;
-SELECT 1 WHERE NULL <> NULL;
-SELECT 1 WHERE NULL = NULL;
-SELECT 1 WHERE 1 = NULL;
-SELECT 1 WHERE NULL <> NULL;
-SELECT 1 WHERE 1 <> NULL;
-SELECT 1 WHERE NULL > NULL;
-SELECT 1 WHERE 1 > NULL;
-
---TRUE
-SELECT 1 WHERE NULL IS NULL;
-SELECT 1 WHERE 1 IS NOT NULL;
-
---FALSE
-SELECT 1 WHERE 1 IS NULL;
-SELECT 1 WHERE NULL IS NOT NULL;
+SELECT 1 WHERE NULL = NULL;      -- no row
+SELECT 1 WHERE NULL <> NULL;     -- no row
+SELECT 1 WHERE NULL IS NULL;     -- returns 1
+SELECT 1 WHERE NULL IS NOT NULL; -- no row
 ```
 
-Now that we have covered the basics of NULL markers, let's create two sample data tables and start working through examples.
+[Review `SET ANSI_NULLS` in Microsoft Learn.](https://learn.microsoft.com/en-us/sql/t-sql/statements/set-ansi-nulls-transact-sql)
 
----------------------------------------------------------
+[Back to the table of contents](#table-of-contents)
+
+---
+
+## 4. IS NULL and IS NOT NULL
+
+Use `IS NULL` and `IS NOT NULL` to test whether an expression is null:
+
+```sql
+SELECT 1 WHERE NULL IS NULL;       -- TRUE
+SELECT 1 WHERE 1 IS NOT NULL;      -- TRUE
+SELECT 1 WHERE 1 IS NULL;          -- FALSE
+SELECT 1 WHERE NULL IS NOT NULL;   -- FALSE
+```
+
+Do not use `= NULL` or `<> NULL` to perform these tests.
+
+[Back to the table of contents](#table-of-contents)
+
+---
+
 ## 5. Sample Data
-🔵&nbsp;&nbsp;&nbsp;[Table Of Contents](#table-of-contents)
 
-We will use the following tables of fruits and their quantities to understand the behavior of NULL markers.  Using two tables of the same type gives us the best example for understanding NULL markers.  We will work with this data throughout these exercises.
+The remaining examples use two local temporary tables. Local temporary tables reduce the risk of name collisions with other sessions.
 
-**##TableA**
-| ID |  Fruit  | Quantity |
-|----|---------|----------|
-| 1  | Apple   | 17       |
-| 2  | Peach   | 20       |
-| 3  | Mango   | 11       |
-| 4  | Mango   | 15       |
-| 5  | \<NULL> | 5        |
-| 6  | \<NULL> | 3        |
+| ID | `#TableA.Fruit` | Quantity |
+| --: | --------------- | -------: |
+| 1 | Apple | 17 |
+| 2 | Peach | 20 |
+| 3 | Mango | 11 |
+| 4 | Mango | 15 |
+| 5 | `NULL` | 5 |
+| 6 | `NULL` | 3 |
 
-**##TableB**
-| ID |  Fruit  |  Quantity |
-|----|---------|-----------|
-| 1  | Apple   | 17        |
-| 2  | Peach   | 25        |
-| 3  | Kiwi    | 20        |
-| 4  | \<NULL> | \<NULL>   |
-
+| ID | `#TableB.Fruit` | Quantity |
+| --: | --------------- | -------: |
+| 1 | Apple | 17 |
+| 2 | Peach | 25 |
+| 3 | Kiwi | 20 |
+| 4 | `NULL` | `NULL` |
 
 ```sql
-DROP TABLE IF EXISTS ##TableA;
-DROP TABLE IF EXISTS ##TableB;
+DROP TABLE IF EXISTS #TableA;
+DROP TABLE IF EXISTS #TableB;
 GO
 
-CREATE TABLE ##TableA
+CREATE TABLE #TableA
 (
-ID          INTEGER,
-Fruit       VARCHAR(255),
-Quantity    INTEGER
+    ID       INT          NOT NULL,
+    Fruit    VARCHAR(255) NULL,
+    Quantity INT          NULL
+);
+
+CREATE TABLE #TableB
+(
+    ID       INT          NOT NULL,
+    Fruit    VARCHAR(255) NULL,
+    Quantity INT          NULL
 );
 GO
 
-CREATE TABLE ##TableB
-(
-ID          INTEGER,
-Fruit       VARCHAR(255),
-Quantity    INTEGER
-);
-GO
+INSERT INTO #TableA (ID, Fruit, Quantity)
+VALUES (1, 'Apple', 17),
+       (2, 'Peach', 20),
+       (3, 'Mango', 11),
+       (4, 'Mango', 15),
+       (5, NULL, 5),
+       (6, NULL, 3);
 
-INSERT INTO ##TableA VALUES(1,'Apple',17);
-INSERT INTO ##TableA VALUES(2,'Peach',20);
-INSERT INTO ##TableA VALUES(3,'Mango',11);
-INSERT INTO ##TableA VALUES(4,'Mango',15);
-INSERT INTO ##TableA VALUES(5,NULL,5);
-INSERT INTO ##TableA VALUES(6,NULL,3);
+INSERT INTO #TableB (ID, Fruit, Quantity)
+VALUES (1, 'Apple', 17),
+       (2, 'Peach', 25),
+       (3, 'Kiwi', 20),
+       (4, NULL, NULL);
 GO
-
-INSERT INTO ##TableB VALUES(1,'Apple',17);
-INSERT INTO ##TableB VALUES(2,'Peach',25);
-INSERT INTO ##TableB VALUES(3,'Kiwi',20);
-INSERT INTO ##TableB VALUES(4,NULL,NULL);
-GO
-
-SELECT * FROM ##TableA;
-SELECT * from ##TableB;
 ```
 
----------------------------------------------------------
+[Back to the table of contents](#table-of-contents)
+
+---
+
 ## 6. Join Syntax
-🔵&nbsp;&nbsp;&nbsp;[Table Of Contents](#table-of-contents)
 
-The standard ANSI SQL joins are `INNER`, `LEFT OUTER JOIN`, `RIGHT OUTER JOIN`, `FULL OUTER JOIN`, and `CROSS JOIN`.  For NULL markers, all five of these joins treat the NULL marker as **UNKNOWN**.  For this reason, I don't show all these joins; I only show the relevant ones needed to understand the behavior of NULL markers.  Also, I include some alternative methods for joining if you need to treat NULL markers as equals; these methods use the `ISNULL`, `ON EXISTS`, and the `IS [NOT] DISTINCT FROM` clauses.  Please take a look at my documentation **Advanced SQL Joins** for more examples of these clauses.
+Null behavior comes from the join predicate, not from the join type itself. A `CROSS JOIN` has no predicate and therefore performs no null comparison.
 
----------------------------------------------------------
-**INNER JOIN**
+### Ordinary equality
 
-NULL markers are neither equal to nor not equal to each other.  They are treated as **UNKNOWN**.  This is best demonstrated by the below `INNER JOIN` statement, where NULL markers are absent in the result set.  Note that we are looking for both equality and inequality in the `Fruit` column.
+`NULL = NULL` is `UNKNOWN`, so an ordinary equality join does not match nulls:
 
 ```sql
-SELECT  a.ID,
-        a.Fruit,
-        b.ID,
-        b.Fruit
-FROM    ##TableA a INNER JOIN
-        ##TableB b ON a.Fruit = b.Fruit OR a.Fruit <> b.Fruit
-ORDER BY 1, 3;
+SELECT  a.ID AS A_ID,
+        a.Fruit AS A_Fruit,
+        b.ID AS B_ID,
+        b.Fruit AS B_Fruit
+FROM #TableA AS a
+INNER JOIN #TableB AS b
+    ON a.Fruit = b.Fruit
+ORDER BY a.ID, b.ID;
 ```
 
-| ID | Fruit | ID | Fruit |
-|----|-------|----|-------|
-| 1  | Apple | 1  | Apple |
-| 1  | Apple | 2  | Peach |
-| 1  | Apple | 3  | Kiwi  |
-| 2  | Peach | 1  | Apple |
-| 2  | Peach | 2  | Peach |
-| 2  | Peach | 3  | Kiwi  |
-| 3  | Mango | 1  | Apple |
-| 3  | Mango | 2  | Peach |
-| 3  | Mango | 3  | Kiwi  |
-| 4  | Mango | 1  | Apple |
-| 4  | Mango | 2  | Peach |
-| 4  | Mango | 3  | Kiwi  |
+Only Apple and Peach match.
 
----------------------------------------------------
-**FULL OUTER JOIN**
+### FULL OUTER JOIN
 
-The `FULL OUTER JOIN` will give an illusion that it matches the NULL markers, but looking closely at the number of NULL markers returned vs. the number of NULL markers in our sample data, we can determine this is indeed not true.  Also, the query below demonstrates the `ORDER BY` sorting of NULL markers in ascending order.
+A full outer join preserves unmatched rows from both inputs, but it still does not match null to null when its predicate uses `=`:
 
 ```sql
-SELECT  a.ID,
-        a.Fruit,
-        b.ID,
-        b.Fruit
-FROM    ##TableA a FULL OUTER JOIN
-        ##TableB b ON a.Fruit = b.Fruit
-ORDER BY 1, 2;
+SELECT  a.ID AS A_ID,
+        a.Fruit AS A_Fruit,
+        b.ID AS B_ID,
+        b.Fruit AS B_Fruit
+FROM #TableA AS a
+FULL OUTER JOIN #TableB AS b
+    ON a.Fruit = b.Fruit
+ORDER BY COALESCE(a.ID, 2147483647),
+         COALESCE(b.ID, 2147483647);
 ```
 
-|    ID   |  Fruit   |   ID    |  Fruit  |
-|---------|----------|---------|---------|
-| \<NULL> | \<NULL>  | 3       | Kiwi    |
-| \<NULL> | \<NULL>  | 4       | \<NULL> |
-| 1       | Apple    | 1       | Apple   |
-| 2       | Peach    | 2       | Peach   |
-| 3       | Mango    | \<NULL> | \<NULL> |
-| 4       | Mango    | \<NULL> | \<NULL> |
-| 5       | \<NULL>  | \<NULL> | \<NULL> |
-| 6       | \<NULL>  | \<NULL> | \<NULL> |
+### Null-safe equality
 
-
----------------------------------------------------------
-**Other Methods For Returning NULL Markers**
-
-There are a few methods for returning NULL markers in a join, as shown below.
-
-1.  The first method uses the `ISNULL` function and sets the NULL markers to an empty string.
-2.  The second method uses the `ON EXISTS` clause.  `ON EXISTS` is only available in Microsoft SQL Server and PostgreSQL.
-3.  New to Microsoft SQL Server 2022, the third method uses the `IS [NOT] DISTINCT FROM` clause.
+SQL Server 2022 and later support `IS NOT DISTINCT FROM`, which treats two nulls as equal for comparison purposes:
 
 ```sql
---Method 1
-SELECT  *
-FROM    ##TableA a INNER JOIN
-        ##TableB b ON ISNULL(a.Fruit,'') = ISNULL(b.Fruit,'')
-ORDER BY 1;
-
---Method 2
-SELECT  *
-FROM    ##TableA a INNER JOIN
-        ##TableB b ON EXISTS (SELECT a.Fruit INTERSECT SELECT b.Fruit)
-ORDER BY 1;
-
---Method 3
-SELECT  *
-FROM    ##TableA a,
-        ##TableB b
-WHERE   a.Fruit IS DISTINCT FROM b.Fruit
-ORDER BY 1;
+SELECT  a.ID AS A_ID,
+        a.Fruit AS A_Fruit,
+        b.ID AS B_ID,
+        b.Fruit AS B_Fruit
+FROM #TableA AS a
+INNER JOIN #TableB AS b
+    ON a.Fruit IS NOT DISTINCT FROM b.Fruit
+ORDER BY a.ID, b.ID;
 ```
 
-| ID |  Fruit  | Quantity | ID |  Fruit  | Quantity  |
-|----|---------|----------|----|---------|-----------|
-| 1  | Apple   | 17       | 1  | Apple   | 17        |
-| 2  | Peach   | 20       | 2  | Peach   | 25        |
-| 5  | \<NULL> | 5        | 4  | \<NULL> | \<NULL>   |
-| 6  | \<NULL> | 3        | 4  | \<NULL> | \<NULL>   |
-
----------------------------------------------------------
-## 7. Semi and Anti Joins
-🔵&nbsp;&nbsp;&nbsp;[Table Of Contents](#table-of-contents)
-
-Semi-joins and anti-joins are two closely related join methods.  Semi-joins and anti-joins are types of joins between two tables where rows from the outer query are returned based on the presence or absence of a matching row in the joined table.
-
-Anti-joins use the `NOT IN` or `NOT EXISTS` operators.  Semi-joins use the `IN` or `EXISTS` operators.
-
-There are several benefits of using anti-joins and semi-joins over `INNER JOINS`:
-1.  Semi-joins and anti-joins remove the risk of returning duplicate rows.
-2.  Semi-joins and anti-joins increase readability as the result set can only contain the columns from the outer semi-joined table.
-
-There are a few key differences between semi-joins and anti-joins:
-1.  The `NOT IN` operator will return an empty set if the set contains a NULL marker.
-2.  The `IN`, `EXISTS`, and `NOT EXISTS` operators will return a dataset if the join contains a NULL marker.
-3.  The `IN` and `NOT IN` can take 1) a list of arguments or 2) an SQL statement.
-
-> If you are performing an anti-join to a NULLable column, consider using the `NOT EXISTS` operator over the `NOT` operator.
-
---------------------------------------------------------
-**NOT IN**
-
-This statement returns an empty dataset as the anti-join contains a NULL marker.  Note that we are passing a set of parameters, not an SQL statement, to the `NOT IN` clause.
+On earlier versions, use an explicit predicate:
 
 ```sql
-SELECT  1 AS RowNumber,
-        ID,
-        Fruit
-FROM    ##TableA
-WHERE   Fruit NOT IN ('Banana',NULL);
+ON a.Fruit = b.Fruit
+OR (a.Fruit IS NULL AND b.Fruit IS NULL)
 ```
 
-| RowNumber | ID | Fruit |
-|-----------|----|-------|
+This pattern is safer than replacing nulls with a sentinel such as an empty string, because a sentinel can collide with a real stored value.
 
-\<Empty Data Set>
+[Review `IS [NOT] DISTINCT FROM` in Microsoft Learn.](https://learn.microsoft.com/en-us/sql/t-sql/queries/is-distinct-from-transact-sql)
 
---------------------------------------------------------
-**IN**
+[Back to the table of contents](#table-of-contents)
 
-The opposite of anti-joins are semi-joins.  Using the `IN` operator, this query will return a result set.
+---
+
+## 7. Semi-Joins and Anti-Joins
+
+`IN` and `EXISTS` are predicates that SQL Server can often implement as semi-joins. `NOT IN` and `NOT EXISTS` can often be implemented as anti-semi-joins.
+
+### NOT IN
+
+If a `NOT IN` input contains `NULL`, a nonmatching comparison can become `UNKNOWN` and prevent rows from being returned:
 
 ```sql
-SELECT  ID,
-        Fruit
-FROM    ##TableA
-WHERE   Fruit IN ('Apple','Peach',NULL)
-ORDER BY 1;
+SELECT ID, Fruit
+FROM #TableA
+WHERE Fruit NOT IN ('Banana', NULL);
 ```
 
-| ID | Fruit |
-|----|-------|
-| 1  | Apple |
-| 2  | Peach |
+This returns no rows. For nullable subquery results, `NOT EXISTS` is generally clearer and safer.
 
---------------------------------------------------------
-**EXISTS**
+### IN
 
-`EXISTS` is much the same as `IN`.  But with `EXISTS`, you must create a correlated subquery for the join to be useful.
+A null in an `IN` list does not match a null outer value:
 
 ```sql
-SELECT  ID,
-        Fruit
-FROM    ##TableA a
-WHERE   EXISTS (SELECT 1 FROM ##TableB b WHERE a.Fruit = b.Fruit AND a.Quantity = b.Quantity);
+SELECT ID, Fruit
+FROM #TableA
+WHERE Fruit IN ('Apple', 'Peach', NULL)
+ORDER BY ID;
 ```
 
-| ID | Fruit |
-|----|-------|
-| 1  | Apple |
+This returns Apple and Peach only.
 
---------------------------------------------------------
-**NOT EXISTS**
+### EXISTS
 
-Here is the usage of the `NOT EXISTS`.  NULL markers are returned in the dataset (unlike the `IN` operator).
+`EXISTS` returns `TRUE` when its subquery returns at least one row. It does not inspect the selected value, and its subquery does not have to be correlated:
 
 ```sql
-SELECT  a.ID,
-        Fruit
-FROM    ##TableA a
-WHERE   NOT EXISTS (SELECT 1 FROM ##TableB b WHERE a.Fruit = b.Fruit AND a.Quantity = b.Quantity)
-ORDER BY 1;
+SELECT 1
+WHERE EXISTS (SELECT NULL); -- returns 1
 ```
 
-| ID |  Fruit  |
-|----|---------|
-| 2  | Peach   |
-| 3  | Mango   |
-| 4  | Mango   |
-| 5  | \<NULL> |
-| 6  | \<NULL> |
+A correlated example is:
 
----------------------------------------------------------
+```sql
+SELECT a.ID, a.Fruit
+FROM #TableA AS a
+WHERE EXISTS
+(
+    SELECT 1
+    FROM #TableB AS b
+    WHERE b.Fruit = a.Fruit
+      AND b.Quantity = a.Quantity
+);
+```
+
+### NOT EXISTS
+
+```sql
+SELECT a.ID, a.Fruit
+FROM #TableA AS a
+WHERE NOT EXISTS
+(
+    SELECT 1
+    FROM #TableB AS b
+    WHERE b.Fruit = a.Fruit
+      AND b.Quantity = a.Quantity
+)
+ORDER BY a.ID;
+```
+
+The rows where `a.Fruit` is null are returned because the equality predicate finds no matching row; `NULL = NULL` is `UNKNOWN`.
+
+[Back to the table of contents](#table-of-contents)
+
+---
+
 ## 8. Set Operators
-🔵&nbsp;&nbsp;&nbsp;[Table Of Contents](#table-of-contents)
 
-The SQL standard for set operators does not use the term **EQUAL TO or NOT EQUAL TO** when describing their behavior.  Instead, it uses the terminology of **IS [NOT] DISTINCT FROM**, and the following expressions are **TRUE** when using set operators.
-*  NULL is not distinct from NULL
-*  NULL is distinct from "Apple".
+For duplicate elimination, set operators treat two nulls as not distinct from one another.
 
-The following examples show that set operators treat NULL markers differently from the join syntax.
-
---------------------------------------------------------
-**UNION**
-
-When using `UNION`, the SQL standard dictates that duplicate rows should be removed from the result set.
+### UNION
 
 ```sql
-SELECT Fruit FROM ##TableA
+SELECT Fruit FROM #TableA
 UNION
-SELECT Fruit FROM ##TableB
-ORDER BY 1;
+SELECT Fruit FROM #TableB
+ORDER BY Fruit;
 ```
 
-|  Fruit  |
-|---------|
-| \<NULL> |
-| Apple   |
-| Peach   |
-| Kiwi    |
-| Mango   |
-
-
---------------------------------------------------------
-**UNION ALL**
-
-The `UNION ALL` operator returns all values, including each NULL marker.
-
-```sql
-SELECT Fruit FROM ##TableA
-UNION ALL
-SELECT Fruit FROM ##TableB
-ORDER BY 1;
-```
-
-|  Fruit  |
-|---------|
-| \<NULL> |
-| \<NULL> |
-| \<NULL> |
-| Apple   |
-| Apple   |
-| Kiwi    |
-| Mango   |
-| Mango   |
-| Peach   |
-| Peach   |
-
---------------------------------------------------------
-**EXCEPT**
-
-The `EXCEPT` operator treats the NULL markers as being not distinct from each other.
-
-```sql
-SELECT Fruit FROM ##TableB
-EXCEPT
-SELECT Fruit FROM ##TableA;
-```
+Typical ascending output under a case-insensitive Latin collation is:
 
 | Fruit |
-|-------|
-| Kiwi  |
+| ----- |
+| `NULL` |
+| Apple |
+| Kiwi |
+| Mango |
+| Peach |
 
---------------------------------------------------------
-**INTERSECT**
+Linguistic ordering can vary by collation.
 
-The `INTERSECT` operator treats the NULL markers as not being distinct from each other.
+### UNION ALL
+
+`UNION ALL` preserves every row, including every null:
 
 ```sql
-SELECT Fruit FROM ##TableA
-INTERSECT
-SELECT Fruit FROM ##TableB
-ORDER BY 1;
+SELECT Fruit FROM #TableA
+UNION ALL
+SELECT Fruit FROM #TableB
+ORDER BY Fruit;
 ```
 
-|  Fruit  |
-|---------|
-| \<NULL> |
-| Apple   |
-| Peach   |
+### EXCEPT
 
----------------------------------------------------------
+```sql
+SELECT Fruit FROM #TableB
+EXCEPT
+SELECT Fruit FROM #TableA;
+```
+
+This returns Kiwi. The null from `#TableB` is removed because `#TableA` also contains null.
+
+### INTERSECT
+
+```sql
+SELECT Fruit FROM #TableA
+INTERSECT
+SELECT Fruit FROM #TableB
+ORDER BY Fruit;
+```
+
+This returns `NULL`, Apple, and Peach.
+
+[Back to the table of contents](#table-of-contents)
+
+---
+
 ## 9. GROUP BY
-🔵&nbsp;&nbsp;&nbsp;[Table Of Contents](#table-of-contents)
 
-The `GROUP BY` clause aggregates the NULL markers together.
+`GROUP BY` places all null values for a grouping expression into one group:
 
 ```sql
 SELECT  Fruit,
-        COUNT(*) AS Count_Star,
-        COUNT(Fruit) AS Count_Fruit
-FROM    ##TableA
+        COUNT(*) AS RowCount,
+        COUNT(Fruit) AS NonNullFruitCount
+FROM #TableA
 GROUP BY Fruit
-ORDER BY 1;
+ORDER BY Fruit;
 ```
 
-|  Fruit  | Count_Star | Count_Fruit |
-|---------|------------|-------------|
-| \<NULL> | 2          | 0           |
-| Apple   | 1          | 1           |
-| Mango   | 2          | 2           |
-| Peach   | 1          | 1           |
+| Fruit | RowCount | NonNullFruitCount |
+| ----- | -------: | ----------------: |
+| `NULL` | 2 | 0 |
+| Apple | 1 | 1 |
+| Mango | 2 | 2 |
+| Peach | 1 | 1 |
 
----------------------------------------------------------
+[Back to the table of contents](#table-of-contents)
+
+---
+
 ## 10. ORDER BY
-🔵&nbsp;&nbsp;&nbsp;[Table Of Contents](#table-of-contents)
 
-A NULL marker can be used in the `ORDER BY` clause via the following syntax.
+In SQL Server, nulls sort before non-null values in ascending order and after non-null values in descending order.
 
-This approach is useful when you need to limit the number of returned rows but do not require a specific sort order.  When other developers review the syntax, it clearly indicates that the arbitrary ordering is intentional.
-
+`ORDER BY (SELECT NULL)` supplies a constant ordering expression. It can document that arbitrary ordering is intentional, but it does not guarantee stable or repeatable results:
 
 ```sql
-SELECT  TOP 1
-        Fruit
-FROM    ##TableA
+SELECT TOP (1) Fruit
+FROM #TableA
 ORDER BY (SELECT NULL);
 ```
 
+Use a deterministic key when repeatability matters.
 
----------------------------------------------------------
+[Back to the table of contents](#table-of-contents)
+
+---
+
 ## 11. Aggregate Functions
-🔵&nbsp;&nbsp;&nbsp;[Table Of Contents](#table-of-contents)
 
-Aggregate functions have a few nuances when handling NULL markers, as we will demonstrate below.
-
----------------------------------------------------------
-**COUNT and SUM**
-
-The `COUNT` function removes the NULL markers when a specified field is included in the function, but counts NULL markers when using the asterisk.
+Most aggregate functions ignore null input values. They do not remove the source rows.
 
 ```sql
-SELECT  Fruit,
-        COUNT(*) AS Count_Star,
-        COUNT(Fruit) AS Count_Fruit
-FROM    ##TableA
-GROUP BY Fruit
-ORDER BY 1;
+SELECT  COUNT(*) AS RowCount,
+        COUNT(Quantity) AS NonNullQuantityCount,
+        SUM(Quantity) AS QuantitySum,
+        AVG(CAST(Quantity AS DECIMAL(10, 2))) AS QuantityAverage,
+        MIN(Quantity) AS QuantityMinimum,
+        MAX(Quantity) AS QuantityMaximum
+FROM #TableB;
 ```
 
-|  Fruit  | Count_Star | Count_Fruit |
-|---------|------------|-------------|
-| \<NULL> | 2          | 0           |
-| Apple   | 1          | 1           |
-| Mango   | 2          | 2           |
-| Peach   | 1          | 1           |
-
-The `SUM` function ignores NULL markers and does not return an error.
+`COUNT(*)` counts rows. `COUNT(expression)` counts non-null expression results. If an aggregate such as `SUM`, `AVG`, `MIN`, or `MAX` has no non-null inputs, it returns `NULL`.
 
 ```sql
-SELECT  SUM(Quantity) AS Sum_Quantity
-FROM    ##TableB;
+SELECT  COUNT(*) AS RowCount,
+        SUM(Quantity) AS QuantitySum
+FROM #TableB
+WHERE 1 = 0;
 ```
 
-| Sum_Quantity |
-|--------------|
-| 62           |
+| RowCount | QuantitySum |
+| -------: | ----------- |
+| 0 | `NULL` |
 
-Interestingly, the `SUM` function works on a temporary or permanent table that contains NULL values, but it errors when creating the data as a common table expression or using the `VALUES` keyword.
-
-The following summation will not error and produces a result set with the `NULL` marker.
+An expression consisting entirely of untyped null literals can fail type validation. Cast at least one null to the intended type:
 
 ```sql
-CREATE TABLE ##Test
+SELECT SUM(v.MyValue) AS Total
+FROM
 (
-myNULLValue INTEGER
-);
-GO
-
-INSERT INTO ##Test VALUES (NULL);
-INSERT INTO ##Test VALUES (NULL);
-GO
-
-SELECT  SUM(myNULLValue) AS mySum
-FROM    ##Test;
+    VALUES (CAST(NULL AS INT)),
+           (NULL)
+) AS v(MyValue);
 ```
 
-|  mySum  |
-|---------|
-| \<NULL> |
+This returns `NULL` rather than a type error.
 
-However, the following two SQL statements will produce the following error in Microsoft SQL Server.
+[Back to the table of contents](#table-of-contents)
 
-> Msg 8117, Level 16, State 1, Line 24
-> Operand data type NULL is invalid for sum operator.
+---
 
-```sql
---Statement 1
-WITH cte_MyValues AS
-(
-SELECT NULL AS MyValue
-UNION ALL
-SELECT NULL
-)
-SELECT  SUM(MyValue)
-FROM    cte_MyValues;
+## 12. Window Functions
 
---Statement 2
-SELECT SUM(MyValue) FROM (VALUES (NULL), (NULL)) a(MyValue);
-```
-
-Another interesting observation is the difference between `SUM(1)` and `COUNT(1)` when applied to empty datasets.
-
-The following two SQL operations are equivalent and return the count of rows if the table being operated on is not empty.
+Null grouping behavior also applies to window partitions:
 
 ```sql
-SELECT  COUNT(1) AS myCount,
-        SUM(1) AS mySum
-FROM    ##TableA;
-```
-
-| myCount | mySum |
-|---------|-------|
-| 6       | 6     |
-
-However, the two operations return very different answers given an empty dataset.  The `SUM` function returns a NULL marker, while the `COUNT` function returns a value of 0.
-
-```sql
-CREATE TABLE ##Test
-(
-myColumn INTEGER
-);
-GO
-
-SELECT COUNT(1) AS myCount,
-       SUM(1) AS mySum
-FROM   ##Test;
-```
-
-| myCount |  mySum   |
-|---------|----------|
-| 0       | \<NULL>  |
-
-
----------------------------------------------------------
-**AVG**
-
-As shown below, the `AVG` function excludes records with NULL markers from its calculation.  For this example, we created the test data in the common table expression `cte_Average`, as this more easily demonstrates the function's behavior.
-
-In Microsoft SQL Server, when performing division between integers, you must use the `CAST` or `CONVERT` function on the values shown below.
-
-```sql
-WITH cte_Average AS
-(
-SELECT 1 AS ID, 100 AS MyValue
-UNION
-SELECT 2 AS ID, 100 AS MyValue
-UNION
-SELECT 3 AS ID, NULL AS MyValue
-UNION
-SELECT NULL AS ID, 100 AS MyValue
-)
-SELECT  SUM(MyValue) / CAST(COUNT(*) AS NUMERIC(10,2)) AS Average_CountStar,
-        SUM(MyValue) / CAST(COUNT(ID) AS NUMERIC(5,2)) AS Average_CountId,
-        AVG(CAST(MyValue AS NUMERIC(10,2))) AS Average_AvgFunction
-FROM    cte_Average;
-```
-
-| Average_CountStar | Average_CountId | Average_AvgFunction |
-|-------------------|-----------------|---------------------|
-| 75.00000000000    | 100.000000      | 100.000000          |
-
----------------------------------------------------------
-**MIN and MAX**
-
-The `MIN` and `MAX` functions will remove records with NULL markers from their calculations, as shown below.
-
-```sql
-SELECT  MAX(Quantity) AS Maximum,
-        MIN(Quantity) AS Minimum
-FROM    ##TableA;
-```
-
-| Maximum | Minimum |
-|---------|---------|
-| 20      | 3       |
-
----------------------------------------------------------
-## 12. Windowing Functions
-🔵&nbsp;&nbsp;&nbsp;[Table Of Contents](#table-of-contents)
-
-When working with window functions, we can use the NULL marker when order is not essential.
-
----------------------------------------------------------
-
-If you want to provide a row number/ranking partition on a dataset but do not care about the order, you can use `SELECT NULL` within the window function.
-
-```sql
-SELECT  *,
-        ROW_NUMBER() OVER (PARTITION BY Fruit ORDER BY (SELECT NULL)) AS RowNumber
-FROM    ##TableA
-ORDER BY Fruit, RowNumber;
-```
-
-
-| ID |  Fruit  | Quantity | RowNumber |
-|----|---------|----------|-----------|
-| 5  | \<NULL> | 5        | 1         |
-| 6  | \<NULL> | 3        | 2         |
-| 1  | Apple   | 17       | 1         |
-| 3  | Mango   | 11       | 1         |
-| 4  | Mango   | 15       | 2         |
-| 2  | Peach   | 20       | 1         |
-
----------------------------------------------------------
-
-The following two SQL statements return the same results when using `SUM`, `COUNT`, `AVG`, `MIN`, `MAX`, etc.  For this example, we will use the `SUM` function.
-
-When you do not specify an `ORDER BY` clause with a `SUM` windowing function, a total by the partitioning column is created.  Using `SELECT NULL` in the `ORDER BY` produces the same results.
-
-```sql
-SELECT  *, 
-        SUM(Quantity) OVER (PARTITION BY Fruit) AS TotalSum
-FROM    ##TableA
-ORDER BY Fruit, ID;
-
-SELECT  *,
-        SUM(Quantity) OVER (PARTITION BY Fruit ORDER BY (SELECT NULL)) AS TotalSum
-FROM    ##TableA
+SELECT  ID,
+        Fruit,
+        Quantity,
+        ROW_NUMBER() OVER
+        (
+            PARTITION BY Fruit
+            ORDER BY ID
+        ) AS RowNumber,
+        SUM(Quantity) OVER
+        (
+            PARTITION BY Fruit
+        ) AS PartitionTotal
+FROM #TableA
 ORDER BY Fruit, ID;
 ```
 
-| ID |  Fruit  | Quantity | TotalSum |
-|----|---------|----------|----------|
-| 5  | \<NULL> | 5        | 8        |
-| 6  | \<NULL> | 3        | 8        |
-| 1  | Apple   | 17       | 17       |
-| 3  | Mango   | 11       | 26       |
-| 4  | Mango   | 15       | 26       |
-| 2  | Peach   | 20       | 20       |
+Use a meaningful `ORDER BY` for ranking functions. Ordering by a constant, including `(SELECT NULL)`, makes row numbering among peers nondeterministic.
 
----------------------------------------------------------
+[Back to the table of contents](#table-of-contents)
 
-## 13. CONSTRAINTS
-🔵&nbsp;&nbsp;&nbsp;[Table Of Contents](#table-of-contents)
+---
 
-SQL provides the following constraints: `NOT NULL`, `PRIMARY KEY`, `FOREIGN KEY`, `UNIQUE`, and `CHECK CONSTRAINTS`.
+## 13. Constraints
 
----------------------------------------------------------
-**PRIMARY KEYS**
+Common SQL Server column and table rules include nullability, `DEFAULT`, `CHECK`, `UNIQUE`, `PRIMARY KEY`, and `FOREIGN KEY` definitions.
 
-Unless specified otherwise, the `PRIMARY KEY` syntax will create a `CLUSTERED INDEX`.  The following statements will return an error because a `PRIMARY KEY` does not allow NULL markers.
+### PRIMARY KEY
+
+A primary-key column cannot be nullable. A primary key defaults to clustered only when the table does not already have a clustered index or constraint.
+
+### UNIQUE
+
+For a single-column SQL Server unique constraint, only one null is permitted:
 
 ```sql
-ALTER TABLE ##TableA
-ADD CONSTRAINT PK_NULLConstraints PRIMARY KEY NONCLUSTERED (Fruit);
+DROP TABLE IF EXISTS #UniqueDemo;
 
-ALTER TABLE ##TableA
-ADD CONSTRAINT PK_NULLConstraints PRIMARY KEY CLUSTERED (Fruit);
-```
-
-> Msg 8111, Level 16, State 1, Line 1
-> Cannot define `PRIMARY KEY` constraint on nullable column in table `##TableA`.
-
----------------------------------------------------------
-**UNIQUE**
-
-We can run the following statement to demonstrate that a `UNIQUE CONSTRAINT` allows only a single NULL marker.  We add a `UNIQUE CONSTRAINT` to `##TableB`, which already includes a NULL marker in the column `Fruit`.
-
-```sql
-ALTER TABLE ##TableB
-ADD CONSTRAINT UNIQUE_NULLConstraints UNIQUE (Fruit);
-GO
-
-INSERT INTO ##TableB(Fruit) VALUES (NULL);
-GO
-```
-
-The second statement produces the following error.
-> Msg 2627, Level 14, State 1, Line 5
-> Violation of `UNIQUE KEY` constraint `UNIQUE_NULLConstraints`. Cannot insert duplicate key in object `dbo.##TableB`. The duplicate key value is (<NULL>).
-
---------------------------------------------------------
-**CHECK CONSTRAINTS**
-
-A check constraint on a table column will still allow for the insertion of NULL markers. 
-
-The insert below does not return an error and allows the operation to proceed.
-
-```sql
-DROP TABLE IF EXISTS ##CheckConstraints;
-GO
-
-CREATE TABLE ##CheckConstraints
+CREATE TABLE #UniqueDemo
 (
-ID            INTEGER,
-MyField       INTEGER,
-CONSTRAINT Check_NULLConstraints CHECK (MyField > 0)
+    ID    INT          NOT NULL,
+    Fruit VARCHAR(255) NULL,
+    CONSTRAINT UQ_UniqueDemo_Fruit UNIQUE (Fruit)
 );
-GO
 
-INSERT INTO ##CheckConstraints (ID, MyField) VALUES (1,NULL);
-GO
+INSERT INTO #UniqueDemo (ID, Fruit)
+VALUES (1, NULL);
 
-SELECT * FROM ##CheckConstraints;
+-- This second null violates the single-column unique constraint.
+-- INSERT INTO #UniqueDemo (ID, Fruit) VALUES (2, NULL);
 ```
 
-| ID |  MyField |
-|----|----------|
-| 1  | \<NULL>  |
+A filtered unique index can enforce uniqueness only for non-null values while allowing multiple nulls.
 
-You can mimic a `NOT NULL` constraint using a check constraint, as demonstrated below.
+### CHECK
+
+A check constraint rejects `FALSE`; it accepts `TRUE` and `UNKNOWN`. Therefore, this constraint permits null:
 
 ```sql
-CREATE TABLE ##TableA
+DROP TABLE IF EXISTS #CheckDemo;
+
+CREATE TABLE #CheckDemo
 (
-ID          INTEGER,
-Fruit       VARCHAR(255),
-Quantity    INTEGER,
-CONSTRAINT chk_Quantity CHECK (Quantity IS NOT NULL)
+    ID      INT NULL,
+    MyField INT NULL,
+    CONSTRAINT CK_CheckDemo_Positive CHECK (MyField > 0)
 );
+
+INSERT INTO #CheckDemo (ID, MyField)
+VALUES (1, NULL); -- accepted because the predicate is UNKNOWN
 ```
 
----------------------------------------------------------
+To prohibit null, declare the column `NOT NULL`. A check constraint such as `CHECK (MyField IS NOT NULL)` can express a similar rule, but nullability metadata and tooling will still differ.
+
+[Back to the table of contents](#table-of-contents)
+
+---
+
 ## 14. Referential Integrity
-🔵&nbsp;&nbsp;&nbsp;[Table Of Contents](#table-of-contents)
 
-Multiple NULL markers can be inserted into a child column with a foreign key constraint.
+A nullable foreign-key column can contain multiple nulls. A null foreign key means no relationship is asserted; it is not an orphaned reference. An enforced foreign key prevents non-null values from referencing nonexistent parent rows.
 
-In Microsoft SQL Server, a `FOREIGN KEY` constraint must be linked to a column with either a `PRIMARY KEY` constraint or a `UNIQUE` constraint defined on the column.  A `PRIMARY KEY` constraint does not allow NULL markers, but a `UNIQUE` constraint allows one NULL marker.
-
-The following example shows that inserting multiple NULL markers into the `Child.ParentID` is possible. This reflects the unfortunate reality that a child may be orphaned and, therefore, not have an associated parent.
-
-Referential integrity cannot be created on temporary tables; for this example, we create two tables, `Parent` and `Child`.
+A foreign key can reference a primary key, unique constraint, or qualifying unique index. SQL Server does not enforce foreign keys on temporary tables, so this example uses permanent demonstration tables and removes them afterward.
 
 ```sql
-DROP TABLE IF EXISTS Child;
-DROP TABLE IF EXISTS Parent;
+DROP TABLE IF EXISTS dbo.NullBehaviorChild;
+DROP TABLE IF EXISTS dbo.NullBehaviorParent;
 GO
 
-CREATE TABLE Parent
+CREATE TABLE dbo.NullBehaviorParent
 (
-ParentID INTEGER UNIQUE
+    ParentID INT NOT NULL
+        CONSTRAINT PK_NullBehaviorParent PRIMARY KEY
+);
+
+CREATE TABLE dbo.NullBehaviorChild
+(
+    ChildID INT IDENTITY(1, 1) NOT NULL
+        CONSTRAINT PK_NullBehaviorChild PRIMARY KEY,
+    ParentID INT NULL,
+    CONSTRAINT FK_NullBehaviorChild_Parent
+        FOREIGN KEY (ParentID)
+        REFERENCES dbo.NullBehaviorParent (ParentID)
 );
 GO
 
-CREATE TABLE Child
-(
-ChildID INTEGER IDENTITY(1,1),
-ParentID INTEGER FOREIGN KEY REFERENCES Parent (ParentID)
-);
+INSERT INTO dbo.NullBehaviorParent (ParentID)
+VALUES (1), (2), (3), (4), (5);
+
+INSERT INTO dbo.NullBehaviorChild (ParentID)
+VALUES (1), (2), (NULL), (NULL);
+
+SELECT ChildID, ParentID
+FROM dbo.NullBehaviorChild
+ORDER BY ChildID;
 GO
 
-INSERT INTO Parent (ParentID) VALUES (1),(2),(3),(4),(5);
+DROP TABLE dbo.NullBehaviorChild;
+DROP TABLE dbo.NullBehaviorParent;
 GO
-
-INSERT INTO Child (ParentID) VALUES (1),(2),(NULL),(NULL);
-GO
-
-SELECT * FROM Parent ORDER BY 1;
-SELECT * FROM Child ORDER BY 1;
 ```
 
-**Parent**
-| ParentID |
-|----------|
-| 1        |
-| 2        |
-| 3        |
-| 4        |
-| 5        |
+| ChildID | ParentID |
+| ------: | -------- |
+| 1 | 1 |
+| 2 | 2 |
+| 3 | `NULL` |
+| 4 | `NULL` |
 
-**Child**
-| RowNumber |  ChildID  |
-|-----------|-----------|
-| 1         | 1         |
-| 2         | 2         |
-| 3         | \<NULL>   |
-| 4         | \<NULL>   |
+[Back to the table of contents](#table-of-contents)
 
----------------------------------------------------------
+---
+
 ## 15. Computed Columns
-🔵&nbsp;&nbsp;&nbsp;[Table Of Contents](#table-of-contents)
 
-A computed column is a virtual column that is not physically stored in a table.  A computed column expression can use data from other columns to calculate a value.  When an expression is applied to a column with a NULL marker, a NULL marker will be the return value.   Here, we add the value `2` to the `Quantity` field in `TableB` (which includes a NULL marker in the `Quantity` field.
+A computed column is normally virtual. SQL Server physically stores it when it is marked `PERSISTED`.
+
+Arithmetic involving null normally returns null:
 
 ```sql
-SELECT Fruit,
-       Quantity + 2 AS QuantityPlus2
-FROM   ##TableB
-ORDER BY 1;
+SELECT  ID,
+        Fruit,
+        Quantity + 2 AS QuantityPlus2
+FROM #TableB
+ORDER BY ID;
 ```
 
+| ID | Fruit | QuantityPlus2 |
+| --: | ----- | ------------: |
+| 1 | Apple | 19 |
+| 2 | Peach | 27 |
+| 3 | Kiwi | 22 |
+| 4 | `NULL` | `NULL` |
 
-| ID |  Fruit  | QuantityPlus2 |
-|----|---------|---------------|
-| 1  | Apple   | 19            |
-| 2  | Peach   | 27            |
-| 3  | Kiwi    | 22            |
-| 4  | \<NULL> | \<NULL>       |
-
--------------------------------------------------------------
-**PERSISTED**
-
-When creating a table with a non-NULLable computed column, you must create the column as `PERSISTED`, else you will receive the error message:
-
->❗&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Only `UNIQUE` or `PRIMARY KEY` constraints can be created on computed columns, while `CHECK`, `FOREIGN KEY`, and `NOT NULL` constraints require that computed columns be persisted.
-
-From this error message, we can see there are several rules we need to follow on computed columns if we want to add `UNIQUE`, `PRIMARY KEY`, `FOREIGN KEY`, `CHECK`, and `NOT NULL` constraints.
-
-Here, we add a `NOT NULL` constraint to a `PERSISTED` computed column and then run an 'ALTER TABLE' to create a `PRIMARY KEY` on the column.
+`NOT NULL` can be specified on a computed column only when the column is also `PERSISTED`. Foreign-key and check constraints on computed columns also require persistence. Primary-key, unique, and index eligibility additionally depends on determinism, precision, ownership, data type, and required session settings.
 
 ```sql
-DROP TABLE IF EXISTS MyComputed;
+DROP TABLE IF EXISTS dbo.NullBehaviorComputed;
 GO
 
-CREATE TABLE MyComputed
+CREATE TABLE dbo.NullBehaviorComputed
 (
-Int1 INTEGER NOT NULL,
-Int2 INTEGER NOT NULL,
-Int3 AS Int1 + Int2 PERSISTED NOT NULL
+    Int1 INT NOT NULL,
+    Int2 INT NOT NULL,
+    Int3 AS (Int1 + Int2) PERSISTED NOT NULL,
+    CONSTRAINT PK_NullBehaviorComputed PRIMARY KEY CLUSTERED (Int3)
 );
+GO
 
-ALTER TABLE MyComputed ADD PRIMARY KEY CLUSTERED (Int3);
-
-DROP TABLE IF EXISTS MyComputed;
+DROP TABLE dbo.NullBehaviorComputed;
 GO
 ```
 
-Commands completed successfully.
+[Review computed-column rules in Microsoft Learn.](https://learn.microsoft.com/en-us/sql/t-sql/statements/alter-table-computed-column-definition-transact-sql)
 
----------------------------------------------------------
-## 16. SQL NULL Functions
-🔵&nbsp;&nbsp;&nbsp;[Table Of Contents](#table-of-contents)
+[Back to the table of contents](#table-of-contents)
 
-Besides the `IS NULL` and `IS NOT NULL` predicate logic constructs, SQL also provides three functions to help evaluate NULL markers.
+---
 
-1.  `ISNULL`
-2.  `COALESCE`
-3.  `NULLIF`
+## 16. NULLIF, ISNULL, and COALESCE
 
-`COALESCE` and `ISNULL` have several key differences that should be noted.  A complete comparison can be found [here](https://www.mssqltips.com/sqlservertip/2689/deciding-between-coalesce-and-isnull-in-sql-server/).
+These constructs have related but different purposes:
 
-The differences between `COALESCE` and `ISNULL` from the documentation are:
-
-1.  `COALESCE` behaves the same as a `CASE` statement; it can accept multiple parameters and return a NULL marker.  `ISNULL` cannot return a NULL marker and accepts only two parameters.
-2.  `COALESCE` determines the type of output based on data type precedence.  ISNULL uses the data type of the first parameter.
-
----------------------------------------------------------
-**COALESCE**
-*  The `COALESCE` function returns the first non-NULL marker among its arguments.  If all values are NULL, `COALESCE` returns a NULL marker.
-*  The basic usage of the function is `COALESCE(expression [ ,…n ])`
-
----------------------------------------------------------
-**ISNULL**
-*  The `ISNULL` function replaces NULL with the specified replacement value.
-*  The basic usage of the function is `ISNULL(check_expression , replacement_value)`
-
----------------------------------------------------------
-**NULLIF**
-*  The `NULLIF` returns a NULL marker if the two specified expressions are equal.
-*  The basic usage of the function is `NULLIF(expression , expression)`
-
----------------------------------------------------------
-**SQL Function Examples**
-
-Below, I provide a few quick examples to note their behavior.
+* `NULLIF(a, b)` returns `NULL` when `a = b`; otherwise, it returns `a`.
+* `ISNULL(a, b)` returns `a` when it is non-null; otherwise, it returns `b` converted to the type of `a`.
+* `COALESCE(a, b, ...n)` returns the first non-null expression and follows `CASE` data-type and nullability rules.
 
 ```sql
-SELECT  1 AS ID,
-        ISNULL(NULL, 'foo') AS fnISNULL,
-        COALESCE(NULL, NULL, 'foo') AS fnCOALESCE,
-        NULLIF('foo', 'foo') AS fnNULLIF;
+SELECT  ISNULL(NULL, 'foo') AS IsNullResult,
+        COALESCE(NULL, NULL, 'foo') AS CoalesceResult,
+        NULLIF('foo', 'foo') AS NullIfResult;
 ```
 
-| Id | fnISNULL | fnCOALESCE | fnNULLIF |
-|----|----------|------------|----------|
-| 1  | foo      | foo        | \<NULL>  |
-
-
----------------------------------------------------------
-## 17. Empty Strings, NULL, and ASCII VALUES
-🔵&nbsp;&nbsp;&nbsp;[Table Of Contents](#table-of-contents)
-
-Using the empty string is a valuable feature to combat NULL markers in character fields.  The empty string character is not an ASCII value, and the following function returns a NULL marker for both the empty string and the NULL marker parameters.  Also, when reviewing an ASCII code chart, you would assume the ASCII value for a NULL marker is 0. However, this is not the case.  SQL does not use the standard ANSI NULL marker.
+`ISNULL` can return null when both arguments are null:
 
 ```sql
-SELECT  1 AS ID,
-        ASCII('') AS ASCII_EmptyString,
-        ASCII(NULL) AS ASCII_NULL;
+SELECT ISNULL(CAST(NULL AS INT), CAST(NULL AS INT)) AS Result;
 ```
 
-| ID | ASCII_EmptyString | ASCII_NULL |
-|----|-------------------|------------|
-| 1  | \<NULL>           | \<NULL>    |
+Other important differences include:
 
-
----------------------------------------------------------
-**ISNULL**
-
-Any query that joins on a field with an empty string evaluates to true.  The empty string is commonly used with the `ISNULL` function, such as the following query.
+* `ISNULL` is evaluated once; `COALESCE` can evaluate an input expression more than once because it is rewritten as `CASE`.
+* `ISNULL` takes two arguments; `COALESCE` accepts multiple arguments.
+* `ISNULL` normally uses the first argument's type and length, so its replacement can be truncated.
+* `COALESCE` chooses a result type according to data-type precedence and expression lengths.
+* Their nullability metadata can differ, which matters for computed columns and keys.
 
 ```sql
-SELECT  a.ID,
-        a.Fruit,
-        b.ID,
-        b.Fruit
-FROM    ##TableA a INNER JOIN
-        ##TableB b ON ISNULL(a.Fruit,'') = ISNULL(b.Fruit,'')
-ORDER BY 1;
+DECLARE @ShortValue VARCHAR(3) = NULL;
+
+SELECT  ISNULL(@ShortValue, 'abcdef') AS IsNullResult,   -- abc
+        COALESCE(@ShortValue, 'abcdef') AS CoalesceResult; -- abcdef
 ```
 
-| ID |  Fruit  | ID |  Fruit  |
-|----|---------|----|---------|
-| 1  | Apple   | 1  | Apple   |
-| 2  | Peach   | 2  | Peach   |
-| 5  | \<NULL> | 4  | \<NULL> |
-| 6  | \<NULL> | 4  | \<NULL> |
+[Review the official `COALESCE` comparison.](https://learn.microsoft.com/en-us/sql/t-sql/language-elements/coalesce-transact-sql)
 
+[Back to the table of contents](#table-of-contents)
 
----------------------------------------------------------
+---
+
+## 17. Empty Strings, SQL NULL, and ASCII NUL
+
+These are three different concepts:
+
+* SQL `NULL` is a marker for an absent value.
+* `''` is a zero-length string containing no characters.
+* ASCII NUL is the control character with code zero.
+
+Because an empty string has no leftmost character, `ASCII('')` returns null. `ASCII(NULL)` also returns null because its input is absent. Neither result means that SQL `NULL` has ASCII code zero.
+
+```sql
+SELECT  LEN('') AS EmptyStringLength,
+        DATALENGTH('') AS EmptyStringBytes,
+        ASCII('') AS EmptyStringAscii,
+        ASCII(NULL) AS SqlNullAscii,
+        ASCII(CHAR(0)) AS AsciiNulCode;
+```
+
+Do not routinely replace database nulls with empty strings. Doing so discards the distinction between “no string value” and “a present string of length zero.”
+
+[Back to the table of contents](#table-of-contents)
+
+---
+
 ## 18. CONCAT
-🔵&nbsp;&nbsp;&nbsp;[Table Of Contents](#table-of-contents)
 
+Starting with SQL Server 2017, `CONCAT_NULL_YIELDS_NULL` is always `ON`. That setting controls the `+` string-concatenation operator; it does not change the behavior of the `CONCAT` function.
 
-> :exclamation:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;In Microsoft SQL Server, the `SET CONCAT_NULL_YIELDS_NULL` database setting controls whether concatenation results are treated as NULL or empty string values.  In a future version of Microsoft SQL Server, `CONCAT_NULL_YIELDS_NULL` will always be `ON`, and any applications that explicitly set the option to `OFF` will generate an error. Avoid using this feature in new development work, and plan to modify applications that currently use this feature.
-
-The `CONCAT` function returns an empty string if all values are NULL.
-
+`CONCAT` implicitly converts its arguments to strings and converts null arguments to empty strings. If all arguments are null, it returns an empty `VARCHAR(1)` string:
 
 ```sql
-SELECT CONCAT(NULL,NULL,NULL) AS fnConcat;
+SELECT CONCAT(NULL, NULL, NULL) AS ConcatResult;
 ```
-|    fnConcat     |
-|-----------------|
-| \<Empty String> |
 
----------------------------------------------------------
-**CONCAT Implicit Data Type Conversion**
+Do not construct multi-column join keys by concatenating values without a collision-proof encoding. For example, `(1, 23)` and `(12, 3)` both become `'123'` when concatenated without delimiters. Concatenation can also introduce conversion, collation, truncation, and index-usage problems. Compare the columns individually instead.
 
-This feature of `CONCAT` is especially helpful when you want to join a table on multiple fields (with multiple data types) where NULL markers and empty strings are not used consistently in the tables, as shown below.  You can include fields with different data types into the `CONCAT` function, as this function performs an implicit data type conversion.
+[Review `CONCAT` in Microsoft Learn.](https://learn.microsoft.com/en-us/sql/t-sql/functions/concat-transact-sql)
 
-```sql
-WITH
-cte_Values AS
-(
-SELECT NULL AS A,
-       NULL AS B,
-       ''   AS C,
-       ''   AS D
-)
-SELECT v1.A, v2.B, v2.C, v2.D
-FROM   cte_Values v1 INNER JOIN
-       cte_Values v2 ON CONCAT(v1.A, v1.B) = CONCAT(v2.C,v2.D);
-```
-In query editors, NULL markers and empty strings appear differently (by default, SSMS shows NULL markers in yellow and empty strings as blanks).
+[Back to the table of contents](#table-of-contents)
 
-|    A    |    B    |          C      |        D        |
-|---------|---------|-----------------|-----------------|
-| \<NULL> | \<NULL> | \<Empty String> | \<Empty String> |
+---
 
+## 19. Views and Nullability Metadata
 
----------------------------------------------------------
-## 19. Views
-🔵&nbsp;&nbsp;&nbsp;[Table Of Contents](#table-of-contents)
-
-When creating a view, if you perform a `CAST` function or create a computed column on a column that has a `NOT NULL` constraint, the result will yield a NULLable column.
-
-Here, we create a table with `NOT NULL` constraints and then create a view where we perform a `CAST` and create a computed column.  When we query the table's metadata, we can see the columns are NULLable.
+SQL Server can report an expression in a view as nullable even when its source column is declared `NOT NULL`. This is metadata inference for the expression; it does not mean the base column became nullable.
 
 ```sql
-DROP TABLE IF EXISTS MyTable;
+DROP VIEW IF EXISTS dbo.vwNullBehaviorSource;
+DROP TABLE IF EXISTS dbo.NullBehaviorViewSource;
 GO
 
-CREATE TABLE MyTable
+CREATE TABLE dbo.NullBehaviorViewSource
 (
-MyInteger INT NOT NULL,
-MyVarchar VARCHAR(100) NOT NULL,
-MyDate DATE NOT NULL
+    MyInteger INT          NOT NULL,
+    MyVarchar VARCHAR(100) NOT NULL,
+    MyDate    DATE         NOT NULL
 );
 GO
 
-CREATE OR ALTER VIEW vwMyTable AS
+CREATE VIEW dbo.vwNullBehaviorSource
+AS
 SELECT  MyInteger,
         MyVarchar,
         MyDate,
@@ -1100,273 +770,267 @@ SELECT  MyInteger,
         CAST(MyVarchar AS VARCHAR(100)) AS MyVarchar_Cast,
         CAST(MyDate AS DATETIME) AS MyDate_Cast,
         MyInteger * 10 AS MyInteger_Computed
-FROM    MyTable;
+FROM dbo.NullBehaviorViewSource;
 GO
 
 SELECT  c.name AS ColumnName,
-        ty.name as DataType,
+        ty.name AS DataType,
         c.is_nullable
-FROM    sys.views t INNER JOIN
-        sys.columns c ON t.object_id = c.object_id INNER JOIN
-        sys.types ty ON ty.user_type_id = c.user_type_id
-WHERE   t.name = 'vwMyTable' and c.is_nullable = 1
-ORDER BY 1, 2, 3;
-```
-
-|     ColumnName     | DataType | is_nullable |
-|--------------------|----------|-------------|
-| MyDate_Cast        | datetime | 1           |
-| MyInteger_Cast     | int      | 1           |
-| MyInteger_Computed | int      | 1           |
-| MyVarchar_Cast     | varchar  | 1           |
-
----------------------------------------------------------
-## 20. Boolean Values
-🔵&nbsp;&nbsp;&nbsp;[Table Of Contents](#table-of-contents)
-
-Here we will discuss two SQL constructs, the `BIT` data type and the `NOT` operator.
-
->❗&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Much like NULL markers and duplicate tuples, there is much debate in the SQL community about whether the `BIT` data type should be a permissible data type, as its allowance for the NULL marker does not mimic the real world.  Joe Celko and C.J. Date advocate against using the `BIT` data type and give further details in many of their writings.
-
-------------------------------------------------------------------
-**BIT**
-
-Often, we think of the `BIT` data type as being a Boolean value (true or false, yes or no, on or off, one or zero…); however, NULL markers are allowed for the `BIT` data type, making the possible values 1, 0, and NULL.  **The `BIT` data type in SQL is not a true Boolean value.**
-
-Because the only acceptable values for the `BIT` data type are 1, 0, or NULL, the `BIT` data type converts any nonzero value to 1.  As discussed earlier, the NULL marker is neither a nonzero nor a zero value, so it is not promoted to the value of 1.  Here, we demonstrate that behavior.
-
-```sql
-SELECT 1 AS ID, CAST(NULL AS BIT) AS Bit
-UNION
-SELECT 2 AS ID, CAST(3 AS BIT) AS Bit
-ORDER BY 1, 2;
-```
-
-| ID |   Bit   |
-|----|---------|
-|  1 | \<NULL> |
-|  2 | 1       |
-
- ------------------------------------------------------------------
-**NOT**
-
-The `NOT` operator negates a Boolean input.
-
-We can see how the `NOT` operator acts on our test data here.  Placing the `NOT` operator on the predicate logic will not return a NULL marker.
-
-```sql
---15.2
-SELECT  *
-FROM    ##TableA
-WHERE   NOT(FRUIT = 'Mango')
-ORDER BY 1, 2;
-```
-
-| ID | Fruit | Quantity |
-|----|-------|----------|
-| 1  | Apple | 17       |
-| 2  | Peach | 20       |
-
----------------------------------------------------------
-## 21. RETURN
-🔵&nbsp;&nbsp;&nbsp;[Table Of Contents](#table-of-contents)
-
-The `RETURN` statement exits unconditionally from a query or procedure.  All stored procedures return 0 for a successful execution and a nonzero value for a failure.  When the `RETURN` statement is used with a stored procedure, it cannot return a NULL marker.  If a procedure tries to return a NULL marker in the `RETURN` statement, a warning message is generated, and a value of 0 is returned.
-
-Here, we will create a stored procedure that overrides the default `RETURN` value and attempts to return a NULL marker.
-
-```sql
-CREATE OR ALTER PROCEDURE SpReturnStatement
-AS
-IF 1=2
-    RETURN 1
-ELSE
-    RETURN NULL;
+FROM sys.views AS v
+INNER JOIN sys.columns AS c
+    ON c.object_id = v.object_id
+INNER JOIN sys.types AS ty
+    ON ty.user_type_id = c.user_type_id
+WHERE v.object_id = OBJECT_ID(N'dbo.vwNullBehaviorSource')
+ORDER BY c.column_id;
 GO
 
-DECLARE @return_status INT;
-
-EXEC @return_status = SpReturnStatement;
-SELECT 'Return Status' = @return_status;
+DROP VIEW dbo.vwNullBehaviorSource;
+DROP TABLE dbo.NullBehaviorViewSource;
+GO
 ```
 
-The `SpReturnStatement` procedure attempted to return a status of NULL, which is not allowed. A status of 0 will be returned instead.
+Do not generalize the result to every cast or expression. Nullability metadata depends on the expression and SQL Server's inference rules.
 
-| Return Status |
-|---------------|
-| 0             |
+[Back to the table of contents](#table-of-contents)
 
----------------------------------------------------------
-## 22. Identity Columns
-🔵&nbsp;&nbsp;&nbsp;[Table Of Contents](#table-of-contents)
+---
 
-In some databases, such as MySQL, when you insert a NULL marker into an identity column, the column will take the next available value.  In Microsoft SQL Server, an error is produced, as demonstrated below.
+## 20. BIT and NOT
+
+SQL Server's `BIT` type stores `0` or `1`. A `BIT` column can also store null when the column is declared nullable. SQL Server converts nonzero numeric values to `1`:
 
 ```sql
-CREATE TABLE ##Identity
+SELECT  CAST(NULL AS BIT) AS NullableBit,
+        CAST(0 AS BIT) AS ZeroBit,
+        CAST(3 AS BIT) AS NonzeroBit;
+```
+
+`NOT` negates a predicate, not a `BIT` value. Under three-valued logic, `NOT UNKNOWN` remains `UNKNOWN`:
+
+```sql
+SELECT ID, Fruit, Quantity
+FROM #TableA
+WHERE NOT (Fruit = 'Mango')
+ORDER BY ID;
+```
+
+Rows where `Fruit` is null are not returned because the predicate remains `UNKNOWN`, and `WHERE` keeps only `TRUE`.
+
+[Back to the table of contents](#table-of-contents)
+
+---
+
+## 21. RETURN
+
+`RETURN` exits a batch or stored procedure and can provide an integer status. By convention, zero indicates success and nonzero values indicate other statuses, but application code can define its own nonzero meanings.
+
+A stored procedure cannot return a null status. SQL Server emits a warning and substitutes zero:
+
+```sql
+DROP PROCEDURE IF EXISTS dbo.NullBehaviorReturnDemo;
+GO
+
+CREATE PROCEDURE dbo.NullBehaviorReturnDemo
+AS
+BEGIN
+    RETURN NULL;
+END;
+GO
+
+DECLARE @ReturnStatus INT;
+
+EXECUTE @ReturnStatus = dbo.NullBehaviorReturnDemo;
+SELECT @ReturnStatus AS ReturnStatus;
+GO
+
+DROP PROCEDURE dbo.NullBehaviorReturnDemo;
+GO
+```
+
+[Back to the table of contents](#table-of-contents)
+
+---
+
+## 22. Identity Columns
+
+To generate the next identity value, omit the identity column from the insert. Explicitly supplying `NULL` is still an attempt to provide an identity value and fails when `IDENTITY_INSERT` is off.
+
+```sql
+DROP TABLE IF EXISTS #IdentityDemo;
+
+CREATE TABLE #IdentityDemo
 (
-Id INTEGER IDENTITY(1,2)
+    ID INT IDENTITY(1, 2) NOT NULL
 );
 
-INSERT INTO ##Identity(Id) VALUES (NULL);
+INSERT INTO #IdentityDemo DEFAULT VALUES;
+INSERT INTO #IdentityDemo DEFAULT VALUES;
 
-SELECT  Id
-FROM    ##Identity;
+SELECT ID
+FROM #IdentityDemo
+ORDER BY ID; -- 1, 3
+
+BEGIN TRY
+    INSERT INTO #IdentityDemo (ID)
+    VALUES (NULL);
+END TRY
+BEGIN CATCH
+    SELECT  ERROR_NUMBER() AS ErrorNumber,
+            ERROR_MESSAGE() AS ErrorMessage;
+END CATCH;
 ```
 
-Microsoft SQL Server returns the following error.
+Using `TRY...CATCH` displays the actual error for the SQL Server version and session configuration running the example.
 
-> Msg 339, Level 16, State 1, Line 6
-> DEFAULT or NULL are not allowed as explicit identity values.
+[Back to the table of contents](#table-of-contents)
 
----------------------------------------------------------
-## 23. LAG and LEAD Functions
-🔵&nbsp;&nbsp;&nbsp;[Table Of Contents](#table-of-contents)
+---
 
-SQL Server now supports ignoring or respecting NULLS.
+## 23. LAG and LEAD
 
-`IGNORE NULLS` - Ignore null values in the dataset when computing the first value over a partition.
+SQL Server 2022 and later support `IGNORE NULLS` and `RESPECT NULLS` with `LAG` and `LEAD`:
 
-`RESPECT NULLS` - Respect null values in the dataset when computing the first value over a partition. `RESPECT NULLS` is the default behavior if a NULLS option is not specified.
+* `IGNORE NULLS` skips null values while locating the preceding or following value.
+* `RESPECT NULLS` includes null values and is the default.
 
-Here is an SQL statement that combines all the different combinations of use.
-
-Interestingly, there is a bug in SQL Server: if you combine `LAG` and `LEAD` with the `IGNORE NULLS` clause, you get erroneous results in the `LeadIgnoreNulls` column.  You can test this by commenting out the different function calls and reviewing the results.
-
-> This bug appears to be fixed in version 2025.
+Microsoft fixed an `IGNORE NULLS` incorrect-results issue in **SQL Server 2022 CU4**. Install CU4 or a later cumulative update before relying on this feature.
 
 ```sql
-WITH cte_Lag_Lead AS
+WITH LagLeadValues AS
 (
-SELECT 1 AS ID, 100 AS MyValue
-UNION
-SELECT 2 AS ID, 200 AS MyValue
-UNION
-SELECT 3 AS ID, NULL AS MyValue
-UNION
-SELECT 4 AS ID, 300 AS MyValue
+    SELECT ID, MyValue
+    FROM
+    (
+        VALUES (1, 100),
+               (2, 200),
+               (3, NULL),
+               (4, 300)
+    ) AS v(ID, MyValue)
 )
-SELECT  *
-        ,LAG(MyValue,1,0) IGNORE NULLS OVER (ORDER BY ID) AS LagIgnoreNulls
-        ,LEAD(MyValue,1,0) IGNORE NULLS OVER (ORDER BY ID) AS LeadIgnoreNulls
-        ,LAG(MyValue,1,0) RESPECT NULLS OVER (ORDER BY ID) AS LagRespectNulls
-        ,LEAD(MyValue,1,0) RESPECT NULLS OVER (ORDER BY ID) AS LeadRespectNulls
-FROM    cte_Lag_Lead
-ORDER BY 1;
+SELECT  ID,
+        MyValue,
+        LAG(MyValue, 1, 0) IGNORE NULLS
+            OVER (ORDER BY ID) AS LagIgnoreNulls,
+        LEAD(MyValue, 1, 0) IGNORE NULLS
+            OVER (ORDER BY ID) AS LeadIgnoreNulls,
+        LAG(MyValue, 1, 0) RESPECT NULLS
+            OVER (ORDER BY ID) AS LagRespectNulls,
+        LEAD(MyValue, 1, 0) RESPECT NULLS
+            OVER (ORDER BY ID) AS LeadRespectNulls
+FROM LagLeadValues
+ORDER BY ID;
 ```
 
-|   ID    | MyValue | LagIgnoreNulls | LeadIgnoreNulls | LagRespectNulls | LeadRespectNulls |
-|---------|---------|----------------|-----------------|-----------------|------------------|
-| 1       | 100     | 0              | 0               | 0               | 200              |
-| 2       | 200     | 100            | 100             | 100             | \<NULL>          |
-| 3       | \<NULL> | 200            | 200             | 200             | 300              |
-| 4       | 300     | 200            | 200             | \<NULL>         | 0                |
+| ID | MyValue | LagIgnoreNulls | LeadIgnoreNulls | LagRespectNulls | LeadRespectNulls |
+| --: | ------- | -------------: | --------------: | ----------------: | -----------------: |
+| 1 | 100 | 0 | 200 | 0 | 200 |
+| 2 | 200 | 100 | 300 | 100 | `NULL` |
+| 3 | `NULL` | 200 | 300 | 200 | 300 |
+| 4 | 300 | 200 | 0 | `NULL` | 0 |
 
-If we create separate statements, we get the correct results.
+[Review `LEAD` and the CU4 note in Microsoft Learn.](https://learn.microsoft.com/en-us/sql/t-sql/functions/lead-transact-sql)
 
-```sql
-WITH cte_Lag_Lead AS
-(
-SELECT 1 AS ID, 100 AS MyValue
-UNION
-SELECT 2 AS ID, 200 AS MyValue
-UNION
-SELECT 3 AS ID, NULL AS MyValue
-UNION
-SELECT 4 AS ID, 300 AS MyValue
-)
-SELECT  *,
-        LEAD(MyValue,1,0) IGNORE NULLS OVER (ORDER BY ID) AS LeadIgnoreNulls,
-        LEAD(MyValue,1,0) RESPECT NULLS OVER (ORDER BY ID) AS LeadRespectNulls
-FROM    cte_Lag_Lead
-ORDER BY 1;
-```
+[Back to the table of contents](#table-of-contents)
 
-| ID | MyValue | LeadIgnoreNulls | LeadRespectNulls |
-|----|---------|-----------------|------------------|
-|  1 | 100     | 200             | 200              |
-|  2 | 200     | 300             | \<NULL>          |
-|  3 | \<NULL> | 300             | 300              |
-|  4 | 300     | 0               | 0                |
-
----------------------------------------------------------
+---
 
 ## 24. Arithmetic Operators
-🔵&nbsp;&nbsp;&nbsp;[Table Of Contents](#table-of-contents)
 
-Arithmetic operations that involve a NULL marker will return a NULL marker.
+Arithmetic involving a null operand normally returns null:
 
 ```sql
-SELECT  '1 / NULL' AS Description,
-         1 / NULL AS Result
-UNION ALL
-SELECT  'NULL / 1',
-         NULL / 1
-UNION ALL
-SELECT  '1 * NULL',
-         1 * NULL
-UNION ALL
-SELECT '1 - NULL',
-        1 - NULL
-UNION ALL
-SELECT  '1 + NULL',
-        1 + NULL;
+DECLARE @NullInteger INT = NULL;
+
+SELECT  1 / @NullInteger AS DivideByNull,
+        @NullInteger / 1 AS NullDividedByOne,
+        1 * @NullInteger AS MultiplyByNull,
+        1 - @NullInteger AS SubtractNull,
+        1 + @NullInteger AS AddNull;
 ```
 
-| Description |   Result  |
-|-------------|-----------|
-| 1 / NULL    | \<NULL>   |
-| NULL / 1    | \<NULL>   |
-| 1 * NULL    | \<NULL>   |
-| 1 - NULL    | \<NULL>   |
-| 1 + NULL    | \<NULL>   |
+All five results are `NULL`.
 
----------------------------------------------------------
+[Back to the table of contents](#table-of-contents)
+
+---
 
 ## 25. WHERE
 
-When using an inequality operation in the `WHERE` clause, SQL will not return records that contain a NULL marker.
+An ordinary inequality comparison with null evaluates to `UNKNOWN`, so nullable rows are not returned:
 
 ```sql
-SELECT *
-FROM   ##TableA
-WHERE  Fruit <> 'Mango';
+SELECT ID, Fruit, Quantity
+FROM #TableA
+WHERE Fruit <> 'Mango'
+ORDER BY ID;
 ```
-| ID | Fruit | Quantity |
-|----|-------|----------|
-| 1  | Apple | 17       |
-| 2  | Peach | 20       |
 
----------------------------------------------------------
+To include nulls explicitly:
+
+```sql
+SELECT ID, Fruit, Quantity
+FROM #TableA
+WHERE Fruit <> 'Mango'
+   OR Fruit IS NULL
+ORDER BY ID;
+```
+
+On SQL Server 2022 and later, this null-aware alternative also includes nulls:
+
+```sql
+WHERE Fruit IS DISTINCT FROM 'Mango'
+```
+
+[Back to the table of contents](#table-of-contents)
+
+---
 
 ## 26. Variables
 
-You might expect the variable `@Test` to become NULL when assigned from a `SELECT` statement that returns no rows. Instead, SQL Server leaves the variable unchanged, so it retains its previous value.
+When a `SELECT` assignment processes no rows, SQL Server leaves the variable unchanged:
 
 ```sql
 DECLARE @Test VARCHAR(100) = 'Default';
 
 SELECT @Test = 'My New Value'
-WHERE  1=0;
+WHERE 1 = 0;
 
-SELECT @Test AS MyValue;
+SELECT @Test AS MyValue; -- Default
 ```
 
-| MyValue |
-|---------|
-| Default |
+By contrast, assigning the result of a scalar subquery with `SET` produces null when the subquery returns no rows:
 
----------------------------------------------------------
+```sql
+DECLARE @Test VARCHAR(100) = 'Default';
+
+SET @Test =
+(
+    SELECT 'My New Value'
+    WHERE 1 = 0
+);
+
+SELECT @Test AS MyValue; -- NULL
+```
+
+Also use care when a `SELECT` assignment can process multiple rows; the final assigned value can depend on plan and processing order unless the query guarantees one row.
+
+[Back to the table of contents](#table-of-contents)
+
+---
 
 ## 27. Conclusion
-🔵&nbsp;&nbsp;&nbsp;[Table Of Contents](#table-of-contents)
 
-Throughout this document, we have touched on many SQL constructs and how they treat NULL markers.  This document is helpful for future development, and most importantly, always remember to include NULL markers in your test data.
+The central rule is that ordinary comparisons involving null generally produce `UNKNOWN`, and search conditions retain only `TRUE`. From that rule follow many behaviors in joins, filters, checks, and anti-joins.
 
-The most important concept to understand about NULL markers is three-valued logic, where statements can be **TRUE**, **FALSE**, or **UNKNOWN**.  Understanding the three-valued logic is instrumental in understanding the behavior of NULL markers.  **TRUE OR UNKNOWN** equates to **TRUE**, and **TRUE AND UNKNOWN** equates to **UNKNOWN**.
+Other constructs deliberately use different semantics:
 
-If you find any inaccuracies, misspellings, bugs, dead links, or other issues, please report them!  No detail is too small, and I appreciate all the help.
+* `IS NULL` and `IS NOT NULL` test for null directly.
+* `IS [NOT] DISTINCT FROM` provides two-valued, null-aware comparison.
+* Set operators and `GROUP BY` treat nulls as not distinct for duplicate elimination and grouping.
+* Most aggregates ignore null inputs, while `COUNT(*)` counts rows.
+* Constraints, metadata inference, and built-in functions each apply their documented null rules.
 
-:smile:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Happy coding!
+Always include nulls, empty strings, duplicate values, and empty input sets in database tests. Also test under the exact SQL Server version and cumulative update used in production.
 
-**https://advancedsqlpuzzles.com**
+[Back to the table of contents](#table-of-contents)
