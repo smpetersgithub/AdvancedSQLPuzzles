@@ -136,7 +136,7 @@ Do not use `= NULL` or `<> NULL` to perform these tests.
 The remaining examples use two local temporary tables. Local temporary tables reduce the risk of name collisions with other sessions.
 
 **TableA**
-| ID | `Fruit` | Quantity |
+| ID | Fruit | Quantity |
 | --: | --------------- | -------: |
 | 1 | Apple | 17 |
 | 2 | Peach | 20 |
@@ -146,7 +146,7 @@ The remaining examples use two local temporary tables. Local temporary tables re
 | 6 | `NULL` | 3 |
 
 **TableB**
-| ID | `Fruit` | Quantity |
+| ID | Fruit | Quantity |
 | --: | --------------- | -------: |
 | 1 | Apple | 17 |
 | 2 | Peach | 25 |
