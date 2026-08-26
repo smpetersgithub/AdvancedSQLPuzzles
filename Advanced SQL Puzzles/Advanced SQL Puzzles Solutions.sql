@@ -4422,5 +4422,48 @@ ORDER BY TemperatureID;
 GO
 
 /*----------------------------------------------------
+Puzzle #78 - Check For Existence
+*/----------------------------------------------------
+DROP TABLE IF EXISTS #Status;
+DROP TABLE IF EXISTS #StatusCode;
+GO
+
+CREATE TABLE #Status 
+(
+StatusID INT,
+Status   VARCHAR(50)
+);
+GO
+
+CREATE TABLE #StatusCode 
+(
+StatusCode VARCHAR(50)
+);
+GO
+
+INSERT INTO #Status (StatusID, Status) VALUES 
+(1, 'Completed'),(2, 'Fail'),(3, 'Unknown'),(4, 'Completed');
+GO
+
+INSERT INTO #StatusCode (StatusCode) VALUES 
+('AE-Z3FE34-D');
+GO
+
+--StatusCode Table Populated
+SELECT *
+FROM   #Status
+WHERE EXISTS (SELECT 1/0 FROM #StatusCode);
+GO
+
+TRUNCATE TABLE StatusCode;
+GO
+
+--StatusCode Table Not Populated
+SELECT *
+FROM   #Status
+WHERE EXISTS (SELECT 1/0 FROM #StatusCode);
+GO
+
+/*----------------------------------------------------
 The End
 */----------------------------------------------------
