@@ -1825,8 +1825,6 @@ GO
 /*----------------------------------------------------
 Puzzle #78 - Check For Existence
 */----------------------------------------------------
-
-
 DROP TABLE IF EXISTS #Status;
 DROP TABLE IF EXISTS #StatusCode;
 GO
