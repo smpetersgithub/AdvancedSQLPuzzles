@@ -1,3 +1,6 @@
+use foo;
+go
+
 /*------------------------------------------------------------------------------------------------------------------
 
 To run in SQLCMD mode, select the following from the menu bar: 
@@ -9,18 +12,18 @@ This script may not be up-to-date with all examples provided.
 
 Notes:
 
-The following do not create objects in the sys.sql_expression_dependencies table.
-   
-    17_Partition_Functions.sql
-    18_Defaults_and_Rules
-    19_Contracts_and_Queues_and_Message_Types
-    24_Foreign_Key_Constraints
-    26_Masked_Functions
-    27_Indexes_Table
-    36_Temporal_Tables
-    37_Change_Tracking
-    38_InMemory_OLTP
-    39_Extended_Properties
+The following examples demonstrate features or relationships that do not produce their own dependency rows in `sys.sql_expression_dependencies`:
+
+18_Defaults_and_Rules.sql
+19_Contracts_and_Queues_and_Message_Types.sql
+24_Foreign_Key_Constraints.sql
+26_Masked_Functions.sql
+27_Indexes_Table.sql
+29_JSON_Functions_and_Indexes.sql
+36_Temporal_Tables.sql
+37_Change_Tracking.sql
+38_InMemory_OLTP.sql
+39_Extended_Properties.sql
 
 
 The following scripts need to be run manually.
@@ -74,15 +77,15 @@ GO
 GO
 PRINT('------------------------------------------------------------------------------------------------------------------')
 PRINT(6)
-PRINT 'C:\AdvancedSQLPuzzles-main\Database Articles\Database Dependencies\SQL Scripts\06_Part_Naming_Conventions.sql';
+PRINT 'C:\AdvancedSQLPuzzles-main\Database Articles\Database Dependencies\SQL Scripts\06_Multi_Part_Naming_Conventions.sql';
 GO
-:r "C:\AdvancedSQLPuzzles-main\Database Articles\Database Dependencies\SQL Scripts\06_Part_Naming_Conventions.sql"
+:r "C:\AdvancedSQLPuzzles-main\Database Articles\Database Dependencies\SQL Scripts\06_Multi_Part_Naming_Conventions.sql"
 GO
 PRINT('------------------------------------------------------------------------------------------------------------------')
 PRINT(7)
-PRINT 'C:\AdvancedSQLPuzzles-main\Database Articles\Database Dependencies\SQL Scripts\07_Part_Naming_Conventions_Caller_Dependent.sql';
+PRINT 'C:\AdvancedSQLPuzzles-main\Database Articles\Database Dependencies\SQL Scripts\07_One_Part_Naming_Conventions_Caller_Dependent.sql';
 GO
-:r "C:\AdvancedSQLPuzzles-main\Database Articles\Database Dependencies\SQL Scripts\07_Part_Naming_Conventions_Caller_Dependent.sql"
+:r "C:\AdvancedSQLPuzzles-main\Database Articles\Database Dependencies\SQL Scripts\07_One_Part_Naming_Conventions_Caller_Dependent.sql"
 GO
 PRINT('------------------------------------------------------------------------------------------------------------------')
 PRINT(8)
@@ -215,9 +218,9 @@ GO
 GO
 PRINT('------------------------------------------------------------------------------------------------------------------')
 PRINT(29)
-PRINT 'C:\AdvancedSQLPuzzles-main\Database Articles\Database Dependencies\SQL Scripts\29_Indexes_Filtered_XML.sql';
+PRINT 'C:\AdvancedSQLPuzzles-main\Database Articles\Database Dependencies\SQL Scripts\29_JSON_Functions_And_Indexes.sql';
 GO
-:r "C:\AdvancedSQLPuzzles-main\Database Articles\Database Dependencies\SQL Scripts\29_Indexes_Filtered_XML.sql"
+:r "C:\AdvancedSQLPuzzles-main\Database Articles\Database Dependencies\SQL Scripts\29_JSON_Functions_And_Indexes.sql"
 GO
 PRINT('------------------------------------------------------------------------------------------------------------------')
 PRINT(30)
@@ -239,6 +242,7 @@ GO
 GO
 PRINT('------------------------------------------------------------------------------------------------------------------')
 PRINT(33)
+
 PRINT('For example 33, manually enable Database Diagrams in SSMS!');
 GO
 PRINT('------------------------------------------------------------------------------------------------------------------')
@@ -267,15 +271,15 @@ GO
 GO
 PRINT('------------------------------------------------------------------------------------------------------------------')
 PRINT(38)
+GO
 -- In-Memory OLTP tables are not represented in the sys.sql_expression_dependencies table.
-PRINT "Run example 38 manually, this creates an In-Memory OLTP table."
+PRINT("Run example 38 manually, this creates an In-Memory OLTP table.")
 GO
 PRINT('------------------------------------------------------------------------------------------------------------------')
 PRINT(39)
 -- Extended Properties are not represented in the sys.sql_expression_dependencies table.
-PRINT 'C:\AdvancedSQLPuzzles-main\Database Articles\Database Dependencies\SQL Scripts\38_Extended_Properties.sql';
+PRINT 'C:\AdvancedSQLPuzzles-main\Database Articles\Database Dependencies\SQL Scripts\39_Extended_Properties.sql';
 GO
-:r "C:\AdvancedSQLPuzzles-main\Database Articles\Database Dependencies\SQL Scripts\38_Extended_Properties.sql"
+:r "C:\AdvancedSQLPuzzles-main\Database Articles\Database Dependencies\SQL Scripts\39_Extended_Properties.sql"
 GO
-
 
