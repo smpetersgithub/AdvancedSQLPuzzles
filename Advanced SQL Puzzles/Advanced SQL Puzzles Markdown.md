@@ -111,6 +111,7 @@ Last Updated: 07/21/2026
     - [Puzzle #75 - Symmetric Matches](#puzzle-75---symmetric-matches)
     - [Puzzle #76 - Determine Batches](#puzzle-76---determine-batches)
     - [Puzzle #77 - Temperature Readings](#puzzle-77---temperature-readings)
+    - [Puzzle #78 - Check For Existence](#puzzle-78---check-for-existence)
   - 🗂️ **Part II - Permutations, Combinations, Sequences, and Random Numbers**
     - [Puzzle #1 - Factorials](#puzzle-1---factorials)
     - [Puzzle #2 - All Permutations](#puzzle-2---all-permutations)
@@ -2444,6 +2445,46 @@ Here is the expected output.
 | 12             | 80                |
 
 [🔙 Back to Table of Contents](#table-of-contents)
+
+--------
+
+# Puzzle #78 - Check For Existence
+
+You are given two tabes, `Status` and `StatusCode`.
+
+Return all rows from the `Status` table — but only if the `StatusCode` table contains at least one row. If `StatusCode` is empty, return no rows.
+
+**Status**
+
+| StatusID | Status    |
+|----------|-----------|
+| 1        | Completed |
+| 2        | Fail      |
+| 3        | Unknown   |
+| 4        | Completed |
+
+
+**StatusCode**
+
+| StatusCode  |
+|-------------|
+| AE-Z3FE34-D |
+
+
+If the `StatusCode` table is populated, the expected ouput is the following.
+
+| StatusID | Status    |
+|----------|-----------|
+| 1        | Completed |
+| 2        | Fail      |
+| 3        | Unknown   |
+| 4        | Completed |
+
+
+If the `StatusCode` table is empty, the expected output is the following.
+
+| StatusID | Status |
+|----------|--------|
 
 --------
 
