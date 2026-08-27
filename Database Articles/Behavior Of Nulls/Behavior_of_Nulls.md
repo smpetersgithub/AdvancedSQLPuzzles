@@ -6,7 +6,7 @@ Understanding null behavior requires an understanding of SQL's three-valued logi
 
 The examples in this document use Microsoft SQL Server Transact-SQL.
 
----
+-----
 
 ### Table of Contents
 
@@ -38,7 +38,7 @@ The examples in this document use Microsoft SQL Server Transact-SQL.
 26. [Variables](#26-variables)
 27. [Conclusion](#27-conclusion)
 
----
+-----
 
 ## 1. Brief History of NULLs
 
@@ -50,7 +50,7 @@ For additional relational-theory discussion, see C. J. Date's *Database in Depth
 
 [Back to the table of contents](#table-of-contents)
 
----
+-----
 
 ## 2. Predicate Logic
 
@@ -90,7 +90,7 @@ The predicates `IS NULL`, `IS NOT NULL`, and `IS [NOT] DISTINCT FROM` are except
 
 [Back to the table of contents](#table-of-contents)
 
----
+-----
 
 ## 3. ANSI_NULLS
 
@@ -112,7 +112,7 @@ SELECT 1 WHERE NULL IS NOT NULL; -- no row
 
 [Back to the table of contents](#table-of-contents)
 
----
+-----
 
 ## 4. IS NULL and IS NOT NULL
 
@@ -129,7 +129,7 @@ Do not use `= NULL` or `<> NULL` to perform these tests.
 
 [Back to the table of contents](#table-of-contents)
 
----
+-----
 
 ## 5. Sample Data
 
@@ -137,21 +137,21 @@ The remaining examples use two local temporary tables. Local temporary tables re
 
 **TableA**
 | ID | Fruit | Quantity |
-| --: | --------------- | -------: |
+| --- | --------------- | -------- |
 | 1 | Apple | 17 |
 | 2 | Peach | 20 |
 | 3 | Mango | 11 |
 | 4 | Mango | 15 |
-| 5 | `NULL` | 5 |
-| 6 | `NULL` | 3 |
+| 5 | NULL | 5 |
+| 6 | NULL | 3 |
 
 **TableB**
 | ID | Fruit | Quantity |
-| --: | --------------- | -------: |
+| --- | --------------- | -------- |
 | 1 | Apple | 17 |
 | 2 | Peach | 25 |
 | 3 | Kiwi | 20 |
-| 4 | `NULL` | `NULL` |
+| 4 | NULL | NULL |
 
 ```sql
 DROP TABLE IF EXISTS #TableA;
@@ -191,11 +191,13 @@ GO
 
 [Back to the table of contents](#table-of-contents)
 
----
+-----
 
 ## 6. Join Syntax
 
 Null behavior comes from the join predicate, not from the join type itself. A `CROSS JOIN` has no predicate and therefore performs no null comparison.
+
+-----
 
 ### Ordinary equality
 
@@ -214,6 +216,13 @@ ORDER BY a.ID, b.ID;
 
 Only Apple and Peach match.
 
+| A_ID | A_Fruit | B_ID | B_Fruit |
+|------|---------|------|---------|
+| 1    | Apple   | 1    | Apple   |
+| 2    | Peach   | 2    | Peach   |
+
+-----
+
 ### FULL OUTER JOIN
 
 A full outer join preserves unmatched rows from both inputs, but it still does not match null to null when its predicate uses `=`:
@@ -225,10 +234,21 @@ SELECT  a.ID AS A_ID,
         b.Fruit AS B_Fruit
 FROM #TableA AS a
 FULL OUTER JOIN #TableB AS b
-    ON a.Fruit = b.Fruit
-ORDER BY COALESCE(a.ID, 2147483647),
-         COALESCE(b.ID, 2147483647);
+    ON a.Fruit = b.Fruit;
 ```
+
+| A_ID | A_Fruit | B_ID | B_Fruit |
+|------|---------|------|---------|
+| 1    | Apple   | 1    | Apple   |
+| 2    | Peach   | 2    | Peach   |
+| 3    | Mango   | NULL | NULL    |
+| 4    | Mango   | NULL | NULL    |
+| 5    | NULL    | NULL | NULL    |
+| 6    | NULL    | NULL | NULL    |
+| NULL | NULL    | 3    | Kiwi    |
+| NULL | NULL    | 4    | NULL    |
+
+-----
 
 ### Null-safe equality
 
@@ -245,24 +265,47 @@ INNER JOIN #TableB AS b
 ORDER BY a.ID, b.ID;
 ```
 
-On earlier versions, use an explicit predicate:
-
-```sql
-ON a.Fruit = b.Fruit
-OR (a.Fruit IS NULL AND b.Fruit IS NULL)
-```
-
-This pattern is safer than replacing nulls with a sentinel such as an empty string, because a sentinel can collide with a real stored value.
+| A_ID | A_Fruit | B_ID | B_Fruit |
+|------|---------|------|---------|
+| 1    | Apple   | 1    | Apple   |
+| 2    | Peach   | 2    | Peach   |
+| 5    | NULL    | 4    | NULL    |
+| 6    | NULL    | 4    | NULL    |
 
 [Review `IS [NOT] DISTINCT FROM` in Microsoft Learn.](https://learn.microsoft.com/en-us/sql/t-sql/queries/is-distinct-from-transact-sql)
 
+-----
+
+On earlier versions, use an explicit predicate.
+
+This pattern is safer than replacing nulls with a sentinel such as an empty string, because a sentinel can collide with a real stored value.
+
+```sql
+SELECT  a.ID AS A_ID,
+        a.Fruit AS A_Fruit,
+        b.ID AS B_ID,
+        b.Fruit AS B_Fruit
+FROM #TableA AS a
+INNER JOIN #TableB AS b ON a.Fruit = b.Fruit
+                        OR (a.Fruit IS NULL AND b.Fruit IS NULL);
+```
+
+| A_ID | A_Fruit | B_ID | B_Fruit |
+|------|---------|------|---------|
+| 1    | Apple   | 1    | Apple   |
+| 2    | Peach   | 2    | Peach   |
+| 5    | NULL    | 4    | NULL    |
+| 6    | NULL    | 4    | NULL    |
+
 [Back to the table of contents](#table-of-contents)
 
----
+-----
 
 ## 7. Semi-Joins and Anti-Joins
 
 `IN` and `EXISTS` are predicates that SQL Server can often implement as semi-joins. `NOT IN` and `NOT EXISTS` can often be implemented as anti-semi-joins.
+
+-----
 
 ### NOT IN
 
@@ -275,6 +318,11 @@ WHERE Fruit NOT IN ('Banana', NULL);
 ```
 
 This returns no rows. For nullable subquery results, `NOT EXISTS` is generally clearer and safer.
+
+| ID | Fruit |
+|----|-------|
+
+-----
 
 ### IN
 
@@ -289,14 +337,27 @@ ORDER BY ID;
 
 This returns Apple and Peach only.
 
+| ID | Fruit |
+|----|-------|
+| 1  | Apple |
+| 2  | Peach |
+
+-----
+
 ### EXISTS
 
 `EXISTS` returns `TRUE` when its subquery returns at least one row. It does not inspect the selected value, and its subquery does not have to be correlated:
 
 ```sql
-SELECT 1
+SELECT 1 AS myColumn
 WHERE EXISTS (SELECT NULL); -- returns 1
 ```
+
+| myColumn |
+|----------|
+| 1        |
+
+-----
 
 A correlated example is:
 
@@ -311,6 +372,12 @@ WHERE EXISTS
       AND b.Quantity = a.Quantity
 );
 ```
+
+| ID | Fruit |
+|----|-------|
+| 1  | Apple |
+
+-----
 
 ### NOT EXISTS
 
@@ -329,13 +396,23 @@ ORDER BY a.ID;
 
 The rows where `a.Fruit` is null are returned because the equality predicate finds no matching row; `NULL = NULL` is `UNKNOWN`.
 
+| ID | Fruit |
+|----|-------|
+| 2  | Peach |
+| 3  | Mango |
+| 4  | Mango |
+| 5  | NULL  |
+| 6  | NULL  |
+
 [Back to the table of contents](#table-of-contents)
 
----
+-----
 
 ## 8. Set Operators
 
 For duplicate elimination, set operators treat two nulls as not distinct from one another.
+
+-----
 
 ### UNION
 
@@ -345,18 +422,15 @@ UNION
 SELECT Fruit FROM #TableB
 ORDER BY Fruit;
 ```
-
-Typical ascending output under a case-insensitive Latin collation is:
-
 | Fruit |
-| ----- |
-| `NULL` |
+|-------|
+| NULL  |
 | Apple |
-| Kiwi |
+| Kiwi  |
 | Mango |
 | Peach |
 
-Linguistic ordering can vary by collation.
+-----
 
 ### UNION ALL
 
@@ -369,6 +443,21 @@ SELECT Fruit FROM #TableB
 ORDER BY Fruit;
 ```
 
+| Fruit |
+|-------|
+| NULL  |
+| NULL  |
+| NULL  |
+| Apple |
+| Apple |
+| Kiwi  |
+| Mango |
+| Mango |
+| Peach |
+| Peach |
+
+-----
+
 ### EXCEPT
 
 ```sql
@@ -378,6 +467,12 @@ SELECT Fruit FROM #TableA;
 ```
 
 This returns Kiwi. The null from `#TableB` is removed because `#TableA` also contains null.
+
+| Fruit |
+|-------|
+| Kiwi  |
+
+-----
 
 ### INTERSECT
 
@@ -390,9 +485,15 @@ ORDER BY Fruit;
 
 This returns `NULL`, Apple, and Peach.
 
+| Fruit |
+|-------|
+| NULL  |
+| Apple |
+| Peach |
+
 [Back to the table of contents](#table-of-contents)
 
----
+-----
 
 ## 9. GROUP BY
 
@@ -408,15 +509,15 @@ ORDER BY Fruit;
 ```
 
 | Fruit | RowCount | NonNullFruitCount |
-| ----- | -------: | ----------------: |
-| `NULL` | 2 | 0 |
+| ----- | -------- | ----------------- |
+| NULL | 2 | 0 |
 | Apple | 1 | 1 |
 | Mango | 2 | 2 |
 | Peach | 1 | 1 |
 
 [Back to the table of contents](#table-of-contents)
 
----
+-----
 
 ## 10. ORDER BY
 
@@ -430,18 +531,22 @@ FROM #TableA
 ORDER BY (SELECT NULL);
 ```
 
-Use a deterministic key when repeatability matters.
+The output of the above statement can vary, as a true `ORDER BY` is not specified. Use a deterministic key when repeatability matters.
+
+| Fruit |
+|-------|
+| Apple |
 
 [Back to the table of contents](#table-of-contents)
 
----
+-----
 
 ## 11. Aggregate Functions
 
 Most aggregate functions ignore null input values. They do not remove the source rows.
 
 ```sql
-SELECT  COUNT(*) AS RowCount,
+SELECT  COUNT(*) AS [RowCount],
         COUNT(Quantity) AS NonNullQuantityCount,
         SUM(Quantity) AS QuantitySum,
         AVG(CAST(Quantity AS DECIMAL(10, 2))) AS QuantityAverage,
@@ -449,6 +554,12 @@ SELECT  COUNT(*) AS RowCount,
         MAX(Quantity) AS QuantityMaximum
 FROM #TableB;
 ```
+
+| RowCount | NonNullQuantityCount | QuantitySum | QuantityAverage | QuantityMinimum | QuantityMaximum |
+|----------|----------------------|-------------|-----------------|-----------------|-----------------|
+| 4        | 3                    | 62          | 20.666666       | 17              | 25              |
+
+-----
 
 `COUNT(*)` counts rows. `COUNT(expression)` counts non-null expression results. If an aggregate such as `SUM`, `AVG`, `MIN`, or `MAX` has no non-null inputs, it returns `NULL`.
 
@@ -460,25 +571,27 @@ WHERE 1 = 0;
 ```
 
 | RowCount | QuantitySum |
-| -------: | ----------- |
-| 0 | `NULL` |
+| -------- | ----------- |
+| 0        | NULL      |
+
+-----
 
 An expression consisting entirely of untyped null literals can fail type validation. Cast at least one null to the intended type:
 
 ```sql
 SELECT SUM(v.MyValue) AS Total
-FROM
-(
-    VALUES (CAST(NULL AS INT)),
-           (NULL)
-) AS v(MyValue);
+FROM (VALUES (CAST(NULL AS INT)), (NULL)) AS v(MyValue);
 ```
 
 This returns `NULL` rather than a type error.
 
+| Total |
+|-------|
+| NULL  |
+
 [Back to the table of contents](#table-of-contents)
 
----
+-----
 
 ## 12. Window Functions
 
@@ -488,32 +601,38 @@ Null grouping behavior also applies to window partitions:
 SELECT  ID,
         Fruit,
         Quantity,
-        ROW_NUMBER() OVER
-        (
-            PARTITION BY Fruit
-            ORDER BY ID
-        ) AS RowNumber,
-        SUM(Quantity) OVER
-        (
-            PARTITION BY Fruit
-        ) AS PartitionTotal
+        ROW_NUMBER() OVER (PARTITION BY Fruit ORDER BY ID) AS RowNumber,
+        SUM(Quantity) OVER (PARTITION BY Fruit) AS PartitionTotal
 FROM #TableA
 ORDER BY Fruit, ID;
 ```
 
 Use a meaningful `ORDER BY` for ranking functions. Ordering by a constant, including `(SELECT NULL)`, makes row numbering among peers nondeterministic.
 
+| ID | Fruit | Quantity | RowNumber | PartitionTotal |
+|----|-------|----------|-----------|----------------|
+| 5  | NULL  | 5        | 1         | 8              |
+| 6  | NULL  | 3        | 2         | 8              |
+| 1  | Apple | 17       | 1         | 17             |
+| 3  | Mango | 11       | 1         | 26             |
+| 4  | Mango | 15       | 2         | 26             |
+| 2  | Peach | 20       | 1         | 20             |
+
 [Back to the table of contents](#table-of-contents)
 
----
+-----
 
 ## 13. Constraints
 
 Common SQL Server column and table rules include nullability, `DEFAULT`, `CHECK`, `UNIQUE`, `PRIMARY KEY`, and `FOREIGN KEY` definitions.
 
+-----
+
 ### PRIMARY KEY
 
 A primary-key column cannot be nullable. A primary key defaults to clustered only when the table does not already have a clustered index or constraint.
+
+-----
 
 ### UNIQUE
 
@@ -538,9 +657,13 @@ VALUES (1, NULL);
 
 A filtered unique index can enforce uniqueness only for non-null values while allowing multiple nulls.
 
+-----
+
 ### CHECK
 
 A check constraint rejects `FALSE`; it accepts `TRUE` and `UNKNOWN`. Therefore, this constraint permits null:
+
+To prohibit null, declare the column `NOT NULL`. A check constraint such as `CHECK (MyField IS NOT NULL)` can express a similar rule, but nullability metadata and tooling will still differ.
 
 ```sql
 DROP TABLE IF EXISTS #CheckDemo;
@@ -554,13 +677,17 @@ CREATE TABLE #CheckDemo
 
 INSERT INTO #CheckDemo (ID, MyField)
 VALUES (1, NULL); -- accepted because the predicate is UNKNOWN
+
+SELECT * FROM #CheckDemo;
 ```
 
-To prohibit null, declare the column `NOT NULL`. A check constraint such as `CHECK (MyField IS NOT NULL)` can express a similar rule, but nullability metadata and tooling will still differ.
+| ID | MyField |
+|----|---------|
+| 1  | NULL    |
 
 [Back to the table of contents](#table-of-contents)
 
----
+-----
 
 ## 14. Referential Integrity
 
@@ -607,15 +734,15 @@ GO
 ```
 
 | ChildID | ParentID |
-| ------: | -------- |
+| ------- | -------- |
 | 1 | 1 |
 | 2 | 2 |
-| 3 | `NULL` |
-| 4 | `NULL` |
+| 3 | NULL |
+| 4 | NULL |
 
 [Back to the table of contents](#table-of-contents)
 
----
+-----
 
 ## 15. Computed Columns
 
@@ -632,11 +759,13 @@ ORDER BY ID;
 ```
 
 | ID | Fruit | QuantityPlus2 |
-| --: | ----- | ------------: |
+| --- | ----- | ------------- |
 | 1 | Apple | 19 |
 | 2 | Peach | 27 |
 | 3 | Kiwi | 22 |
-| 4 | `NULL` | `NULL` |
+| 4 | NULL | NULL |
+
+-----
 
 `NOT NULL` can be specified on a computed column only when the column is also `PERSISTED`. Foreign-key and check constraints on computed columns also require persistence. Primary-key, unique, and index eligibility additionally depends on determinism, precision, ownership, data type, and required session settings.
 
@@ -661,7 +790,7 @@ GO
 
 [Back to the table of contents](#table-of-contents)
 
----
+-----
 
 ## 16. NULLIF, ISNULL, and COALESCE
 
@@ -677,11 +806,23 @@ SELECT  ISNULL(NULL, 'foo') AS IsNullResult,
         NULLIF('foo', 'foo') AS NullIfResult;
 ```
 
+| IsNullResult | CoalesceResult | NullIfResult |
+|--------------|----------------|--------------|
+| foo          | foo            | NULL         |
+
+-----
+
 `ISNULL` can return null when both arguments are null:
 
 ```sql
 SELECT ISNULL(CAST(NULL AS INT), CAST(NULL AS INT)) AS Result;
 ```
+
+| Result |
+|--------|
+| NULL   |
+
+-----
 
 Other important differences include:
 
@@ -698,11 +839,15 @@ SELECT  ISNULL(@ShortValue, 'abcdef') AS IsNullResult,   -- abc
         COALESCE(@ShortValue, 'abcdef') AS CoalesceResult; -- abcdef
 ```
 
+| IsNullResult | CoalesceResult |
+|--------------|----------------|
+| abc          | abcdef         |
+
 [Review the official `COALESCE` comparison.](https://learn.microsoft.com/en-us/sql/t-sql/language-elements/coalesce-transact-sql)
 
 [Back to the table of contents](#table-of-contents)
 
----
+-----
 
 ## 17. Empty Strings, SQL NULL, and ASCII NUL
 
@@ -722,11 +867,13 @@ SELECT  LEN('') AS EmptyStringLength,
         ASCII(CHAR(0)) AS AsciiNulCode;
 ```
 
-Do not routinely replace database nulls with empty strings. Doing so discards the distinction between “no string value” and “a present string of length zero.”
+| EmptyStringLength | EmptyStringBytes | EmptyStringAscii | SqlNullAscii | AsciiNulCode |
+|-------------------|------------------|------------------|--------------|--------------|
+| 0                 | 0                | NULL             | NULL         | 0            |
 
 [Back to the table of contents](#table-of-contents)
 
----
+-----
 
 ## 18. CONCAT
 
@@ -738,13 +885,15 @@ Starting with SQL Server 2017, `CONCAT_NULL_YIELDS_NULL` is always `ON`. That se
 SELECT CONCAT(NULL, NULL, NULL) AS ConcatResult;
 ```
 
-Do not construct multi-column join keys by concatenating values without a collision-proof encoding. For example, `(1, 23)` and `(12, 3)` both become `'123'` when concatenated without delimiters. Concatenation can also introduce conversion, collation, truncation, and index-usage problems. Compare the columns individually instead.
+| ConcatResult |
+|--------------|
+|              |
 
 [Review `CONCAT` in Microsoft Learn.](https://learn.microsoft.com/en-us/sql/t-sql/functions/concat-transact-sql)
 
 [Back to the table of contents](#table-of-contents)
 
----
+-----
 
 ## 19. Views and Nullability Metadata
 
@@ -792,7 +941,15 @@ DROP TABLE dbo.NullBehaviorViewSource;
 GO
 ```
 
-Do not generalize the result to every cast or expression. Nullability metadata depends on the expression and SQL Server's inference rules.
+| ColumnName         | DataType | is_nullable |
+|--------------------|----------|-------------|
+| MyInteger          | int      | 0           |
+| MyVarchar          | varchar  | 0           |
+| MyDate             | date     | 0           |
+| MyInteger_Cast     | int      | 1           |
+| MyVarchar_Cast     | varchar  | 1           |
+| MyDate_Cast        | datetime | 1           |
+| MyInteger_Computed | int      | 1           |
 
 [Back to the table of contents](#table-of-contents)
 
@@ -808,6 +965,12 @@ SELECT  CAST(NULL AS BIT) AS NullableBit,
         CAST(3 AS BIT) AS NonzeroBit;
 ```
 
+| NullableBit | ZeroBit | NonzeroBit |
+|-------------|---------|------------|
+| NULL        | 0       | 1          |
+
+-----
+
 `NOT` negates a predicate, not a `BIT` value. Under three-valued logic, `NOT UNKNOWN` remains `UNKNOWN`:
 
 ```sql
@@ -818,6 +981,11 @@ ORDER BY ID;
 ```
 
 Rows where `Fruit` is null are not returned because the predicate remains `UNKNOWN`, and `WHERE` keeps only `TRUE`.
+
+| ID | Fruit | Quantity |
+|----|-------|----------|
+| 1  | Apple | 17       |
+| 2  | Peach | 20       |
 
 [Back to the table of contents](#table-of-contents)
 
@@ -849,6 +1017,10 @@ GO
 DROP PROCEDURE dbo.NullBehaviorReturnDemo;
 GO
 ```
+
+| ReturnStatus |
+|--------------|
+| 0            |
 
 [Back to the table of contents](#table-of-contents)
 
@@ -885,6 +1057,9 @@ END CATCH;
 
 Using `TRY...CATCH` displays the actual error for the SQL Server version and session configuration running the example.
 
+> Msg 339, Level 16, State 1, Line 16
+> DEFAULT or NULL are not allowed as explicit identity values.
+
 [Back to the table of contents](#table-of-contents)
 
 ---
@@ -902,40 +1077,30 @@ Microsoft fixed an `IGNORE NULLS` incorrect-results issue in **SQL Server 2022 C
 WITH LagLeadValues AS
 (
     SELECT ID, MyValue
-    FROM
-    (
-        VALUES (1, 100),
-               (2, 200),
-               (3, NULL),
-               (4, 300)
-    ) AS v(ID, MyValue)
+    FROM (VALUES (1, 100),(2, 200),(3, NULL),(4, 300)) AS v(ID, MyValue)
 )
 SELECT  ID,
         MyValue,
-        LAG(MyValue, 1, 0) IGNORE NULLS
-            OVER (ORDER BY ID) AS LagIgnoreNulls,
-        LEAD(MyValue, 1, 0) IGNORE NULLS
-            OVER (ORDER BY ID) AS LeadIgnoreNulls,
-        LAG(MyValue, 1, 0) RESPECT NULLS
-            OVER (ORDER BY ID) AS LagRespectNulls,
-        LEAD(MyValue, 1, 0) RESPECT NULLS
-            OVER (ORDER BY ID) AS LeadRespectNulls
+        LAG(MyValue, 1, 0) IGNORE NULLS OVER (ORDER BY ID) AS LagIgnoreNulls,
+        LEAD(MyValue, 1, 0) IGNORE NULLS OVER (ORDER BY ID) AS LeadIgnoreNulls,
+        LAG(MyValue, 1, 0) RESPECT NULLS OVER (ORDER BY ID) AS LagRespectNulls,
+        LEAD(MyValue, 1, 0) RESPECT NULLS OVER (ORDER BY ID) AS LeadRespectNulls
 FROM LagLeadValues
 ORDER BY ID;
 ```
 
 | ID | MyValue | LagIgnoreNulls | LeadIgnoreNulls | LagRespectNulls | LeadRespectNulls |
-| --: | ------- | -------------: | --------------: | ----------------: | -----------------: |
+| --- | ------- | -------------- | --------------- | ----------------- | ------------------ |
 | 1 | 100 | 0 | 200 | 0 | 200 |
-| 2 | 200 | 100 | 300 | 100 | `NULL` |
-| 3 | `NULL` | 200 | 300 | 200 | 300 |
-| 4 | 300 | 200 | 0 | `NULL` | 0 |
+| 2 | 200 | 100 | 300 | 100 | NULL |
+| 3 | NULL | 200 | 300 | 200 | 300 |
+| 4 | 300 | 200 | 0 | NULL | 0 |
 
 [Review `LEAD` and the CU4 note in Microsoft Learn.](https://learn.microsoft.com/en-us/sql/t-sql/functions/lead-transact-sql)
 
 [Back to the table of contents](#table-of-contents)
 
----
+-----
 
 ## 24. Arithmetic Operators
 
@@ -953,9 +1118,13 @@ SELECT  1 / @NullInteger AS DivideByNull,
 
 All five results are `NULL`.
 
+| DivideByNull | NullDividedByOne | MultiplyByNull | SubtractNull | AddNull |
+|--------------|------------------|----------------|--------------|---------|
+| NULL         | NULL             | NULL           | NULL         | NULL    |
+
 [Back to the table of contents](#table-of-contents)
 
----
+-----
 
 ## 25. WHERE
 
@@ -968,6 +1137,13 @@ WHERE Fruit <> 'Mango'
 ORDER BY ID;
 ```
 
+| ID | Fruit | Quantity |
+|----|-------|----------|
+| 1  | Apple | 17       |
+| 2  | Peach | 20       |
+
+-----
+
 To include nulls explicitly:
 
 ```sql
@@ -978,15 +1154,35 @@ WHERE Fruit <> 'Mango'
 ORDER BY ID;
 ```
 
+| ID | Fruit | Quantity |
+|----|-------|----------|
+| 1  | Apple | 17       |
+| 2  | Peach | 20       |
+| 5  | NULL  | 5        |
+| 6  | NULL  | 3        |
+
+-----
+
 On SQL Server 2022 and later, this null-aware alternative also includes nulls:
 
 ```sql
+SELECT ID, Fruit, Quantity
+FROM #TableA
 WHERE Fruit IS DISTINCT FROM 'Mango'
+ORDER BY ID;
 ```
+
+| ID | Fruit | Quantity |
+|----|-------|----------|
+| 1  | Apple | 17       |
+| 2  | Peach | 20       |
+| 5  | NULL  | 5        |
+| 6  | NULL  | 3        |
+
 
 [Back to the table of contents](#table-of-contents)
 
----
+-----
 
 ## 26. Variables
 
@@ -1000,6 +1196,12 @@ WHERE 1 = 0;
 
 SELECT @Test AS MyValue; -- Default
 ```
+
+| MyValue |
+|---------|
+| Default |
+
+-----
 
 By contrast, assigning the result of a scalar subquery with `SET` produces null when the subquery returns no rows:
 
@@ -1017,9 +1219,13 @@ SELECT @Test AS MyValue; -- NULL
 
 Also use care when a `SELECT` assignment can process multiple rows; the final assigned value can depend on plan and processing order unless the query guarantees one row.
 
+| MyValue |
+|---------|
+| NULL    |
+
 [Back to the table of contents](#table-of-contents)
 
----
+-----
 
 ## 27. Conclusion
 
