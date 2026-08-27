@@ -199,7 +199,7 @@ Null behavior comes from the join predicate, not from the join type itself. A `C
 
 -----
 
-### Ordinary equality
+### INNER JOIN
 
 `NULL = NULL` is `UNKNOWN`, so an ordinary equality join does not match nulls:
 
@@ -250,7 +250,7 @@ FULL OUTER JOIN #TableB AS b
 
 -----
 
-### Null-safe equality
+### IS [NOT] DISTINCT FROM
 
 SQL Server 2022 and later support `IS NOT DISTINCT FROM`, which treats two nulls as equal for comparison purposes:
 
@@ -275,6 +275,8 @@ ORDER BY a.ID, b.ID;
 [Review `IS [NOT] DISTINCT FROM` in Microsoft Learn.](https://learn.microsoft.com/en-us/sql/t-sql/queries/is-distinct-from-transact-sql)
 
 -----
+
+### OR IS NULL
 
 On earlier versions, use an explicit predicate.
 
@@ -358,6 +360,8 @@ WHERE EXISTS (SELECT NULL); -- returns 1
 | 1        |
 
 -----
+
+### EXISTS with Correlation
 
 A correlated example is:
 
@@ -561,6 +565,8 @@ FROM #TableB;
 
 -----
 
+### COUNT
+
 `COUNT(*)` counts rows. `COUNT(expression)` counts non-null expression results. If an aggregate such as `SUM`, `AVG`, `MIN`, or `MAX` has no non-null inputs, it returns `NULL`.
 
 ```sql
@@ -576,6 +582,7 @@ WHERE 1 = 0;
 
 -----
 
+### VALUES
 An expression consisting entirely of untyped null literals can fail type validation. Cast at least one null to the intended type:
 
 ```sql
@@ -767,6 +774,8 @@ ORDER BY ID;
 
 -----
 
+### Computed Columns and PERSISTED
+
 `NOT NULL` can be specified on a computed column only when the column is also `PERSISTED`. Foreign-key and check constraints on computed columns also require persistence. Primary-key, unique, and index eligibility additionally depends on determinism, precision, ownership, data type, and required session settings.
 
 ```sql
@@ -812,6 +821,8 @@ SELECT  ISNULL(NULL, 'foo') AS IsNullResult,
 
 -----
 
+### ISNULL
+
 `ISNULL` can return null when both arguments are null:
 
 ```sql
@@ -824,7 +835,7 @@ SELECT ISNULL(CAST(NULL AS INT), CAST(NULL AS INT)) AS Result;
 
 -----
 
-Other important differences include:
+### Other Important Differences
 
 * `ISNULL` is evaluated once; `COALESCE` can evaluate an input expression more than once because it is rewritten as `CASE`.
 * `ISNULL` takes two arguments; `COALESCE` accepts multiple arguments.
@@ -895,7 +906,7 @@ SELECT CONCAT(NULL, NULL, NULL) AS ConcatResult;
 
 -----
 
-## 19. Views and Nullability Metadata
+## 19. Views and Nullability
 
 SQL Server can report an expression in a view as nullable even when its source column is declared `NOT NULL`. This is metadata inference for the expression; it does not mean the base column became nullable.
 
@@ -970,6 +981,8 @@ SELECT  CAST(NULL AS BIT) AS NullableBit,
 | NULL        | 0       | 1          |
 
 -----
+
+### NOT
 
 `NOT` negates a predicate, not a `BIT` value. Under three-valued logic, `NOT UNKNOWN` remains `UNKNOWN`:
 
@@ -1144,6 +1157,8 @@ ORDER BY ID;
 
 -----
 
+### OR IS NULL
+
 To include nulls explicitly:
 
 ```sql
@@ -1162,6 +1177,8 @@ ORDER BY ID;
 | 6  | NULL  | 3        |
 
 -----
+
+### IS DISTINCT FROM
 
 On SQL Server 2022 and later, this null-aware alternative also includes nulls:
 
@@ -1203,7 +1220,11 @@ SELECT @Test AS MyValue; -- Default
 
 -----
 
+### Variables and Scalar Subquery
+
 By contrast, assigning the result of a scalar subquery with `SET` produces null when the subquery returns no rows:
+
+Also use care when a `SELECT` assignment can process multiple rows; the final assigned value can depend on plan and processing order unless the query guarantees one row.
 
 ```sql
 DECLARE @Test VARCHAR(100) = 'Default';
@@ -1216,8 +1237,6 @@ SET @Test =
 
 SELECT @Test AS MyValue; -- NULL
 ```
-
-Also use care when a `SELECT` assignment can process multiple rows; the final assigned value can depend on plan and processing order unless the query guarantees one row.
 
 | MyValue |
 |---------|
