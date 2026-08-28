@@ -809,9 +809,11 @@ GO
 
 These constructs have related but different purposes.
 
+
 * `NULLIF(a, b)` returns `NULL` when `a = b`; otherwise, it returns `a`.
-* `ISNULL(a, b)` returns `a` when it is non-null; otherwise, it returns `b` converted to the type of `a`.
-* `COALESCE(a, b, ...n)` returns the first non-null expression and follows `CASE` data-type and nullability rules.
+* `ISNULL(a, b)` accepts two arguments and returns `a` when it is non-null; otherwise, it returns `b`. It is evaluated once and normally uses the first argument’s data type and length, which means the replacement value can be truncated.
+* `COALESCE(a, b, ...n)` accepts multiple arguments and returns the first non-null expression. Because SQL Server rewrites it as a `CASE` expression, an input can be evaluated more than once. Its result type is determined by `CASE` data-type precedence and expression-length rules.
+* `ISNULL` and `COALESCE` can produce different nullability metadata, which can affect computed columns and keys.
 
 ```sql
 SELECT  ISNULL(NULL, 'foo') AS IsNullResult,
@@ -823,29 +825,7 @@ SELECT  ISNULL(NULL, 'foo') AS IsNullResult,
 |--------------|----------------|--------------|
 | foo          | foo            | NULL         |
 
------
-
-### ISNULL
-
-`ISNULL` can return null when both arguments are null.
-
-```sql
-SELECT ISNULL(CAST(NULL AS INT), CAST(NULL AS INT)) AS Result;
-```
-
-| Result |
-|--------|
-| NULL   |
-
------
-
-### Other Important Differences
-
-* `ISNULL` is evaluated once; `COALESCE` can evaluate an input expression more than once because it is rewritten as `CASE`.
-* `ISNULL` takes two arguments; `COALESCE` accepts multiple arguments.
-* `ISNULL` normally uses the first argument's type and length, so its replacement can be truncated.
-* `COALESCE` chooses a result type according to data-type precedence and expression lengths.
-* Their nullability metadata can differ, which matters for computed columns and keys.
+The following example demonstrates an important difference between `ISNULL` and `COALESCE` when SQL Server determines the data type and length of the result. `ISNULL` adopts the data type and length of its first argument. Because `@ShortValue` is declared as `VARCHAR(3)`, the replacement value 'abcdef' is converted to `VARCHAR(3)` and truncated to 'abc'. In contrast, `COALESCE` determines its result type and length using `CASE` expression rules, allowing it to return the complete value 'abcdef'.
 
 ```sql
 DECLARE @ShortValue VARCHAR(3) = NULL;
