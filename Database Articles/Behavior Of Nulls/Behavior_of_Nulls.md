@@ -217,7 +217,7 @@ Only Apple and Peach match.
 | 2    | Peach   | 2    | Peach   |
 
 
-If you want NULL values from both tables to match, you can replace them with a common value using ISNULL.
+If you want NULL values from both tables to match, you can replace them with a common value using `ISNULL`.
 
 ```sql
 SELECT  a.ID AS A_ID,
@@ -229,7 +229,7 @@ INNER JOIN #TableB AS b ON ISNULL(a.Fruit,'') = ISNULL(b.Fruit,'');
 ```
 
 
-However, this approach can produce incorrect matches when the replacement value (an empty string in this example) also exists in the table. A safer approach is to explicitly match equal values or two NULL values.
+However, this approach can produce incorrect matches when the replacement value (an empty string in this example) also exists in the table. A safer approach is to explicitly match equal values or two `NULL` values.
 
 ```sql
 SELECT  a.ID AS A_ID,
