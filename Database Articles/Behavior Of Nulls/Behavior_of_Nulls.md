@@ -67,13 +67,7 @@ A `WHERE`, `ON`, or `HAVING` search condition accepts rows only when its final r
 
 The basic three-valued rules include the following.
 
-| Expression | Result |
-| ---------- | ------ |
-| `TRUE AND UNKNOWN` | `UNKNOWN` |
-| `FALSE AND UNKNOWN` | `FALSE` |
-| `TRUE OR UNKNOWN` | `TRUE` |
-| `FALSE OR UNKNOWN` | `UNKNOWN` |
-| `NOT UNKNOWN` | `UNKNOWN` |
+![Three-valued logic truth tables](images/Truth_Tables_Three_Valued_Logic.png)
 
 De Morgan's laws continue to hold under three-valued logic.
 
