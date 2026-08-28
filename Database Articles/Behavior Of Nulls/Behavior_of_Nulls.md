@@ -97,10 +97,10 @@ The predicates `IS NULL`, `IS NOT NULL`, and `IS [NOT] DISTINCT FROM` are except
 SET ANSI_NULLS ON;
 GO
 
-SELECT 1 WHERE NULL = NULL;      -- no row
-SELECT 1 WHERE NULL <> NULL;     -- no row
-SELECT 1 WHERE NULL IS NULL;     -- returns 1
-SELECT 1 WHERE NULL IS NOT NULL; -- no row
+SELECT 1 WHERE NULL = NULL;      -- No Records Returned
+SELECT 1 WHERE NULL <> NULL;     -- No Records Returned
+SELECT 1 WHERE NULL IS NULL;     -- Returns 1
+SELECT 1 WHERE NULL IS NOT NULL; -- No Records Returned
 ```
 
 [Review `SET ANSI_NULLS` in Microsoft Learn.](https://learn.microsoft.com/en-us/sql/t-sql/statements/set-ansi-nulls-transact-sql)
