@@ -1184,7 +1184,7 @@ ORDER BY ID;
 
 -----
 
-The following SQL statement include nulls explicitly.
+The following SQL statement include null markers explicitly using the `IS NULL` operator.
 
 ```sql
 SELECT ID, Fruit, Quantity
