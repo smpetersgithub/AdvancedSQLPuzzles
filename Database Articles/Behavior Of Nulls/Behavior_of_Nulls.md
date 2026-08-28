@@ -527,7 +527,7 @@ The output of the above statement can vary, as a true `ORDER BY` is not specifie
 
 ## 11. Aggregate Functions
 
-Most aggregate functions ignore null input values. They do not remove the source rows.
+Aggregate functions ignore null input values. They do not remove the source rows.  In the following example, 
 
 ```sql
 SELECT  COUNT(*) AS [RowCount],
@@ -556,9 +556,11 @@ FROM #TableB
 WHERE 1 = 0;
 ```
 
+Rather than returning an empty result set, the query returns a single row containing 0 and a null marker, respectively.
+
 | RowCount | QuantitySum |
-| -------- | ----------- |
-| 0        | NULL      |
+|----------|-------------|
+| 0        | NULL        |
 
 -----
 
@@ -595,8 +597,6 @@ FROM #TableA
 ORDER BY Fruit, ID;
 ```
 
-Use a meaningful `ORDER BY` for ranking functions. Ordering by a constant, including `(SELECT NULL)`, makes row numbering among peers nondeterministic.
-
 | ID | Fruit | Quantity | RowNumber | PartitionTotal |
 |----|-------|----------|-----------|----------------|
 | 5  | NULL  | 5        | 1         | 8              |
@@ -605,6 +605,25 @@ Use a meaningful `ORDER BY` for ranking functions. Ordering by a constant, inclu
 | 3  | Mango | 11       | 1         | 26             |
 | 4  | Mango | 15       | 2         | 26             |
 | 2  | Peach | 20       | 1         | 20             |
+
+Use a meaningful `ORDER BY` for ranking functions. Ordering by a constant, including `(SELECT NULL)`, makes row numbering among peers nondeterministic.
+
+```sql
+SELECT  
+        ROW_NUMBER() OVER (ORDER BY (SELECT NULL)) AS RowNumber,
+        Fruit
+FROM #TableA
+ORDER BY 1;
+```
+
+| RowNumber | Fruit |
+|-----------|-------|
+| 1         | Apple |
+| 2         | Peach |
+| 3         | Mango |
+| 4         | Mango |
+| 5         | NULL  |
+| 6         | NULL  |
 
 [Back to the table of contents](#table-of-contents)
 
