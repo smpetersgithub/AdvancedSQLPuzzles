@@ -131,22 +131,22 @@ Do not use `= NULL` or `<> NULL` to perform these tests.
 The remaining examples use two local temporary tables. Local temporary tables reduce the risk of name collisions with other sessions.
 
 **TableA**
-| ID | Fruit | Quantity |
-| --- | --------------- | -------- |
-| 1 | Apple | 17 |
-| 2 | Peach | 20 |
-| 3 | Mango | 11 |
-| 4 | Mango | 15 |
-| 5 | NULL | 5 |
-| 6 | NULL | 3 |
+| ID  | Fruit | Quantity |
+| --- | ----- | -------- |
+| 1   | Apple | 17       |
+| 2   | Peach | 20       |
+| 3   | Mango | 11       |
+| 4   | Mango | 15       |
+| 5   | NULL  | 5        |
+| 6   | NULL  | 3        |
 
 **TableB**
-| ID | Fruit | Quantity |
-| --- | --------------- | -------- |
-| 1 | Apple | 17 |
-| 2 | Peach | 25 |
-| 3 | Kiwi | 20 |
-| 4 | NULL | NULL |
+| ID | Fruit  | Quantity |
+| --- | ----- | -------- |
+| 1   | Apple | 17       |
+| 2   | Peach | 25       |
+| 3   | Kiwi  | 20       |
+| 4   | NULL  | NULL     |
 
 ```sql
 DROP TABLE IF EXISTS #TableA;
@@ -350,11 +350,42 @@ This returns Apple and Peach only.
 
 ### EXISTS
 
-`EXISTS` returns `TRUE` when its subquery returns at least one row. It does not inspect the selected value, and its subquery does not have to be correlated.
+`EXISTS` returns `TRUE` when its subquery returns at least one row. 
+
+This example shows the behavior is different from the `NOT IN` example.
+
+```
+SELECT  a.ID, 
+        a.Fruit
+FROM #TableA AS a
+WHERE NOT EXISTS
+(
+    SELECT 1
+    FROM (VALUES ('Banana'), (NULL)) AS v(Fruit)
+    WHERE v.Fruit = a.Fruit
+)
+ORDER BY a.ID;
+```
+
+| ID | Fruit |
+|----|-------|
+| 1  | Apple |
+| 2  | Peach |
+| 3  | Mango |
+| 4  | Mango |
+| 5  | NULL  |
+| 6  | NULL  |
+
+`[NOT] EXISTS` does not inspect the selected value, and its subquery does not have to be correlated.
+
+The following examples are valid.
 
 ```sql
 SELECT 1 AS myColumn
-WHERE EXISTS (SELECT NULL); -- returns 1
+WHERE EXISTS (SELECT NULL);
+
+SELECT 1 AS myColumn
+WHERE EXISTS (SELECT 1/0);
 ```
 
 | myColumn |
@@ -494,10 +525,10 @@ ORDER BY Fruit;
 
 | Fruit | RowCount | NonNullFruitCount |
 | ----- | -------- | ----------------- |
-| NULL | 2 | 0 |
-| Apple | 1 | 1 |
-| Mango | 2 | 2 |
-| Peach | 1 | 1 |
+| NULL  | 2        | 0                 |
+| Apple | 1        | 1                 |
+| Mango | 2        | 2                 |
+| Peach | 1        | 1                 |
 
 [Back to the table of contents](#table-of-contents)
 
@@ -547,7 +578,7 @@ FROM #TableB;
 
 ### COUNT
 
-`COUNT(*)` counts rows. `COUNT(expression)` counts non-null expression results. If an aggregate such as `SUM`, `AVG`, `MIN`, or `MAX` has no non-null inputs, it returns `NULL`.
+`COUNT(*)` counts rows. `COUNT(expression)` counts non-null expression results. If an aggregate such as `SUM`, `AVG`, `MIN`, or `MAX` has no non-null inputs, it returns `NULL`.  Note the use of the predicate `1 = 0` which normally would produce an empty set.  In this example a record is returned.
 
 ```sql
 SELECT  COUNT(*) AS RowCount,
@@ -765,10 +796,10 @@ GO
 
 | ChildID | ParentID |
 | ------- | -------- |
-| 1 | 1 |
-| 2 | 2 |
-| 3 | NULL |
-| 4 | NULL |
+| 1       | 1        |
+| 2       | 2        |
+| 3       | NULL     |
+| 4       | NULL     |
 
 [Back to the table of contents](#table-of-contents)
 
@@ -788,12 +819,12 @@ FROM #TableB
 ORDER BY ID;
 ```
 
-| ID | Fruit | QuantityPlus2 |
+| ID  | Fruit | QuantityPlus2 |
 | --- | ----- | ------------- |
-| 1 | Apple | 19 |
-| 2 | Peach | 27 |
-| 3 | Kiwi | 22 |
-| 4 | NULL | NULL |
+| 1   | Apple | 19            |
+| 2   | Peach | 27            |
+| 3   | Kiwi  | 22            |
+| 4   | NULL  | NULL          |
 
 -----
 
@@ -1123,11 +1154,11 @@ ORDER BY ID;
 ```
 
 | ID | MyValue | LagIgnoreNulls | LeadIgnoreNulls | LagRespectNulls | LeadRespectNulls |
-| --- | ------- | -------------- | --------------- | ----------------- | ------------------ |
-| 1 | 100 | 0 | 200 | 0 | 200 |
-| 2 | 200 | 100 | 300 | 100 | NULL |
-| 3 | NULL | 200 | 300 | 200 | 300 |
-| 4 | 300 | 200 | 0 | NULL | 0 |
+| -- | ------- | -------------- | --------------- | --------------- | ---------------- |
+| 1  | 100     | 0              | 200             | 0               | 200              |
+| 2  | 200     | 100            | 300             | 100             | NULL             |
+| 3  | NULL    | 200            | 300             | 200             | 300              |
+| 4  | 300     | 200            | 0               | NULL            | 0                |
 
 [Review `LEAD` and the CU4 note in Microsoft Learn.](https://learn.microsoft.com/en-us/sql/t-sql/functions/lead-transact-sql)
 
