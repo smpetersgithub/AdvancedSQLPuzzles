@@ -1,5 +1,9 @@
 # Equi, Theta, and Natural Joins
 
+Equi, theta, and natural joins were introduced as part of the relational model developed by E. F. Codd.
+
+For more information, see the [Wikipedia article on the relational model](https://en.wikipedia.org/wiki/Relational_model).
+
 SQL is considered a lenient interpretation of relational algebra because it deviates from the strict mathematical principles of relational algebra in some ways. While relational algebra provides a rigorous mathematical foundation for relational database management, SQL is a more practical, user-friendly language for querying and manipulating data in relational databases.
 
 SQL has added various features and capabilities beyond those found in relational algebra, such as aggregate functions, subqueries, and the ability to manipulate data directly. It also provides a way to work with NULL markers, which are not part of the mathematical model of relational algebra. Additionally, SQL uses a syntax that is more accessible and easier to read than the mathematical notation used in relational algebra.
