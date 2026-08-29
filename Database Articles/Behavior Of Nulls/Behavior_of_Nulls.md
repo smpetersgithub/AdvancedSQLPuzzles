@@ -602,6 +602,10 @@ An expression consisting entirely of untyped null literals can fail type validat
 ```sql
 SELECT SUM(v.MyValue) AS Total
 FROM (VALUES (CAST(NULL AS INT)), (NULL)) AS v(MyValue);
+
+--Operand data type NULL is invalid for sum operator.
+SELECT SUM(v.MyValue) AS Total
+FROM (VALUES (NULL), (NULL)) AS v(MyValue);
 ```
 
 This returns `NULL` rather than a type error.
@@ -750,7 +754,7 @@ SELECT * FROM #CheckDemo;
 
 -----
 
-### Foreign Key
+### FOREIGN KEY
 
 A nullable foreign-key column can contain multiple nulls. A null foreign key means no relationship is asserted; it is not an orphaned reference. An enforced foreign key prevents non-null values from referencing nonexistent parent rows.
 
