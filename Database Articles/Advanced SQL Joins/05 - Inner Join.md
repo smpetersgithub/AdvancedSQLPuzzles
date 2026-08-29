@@ -237,7 +237,7 @@ ORDER BY 1;
 
 ---------------------------------------------------------------------------------
 
-### Example 9
+### Example 10
 
 Here is another method of writing the same SQL statement in Example 8.  Here we use the `IS NULL` operator.
 
@@ -260,7 +260,7 @@ ORDER BY a.ID;
 
 ---------------------------------------------------------------------------------
 
-### Example 10
+### Example 11
 
 Here is yet another method of writing the same SQL statement in Example 8.  Here we use the `IS [NOT] DISTINCT` operator
 
@@ -282,7 +282,7 @@ ORDER BY a.ID;
 
 ---------------------------------------------------------------------------------
 
-### Example 11
+### Example 12
 
 In Microsoft SQL Server you can also write the above query using the `ON EXISTS` clause. I will cover the `ON EXISTS` syntax in another document, as it takes some thinking to understand its behavior. 
 
@@ -304,7 +304,7 @@ ORDER BY 1;
 
 ---------------------------------------------------------------------------------
 
-### Example 12
+### Example 13
 
 You can use a `CASE` statement to specify the join condition in the `WHERE` clause. Using a `CASE` expression in the `WHERE` clause to simulate join logic is not recommended. It makes queries harder to read and will disable join optimizations.
 
@@ -328,7 +328,7 @@ ORDER BY 1;
      
 --------------------------------------------------------------------------------- 
 
-### Example 13
+### Example 14
 
 This SQL statement works in SQL Server when joining three or more tables.  The table referenced in the `ON` clause must be in reverse order for this to work.
 
