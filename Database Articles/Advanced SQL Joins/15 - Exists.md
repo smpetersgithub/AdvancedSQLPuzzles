@@ -1,296 +1,335 @@
-# EXISTS
+# `EXISTS`
 
-The `EXISTS` operator in SQL is a Boolean operator that tests for the existence of any rows in a subquery. The `EXISTS` clause evaluates to a Boolean (TRUE or FALSE); it does not return data from the subquery - it checks for the existence of at least one matching row. The `EXISTS` can be used with the `IF`, `WHERE`, and `ON` clauses.  The `EXISTS` operator can also be used with the `NOT` operator for negation.
+`EXISTS` is a predicate that tests whether a subquery returns at least one row. It evaluates to `TRUE` when a row exists and `FALSE` when the subquery is empty.
 
-This document will concentrate on the `EXISTS` statement with the `ON` clause.  Strangely, I cannot find any documentation from Microsoft or PostgreSQL on the use of `ON EXISTS`.  Itzik Ben-Gan does mention it in passing in an article [here](https://sqlperformance.com/2019/12/t-sql-queries/null-complexities-part-1) about its usage, and he does mention it in the [T-SQL Fundamentals](https://www.amazon.com/T-SQL-Fundamentals-3rd-Itzik-Ben-Gan/dp/150930200X/ref=sr_1_1?adgrpid=1331509151302817&hvadid=83219393942729&hvbmt=be&hvdev=c&hvlocphy=66021&hvnetw=o&hvqmt=e&hvtargid=kwd-83219680138630%3Aloc-190&hydadcr=16377_10417921&keywords=t-sql+fundamentals&qid=1675204165&sr=8-1) book.
+The values projected by the subquery do not become part of the outer result. For existence testing, these forms have the same meaning when the remainder of the subquery is unchanged:
 
-First, let's look at some examples of the `EXISTS`.  It is important to remember that the `EXISTS` clause returns TRUE or FALSE and not a result set.
+```sql
+EXISTS (SELECT 1    ...)
+EXISTS (SELECT NULL ...)
+EXISTS (SELECT 1/0  ...)
+EXISTS (SELECT *    ...)
+```
 
---------------------------------------------------------------------------------
+`SELECT 1` is a common convention because it communicates that the projected value is irrelevant.
 
-### Sample Data
+`EXISTS` can be used anywhere Transact-SQL accepts an appropriate Boolean search condition, including `IF`, `WHERE`, `HAVING`, and a join's `ON` condition. Prefixing it with `NOT` reverses the existence test.
 
-We will be using the following tables, which contain types of fruits and their quantities.  
+## Correlated and Uncorrelated Subqueries
 
-[The DDL to create these tables can be found here.](Sample%20Data.md)
+An **uncorrelated** subquery does not reference the outer query. Its existence result is therefore constant for every outer row during that statement.
+
+A **correlated** subquery references columns from an outer query scope. Conceptually, its matching rows can differ for each outer row. SQL Server's optimizer is free to transform the expression into an efficient plan; the conceptual model does not dictate a literal row-by-row execution strategy.
+
+`EXISTS` does not provide special `NULL` equality. Its `TRUE` or `FALSE` result depends only on whether rows survive the predicates inside the subquery. If an inner predicate uses `a.Fruit = b.Fruit`, two `NULL` values do not match because ordinary equality evaluates to `UNKNOWN`.
+
+## Sample Data
+
+The examples use the following local temporary tables. The word *NULL* is displayed explicitly so that it cannot be confused with an empty string.
+
+```sql
+DROP TABLE IF EXISTS #TableA;
+DROP TABLE IF EXISTS #TableB;
+
+CREATE TABLE #TableA
+(
+    ID       int         NOT NULL,
+    Fruit    varchar(20) NULL,
+    Quantity int         NULL
+);
+
+CREATE TABLE #TableB
+(
+    ID       int         NOT NULL,
+    Fruit    varchar(20) NULL,
+    Quantity int         NULL
+);
+
+INSERT INTO #TableA (ID, Fruit, Quantity)
+VALUES (1, 'Apple', 17),
+       (2, 'Peach', 20),
+       (3, 'Mango', 11),
+       (4, NULL,     5);
+
+INSERT INTO #TableB (ID, Fruit, Quantity)
+VALUES (1, 'Apple', 17),
+       (2, 'Peach', 25),
+       (3, 'Kiwi',  20),
+       (4, NULL,    NULL);
+```
 
 **Table A**
+
 | ID | Fruit  | Quantity |
-|----|--------|----------|
-|  1 | Apple  |       17 |
-|  2 | Peach  |       20 |
-|  3 | Mango  |       11 |
-|  4 |        |        5 |
-  
+|---:|--------|---------:|
+| 1  | Apple  | 17       |
+| 2  | Peach  | 20       |
+| 3  | Mango  | 11       |
+| 4  | *NULL* | 5        |
+
 **Table B**
+
 | ID | Fruit  | Quantity |
-|----|--------|----------|
-|  1 | Apple  | 17       |
-|  2 | Peach  | 25       |
-|  3 | Kiwi   | 20       |
-|  4 |        |          |
+|---:|--------|---------:|
+| 1  | Apple  | 17       |
+| 2  | Peach  | 25       |
+| 3  | Kiwi   | 20       |
+| 4  | *NULL* | *NULL*   |
 
-----
+## `IF EXISTS`
 
-### IF EXISTS
-
-Here is an example of using `EXISTS` with `IF` to check whether records exist.  
-
-This statement will return TRUE, as there are records in `TableA`.
+`IF EXISTS` is useful when procedural Transact-SQL needs to branch according to whether a query returns a row.
 
 ```sql
-IF EXISTS (SELECT 1 FROM ##TableA)
-PRINT 'TRUE'
+IF EXISTS (SELECT 1 FROM #TableA)
+    PRINT 'TableA contains at least one row.';
 ELSE
-PRINT 'FALSE'
+    PRINT 'TableA is empty.';
 ```
 
-This statement will return FALSE if we use the `NOT` operator.
+Because `#TableA` contains rows, the first message is printed.
+
+Negation tests for an empty result:
 
 ```sql
-IF NOT EXISTS (SELECT 1 FROM ##TableA)
-PRINT 'TRUE'
+IF NOT EXISTS (SELECT 1 FROM #TableA)
+    PRINT 'TableA is empty.';
 ELSE
-PRINT 'FALSE'
+    PRINT 'TableA contains at least one row.';
 ```
 
-This statement will return TRUE when we supply a NULL marker.  Even though we provide a NULL marker, it still returns a record set with a NULL marker, which is different from an empty record set.
+The following expression is also true:
 
 ```sql
 IF EXISTS (SELECT NULL)
-PRINT 'TRUE'
+    PRINT 'TRUE';
 ELSE
-PRINT 'FALSE'
+    PRINT 'FALSE';
 ```
 
+`SELECT NULL` without a `FROM` clause returns one row containing a null value. `EXISTS` tests for that row, not for a non-null projected value. By contrast, `NOT EXISTS (SELECT NULL)` is false.
 
---------------------------------------------------------------
-### EXISTS
+## `EXISTS` in a `WHERE` Clause
 
-Typically, we use the `EXISTS` operator with the `WHERE` clause to create a correlated subquery.
+### Left Semi-Join
 
-The query behaves like an `INNER JOIN` and returns only records from `TableA`.
+The correlated subquery retains a row from `TableA` when at least one row in `TableB` has the same non-null fruit value. Right-side columns are not returned, and multiple matching right-side rows would not multiply a qualifying left-side row.
 
 ```sql
-SELECT  *
-FROM    ##TableA a
-WHERE   EXISTS (SELECT 1 FROM ##TableB b WHERE a.Fruit = b.Fruit)
-ORDER BY 1;
+SELECT a.ID,
+       a.Fruit,
+       a.Quantity
+FROM #TableA AS a
+WHERE EXISTS
+      (
+          SELECT 1
+          FROM #TableB AS b
+          WHERE b.Fruit = a.Fruit
+      )
+ORDER BY a.ID;
 ```
 
 | ID | Fruit | Quantity |
-|----|-------|----------|
-|  1 | Apple |       17 |
-|  2 | Peach |       20 |
+|---:|-------|---------:|
+| 1  | Apple | 17       |
+| 2  | Peach | 20       |
 
-When we use negation (the `NOT` operator) with the `EXISTS` clause, we return the records in `TableA` but not in `TableB`.
+### Left Anti-Join With `NOT EXISTS`
+
+Negating the predicate retains a row from `TableA` when no matching row exists in `TableB`.
 
 ```sql
-SELECT  *
-FROM    ##TableA a
-WHERE   NOT EXISTS (SELECT 1 FROM ##TableB b WHERE a.Fruit = b.Fruit)
-ORDER BY 1;
+SELECT a.ID,
+       a.Fruit,
+       a.Quantity
+FROM #TableA AS a
+WHERE NOT EXISTS
+      (
+          SELECT 1
+          FROM #TableB AS b
+          WHERE b.Fruit = a.Fruit
+      )
+ORDER BY a.ID;
 ```
 
-| ID | Fruit   | Quantity |
-|----|---------|----------|
-|  3 | Mango   |       11 |
-|  4 |         |        5 |
+| ID | Fruit  | Quantity |
+|---:|--------|---------:|
+| 3  | Mango  | 11       |
+| 4  | *NULL* | 5        |
 
-  
---------------------------------------------------------------
-### ON EXISTS
-  
-Probably one of the more difficult joins to understand is the `ON EXISTS` clause.  It is best to learn by example, and remember that `EXISTS` returns TRUE or FALSE, not a subset of records.  The `ON EXISTS` will work with the `INNER JOIN`, `LEFT OUTER JOIN`, `RIGHT OUTER JOIN`, and `FULL OUTER JOIN` clauses, but not the `CROSS JOIN`.
+The null fruit qualifies because `b.Fruit = a.Fruit` is never `TRUE` when `a.Fruit` is `NULL`, even though `TableB` also contains a null fruit.
 
-This query evaluates whether `a.Fruit` exists in the result set of `b.Fruit`, effectively acting like an equality join on Fruit, but also matching NULL markers (since `INTERSECT` treats NULL as not distinct from NULL). These statements will return TRUE and behave like a `CROSS JOIN`.
-  
+## `EXISTS` in an `ON` Condition
+
+There is no separate SQL construct formally called an `ON EXISTS` clause. `ON` accepts a search condition, and an `EXISTS` predicate can be part or all of that condition.
+
+This applies to `INNER`, `LEFT`, `RIGHT`, and `FULL` joins. `CROSS JOIN` has no `ON` clause; filter a Cartesian product in `WHERE` when that behavior is required.
+
+### An Uncorrelated Condition
+
+The following `EXISTS` subquery always returns `TRUE` because `SELECT NULL` produces one row. Every row from `TableA` therefore matches every row from `TableB`, producing the same 16 pairs as a `CROSS JOIN`.
+
 ```sql
-SELECT  *
-FROM    ##TableA a INNER JOIN
-        ##TableB b ON EXISTS(SELECT 1)
-ORDER BY 1,2;
-```
-  
-```sql
-SELECT  *
-FROM    ##TableA a INNER JOIN
-        ##TableB b ON EXISTS(SELECT NULL)
-ORDER BY 1, 4;
-```    
-
-| ID |  Fruit  | Quantity | ID |  Fruit  | Quantity |
-|----|---------|----------|----|---------|----------|
-| 1  | Apple   | 17       | 1  | Apple   | 17       |
-| 1  | Apple   | 17       | 2  | Peach   | 25       |
-| 1  | Apple   | 17       | 3  | Kiwi    | 20       |
-| 1  | Apple   | 17       | 4  |         |          |
-| 2  | Peach   | 20       | 1  | Apple   | 17       |
-| 2  | Peach   | 20       | 2  | Peach   | 25       |
-| 2  | Peach   | 20       | 3  | Kiwi    | 20       |
-| 2  | Peach   | 20       | 4  |         |          |
-| 3  | Mango   | 11       | 1  | Apple   | 17       |
-| 3  | Mango   | 11       | 2  | Peach   | 25       |
-| 3  | Mango   | 11       | 3  | Kiwi    | 20       |
-| 3  | Mango   | 11       | 4  |         |          |
-| 4  |         | 5        | 1  | Apple   | 17       |
-| 4  |         | 5        | 2  | Peach   | 25       |
-| 4  |         | 5        | 3  | Kiwi    | 20       |
-| 4  |         | 5        | 4  |         |          |
-
-----------------------------------------------------
-
-### Example 1
-
-From our previous SQL statement, we can see that the `INNER JOIN` acts like a `CROSS JOIN`.  Now, let’s add a more practical use of the `ON EXISTS`.
-
-This query will return all the rows of `TableA` and `TableB` where the values of column `Fruit` are the same in both tables, and the columns of both tables will be included in the result set. The query will include rows from `TableA` where the `Fruit` value exists in `TableB`.  
-  
-```sql
-SELECT  a.*,
-        b.*
-FROM    ##TableA a INNER JOIN
-        ##TableB b ON EXISTS(SELECT a.Fruit INTERSECT SELECT b.Fruit)
-ORDER BY 1;
+SELECT COUNT(*) AS PairCount
+FROM #TableA AS a
+INNER JOIN #TableB AS b
+    ON EXISTS (SELECT NULL);
 ```
 
-| ID | Fruit   | Quantity | ID |  Fruit  | Quantity |
-|----|---------|----------|----|---------|----------|
-|  1 | Apple   | 17       | 1  | Apple   | 17       |
-|  2 | Peach   | 20       | 2  | Peach   | 25       |
-|  4 |         | 5        | 4  |         |          |
+| PairCount |
+|----------:|
+| 16        |
 
-  
-A similar statement to the above would be the following, which explicitly handles NULL markers.
+No columns from `a` or `b` appear inside the subquery, so the condition does not compare the two inputs.
 
-```sql
-SELECT  *
-FROM    ##TableA a CROSS JOIN
-        ##TableB b
-WHERE   ISNULL(a.Fruit,'') = ISNULL(b.Fruit,'')
-ORDER BY 1;
-```
+### A Correlated Condition Equivalent to Equality
 
-| ID |  Fruit  | Quantity | ID |  Fruit  | Quantity |
-|----|---------|----------|----|---------|----------|
-|  1 | Apple   | 17       | 1  | Apple   | 17       |
-|  2 | Peach   | 20       | 2  | Peach   | 25       |
-|  4 |         | 5        | 4  |         |          |
-  
-  
-We can also apply De Morgan's law and use the `NOT EXISTS` and the `EXCEPT` operators.
-  
-```sql
-SELECT  a.*,
-        b.*
-FROM    ##TableA a INNER JOIN
-        ##TableB b ON NOT EXISTS(SELECT a.Fruit EXCEPT SELECT b.Fruit)
-ORDER BY 1;
-```
-
-| ID |  Fruit  | Quantity | ID |  Fruit  | Quantity |
-|----|---------|----------|----|---------|----------|
-|  1 | Apple   | 17       | 1  | Apple   | 17       |
-|  2 | Peach   | 20       | 2  | Peach   | 25       |
-|  4 |         | 5        | 4  |         |          |
-  
-
------------------------------------------------------------------------------------------
-  
-### Example 2
-
-If we replace `INTERSECT` with `EXCEPT`, we get the following.
-  
-This query will return all the rows of `TableA` and `TableB` where the values of column `Fruit` are different in both tables, and the columns of both tables will be included in the result set. The query will exclude rows from `TableA` where the `Fruit` value exists in `TableB`.  
-  
-```sql
-SELECT  a.*,
-        b.*
-FROM    ##TableA a INNER JOIN
-        ##TableB b ON EXISTS(SELECT a.Fruit EXCEPT SELECT b.Fruit)
-ORDER BY 1, 4;
-```
-
-| ID |  Fruit  | Quantity | ID |  Fruit  | Quantity |
-|----|---------|----------|----|---------|----------|
-| 1  | Apple   | 17       | 2  | Peach   | 25       |
-| 1  | Apple   | 17       | 3  | Kiwi    | 20       |
-| 1  | Apple   | 17       | 4  |         |          |
-| 2  | Peach   | 20       | 1  | Apple   | 17       |
-| 2  | Peach   | 20       | 3  | Kiwi    | 20       |
-| 2  | Peach   | 20       | 4  |         |          |
-| 3  | Mango   | 11       | 1  | Apple   | 17       |
-| 3  | Mango   | 11       | 2  | Peach   | 25       |
-| 3  | Mango   | 11       | 3  | Kiwi    | 20       |
-| 3  | Mango   | 11       | 4  |         |          |
-| 4  |         | 5        | 1  | Apple   | 17       |
-| 4  |         | 5        | 2  | Peach   | 25       |
-| 4  |         | 5        | 3  | Kiwi    | 20       |
-
-Note that the above set is missing the following.
-
-| ID |  Fruit  | Quantity | ID |  Fruit  | Quantity |
-|----|---------|----------|----|---------|----------|
-| 1  | Apple   | 17       | 1  | Apple   | 17       |
-| 2  | Peach   | 20       | 2  | Peach   | 25       |
-| 4  |         | 5        | 4  |         |          |
- 
-The equivalent statement for this is below.
-  
-```sql
-SELECT  *
-FROM    ##TableA a CROSS JOIN
-        ##TableB b
-WHERE   NOT(ISNULL(a.Fruit,'') = ISNULL(b.Fruit,''))
-ORDER BY 1, 4;
-```
-  
-| ID |  Fruit  | Quantity | ID |  Fruit  | Quantity |
-|----|---------|----------|----|---------|----------|
-| 1  | Apple   | 17       | 2  | Peach   | 25       |
-| 1  | Apple   | 17       | 3  | Kiwi    | 20       |
-| 1  | Apple   | 17       | 4  |         |          |
-| 2  | Peach   | 20       | 1  | Apple   | 17       |
-| 2  | Peach   | 20       | 3  | Kiwi    | 20       |
-| 2  | Peach   | 20       | 4  |         |          |
-| 3  | Mango   | 11       | 1  | Apple   | 17       |
-| 3  | Mango   | 11       | 2  | Peach   | 25       |
-| 3  | Mango   | 11       | 3  | Kiwi    | 20       |
-| 3  | Mango   | 11       | 4  |         |          |
-| 4  |         | 5        | 1  | Apple   | 17       |
-| 4  |         | 5        | 2  | Peach   | 25       |
-| 4  |         | 5        | 3  | Kiwi    | 20       |
-
-  
-De Morgan's Law is in effect, and you can accomplish the above with the `NOT EXISTS` and the `INTERSECT` statements.
+An `EXISTS` predicate can reference both join inputs:
 
 ```sql
-SELECT  a.*,
-        b.*
-FROM    ##TableA a INNER JOIN
-        ##TableB b ON NOT EXISTS(SELECT a.Fruit INTERSECT SELECT b.Fruit)
-ORDER BY 1, 4;
+SELECT a.ID    AS A_ID,
+       a.Fruit AS A_Fruit,
+       b.ID    AS B_ID,
+       b.Fruit AS B_Fruit
+FROM #TableA AS a
+INNER JOIN #TableB AS b
+    ON EXISTS
+       (
+           SELECT 1
+           WHERE a.Fruit = b.Fruit
+       )
+ORDER BY a.ID, b.ID;
 ```
 
-| ID |  Fruit  | Quantity | ID |  Fruit  | Quantity |
-|----|---------|----------|----|---------|----------|
-| 1  | Apple   | 17       | 2  | Peach   | 25       |
-| 1  | Apple   | 17       | 3  | Kiwi    | 20       |
-| 1  | Apple   | 17       | 4  |         |          |
-| 2  | Peach   | 20       | 1  | Apple   | 17       |
-| 2  | Peach   | 20       | 3  | Kiwi    | 20       |
-| 2  | Peach   | 20       | 4  |         |          |
-| 3  | Mango   | 11       | 1  | Apple   | 17       |
-| 3  | Mango   | 11       | 2  | Peach   | 25       |
-| 3  | Mango   | 11       | 3  | Kiwi    | 20       |
-| 3  | Mango   | 11       | 4  |         |          |
-| 4  |         | 5        | 1  | Apple   | 17       |
-| 4  |         | 5        | 2  | Peach   | 25       |
-| 4  |         | 5        | 3  | Kiwi    | 20       |
-  
----------------------------------------------------------
+This returns Apple and Peach, just like `ON a.Fruit = b.Fruit`. The extra subquery adds no value here, so the direct equality predicate is clearer.
 
-### Continue Reading
+## Null-Safe Scalar Comparison With Set Operators
+
+An advanced Transact-SQL idiom combines `EXISTS` with single-row `INTERSECT` or `EXCEPT` expressions. Each `SELECT` below has no `FROM` clause and produces exactly one scalar row. Set operators consider two `NULL` values equal when determining distinct rows.
+
+For scalar expressions `A` and `B`, the following identities hold:
+
+| Expression | Meaning |
+|------------|---------|
+| `EXISTS (SELECT A INTERSECT SELECT B)` | `A` is not distinct from `B` |
+| `NOT EXISTS (SELECT A EXCEPT SELECT B)` | `A` is not distinct from `B` |
+| `EXISTS (SELECT A EXCEPT SELECT B)` | `A` is distinct from `B` |
+| `NOT EXISTS (SELECT A INTERSECT SELECT B)` | `A` is distinct from `B` |
+
+These identities rely on each side producing one scalar row. They should not be generalized carelessly to arbitrary multirow set expressions.
+
+### Null-Safe Equality
+
+The `INTERSECT` subquery returns a row when the two fruit values are equal or when both are `NULL`. `EXISTS` converts that row-or-empty result into the join condition.
+
+```sql
+SELECT a.ID       AS A_ID,
+       a.Fruit    AS A_Fruit,
+       a.Quantity AS A_Quantity,
+       b.ID       AS B_ID,
+       b.Fruit    AS B_Fruit,
+       b.Quantity AS B_Quantity
+FROM #TableA AS a
+INNER JOIN #TableB AS b
+    ON EXISTS
+       (
+           SELECT a.Fruit
+           INTERSECT
+           SELECT b.Fruit
+       )
+ORDER BY a.ID, b.ID;
+```
+
+| A_ID | A_Fruit | A_Quantity | B_ID | B_Fruit | B_Quantity |
+|-----:|---------|-----------:|-----:|---------|------------|
+| 1    | Apple   | 17         | 1    | Apple   | 17         |
+| 2    | Peach   | 20         | 2    | Peach   | 25         |
+| 4    | *NULL*  | 5          | 4    | *NULL*  | *NULL*     |
+
+On SQL Server 2022 or later, the clearest equivalent is:
+
+```sql
+ON a.Fruit IS NOT DISTINCT FROM b.Fruit
+```
+
+On earlier versions, use explicit logic:
+
+```sql
+ON a.Fruit = b.Fruit
+OR (a.Fruit IS NULL AND b.Fruit IS NULL)
+```
+
+Replacing `NULL` with `ISNULL(a.Fruit, '')` is not generally equivalent: a stored empty string would also match a `NULL`, and applying functions to indexed join columns can make index access less efficient.
+
+### Null-Safe Inequality
+
+`EXISTS (SELECT a.Fruit EXCEPT SELECT b.Fruit)` returns `TRUE` when the two scalar rows are distinct, including when exactly one fruit value is `NULL`.
+
+```sql
+SELECT a.ID    AS A_ID,
+       a.Fruit AS A_Fruit,
+       b.ID    AS B_ID,
+       b.Fruit AS B_Fruit
+FROM #TableA AS a
+INNER JOIN #TableB AS b
+    ON EXISTS
+       (
+           SELECT a.Fruit
+           EXCEPT
+           SELECT b.Fruit
+       )
+ORDER BY a.ID, b.ID;
+```
+
+| A_ID | A_Fruit | B_ID | B_Fruit |
+|-----:|---------|-----:|---------|
+| 1    | Apple   | 2    | Peach   |
+| 1    | Apple   | 3    | Kiwi    |
+| 1    | Apple   | 4    | *NULL*  |
+| 2    | Peach   | 1    | Apple   |
+| 2    | Peach   | 3    | Kiwi    |
+| 2    | Peach   | 4    | *NULL*  |
+| 3    | Mango   | 1    | Apple   |
+| 3    | Mango   | 2    | Peach   |
+| 3    | Mango   | 3    | Kiwi    |
+| 3    | Mango   | 4    | *NULL*  |
+| 4    | *NULL*  | 1    | Apple   |
+| 4    | *NULL*  | 2    | Peach   |
+| 4    | *NULL*  | 3    | Kiwi    |
+
+On SQL Server 2022 or later, write the condition directly:
+
+```sql
+ON a.Fruit IS DISTINCT FROM b.Fruit
+```
+
+On earlier versions, an explicit equivalent is:
+
+```sql
+ON a.Fruit <> b.Fruit
+OR (a.Fruit IS NULL AND b.Fruit IS NOT NULL)
+OR (a.Fruit IS NOT NULL AND b.Fruit IS NULL)
+```
+
+## Choosing a Form
+
+Use the simplest predicate that communicates the requirement:
+
+- Use correlated `EXISTS` when only the existence of a qualifying row matters.
+- Use `NOT EXISTS` for non-existence, particularly when nullable values make `NOT IN` unsafe.
+- Use `IS [NOT] DISTINCT FROM` for null-safe scalar comparison on SQL Server 2022 or later.
+- Use explicit equality-and-`NULL` logic on earlier versions when portability and clarity matter.
+- Reserve the `INTERSECT` and `EXCEPT` scalar idioms for cases where their behavior is understood and justified.
+
+Do not assume that `EXISTS` is always faster than `IN` or a join. SQL Server can transform logically equivalent forms into similar plans. Compare actual execution plans and runtime measurements for the real data and indexes.
+
+## Official References
+
+- [`EXISTS` in Transact-SQL](https://learn.microsoft.com/en-us/sql/t-sql/language-elements/exists-transact-sql)
+- [`EXCEPT` and `INTERSECT` in Transact-SQL](https://learn.microsoft.com/en-us/sql/t-sql/language-elements/set-operators-except-and-intersect-transact-sql)
+- [`IS [NOT] DISTINCT FROM` in Transact-SQL](https://learn.microsoft.com/en-us/sql/t-sql/queries/is-distinct-from-transact-sql)
+
+## Continue Reading
 
 1. [Introduction](01%20-%20Introduction.md)
 2. [SQL Processing Order](02%20-%20SQL%20Query%20Processing%20Order.md)
@@ -308,5 +347,5 @@ ORDER BY 1, 4;
 14. [Join Algorithms](14%20-%20Join%20Algorithms.md)
 15. [Exists](15%20-%20Exists.md)
 16. [Complex Joins](16%20-%20Complex%20Joins.md)
-  
-https://advancedsqlpuzzles.com   
+
+[Advanced SQL Puzzles](https://advancedsqlpuzzles.com)
