@@ -1,189 +1,294 @@
 # Equi, Theta, and Natural Joins
 
-Equi, theta, and natural joins were introduced as part of the relational model developed by E. F. Codd.
+The terms **equi join**, **theta join**, and **natural join** describe the condition used to match rows or, in the case of a natural join, how that condition is generated.
 
-For more information, see the [Wikipedia article on the relational model](https://en.wikipedia.org/wiki/Relational_model).
+These terms come from relational theory, but SQL is not a literal implementation of classical relational algebra. SQL permits duplicate rows, uses `NULL` and three-valued logic, and supports join predicates that are more general than the comparison predicates traditionally associated with theta joins.
 
-SQL is considered a lenient interpretation of relational algebra because it deviates from the strict mathematical principles of relational algebra in some ways. While relational algebra provides a rigorous mathematical foundation for relational database management, SQL is a more practical, user-friendly language for querying and manipulating data in relational databases.
+## Terminology
 
-SQL has added various features and capabilities beyond those found in relational algebra, such as aggregate functions, subqueries, and the ability to manipulate data directly. It also provides a way to work with NULL markers, which are not part of the mathematical model of relational algebra. Additionally, SQL uses a syntax that is more accessible and easier to read than the mathematical notation used in relational algebra.
+| Term | Meaning |
+| --- | --- |
+| **Theta join** | In relational algebra, a join whose condition uses a comparison operator such as `=`, `<>`, `<`, `>`, `<=`, or `>=`. |
+| **Equi join** | A theta join whose comparisons use only equality. |
+| **Non-equi join** | An informal SQL term for a join that uses a condition other than, or in addition to, equality. |
+| **Natural join** | A join that automatically compares every pair of same-named columns for equality and returns one copy of each shared column. |
 
-However, the basic principles of relational algebra still form the basis of SQL, and many SQL operations can be directly mapped to relational algebra operations. Understanding relational algebra can deepen your understanding of SQL and improve your ability to write effective, efficient SQL queries. Nevertheless, SQL remains a lenient interpretation of relational algebra, as it deviates from the mathematical principles to provide a practical and user-friendly way to work with relational databases.
+In relational-algebra notation, a theta join can be expressed as a Cartesian product followed by a selection:
 
-----------------------------------
+```text
+R ⋈θ S = σθ(R × S)
+```
 
-## Equi and Theta-joins Overview
+SQL's `ON` clause is broader: it accepts a search condition that evaluates to `TRUE`, `FALSE`, or `UNKNOWN`. Consequently, conditions involving `BETWEEN`, `LIKE`, functions, and compound expressions are often discussed with non-equi joins even though they are not classical theta comparisons.
 
-*  A theta-join is a join that uses a condition based on any binary comparison operator (`=`, `<`, `>`, `<=`, `>=`, or `<>`). These joins allow flexible matching logic beyond just equality. Theta-joins include both equi-joins, which test for equality, and non-equi-joins, which use other comparison operators.
+## Common T-SQL Comparison Predicates
 
-*  An equi-join is a specific type of theta-join that matches rows based on equality conditions between columns in the joined tables. In other words, it returns rows where the values in the specified columns are equal. The term "equi" comes from the Latin word aequus, meaning "equal."
+| Predicate | Meaning | Notes |
+| --- | --- | --- |
+| `=` | Equal to | The defining comparison for an equi join. |
+| `<>` | Not equal to | ISO SQL form. |
+| `!=` | Not equal to | T-SQL alternative to `<>`. |
+| `<`, `>` | Less than; greater than | Common in range and temporal joins. |
+| `<=`, `>=` | Less than or equal to; greater than or equal to | Include the boundary value. |
+| `!<`, `!>` | Not less than; not greater than | T-SQL alternatives; `>=` and `<=` are clearer. |
+| `BETWEEN` | Within an inclusive range | Equivalent to a lower-bound and an upper-bound comparison. |
+| `LIKE` | Matches a character pattern | A search predicate rather than a classical theta operator. |
+| `IS DISTINCT FROM` | Values are different, treating `NULL` as a comparable value | Available in SQL Server 2022 (16.x) and later. Always returns `TRUE` or `FALSE`. |
+| `IS NOT DISTINCT FROM` | Values are the same, treating two `NULL` values as equal | Available in SQL Server 2022 (16.x) and later. Always returns `TRUE` or `FALSE`. |
 
-*  A non-equi-join is a type of theta-join that uses a condition other than equality (such as `<`, `<=`, `>`, `>=` or `BETWEEN`) to compare columns. It returns rows where the join condition evaluates to true based on those non-equality comparisons.
+## Sample Data
 
---------------------------------------------------------------------------------
+The SQL Server examples use these local temporary tables:
 
-## Operators
+```sql
+DROP TABLE IF EXISTS #TableA;
+DROP TABLE IF EXISTS #TableB;
 
-The following T-SQL comparison operators and predicates can be used in join conditions.
+CREATE TABLE #TableA
+(
+    ID       integer     NOT NULL,
+    Fruit    varchar(20) NULL,
+    Quantity integer     NULL
+);
 
-| Type       |       Operator       |                     Description                     |
-|------------|----------------------|-----------------------------------------------------|
-| Comparison | =                    | Equal To                                            |
-| Comparison | <>                   | Not Equal To                                        |
-| Comparison | !=                   | Not Equal To (not ISO standard)                     |
-| Comparison | >                    | Greater Than                                        |
-| Comparison | !<                   | Not less than (not ISO standard)                    |
-| Comparison | <                    | Less Than                                           |
-| Comparison | !>                   | Not greater than (not ISO standard)                 |
-| Comparison | >=                   | Greater Than or Equal To                            |
-| Comparison | <=                   | Less Than or Equal To                               |
-| Logical    | `BETWEEN`            | Tests whether a value falls within an inclusive range. |
-| Logical    | `LIKE`               | Tests whether a character expression matches a specified pattern. |
-| Comparison | IS DISTINCT FROM     | Treats NULLs as known values for comparing equality |
-| Comparison | IS NOT DISTINCT FROM | Treats NULLs as known values for comparing equality |
+CREATE TABLE #TableB
+(
+    ID       integer     NOT NULL,
+    Fruit    varchar(20) NULL,
+    Quantity integer     NULL
+);
 
-*  `>=` and `<=` are comparison operators because each directly compares two expressions and determines their relationship. `BETWEEN` is a logical operator because it combines two comparisons into one range test: `x BETWEEN a AND b` is equivalent to `x >= a AND x <= b`.
->
---------------------------------------------------------------------------------
+INSERT INTO #TableA (ID, Fruit, Quantity)
+VALUES
+    (1, 'Apple', 17),
+    (2, 'Peach', 20),
+    (3, 'Mango', 11),
+    (4, NULL,     5);
 
-## Example Tables
-
-We will use the following tables, which contain types of fruits and their quantities.
-
-[The DDL to create these tables can be found here.](Sample%20Data.md)
+INSERT INTO #TableB (ID, Fruit, Quantity)
+VALUES
+    (1, 'Apple', 17),
+    (2, 'Peach', 25),
+    (3, 'Kiwi',  20),
+    (4, NULL,    NULL);
+```
 
 **Table A**
-| ID |  Fruit  | Quantity |
-|----|---------|----------|
-| 1  | Apple   | 17       |
-| 2  | Peach   | 20       |
-| 3  | Mango   | 11       |
-| 4  |         | 5        |
+
+| ID | Fruit | Quantity |
+| ---: | --- | ---: |
+| 1 | Apple | 17 |
+| 2 | Peach | 20 |
+| 3 | Mango | 11 |
+| 4 | *NULL* | 5 |
 
 **Table B**
-| ID |  Fruit  | Quantity |
-|----|---------|----------|
-| 1  | Apple   | 17       |
-| 2  | Peach   | 25       |
-| 3  | Kiwi    | 20       |
-| 4  |         |          |
- 
---------------------------------------------------------------------------------
-## Equi-joins
 
-Equi-joins look for equality in a relationship.  
+| ID | Fruit | Quantity |
+| ---: | --- | ---: |
+| 1 | Apple | 17 |
+| 2 | Peach | 25 |
+| 3 | Kiwi | 20 |
+| 4 | *NULL* | *NULL* |
 
-Equality predicates can be used with inner, outer joins and cross joins. A `CROSS JOIN` does not have an `ON` clause, but applying an equality predicate in the `WHERE` clause produces a result logically equivalent to an inner equi-join. 
+## Equi Joins
 
-Here are several examples of an equi-join.
+An equi join uses equality to match rows. `INNER JOIN ... ON` is the clearest way to express one in SQL Server:
 
 ```sql
-SELECT  a.ID,
-        a.Fruit,
-        b.ID,
-        b.Fruit
-FROM    ##TableA a CROSS JOIN
-        ##TableB b
-WHERE   a.Fruit = b.Fruit
-ORDER BY 1;
-GO
-
-SELECT  a.ID,
-        a.Fruit,
-        b.ID,
-        b.Fruit
-FROM    ##TableA a INNER JOIN
-        ##TableB b ON a.Fruit = b.Fruit
-ORDER BY 1;
-GO
+SELECT a.ID    AS A_ID,
+       a.Fruit AS A_Fruit,
+       b.ID    AS B_ID,
+       b.Fruit AS B_Fruit
+FROM #TableA AS a
+INNER JOIN #TableB AS b
+    ON a.Fruit = b.Fruit
+ORDER BY a.ID, b.ID;
 ```
 
-| ID | Fruit | ID | Fruit |
-|----|-------|----|-------|
-| 1  | Apple | 1  | Apple |
-| 2  | Peach | 2  | Peach |
+| A_ID | A_Fruit | B_ID | B_Fruit |
+| ---: | --- | ---: | --- |
+| 1 | Apple | 1 | Apple |
+| 2 | Peach | 2 | Peach |
 
---------------------------------------------------------------------------------
-## Non-equi-joins
-Non-equi-joins look for any non-equality comparison.  They can be used with inner, outer, full and cross joins.
+The comparison `NULL = NULL` evaluates to `UNKNOWN`, not `TRUE`, so the rows with a `NULL` fruit do not match.
 
-Here are some examples that you may not have realized are possible.
+### Equivalent Cartesian-product Form
 
-You can use the `LIKE` and `BETWEEN` operators with the `ON` statement, as well as mathematical operations.  We often place these operators in the `WHERE` clause, but they can also appear in the `ON` clause.
+An inner equi join can also be written as a Cartesian product followed by a filter:
 
 ```sql
-SELECT  *
-FROM    ##TableA a INNER JOIN
-        ##TableB b ON a.Quantity BETWEEN b.Quantity AND b.Quantity + 10
-                  AND a.Fruit LIKE '%' + b.Fruit + '%';
+SELECT a.ID    AS A_ID,
+       a.Fruit AS A_Fruit,
+       b.ID    AS B_ID,
+       b.Fruit AS B_Fruit
+FROM #TableA AS a
+CROSS JOIN #TableB AS b
+WHERE a.Fruit = b.Fruit
+ORDER BY a.ID, b.ID;
 ```
 
-| ID | Fruit | Quantity | ID | Fruit | Quantity |
-|----|-------|----------|----|-------|----------|
-| 1  | Apple | 17       | 1  | Apple | 17       |
- 
-Here is an example of when you would use the greater-than operator.  Suppose you want to purchase two fruits, one fruit from `##TableA` and one fruit from `##TableB`; however, the quantity of the fruit in `##TableA` needs to be larger than the quantity in `##TableB`.  A typical example on the internet is when you need to purchase two items (such as a car and a boat), and one item must be worth more than the other.
+For this query, the two forms return the same rows. Prefer the explicit `INNER JOIN` form because it keeps the relationship between the tables in the `ON` clause and leaves the `WHERE` clause for filtering the joined result.
+
+### Null-safe Equality
+
+SQL Server 2022 and later support `IS NOT DISTINCT FROM`, which treats two `NULL` values as equal for the comparison:
 
 ```sql
-SELECT  *
-FROM    ##TableA a INNER JOIN
-        ##TableB b ON a.Quantity > b.Quantity;
+SELECT a.ID    AS A_ID,
+       a.Fruit AS A_Fruit,
+       b.ID    AS B_ID,
+       b.Fruit AS B_Fruit
+FROM #TableA AS a
+INNER JOIN #TableB AS b
+    ON a.Fruit IS NOT DISTINCT FROM b.Fruit
+ORDER BY a.ID, b.ID;
 ```
 
-| ID | Fruit | Quantity | ID | Fruit | Quantity |
-|----|-------|----------|----|-------|----------|
-|  2 | Peach | 20       | 1  | Apple | 17       |
+| A_ID | A_Fruit | B_ID | B_Fruit |
+| ---: | --- | ---: | --- |
+| 1 | Apple | 1 | Apple |
+| 2 | Peach | 2 | Peach |
+| 4 | *NULL* | 4 | *NULL* |
 
---------------------------------------------------------------------------------
+On earlier SQL Server versions, the same matching rule can be written explicitly:
+
+```sql
+ON a.Fruit = b.Fruit
+OR (a.Fruit IS NULL AND b.Fruit IS NULL)
+```
+
+## Non-equi Joins
+
+A non-equi join uses a range, inequality, pattern, or another condition that is not solely equality. It is not a separate SQL keyword; the condition is written in the `ON` clause of an ordinary join.
+
+### Greater-than Join
+
+This query returns pairs for which the quantity in `TableA` is greater than the quantity in `TableB`:
+
+```sql
+SELECT a.ID       AS A_ID,
+       a.Fruit    AS A_Fruit,
+       a.Quantity AS A_Quantity,
+       b.ID       AS B_ID,
+       b.Fruit    AS B_Fruit,
+       b.Quantity AS B_Quantity
+FROM #TableA AS a
+INNER JOIN #TableB AS b
+    ON a.Quantity > b.Quantity
+ORDER BY a.ID, b.ID;
+```
+
+| A_ID | A_Fruit | A_Quantity | B_ID | B_Fruit | B_Quantity |
+| ---: | --- | ---: | ---: | --- | ---: |
+| 2 | Peach | 20 | 1 | Apple | 17 |
+
+An inequality can match one row to many rows. Always consider the possible result cardinality before joining large tables this way.
+
+### Range and Pattern Join
+
+Join conditions can combine multiple predicates. The following query requires `TableA.Quantity` to fall within an inclusive range and `TableA.Fruit` to contain `TableB.Fruit`:
+
+```sql
+SELECT a.ID       AS A_ID,
+       a.Fruit    AS A_Fruit,
+       a.Quantity AS A_Quantity,
+       b.ID       AS B_ID,
+       b.Fruit    AS B_Fruit,
+       b.Quantity AS B_Quantity
+FROM #TableA AS a
+INNER JOIN #TableB AS b
+    ON a.Quantity BETWEEN b.Quantity AND b.Quantity + 10
+   AND a.Fruit LIKE '%' + b.Fruit + '%'
+ORDER BY a.ID, b.ID;
+```
+
+| A_ID | A_Fruit | A_Quantity | B_ID | B_Fruit | B_Quantity |
+| ---: | --- | ---: | ---: | --- | ---: |
+| 1 | Apple | 17 | 1 | Apple | 17 |
+
+`BETWEEN` includes both endpoints. The `+` operator is T-SQL string-concatenation syntax; other database systems may use `CONCAT()` or `||` instead.
+
+If either side of an ordinary comparison is `NULL`, the comparison normally evaluates to `UNKNOWN`, and that pair is not returned by an inner join.
+
 ## Natural Joins
 
-A natural join automatically creates an equality condition for every column name shared by the two inputs. A plain `NATURAL JOIN` is normally an inner join, although database systems may also support natural outer joins.
+A natural join builds its equality condition from **every column name shared by both inputs**. Each shared column appears once in the result. The join therefore depends on the tables' column names as well as their data.
 
-When `SELECT *` is used, each common join column appears only once in the result. Columns that are not common to both inputs are returned separately.
+SQL Server does not implement `NATURAL JOIN` or `JOIN ... USING`. These forms are supported by database systems such as PostgreSQL, MySQL, and Oracle.
 
-Several database systems, including Oracle, MySQL, and PostgreSQL, support `NATURAL JOIN`. SQL Server does not support the syntax directly.  
-
-Natural joins are often discouraged for the following reasons:
-
-- **Implicit behavior:** The join condition is not visible in the SQL
-  statement, making the query harder to understand.
-- **Unintended matches:** Columns may share a name even though they are
-  not logically related.
-- **Schema sensitivity:** Adding, removing, or renaming a column can
-  silently change the join condition and the query result.
-- **Portability:** Some database systems, including SQL Server, do not
-  support `NATURAL JOIN`.
-  
-It is recommended to use explicit join syntax and specify the join conditions explicitly rather than relying on natural joins. This allows more control over the join conditions and the resulting data, making the query easier to understand and maintain.
-
-Here is an example of a `NATURAL JOIN`.
+The following examples assume that ordinary tables named `TableA` and `TableB` have been created in one of those systems. They do not use SQL Server's `#` temporary-table prefix.
 
 ```sql
-SELECT  *
-FROM    TableA a NATURAL JOIN
-        TableB b;  
+SELECT *
+FROM TableA
+NATURAL JOIN TableB;
 ```
 
+Because `ID`, `Fruit`, and `Quantity` occur in both sample tables, the natural join is equivalent to matching all three columns:
+
+```text
+TableA.ID       = TableB.ID
+AND TableA.Fruit    = TableB.Fruit
+AND TableA.Quantity = TableB.Quantity
+```
+
+The result contains only the row that agrees on every shared column:
+
 | ID | Fruit | Quantity |
-|----|-------|----------|
-| 1  | Apple | 17       |
+| ---: | --- | ---: |
+| 1 | Apple | 17 |
 
+The peach rows do not match because their quantities differ. The rows containing `NULL` also do not match because ordinary equality with `NULL` does not evaluate to `TRUE`.
 
-The `USING` clause provides a more explicit alternative when the join columns have the same names. Unlike `NATURAL JOIN`, it identifies exactly which common columns participate in the join. Oracle, MySQL, PostgreSQL, and several other database systems support `USING`; SQL Server does not.
+### `USING`
+
+`USING` explicitly lists the same-named columns to compare. In database systems that support it, this query returns the same result as the preceding natural join:
 
 ```sql
-SELECT  *
-FROM    ##TableA a JOIN
-        ##TableB b USING(ID, Fruit, Quantity);  
+SELECT *
+FROM TableA
+INNER JOIN TableB USING (ID, Fruit, Quantity);
 ```
 
-| ID | Fruit | Quantity |
-|----|-------|----------|
-| 1  | Apple | 17       |
+Unlike `NATURAL JOIN`, `USING` does not silently add a new comparison when another same-named column is later added to both tables.
 
----------------------------------------------------------
+### T-SQL Equivalent
 
-### Continue Reading
+In SQL Server, write the conditions explicitly and project one copy of the joined columns:
+
+```sql
+SELECT a.ID,
+       a.Fruit,
+       a.Quantity
+FROM #TableA AS a
+INNER JOIN #TableB AS b
+    ON a.ID = b.ID
+   AND a.Fruit = b.Fruit
+   AND a.Quantity = b.Quantity;
+```
+
+Explicit conditions make the intended relationship visible and protect the query from unrelated schema changes. For that reason, `JOIN ... ON` is generally preferable to `NATURAL JOIN` in production code, even in systems that support both.
+
+## Key Points
+
+- An equi join matches rows with equality comparisons.
+- A classical theta join allows equality or inequality comparisons.
+- SQL's `ON` clause supports predicates beyond the classical theta operators.
+- “Non-equi join” is an informal description, not a SQL join keyword.
+- Ordinary comparisons do not match `NULL` values to one another.
+- A natural join uses every same-named column, which makes it sensitive to schema changes.
+- SQL Server requires explicit `ON` conditions because it does not support `NATURAL JOIN` or `JOIN ... USING`.
+
+## References
+
+- [Joins (SQL Server)](https://learn.microsoft.com/en-us/sql/relational-databases/performance/joins)
+- [`IS [NOT] DISTINCT FROM` (Transact-SQL)](https://learn.microsoft.com/en-us/sql/t-sql/queries/is-distinct-from-transact-sql)
+- [PostgreSQL: Table Expressions](https://www.postgresql.org/docs/current/queries-table-expressions.html)
+- [MySQL: `JOIN` Clause](https://dev.mysql.com/doc/refman/8.4/en/join.html)
+- [Oracle Database: Joins](https://docs.oracle.com/en/database/oracle/oracle-database/12.2/sqlrf/Joins.html)
+
+## Continue Reading
 
 1. [Introduction](01%20-%20Introduction.md)
 2. [SQL Processing Order](02%20-%20SQL%20Query%20Processing%20Order.md)
@@ -202,4 +307,4 @@ FROM    ##TableA a JOIN
 15. [Exists](15%20-%20Exists.md)
 16. [Complex Joins](16%20-%20Complex%20Joins.md)
 
- https://advancedsqlpuzzles.com
+[https://advancedsqlpuzzles.com](https://advancedsqlpuzzles.com)
