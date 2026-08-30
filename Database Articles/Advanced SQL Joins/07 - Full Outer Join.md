@@ -1,143 +1,252 @@
-# FULL OUTER JOIN
+# Full Outer Join
 
-A `FULL OUTER JOIN` returns all rows from both tables, including unmatched rows from each side. Where a match does not exist, the result will contain NULL markers for the columns from the non-matching table.
+A `FULL OUTER JOIN` returns every matched pair of rows and also preserves unmatched rows from both inputs. For an unmatched row, columns from the other input are returned as `NULL`.
 
-Although less commonly used than `INNER JOIN` or `LEFT JOIN`, `FULL OUTER JOIN` is especially useful when you want a complete comparison between two related datasets—such as identifying what rows are missing or different between them.
+Full outer joins are useful when reconciling two related datasets. They can show:
 
----------------------------------------------------------------------------------
+- rows found in both datasets;
+- rows found only in the first dataset;
+- rows found only in the second dataset; and
+- differences between the matched rows.
 
-### Sample Data
+The keyword `OUTER` is optional: `FULL JOIN` and `FULL OUTER JOIN` mean the same thing in SQL Server.
 
-We will use the following tables, which contain types of fruits and their quantities.  
+## Sample Data
 
-[The DDL to create these tables can be found here.](Sample%20Data.md)
+The examples use the following local temporary tables. The word *NULL* is displayed explicitly in the sample data and result tables so that it cannot be confused with an empty string.
+
+```sql
+DROP TABLE IF EXISTS #TableA;
+DROP TABLE IF EXISTS #TableB;
+
+CREATE TABLE #TableA
+(
+    ID       int         NOT NULL,
+    Fruit    varchar(20) NULL,
+    Quantity int         NULL
+);
+
+CREATE TABLE #TableB
+(
+    ID       int         NOT NULL,
+    Fruit    varchar(20) NULL,
+    Quantity int         NULL
+);
+
+INSERT INTO #TableA (ID, Fruit, Quantity)
+VALUES (1, 'Apple', 17),
+       (2, 'Peach', 20),
+       (3, 'Mango', 11),
+       (4, NULL,     5);
+
+INSERT INTO #TableB (ID, Fruit, Quantity)
+VALUES (1, 'Apple', 17),
+       (2, 'Peach', 25),
+       (3, 'Kiwi',  20),
+       (4, NULL,    NULL);
+```
 
 **Table A**
-| ID |  Fruit  | Quantity |
-|----|---------|----------|
-| 1  | Apple   | 17       |
-| 2  | Peach   | 20       |
-| 3  | Mango   | 11       |
-| 4  |         | 5        |
+
+| ID | Fruit  | Quantity |
+|---:|--------|---------:|
+| 1  | Apple  | 17       |
+| 2  | Peach  | 20       |
+| 3  | Mango  | 11       |
+| 4  | *NULL* | 5        |
 
 **Table B**
-| ID |  Fruit  | Quantity  |
-|----|---------|-----------|
-| 1  | Apple   | 17        |
-| 2  | Peach   | 25        |
-| 3  | Kiwi    | 20        |
-| 4  |         |           |
-        
 
----------------------------------------------------------------------------------
+| ID | Fruit  | Quantity |
+|---:|--------|---------:|
+| 1  | Apple  | 17       |
+| 2  | Peach  | 25       |
+| 3  | Kiwi   | 20       |
+| 4  | *NULL* | *NULL*   |
 
-### Example 1
+## What Counts as a Match?
 
-The following shows the contents of fruits in both `TableA` and `TableB`.
+The `ON` condition defines which rows correspond to one another. In these examples, rows match when their `Fruit` values are equal:
 
 ```sql
-SELECT  a.ID,
-        a.Fruit,
-        b.ID,
-        b.Fruit
-FROM    ##TableA a FULL OUTER JOIN
-        ##TableB b ON a.Fruit = b.Fruit
-ORDER BY 1;
+ON a.Fruit = b.Fruit
 ```
 
-|    ID   |  Fruit  |    ID   |  Fruit  |
-|---------|---------|---------|---------|
-|         |         | 3       | Kiwi    |
-|         |         | 4       |         |
-| 1       | Apple   | 1       | Apple   |
-| 2       | Peach   | 2       | Peach   |
-| 3       | Mango   |         |         |
-| 4       |         |         |         |
+This has several important consequences:
 
----------------------------------------------------------------------------------
-  
-### Example 2
+- Apple and Peach match even when another column, such as `Quantity`, differs.
+- Mango and Kiwi do not match because their fruit values differ.
+- The two `NULL` fruit values do not match. Ordinary equality involving `NULL` evaluates to `UNKNOWN`, not `TRUE`.
+- If either input contains duplicate fruit values, the join can return multiple matching combinations. A reconciliation query should use a key, or set of columns, that represents the intended row identity.
 
-You can use a `FULL OUTER JOIN` to find the symmetric difference of two datasets using the `ISNULL` function.
+## Example 1: Returning Matched and Unmatched Rows
 
-This query returns the symmetric difference between `TableA` and `TableB` — rows that exist in one table but not the other. Using `ISNULL()` ensures values from either side appear in a unified result, even when one side is NULL.
- 
-```sql 
-SELECT  ISNULL(a.ID, b.ID) AS ID,
-        ISNULL(a.Fruit, b.Fruit) AS Fruit
-FROM    ##TableA a FULL OUTER JOIN
-        ##TableB b ON a.Fruit = b.Fruit
-WHERE   a.ID IS NULL OR b.ID IS NULL
-ORDER BY 1, 2;
-```
-  
-|   ID   |  Fruit  |
-|--------|---------|
-| 3      | Mango   |
-| 3      | Kiwi    |
-| 4      |         |
-| 4      |         |
-  
----------------------------------------------------------------------------------
-  
-### Example 3
+The following query returns all matched and unmatched fruit rows from both tables.
 
-You can simulate an `INNER JOIN` by placing the following predicate logic in the `WHERE` clause
-  
 ```sql
-SELECT  a.ID,
-        a.Fruit,
-        b.ID,
-        b.Fruit
-FROM    ##TableA a FULL OUTER JOIN
-        ##TableB b ON a.Fruit = b.Fruit
-WHERE   a.ID IS NOT NULL AND b.ID IS NOT NULL
-ORDER BY 1, 2;
+SELECT a.ID    AS A_ID,
+       a.Fruit AS A_Fruit,
+       b.ID    AS B_ID,
+       b.Fruit AS B_Fruit
+FROM #TableA AS a
+FULL OUTER JOIN #TableB AS b
+    ON a.Fruit = b.Fruit
+ORDER BY COALESCE(a.ID, b.ID),
+         CASE WHEN a.ID IS NULL THEN 1 ELSE 0 END;
 ```
 
-| ID | Fruit | ID | Fruit |
-|----|-------|----|-------|
-| 1  | Apple | 1  | Apple |
-| 2  | Peach | 2  | Peach |
+| A_ID   | A_Fruit | B_ID   | B_Fruit |
+|--------|---------|--------|---------|
+| 1      | Apple   | 1      | Apple   |
+| 2      | Peach   | 2      | Peach   |
+| 3      | Mango   | *NULL* | *NULL*  |
+| *NULL* | *NULL*  | 3      | Kiwi    |
+| 4      | *NULL*  | *NULL* | *NULL*  |
+| *NULL* | *NULL*  | 4      | *NULL*  |
 
----------------------------------------------------------------------------------
+The last two rows come from different inputs. The fifth row preserves the row with `ID = 4` from `TableA`; the sixth preserves the row with `ID = 4` from `TableB`. They do not match because `NULL = NULL` is not `TRUE`.
 
-### Example 4
+## Example 2: Finding Rows Present on Only One Side
 
-You can use the `LEFT OUTER JOIN` and a `UNION ALL` to simulate a `FULL OUTER JOIN`.
-     
+Filtering for a missing non-nullable `ID` returns the unmatched rows from both inputs. Relative to the `Fruit` join condition, this is the symmetric difference of the two datasets.
+
+`COALESCE` selects the available value from either side for display. It does not change the join condition or cause two `NULL` fruit values to match. The `Row_Location` column preserves the row's origin, which is important when the two tables contain the same `ID` or a `NULL` fruit value.
+
 ```sql
-SELECT
-    a.ID,
-    a.Fruit,
-    b.ID,
-    b.Fruit
-FROM ##TableA a LEFT OUTER JOIN
-     ##TableB b ON a.Fruit = b.Fruit
-UNION ALL
-SELECT
-    a.ID,
-    a.Fruit,
-    b.ID,
-    b.Fruit
-FROM ##TableB b LEFT OUTER JOIN
-     ##TableA a ON a.Fruit = b.Fruit
+SELECT COALESCE(a.ID, b.ID)       AS Source_ID,
+       COALESCE(a.Fruit, b.Fruit) AS Fruit,
+       CASE
+           WHEN a.ID IS NULL THEN 'Only in TableB'
+           WHEN b.ID IS NULL THEN 'Only in TableA'
+       END AS Row_Location
+FROM #TableA AS a
+FULL OUTER JOIN #TableB AS b
+    ON a.Fruit = b.Fruit
 WHERE a.ID IS NULL
-ORDER BY 1,2;
+   OR b.ID IS NULL
+ORDER BY COALESCE(a.ID, b.ID),
+         CASE WHEN a.ID IS NULL THEN 1 ELSE 0 END;
 ```
 
-| ID | Fruit | ID | Fruit |
-|----|-------|----|-------|
-|    |       | 3  | Kiwi  |
-|    |       | 4  |       |
-| 1  | Apple | 1  | Apple |
-| 2  | Peach | 2  | Peach |
-| 3  | Mango |    |       |
-| 4  |       |    |       |
+| Source_ID | Fruit  | Row_Location   |
+|----------:|--------|----------------|
+| 3         | Mango  | Only in TableA |
+| 3         | Kiwi   | Only in TableB |
+| 4         | *NULL* | Only in TableA |
+| 4         | *NULL* | Only in TableB |
 
----------------------------------------------------------
+The `ID` columns are defined as `NOT NULL`, so `a.ID IS NULL` or `b.ID IS NULL` reliably identifies a null-extended side. If the tested column were nullable in stored data, it could not safely distinguish an unmatched row from a matched row containing a stored `NULL`.
 
-### Continue Reading
+## Example 3: Classifying Missing and Changed Rows
+
+A complete comparison often needs to distinguish missing rows from matched rows whose non-key values differ. Because `Fruit` defines the match in this example, the quantities can be compared after the join.
+
+```sql
+SELECT a.ID       AS A_ID,
+       a.Fruit    AS A_Fruit,
+       a.Quantity AS A_Quantity,
+       b.ID       AS B_ID,
+       b.Fruit    AS B_Fruit,
+       b.Quantity AS B_Quantity,
+       CASE
+           WHEN a.ID IS NULL THEN 'Only in TableB'
+           WHEN b.ID IS NULL THEN 'Only in TableA'
+           WHEN a.Quantity = b.Quantity
+             OR (a.Quantity IS NULL AND b.Quantity IS NULL)
+               THEN 'Same quantity'
+           ELSE 'Different quantity'
+       END AS Comparison_Result
+FROM #TableA AS a
+FULL OUTER JOIN #TableB AS b
+    ON a.Fruit = b.Fruit
+ORDER BY COALESCE(a.ID, b.ID),
+         CASE WHEN a.ID IS NULL THEN 1 ELSE 0 END;
+```
+
+| A_ID   | A_Fruit | A_Quantity | B_ID   | B_Fruit | B_Quantity | Comparison_Result  |
+|--------|---------|------------|--------|---------|------------|--------------------|
+| 1      | Apple   | 17         | 1      | Apple   | 17         | Same quantity      |
+| 2      | Peach   | 20         | 2      | Peach   | 25         | Different quantity |
+| 3      | Mango   | 11         | *NULL* | *NULL*  | *NULL*     | Only in TableA     |
+| *NULL* | *NULL*  | *NULL*     | 3      | Kiwi    | 20         | Only in TableB     |
+| 4      | *NULL*  | 5          | *NULL* | *NULL*  | *NULL*     | Only in TableA     |
+| *NULL* | *NULL*  | *NULL*     | 4      | *NULL*  | *NULL*     | Only in TableB     |
+
+The explicit `NULL` comparison in the `CASE` expression makes two null quantities count as the same. On SQL Server 2022 or later, that test can also be written with `a.Quantity IS NOT DISTINCT FROM b.Quantity`.
+
+## Example 4: Retaining Only Matched Rows
+
+A full outer join followed by null-rejecting predicates can retain only matched rows. Because both `ID` columns are non-nullable in the base tables, the following conditions remove every null-extended row:
+
+```sql
+SELECT a.ID    AS A_ID,
+       a.Fruit AS A_Fruit,
+       b.ID    AS B_ID,
+       b.Fruit AS B_Fruit
+FROM #TableA AS a
+FULL OUTER JOIN #TableB AS b
+    ON a.Fruit = b.Fruit
+WHERE a.ID IS NOT NULL
+  AND b.ID IS NOT NULL
+ORDER BY a.ID;
+```
+
+| A_ID | A_Fruit | B_ID | B_Fruit |
+|-----:|---------|-----:|---------|
+| 1    | Apple   | 1    | Apple   |
+| 2    | Peach   | 2    | Peach   |
+
+For this result, a direct `INNER JOIN` is clearer and should normally be preferred. This example demonstrates how filtering affects a full outer join; it is not a recommended substitute for an inner join.
+
+## Example 5: Simulating a Full Outer Join
+
+A full outer join can be reproduced with two left joins and `UNION ALL`. The first branch returns every row from `TableA`, including its matches. The second branch returns only the rows from `TableB` that found no match in `TableA`.
+
+```sql
+WITH FullJoinSimulation AS
+(
+    SELECT a.ID    AS A_ID,
+           a.Fruit AS A_Fruit,
+           b.ID    AS B_ID,
+           b.Fruit AS B_Fruit
+    FROM #TableA AS a
+    LEFT OUTER JOIN #TableB AS b
+        ON a.Fruit = b.Fruit
+
+    UNION ALL
+
+    SELECT a.ID    AS A_ID,
+           a.Fruit AS A_Fruit,
+           b.ID    AS B_ID,
+           b.Fruit AS B_Fruit
+    FROM #TableB AS b
+    LEFT OUTER JOIN #TableA AS a
+        ON a.Fruit = b.Fruit
+    WHERE a.ID IS NULL
+)
+SELECT A_ID,
+       A_Fruit,
+       B_ID,
+       B_Fruit
+FROM FullJoinSimulation
+ORDER BY COALESCE(A_ID, B_ID),
+         CASE WHEN A_ID IS NULL THEN 1 ELSE 0 END;
+```
+
+| A_ID   | A_Fruit | B_ID   | B_Fruit |
+|--------|---------|--------|---------|
+| 1      | Apple   | 1      | Apple   |
+| 2      | Peach   | 2      | Peach   |
+| 3      | Mango   | *NULL* | *NULL*  |
+| *NULL* | *NULL*  | 3      | Kiwi    |
+| 4      | *NULL*  | *NULL* | *NULL*  |
+| *NULL* | *NULL*  | 4      | *NULL*  |
+
+`UNION ALL` is intentional. Replacing it with `UNION` would remove duplicate projected rows and could change the full join's multiset semantics.
+
+The second branch tests `a.ID`, a non-nullable column, to identify unmatched rows. Testing a nullable column would make this pattern unreliable.
+
+## Continue Reading
 
 1. [Introduction](01%20-%20Introduction.md)
 2. [SQL Processing Order](02%20-%20SQL%20Query%20Processing%20Order.md)
@@ -155,5 +264,5 @@ ORDER BY 1,2;
 14. [Join Algorithms](14%20-%20Join%20Algorithms.md)
 15. [Exists](15%20-%20Exists.md)
 16. [Complex Joins](16%20-%20Complex%20Joins.md)
-  
-https://advancedsqlpuzzles.com
+
+[Advanced SQL Puzzles](https://advancedsqlpuzzles.com)
