@@ -1,244 +1,338 @@
 # Semi and Anti-Joins
 
-Semi and anti-joins are two types of logical join operations used in SQL.
+Semi and anti-joins are logical join operations that decide whether to retain rows from one input based on the presence or absence of matching rows in another input.
 
-The term **semi** refers to the fact that a semi-join returns only a subset of the rows from one table based on the existence of matching rows in another table. Specifically, a semi-join returns only the rows from the first table (the left table) that have matching values in the second table (the right table). The columns of the right table are not included in the projection.
+- A **left semi-join** returns a row from the left input when at least one matching row exists in the right input.
+- A **left anti-join** returns a row from the left input when no matching row exists in the right input.
 
-The opposite of a semi-join is an **anti-join**, which returns rows from the left table for which no matching rows exist in the right table.
+Only columns from the left input are returned. The right input is used to test for matching rows, not to contribute columns to the result.
 
-> **Historical note:** The terms *semi-join* and *anti-join* were coined by **E. F. Codd**, the creator of the relational model, as part of relational algebra. These operators are fundamental to expressing existence- and non-existence-based relationships between relations.
+Transact-SQL does not provide `SEMI JOIN` or `ANTI JOIN` keywords. These operations are commonly expressed with:
 
-In SQL, semi-joins and anti-joins are not expressed using explicit keywords. Instead, they are implemented using predicates in the `WHERE` clause:
+- `EXISTS` or `IN` for semi-joins;
+- `NOT EXISTS` or, with careful `NULL` handling, `NOT IN` for anti-joins; and
+- `LEFT JOIN ... WHERE right_key IS NULL` for another anti-join form.
 
-- Semi-joins use the `IN` or `EXISTS` operators.
-- Anti-joins use the `NOT IN` or `NOT EXISTS` operators.
+SQL Server execution plans can identify these operations as logical **Left Semi Join** or **Left Anti Semi Join** operations even though the query text uses different syntax.
 
-## Characteristics of Semi and Anti-Joins
+## Defining Characteristics
 
-For a query to be considered a semi-join or anti-join, it must have the following qualities:
+A semi-join or anti-join has the following behavior:
 
-1. The join must not introduce duplicate rows from the outer (left) table.
-2. Columns from the joined (right) table must not appear in the `SELECT` list.
-3. The join condition determines row inclusion based on the *existence* or *non-existence* of matching rows, most commonly using equality (`=`).
+1. It returns columns from only one input, usually called the left or outer input.
+2. It retains or rejects each left-side row according to whether a qualifying right-side row exists.
+3. Multiple matching rows on the right do not multiply a qualifying left-side row.
 
-## Benefits Over `INNER JOIN`
+The third point does not mean that semi-joins remove duplicates already present in the left input. If the left input contains the same row twice and both occurrences qualify, both occurrences remain unless the query also uses `DISTINCT` or another deduplication operation.
 
-There are several advantages to using semi-joins and anti-joins instead of `INNER JOIN`:
+The matching condition is often equality, but an `EXISTS` or `NOT EXISTS` subquery can use any valid search condition.
 
-- They eliminate the risk of returning duplicate rows caused by one-to-many relationships.
-- They improve readability by returning only columns from the outer table.
-- They more directly express intent when only existence (or non-existence) matters.
+## Why Use Them Instead of an `INNER JOIN`?
 
-## Important Differences and Considerations
+When only existence matters, a semi-join communicates that intent directly:
 
-- **NULL handling:**  
-  The `NOT IN` operator returns an empty result set if the subquery contains a `NULL`. In contrast, `NOT EXISTS` handles `NULL` values safely and does not suppress results.
+- Right-side columns cannot accidentally become part of the result.
+- Multiple right-side matches do not multiply left-side rows.
+- The query does not need `DISTINCT` merely to undo duplication introduced by an inner join.
 
-- **Correlation:**  
-  The `EXISTS` and `NOT EXISTS` operators are typically used as correlated subqueries, meaning the inner query references columns from the outer query.  
-  The `IN` and `NOT IN` operators can be used with literal value lists or uncorrelated subqueries.
+Do not assume that one syntax is always faster. SQL Server can transform logically equivalent `IN`, `EXISTS`, and join-based forms into the same or similar plans. Performance depends on the data, indexes, predicates, statistics, and chosen execution plan.
 
-- **Evaluation semantics:**  
-  The `IN` and `NOT IN` operators compare scalar values against a set of values.  
-  The `EXISTS` and `NOT EXISTS` operators test only whether at least one matching row exists.
+## `NULL`, `IN`, and `EXISTS`
 
-- **Best practice:**  
-  When performing anti-joins against nullable columns, prefer `NOT EXISTS` over `NOT IN`.
+The operators have different three-valued-logic implications:
 
-- **Performance:**  
-  Always examine execution plans. Because `IN`/`NOT IN` operate on value comparisons and `EXISTS`/`NOT EXISTS` operate on row existence, the optimizer may generate very different execution strategies.
+- `IN` compares a scalar value with the values in a list or single-column subquery. A `NULL` item cannot match an outer `NULL` through ordinary equality.
+- `NOT IN` is unsafe when its list or subquery can return `NULL`. A candidate that does not equal any known value still has an `UNKNOWN` comparison against `NULL`, so the `WHERE` clause does not retain it.
+- `EXISTS` and `NOT EXISTS` test whether the subquery returns rows. Values in the subquery's `SELECT` list, including `NULL`, do not affect that test.
+- With correlated `EXISTS` and `NOT EXISTS`, `NULL` behavior comes from the predicates inside the subquery. For example, `a.Fruit = b.Fruit` does not match two `NULL` values.
 
-Semi-joins and anti-joins are powerful tools for expressing relational intent clearly and efficiently, especially when the presence or absence of related data is more important than returning the related data itself.
+For nullable anti-join values, `NOT EXISTS` is usually the clearest and safest choice.
 
-----------------------------------------------------------------------------------------
+## Sample Data
 
-### Sample Data
+The examples use the following local temporary tables. The word *NULL* is displayed explicitly so that it cannot be confused with an empty string.
 
-We will use the following tables, which contain types of fruits and their quantities.  
+```sql
+DROP TABLE IF EXISTS #TableA;
+DROP TABLE IF EXISTS #TableB;
 
-[The DDL to create these tables can be found here.](Sample%20Data.md)
+CREATE TABLE #TableA
+(
+    ID       int         NOT NULL,
+    Fruit    varchar(20) NULL,
+    Quantity int         NULL
+);
+
+CREATE TABLE #TableB
+(
+    ID       int         NOT NULL,
+    Fruit    varchar(20) NULL,
+    Quantity int         NULL
+);
+
+INSERT INTO #TableA (ID, Fruit, Quantity)
+VALUES (1, 'Apple', 17),
+       (2, 'Peach', 20),
+       (3, 'Mango', 11),
+       (4, NULL,     5);
+
+INSERT INTO #TableB (ID, Fruit, Quantity)
+VALUES (1, 'Apple', 17),
+       (2, 'Peach', 25),
+       (3, 'Kiwi',  20),
+       (4, NULL,    NULL);
+```
 
 **Table A**
-| ID |  Fruit  | Quantity |
-|----|---------|----------|
-| 1  | Apple   | 17       |
-| 2  | Peach   | 20       |
-| 3  | Mango   | 11       |
-| 4  |         | 5        |
+
+| ID | Fruit  | Quantity |
+|---:|--------|---------:|
+| 1  | Apple  | 17       |
+| 2  | Peach  | 20       |
+| 3  | Mango  | 11       |
+| 4  | *NULL* | 5        |
 
 **Table B**
-| ID | Fruit   | Quantity |
-|----|---------|----------|
-| 1  | Apple   | 17       |
-| 2  | Peach   | 25       |
-| 3  | Kiwi    | 20       |
-| 4  |         |          |
-        
-----------------------------------------------------------------------------------------
-        
+
+| ID | Fruit  | Quantity |
+|---:|--------|---------:|
+| 1  | Apple  | 17       |
+| 2  | Peach  | 25       |
+| 3  | Kiwi   | 20       |
+| 4  | *NULL* | *NULL*   |
+
 ## Semi-Joins
 
-### Example 1
+### Example 1: `IN` With a Value List
 
-The `IN` operator is typically used to filter a column for a specific list of values.  Even though we include a NULL marker in the inner query, the results do not include it.
+`IN` returns `TRUE` when the tested value equals at least one item in the list. Adding `NULL` to the list does not cause the `NULL` fruit from `TableA` to match; `NULL = NULL` evaluates to `UNKNOWN`.
+
+The presence of `NULL` does not suppress the known Apple and Peach matches.
 
 ```sql
-SELECT  Fruit
-FROM    ##TableA
-WHERE   Fruit IN ('Apple','Peach',NULL)
-ORDER BY 1;
+SELECT a.ID,
+       a.Fruit
+FROM #TableA AS a
+WHERE a.Fruit IN ('Apple', 'Peach', NULL)
+ORDER BY a.ID;
 ```
 
 | ID | Fruit |
-|----|-------|
+|---:|-------|
 | 1  | Apple |
 | 2  | Peach |
 
-----------------------------------------------------------------------------------------
+### Example 2: `IN` With a Subquery
 
-### Example 2
-
-Using the `IN` operator, this query will return results, but does not return a NULL marker even though there is both a NULL marker in `##TableA` and `##TableB`.  The `NOT IN` operator treats NULL markers as neither equal to nor unequal to each other; they are unknown. 
+This semi-join retains rows from `TableA` whose fruit value occurs in `TableB`. Although both tables contain a `NULL` fruit, ordinary equality does not match those rows.
 
 ```sql
-SELECT  Fruit
-FROM    ##TableA
-WHERE   Fruit IN (SELECT Fruit FROM ##TableB)
-ORDER BY 1;
+SELECT a.ID,
+       a.Fruit
+FROM #TableA AS a
+WHERE a.Fruit IN
+      (
+          SELECT b.Fruit
+          FROM #TableB AS b
+      )
+ORDER BY a.ID;
 ```
 
 | ID | Fruit |
-|----|-------|
+|---:|-------|
 | 1  | Apple |
 | 2  | Peach |
 
-----------------------------------------------------------------------------------------
+### Example 3: A Correlated `IN` Subquery
 
-### Example 3
+An `IN` subquery can be correlated. For each row from `TableA`, the inner query first selects fruit values from `TableB` having the same quantity. The outer fruit must then occur in that per-row set.
 
-Using the `IN` operator, you can join the outer and inner `SELECT` statements, creating a correlated subquery.
+Only Apple qualifies. Peach has the same quantity as Kiwi, but its fruit value is not Kiwi.
 
 ```sql
-SELECT  ID,
-        Fruit
-FROM    ##TableA a
-WHERE   Fruit IN (SELECT Fruit FROM ##TableB b WHERE a.Quantity = b.Quantity);
+SELECT a.ID,
+       a.Fruit
+FROM #TableA AS a
+WHERE a.Fruit IN
+      (
+          SELECT b.Fruit
+          FROM #TableB AS b
+          WHERE b.Quantity = a.Quantity
+      )
+ORDER BY a.ID;
 ```
 
 | ID | Fruit |
-|----|-------|
+|---:|-------|
 | 1  | Apple |
 
-----------------------------------------------------------------------------------------
+### Example 4: A Correlated `EXISTS` Subquery
 
-### Example 4
+`EXISTS` returns `TRUE` when its subquery returns at least one row. The value projected by that subquery is irrelevant, so `SELECT 1`, `SELECT NULL`, and `SELECT *` have the same existence semantics. `SELECT 1` is a common convention because it makes the intent obvious.
 
-The `EXISTS` operator is used to test for the existence of any record in a subquery. The `EXISTS` operator returns TRUE if the subquery returns one or more records, and the `EXISTS` operator treats NULL markers as neither equal to nor unequal to each other; they are unknown. 
-
-Because it checks for the existence of rows, you do not need to include any columns in the `SELECT` statement. It is considered best practice to place an arbitrary "1" here.
+The comparison inside this subquery determines the `NULL` behavior. Because `a.Fruit = b.Fruit` is not `TRUE` for two `NULL` values, the null fruit does not qualify.
 
 ```sql
-SELECT  ID,
-        Fruit
-FROM    ##TableA a 
-WHERE   EXISTS (SELECT 1 FROM ##TableB b WHERE a.Fruit = b.Fruit)
-ORDER BY 1;
+SELECT a.ID,
+       a.Fruit
+FROM #TableA AS a
+WHERE EXISTS
+      (
+          SELECT 1
+          FROM #TableB AS b
+          WHERE b.Fruit = a.Fruit
+      )
+ORDER BY a.ID;
 ```
 
 | ID | Fruit |
-|----|-------|
+|---:|-------|
 | 1  | Apple |
 | 2  | Peach |
 
-----------------------------------------------------------------------------------------
+### Example 5: `EXISTS` Tests for Rows, Not Values
 
-### Example 5
-
-Be aware that when using correlated subqueries without a join condition, they will always evaluate to true. In the following SQL example, the subquery returns NULL but isn't joined to the main query. Despite the `NOT EXISTS (SELECT NULL)`, the query retrieves all rows from `##TableA` because the subquery will always be true without a join condition.
+The following subquery is uncorrelated: it does not reference `TableA`. In SQL Server, `SELECT NULL` without a `FROM` clause returns one row containing a null value. Because a row exists, `EXISTS` is `TRUE` for every row from `TableA`.
 
 ```sql
-SELECT  *
-FROM    ##TableA
-WHERE   EXISTS (SELECT NULL)
-ORDER BY 1;
+SELECT a.ID,
+       a.Fruit,
+       a.Quantity
+FROM #TableA AS a
+WHERE EXISTS (SELECT NULL)
+ORDER BY a.ID;
 ```
 
-| ID |  Fruit  | Quantity |
-|----|---------|----------|
-| 1  | Apple   | 17       |
-| 2  | Peach   | 20       |
-| 3  | Mango   | 11       |
-| 4  |         | 5        |
+| ID | Fruit  | Quantity |
+|---:|--------|---------:|
+| 1  | Apple  | 17       |
+| 2  | Peach  | 20       |
+| 3  | Mango  | 11       |
+| 4  | *NULL* | 5        |
 
-----------------------------------------------------------------------------------------
+Conversely, `NOT EXISTS (SELECT NULL)` is `FALSE` for every row and returns an empty result.
 
-### Example 6
+### Example 6: Accidental Outer References
 
-Be cautious using the `IN` operator, as it can lead to unexpected behavior!
+SQL Server resolves an unqualified column name inside a subquery at the current scope first. If the name does not exist there, SQL Server can resolve it from an outer query scope.
 
-In this example, I use two table variables for demonstration.
-
-In the SQL snippet below, you might anticipate that the inner `SELECT` statement would produce an error since `Column_AAA` doesn't exist in `@Table2`. However, this query runs without issue and updates `@Table1`, setting `Column_A` to 3. This is because Microsoft SQL Server treats it as a correlated subquery. To trigger a column reference error, you can use a table alias to refer to the column from `@Table2 explicitly`.
+In the following example, `@Table2` has no `Column_A`. The unqualified `Column_A` inside the subquery therefore refers to `@Table1.Column_A`. Because `@Table2` contains a row, the subquery returns the current outer value, the `IN` condition is true, and the update changes the value to 3.
 
 ```sql
-DECLARE @Table1 TABLE (Column_A INT);
-DECLARE @Table2 TABLE (Column_B INT);
+DECLARE @Table1 table (Column_A int);
+DECLARE @Table2 table (Column_B int);
 
-INSERT @Table1 VALUES(1);
-INSERT @Table2 VALUES(2);
+INSERT INTO @Table1 (Column_A) VALUES (1);
+INSERT INTO @Table2 (Column_B) VALUES (2);
 
-UPDATE  @Table1
-SET     Column_A = 3
-WHERE   Column_A IN (SELECT Column_A FROM @Table2);
+UPDATE @Table1
+SET Column_A = 3
+WHERE Column_A IN
+      (
+          SELECT Column_A
+          FROM @Table2
+      );
 
-SELECT  Column_A
-FROM    @Table1;
+SELECT Column_A
+FROM @Table1;
 ```
 
 | Column_A |
-|----------|
+|---------:|
 | 3        |
 
-----------------------------------------------------------------------------------------
+Qualify column references in subqueries. Writing `SELECT t2.Column_A FROM @Table2 AS t2` would correctly raise an invalid-column error instead of silently binding to the outer query.
 
 ## Anti-Joins
 
-### Example 7
+### Example 7: The `NOT IN` and `NULL` Trap
 
-This statement returns an empty dataset because the `NOT IN` operator returns an empty set when the outer query contains a NULL marker.
+This query returns no rows because the subquery returns a `NULL` fruit. For Mango, for example, each comparison with Apple, Peach, and Kiwi is true after applying `<>`, but `Mango <> NULL` is `UNKNOWN`. The combined `NOT IN` condition is therefore `UNKNOWN`, and a `WHERE` clause retains only `TRUE`.
 
-```sql
-SELECT  Fruit
-FROM    ##TableA
-WHERE   Fruit NOT IN (SELECT Fruit FROM ##TableB)
-        OR
-        Fruit NOT IN (NULL);
-```
-\<Empty Data Set>
-
-----------------------------------------------------------------------------------------
-
-### Example 8
-
-The `NOT EXISTS` operator handles NULL markers implicitly and will return a result set with a NULL marker.  The `NOT EXISTS` operator treats NULL markers as neither equal to nor unequal to each other. They are unknown. 
+The cause is the nullable value returned by the inner query, not merely the presence of a `NULL` in the outer table.
 
 ```sql
-SELECT  ID,
-        Fruit
-FROM    ##TableA a
-WHERE   NOT EXISTS (SELECT 1 FROM ##TableB b WHERE a.Fruit = b.Fruit)
-ORDER BY 1;
+SELECT a.ID,
+       a.Fruit
+FROM #TableA AS a
+WHERE a.Fruit NOT IN
+      (
+          SELECT b.Fruit
+          FROM #TableB AS b
+      )
+ORDER BY a.ID;
 ```
 
-| ID |  Fruit  |
-|----|---------|
-| 3  | Mango   |
-| 4  |         |
+*Empty result set.*
 
----------------------------------------------------------
+Filtering `NULL` from the subquery makes `NOT IN` usable for known outer values:
 
-### Continue Reading
- 
+```sql
+SELECT a.ID,
+       a.Fruit
+FROM #TableA AS a
+WHERE a.Fruit NOT IN
+      (
+          SELECT b.Fruit
+          FROM #TableB AS b
+          WHERE b.Fruit IS NOT NULL
+      )
+ORDER BY a.ID;
+```
+
+| ID | Fruit |
+|---:|-------|
+| 3  | Mango |
+
+The outer `NULL` fruit is still excluded because `NULL NOT IN (...)` evaluates to `UNKNOWN`.
+
+### Example 8: `NOT EXISTS`
+
+`NOT EXISTS` retains a row from `TableA` when the correlated subquery finds no matching row in `TableB`. Mango qualifies because no Mango row exists in `TableB`. The null fruit also qualifies because ordinary equality does not match the two `NULL` fruit values.
+
+```sql
+SELECT a.ID,
+       a.Fruit
+FROM #TableA AS a
+WHERE NOT EXISTS
+      (
+          SELECT 1
+          FROM #TableB AS b
+          WHERE b.Fruit = a.Fruit
+      )
+ORDER BY a.ID;
+```
+
+| ID | Fruit  |
+|---:|--------|
+| 3  | Mango  |
+| 4  | *NULL* |
+
+If two `NULL` fruit values should count as a match, the correlation predicate must request null-safe equality explicitly.
+
+### Example 9: `LEFT JOIN ... IS NULL`
+
+A left outer join can express the same anti-join by retaining only null-extended rows. Test a right-side column that is declared `NOT NULL`, such as `b.ID`. Testing a nullable right-side column could confuse a matched row containing a stored `NULL` with an unmatched row.
+
+```sql
+SELECT a.ID,
+       a.Fruit
+FROM #TableA AS a
+LEFT OUTER JOIN #TableB AS b
+    ON b.Fruit = a.Fruit
+WHERE b.ID IS NULL
+ORDER BY a.ID;
+```
+
+| ID | Fruit  |
+|---:|--------|
+| 3  | Mango  |
+| 4  | *NULL* |
+
+`NOT EXISTS` often states the non-existence requirement more directly, while the left-join form can be useful when extending an existing outer-join query. Inspect the execution plan rather than assuming that one form always performs better.
+
+## Continue Reading
+
 1. [Introduction](01%20-%20Introduction.md)
 2. [SQL Processing Order](02%20-%20SQL%20Query%20Processing%20Order.md)
 3. [Table Types](03%20-%20Table%20Types.md)
@@ -256,4 +350,4 @@ ORDER BY 1;
 15. [Exists](15%20-%20Exists.md)
 16. [Complex Joins](16%20-%20Complex%20Joins.md)
 
-https://advancedsqlpuzzles.com
+[Advanced SQL Puzzles](https://advancedsqlpuzzles.com)
