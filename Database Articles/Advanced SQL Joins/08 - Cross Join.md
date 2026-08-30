@@ -1,274 +1,271 @@
-# CROSS JOINS
+# Cross Joins
 
-SQL Server provides two ways to perform cross joins: `CROSS JOIN` and `CROSS APPLY`. While both can produce Cartesian products, they differ in their use cases and behavior.
+A `CROSS JOIN` returns the Cartesian product of two inputs: every row from the first input is paired with every row from the second. If the first input contains 100 rows and the second contains 1,000 rows, the result contains 100,000 rows.
 
-`CROSS JOIN` generates a Cartesian product between two tables—every row in the first table is combined with every row in the second. If Table A has 100 rows and Table B has 1,000 rows, the result will contain 100,000 rows.
+In SQL Server, an uncorrelated `CROSS APPLY` can produce the same Cartesian product. In that specific case, the right-side source does not reference columns from the left side, so the same right-side rows are paired with every left-side row.
 
-`CROSS APPLY` can also be used to perform a cross join–like operation, but it is more powerful: it allows joining each row to a table-valued function or subquery that can vary per row.
+`CROSS APPLY` is nevertheless a separate and more general operator. Its right-side table expression can depend on the current left-side row. Correlated subqueries, table-valued functions, empty right-side results, and `OUTER APPLY` will be covered in a separate document.
 
-⚠️ Be cautious: both join types can produce large result sets and may impact performance when used on large datasets.
+Because Cartesian products grow multiplicatively, verify the expected row count before applying them to large inputs.
 
-### Permutations vs Combinations
+## Ordered Pairs, Permutations, and Combinations
 
-Permutations and combinations are common patterns when using `CROSS JOIN`:
+A cross join directly produces ordered pairs. Those pairs can be used as building blocks for permutations and combinations, but the cross join does not enforce either concept by itself.
 
-*  Permutations involve arranging items in order. For example, with {A, B, C}, permutations include: ABC, ACB, BAC, etc. A `CROSS JOIN` is often used to generate these.
-*  Combinations involve selecting subsets without considering order. From {A, B, C}, the 2-item combinations are AB, AC, and BC.
+- In a permutation, order matters. The ordered pairs `(Apple, Peach)` and `(Peach, Apple)` are different.
+- In a combination, order does not matter. Those two pairs represent the same two-item combination, so one orientation must be removed.
+- Depending on the requirement, additional predicates may also be needed to exclude pairs that repeat the same item.
 
----------------------------------------------------------------------------------
+## Sample Data
 
-### Sample Data 
-We will use the following tables, which contain types of fruits and their quantities.  
+The examples use the following local temporary tables. The word *NULL* is displayed explicitly in the sample data and result tables so that it cannot be confused with an empty string.
 
-[The DDL to create these tables can be found here.](Sample%20Data.md)
+```sql
+DROP TABLE IF EXISTS #TableA;
+DROP TABLE IF EXISTS #TableB;
+
+CREATE TABLE #TableA
+(
+    ID       int         NOT NULL,
+    Fruit    varchar(20) NULL,
+    Quantity int         NULL
+);
+
+CREATE TABLE #TableB
+(
+    ID       int         NOT NULL,
+    Fruit    varchar(20) NULL,
+    Quantity int         NULL
+);
+
+INSERT INTO #TableA (ID, Fruit, Quantity)
+VALUES (1, 'Apple', 17),
+       (2, 'Peach', 20),
+       (3, 'Mango', 11),
+       (4, NULL,     5);
+
+INSERT INTO #TableB (ID, Fruit, Quantity)
+VALUES (1, 'Apple', 17),
+       (2, 'Peach', 25),
+       (3, 'Kiwi',  20),
+       (4, NULL,    NULL);
+```
 
 **Table A**
-| ID |  Fruit  | Quantity |
-|----|---------|----------|
-| 1  | Apple   | 17       |
-| 2  | Peach   | 20       |
-| 3  | Mango   | 11       |
-| 4  |         | 5        |
+
+| ID | Fruit  | Quantity |
+|---:|--------|---------:|
+| 1  | Apple  | 17       |
+| 2  | Peach  | 20       |
+| 3  | Mango  | 11       |
+| 4  | *NULL* | 5        |
 
 **Table B**
-| ID |  Fruit  |  Quantity |
-|----|---------|-----------|
-| 1  | Apple   | 17        |
-| 2  | Peach   | 25        |
-| 3  | Kiwi    | 20        |
-| 4  |         |           |
-        
 
----------------------------------------------------------------------------------
-### CROSS JOIN
-  
-Here is the simplest form of the `CROSS JOIN` that creates all permutations between two datasets.
+| ID | Fruit  | Quantity |
+|---:|--------|---------:|
+| 1  | Apple  | 17       |
+| 2  | Peach  | 25       |
+| 3  | Kiwi   | 20       |
+| 4  | *NULL* | *NULL*   |
+
+## `CROSS JOIN` and Uncorrelated `CROSS APPLY`
+
+The following `CROSS JOIN` pairs all four rows from `TableA` with all four rows from `TableB`, producing 16 rows.
 
 ```sql
-SELECT  a.ID,
-        a.Fruit,
-        b.ID,
-        b.Fruit
-FROM    ##TableA a CROSS JOIN
-        ##TableB b
-ORDER BY 3, 1;
+SELECT a.ID    AS A_ID,
+       a.Fruit AS A_Fruit,
+       b.ID    AS B_ID,
+       b.Fruit AS B_Fruit
+FROM #TableA AS a
+CROSS JOIN #TableB AS b
+ORDER BY b.ID, a.ID;
 ```
 
-| ID |  Fruit  | ID |  Fruit  |
-|----|---------|----|---------|
-| 1  | Apple   | 1  | Apple   |
-| 2  | Peach   | 1  | Apple   |
-| 3  | Mango   | 1  | Apple   |
-| 4  |         | 1  | Apple   |
-| 1  | Apple   | 2  | Peach   |
-| 2  | Peach   | 2  | Peach   |
-| 3  | Mango   | 2  | Peach   |
-| 4  |         | 2  | Peach   |
-| 1  | Apple   | 3  | Kiwi    |
-| 2  | Peach   | 3  | Kiwi    |
-| 3  | Mango   | 3  | Kiwi    |
-| 4  |         | 3  | Kiwi    |
-| 1  | Apple   | 4  |         |
-| 2  | Peach   | 4  |         |
-| 3  | Mango   | 4  |         |
-| 4  |         | 4  |         |
-
-
----------------------------------------------------------------------------------
-### Simulating an INNER JOIN
-
-You can simulate an `INNER JOIN` using a `CROSS JOIN` by placing the join logic in the `WHERE` clause using an equi-join
-  
-```sql
-SELECT  a.ID,
-        a.Fruit,
-        b.ID,
-        b.Fruit
-FROM    ##TableA a CROSS JOIN
-        ##TableB b
-WHERE   a.Fruit = b.Fruit
-ORDER BY 1;
-```
-  
-| ID | Fruit | ID | Fruit |
-|----|-------|----|-------|
-| 1  | Apple | 1  | Apple |
-| 2  | Peach | 2  | Peach |  
- 
-
----------------------------------------------------------------------------------
-### Simulating a LEFT OUTER JOIN
-
-To simulate a `LEFT OUTER JOIN` using a `CROSS JOIN`, you will need to incorporate set operators (`UNION`) and an anti-join (`NOT EXISTS`).  
+The same unfiltered Cartesian product can be written with `CROSS APPLY`:
 
 ```sql
-SELECT  a.ID,
-        a.Fruit,
-        b.ID,
-        b.Fruit
-FROM    ##TableA a CROSS JOIN 
-        ##TableB b
-WHERE   a.Fruit = b.Fruit
-UNION
-SELECT  a.ID,
-        a.Fruit,
-        NULL,
-        NULL
-FROM    ##TableA a
-WHERE   NOT EXISTS (SELECT 1 FROM ##TableB b where a.Fruit = b.Fruit)
-ORDER BY 1;
+SELECT a.ID    AS A_ID,
+       a.Fruit AS A_Fruit,
+       b.ID    AS B_ID,
+       b.Fruit AS B_Fruit
+FROM #TableA AS a
+CROSS APPLY #TableB AS b
+ORDER BY b.ID, a.ID;
 ```
 
-| ID |  Fruit  |    ID   |  Fruit  |
-|----|---------|---------|---------|
-| 1  | Apple   | 1       |  Apple  |
-| 2  | Peach   | 2       |  Peach  |
-| 3  | Mango   |         |         |
-| 4  |         |         |         |
+Both queries return the same result:
 
+| A_ID | A_Fruit | B_ID | B_Fruit |
+|-----:|---------|-----:|---------|
+| 1    | Apple   | 1    | Apple   |
+| 2    | Peach   | 1    | Apple   |
+| 3    | Mango   | 1    | Apple   |
+| 4    | *NULL*  | 1    | Apple   |
+| 1    | Apple   | 2    | Peach   |
+| 2    | Peach   | 2    | Peach   |
+| 3    | Mango   | 2    | Peach   |
+| 4    | *NULL*  | 2    | Peach   |
+| 1    | Apple   | 3    | Kiwi    |
+| 2    | Peach   | 3    | Kiwi    |
+| 3    | Mango   | 3    | Kiwi    |
+| 4    | *NULL*  | 3    | Kiwi    |
+| 1    | Apple   | 4    | *NULL*  |
+| 2    | Peach   | 4    | *NULL*  |
+| 3    | Mango   | 4    | *NULL*  |
+| 4    | *NULL*  | 4    | *NULL*  |
 
----------------------------------------------------------------------------------
+The equivalence here depends on the right side being uncorrelated. `#TableB` does not reference the current row from `#TableA`, so SQL Server combines the same four right-side rows with each left-side row.
 
-### Determining Combinations
+Only this cross-product case is demonstrated in this chapter. The separate `APPLY` chapter will cover the per-row evaluation behavior that distinguishes `CROSS APPLY` and `OUTER APPLY` from ordinary joins.
 
-The following produces all combinations (not permutations).
-  
-Given all fruits in both `TableA` and `TableB`, here is a result set of all fruit combinations.  Because of the theta-join in the `WHERE` clause, the fruits are listed in alphabetical order from left to right.  Note that NULL markers are not included in the result set, as NULL markers are neither equal to nor not equal to each other. They are unknown.
-  
+## Filtering a Cartesian Product
+
+A `CROSS JOIN` followed by a matching predicate in the `WHERE` clause is logically equivalent to an inner join using the same predicate.
+
 ```sql
-WITH cte_DistinctFruits as
+SELECT a.ID    AS A_ID,
+       a.Fruit AS A_Fruit,
+       b.ID    AS B_ID,
+       b.Fruit AS B_Fruit
+FROM #TableA AS a
+CROSS JOIN #TableB AS b
+WHERE a.Fruit = b.Fruit
+ORDER BY a.ID;
+```
+
+| A_ID | A_Fruit | B_ID | B_Fruit |
+|-----:|---------|-----:|---------|
+| 1    | Apple   | 1    | Apple   |
+| 2    | Peach   | 2    | Peach   |
+
+For production code, an explicit `INNER JOIN ... ON` usually communicates the intended relationship more clearly.
+
+## Reconstructing a Left Outer Join
+
+A Cartesian product can be filtered to obtain the matched rows and then combined with the unmatched left-side rows. This demonstrates the logical components of a left outer join, although a direct `LEFT OUTER JOIN` is clearer and should normally be preferred.
+
+```sql
+WITH LeftJoinSimulation AS
 (
-SELECT Fruit FROM ##TableA
-UNION
-SELECT Fruit FROM ##TableB
+    SELECT a.ID    AS A_ID,
+           a.Fruit AS A_Fruit,
+           b.ID    AS B_ID,
+           b.Fruit AS B_Fruit
+    FROM #TableA AS a
+    CROSS JOIN #TableB AS b
+    WHERE a.Fruit = b.Fruit
+
+    UNION ALL
+
+    SELECT a.ID,
+           a.Fruit,
+           NULL,
+           NULL
+    FROM #TableA AS a
+    WHERE NOT EXISTS
+          (
+              SELECT 1
+              FROM #TableB AS b
+              WHERE b.Fruit = a.Fruit
+          )
 )
-SELECT
-        a.Fruit,
-        b.Fruit
-FROM    cte_DistinctFruits a CROSS JOIN
-        cte_DistinctFruits b
-WHERE   a.Fruit < b.Fruit
-ORDER BY 1, 2;
-```                          
-
-| Fruit | Fruit |
-|-------|-------|
-| Apple | Kiwi  |
-| Apple | Mango |
-| Apple | Peach |
-| Kiwi  | Mango |
-| Kiwi  | Peach |
-| Mango | Peach |
-                        
----------------------------------------------------------------------------------
-
-### Reciprocals
-                         
-If you need to find reciprocals on a result set and preserve NULL markers, you can use the following `CASE` statement.
-                         
-```sql
-SELECT  DISTINCT
-        (CASE WHEN a.Fruit < b.Fruit THEN a.Fruit ELSE b.Fruit END) AS Fruit,
-        (CASE WHEN a.Fruit < b.Fruit THEN b.Fruit ELSE a.Fruit END) AS Fruit
-FROM    ##TableA a CROSS JOIN
-        ##TableB b
-WHERE   a.Fruit <> b.Fruit OR a.Fruit IS NULL OR b.Fruit IS NULL
-ORDER BY 1, 2;
+SELECT A_ID,
+       A_Fruit,
+       B_ID,
+       B_Fruit
+FROM LeftJoinSimulation
+ORDER BY A_ID;
 ```
 
-|  Fruit  |  Fruit  |
+| A_ID | A_Fruit | B_ID   | B_Fruit |
+|-----:|---------|--------|---------|
+| 1    | Apple   | 1      | Apple   |
+| 2    | Peach   | 2      | Peach   |
+| 3    | Mango   | *NULL* | *NULL*  |
+| 4    | *NULL*  | *NULL* | *NULL*  |
+
+`UNION ALL` is intentional. Using `UNION` would remove duplicate projected rows and could change the left join's multiset semantics.
+
+## Determining Two-Item Combinations
+
+The following query first creates one distinct set of fruit values from both tables. It then cross joins that set to itself.
+
+The predicate `a.Fruit < b.Fruit` performs three jobs:
+
+- it removes pairs containing the same non-`NULL` value;
+- it keeps only one orientation of each pair; and
+- it excludes `NULL`, because an ordinary comparison involving `NULL` evaluates to `UNKNOWN`.
+
+The exact ordering of text values is determined by the applicable collation.
+
+```sql
+WITH DistinctFruits AS
+(
+    SELECT Fruit FROM #TableA
+    UNION
+    SELECT Fruit FROM #TableB
+)
+SELECT a.Fruit AS Fruit_1,
+       b.Fruit AS Fruit_2
+FROM DistinctFruits AS a
+CROSS JOIN DistinctFruits AS b
+WHERE a.Fruit < b.Fruit
+ORDER BY a.Fruit, b.Fruit;
+```
+
+| Fruit_1 | Fruit_2 |
 |---------|---------|
-|         |         |
-|         | Apple   |
-|         | Mango   |
-|         | Peach   |
-| Apple   |         |
 | Apple   | Kiwi    |
 | Apple   | Mango   |
 | Apple   | Peach   |
-| Kiwi    |         |
 | Kiwi    | Mango   |
 | Kiwi    | Peach   |
 | Mango   | Peach   |
-| Peach   |         |
 
----------------------------------------------------------
-  
-### CROSS APPLY
-  
-In Microsoft SQL Server, the `CROSS APPLY` functions the same as `CROSS JOIN`.
-  
+## Canonicalizing Reciprocal Pairs
+
+When `(A, B)` and `(B, A)` should represent the same pair, a `CASE` expression can place the values in a consistent order before `DISTINCT` removes repeats. The following version also preserves `NULL` and always places it in `Fruit_1`.
+
 ```sql
-SELECT  a.ID,
-        a.Fruit,
-        b.ID,
-        b.Fruit
-FROM    ##TableA a CROSS APPLY
-        ##TableB b
-ORDER BY 3, 1;
+SELECT DISTINCT
+       CASE
+           WHEN a.Fruit IS NULL OR b.Fruit IS NULL THEN NULL
+           WHEN a.Fruit < b.Fruit THEN a.Fruit
+           ELSE b.Fruit
+       END AS Fruit_1,
+       CASE
+           WHEN a.Fruit IS NULL THEN b.Fruit
+           WHEN b.Fruit IS NULL THEN a.Fruit
+           WHEN a.Fruit < b.Fruit THEN b.Fruit
+           ELSE a.Fruit
+       END AS Fruit_2
+FROM #TableA AS a
+CROSS JOIN #TableB AS b
+WHERE a.Fruit <> b.Fruit
+   OR a.Fruit IS NULL
+   OR b.Fruit IS NULL
+ORDER BY Fruit_1, Fruit_2;
 ```
-  
-| ID |  Fruit  | ID |  Fruit  |
-|----|---------|----|---------|
-| 1  | Apple   | 1  | Apple   |
-| 2  | Peach   | 1  | Apple   |
-| 3  | Mango   | 1  | Apple   |
-| 4  |         | 1  | Apple   |
-| 1  | Apple   | 2  | Peach   |
-| 2  | Peach   | 2  | Peach   |
-| 3  | Mango   | 2  | Peach   |
-| 4  |         | 2  | Peach   |
-| 1  | Apple   | 3  | Kiwi    |
-| 2  | Peach   | 3  | Kiwi    |
-| 3  | Mango   | 3  | Kiwi    |
-| 4  |         | 3  | Kiwi    |
-| 1  | Apple   | 4  |         |
-| 2  | Peach   | 4  |         |
-| 3  | Mango   | 4  |         |
-| 4  |         | 4  |         |
 
+| Fruit_1 | Fruit_2 |
+|---------|---------|
+| *NULL*  | *NULL*  |
+| *NULL*  | Apple   |
+| *NULL*  | Kiwi    |
+| *NULL*  | Mango   |
+| *NULL*  | Peach   |
+| Apple   | Kiwi    |
+| Apple   | Mango   |
+| Apple   | Peach   |
+| Kiwi    | Mango   |
+| Kiwi    | Peach   |
+| Mango   | Peach   |
 
----------------------------------------------------------
+This canonicalization is application logic, not an inherent behavior of `CROSS JOIN`.
 
-### CROSS APPLY with TVFs
-
-The `CROSS APPLY` is used when joining to a table-valued function.
-
-This performs an `INNER JOIN` as the join logic is placed in the `WHERE` clause of the SQL statement.
-
-```sql
-  --Create a view
-CREATE OR ALTER VIEW dbo.VwCalendarTable AS
-SELECT  ct.*
-FROM    CalendarDaysTemp cd CROSS APPLY
-        dbo.FnReturnCalendarTable(cd.CalendarDate) ct
-WHERE   cd.DateKey = ct.DateKey;
-```  
----------------------------------------------------------
-
-### CROSS APPLY with a sub-query
-
-If you need to do a `CROSS JOIN` on a sub-query, the `CROSS APPLY` operator must be used.  Some databases like `PostgreSQL` have the `LATERAL` join instead of `CROSS APPLY`.
-  
-```sql
-SELECT  a.ID,
-        a.Fruit,
-        b.ID,
-        b.Fruit
-FROM    ##TableA a CROSS APPLY
-        (SELECT * FROM ##TableB) b
-WHERE   a.Fruit = b.Fruit
-ORDER BY 1;
-```
-  
-| ID |  Fruit  | ID |  Fruit  |
-|----|---------|----|---------|
-| 1  | Apple   | 1  | Apple   |
-| 2  | Peach   | 2  | Peach   |
-  
---------------------------------------------------------- 
-  
-### Continue Reading
+## Continue Reading
 
 1. [Introduction](01%20-%20Introduction.md)
 2. [SQL Processing Order](02%20-%20SQL%20Query%20Processing%20Order.md)
@@ -286,5 +283,5 @@ ORDER BY 1;
 14. [Join Algorithms](14%20-%20Join%20Algorithms.md)
 15. [Exists](15%20-%20Exists.md)
 16. [Complex Joins](16%20-%20Complex%20Joins.md)
-  
-https://advancedsqlpuzzles.com
+
+[Advanced SQL Puzzles](https://advancedsqlpuzzles.com)
