@@ -1,4 +1,4 @@
-# `EXISTS`
+# EXISTS
 
 `EXISTS` is a predicate that tests whether a subquery returns at least one row. It evaluates to `TRUE` when a row exists and `FALSE` when the subquery is empty.
 
