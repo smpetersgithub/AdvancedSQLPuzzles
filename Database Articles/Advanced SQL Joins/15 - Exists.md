@@ -13,7 +13,7 @@ EXISTS (SELECT *    ...)
 
 `SELECT 1` is a common convention because it communicates that the projected value is irrelevant.
 
-`EXISTS` can be used anywhere Transact-SQL accepts an appropriate Boolean search condition, including `IF`, `WHERE`, `HAVING`, and a join's `ON` condition. Prefixing it with `NOT` reverses the existence test.
+`EXISTS` can be used anywhere Transact-SQL accepts an appropriate Boolean search condition, including `IF`, `WHERE`, `HAVING`, the `WHEN` condition of a searched `CASE` expression, and a join's `ON` condition. Prefixing it with `NOT` reverses the existence test.
 
 ## Correlated and Uncorrelated Subqueries
 
@@ -109,6 +109,40 @@ ELSE
 
 `SELECT NULL` without a `FROM` clause returns one row containing a null value. `EXISTS` tests for that row, not for a non-null projected value. By contrast, `NOT EXISTS (SELECT NULL)` is false.
 
+## `CASE WHEN EXISTS`
+
+A searched `CASE` expression can use `EXISTS` in its `WHEN` condition to return a value based on whether a matching row exists.
+
+The following query returns every row from `TableA` and adds a label indicating whether `TableB` contains the same non-null fruit value:
+
+```sql
+SELECT a.ID,
+       a.Fruit,
+       a.Quantity,
+       CASE WHEN EXISTS
+                 (
+                     SELECT 1
+                     FROM #TableB AS b
+                     WHERE b.Fruit = a.Fruit
+                 )
+            THEN 'Yes'
+            ELSE 'No'
+       END AS ExistsInTableB
+FROM #TableA AS a
+ORDER BY a.ID;
+```
+
+| ID | Fruit  | Quantity | ExistsInTableB |
+|---:|--------|---------:|----------------|
+| 1  | Apple  | 17       | Yes            |
+| 2  | Peach  | 20       | Yes            |
+| 3  | Mango  | 11       | No             |
+| 4  | *NULL* | 5        | No             |
+
+Here, `CASE` computes a value for each returned row. It does not filter rows. Multiple matching rows in `TableB` would still produce one label for each row in `TableA`.
+
+The null fruit receives `No` because ordinary equality does not match two `NULL` values. Replacing `WHEN EXISTS` with `WHEN NOT EXISTS` reverses which rows receive the `THEN` value.
+
 ## `EXISTS` in a `WHERE` Clause
 
 ### Left Semi-Join
@@ -158,6 +192,58 @@ ORDER BY a.ID;
 | 4  | *NULL* | 5        |
 
 The null fruit qualifies because `b.Fruit = a.Fruit` is never `TRUE` when `a.Fruit` is `NULL`, even though `TableB` also contains a null fruit.
+
+## `HAVING EXISTS`
+
+`HAVING` accepts a search condition, so an `EXISTS` predicate can filter groups produced by `GROUP BY`.
+
+The following query groups `TableA` by fruit and keeps a group when a matching fruit exists in `TableB`:
+
+```sql
+SELECT a.Fruit,
+       SUM(a.Quantity) AS TotalQuantity
+FROM #TableA AS a
+GROUP BY a.Fruit
+HAVING EXISTS
+       (
+           SELECT 1
+           FROM #TableB AS b
+           WHERE b.Fruit = a.Fruit
+       )
+ORDER BY a.Fruit;
+```
+
+| Fruit | TotalQuantity |
+|-------|--------------:|
+| Apple | 17            |
+| Peach | 20            |
+
+The subquery correlates on `a.Fruit`, which is a grouping column. Mango and the null fruit group are excluded because neither has a match under ordinary equality.
+
+Logically, `WHERE` filters individual rows before grouping, while `HAVING` filters groups after aggregation. Because this example's existence condition depends only on the grouping column, it could also be placed in `WHERE` before `GROUP BY` with the same result.
+
+To require a group total of at least 20 as well as a matching fruit, combine `EXISTS` with an aggregate condition:
+
+```sql
+SELECT a.Fruit,
+       SUM(a.Quantity) AS TotalQuantity
+FROM #TableA AS a
+GROUP BY a.Fruit
+HAVING EXISTS
+       (
+           SELECT 1
+           FROM #TableB AS b
+           WHERE b.Fruit = a.Fruit
+       )
+   AND SUM(a.Quantity) >= 20
+ORDER BY a.Fruit;
+```
+
+| Fruit | TotalQuantity |
+|-------|--------------:|
+| Peach | 20            |
+
+Apple has a match in `TableB`, but its total quantity is below 20. The aggregate condition belongs in `HAVING` because it tests the total for each group.
 
 ## `EXISTS` in an `ON` Condition
 
@@ -209,12 +295,12 @@ An advanced Transact-SQL idiom combines `EXISTS` with single-row `INTERSECT` or 
 
 For scalar expressions `A` and `B`, the following identities hold:
 
-| Expression | Meaning |
-|------------|---------|
-| `EXISTS (SELECT A INTERSECT SELECT B)` | `A` is not distinct from `B` |
-| `NOT EXISTS (SELECT A EXCEPT SELECT B)` | `A` is not distinct from `B` |
-| `EXISTS (SELECT A EXCEPT SELECT B)` | `A` is distinct from `B` |
-| `NOT EXISTS (SELECT A INTERSECT SELECT B)` | `A` is distinct from `B` |
+| Expression                                 | Meaning                      |
+|--------------------------------------------|------------------------------|
+| `EXISTS (SELECT A INTERSECT SELECT B)`     | `A` is not distinct from `B` |
+| `NOT EXISTS (SELECT A EXCEPT SELECT B)`    | `A` is not distinct from `B` |
+| `EXISTS (SELECT A EXCEPT SELECT B)`        | `A` is distinct from `B`     |
+| `NOT EXISTS (SELECT A INTERSECT SELECT B)` | `A` is distinct from `B`     |
 
 These identities rely on each side producing one scalar row. They should not be generalized carelessly to arbitrary multirow set expressions.
 
@@ -317,6 +403,8 @@ Use the simplest predicate that communicates the requirement:
 
 - Use correlated `EXISTS` when only the existence of a qualifying row matters.
 - Use `NOT EXISTS` for non-existence, particularly when nullable values make `NOT IN` unsafe.
+- Use `CASE WHEN EXISTS` to return a value based on whether a matching row exists.
+- Use `HAVING EXISTS` to filter groups based on whether a qualifying row exists.
 - Use `IS [NOT] DISTINCT FROM` for null-safe scalar comparison on SQL Server 2022 or later.
 - Use explicit equality-and-`NULL` logic on earlier versions when portability and clarity matter.
 - Reserve the `INTERSECT` and `EXCEPT` scalar idioms for cases where their behavior is understood and justified.
@@ -326,6 +414,8 @@ Do not assume that `EXISTS` is always faster than `IN` or a join. SQL Server can
 ## Official References
 
 - [`EXISTS` in Transact-SQL](https://learn.microsoft.com/en-us/sql/t-sql/language-elements/exists-transact-sql)
+- [`CASE` in Transact-SQL](https://learn.microsoft.com/en-us/sql/t-sql/language-elements/case-transact-sql)
+- [`HAVING` in Transact-SQL](https://learn.microsoft.com/en-us/sql/t-sql/queries/select-having-transact-sql)
 - [`EXCEPT` and `INTERSECT` in Transact-SQL](https://learn.microsoft.com/en-us/sql/t-sql/language-elements/set-operators-except-and-intersect-transact-sql)
 - [`IS [NOT] DISTINCT FROM` in Transact-SQL](https://learn.microsoft.com/en-us/sql/t-sql/queries/is-distinct-from-transact-sql)
 
