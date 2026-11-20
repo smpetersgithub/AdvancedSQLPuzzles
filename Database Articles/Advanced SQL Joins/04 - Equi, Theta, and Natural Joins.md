@@ -113,51 +113,6 @@ ORDER BY a.ID, b.ID;
 
 The comparison `NULL = NULL` evaluates to `UNKNOWN`, not `TRUE`, so the rows with a `NULL` fruit do not match.
 
-### Equivalent Cartesian-product Form
-
-An inner equi join can also be written as a Cartesian product followed by a filter:
-
-```sql
-SELECT a.ID    AS A_ID,
-       a.Fruit AS A_Fruit,
-       b.ID    AS B_ID,
-       b.Fruit AS B_Fruit
-FROM #TableA AS a
-CROSS JOIN #TableB AS b
-WHERE a.Fruit = b.Fruit
-ORDER BY a.ID, b.ID;
-```
-
-For this query, the two forms return the same rows. Prefer the explicit `INNER JOIN` form because it keeps the relationship between the tables in the `ON` clause and leaves the `WHERE` clause for filtering the joined result.
-
-### Null-safe Equality
-
-SQL Server 2022 and later support `IS NOT DISTINCT FROM`, which treats two `NULL` values as equal for the comparison:
-
-```sql
-SELECT a.ID    AS A_ID,
-       a.Fruit AS A_Fruit,
-       b.ID    AS B_ID,
-       b.Fruit AS B_Fruit
-FROM #TableA AS a
-INNER JOIN #TableB AS b
-    ON a.Fruit IS NOT DISTINCT FROM b.Fruit
-ORDER BY a.ID, b.ID;
-```
-
-| A_ID | A_Fruit | B_ID | B_Fruit |
-| ---: | --- | ---: | --- |
-| 1 | Apple | 1 | Apple |
-| 2 | Peach | 2 | Peach |
-| 4 | *NULL* | 4 | *NULL* |
-
-On earlier SQL Server versions, the same matching rule can be written explicitly:
-
-```sql
-ON a.Fruit = b.Fruit
-OR (a.Fruit IS NULL AND b.Fruit IS NULL)
-```
-
 ## Non-equi Joins
 
 A non-equi join uses a range, inequality, pattern, or another condition that is not solely equality. It is not a separate SQL keyword; the condition is written in the `ON` clause of an ordinary join.
