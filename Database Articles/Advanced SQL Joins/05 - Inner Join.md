@@ -240,7 +240,7 @@ SELECT a.ID       AS A_ID,
 FROM #TableA AS a
 INNER JOIN #TableB AS b
     ON a.Fruit = b.Fruit
-   AND NOT (a.ID BETWEEN a.Quantity AND b.Quantity)
+    AND NOT (a.ID BETWEEN a.Quantity AND b.Quantity)
 ORDER BY a.ID;
 ```
 
@@ -378,22 +378,22 @@ ORDER BY a.ID;
 | 3    | Mango   | 2    | Peach   |
 | 4    | *NULL*  | 2    | Peach   |
 
-### Example 14: Multiple Self-Joins
+### Example 14: Chaining multiple join clauses
 
-This query reads `TableA` through four aliases: the original reference plus three self-joins. Each `ON` condition appears immediately after its corresponding `JOIN`, which makes the relationships easier to read and maintain.
+SQL Server allows you to chin multiple join clauses with their `ON` conditions written in reverse order at the end.
 
-There is no general requirement to place `ON` clauses in reverse order. Reverse-looking `ON` clauses arise only from an unusually nested join expression and are best avoided when a conventional form is available.
+Here we demonstrate using the `INNER JOIN`, but you can also use outer joins with this method as well.  The join conditions must be in reverse order for this syntax to be correct.
 
 ```sql
 SELECT a.ID    AS A_ID,
        a.Fruit AS A_Fruit
 FROM #TableA AS a
 INNER JOIN #TableA AS b
-    ON a.Fruit = b.Fruit
 INNER JOIN #TableA AS c
-    ON b.Fruit = c.Fruit
 INNER JOIN #TableA AS d
     ON c.Fruit = d.Fruit
+    ON b.Fruit = c.Fruit
+    ON a.Fruit = b.Fruit
 ORDER BY a.ID;
 ```
 
@@ -402,6 +402,52 @@ ORDER BY a.ID;
 | 1    | Apple   |
 | 2    | Peach   |
 | 3    | Mango   |
+
+### Example 15: Mimic a `CROSS JOIN`
+
+You can mimic a `CROSS JOIN` using the `INNER JOIN` via the following methods.
+
+```sql
+SELECT a.ID AS A_ID,
+       a.Fruit AS A_Fruit,
+       b.ID AS B_ID,
+       b.Fruit AS B_Fruit
+FROM #TableA AS a
+INNER JOIN #TableB AS b
+    ON EXISTS (SELECT NULL)
+ORDER BY b.ID, a.ID;
+```
+
+```sql
+SELECT a.ID AS A_ID,
+       a.Fruit AS A_Fruit,
+       b.ID AS B_ID,
+       b.Fruit AS B_Fruit
+FROM #TableA AS a
+INNER JOIN #TableB AS b
+    ON 1=1
+ORDER BY b.ID, a.ID;
+```
+
+| A_ID | A_Fruit | B_ID | B_Fruit |
+|-----:|---------|-----:|---------|
+| 1    | Apple   | 1    | Apple   |
+| 2    | Peach   | 1    | Apple   |
+| 3    | Mango   | 1    | Apple   |
+| 4    | *NULL*  | 1    | Apple   |
+| 1    | Apple   | 2    | Peach   |
+| 2    | Peach   | 2    | Peach   |
+| 3    | Mango   | 2    | Peach   |
+| 4    | *NULL*  | 2    | Peach   |
+| 1    | Apple   | 3    | Kiwi    |
+| 2    | Peach   | 3    | Kiwi    |
+| 3    | Mango   | 3    | Kiwi    |
+| 4    | *NULL*  | 3    | Kiwi    |
+| 1    | Apple   | 4    | *NULL*  |
+| 2    | Peach   | 4    | *NULL*  |
+| 3    | Mango   | 4    | *NULL*  |
+| 4    | *NULL*  | 4    | *NULL*  |
+
 
 ## Other Database Systems
 
