@@ -71,7 +71,7 @@ VALUES (1, 'Apple', 17),
 
 ### Preserving Every Left-Side Row
 
-The following query returns every row from `TableA`. `Apple` and `Peach` find matching rows in `TableB`. `Mango` does not match any right-side row, so the selected columns from `TableB` are null-extended.
+The following query returns every row from `TableA`. Apple and Peach find matching rows in `TableB`. Mango does not match any right-side row, so the selected columns from `TableB` are null-extended.
 
 The row in `TableA` whose fruit is NULL also remains unmatched. Ordinary equality does not match NULL to another NULL; the comparison evaluates to unknown.
 
@@ -97,7 +97,7 @@ The NULL in `A_Fruit` on the last row comes from the stored data. The NULL value
 
 ### Finding Left-Side Rows With No Match
 
-A left outer join can be used as a left anti join by retaining only rows for which the right side was null-extended.
+A `LEFT JOIN` can be used as a left anti join by retaining only rows for which the right side was null-extended.
 
 Test a right-side column that cannot be NULL in stored data, such as `b.ID`. Testing a nullable column can make a matched row containing a stored NULL indistinguishable from an unmatched row.
 
@@ -123,12 +123,12 @@ ORDER BY a.ID;
 
 With an outer join, predicate placement can change the result:
 
-- The `ON` condition determines which row pairs match. A left-side row that finds no match is still preserved by a left join.
+- The `ON` condition determines which row pairs match. A left-side row that finds no match is still preserved by a `LEFT JOIN`.
 - The `WHERE` condition filters the result after the join. A null-rejecting condition on the right-side columns removes null-extended rows and can make the result equivalent to an `INNER JOIN`.
 
 ### Restricting Matches in the `ON` Condition
 
-The additional condition `b.Fruit = 'Apple'` allows only Apple to match. Every row from `TableA` is still preserved.
+The additional condition `b.Fruit = 'Apple'` allows only `Apple` to match. Every row from `TableA` is still preserved.
 
 ```sql
 SELECT a.ID    AS A_ID,
