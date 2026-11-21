@@ -1,16 +1,16 @@
 # Outer Joins
 
-An outer join returns the rows that satisfy its join condition and also preserves unmatched rows from one or both inputs. For a preserved row with no match, columns from the other input are returned as `NULL`.
+An outer join returns the rows that satisfy its join condition and also preserves unmatched rows from one or both inputs. For a preserved row with no match, columns from the other input are returned as NULL.
 
 SQL Server supports three logical outer-join forms:
 
-- `LEFT OUTER JOIN` preserves every row from the left input. When a left-side row has no match, columns from the right input are `NULL`.
-- `RIGHT OUTER JOIN` preserves every row from the right input. When a right-side row has no match, columns from the left input are `NULL`.
+- `LEFT OUTER JOIN` preserves every row from the left input. When a left-side row has no match, columns from the right input are NULL.
+- `RIGHT OUTER JOIN` preserves every row from the right input. When a right-side row has no match, columns from the left input are NULL.
 - `FULL OUTER JOIN` preserves unmatched rows from both inputs, in addition to returning the matched rows.
 
 The keyword `OUTER` is optional: `LEFT JOIN` and `LEFT OUTER JOIN`, for example, mean the same thing.
 
-A right outer join can always be rewritten as a left outer join by swapping the inputs. Many teams prefer left joins because a consistent direction can make a query easier to follow, but a right join is not inherently incorrect. This document focuses on left and right joins; full outer joins are covered separately.
+A `RIGHT JOIN` can always be rewritten as a `LEFT JOIN` by swapping the inputs. Many teams prefer `LEFT JOIN` because a consistent direction can make a query easier to follow, but a `RIGHT JOIN` is not inherently incorrect. This document focuses on `LEFT JOIN`; `FULL OUTER JOIN` is covered separately.
 
 Unless otherwise noted, the examples use Microsoft SQL Server and Transact-SQL.
 
@@ -73,7 +73,7 @@ VALUES (1, 'Apple', 17),
 
 The following query returns every row from `TableA`. `Apple` and `Peach` find matching rows in `TableB`. `Mango` does not match any right-side row, so the selected columns from `TableB` are null-extended.
 
-The row in `TableA` whose fruit is NULL also remains unmatched. Ordinary equality does not match NULL to another NULL; the comparison evaluates to UNKNOWN.
+The row in `TableA` whose fruit is NULL also remains unmatched. Ordinary equality does not match NULL to another NULL; the comparison evaluates to unknown.
 
 ```sql
 SELECT a.ID    AS A_ID,
@@ -93,13 +93,13 @@ ORDER BY a.ID;
 | 3    | Mango   | *NULL* | *NULL*  |
 | 4    | *NULL*  | *NULL* | *NULL*  |
 
-The `NULL` in `A_Fruit` on the last row comes from the stored data. The `NULL` values in `B_ID` and `B_Fruit` were introduced because no right-side row matched. A result table alone may not reveal that distinction, so understanding the source columns matters.
+The NULL in `A_Fruit` on the last row comes from the stored data. The NULL values in `B_ID` and `B_Fruit` were introduced because no right-side row matched. A result table alone may not reveal that distinction, so understanding the source columns matters.
 
 ### Finding Left-Side Rows With No Match
 
 A left outer join can be used as a left anti join by retaining only rows for which the right side was null-extended.
 
-Test a right-side column that cannot be `NULL` in stored data, such as `b.ID`. Testing a nullable column can make a matched row containing a stored `NULL` indistinguishable from an unmatched row.
+Test a right-side column that cannot be NULL in stored data, such as `b.ID`. Testing a nullable column can make a matched row containing a stored NULL indistinguishable from an unmatched row.
 
 ```sql
 SELECT a.ID       AS A_ID,
@@ -173,7 +173,7 @@ Not every `WHERE` condition converts an outer join to an inner join. The effect 
 
 ## `RIGHT OUTER JOIN`
 
-A right outer join preserves every row from its right input. Here, Kiwi and the row whose `Fruit` is `NULL` have no match in `TableA`, so the selected columns from `TableA` are null-extended.
+A right outer join preserves every row from its right input. Here, Kiwi and the row whose `Fruit` is NULL have no match in `TableA`, so the selected columns from `TableA` are null-extended.
 
 ```sql
 SELECT a.ID    AS A_ID,
@@ -234,7 +234,7 @@ ORDER BY b.ID;
 
 ## Scalar Subqueries Are Not Outer Joins
 
-A scalar correlated subquery in the `SELECT` list can sometimes produce a result shaped like a left join: it returns one value when it finds one row and `NULL` when it finds none. It is nevertheless a subquery, not an outer join.
+A scalar correlated subquery in the `SELECT` list can sometimes produce a result shaped like a left join: it returns one value when it finds one row and NULL when it finds none. It is nevertheless a subquery, not an outer join.
 
 ```sql
 SELECT a.ID    AS A_ID,
