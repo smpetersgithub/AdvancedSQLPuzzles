@@ -407,7 +407,7 @@ You can also insert and delete using a CTE.
 
 ```sql
 -- Insert through a CTE
-WITH EmployeeCTE AS
+WITH cte_Employee AS
 (
 SELECT EmployeeID,
        FirstName,
@@ -416,7 +416,7 @@ SELECT EmployeeID,
        Salary
 FROM dbo.Employees
 )
-INSERT INTO EmployeeCTE (EmployeeID, FirstName, LastName, Department, Salary)
+INSERT INTO cte_Employee (EmployeeID, FirstName, LastName, Department, Salary)
 VALUES (4, 'Larry', 'Johnson', 'Finance', 85000);
 GO
 
@@ -424,7 +424,7 @@ SELECT * FROM dbo.Employees ORDER BY EmployeeID;
 GO
 
 -- Delete through a CTE
-WITH EmployeeCTE AS
+WITH cte_Employee AS
 (
 SELECT EmployeeID,
        FirstName,
@@ -434,7 +434,7 @@ SELECT EmployeeID,
 FROM dbo.Employees
 WHERE EmployeeID = 4
 )
-DELETE FROM EmployeeCTE;
+DELETE FROM cte_Employee;
 GO
 
 SELECT * FROM dbo.Employees ORDER BY EmployeeID;
