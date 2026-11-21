@@ -120,7 +120,7 @@ The primary difference is how each join handles matching and unmatched rows. Inn
 Both `INNER` and `OUTER` joins rely on comparison operators to relate rows across tables. These comparisons are formally described as:
 
 - **Theta-join** – uses comparison operators such as `=`, `<>`, `>`, `<`, `>=`, or `<=`.
-- **Equi-join** – uses equality comparisons.
+- **Equi-join** – uses equality comparisons (`=`).
 - **Non-equi-join** – uses comparisons or range predicates other than equality, such as `<`, `>`, `<>`, or `BETWEEN`.
 
 Note the following distinctions.
@@ -136,7 +136,7 @@ These classifications originate from **Relational Algebra**, introduced by **Edg
 
 SQL is a **declarative language**: you specify *what* result you want, not *how* to compute it. The logical processing order is defined by SQL semantics, but the **physical execution plan** chosen by the optimizer may differ.
 
-When a table operation is executed, the database engine selects the most efficient join algorithm—such as nested loops, hash joins, or merge joins—based on:
+When a table operation is executed, the database engine selects the most efficient join algorithm, such as nested loops, hash joins, or merge joins, based on:
 
 - Table size
 - Data distribution
