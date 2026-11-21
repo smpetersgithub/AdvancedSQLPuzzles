@@ -4,19 +4,19 @@ SQL Server allows queries to read from and join to many kinds of tables, table-l
 
 >❗For simplicity, we will use the term “table” to describe any table-like object or expression that produces rows and columns. When such an object or result contains no rows, it is referred to as an empty table or empty result set.
 
-| Id | Name | Description                                                                                                      |
-|----|------|------------------------------------------------------------------------------------------------------------------|
-| 1 | Table | A permanent, schema-scoped object that stores data as rows and columns.                                          |
-| 2 | View | A schema-scoped virtual table whose columns and rows are defined by a `SELECT` statement.                         |
-| 3 | `VALUES` Constructor | An inline rowset that can supply values to a DML statement or be used as a derived table.         |
-| 4 | Table-Valued Function | A schema-scoped function that accepts parameters and returns a tabular result.                   |
-| 5 | Subquery | A query nested inside another SQL statement that returns a scalar value, a single-column result, or a rowset. |
-| 6 | Derived Table | A subquery defined in the `FROM` clause and assigned a table alias.                                      |
-| 7 | Common Table Expression (CTE) | A named query expression that exists for the duration of one statement.                  |
-| 8 | Temporary Table | A table created in `tempdb` with local or global scope.                                                |
-| 9 | Table Variable | A variable that stores temporary tabular data within a batch, stored procedure, or function.            |
-| 10 | User-Defined Table Type | A schema-scoped type used to declare table variables and table-valued parameters.             |
-| 11 | External Table | A schema-scoped table that provides access to data stored outside SQL Server.                          |
+| Id | Name | Description                                                                                                       |
+|----|------|-------------------------------------------------------------------------------------------------------------------|
+| 1  | Table | A permanent, schema-scoped object that stores data as rows and columns.                                          |
+| 2  | View | A schema-scoped virtual table whose columns and rows are defined by a `SELECT` statement.                         |
+| 3  | `VALUES` Constructor | An inline rowset that can supply values to a DML statement or be used as a derived table.         |
+| 4  | Table-Valued Function | A schema-scoped function that accepts parameters and returns a tabular result.                   |
+| 5  | Subquery | A query nested inside another SQL statement that returns a scalar value, a single-column result, or a rowset. |
+| 6  | Derived Table | A subquery defined in the `FROM` clause and assigned a table alias.                                      |
+| 7  | Common Table Expression (CTE) | A named query expression that exists for the duration of one statement.                  |
+| 8  | Temporary Table | A table created in `tempdb` with local or global scope.                                                |
+| 9  | Table Variable | A variable that stores temporary tabular data within a batch, stored procedure, or function.            |
+| 10 | User-Defined Table Type | A schema-scoped type used to declare table variables and table-valued parameters.              |
+| 11 | External Table | A schema-scoped table that provides access to data stored outside SQL Server.                           |
 
 ## SQL Server Constraints
 
@@ -109,23 +109,27 @@ SQL Server also supports `WITH CHECK OPTION`, which is placed after the view's d
 In this example, we create a view based on the `Employees` table that includes a calculated `FullName` column. We then use the view to insert a row, retrieve data, and delete the row.
 
 ```sql
-CREATE OR ALTER VIEW dbo.vwEmployees AS
+CREATE OR ALTER VIEW dbo.vwEmployees
+WITH SCHEMABINDING
+AS
 SELECT  EmployeeID,
         FirstName,
         LastName,
         CONCAT_WS(' ', FirstName, LastName) AS FullName,
         Department,
         Salary
-FROM    dbo.Employees;
+FROM dbo.Employees
+WITH CHECK OPTION;
 GO
 
+--Add Larry Johnson
 INSERT INTO dbo.vwEmployees (EmployeeID, FirstName, LastName, Department, Salary) VALUES(4,'Larry','Johnson','Finance','85000');
 GO
 
 SELECT * FROM dbo.vwEmployees ORDER BY 1;
 GO
 
---Remove Larry
+--Remove Larry Johnson
 DELETE FROM dbo.vwEmployees WHERE EmployeeID = 4;
 GO
 ```
