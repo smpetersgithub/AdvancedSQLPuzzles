@@ -101,7 +101,7 @@ ORDER BY a.ID;
 | 1    | Apple   | 1    | Apple   |
 | 2    | Peach   | 2    | Peach   |
 
-## Mimic an `INNER JOIN'
+## Mimic an `INNER JOIN`
 
 The following examples mimic an `INNER JOIN`.
 
