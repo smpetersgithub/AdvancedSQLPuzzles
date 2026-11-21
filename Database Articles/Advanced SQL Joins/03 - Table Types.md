@@ -305,7 +305,7 @@ WHERE   e.Salary >  (SELECT AVG(Salary)
 
 #### Scalar Correlated Subquery
 
-We can create a scalar subquery by placing the subquery within the `SELECT` statement. A scalar correlated subquery can appear in the SELECT list and return one value for each outer row. If it returns no rows, SQL Server supplies NULL; if it returns more than one row, SQL Server raises an error.
+We can create a scalar subquery by placing the subquery within the `SELECT` statement. A scalar correlated subquery can appear in the `SELECT` list and return one value for each outer row. If it returns no rows, SQL Server supplies NULL; if it returns more than one row, SQL Server raises an error.
 
 Because `AVG()` is used without `GROUP BY`, this subquery always returns exactly one row, although its value could be NULL.
 
@@ -353,7 +353,7 @@ FROM    dbo.Employees AS e;
 --------------------------------------------------------------------------------------------------------
 # Derived Table
 
-A derived table is a type of subquery that produces a temporary result set within the scope of the FROM clause. In SQL Server, a regular derived table cannot reference columns from another table in the same FROM clause. To combine it with another table, specify the relationship in an ON clause outside the derived table.
+A derived table is a type of subquery that produces a temporary result set within the scope of the `FROM` clause. In SQL Server, a regular derived table cannot reference columns from another table in the same `FROM` clause. To combine it with another table, specify the relationship in an `ON` clause outside the derived table.
 
 A derived table has three characteristics:
 
