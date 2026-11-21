@@ -61,7 +61,7 @@ VALUES (1, 'Apple', 17),
 
 ## Basic Equi-Joins
 
-### Example 1: Explicit `INNER JOIN`
+### Explicit `INNER JOIN`
 
 This equi-join matches rows whose `Fruit` values are equal. Ordinary comparisons involving `NULL`, including `NULL = NULL`, evaluate to `UNKNOWN`. Because an inner join retains only conditions that evaluate to `TRUE`, the two rows with `NULL` fruit values do not match.
 
@@ -81,9 +81,9 @@ ORDER BY a.ID;
 | 1    | Apple   | 1    | Apple   |
 | 2    | Peach   | 2    | Peach   |
 
-### Example 2: Legacy Implicit-Join Syntax
+### Legacy Implicit-Join Syntax
 
-The following query places the matching condition in the `WHERE` clause and produces the same result as Example 1. This comma-separated form is valid, but explicit `JOIN ... ON` syntax is generally clearer and reduces the risk of an accidental Cartesian product.
+The following query places the matching condition in the `WHERE`. This comma-separated form is valid, but explicit `JOIN ... ON` syntax is generally clearer and reduces the risk of an accidental Cartesian product.
 
 ```sql
 SELECT a.ID    AS A_ID,
@@ -101,7 +101,11 @@ ORDER BY a.ID;
 | 1    | Apple   | 1    | Apple   |
 | 2    | Peach   | 2    | Peach   |
 
-### Example 3: Filtering a `CROSS JOIN`
+## Mimic an `INNER JOIN'
+
+The following examples mimic an `INNER JOIN`.
+
+### Filtering a `CROSS JOIN`
 
 An inner join can be understood logically as a Cartesian product followed by a filter. The following query creates the Cartesian product explicitly and then retains only pairs whose `Fruit` values match.
 
@@ -123,7 +127,7 @@ ORDER BY a.ID;
 | 1    | Apple   | 1    | Apple   |
 | 2    | Peach   | 2    | Peach   |
 
-### Example 4: A Null-Rejecting Filter After a `LEFT JOIN`
+### A Null-Rejecting Filter After a `LEFT JOIN`
 
 The predicate `b.Fruit = 'Apple'` rejects the null-extended rows produced by the `LEFT JOIN`. For this query, that makes the result equivalent to an inner join.
 
@@ -144,268 +148,10 @@ WHERE b.Fruit = 'Apple';
 |-----:|---------|-----:|---------|
 | 1    | Apple   | 1    | Apple   |
 
-## Non-Equi and Compound Join Conditions
 
-### Example 5: Inequality Predicates
+## Using `INNER JOIN' to mimic a `CROSS JOIN`
 
-This non-equi join returns every pair containing different non-`NULL` fruits and different non-`NULL` quantities.
-
-```sql
-SELECT a.ID       AS A_ID,
-       a.Fruit    AS A_Fruit,
-       a.Quantity AS A_Quantity,
-       b.ID       AS B_ID,
-       b.Fruit    AS B_Fruit,
-       b.Quantity AS B_Quantity
-FROM #TableA AS a
-INNER JOIN #TableB AS b
-    ON a.Fruit <> b.Fruit
-   AND a.Quantity <> b.Quantity
-ORDER BY a.ID, b.ID;
-```
-
-| A_ID | A_Fruit | A_Quantity | B_ID | B_Fruit | B_Quantity |
-|-----:|---------|-----------:|-----:|---------|-----------:|
-| 1    | Apple   | 17         | 2    | Peach   | 25         |
-| 1    | Apple   | 17         | 3    | Kiwi    | 20         |
-| 2    | Peach   | 20         | 1    | Apple   | 17         |
-| 3    | Mango   | 11         | 1    | Apple   | 17         |
-| 3    | Mango   | 11         | 2    | Peach   | 25         |
-| 3    | Mango   | 11         | 3    | Kiwi    | 20         |
-
-### Example 6: Three-Valued Logic
-
-For any two non-`NULL` values, either `a.Fruit <> b.Fruit` or `a.Fruit = b.Fruit` is true. If either value is `NULL`, both comparisons evaluate to `UNKNOWN`, so the combined condition is also `UNKNOWN`.
-
-The query therefore returns the Cartesian product of the three non-`NULL` fruit rows from each table: nine rows. This condition is intentionally illustrative; `a.Fruit IS NOT NULL AND b.Fruit IS NOT NULL` would express the intended filter more directly.
-
-```sql
-SELECT a.ID    AS A_ID,
-       a.Fruit AS A_Fruit,
-       b.ID    AS B_ID,
-       b.Fruit AS B_Fruit
-FROM #TableA AS a
-INNER JOIN #TableB AS b
-    ON a.Fruit <> b.Fruit
-    OR a.Fruit = b.Fruit
-ORDER BY b.ID, a.ID;
-```
-
-| A_ID | A_Fruit | B_ID | B_Fruit |
-|-----:|---------|-----:|---------|
-| 1    | Apple   | 1    | Apple   |
-| 2    | Peach   | 1    | Apple   |
-| 3    | Mango   | 1    | Apple   |
-| 1    | Apple   | 2    | Peach   |
-| 2    | Peach   | 2    | Peach   |
-| 3    | Mango   | 2    | Peach   |
-| 1    | Apple   | 3    | Kiwi    |
-| 2    | Peach   | 3    | Kiwi    |
-| 3    | Mango   | 3    | Kiwi    |
-
-### Example 7: Range Comparison
-
-This query returns every pair of rows for which the quantity in `TableA` is greater than or equal to the quantity in `TableB`. No key relationship is implied between the paired rows.
-
-```sql
-SELECT a.ID       AS A_ID,
-       a.Fruit    AS A_Fruit,
-       a.Quantity AS A_Quantity,
-       b.ID       AS B_ID,
-       b.Fruit    AS B_Fruit,
-       b.Quantity AS B_Quantity
-FROM #TableA AS a
-INNER JOIN #TableB AS b
-    ON a.Quantity >= b.Quantity
-ORDER BY a.ID, b.ID;
-```
-
-| A_ID | A_Fruit | A_Quantity | B_ID | B_Fruit | B_Quantity |
-|-----:|---------|-----------:|-----:|---------|-----------:|
-| 1    | Apple   | 17         | 1    | Apple   | 17         |
-| 2    | Peach   | 20         | 1    | Apple   | 17         |
-| 2    | Peach   | 20         | 3    | Kiwi    | 20         |
-
-### Example 8: Combining Equality and `BETWEEN`
-
-Join conditions can use predicates such as `LIKE` and `BETWEEN` and can negate them with `NOT`. The following deliberately artificial example demonstrates an equality predicate combined with a negated, inclusive `BETWEEN` predicate.
-
-```sql
-SELECT a.ID       AS A_ID,
-       a.Fruit    AS A_Fruit,
-       a.Quantity AS A_Quantity,
-       b.ID       AS B_ID,
-       b.Fruit    AS B_Fruit,
-       b.Quantity AS B_Quantity
-FROM #TableA AS a
-INNER JOIN #TableB AS b
-    ON a.Fruit = b.Fruit
-    AND NOT (a.ID BETWEEN a.Quantity AND b.Quantity)
-ORDER BY a.ID;
-```
-
-| A_ID | A_Fruit | A_Quantity | B_ID | B_Fruit | B_Quantity |
-|-----:|---------|-----------:|-----:|---------|-----------:|
-| 1    | Apple   | 17         | 1    | Apple   | 17         |
-| 2    | Peach   | 20         | 2    | Peach   | 25         |
-
-## Null-Safe Equality
-
-Ordinary equality does not match two `NULL` values. The following examples show several ways to request null-safe equality in SQL Server.
-
-### Example 9: Replacing `NULL` With a Sentinel Value
-
-`ISNULL(column, '')` maps `NULL` to an empty string before comparing the values. This allows two `NULL` values to match, but it also makes a real empty string match a `NULL`. Choose a replacement value only when that collision is acceptable or impossible under the data model.
-
-Applying a function to an indexed join column can also make the predicate non-sargable and prevent an index seek. Verify performance with an actual execution plan when this technique is used on production data.
-
-```sql
-SELECT a.ID    AS A_ID,
-       a.Fruit AS A_Fruit,
-       b.ID    AS B_ID,
-       b.Fruit AS B_Fruit
-FROM #TableA AS a
-INNER JOIN #TableB AS b
-    ON ISNULL(a.Fruit, '') = ISNULL(b.Fruit, '')
-ORDER BY a.ID;
-```
-
-| A_ID | A_Fruit | B_ID | B_Fruit |
-|-----:|---------|-----:|---------|
-| 1    | Apple   | 1    | Apple   |
-| 2    | Peach   | 2    | Peach   |
-| 4    | *NULL*  | 4    | *NULL*  |
-
-### Example 10: Explicit `NULL` Handling
-
-This query expresses the same null-safe comparison as Example 9 without replacing `NULL` with a sentinel value. The `IS NULL` predicates explicitly allow two `NULL` values to match.
-
-```sql
-SELECT a.ID    AS A_ID,
-       a.Fruit AS A_Fruit,
-       b.ID    AS B_ID,
-       b.Fruit AS B_Fruit
-FROM #TableA AS a
-INNER JOIN #TableB AS b
-    ON a.Fruit = b.Fruit
-    OR (a.Fruit IS NULL AND b.Fruit IS NULL)
-ORDER BY a.ID;
-```
-
-| A_ID | A_Fruit | B_ID | B_Fruit |
-|-----:|---------|-----:|---------|
-| 1    | Apple   | 1    | Apple   |
-| 2    | Peach   | 2    | Peach   |
-| 4    | *NULL*  | 4    | *NULL*  |
-
-### Example 11: `IS NOT DISTINCT FROM`
-
-SQL Server 2022 (16.x) and supported Azure and Microsoft Fabric SQL products provide the `IS NOT DISTINCT FROM` predicate. It compares two expressions and always returns `TRUE` or `FALSE`, even when one or both expressions are `NULL`.
-
-This is the clearest null-safe form when the target platform supports it.
-
-```sql
-SELECT a.ID    AS A_ID,
-       a.Fruit AS A_Fruit,
-       b.ID    AS B_ID,
-       b.Fruit AS B_Fruit
-FROM #TableA AS a
-INNER JOIN #TableB AS b
-    ON a.Fruit IS NOT DISTINCT FROM b.Fruit
-ORDER BY a.ID;
-```
-
-| A_ID | A_Fruit | B_ID | B_Fruit |
-|-----:|---------|-----:|---------|
-| 1    | Apple   | 1    | Apple   |
-| 2    | Peach   | 2    | Peach   |
-| 4    | *NULL*  | 4    | *NULL*  |
-
-### Example 12: An `EXISTS` Predicate With `INTERSECT`
-
-SQL Server can also express null-safe equality with an `EXISTS` predicate in the `ON` condition. This is not a separate `ON EXISTS` clause.
-
-`INTERSECT` considers two `NULL` values equal when determining distinct rows. The subquery therefore returns a row when the two fruit values are equal or when both are `NULL`, and `EXISTS` converts that result into a true-or-false condition.
-
-```sql
-SELECT a.ID    AS A_ID,
-       a.Fruit AS A_Fruit,
-       b.ID    AS B_ID,
-       b.Fruit AS B_Fruit
-FROM #TableA AS a
-INNER JOIN #TableB AS b
-    ON EXISTS
-       (
-           SELECT a.Fruit
-           INTERSECT
-           SELECT b.Fruit
-       )
-ORDER BY a.ID;
-```
-
-| A_ID | A_Fruit | B_ID | B_Fruit |
-|-----:|---------|-----:|---------|
-| 1    | Apple   | 1    | Apple   |
-| 2    | Peach   | 2    | Peach   |
-| 4    | *NULL*  | 4    | *NULL*  |
-
-## Advanced and Unusual Forms
-
-### Example 13: A `CASE` Expression in the Join Logic
-
-A `CASE` expression can participate in a join condition, but this form is often harder to understand than a direct predicate. It may also make the predicate non-sargable, complicate cardinality estimation, and produce a less efficient execution plan. The exact result depends on the data, indexes, SQL Server version, and optimizer choices.
-
-The explicit `CROSS JOIN` makes it clear that the `WHERE` clause supplies the filtering condition.
-
-```sql
-SELECT a.ID    AS A_ID,
-       a.Fruit AS A_Fruit,
-       b.ID    AS B_ID,
-       b.Fruit AS B_Fruit
-FROM #TableA AS a
-CROSS JOIN #TableB AS b
-WHERE CASE
-          WHEN a.Fruit = 'Apple' THEN a.Fruit
-          ELSE 'Peach'
-      END = b.Fruit
-ORDER BY a.ID;
-```
-
-| A_ID | A_Fruit | B_ID | B_Fruit |
-|-----:|---------|-----:|---------|
-| 1    | Apple   | 1    | Apple   |
-| 2    | Peach   | 2    | Peach   |
-| 3    | Mango   | 2    | Peach   |
-| 4    | *NULL*  | 2    | Peach   |
-
-### Example 14: Chaining multiple join clauses
-
-SQL Server allows you to chin multiple join clauses with their `ON` conditions written in reverse order at the end.
-
-Here we demonstrate using the `INNER JOIN`, but you can also use outer joins with this method as well.  The join conditions must be in reverse order for this syntax to be correct.
-
-```sql
-SELECT a.ID    AS A_ID,
-       a.Fruit AS A_Fruit
-FROM #TableA AS a
-INNER JOIN #TableA AS b
-INNER JOIN #TableA AS c
-INNER JOIN #TableA AS d
-    ON c.Fruit = d.Fruit
-    ON b.Fruit = c.Fruit
-    ON a.Fruit = b.Fruit
-ORDER BY a.ID;
-```
-
-| A_ID | A_Fruit |
-|-----:|---------|
-| 1    | Apple   |
-| 2    | Peach   |
-| 3    | Mango   |
-
-### Example 15: Mimic a `CROSS JOIN`
-
-You can mimic a `CROSS JOIN` using the `INNER JOIN` via the following methods.
+`INNER JOIN` can also be used to create Cartesian products via the following syntax.
 
 ```sql
 SELECT a.ID AS A_ID,
@@ -447,6 +193,265 @@ ORDER BY b.ID, a.ID;
 | 2    | Peach   | 4    | *NULL*  |
 | 3    | Mango   | 4    | *NULL*  |
 | 4    | *NULL*  | 4    | *NULL*  |
+
+## Non-Equi and Compound Join Conditions
+
+### Inequality Predicates
+
+This non-equi join returns every pair containing different non-`NULL` fruits and different non-`NULL` quantities.
+
+```sql
+SELECT a.ID       AS A_ID,
+       a.Fruit    AS A_Fruit,
+       a.Quantity AS A_Quantity,
+       b.ID       AS B_ID,
+       b.Fruit    AS B_Fruit,
+       b.Quantity AS B_Quantity
+FROM #TableA AS a
+INNER JOIN #TableB AS b
+    ON a.Fruit <> b.Fruit
+   AND a.Quantity <> b.Quantity
+ORDER BY a.ID, b.ID;
+```
+
+| A_ID | A_Fruit | A_Quantity | B_ID | B_Fruit | B_Quantity |
+|-----:|---------|-----------:|-----:|---------|-----------:|
+| 1    | Apple   | 17         | 2    | Peach   | 25         |
+| 1    | Apple   | 17         | 3    | Kiwi    | 20         |
+| 2    | Peach   | 20         | 1    | Apple   | 17         |
+| 3    | Mango   | 11         | 1    | Apple   | 17         |
+| 3    | Mango   | 11         | 2    | Peach   | 25         |
+| 3    | Mango   | 11         | 3    | Kiwi    | 20         |
+
+### Three-Valued Logic
+
+For any two non-`NULL` values, either `a.Fruit <> b.Fruit` or `a.Fruit = b.Fruit` is true. If either value is `NULL`, both comparisons evaluate to `UNKNOWN`, so the combined condition is also `UNKNOWN`.
+
+The query therefore returns the Cartesian product of the three non-`NULL` fruit rows from each table: nine rows. This condition is intentionally illustrative; `a.Fruit IS NOT NULL AND b.Fruit IS NOT NULL` would express the intended filter more directly.
+
+```sql
+SELECT a.ID    AS A_ID,
+       a.Fruit AS A_Fruit,
+       b.ID    AS B_ID,
+       b.Fruit AS B_Fruit
+FROM #TableA AS a
+INNER JOIN #TableB AS b
+    ON a.Fruit <> b.Fruit
+    OR a.Fruit = b.Fruit
+ORDER BY b.ID, a.ID;
+```
+
+| A_ID | A_Fruit | B_ID | B_Fruit |
+|-----:|---------|-----:|---------|
+| 1    | Apple   | 1    | Apple   |
+| 2    | Peach   | 1    | Apple   |
+| 3    | Mango   | 1    | Apple   |
+| 1    | Apple   | 2    | Peach   |
+| 2    | Peach   | 2    | Peach   |
+| 3    | Mango   | 2    | Peach   |
+| 1    | Apple   | 3    | Kiwi    |
+| 2    | Peach   | 3    | Kiwi    |
+| 3    | Mango   | 3    | Kiwi    |
+
+### Range Comparison
+
+This query returns every pair of rows for which the quantity in `TableA` is greater than or equal to the quantity in `TableB`. No key relationship is implied between the paired rows.
+
+```sql
+SELECT a.ID       AS A_ID,
+       a.Fruit    AS A_Fruit,
+       a.Quantity AS A_Quantity,
+       b.ID       AS B_ID,
+       b.Fruit    AS B_Fruit,
+       b.Quantity AS B_Quantity
+FROM #TableA AS a
+INNER JOIN #TableB AS b
+    ON a.Quantity >= b.Quantity
+ORDER BY a.ID, b.ID;
+```
+
+| A_ID | A_Fruit | A_Quantity | B_ID | B_Fruit | B_Quantity |
+|-----:|---------|-----------:|-----:|---------|-----------:|
+| 1    | Apple   | 17         | 1    | Apple   | 17         |
+| 2    | Peach   | 20         | 1    | Apple   | 17         |
+| 2    | Peach   | 20         | 3    | Kiwi    | 20         |
+
+### Combining Equality and `BETWEEN`
+
+Join conditions can use predicates such as `LIKE` and `BETWEEN` and can negate them with `NOT`. The following deliberately artificial example demonstrates an equality predicate combined with a negated, inclusive `BETWEEN` predicate.
+
+```sql
+SELECT a.ID       AS A_ID,
+       a.Fruit    AS A_Fruit,
+       a.Quantity AS A_Quantity,
+       b.ID       AS B_ID,
+       b.Fruit    AS B_Fruit,
+       b.Quantity AS B_Quantity
+FROM #TableA AS a
+INNER JOIN #TableB AS b
+    ON a.Fruit = b.Fruit
+    AND NOT (a.ID BETWEEN a.Quantity AND b.Quantity)
+ORDER BY a.ID;
+```
+
+| A_ID | A_Fruit | A_Quantity | B_ID | B_Fruit | B_Quantity |
+|-----:|---------|-----------:|-----:|---------|-----------:|
+| 1    | Apple   | 17         | 1    | Apple   | 17         |
+| 2    | Peach   | 20         | 2    | Peach   | 25         |
+
+## Null-Safe Equality
+
+Ordinary equality does not match two `NULL` values. The following examples show several ways to request null-safe equality in SQL Server.
+
+### Replacing `NULL` With a Sentinel Value
+
+`ISNULL(column, '')` maps `NULL` to an empty string before comparing the values. This allows two `NULL` values to match, but it also makes a real empty string match a `NULL`. Choose a replacement value only when that collision is acceptable or impossible under the data model.
+
+Applying a function to an indexed join column can also make the predicate non-sargable and prevent an index seek. Verify performance with an actual execution plan when this technique is used on production data.
+
+```sql
+SELECT a.ID    AS A_ID,
+       a.Fruit AS A_Fruit,
+       b.ID    AS B_ID,
+       b.Fruit AS B_Fruit
+FROM #TableA AS a
+INNER JOIN #TableB AS b
+    ON ISNULL(a.Fruit, '') = ISNULL(b.Fruit, '')
+ORDER BY a.ID;
+```
+
+| A_ID | A_Fruit | B_ID | B_Fruit |
+|-----:|---------|-----:|---------|
+| 1    | Apple   | 1    | Apple   |
+| 2    | Peach   | 2    | Peach   |
+| 4    | *NULL*  | 4    | *NULL*  |
+
+### Explicit `NULL` Handling
+
+This query expresses the same null-safe comparison as the previous example without replacing `NULL` with a sentinel value. The `IS NULL` predicates explicitly allow two `NULL` values to match.
+
+```sql
+SELECT a.ID    AS A_ID,
+       a.Fruit AS A_Fruit,
+       b.ID    AS B_ID,
+       b.Fruit AS B_Fruit
+FROM #TableA AS a
+INNER JOIN #TableB AS b
+    ON a.Fruit = b.Fruit
+    OR (a.Fruit IS NULL AND b.Fruit IS NULL)
+ORDER BY a.ID;
+```
+
+| A_ID | A_Fruit | B_ID | B_Fruit |
+|-----:|---------|-----:|---------|
+| 1    | Apple   | 1    | Apple   |
+| 2    | Peach   | 2    | Peach   |
+| 4    | *NULL*  | 4    | *NULL*  |
+
+### `IS NOT DISTINCT FROM`
+
+SQL Server 2022 (16.x) and supported Azure and Microsoft Fabric SQL products provide the `IS NOT DISTINCT FROM` predicate. It compares two expressions and always returns `TRUE` or `FALSE`, even when one or both expressions are `NULL`.
+
+This is the clearest null-safe form when the target platform supports it.
+
+```sql
+SELECT a.ID    AS A_ID,
+       a.Fruit AS A_Fruit,
+       b.ID    AS B_ID,
+       b.Fruit AS B_Fruit
+FROM #TableA AS a
+INNER JOIN #TableB AS b
+    ON a.Fruit IS NOT DISTINCT FROM b.Fruit
+ORDER BY a.ID;
+```
+
+| A_ID | A_Fruit | B_ID | B_Fruit |
+|-----:|---------|-----:|---------|
+| 1    | Apple   | 1    | Apple   |
+| 2    | Peach   | 2    | Peach   |
+| 4    | *NULL*  | 4    | *NULL*  |
+
+### An `EXISTS` Predicate With `INTERSECT`
+
+SQL Server can also express null-safe equality with an `EXISTS` predicate in the `ON` condition. This is not a separate `ON EXISTS` clause.
+
+`INTERSECT` considers two `NULL` values equal when determining distinct rows. The subquery therefore returns a row when the two fruit values are equal or when both are `NULL`, and `EXISTS` converts that result into a true-or-false condition.
+
+```sql
+SELECT a.ID    AS A_ID,
+       a.Fruit AS A_Fruit,
+       b.ID    AS B_ID,
+       b.Fruit AS B_Fruit
+FROM #TableA AS a
+INNER JOIN #TableB AS b
+    ON EXISTS
+       (
+           SELECT a.Fruit
+           INTERSECT
+           SELECT b.Fruit
+       )
+ORDER BY a.ID;
+```
+
+| A_ID | A_Fruit | B_ID | B_Fruit |
+|-----:|---------|-----:|---------|
+| 1    | Apple   | 1    | Apple   |
+| 2    | Peach   | 2    | Peach   |
+| 4    | *NULL*  | 4    | *NULL*  |
+
+## Advanced and Unusual Forms
+
+### A `CASE` Expression in the Join Logic
+
+A `CASE` expression can participate in a join condition, but this form is often harder to understand than a direct predicate. It may also make the predicate non-sargable, complicate cardinality estimation, and produce a less efficient execution plan. The exact result depends on the data, indexes, SQL Server version, and optimizer choices.
+
+The explicit `CROSS JOIN` makes it clear that the `WHERE` clause supplies the filtering condition.
+
+```sql
+SELECT a.ID    AS A_ID,
+       a.Fruit AS A_Fruit,
+       b.ID    AS B_ID,
+       b.Fruit AS B_Fruit
+FROM #TableA AS a
+CROSS JOIN #TableB AS b
+WHERE CASE
+          WHEN a.Fruit = 'Apple' THEN a.Fruit
+          ELSE 'Peach'
+      END = b.Fruit
+ORDER BY a.ID;
+```
+
+| A_ID | A_Fruit | B_ID | B_Fruit |
+|-----:|---------|-----:|---------|
+| 1    | Apple   | 1    | Apple   |
+| 2    | Peach   | 2    | Peach   |
+| 3    | Mango   | 2    | Peach   |
+| 4    | *NULL*  | 2    | Peach   |
+
+### Chaining multiple join clauses
+
+SQL Server allows you to chin multiple join clauses with their `ON` conditions written in reverse order at the end.
+
+Here we demonstrate using the `INNER JOIN`, but you can also use outer joins with this method as well.  The join conditions must be in reverse order for this syntax to be correct.
+
+```sql
+SELECT a.ID    AS A_ID,
+       a.Fruit AS A_Fruit
+FROM #TableA AS a
+INNER JOIN #TableA AS b
+INNER JOIN #TableA AS c
+INNER JOIN #TableA AS d
+    ON c.Fruit = d.Fruit
+    ON b.Fruit = c.Fruit
+    ON a.Fruit = b.Fruit
+ORDER BY a.ID;
+```
+
+| A_ID | A_Fruit |
+|-----:|---------|
+| 1    | Apple   |
+| 2    | Peach   |
+| 3    | Mango   |
 
 
 ## Other Database Systems
