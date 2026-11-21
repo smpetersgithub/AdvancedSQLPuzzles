@@ -512,6 +512,8 @@ Local temporary tables and global temporary tables are two types of temporary ta
 *  Indexing is allowed on temporary tables.
 *  Temporary tables reside in `tempdb`, and their metadata can be seen in the information schema.
 
+In SQL Server, temporary tables created inside stored procedures can be cached along with their statistics and reused on later executions. If automatic statistics update thresholds are not reached, a query may use statistics from a previous run, potentially producing poor row estimates and an inefficient execution plan.
+
 This creates a local temporary table in SQL Server.
 
 ```sql
