@@ -149,7 +149,7 @@ WHERE b.Fruit = 'Apple';
 | 1    | Apple   | 1    | Apple   |
 
 
-## Using `INNER JOIN' to mimic a `CROSS JOIN`
+## Using `INNER JOIN` to mimic a `CROSS JOIN`
 
 `INNER JOIN` can also be used to create Cartesian products via the following syntax.
 
