@@ -124,7 +124,7 @@ ORDER BY a.ID;
 With an outer join, predicate placement can change the result:
 
 - The `ON` condition determines which row pairs match. A left-side row that finds no match is still preserved by a left join.
-- The `WHERE` condition filters the result after the join. A null-rejecting condition on the right-side columns removes null-extended rows and can make the result equivalent to an inner join.
+- The `WHERE` condition filters the result after the join. A null-rejecting condition on the right-side columns removes null-extended rows and can make the result equivalent to an `INNER JOIN`.
 
 ### Restricting Matches in the `ON` Condition
 
