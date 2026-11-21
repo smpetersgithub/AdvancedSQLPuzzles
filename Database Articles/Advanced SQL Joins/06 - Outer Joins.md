@@ -71,9 +71,9 @@ VALUES (1, 'Apple', 17),
 
 ### Preserving Every Left-Side Row
 
-The following query returns every row from `TableA`. Apple and Peach find matching rows in `TableB`. Mango does not match any right-side row, so the selected columns from `TableB` are null-extended.
+The following query returns every row from `TableA`. `Apple` and `Peach` find matching rows in `TableB`. `Mango` does not match any right-side row, so the selected columns from `TableB` are null-extended.
 
-The row in `TableA` whose fruit is `NULL` also remains unmatched. Ordinary equality does not match `NULL` to another `NULL`; the comparison evaluates to `UNKNOWN`, not `TRUE`.
+The row in `TableA` whose fruit is NULL also remains unmatched. Ordinary equality does not match NULL to another NULL; the comparison evaluates to UNKNOWN.
 
 ```sql
 SELECT a.ID    AS A_ID,
