@@ -58,7 +58,7 @@ The following table types support constraints, although the available constraint
 | CHECK	      | Yes	   | Yes	     | Yes	      | Yes                     |
 
 --------------------------------------------------------------------------------------------------------
-## 1 - Table
+# Table
 
 The type of table referred to below is a base table. A base table is a permanent table stored in the database and contains the actual data in the form of rows and columns. Base tables can have `NOT NULL`, `UNIQUE`, `PRIMARY KEY`, `FOREIGN KEY`, `CHECK`, and `DEFAULT` constraints.
 
@@ -91,7 +91,7 @@ SELECT * FROM dbo.Employees ORDER BY 1;
 | 3          | Nicole    | Pena     | Marketing  |  80000.00 |
 
 --------------------------------------------------------------------------------------------------------
-## 2 - View
+# View
 
 An SQL view is a virtual table that provides a specific, customized data perspective from one or more tables in a database.  There are two main types of SQL views: materialized views (indexed views in SQL Server) and non-materialized views. Materialized views store the result set of the view query. In contrast, non-materialized views do not store data and dynamically retrieve data from the underlying tables each time the view is accessed.  Under certain conditions, you can issue DML commands  (`INSERT`, `UPDATE`, and `DELETE`) through views and can manipulate the underlying table(s) in the view.
 
@@ -140,7 +140,7 @@ Here are the results before we removed Larry.
 | 4          | Larry     | Johnson  | Larry Johnson | Finance    |  85000.00 |
 
 --------------------------------------------------------------------------------------------------------
-## 3 - VALUES Constructor
+# VALUES Constructor
 
 The `VALUES` constructor has a few considerations that are often overlooked and deserves its own recognition.  The `VALUES` constructor specifies a set of row value expressions to be constructed into a table and allows multiple sets of values to be defined in a single DML statement.  Typically, we use the `VALUES` constructor to specify the data to insert into a table, as we initially did with our test data, and it can also be used as a derived table in an SQL statement.  The `VALUES` constructor is not a persistent object; it is an inline rowset.
 
@@ -192,7 +192,7 @@ ORDER BY 1;
 | Nicole Pena   | EB2C9636-42ED-4F31-8776-D0BDD5A0CA91 |
 
 --------------------------------------------------------------------------------------------------------
-## 4 - Table-Valued Function
+# Table-Valued Function
 
 A table-valued function acts like a view with the added benefit of being parameterized.  Table-valued functions can be inline or multi-statement functions.
 
@@ -271,7 +271,7 @@ FROM    dbo.Employees e INNER JOIN
 | 2          | Sarah     | Shultz   | Accounting |  90000.00 | 95000.00  |
 
 --------------------------------------------------------------------------------------------------------
-## 5 - Subquery
+# Subquery
 
 A subquery is a query nested within another query. Subqueries can be used in various parts of a SQL query, such as the `SELECT`, `FROM`, `WHERE`, and `HAVING` clauses. They are handy for performing operations that require multiple scans of the same or different tables, complex calculations, or referencing results that are not part of the main query.  
 
@@ -347,7 +347,7 @@ FROM    dbo.Employees AS e;
 
 
 --------------------------------------------------------------------------------------------------------
-## 6 - Derived Table
+# Derived Table
 
 A derived table is a type of subquery that produces a temporary result set within the scope of the FROM clause. In SQL Server, a regular derived table cannot reference columns from another table in the same FROM clause. To combine it with another table, specify the relationship in an ON clause outside the derived table.
 
@@ -373,7 +373,7 @@ FROM    dbo.Employees e INNER JOIN
 | 3          | Nicole    | Pena     | Marketing  |  80000.00 | 80000.00  |
 
 --------------------------------------------------------------------------------------------------------
-## 7 - Common Table Expression (CTE) 
+# Common Table Expression (CTE) 
 
 A common table expression (CTE) is a named query expression that exists for one statement and can be used with `SELECT`, `INSERT`, `UPDATE`, `DELETE`, or in a view definition.   
 
@@ -494,7 +494,7 @@ GO
 ```
 
 --------------------------------------------------------------------------------------------------------
-## 8 - Temporary Table        
+# Temporary Table        
 
 The syntax for creating temporary tables varies across database systems.  These examples work in Microsoft SQL Server.
 
@@ -548,7 +548,7 @@ SELECT * FROM #Employees2 ORDER BY 1;
 | 3          | Nicole    | Pena     | Marketing  |  80000.00 |
 
 --------------------------------------------------------------------------------------------------------
-## 9 - Table Variable   
+# Table Variable   
 
 Table variables store temporary tabular data within a batch, stored procedure, or function. A table variable declared from a user-defined table type can also be passed to a stored procedure as a table-valued parameter.  Each database may implement table variables slightly differently, but Microsoft SQL Server has the following considerations.
 
@@ -586,7 +586,7 @@ SELECT * FROM @TableVariable ORDER BY 1;
 | 3          | Nicole    | Pena     | Marketing  |  80000.00 |
 
 --------------------------------------------------------------------------------------------------------
-## 10 - User-Defined Table Types
+# User-Defined Table Types
 
 User-defined table types are a special type in SQL Server that allows for the definition of table structures. These structures are used as parameters in stored procedures or functions, allowing for the passage of multiple rows of data in a single parameter. 
 
@@ -631,8 +631,7 @@ GO
 | 3          | Nicole    | Pena     | Marketing  |  80000.00 |
 
 --------------------------------------------------------------------------------------------------------
-### Table Type 11
-## External Tables           
+# External Tables           
 
 External tables in Microsoft SQL Server are database objects that allow access to data stored outside the SQL Server instance, typically through PolyBase and an external data source. They reference external data sources and external file formats, enabling SQL Server to query data stored in locations such as Hadoop, Azure Blob Storage, Azure Data Lake Storage, or another SQL Server via PolyBase.
 
